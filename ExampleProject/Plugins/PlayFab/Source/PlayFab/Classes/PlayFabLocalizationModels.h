@@ -40,7 +40,7 @@ struct FLocalizationGetLanguageListResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The list of Playfab-supported languages */
+    /** The list of allowed languages, in BCP47 two-letter format */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Localization | Localization Models")
         FString LanguageList;
 };

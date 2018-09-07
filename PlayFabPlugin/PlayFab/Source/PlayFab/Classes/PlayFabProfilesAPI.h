@@ -109,7 +109,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetProfileLanguage, FProfilesSetProfileLanguageResponse, result, UObject*, customData);
 
-    /** Updates the entity's language */
+    /**
+     * Updates the entity's language. The precedence hierarchy for communication to the player is Title Player Account
+     * language, Master Player Account language, and then title default language if the first two aren't set or supported.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabProfilesAPI* SetProfileLanguage(FProfilesSetProfileLanguageRequest request,
             FDelegateOnSuccessSetProfileLanguage onSuccess,

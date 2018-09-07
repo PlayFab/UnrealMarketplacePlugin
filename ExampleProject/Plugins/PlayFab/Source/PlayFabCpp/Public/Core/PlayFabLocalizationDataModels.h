@@ -37,7 +37,7 @@ namespace LocalizationModels
 
     struct PLAYFABCPP_API FGetLanguageListResponse : public FPlayFabBaseModel
     {
-        // [optional] The list of Playfab-supported languages
+        // [optional] The list of allowed languages, in BCP47 two-letter format
         TArray<FString> LanguageList;
         FGetLanguageListResponse() :
             FPlayFabBaseModel(),

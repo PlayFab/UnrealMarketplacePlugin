@@ -15,7 +15,7 @@
 class UPlayFabJsonObject;
 
 USTRUCT(BlueprintType)
-struct FPlayFabError
+struct PLAYFAB_API FPlayFabError
 {
     GENERATED_USTRUCT_BODY()
 
@@ -45,7 +45,7 @@ struct FPlayFabError
 };
 
 USTRUCT(BlueprintType)
-struct FPlayFabBaseModel
+struct PLAYFAB_API FPlayFabBaseModel
 {
     GENERATED_USTRUCT_BODY()
 

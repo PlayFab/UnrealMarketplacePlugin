@@ -14,7 +14,7 @@ namespace PlayFab
     typedef TSharedRef< TJsonReader<TCHAR> > JsonReader;
 
     template <typename BoxedType>
-    class Boxed
+    class PLAYFABCPP_API Boxed
     {
     public:
         BoxedType mValue;
@@ -35,9 +35,9 @@ namespace PlayFab
         bool mIsSet;
     };
 
-    struct PLAYFABCPP_API FPlayFabBaseModel
+    struct PLAYFABCPP_API FPlayFabCppBaseModel
     {
-        virtual ~FPlayFabBaseModel() {}
+        virtual ~FPlayFabCppBaseModel() {}
         virtual void writeJSON(JsonWriter& Json) const = 0;
         virtual bool readFromValue(const TSharedPtr<FJsonObject>& obj) = 0;
         virtual bool readFromValue(const TSharedPtr<FJsonValue>& value) { return false; };
@@ -45,7 +45,7 @@ namespace PlayFab
         FString toJSONString() const;
     };
 
-    struct PLAYFABCPP_API FJsonKeeper : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FJsonKeeper : public FPlayFabCppBaseModel
     {
     private:
         TSharedRef<class FJsonValue> JsonValue; // Reference so that any time this struct is avaiable, the JsonValue is aswell, even if a FJsonValueNull

@@ -22,6 +22,7 @@ public class PlayFabCommon : ModuleRules
                 "CoreUObject",
                 "HTTP",
                 "Json",
+                "JsonUtilities",
             }
         );
 

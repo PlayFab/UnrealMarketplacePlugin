@@ -8,6 +8,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "PlayFabBaseModel.h"
+#include "PlayFabJsonObject.h"
 #include "PlayFabPrivate.h"
 
 const int ERROR_DETAILS_INIT_BUFFER_SIZE = 10000;

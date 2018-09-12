@@ -7,25 +7,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/PlayFabBaseModel.h"
+#include "PlayFabCppBaseModel.h"
 
 namespace PlayFab
 {
 namespace MatchmakerModels
 {
 
-    struct PLAYFABCPP_API FAuthUserRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FAuthUserRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // Session Ticket provided by the client.
         FString AuthorizationTicket;
 
         FAuthUserRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             AuthorizationTicket()
             {}
 
         FAuthUserRequest(const FAuthUserRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             AuthorizationTicket(src.AuthorizationTicket)
             {}
 
@@ -40,7 +40,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAuthUserResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FAuthUserResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // Boolean indicating if the user has been authorized to use the external match-making service.
         bool Authorized;
@@ -49,13 +49,13 @@ namespace MatchmakerModels
         FString PlayFabId;
 
         FAuthUserResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Authorized(false),
             PlayFabId()
             {}
 
         FAuthUserResponse(const FAuthUserResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Authorized(src.Authorized),
             PlayFabId(src.PlayFabId)
             {}
@@ -71,7 +71,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FItemInstance : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FItemInstance : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Game specific comment associated with this instance when it was added to the user inventory.
         FString Annotation;
@@ -120,7 +120,7 @@ namespace MatchmakerModels
         Boxed<int32> UsesIncrementedBy;
 
         FItemInstance() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Annotation(),
             BundleContents(),
             BundleParent(),
@@ -139,7 +139,7 @@ namespace MatchmakerModels
             {}
 
         FItemInstance(const FItemInstance& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Annotation(src.Annotation),
             BundleContents(src.BundleContents),
             BundleParent(src.BundleParent),
@@ -168,7 +168,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FPlayerJoinedRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FPlayerJoinedRequest : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * Unique identifier of the Game Server Instance the user is joining. This must be a Game Server Instance started with the
@@ -180,13 +180,13 @@ namespace MatchmakerModels
         FString PlayFabId;
 
         FPlayerJoinedRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             LobbyId(),
             PlayFabId()
             {}
 
         FPlayerJoinedRequest(const FPlayerJoinedRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             LobbyId(src.LobbyId),
             PlayFabId(src.PlayFabId)
             {}
@@ -202,14 +202,14 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FPlayerJoinedResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FPlayerJoinedResponse : public PlayFab::FPlayFabCppBaseModel
     {
         FPlayerJoinedResponse() :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FPlayerJoinedResponse(const FPlayerJoinedResponse& src) :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FPlayerJoinedResponse(const TSharedPtr<FJsonObject>& obj) : FPlayerJoinedResponse()
@@ -223,7 +223,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FPlayerLeftRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FPlayerLeftRequest : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * Unique identifier of the Game Server Instance the user is leaving. This must be a Game Server Instance started with the
@@ -235,13 +235,13 @@ namespace MatchmakerModels
         FString PlayFabId;
 
         FPlayerLeftRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             LobbyId(),
             PlayFabId()
             {}
 
         FPlayerLeftRequest(const FPlayerLeftRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             LobbyId(src.LobbyId),
             PlayFabId(src.PlayFabId)
             {}
@@ -257,14 +257,14 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FPlayerLeftResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FPlayerLeftResponse : public PlayFab::FPlayFabCppBaseModel
     {
         FPlayerLeftResponse() :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FPlayerLeftResponse(const FPlayerLeftResponse& src) :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FPlayerLeftResponse(const TSharedPtr<FJsonObject>& obj) : FPlayerLeftResponse()
@@ -293,7 +293,7 @@ namespace MatchmakerModels
     PLAYFABCPP_API Region readRegionFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API Region readRegionFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FStartGameRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FStartGameRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique identifier of the previously uploaded build executable which is to be started.
         FString Build;
@@ -315,7 +315,7 @@ namespace MatchmakerModels
         Region pfRegion;
 
         FStartGameRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Build(),
             CustomCommandLineData(),
             ExternalMatchmakerEventEndpoint(),
@@ -324,7 +324,7 @@ namespace MatchmakerModels
             {}
 
         FStartGameRequest(const FStartGameRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Build(src.Build),
             CustomCommandLineData(src.CustomCommandLineData),
             ExternalMatchmakerEventEndpoint(src.ExternalMatchmakerEventEndpoint),
@@ -343,7 +343,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FStartGameResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FStartGameResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Unique identifier for the game/lobby in the new Game Server Instance.
         FString GameID;
@@ -364,7 +364,7 @@ namespace MatchmakerModels
         FString ServerPublicDNSName;
 
         FStartGameResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             GameID(),
             ServerHostname(),
             ServerIPV4Address(),
@@ -374,7 +374,7 @@ namespace MatchmakerModels
             {}
 
         FStartGameResponse(const FStartGameResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             GameID(src.GameID),
             ServerHostname(src.ServerHostname),
             ServerIPV4Address(src.ServerIPV4Address),
@@ -394,7 +394,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUserInfoRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FUserInfoRequest : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * Minimum catalog version for which data is requested (filters the results to only contain inventory items which have a
@@ -406,13 +406,13 @@ namespace MatchmakerModels
         FString PlayFabId;
 
         FUserInfoRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             MinCatalogVersion(0),
             PlayFabId()
             {}
 
         FUserInfoRequest(const FUserInfoRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             MinCatalogVersion(src.MinCatalogVersion),
             PlayFabId(src.PlayFabId)
             {}
@@ -428,7 +428,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FVirtualCurrencyRechargeTime : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FVirtualCurrencyRechargeTime : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * Maximum value to which the regenerating currency will automatically increment. Note that it can exceed this value
@@ -444,14 +444,14 @@ namespace MatchmakerModels
         int32 SecondsToRecharge;
 
         FVirtualCurrencyRechargeTime() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             RechargeMax(0),
             RechargeTime(0),
             SecondsToRecharge(0)
             {}
 
         FVirtualCurrencyRechargeTime(const FVirtualCurrencyRechargeTime& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             RechargeMax(src.RechargeMax),
             RechargeTime(src.RechargeTime),
             SecondsToRecharge(src.SecondsToRecharge)
@@ -468,7 +468,7 @@ namespace MatchmakerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUserInfoResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FUserInfoResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Array of inventory items in the user's current inventory.
         TArray<FItemInstance> Inventory;
@@ -492,7 +492,7 @@ namespace MatchmakerModels
         // [optional] Array of remaining times and timestamps for virtual currencies.
         TMap<FString, FVirtualCurrencyRechargeTime> VirtualCurrencyRechargeTimes;
         FUserInfoResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Inventory(),
             IsDeveloper(false),
             PlayFabId(),
@@ -504,7 +504,7 @@ namespace MatchmakerModels
             {}
 
         FUserInfoResponse(const FUserInfoResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Inventory(src.Inventory),
             IsDeveloper(src.IsDeveloper),
             PlayFabId(src.PlayFabId),

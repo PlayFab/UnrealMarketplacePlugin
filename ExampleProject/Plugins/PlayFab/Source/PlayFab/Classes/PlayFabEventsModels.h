@@ -29,7 +29,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FEventsWriteEventsRequest
+struct PLAYFAB_API FEventsWriteEventsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -39,7 +39,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FEventsWriteEventsResponse
+struct PLAYFAB_API FEventsWriteEventsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:

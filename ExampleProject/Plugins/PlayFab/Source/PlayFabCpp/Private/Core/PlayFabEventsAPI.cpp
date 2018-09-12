@@ -42,7 +42,7 @@ bool UPlayFabEventsAPI::WriteEvents(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Event/WriteEvents")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnWriteEventsResult, SuccessDelegate, ErrorDelegate);
@@ -52,7 +52,7 @@ bool UPlayFabEventsAPI::WriteEvents(
 void UPlayFabEventsAPI::OnWriteEventsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FWriteEventsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     EventsModels::FWriteEventsResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);

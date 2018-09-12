@@ -7,21 +7,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/PlayFabBaseModel.h"
+#include "PlayFabCppBaseModel.h"
 
 namespace PlayFab
 {
 namespace LocalizationModels
 {
 
-    struct PLAYFABCPP_API FGetLanguageListRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetLanguageListRequest : public PlayFab::FPlayFabCppBaseModel
     {
         FGetLanguageListRequest() :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FGetLanguageListRequest(const FGetLanguageListRequest& src) :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FGetLanguageListRequest(const TSharedPtr<FJsonObject>& obj) : FGetLanguageListRequest()
@@ -35,17 +35,17 @@ namespace LocalizationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLanguageListResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetLanguageListResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The list of allowed languages, in BCP47 two-letter format
         TArray<FString> LanguageList;
         FGetLanguageListResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             LanguageList()
             {}
 
         FGetLanguageListResponse(const FGetLanguageListResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             LanguageList(src.LanguageList)
             {}
 

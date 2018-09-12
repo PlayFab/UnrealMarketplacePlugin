@@ -57,7 +57,7 @@ bool UPlayFabAuthenticationAPI::GetEntityToken(
 void UPlayFabAuthenticationAPI::OnGetEntityTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetEntityTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AuthenticationModels::FGetEntityTokenResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.EntityToken.Len() > 0)

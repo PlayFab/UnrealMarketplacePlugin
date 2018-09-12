@@ -29,7 +29,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerBanUsersRequest
+struct PLAYFAB_API FServerBanUsersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -39,7 +39,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerBanUsersResult
+struct PLAYFAB_API FServerBanUsersResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -49,7 +49,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerProfileRequest
+struct PLAYFAB_API FServerGetPlayerProfileRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -66,7 +66,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerProfileResult
+struct PLAYFAB_API FServerGetPlayerProfileResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -79,7 +79,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromFacebookIDsRequest
+struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookIDsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -89,7 +89,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromFacebookIDsResult
+struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookIDsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -99,7 +99,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromFacebookInstantGamesIdsRequest
+struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookInstantGamesIdsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -109,7 +109,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult
+struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -119,7 +119,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest
+struct PLAYFAB_API FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -129,7 +129,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult
+struct PLAYFAB_API FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -139,7 +139,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromSteamIDsRequest
+struct PLAYFAB_API FServerGetPlayFabIDsFromSteamIDsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -149,7 +149,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayFabIDsFromSteamIDsResult
+struct PLAYFAB_API FServerGetPlayFabIDsFromSteamIDsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -159,7 +159,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserAccountInfoRequest
+struct PLAYFAB_API FServerGetUserAccountInfoRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -169,7 +169,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserAccountInfoResult
+struct PLAYFAB_API FServerGetUserAccountInfoResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -179,7 +179,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserBansRequest
+struct PLAYFAB_API FServerGetUserBansRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -189,7 +189,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserBansResult
+struct PLAYFAB_API FServerGetUserBansResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -199,7 +199,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeAllBansForUserRequest
+struct PLAYFAB_API FServerRevokeAllBansForUserRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -209,7 +209,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeAllBansForUserResult
+struct PLAYFAB_API FServerRevokeAllBansForUserResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -219,7 +219,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeBansRequest
+struct PLAYFAB_API FServerRevokeBansRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -229,7 +229,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeBansResult
+struct PLAYFAB_API FServerRevokeBansResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -239,7 +239,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSendCustomAccountRecoveryEmailRequest
+struct PLAYFAB_API FServerSendCustomAccountRecoveryEmailRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -255,14 +255,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSendCustomAccountRecoveryEmailResult
+struct PLAYFAB_API FServerSendCustomAccountRecoveryEmailResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSendEmailFromTemplateRequest
+struct PLAYFAB_API FServerSendEmailFromTemplateRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -275,14 +275,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSendEmailFromTemplateResult
+struct PLAYFAB_API FServerSendEmailFromTemplateResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSendPushNotificationRequest
+struct PLAYFAB_API FServerSendPushNotificationRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -313,21 +313,21 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSendPushNotificationResult
+struct PLAYFAB_API FServerSendPushNotificationResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerEmptyResponse
+struct PLAYFAB_API FServerEmptyResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateAvatarUrlRequest
+struct PLAYFAB_API FServerUpdateAvatarUrlRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -340,7 +340,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateBansRequest
+struct PLAYFAB_API FServerUpdateBansRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -350,7 +350,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateBansResult
+struct PLAYFAB_API FServerUpdateBansResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -365,7 +365,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerWriteEventResponse
+struct PLAYFAB_API FServerWriteEventResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -378,7 +378,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerWriteServerCharacterEventRequest
+struct PLAYFAB_API FServerWriteServerCharacterEventRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -403,7 +403,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerWriteServerPlayerEventRequest
+struct PLAYFAB_API FServerWriteServerPlayerEventRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -425,7 +425,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerWriteTitleEventRequest
+struct PLAYFAB_API FServerWriteTitleEventRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -449,7 +449,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerAuthenticateSessionTicketRequest
+struct PLAYFAB_API FServerAuthenticateSessionTicketRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -459,7 +459,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerAuthenticateSessionTicketResult
+struct PLAYFAB_API FServerAuthenticateSessionTicketResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -469,7 +469,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetPlayerSecretRequest
+struct PLAYFAB_API FServerSetPlayerSecretRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -482,7 +482,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetPlayerSecretResult
+struct PLAYFAB_API FServerSetPlayerSecretResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -494,7 +494,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterDataRequest
+struct PLAYFAB_API FServerGetCharacterDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -516,7 +516,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterDataResult
+struct PLAYFAB_API FServerGetCharacterDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -538,7 +538,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateCharacterDataRequest
+struct PLAYFAB_API FServerUpdateCharacterDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -566,7 +566,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateCharacterDataResult
+struct PLAYFAB_API FServerUpdateCharacterDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -584,7 +584,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerDeleteCharacterFromUserRequest
+struct PLAYFAB_API FServerDeleteCharacterFromUserRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -603,14 +603,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerDeleteCharacterFromUserResult
+struct PLAYFAB_API FServerDeleteCharacterFromUserResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerListUsersCharactersRequest
+struct PLAYFAB_API FServerListUsersCharactersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -620,7 +620,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerListUsersCharactersResult
+struct PLAYFAB_API FServerListUsersCharactersResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -630,7 +630,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterLeaderboardRequest
+struct PLAYFAB_API FServerGetCharacterLeaderboardRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -649,7 +649,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterLeaderboardResult
+struct PLAYFAB_API FServerGetCharacterLeaderboardResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -659,7 +659,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterStatisticsRequest
+struct PLAYFAB_API FServerGetCharacterStatisticsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -672,7 +672,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterStatisticsResult
+struct PLAYFAB_API FServerGetCharacterStatisticsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -688,7 +688,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardAroundCharacterRequest
+struct PLAYFAB_API FServerGetLeaderboardAroundCharacterRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -710,7 +710,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardAroundCharacterResult
+struct PLAYFAB_API FServerGetLeaderboardAroundCharacterResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -720,7 +720,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardForUsersCharactersRequest
+struct PLAYFAB_API FServerGetLeaderboardForUsersCharactersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -736,7 +736,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardForUsersCharactersResult
+struct PLAYFAB_API FServerGetLeaderboardForUsersCharactersResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -746,7 +746,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantCharacterToUserRequest
+struct PLAYFAB_API FServerGrantCharacterToUserRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -762,7 +762,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantCharacterToUserResult
+struct PLAYFAB_API FServerGrantCharacterToUserResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -772,7 +772,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateCharacterStatisticsRequest
+struct PLAYFAB_API FServerUpdateCharacterStatisticsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -788,7 +788,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateCharacterStatisticsResult
+struct PLAYFAB_API FServerUpdateCharacterStatisticsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -800,7 +800,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerGetContentDownloadUrlRequest
+struct PLAYFAB_API FServerGetContentDownloadUrlRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -819,7 +819,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetContentDownloadUrlResult
+struct PLAYFAB_API FServerGetContentDownloadUrlResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -834,7 +834,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerAddFriendRequest
+struct PLAYFAB_API FServerAddFriendRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -856,7 +856,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetFriendsListRequest
+struct PLAYFAB_API FServerGetFriendsListRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -882,7 +882,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetFriendsListResult
+struct PLAYFAB_API FServerGetFriendsListResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -892,7 +892,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRemoveFriendRequest
+struct PLAYFAB_API FServerRemoveFriendRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -905,7 +905,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetFriendTagsRequest
+struct PLAYFAB_API FServerSetFriendTagsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -926,7 +926,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerDeregisterGameRequest
+struct PLAYFAB_API FServerDeregisterGameRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -936,14 +936,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerDeregisterGameResponse
+struct PLAYFAB_API FServerDeregisterGameResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerNotifyMatchmakerPlayerLeftRequest
+struct PLAYFAB_API FServerNotifyMatchmakerPlayerLeftRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -956,7 +956,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerNotifyMatchmakerPlayerLeftResult
+struct PLAYFAB_API FServerNotifyMatchmakerPlayerLeftResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -966,7 +966,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRedeemMatchmakerTicketRequest
+struct PLAYFAB_API FServerRedeemMatchmakerTicketRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -979,7 +979,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRedeemMatchmakerTicketResult
+struct PLAYFAB_API FServerRedeemMatchmakerTicketResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -995,7 +995,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRefreshGameServerInstanceHeartbeatRequest
+struct PLAYFAB_API FServerRefreshGameServerInstanceHeartbeatRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1005,14 +1005,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRefreshGameServerInstanceHeartbeatResult
+struct PLAYFAB_API FServerRefreshGameServerInstanceHeartbeatResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRegisterGameRequest
+struct PLAYFAB_API FServerRegisterGameRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1055,7 +1055,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRegisterGameResponse
+struct PLAYFAB_API FServerRegisterGameResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1068,7 +1068,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetGameServerInstanceDataRequest
+struct PLAYFAB_API FServerSetGameServerInstanceDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1081,14 +1081,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetGameServerInstanceDataResult
+struct PLAYFAB_API FServerSetGameServerInstanceDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetGameServerInstanceStateRequest
+struct PLAYFAB_API FServerSetGameServerInstanceStateRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1101,14 +1101,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetGameServerInstanceStateResult
+struct PLAYFAB_API FServerSetGameServerInstanceStateResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetGameServerInstanceTagsRequest
+struct PLAYFAB_API FServerSetGameServerInstanceTagsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1124,7 +1124,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetGameServerInstanceTagsResult
+struct PLAYFAB_API FServerSetGameServerInstanceTagsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1136,7 +1136,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerAwardSteamAchievementRequest
+struct PLAYFAB_API FServerAwardSteamAchievementRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1146,7 +1146,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerAwardSteamAchievementResult
+struct PLAYFAB_API FServerAwardSteamAchievementResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1161,7 +1161,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerDeleteUsersRequest
+struct PLAYFAB_API FServerDeleteUsersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1171,14 +1171,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerDeleteUsersResult
+struct PLAYFAB_API FServerDeleteUsersResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetFriendLeaderboardRequest
+struct PLAYFAB_API FServerGetFriendLeaderboardRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1219,7 +1219,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardResult
+struct PLAYFAB_API FServerGetLeaderboardResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1235,7 +1235,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardRequest
+struct PLAYFAB_API FServerGetLeaderboardRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1264,7 +1264,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardAroundUserRequest
+struct PLAYFAB_API FServerGetLeaderboardAroundUserRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1293,7 +1293,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetLeaderboardAroundUserResult
+struct PLAYFAB_API FServerGetLeaderboardAroundUserResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1309,7 +1309,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerCombinedInfoRequest
+struct PLAYFAB_API FServerGetPlayerCombinedInfoRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1322,7 +1322,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerCombinedInfoResult
+struct PLAYFAB_API FServerGetPlayerCombinedInfoResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1335,7 +1335,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerStatisticsRequest
+struct PLAYFAB_API FServerGetPlayerStatisticsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1354,7 +1354,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerStatisticsResult
+struct PLAYFAB_API FServerGetPlayerStatisticsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1367,7 +1367,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerStatisticVersionsRequest
+struct PLAYFAB_API FServerGetPlayerStatisticVersionsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1377,7 +1377,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerStatisticVersionsResult
+struct PLAYFAB_API FServerGetPlayerStatisticVersionsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1387,7 +1387,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserDataRequest
+struct PLAYFAB_API FServerGetUserDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1406,7 +1406,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserDataResult
+struct PLAYFAB_API FServerGetUserDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1425,7 +1425,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdatePlayerStatisticsRequest
+struct PLAYFAB_API FServerUpdatePlayerStatisticsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1444,14 +1444,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdatePlayerStatisticsResult
+struct PLAYFAB_API FServerUpdatePlayerStatisticsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateUserDataRequest
+struct PLAYFAB_API FServerUpdateUserDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1476,7 +1476,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateUserDataResult
+struct PLAYFAB_API FServerUpdateUserDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1489,7 +1489,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateUserInternalDataRequest
+struct PLAYFAB_API FServerUpdateUserInternalDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1516,7 +1516,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerAddCharacterVirtualCurrencyRequest
+struct PLAYFAB_API FServerAddCharacterVirtualCurrencyRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1538,7 +1538,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerModifyCharacterVirtualCurrencyResult
+struct PLAYFAB_API FServerModifyCharacterVirtualCurrencyResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1551,7 +1551,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerAddUserVirtualCurrencyRequest
+struct PLAYFAB_API FServerAddUserVirtualCurrencyRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1570,7 +1570,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerModifyUserVirtualCurrencyResult
+struct PLAYFAB_API FServerModifyUserVirtualCurrencyResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1592,7 +1592,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerConsumeItemRequest
+struct PLAYFAB_API FServerConsumeItemRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1611,7 +1611,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerConsumeItemResult
+struct PLAYFAB_API FServerConsumeItemResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1624,7 +1624,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerEvaluateRandomResultTableRequest
+struct PLAYFAB_API FServerEvaluateRandomResultTableRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1640,7 +1640,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerEvaluateRandomResultTableResult
+struct PLAYFAB_API FServerEvaluateRandomResultTableResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1650,7 +1650,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterInventoryRequest
+struct PLAYFAB_API FServerGetCharacterInventoryRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1666,7 +1666,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCharacterInventoryResult
+struct PLAYFAB_API FServerGetCharacterInventoryResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1688,7 +1688,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetRandomResultTablesRequest
+struct PLAYFAB_API FServerGetRandomResultTablesRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1704,7 +1704,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetRandomResultTablesResult
+struct PLAYFAB_API FServerGetRandomResultTablesResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1714,7 +1714,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserInventoryRequest
+struct PLAYFAB_API FServerGetUserInventoryRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1724,7 +1724,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetUserInventoryResult
+struct PLAYFAB_API FServerGetUserInventoryResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1743,7 +1743,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantItemsToCharacterRequest
+struct PLAYFAB_API FServerGrantItemsToCharacterRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1765,7 +1765,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantItemsToCharacterResult
+struct PLAYFAB_API FServerGrantItemsToCharacterResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1775,7 +1775,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantItemsToUserRequest
+struct PLAYFAB_API FServerGrantItemsToUserRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1794,7 +1794,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantItemsToUserResult
+struct PLAYFAB_API FServerGrantItemsToUserResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1804,7 +1804,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantItemsToUsersRequest
+struct PLAYFAB_API FServerGrantItemsToUsersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1817,7 +1817,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGrantItemsToUsersResult
+struct PLAYFAB_API FServerGrantItemsToUsersResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1827,7 +1827,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerModifyItemUsesRequest
+struct PLAYFAB_API FServerModifyItemUsesRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1843,7 +1843,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerModifyItemUsesResult
+struct PLAYFAB_API FServerModifyItemUsesResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1856,7 +1856,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerMoveItemToCharacterFromCharacterRequest
+struct PLAYFAB_API FServerMoveItemToCharacterFromCharacterRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1875,37 +1875,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerMoveItemToCharacterFromCharacterResult
+struct PLAYFAB_API FServerMoveItemToCharacterFromCharacterResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerMoveItemToCharacterFromUserRequest
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique PlayFab assigned ID for a specific character owned by a user */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Item Management Models")
-        FString CharacterId;
-    /** Unique PlayFab assigned instance identifier of the item */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Item Management Models")
-        FString ItemInstanceId;
-    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Item Management Models")
-        FString PlayFabId;
-};
-
-USTRUCT(BlueprintType)
-struct FServerMoveItemToCharacterFromUserResult
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct FServerMoveItemToUserFromCharacterRequest
+struct PLAYFAB_API FServerMoveItemToCharacterFromUserRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1921,14 +1898,37 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerMoveItemToUserFromCharacterResult
+struct PLAYFAB_API FServerMoveItemToCharacterFromUserResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRedeemCouponRequest
+struct PLAYFAB_API FServerMoveItemToUserFromCharacterRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique PlayFab assigned ID for a specific character owned by a user */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Item Management Models")
+        FString CharacterId;
+    /** Unique PlayFab assigned instance identifier of the item */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Item Management Models")
+        FString ItemInstanceId;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Item Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerMoveItemToUserFromCharacterResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerRedeemCouponRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1947,7 +1947,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRedeemCouponResult
+struct PLAYFAB_API FServerRedeemCouponResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1957,7 +1957,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerReportPlayerServerRequest
+struct PLAYFAB_API FServerReportPlayerServerRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1973,7 +1973,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerReportPlayerServerResult
+struct PLAYFAB_API FServerReportPlayerServerResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1983,7 +1983,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeInventoryItemRequest
+struct PLAYFAB_API FServerRevokeInventoryItemRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1999,14 +1999,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeInventoryResult
+struct PLAYFAB_API FServerRevokeInventoryResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeInventoryItemsRequest
+struct PLAYFAB_API FServerRevokeInventoryItemsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2016,7 +2016,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRevokeInventoryItemsResult
+struct PLAYFAB_API FServerRevokeInventoryItemsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2026,7 +2026,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSubtractCharacterVirtualCurrencyRequest
+struct PLAYFAB_API FServerSubtractCharacterVirtualCurrencyRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2045,7 +2045,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSubtractUserVirtualCurrencyRequest
+struct PLAYFAB_API FServerSubtractUserVirtualCurrencyRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2061,7 +2061,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUnlockContainerInstanceRequest
+struct PLAYFAB_API FServerUnlockContainerInstanceRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2089,7 +2089,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUnlockContainerItemResult
+struct PLAYFAB_API FServerUnlockContainerItemResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2108,7 +2108,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUnlockContainerItemRequest
+struct PLAYFAB_API FServerUnlockContainerItemRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2130,7 +2130,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateUserInventoryItemDataRequest
+struct PLAYFAB_API FServerUpdateUserInventoryItemDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2163,7 +2163,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerAddPlayerTagRequest
+struct PLAYFAB_API FServerAddPlayerTagRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2176,21 +2176,21 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerAddPlayerTagResult
+struct PLAYFAB_API FServerAddPlayerTagResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetAllSegmentsRequest
+struct PLAYFAB_API FServerGetAllSegmentsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetAllSegmentsResult
+struct PLAYFAB_API FServerGetAllSegmentsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2200,7 +2200,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerSegmentsResult
+struct PLAYFAB_API FServerGetPlayerSegmentsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2210,7 +2210,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayersSegmentsRequest
+struct PLAYFAB_API FServerGetPlayersSegmentsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2220,7 +2220,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayersInSegmentRequest
+struct PLAYFAB_API FServerGetPlayersInSegmentRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2242,7 +2242,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayersInSegmentResult
+struct PLAYFAB_API FServerGetPlayersInSegmentResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2258,7 +2258,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerTagsRequest
+struct PLAYFAB_API FServerGetPlayerTagsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2271,7 +2271,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPlayerTagsResult
+struct PLAYFAB_API FServerGetPlayerTagsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2284,7 +2284,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRemovePlayerTagRequest
+struct PLAYFAB_API FServerRemovePlayerTagRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2297,7 +2297,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRemovePlayerTagResult
+struct PLAYFAB_API FServerRemovePlayerTagResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2309,7 +2309,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerExecuteCloudScriptResult
+struct PLAYFAB_API FServerExecuteCloudScriptResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2362,7 +2362,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerExecuteCloudScriptServerRequest
+struct PLAYFAB_API FServerExecuteCloudScriptServerRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2399,7 +2399,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerAddSharedGroupMembersRequest
+struct PLAYFAB_API FServerAddSharedGroupMembersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2412,14 +2412,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerAddSharedGroupMembersResult
+struct PLAYFAB_API FServerAddSharedGroupMembersResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerCreateSharedGroupRequest
+struct PLAYFAB_API FServerCreateSharedGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2429,7 +2429,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerCreateSharedGroupResult
+struct PLAYFAB_API FServerCreateSharedGroupResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2439,7 +2439,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerDeleteSharedGroupRequest
+struct PLAYFAB_API FServerDeleteSharedGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2449,7 +2449,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetSharedGroupDataRequest
+struct PLAYFAB_API FServerGetSharedGroupDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2468,7 +2468,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetSharedGroupDataResult
+struct PLAYFAB_API FServerGetSharedGroupDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2481,7 +2481,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRemoveSharedGroupMembersRequest
+struct PLAYFAB_API FServerRemoveSharedGroupMembersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2494,14 +2494,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerRemoveSharedGroupMembersResult
+struct PLAYFAB_API FServerRemoveSharedGroupMembersResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateSharedGroupDataRequest
+struct PLAYFAB_API FServerUpdateSharedGroupDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2526,7 +2526,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerUpdateSharedGroupDataResult
+struct PLAYFAB_API FServerUpdateSharedGroupDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2538,7 +2538,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FServerGetCatalogItemsRequest
+struct PLAYFAB_API FServerGetCatalogItemsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2548,7 +2548,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetCatalogItemsResult
+struct PLAYFAB_API FServerGetCatalogItemsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2558,7 +2558,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPublisherDataRequest
+struct PLAYFAB_API FServerGetPublisherDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2568,7 +2568,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetPublisherDataResult
+struct PLAYFAB_API FServerGetPublisherDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2578,14 +2578,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetTimeRequest
+struct PLAYFAB_API FServerGetTimeRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetTimeResult
+struct PLAYFAB_API FServerGetTimeResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2595,7 +2595,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetTitleDataRequest
+struct PLAYFAB_API FServerGetTitleDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2605,7 +2605,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetTitleDataResult
+struct PLAYFAB_API FServerGetTitleDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2615,7 +2615,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetTitleNewsRequest
+struct PLAYFAB_API FServerGetTitleNewsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2625,7 +2625,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerGetTitleNewsResult
+struct PLAYFAB_API FServerGetTitleNewsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2635,7 +2635,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetPublisherDataRequest
+struct PLAYFAB_API FServerSetPublisherDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2651,14 +2651,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetPublisherDataResult
+struct PLAYFAB_API FServerSetPublisherDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetTitleDataRequest
+struct PLAYFAB_API FServerSetTitleDataRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2674,7 +2674,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FServerSetTitleDataResult
+struct PLAYFAB_API FServerSetTitleDataResult
 {
     GENERATED_USTRUCT_BODY()
 public:

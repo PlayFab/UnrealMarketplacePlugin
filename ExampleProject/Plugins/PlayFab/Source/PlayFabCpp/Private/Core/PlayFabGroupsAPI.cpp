@@ -42,7 +42,7 @@ bool UPlayFabGroupsAPI::AcceptGroupApplication(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/AcceptGroupApplication")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnAcceptGroupApplicationResult, SuccessDelegate, ErrorDelegate);
@@ -52,7 +52,7 @@ bool UPlayFabGroupsAPI::AcceptGroupApplication(
 void UPlayFabGroupsAPI::OnAcceptGroupApplicationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAcceptGroupApplicationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -69,7 +69,7 @@ bool UPlayFabGroupsAPI::AcceptGroupInvitation(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/AcceptGroupInvitation")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnAcceptGroupInvitationResult, SuccessDelegate, ErrorDelegate);
@@ -79,7 +79,7 @@ bool UPlayFabGroupsAPI::AcceptGroupInvitation(
 void UPlayFabGroupsAPI::OnAcceptGroupInvitationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAcceptGroupInvitationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -96,7 +96,7 @@ bool UPlayFabGroupsAPI::AddMembers(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/AddMembers")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnAddMembersResult, SuccessDelegate, ErrorDelegate);
@@ -106,7 +106,7 @@ bool UPlayFabGroupsAPI::AddMembers(
 void UPlayFabGroupsAPI::OnAddMembersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddMembersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -123,7 +123,7 @@ bool UPlayFabGroupsAPI::ApplyToGroup(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ApplyToGroup")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnApplyToGroupResult, SuccessDelegate, ErrorDelegate);
@@ -133,7 +133,7 @@ bool UPlayFabGroupsAPI::ApplyToGroup(
 void UPlayFabGroupsAPI::OnApplyToGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FApplyToGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FApplyToGroupResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -150,7 +150,7 @@ bool UPlayFabGroupsAPI::BlockEntity(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/BlockEntity")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnBlockEntityResult, SuccessDelegate, ErrorDelegate);
@@ -160,7 +160,7 @@ bool UPlayFabGroupsAPI::BlockEntity(
 void UPlayFabGroupsAPI::OnBlockEntityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FBlockEntityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -177,7 +177,7 @@ bool UPlayFabGroupsAPI::ChangeMemberRole(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ChangeMemberRole")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnChangeMemberRoleResult, SuccessDelegate, ErrorDelegate);
@@ -187,7 +187,7 @@ bool UPlayFabGroupsAPI::ChangeMemberRole(
 void UPlayFabGroupsAPI::OnChangeMemberRoleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FChangeMemberRoleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -204,7 +204,7 @@ bool UPlayFabGroupsAPI::CreateGroup(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/CreateGroup")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnCreateGroupResult, SuccessDelegate, ErrorDelegate);
@@ -214,7 +214,7 @@ bool UPlayFabGroupsAPI::CreateGroup(
 void UPlayFabGroupsAPI::OnCreateGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FCreateGroupResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -231,7 +231,7 @@ bool UPlayFabGroupsAPI::CreateRole(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/CreateRole")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnCreateRoleResult, SuccessDelegate, ErrorDelegate);
@@ -241,7 +241,7 @@ bool UPlayFabGroupsAPI::CreateRole(
 void UPlayFabGroupsAPI::OnCreateRoleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateRoleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FCreateGroupRoleResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -258,7 +258,7 @@ bool UPlayFabGroupsAPI::DeleteGroup(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/DeleteGroup")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnDeleteGroupResult, SuccessDelegate, ErrorDelegate);
@@ -268,7 +268,7 @@ bool UPlayFabGroupsAPI::DeleteGroup(
 void UPlayFabGroupsAPI::OnDeleteGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -285,7 +285,7 @@ bool UPlayFabGroupsAPI::DeleteRole(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/DeleteRole")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnDeleteRoleResult, SuccessDelegate, ErrorDelegate);
@@ -295,7 +295,7 @@ bool UPlayFabGroupsAPI::DeleteRole(
 void UPlayFabGroupsAPI::OnDeleteRoleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteRoleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -312,7 +312,7 @@ bool UPlayFabGroupsAPI::GetGroup(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/GetGroup")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnGetGroupResult, SuccessDelegate, ErrorDelegate);
@@ -322,7 +322,7 @@ bool UPlayFabGroupsAPI::GetGroup(
 void UPlayFabGroupsAPI::OnGetGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FGetGroupResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -339,7 +339,7 @@ bool UPlayFabGroupsAPI::InviteToGroup(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/InviteToGroup")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnInviteToGroupResult, SuccessDelegate, ErrorDelegate);
@@ -349,7 +349,7 @@ bool UPlayFabGroupsAPI::InviteToGroup(
 void UPlayFabGroupsAPI::OnInviteToGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FInviteToGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FInviteToGroupResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -366,7 +366,7 @@ bool UPlayFabGroupsAPI::IsMember(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/IsMember")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnIsMemberResult, SuccessDelegate, ErrorDelegate);
@@ -376,7 +376,7 @@ bool UPlayFabGroupsAPI::IsMember(
 void UPlayFabGroupsAPI::OnIsMemberResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIsMemberDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FIsMemberResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -393,7 +393,7 @@ bool UPlayFabGroupsAPI::ListGroupApplications(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ListGroupApplications")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnListGroupApplicationsResult, SuccessDelegate, ErrorDelegate);
@@ -403,7 +403,7 @@ bool UPlayFabGroupsAPI::ListGroupApplications(
 void UPlayFabGroupsAPI::OnListGroupApplicationsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListGroupApplicationsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FListGroupApplicationsResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -420,7 +420,7 @@ bool UPlayFabGroupsAPI::ListGroupBlocks(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ListGroupBlocks")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnListGroupBlocksResult, SuccessDelegate, ErrorDelegate);
@@ -430,7 +430,7 @@ bool UPlayFabGroupsAPI::ListGroupBlocks(
 void UPlayFabGroupsAPI::OnListGroupBlocksResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListGroupBlocksDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FListGroupBlocksResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -447,7 +447,7 @@ bool UPlayFabGroupsAPI::ListGroupInvitations(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ListGroupInvitations")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnListGroupInvitationsResult, SuccessDelegate, ErrorDelegate);
@@ -457,7 +457,7 @@ bool UPlayFabGroupsAPI::ListGroupInvitations(
 void UPlayFabGroupsAPI::OnListGroupInvitationsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListGroupInvitationsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FListGroupInvitationsResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -474,7 +474,7 @@ bool UPlayFabGroupsAPI::ListGroupMembers(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ListGroupMembers")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnListGroupMembersResult, SuccessDelegate, ErrorDelegate);
@@ -484,7 +484,7 @@ bool UPlayFabGroupsAPI::ListGroupMembers(
 void UPlayFabGroupsAPI::OnListGroupMembersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListGroupMembersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FListGroupMembersResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -501,7 +501,7 @@ bool UPlayFabGroupsAPI::ListMembership(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ListMembership")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnListMembershipResult, SuccessDelegate, ErrorDelegate);
@@ -511,7 +511,7 @@ bool UPlayFabGroupsAPI::ListMembership(
 void UPlayFabGroupsAPI::OnListMembershipResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMembershipDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FListMembershipResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -528,7 +528,7 @@ bool UPlayFabGroupsAPI::ListMembershipOpportunities(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/ListMembershipOpportunities")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnListMembershipOpportunitiesResult, SuccessDelegate, ErrorDelegate);
@@ -538,7 +538,7 @@ bool UPlayFabGroupsAPI::ListMembershipOpportunities(
 void UPlayFabGroupsAPI::OnListMembershipOpportunitiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMembershipOpportunitiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FListMembershipOpportunitiesResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -555,7 +555,7 @@ bool UPlayFabGroupsAPI::RemoveGroupApplication(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/RemoveGroupApplication")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnRemoveGroupApplicationResult, SuccessDelegate, ErrorDelegate);
@@ -565,7 +565,7 @@ bool UPlayFabGroupsAPI::RemoveGroupApplication(
 void UPlayFabGroupsAPI::OnRemoveGroupApplicationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveGroupApplicationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -582,7 +582,7 @@ bool UPlayFabGroupsAPI::RemoveGroupInvitation(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/RemoveGroupInvitation")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnRemoveGroupInvitationResult, SuccessDelegate, ErrorDelegate);
@@ -592,7 +592,7 @@ bool UPlayFabGroupsAPI::RemoveGroupInvitation(
 void UPlayFabGroupsAPI::OnRemoveGroupInvitationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveGroupInvitationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -609,7 +609,7 @@ bool UPlayFabGroupsAPI::RemoveMembers(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/RemoveMembers")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnRemoveMembersResult, SuccessDelegate, ErrorDelegate);
@@ -619,7 +619,7 @@ bool UPlayFabGroupsAPI::RemoveMembers(
 void UPlayFabGroupsAPI::OnRemoveMembersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveMembersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -636,7 +636,7 @@ bool UPlayFabGroupsAPI::UnblockEntity(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/UnblockEntity")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnUnblockEntityResult, SuccessDelegate, ErrorDelegate);
@@ -646,7 +646,7 @@ bool UPlayFabGroupsAPI::UnblockEntity(
 void UPlayFabGroupsAPI::OnUnblockEntityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnblockEntityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FEmptyResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -663,7 +663,7 @@ bool UPlayFabGroupsAPI::UpdateGroup(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/UpdateGroup")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnUpdateGroupResult, SuccessDelegate, ErrorDelegate);
@@ -673,7 +673,7 @@ bool UPlayFabGroupsAPI::UpdateGroup(
 void UPlayFabGroupsAPI::OnUpdateGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FUpdateGroupResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -690,7 +690,7 @@ bool UPlayFabGroupsAPI::UpdateRole(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetEntityToken().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Group/UpdateRole")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabGroupsAPI::OnUpdateRoleResult, SuccessDelegate, ErrorDelegate);
@@ -700,7 +700,7 @@ bool UPlayFabGroupsAPI::UpdateRole(
 void UPlayFabGroupsAPI::OnUpdateRoleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateRoleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     GroupsModels::FUpdateGroupRoleResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);

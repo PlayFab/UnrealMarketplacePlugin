@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "UObject/Package.h"
 #include "CoreMinimal.h"
 #include <Runtime/Launch/Resources/Version.h>
 #include "PlayFabJsonObject.h"

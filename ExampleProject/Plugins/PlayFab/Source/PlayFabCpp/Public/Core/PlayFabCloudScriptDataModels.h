@@ -7,7 +7,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/PlayFabBaseModel.h"
+#include "PlayFabCppBaseModel.h"
 
 namespace PlayFab
 {
@@ -25,7 +25,7 @@ namespace CloudScriptModels
     PLAYFABCPP_API CloudScriptRevisionOption readCloudScriptRevisionOptionFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API CloudScriptRevisionOption readCloudScriptRevisionOptionFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FEntityKey : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FEntityKey : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique ID of the entity.
         FString Id;
@@ -34,13 +34,13 @@ namespace CloudScriptModels
         FString Type;
 
         FEntityKey() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Id(),
             Type()
             {}
 
         FEntityKey(const FEntityKey& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Id(src.Id),
             Type(src.Type)
             {}
@@ -56,7 +56,7 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FScriptExecutionError : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FScriptExecutionError : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * [optional] Error code, such as CloudScriptNotFound, JavascriptException, CloudScriptFunctionArgumentSizeExceeded,
@@ -71,14 +71,14 @@ namespace CloudScriptModels
         FString StackTrace;
 
         FScriptExecutionError() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Error(),
             Message(),
             StackTrace()
             {}
 
         FScriptExecutionError(const FScriptExecutionError& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Error(src.Error),
             Message(src.Message),
             StackTrace(src.StackTrace)
@@ -95,7 +95,7 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLogStatement : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FLogStatement : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Optional object accompanying the message as contextual information
         FJsonKeeper Data;
@@ -107,14 +107,14 @@ namespace CloudScriptModels
         FString Message;
 
         FLogStatement() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Data(),
             Level(),
             Message()
             {}
 
         FLogStatement(const FLogStatement& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Data(src.Data),
             Level(src.Level),
             Message(src.Message)
@@ -131,7 +131,7 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FExecuteCloudScriptResult : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FExecuteCloudScriptResult : public PlayFab::FPlayFabCppBaseModel
     {
         // Number of PlayFab API requests issued by the CloudScript function
         int32 APIRequestsIssued;
@@ -179,7 +179,7 @@ namespace CloudScriptModels
         int32 Revision;
 
         FExecuteCloudScriptResult() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             APIRequestsIssued(0),
             Error(nullptr),
             ExecutionTimeSeconds(0),
@@ -195,7 +195,7 @@ namespace CloudScriptModels
             {}
 
         FExecuteCloudScriptResult(const FExecuteCloudScriptResult& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             APIRequestsIssued(src.APIRequestsIssued),
             Error(src.Error.IsValid() ? MakeShareable(new FScriptExecutionError(*src.Error)) : nullptr),
             ExecutionTimeSeconds(src.ExecutionTimeSeconds),
@@ -221,7 +221,7 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FExecuteEntityCloudScriptRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FExecuteEntityCloudScriptRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
@@ -249,7 +249,7 @@ namespace CloudScriptModels
         Boxed<int32> SpecificRevision;
 
         FExecuteEntityCloudScriptRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(nullptr),
             FunctionName(),
             FunctionParameter(),
@@ -259,7 +259,7 @@ namespace CloudScriptModels
             {}
 
         FExecuteEntityCloudScriptRequest(const FExecuteEntityCloudScriptRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             FunctionName(src.FunctionName),
             FunctionParameter(src.FunctionParameter),

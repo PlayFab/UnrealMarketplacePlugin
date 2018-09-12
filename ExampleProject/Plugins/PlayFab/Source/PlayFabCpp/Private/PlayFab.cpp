@@ -20,7 +20,7 @@
 #include "Core/PlayFabLocalizationAPI.h"
 #include "Core/PlayFabProfilesAPI.h"
 
-DEFINE_LOG_CATEGORY(LogPlayFab);
+DEFINE_LOG_CATEGORY(LogPlayFabCpp);
 
 class FPlayFabModule : public IPlayFabModuleInterface
 {

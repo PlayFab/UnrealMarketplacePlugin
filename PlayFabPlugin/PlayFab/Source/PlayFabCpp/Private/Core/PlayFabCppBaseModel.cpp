@@ -3,12 +3,12 @@
 //////////////////////////////////////////////////////
 
 
-#include "PlayFabBaseModel.h"
+#include "PlayFabCppBaseModel.h"
 #include "PlayFab.h"
 
 using namespace PlayFab;
 
-FString FPlayFabBaseModel::toJSONString() const
+FString FPlayFabCppBaseModel::toJSONString() const
 {
     FString JsonOutString;
     JsonWriter Json = TJsonWriterFactory<TCHAR, TPrettyJsonPrintPolicy<TCHAR> >::Create(&JsonOutString);
@@ -103,7 +103,7 @@ FDateTime PlayFab::readDatetime(const TSharedPtr<FJsonValue>& value)
     FString DateString = value->AsString();
     if (!FDateTime::ParseIso8601(*DateString, DateTimeOut))
     {
-        UE_LOG(LogPlayFab, Error, TEXT("readDatetime - Unable to import FDateTime from Iso8601 String"));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("readDatetime - Unable to import FDateTime from Iso8601 String"));
     }
 
     return DateTimeOut;

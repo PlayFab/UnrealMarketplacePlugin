@@ -29,7 +29,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FDataAbortFileUploadsRequest
+struct PLAYFAB_API FDataAbortFileUploadsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -48,7 +48,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataAbortFileUploadsResponse
+struct PLAYFAB_API FDataAbortFileUploadsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -61,7 +61,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataDeleteFilesRequest
+struct PLAYFAB_API FDataDeleteFilesRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -80,7 +80,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataDeleteFilesResponse
+struct PLAYFAB_API FDataDeleteFilesResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -93,7 +93,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataFinalizeFileUploadsRequest
+struct PLAYFAB_API FDataFinalizeFileUploadsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -106,7 +106,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataFinalizeFileUploadsResponse
+struct PLAYFAB_API FDataFinalizeFileUploadsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -122,7 +122,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataGetFilesRequest
+struct PLAYFAB_API FDataGetFilesRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -132,7 +132,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataGetFilesResponse
+struct PLAYFAB_API FDataGetFilesResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -148,7 +148,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataInitiateFileUploadsRequest
+struct PLAYFAB_API FDataInitiateFileUploadsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -167,7 +167,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataInitiateFileUploadsResponse
+struct PLAYFAB_API FDataInitiateFileUploadsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -188,7 +188,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FDataGetObjectsRequest
+struct PLAYFAB_API FDataGetObjectsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -204,7 +204,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataGetObjectsResponse
+struct PLAYFAB_API FDataGetObjectsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -220,7 +220,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataSetObjectsRequest
+struct PLAYFAB_API FDataSetObjectsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -240,7 +240,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FDataSetObjectsResponse
+struct PLAYFAB_API FDataSetObjectsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:

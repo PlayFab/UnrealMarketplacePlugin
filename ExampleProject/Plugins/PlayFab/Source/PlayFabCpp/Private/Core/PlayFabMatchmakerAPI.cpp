@@ -42,7 +42,7 @@ bool UPlayFabMatchmakerAPI::AuthUser(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetDeveloperSecretKey().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Matchmaker/AuthUser")), request.toJSONString(), TEXT("X-SecretKey"), PlayFabSettings::GetDeveloperSecretKey());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMatchmakerAPI::OnAuthUserResult, SuccessDelegate, ErrorDelegate);
@@ -52,7 +52,7 @@ bool UPlayFabMatchmakerAPI::AuthUser(
 void UPlayFabMatchmakerAPI::OnAuthUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAuthUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MatchmakerModels::FAuthUserResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -69,7 +69,7 @@ bool UPlayFabMatchmakerAPI::PlayerJoined(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetDeveloperSecretKey().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Matchmaker/PlayerJoined")), request.toJSONString(), TEXT("X-SecretKey"), PlayFabSettings::GetDeveloperSecretKey());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMatchmakerAPI::OnPlayerJoinedResult, SuccessDelegate, ErrorDelegate);
@@ -79,7 +79,7 @@ bool UPlayFabMatchmakerAPI::PlayerJoined(
 void UPlayFabMatchmakerAPI::OnPlayerJoinedResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerJoinedDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MatchmakerModels::FPlayerJoinedResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -96,7 +96,7 @@ bool UPlayFabMatchmakerAPI::PlayerLeft(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetDeveloperSecretKey().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Matchmaker/PlayerLeft")), request.toJSONString(), TEXT("X-SecretKey"), PlayFabSettings::GetDeveloperSecretKey());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMatchmakerAPI::OnPlayerLeftResult, SuccessDelegate, ErrorDelegate);
@@ -106,7 +106,7 @@ bool UPlayFabMatchmakerAPI::PlayerLeft(
 void UPlayFabMatchmakerAPI::OnPlayerLeftResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerLeftDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MatchmakerModels::FPlayerLeftResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -123,7 +123,7 @@ bool UPlayFabMatchmakerAPI::StartGame(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetDeveloperSecretKey().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Matchmaker/StartGame")), request.toJSONString(), TEXT("X-SecretKey"), PlayFabSettings::GetDeveloperSecretKey());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMatchmakerAPI::OnStartGameResult, SuccessDelegate, ErrorDelegate);
@@ -133,7 +133,7 @@ bool UPlayFabMatchmakerAPI::StartGame(
 void UPlayFabMatchmakerAPI::OnStartGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FStartGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MatchmakerModels::FStartGameResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -150,7 +150,7 @@ bool UPlayFabMatchmakerAPI::UserInfo(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetDeveloperSecretKey().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Matchmaker/UserInfo")), request.toJSONString(), TEXT("X-SecretKey"), PlayFabSettings::GetDeveloperSecretKey());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMatchmakerAPI::OnUserInfoResult, SuccessDelegate, ErrorDelegate);
@@ -160,7 +160,7 @@ bool UPlayFabMatchmakerAPI::UserInfo(
 void UPlayFabMatchmakerAPI::OnUserInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUserInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MatchmakerModels::FUserInfoResponse outResult;
-    FPlayFabError errorResult;
+    FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         SuccessDelegate.ExecuteIfBound(outResult);

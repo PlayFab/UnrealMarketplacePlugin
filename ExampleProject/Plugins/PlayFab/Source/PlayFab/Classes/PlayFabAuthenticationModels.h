@@ -29,7 +29,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FAuthenticationGetEntityTokenRequest
+struct PLAYFAB_API FAuthenticationGetEntityTokenRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -39,7 +39,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FAuthenticationGetEntityTokenResponse
+struct PLAYFAB_API FAuthenticationGetEntityTokenResponse
 {
     GENERATED_USTRUCT_BODY()
 public:

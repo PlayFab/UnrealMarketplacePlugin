@@ -16,21 +16,12 @@
 #include "Core/PlayFabDataAPI.h"
 #include "Core/PlayFabServerDataModels.h"
 #include "Core/PlayFabServerAPI.h"
+#include "PlayFabBaseModel.h"
+#include "PlayFabError.h"
 
 #include "Misc/AutomationTest.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabTest, Log, All);
-
-// forward declaration
-namespace PlayFab
-{
-	namespace ClientModels
-	{
-		struct FLoginResult;
-	}
-
-	struct FPlayFabError;
-}
 
 /*
 * ==== LoginWithEmail ====
@@ -43,7 +34,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FLoginResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString email;
 	FString password;
@@ -61,7 +52,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FLoginResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString customId;
 	PlayFabClientPtr clientAPI = nullptr;
@@ -78,7 +69,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FLoginResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	int tickCounter = 0;
 	FString customId;
@@ -97,7 +88,7 @@ public:
 private:
 	void OnSuccess(const PlayFab::ClientModels::FGetUserDataResult& result) const;
 	void CheckTimestamp(const FDateTime& updateTime) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString TEST_DATA_KEY_1;
 	FString TEST_DATA_KEY_2;
@@ -114,7 +105,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FUpdateUserDataResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString TEST_DATA_KEY_1;
 	FString TEST_DATA_KEY_2;
@@ -134,7 +125,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FGetPlayerStatisticsResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString TEST_STAT_NAME;
 	int expectedValue = -1;
@@ -150,7 +141,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FUpdatePlayerStatisticsResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString TEST_STAT_NAME;
 	int updateValue = -1;
@@ -169,7 +160,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FGetLeaderboardResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString TEST_STAT_NAME;
 	bool expectSuccess = false;
@@ -185,7 +176,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ServerModels::FGetLeaderboardResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString TEST_STAT_NAME;
 
@@ -203,7 +194,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FListUsersCharactersResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	PlayFabClientPtr clientAPI = nullptr;
 };
@@ -219,7 +210,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FGetAccountInfoResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	PlayFabClientPtr clientAPI = nullptr;
 };
@@ -235,7 +226,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FExecuteCloudScriptResult& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString functionName;
 	bool expectFail;
@@ -254,7 +245,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::ClientModels::FWriteEventResponse& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	FString functionName;
 	bool expectFail;
@@ -274,7 +265,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::AuthenticationModels::FGetEntityTokenResponse& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	PlayFabAuthenticationPtr authenticationAPI = nullptr;
 };
@@ -291,7 +282,7 @@ public:
 	bool Update() override;
 private:
 	void OnSuccess(const PlayFab::DataModels::FGetObjectsResponse& result) const;
-	void OnError(const PlayFab::FPlayFabError& ErrorResult) const;
+	void OnError(const PlayFab::FPlayFabCppError& ErrorResult) const;
 
 	PlayFabDataPtr dataAPI = nullptr;
 };

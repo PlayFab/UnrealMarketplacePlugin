@@ -29,14 +29,14 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FProfilesGetGlobalPolicyRequest
+struct PLAYFAB_API FProfilesGetGlobalPolicyRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesGetGlobalPolicyResponse
+struct PLAYFAB_API FProfilesGetGlobalPolicyResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -46,7 +46,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesGetEntityProfileRequest
+struct PLAYFAB_API FProfilesGetEntityProfileRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -62,7 +62,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesGetEntityProfileResponse
+struct PLAYFAB_API FProfilesGetEntityProfileResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -72,7 +72,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesGetEntityProfilesRequest
+struct PLAYFAB_API FProfilesGetEntityProfilesRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -88,7 +88,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesGetEntityProfilesResponse
+struct PLAYFAB_API FProfilesGetEntityProfilesResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -98,7 +98,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesSetGlobalPolicyRequest
+struct PLAYFAB_API FProfilesSetGlobalPolicyRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -108,14 +108,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesSetGlobalPolicyResponse
+struct PLAYFAB_API FProfilesSetGlobalPolicyResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesSetProfileLanguageRequest
+struct PLAYFAB_API FProfilesSetProfileLanguageRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -131,7 +131,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesSetProfileLanguageResponse
+struct PLAYFAB_API FProfilesSetProfileLanguageResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -144,7 +144,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesSetEntityProfilePolicyRequest
+struct PLAYFAB_API FProfilesSetEntityProfilePolicyRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -157,7 +157,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FProfilesSetEntityProfilePolicyResponse
+struct PLAYFAB_API FProfilesSetEntityProfilePolicyResponse
 {
     GENERATED_USTRUCT_BODY()
 public:

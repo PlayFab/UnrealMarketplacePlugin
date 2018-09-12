@@ -6,7 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PlayFabBaseModel.h"
+#include "PlayFabCppBaseModel.h"
 #include "PlayFabError.h"
 #include "Http.h"
 
@@ -19,7 +19,7 @@ namespace PlayFab
     public:
         static int GetPendingCalls();
         static TSharedRef<IHttpRequest> SendRequest(const FString& url, const FString& callBody, const FString& authKey, const FString& authValue);
-        static bool DecodeRequest(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, PlayFab::FPlayFabBaseModel& OutResult, PlayFab::FPlayFabError& OutError);
-        static bool DecodeError(TSharedPtr<FJsonObject> JsonObject, PlayFab::FPlayFabError& OutError);
+        static bool DecodeRequest(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, PlayFab::FPlayFabCppBaseModel& OutResult, PlayFab::FPlayFabCppError& OutError);
+        static bool DecodeError(TSharedPtr<FJsonObject> JsonObject, PlayFab::FPlayFabCppError& OutError);
     };
 };

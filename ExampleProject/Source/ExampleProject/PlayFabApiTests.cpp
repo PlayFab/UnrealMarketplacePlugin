@@ -4,12 +4,14 @@
 
 #include "ExampleProject.h"
 #include "PlayFabApiTests.h"
+#include "PlayFabError.h"
 
-DEFINE_LOG_CATEGORY(LogPlayFabTest); // This is a separate project from the PlayFab plugin, so this has to be re-defined in this project - This is not standard, but these tests should log as playfab, even from another project
+// This is a separate project from the PlayFab plugin, so this has to be re-defined in this project - This is not standard, but these tests should log as playfab, even from another project
+DEFINE_LOG_CATEGORY(LogPlayFabTest);
 
-									 /*
-									 * ==== Test Suite ====
-									 */
+/*
+* ==== Test Suite ====
+*/
 FString PlayFabApiTestSuite::playFabId;
 FString PlayFabApiTestSuite::entityId;
 FString PlayFabApiTestSuite::entityType;
@@ -49,7 +51,7 @@ void PlayFabApiTest_0LoginWithEmail::OnSuccess(const PlayFab::ClientModels::FLog
 	UE_LOG(LogPlayFabTest, Error, TEXT("LoginWithEmailAddress Succeeded where it should have failed"));
 }
 
-void PlayFabApiTest_0LoginWithEmail::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_0LoginWithEmail::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	if (ErrorResult.ErrorMessage.Find(TEXT("password")) == -1) // Check that we correctly received a notice about invalid password
 	{
@@ -94,7 +96,7 @@ void PlayFabApiTest_0LoginWithCustomID::OnSuccess(const PlayFab::ClientModels::F
 	UE_LOG(LogPlayFabTest, Log, TEXT("PlayFab login successful: %s, %s"), *PlayFabApiTestSuite::playFabId, *customId);
 }
 
-void PlayFabApiTest_0LoginWithCustomID::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_0LoginWithCustomID::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("Login failed"));
 }
@@ -142,7 +144,7 @@ void PlayFabApiTest_0LoginWithAdvertisingId::OnSuccess(const PlayFab::ClientMode
 	UE_LOG(LogPlayFabTest, Log, TEXT("PlayFab login successful: %s, %s"), *PlayFabApiTestSuite::playFabId, *customId);
 }
 
-void PlayFabApiTest_0LoginWithAdvertisingId::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_0LoginWithAdvertisingId::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("LoginWithAdvertisingId Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -222,7 +224,7 @@ void PlayFabApiTest_GetUserData::CheckTimestamp(const FDateTime& updateTime) con
 	}
 }
 
-void PlayFabApiTest_GetUserData::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_GetUserData::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("GetUserData Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -267,7 +269,7 @@ void PlayFabApiTest_UpdateUserData::OnSuccess(const PlayFab::ClientModels::FUpda
 	ADD_LATENT_AUTOMATION_COMMAND(PlayFabApiTest_GetUserData(TEST_DATA_KEY_1, TEST_DATA_KEY_2, updateValue));
 }
 
-void PlayFabApiTest_UpdateUserData::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_UpdateUserData::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("UpdateUserData Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -324,7 +326,7 @@ void PlayFabApiTest_GetPlayerStatistics::OnSuccess(const PlayFab::ClientModels::
 	}
 }
 
-void PlayFabApiTest_GetPlayerStatistics::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_GetPlayerStatistics::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("GetPlayerStatistics Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -368,7 +370,7 @@ void PlayFabApiTest_UpdatePlayerStatistics::OnSuccess(const PlayFab::ClientModel
 	ADD_LATENT_AUTOMATION_COMMAND(PlayFabApiTest_GetPlayerStatistics(TEST_STAT_NAME, updateValue));
 }
 
-void PlayFabApiTest_UpdatePlayerStatistics::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_UpdatePlayerStatistics::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("UpdatePlayerStatistics Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -404,7 +406,7 @@ void PlayFabApiTest_GetAllUsersCharacters::OnSuccess(const PlayFab::ClientModels
 	UE_LOG(LogPlayFabTest, Log, TEXT("GetAllUsersCharacters Success (Can't fail)"));
 }
 
-void PlayFabApiTest_GetAllUsersCharacters::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_GetAllUsersCharacters::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("GetAllUsersCharacters Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -452,7 +454,7 @@ void PlayFabApiTest_GetLeaderboardC::OnSuccess(const PlayFab::ClientModels::FGet
 	}
 }
 
-void PlayFabApiTest_GetLeaderboardC::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_GetLeaderboardC::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("GetLeaderboard Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -500,7 +502,7 @@ void PlayFabApiTest_GetLeaderboardS::OnSuccess(const PlayFab::ServerModels::FGet
 	}
 }
 
-void PlayFabApiTest_GetLeaderboardS::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_GetLeaderboardS::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("GetLeaderboard Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -537,7 +539,7 @@ void PlayFabApiTest_GetAccountInfo::OnSuccess(const PlayFab::ClientModels::FGetA
 	UE_LOG(LogPlayFabTest, Log, TEXT("GetAccountInfo Succeeded"));
 }
 
-void PlayFabApiTest_GetAccountInfo::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_GetAccountInfo::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("GetAccountInfo Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -582,7 +584,7 @@ void PlayFabApiTest_ExecuteCloudScript::OnSuccess(const PlayFab::ClientModels::F
 	}
 }
 
-void PlayFabApiTest_ExecuteCloudScript::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_ExecuteCloudScript::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	if (expectFail) {
 		UE_LOG(LogPlayFabTest, Log, TEXT("ExecuteCloudScript failed as expected"));
@@ -627,7 +629,7 @@ void PlayFabApiTest_WriteEvent::OnSuccess(const PlayFab::ClientModels::FWriteEve
 	UE_LOG(LogPlayFabTest, Log, TEXT("WriteEvent Succeeded"));
 }
 
-void PlayFabApiTest_WriteEvent::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_WriteEvent::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("WriteEvent Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -666,7 +668,7 @@ void PlayFabApiTest_GetEntityToken::OnSuccess(const PlayFab::AuthenticationModel
 	UE_LOG(LogPlayFabTest, Log, TEXT("GetEntityToken Succeeded"));
 }
 
-void PlayFabApiTest_GetEntityToken::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_GetEntityToken::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("GetEntityToken Failed: %s"), *(ErrorResult.ErrorMessage));
 }
@@ -706,7 +708,7 @@ void PlayFabApiTest_ObjectApi::OnSuccess(const PlayFab::DataModels::FGetObjectsR
 	UE_LOG(LogPlayFabTest, Log, TEXT("ObjectApi Succeeded"));
 }
 
-void PlayFabApiTest_ObjectApi::OnError(const PlayFab::FPlayFabError& ErrorResult) const
+void PlayFabApiTest_ObjectApi::OnError(const PlayFab::FPlayFabCppError& ErrorResult) const
 {
 	UE_LOG(LogPlayFabTest, Error, TEXT("ObjectApi Failed: %s"), *(ErrorResult.ErrorMessage));
 }

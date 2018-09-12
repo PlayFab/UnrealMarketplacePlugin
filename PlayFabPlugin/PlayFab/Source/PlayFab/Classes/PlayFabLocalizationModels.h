@@ -29,14 +29,14 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FLocalizationGetLanguageListRequest
+struct PLAYFAB_API FLocalizationGetLanguageListRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FLocalizationGetLanguageListResponse
+struct PLAYFAB_API FLocalizationGetLanguageListResponse
 {
     GENERATED_USTRUCT_BODY()
 public:

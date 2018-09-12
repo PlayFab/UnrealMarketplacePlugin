@@ -29,7 +29,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FMatchmakerAuthUserRequest
+struct PLAYFAB_API FMatchmakerAuthUserRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -39,7 +39,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerAuthUserResponse
+struct PLAYFAB_API FMatchmakerAuthUserResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -52,7 +52,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerPlayerJoinedRequest
+struct PLAYFAB_API FMatchmakerPlayerJoinedRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -68,14 +68,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerPlayerJoinedResponse
+struct PLAYFAB_API FMatchmakerPlayerJoinedResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerPlayerLeftRequest
+struct PLAYFAB_API FMatchmakerPlayerLeftRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -91,14 +91,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerPlayerLeftResponse
+struct PLAYFAB_API FMatchmakerPlayerLeftResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerStartGameRequest
+struct PLAYFAB_API FMatchmakerStartGameRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -124,7 +124,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerStartGameResponse
+struct PLAYFAB_API FMatchmakerStartGameResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -149,7 +149,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerUserInfoRequest
+struct PLAYFAB_API FMatchmakerUserInfoRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -165,7 +165,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FMatchmakerUserInfoResponse
+struct PLAYFAB_API FMatchmakerUserInfoResponse
 {
     GENERATED_USTRUCT_BODY()
 public:

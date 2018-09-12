@@ -22,7 +22,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnPlayFabAuthenticationRequestCompleted, FPlayFabBaseModel, response, UObject*, customData, bool, successful);
 
 UCLASS(Blueprintable, BlueprintType)
-class UPlayFabAuthenticationAPI : public UOnlineBlueprintCallProxyBase
+class PLAYFAB_API UPlayFabAuthenticationAPI : public UOnlineBlueprintCallProxyBase
 {
     GENERATED_UCLASS_BODY()
 

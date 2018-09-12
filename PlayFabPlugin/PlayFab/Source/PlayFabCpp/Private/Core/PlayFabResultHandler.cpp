@@ -19,7 +19,7 @@ int PlayFabRequestHandler::GetPendingCalls()
 TSharedRef<IHttpRequest> PlayFabRequestHandler::SendRequest(const FString& url, const FString& callBody, const FString& authKey, const FString& authValue)
 {
     if (PlayFabSettings::GetTitleId().Len() == 0) {
-        UE_LOG(LogPlayFab, Error, TEXT("You must define a titleID before making API Calls."));
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must define a titleID before making API Calls."));
     }
     PlayFabRequestHandler::pendingCalls += 1;
 
@@ -36,7 +36,7 @@ TSharedRef<IHttpRequest> PlayFabRequestHandler::SendRequest(const FString& url, 
     return HttpRequest;
 }
 
-bool PlayFabRequestHandler::DecodeRequest(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, PlayFab::FPlayFabBaseModel& OutResult, PlayFab::FPlayFabError& OutError)
+bool PlayFabRequestHandler::DecodeRequest(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, PlayFab::FPlayFabCppBaseModel& OutResult, PlayFab::FPlayFabCppError& OutError)
 {
     PlayFabRequestHandler::pendingCalls -= 1;
 
@@ -90,12 +90,12 @@ bool PlayFabRequestHandler::DecodeRequest(FHttpRequestPtr HttpRequest, FHttpResp
     return false;
 }
 
-bool PlayFabRequestHandler::DecodeError(TSharedPtr<FJsonObject> JsonObject, PlayFab::FPlayFabError& OutError)
+bool PlayFabRequestHandler::DecodeError(TSharedPtr<FJsonObject> JsonObject, PlayFab::FPlayFabCppError& OutError)
 {
     // check if returned json indicates an error
     if (JsonObject->HasField(TEXT("errorCode")))
     {
-        // deserialize the FPlayFabError object 
+        // deserialize the FPlayFabCppError object 
         JsonObject->TryGetNumberField(TEXT("errorCode"), OutError.ErrorCode);
         JsonObject->TryGetNumberField(TEXT("code"), OutError.HttpCode);
         JsonObject->TryGetStringField(TEXT("status"), OutError.HttpStatus);

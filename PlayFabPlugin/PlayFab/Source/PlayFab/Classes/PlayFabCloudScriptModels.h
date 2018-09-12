@@ -29,7 +29,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FCloudScriptExecuteCloudScriptResult
+struct PLAYFAB_API FCloudScriptExecuteCloudScriptResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -82,7 +82,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FCloudScriptExecuteEntityCloudScriptRequest
+struct PLAYFAB_API FCloudScriptExecuteEntityCloudScriptRequest
 {
     GENERATED_USTRUCT_BODY()
 public:

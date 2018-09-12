@@ -7,7 +7,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/PlayFabBaseModel.h"
+#include "PlayFabCppBaseModel.h"
 
 namespace PlayFab
 {
@@ -24,7 +24,7 @@ namespace ProfilesModels
     PLAYFABCPP_API EffectType readEffectTypeFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API EffectType readEffectTypeFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FEntityDataObject : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FEntityDataObject : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Un-escaped JSON object, if DataAsObject is true.
         FJsonKeeper DataObject;
@@ -36,14 +36,14 @@ namespace ProfilesModels
         FString ObjectName;
 
         FEntityDataObject() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             DataObject(),
             EscapedDataObject(),
             ObjectName()
             {}
 
         FEntityDataObject(const FEntityDataObject& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             DataObject(src.DataObject),
             EscapedDataObject(src.EscapedDataObject),
             ObjectName(src.ObjectName)
@@ -60,7 +60,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEntityKey : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FEntityKey : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique ID of the entity.
         FString Id;
@@ -69,13 +69,13 @@ namespace ProfilesModels
         FString Type;
 
         FEntityKey() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Id(),
             Type()
             {}
 
         FEntityKey(const FEntityKey& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Id(src.Id),
             Type(src.Type)
             {}
@@ -91,7 +91,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEntityPermissionStatement : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FEntityPermissionStatement : public PlayFab::FPlayFabCppBaseModel
     {
         // The action this statement effects. May be 'Read', 'Write' or '*' for both read and write.
         FString Action;
@@ -112,7 +112,7 @@ namespace ProfilesModels
         FString Resource;
 
         FEntityPermissionStatement() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Action(),
             Comment(),
             Condition(),
@@ -122,7 +122,7 @@ namespace ProfilesModels
             {}
 
         FEntityPermissionStatement(const FEntityPermissionStatement& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Action(src.Action),
             Comment(src.Comment),
             Condition(src.Condition),
@@ -142,7 +142,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEntityProfileFileMetadata : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FEntityProfileFileMetadata : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Checksum value for the file
         FString Checksum;
@@ -157,7 +157,7 @@ namespace ProfilesModels
         int32 Size;
 
         FEntityProfileFileMetadata() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Checksum(),
             FileName(),
             LastModified(0),
@@ -165,7 +165,7 @@ namespace ProfilesModels
             {}
 
         FEntityProfileFileMetadata(const FEntityProfileFileMetadata& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Checksum(src.Checksum),
             FileName(src.FileName),
             LastModified(src.LastModified),
@@ -183,7 +183,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEntityProfileBody : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FEntityProfileBody : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -217,7 +217,7 @@ namespace ProfilesModels
         int32 VersionNumber;
 
         FEntityProfileBody() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(nullptr),
             EntityChain(),
             Files(),
@@ -228,7 +228,7 @@ namespace ProfilesModels
             {}
 
         FEntityProfileBody(const FEntityProfileBody& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EntityChain(src.EntityChain),
             Files(src.Files),
@@ -249,7 +249,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityProfileRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetEntityProfileRequest : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * [optional] Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
@@ -261,13 +261,13 @@ namespace ProfilesModels
         FEntityKey Entity;
 
         FGetEntityProfileRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             DataAsObject(),
             Entity()
             {}
 
         FGetEntityProfileRequest(const FGetEntityProfileRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             DataAsObject(src.DataAsObject),
             Entity(src.Entity)
             {}
@@ -283,18 +283,18 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityProfileResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetEntityProfileResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Entity profile
         TSharedPtr<FEntityProfileBody> Profile;
 
         FGetEntityProfileResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Profile(nullptr)
             {}
 
         FGetEntityProfileResponse(const FGetEntityProfileResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Profile(src.Profile.IsValid() ? MakeShareable(new FEntityProfileBody(*src.Profile)) : nullptr)
             {}
 
@@ -309,7 +309,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityProfilesRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetEntityProfilesRequest : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * [optional] Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
@@ -320,13 +320,13 @@ namespace ProfilesModels
         // Entity keys of the profiles to load. Must be between 1 and 25
         TArray<FEntityKey> Entities;
         FGetEntityProfilesRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             DataAsObject(),
             Entities()
             {}
 
         FGetEntityProfilesRequest(const FGetEntityProfilesRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             DataAsObject(src.DataAsObject),
             Entities(src.Entities)
             {}
@@ -342,17 +342,17 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityProfilesResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetEntityProfilesResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Entity profiles
         TArray<FEntityProfileBody> Profiles;
         FGetEntityProfilesResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Profiles()
             {}
 
         FGetEntityProfilesResponse(const FGetEntityProfilesResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Profiles(src.Profiles)
             {}
 
@@ -367,14 +367,14 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetGlobalPolicyRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetGlobalPolicyRequest : public PlayFab::FPlayFabCppBaseModel
     {
         FGetGlobalPolicyRequest() :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FGetGlobalPolicyRequest(const FGetGlobalPolicyRequest& src) :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FGetGlobalPolicyRequest(const TSharedPtr<FJsonObject>& obj) : FGetGlobalPolicyRequest()
@@ -388,17 +388,17 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetGlobalPolicyResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetGlobalPolicyResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The permissions that govern access to all entities under this title or namespace.
         TArray<FEntityPermissionStatement> Permissions;
         FGetGlobalPolicyResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Permissions()
             {}
 
         FGetGlobalPolicyResponse(const FGetGlobalPolicyResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Permissions(src.Permissions)
             {}
 
@@ -425,7 +425,7 @@ namespace ProfilesModels
     PLAYFABCPP_API OperationTypes readOperationTypesFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API OperationTypes readOperationTypesFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FSetEntityProfilePolicyRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FSetEntityProfilePolicyRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -433,13 +433,13 @@ namespace ProfilesModels
         // [optional] The statements to include in the access policy.
         TArray<FEntityPermissionStatement> Statements;
         FSetEntityProfilePolicyRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(),
             Statements()
             {}
 
         FSetEntityProfilePolicyRequest(const FSetEntityProfilePolicyRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(src.Entity),
             Statements(src.Statements)
             {}
@@ -455,7 +455,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetEntityProfilePolicyResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FSetEntityProfilePolicyResponse : public PlayFab::FPlayFabCppBaseModel
     {
         /**
          * [optional] The permissions that govern access to this entity profile and its properties. Only includes permissions set on this
@@ -463,12 +463,12 @@ namespace ProfilesModels
          */
         TArray<FEntityPermissionStatement> Permissions;
         FSetEntityProfilePolicyResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Permissions()
             {}
 
         FSetEntityProfilePolicyResponse(const FSetEntityProfilePolicyResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Permissions(src.Permissions)
             {}
 
@@ -483,17 +483,17 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGlobalPolicyRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FSetGlobalPolicyRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The permissions that govern access to all entities under this title or namespace.
         TArray<FEntityPermissionStatement> Permissions;
         FSetGlobalPolicyRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Permissions()
             {}
 
         FSetGlobalPolicyRequest(const FSetGlobalPolicyRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Permissions(src.Permissions)
             {}
 
@@ -508,14 +508,14 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGlobalPolicyResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FSetGlobalPolicyResponse : public PlayFab::FPlayFabCppBaseModel
     {
         FSetGlobalPolicyResponse() :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FSetGlobalPolicyResponse(const FSetGlobalPolicyResponse& src) :
-            FPlayFabBaseModel()
+            FPlayFabCppBaseModel()
             {}
 
         FSetGlobalPolicyResponse(const TSharedPtr<FJsonObject>& obj) : FSetGlobalPolicyResponse()
@@ -529,7 +529,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetProfileLanguageRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FSetProfileLanguageRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
@@ -541,14 +541,14 @@ namespace ProfilesModels
         FString Language;
 
         FSetProfileLanguageRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(nullptr),
             ExpectedVersion(0),
             Language()
             {}
 
         FSetProfileLanguageRequest(const FSetProfileLanguageRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             ExpectedVersion(src.ExpectedVersion),
             Language(src.Language)
@@ -565,7 +565,7 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetProfileLanguageResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FSetProfileLanguageResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The type of operation that occured on the profile's language
         Boxed<OperationTypes> OperationResult;
@@ -574,13 +574,13 @@ namespace ProfilesModels
         Boxed<int32> VersionNumber;
 
         FSetProfileLanguageResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             OperationResult(),
             VersionNumber()
             {}
 
         FSetProfileLanguageResponse(const FSetProfileLanguageResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             OperationResult(src.OperationResult),
             VersionNumber(src.VersionNumber)
             {}

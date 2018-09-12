@@ -24,6 +24,7 @@ public class PlayFabCpp : ModuleRules
             "CoreUObject",
             "HTTP",
             "Json",
+            "JsonUtilities",
             "PlayFabCommon"
         });
     }

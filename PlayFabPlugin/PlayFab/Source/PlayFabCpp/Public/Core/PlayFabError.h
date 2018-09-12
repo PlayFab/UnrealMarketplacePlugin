@@ -11,7 +11,7 @@
 namespace PlayFab
 {
 
-    enum PlayFabErrorCode
+    enum PLAYFABCPP_API PlayFabErrorCode
     {
         PlayFabErrorHostnameNotFound=1,
         PlayFabErrorConnectionTimeout,
@@ -442,7 +442,7 @@ namespace PlayFab
         PlayFabErrorMatchmakingNotEnabled = 2035
     };
 
-    struct FPlayFabError
+    struct PLAYFABCPP_API FPlayFabCppError
     {
         int32 HttpCode;
         FString HttpStatus;
@@ -462,5 +462,5 @@ namespace PlayFab
         }
     };
 
-    DECLARE_DELEGATE_OneParam(FPlayFabErrorDelegate, const FPlayFabError&);
+    DECLARE_DELEGATE_OneParam(FPlayFabErrorDelegate, const FPlayFabCppError&);
 }

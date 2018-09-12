@@ -7,14 +7,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/PlayFabBaseModel.h"
+#include "PlayFabCppBaseModel.h"
 
 namespace PlayFab
 {
 namespace AuthenticationModels
 {
 
-    struct PLAYFABCPP_API FEntityKey : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FEntityKey : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique ID of the entity.
         FString Id;
@@ -23,13 +23,13 @@ namespace AuthenticationModels
         FString Type;
 
         FEntityKey() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Id(),
             Type()
             {}
 
         FEntityKey(const FEntityKey& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Id(src.Id),
             Type(src.Type)
             {}
@@ -45,18 +45,18 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityTokenRequest : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetEntityTokenRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FGetEntityTokenRequest() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(nullptr)
             {}
 
         FGetEntityTokenRequest(const FGetEntityTokenRequest& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -71,7 +71,7 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityTokenResponse : public FPlayFabBaseModel
+    struct PLAYFABCPP_API FGetEntityTokenResponse : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -83,14 +83,14 @@ namespace AuthenticationModels
         Boxed<FDateTime> TokenExpiration;
 
         FGetEntityTokenResponse() :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(nullptr),
             EntityToken(),
             TokenExpiration()
             {}
 
         FGetEntityTokenResponse(const FGetEntityTokenResponse& src) :
-            FPlayFabBaseModel(),
+            FPlayFabCppBaseModel(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EntityToken(src.EntityToken),
             TokenExpiration(src.TokenExpiration)

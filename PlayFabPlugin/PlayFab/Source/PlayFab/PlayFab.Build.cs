@@ -25,6 +25,7 @@ namespace UnrealBuildTool.Rules
                     "Engine",
                     "HTTP",
                     "Json",
+                    "JsonUtilities",
                     "PlayFabCommon"
                 }
             );

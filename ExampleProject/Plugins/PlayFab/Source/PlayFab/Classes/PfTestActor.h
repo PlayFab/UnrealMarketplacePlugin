@@ -40,7 +40,7 @@ enum class PlayFabApiTestFinishState : uint8
 };
 
 UCLASS(Blueprintable, BlueprintType)
-class UPfTestContext : public UObject
+class PLAYFAB_API UPfTestContext : public UObject
 {
     GENERATED_BODY()
 public:

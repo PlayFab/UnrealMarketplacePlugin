@@ -29,7 +29,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct FGroupsAcceptGroupApplicationRequest
+struct PLAYFAB_API FGroupsAcceptGroupApplicationRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -45,14 +45,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsEmptyResponse
+struct PLAYFAB_API FGroupsEmptyResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsAcceptGroupInvitationRequest
+struct PLAYFAB_API FGroupsAcceptGroupInvitationRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -65,7 +65,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsAddMembersRequest
+struct PLAYFAB_API FGroupsAddMembersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -84,7 +84,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsApplyToGroupRequest
+struct PLAYFAB_API FGroupsApplyToGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -101,7 +101,7 @@ public:
 
 /** Describes an application to join a group */
 USTRUCT(BlueprintType)
-struct FGroupsApplyToGroupResponse
+struct PLAYFAB_API FGroupsApplyToGroupResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -117,7 +117,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsBlockEntityRequest
+struct PLAYFAB_API FGroupsBlockEntityRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -130,7 +130,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsChangeMemberRoleRequest
+struct PLAYFAB_API FGroupsChangeMemberRoleRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -155,7 +155,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsCreateGroupRequest
+struct PLAYFAB_API FGroupsCreateGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -168,7 +168,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsCreateGroupResponse
+struct PLAYFAB_API FGroupsCreateGroupResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -196,7 +196,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsCreateGroupRoleRequest
+struct PLAYFAB_API FGroupsCreateGroupRoleRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -218,7 +218,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsCreateGroupRoleResponse
+struct PLAYFAB_API FGroupsCreateGroupRoleResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -234,7 +234,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsDeleteGroupRequest
+struct PLAYFAB_API FGroupsDeleteGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -244,7 +244,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsDeleteRoleRequest
+struct PLAYFAB_API FGroupsDeleteRoleRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -257,7 +257,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsGetGroupRequest
+struct PLAYFAB_API FGroupsGetGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -270,7 +270,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsGetGroupResponse
+struct PLAYFAB_API FGroupsGetGroupResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -298,7 +298,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsInviteToGroupRequest
+struct PLAYFAB_API FGroupsInviteToGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -321,7 +321,7 @@ public:
 
 /** Describes an invitation to a group. */
 USTRUCT(BlueprintType)
-struct FGroupsInviteToGroupResponse
+struct PLAYFAB_API FGroupsInviteToGroupResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -343,7 +343,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsIsMemberRequest
+struct PLAYFAB_API FGroupsIsMemberRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -362,7 +362,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsIsMemberResponse
+struct PLAYFAB_API FGroupsIsMemberResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -372,7 +372,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupApplicationsRequest
+struct PLAYFAB_API FGroupsListGroupApplicationsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -382,7 +382,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupApplicationsResponse
+struct PLAYFAB_API FGroupsListGroupApplicationsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -392,7 +392,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupBlocksRequest
+struct PLAYFAB_API FGroupsListGroupBlocksRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -402,7 +402,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupBlocksResponse
+struct PLAYFAB_API FGroupsListGroupBlocksResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -412,7 +412,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupInvitationsRequest
+struct PLAYFAB_API FGroupsListGroupInvitationsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -422,7 +422,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupInvitationsResponse
+struct PLAYFAB_API FGroupsListGroupInvitationsResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -432,7 +432,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupMembersRequest
+struct PLAYFAB_API FGroupsListGroupMembersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -442,7 +442,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListGroupMembersResponse
+struct PLAYFAB_API FGroupsListGroupMembersResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -452,7 +452,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListMembershipRequest
+struct PLAYFAB_API FGroupsListMembershipRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -462,7 +462,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListMembershipResponse
+struct PLAYFAB_API FGroupsListMembershipResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -472,7 +472,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListMembershipOpportunitiesRequest
+struct PLAYFAB_API FGroupsListMembershipOpportunitiesRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -482,7 +482,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsListMembershipOpportunitiesResponse
+struct PLAYFAB_API FGroupsListMembershipOpportunitiesResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -495,7 +495,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsRemoveGroupApplicationRequest
+struct PLAYFAB_API FGroupsRemoveGroupApplicationRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -508,7 +508,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsRemoveGroupInvitationRequest
+struct PLAYFAB_API FGroupsRemoveGroupInvitationRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -521,7 +521,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsRemoveMembersRequest
+struct PLAYFAB_API FGroupsRemoveMembersRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -537,7 +537,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsUnblockEntityRequest
+struct PLAYFAB_API FGroupsUnblockEntityRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -550,7 +550,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsUpdateGroupRequest
+struct PLAYFAB_API FGroupsUpdateGroupRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -576,7 +576,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsUpdateGroupResponse
+struct PLAYFAB_API FGroupsUpdateGroupResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -592,7 +592,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsUpdateGroupRoleRequest
+struct PLAYFAB_API FGroupsUpdateGroupRoleRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -615,7 +615,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FGroupsUpdateGroupRoleResponse
+struct PLAYFAB_API FGroupsUpdateGroupRoleResponse
 {
     GENERATED_USTRUCT_BODY()
 public:

@@ -117,6 +117,56 @@ void UPlayFabServerAPI::HelperBanUsers(FPlayFabBaseModel response, UObject* cust
     this->RemoveFromRoot();
 }
 
+/** Removes a user's player account from a title and deletes all associated data */
+UPlayFabServerAPI* UPlayFabServerAPI::DeletePlayer(FServerDeletePlayerRequest request,
+    FDelegateOnSuccessDeletePlayer onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeletePlayer = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeletePlayer);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Server/DeletePlayer";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperDeletePlayer(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeletePlayer.IsBound())
+    {
+        FServerDeletePlayerResult result = UPlayFabServerModelDecoder::decodeDeletePlayerResultResponse(response.responseData);
+        OnSuccessDeletePlayer.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the player's profile */
 UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerProfile(FServerGetPlayerProfileRequest request,
     FDelegateOnSuccessGetPlayerProfile onSuccess,
@@ -2860,7 +2910,7 @@ void UPlayFabServerAPI::HelperAwardSteamAchievement(FPlayFabBaseModel response, 
 ///////////////////////////////////////////////////////
 // Player Data Management
 //////////////////////////////////////////////////////
-/** Deletes the users for the provided game. Deletes custom data, all account linkages, and statistics. */
+/** Deletes custom data, all account linkages, and statistics. */
 UPlayFabServerAPI* UPlayFabServerAPI::DeleteUsers(FServerDeleteUsersRequest request,
     FDelegateOnSuccessDeleteUsers onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

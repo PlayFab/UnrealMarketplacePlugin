@@ -459,10 +459,50 @@ FAdminGetMatchmakerGameModesResult UPlayFabAdminModelDecoder::decodeGetMatchmake
     return tempStruct;
 }
 
+FAdminGetMatchmakingQueueResult UPlayFabAdminModelDecoder::decodeGetMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetMatchmakingQueueResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.MatchmakingQueue = !(dataObj->HasField("MatchmakingQueue")) ? nullptr : dataObj->GetObjectField("MatchmakingQueue");
+
+    return tempStruct;
+}
+
+FAdminListMatchmakingQueuesResult UPlayFabAdminModelDecoder::decodeListMatchmakingQueuesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminListMatchmakingQueuesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.MatchMakingQueues = !(dataObj->HasField("MatchMakingQueues")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("MatchMakingQueues");
+
+    return tempStruct;
+}
+
 FAdminModifyMatchmakerGameModesResult UPlayFabAdminModelDecoder::decodeModifyMatchmakerGameModesResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
     FAdminModifyMatchmakerGameModesResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FAdminRemoveMatchmakingQueueResult UPlayFabAdminModelDecoder::decodeRemoveMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminRemoveMatchmakingQueueResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FAdminSetMatchmakingQueueResult UPlayFabAdminModelDecoder::decodeSetMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminSetMatchmakingQueueResult tempStruct;
 
 
     return tempStruct;

@@ -49,6 +49,23 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerDeletePlayerRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerDeletePlayerResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayerProfileRequest
 {
     GENERATED_USTRUCT_BODY()

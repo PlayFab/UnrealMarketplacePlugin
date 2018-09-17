@@ -2584,6 +2584,53 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeletePlayerRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FDeletePlayerRequest() :
+            FPlayFabCppBaseModel(),
+            PlayFabId()
+            {}
+
+        FDeletePlayerRequest(const FDeletePlayerRequest& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabId(src.PlayFabId)
+            {}
+
+        FDeletePlayerRequest(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePlayerResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        FDeletePlayerResult() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FDeletePlayerResult(const FDeletePlayerResult& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FDeletePlayerResult(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteSharedGroupRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique identifier for the shared group.

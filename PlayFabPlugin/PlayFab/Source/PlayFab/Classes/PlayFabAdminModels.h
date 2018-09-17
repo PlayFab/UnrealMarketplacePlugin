@@ -972,6 +972,43 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetMatchmakingQueueRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of the matchmaking queue to retrieve. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetMatchmakingQueueResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The matchmaking queue config. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
+        UPlayFabJsonObject* MatchmakingQueue = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminListMatchmakingQueuesRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminListMatchmakingQueuesResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of matchmaking queue configs for this title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> MatchMakingQueues;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminModifyMatchmakerGameModesRequest
 {
     GENERATED_USTRUCT_BODY()
@@ -986,6 +1023,40 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminModifyMatchmakerGameModesResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminRemoveMatchmakingQueueRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of the matchmaking queue to remove. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminRemoveMatchmakingQueueResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminSetMatchmakingQueueRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The matchmaking queue config. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
+        UPlayFabJsonObject* MatchmakingQueue = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminSetMatchmakingQueueResult
 {
     GENERATED_USTRUCT_BODY()
 public:

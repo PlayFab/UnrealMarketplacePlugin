@@ -68,6 +68,19 @@ public:
         void HelperBanUsers(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeletePlayer, FServerDeletePlayerResult, result, UObject*, customData);
+
+    /** Removes a user's player account from a title and deletes all associated data */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* DeletePlayer(FServerDeletePlayerRequest request,
+            FDelegateOnSuccessDeletePlayer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeletePlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayerProfile, FServerGetPlayerProfileResult, result, UObject*, customData);
 
     /** Retrieves the player's profile */
@@ -748,7 +761,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteUsers, FServerDeleteUsersResult, result, UObject*, customData);
 
-    /** Deletes the users for the provided game. Deletes custom data, all account linkages, and statistics. */
+    /** Deletes custom data, all account linkages, and statistics. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabServerAPI* DeleteUsers(FServerDeleteUsersRequest request,
             FDelegateOnSuccessDeleteUsers onSuccess,
@@ -1697,6 +1710,7 @@ public:
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessBanUsers OnSuccessBanUsers;
+    FDelegateOnSuccessDeletePlayer OnSuccessDeletePlayer;
     FDelegateOnSuccessGetPlayerProfile OnSuccessGetPlayerProfile;
     FDelegateOnSuccessGetPlayFabIDsFromFacebookIDs OnSuccessGetPlayFabIDsFromFacebookIDs;
     FDelegateOnSuccessGetPlayFabIDsFromFacebookInstantGamesIds OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds;

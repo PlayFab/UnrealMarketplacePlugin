@@ -556,6 +556,32 @@ public:
         void HelperGetMatchmakerGameModes(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMatchmakingQueue, FAdminGetMatchmakingQueueResult, result, UObject*, customData);
+
+    /** Get a matchmaking queue configuration. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetMatchmakingQueue(FAdminGetMatchmakingQueueRequest request,
+            FDelegateOnSuccessGetMatchmakingQueue onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListMatchmakingQueues, FAdminListMatchmakingQueuesResult, result, UObject*, customData);
+
+    /** List all matchmaking queue configs. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* ListMatchmakingQueues(FAdminListMatchmakingQueuesRequest request,
+            FDelegateOnSuccessListMatchmakingQueues onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListMatchmakingQueues(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessModifyMatchmakerGameModes, FAdminModifyMatchmakerGameModesResult, result, UObject*, customData);
 
     /** Updates the game server mode details for the specified game server executable */
@@ -567,6 +593,32 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperModifyMatchmakerGameModes(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveMatchmakingQueue, FAdminRemoveMatchmakingQueueResult, result, UObject*, customData);
+
+    /** Remove a matchmaking queue config. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* RemoveMatchmakingQueue(FAdminRemoveMatchmakingQueueRequest request,
+            FDelegateOnSuccessRemoveMatchmakingQueue onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRemoveMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetMatchmakingQueue, FAdminSetMatchmakingQueueResult, result, UObject*, customData);
+
+    /** Create or update a matchmaking queue configuration. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* SetMatchmakingQueue(FAdminSetMatchmakingQueueRequest request,
+            FDelegateOnSuccessSetMatchmakingQueue onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
     ///////////////////////////////////////////////////////
@@ -1572,7 +1624,11 @@ public:
     FDelegateOnSuccessRemoveServerBuild OnSuccessRemoveServerBuild;
     FDelegateOnSuccessGetMatchmakerGameInfo OnSuccessGetMatchmakerGameInfo;
     FDelegateOnSuccessGetMatchmakerGameModes OnSuccessGetMatchmakerGameModes;
+    FDelegateOnSuccessGetMatchmakingQueue OnSuccessGetMatchmakingQueue;
+    FDelegateOnSuccessListMatchmakingQueues OnSuccessListMatchmakingQueues;
     FDelegateOnSuccessModifyMatchmakerGameModes OnSuccessModifyMatchmakerGameModes;
+    FDelegateOnSuccessRemoveMatchmakingQueue OnSuccessRemoveMatchmakingQueue;
+    FDelegateOnSuccessSetMatchmakingQueue OnSuccessSetMatchmakingQueue;
     FDelegateOnSuccessCreatePlayerStatisticDefinition OnSuccessCreatePlayerStatisticDefinition;
     FDelegateOnSuccessGetDataReport OnSuccessGetDataReport;
     FDelegateOnSuccessGetPlayerStatisticDefinitions OnSuccessGetPlayerStatisticDefinitions;

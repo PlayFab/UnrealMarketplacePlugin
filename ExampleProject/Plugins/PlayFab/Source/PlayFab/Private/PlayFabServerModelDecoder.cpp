@@ -32,6 +32,15 @@ FServerBanUsersResult UPlayFabServerModelDecoder::decodeBanUsersResultResponse(U
     return tempStruct;
 }
 
+FServerDeletePlayerResult UPlayFabServerModelDecoder::decodeDeletePlayerResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerDeletePlayerResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerGetPlayerProfileResult UPlayFabServerModelDecoder::decodeGetPlayerProfileResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

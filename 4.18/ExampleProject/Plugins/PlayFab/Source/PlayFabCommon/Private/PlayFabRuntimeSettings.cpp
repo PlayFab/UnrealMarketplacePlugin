@@ -1,0 +1,16 @@
+//////////////////////////////////////////////////////
+// Copyright (C) Microsoft. 2018. All rights reserved.
+//////////////////////////////////////////////////////
+
+
+ #include "PlayFabRuntimeSettings.h"
+
+//////////////////////////////////////////////////////////////////////////
+// UPlayFabRuntimeSettings
+
+UPlayFabRuntimeSettings::UPlayFabRuntimeSettings()
+    : ProductionEnvironmentURL(TEXT(".playfabapi.com"))
+    , TitleId()
+    , DeveloperSecretKey()
+{
+}

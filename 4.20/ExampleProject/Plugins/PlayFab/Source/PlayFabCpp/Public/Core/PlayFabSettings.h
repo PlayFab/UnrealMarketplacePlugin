@@ -16,6 +16,7 @@ namespace PlayFab
 		static FString sdkVersion;
 		static FString buildIdentifier;
 		static FString versionString;
+		static FString verticalName;
 
 		static bool GetUseDevelopmentEnvironment();
 		static FString GetServerURL();
@@ -28,6 +29,8 @@ namespace PlayFab
 		static FString GetAdvertisingIdType();
 		static FString GetAdvertisingIdValue();
 		static bool GetDisableAdvertising();
+		static FString GetVerticalName();
+
 
 		static void SetUseDevelopmentEnvironment(bool useDevelopmentEnvironment);
 		static void SetServerURL(const FString& serverURL);
@@ -40,6 +43,7 @@ namespace PlayFab
 		static void SetAdvertisingIdType(const FString& advertisingIdType);
 		static void SetAdvertisingIdValue(const FString& advertisingIdValue);
 		static void SetDisableAdvertising(bool disableAdvertising);
+		static void SetVerticalName(const FString& verticalName);
 		
 		static FString AD_TYPE_IDFA;
 		static FString AD_TYPE_ANDROID_ID;

@@ -49,7 +49,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetDataReportDelegate, const AdminModels::FGetDataReportResult&);
         DECLARE_DELEGATE_OneParam(FGetMatchmakerGameInfoDelegate, const AdminModels::FGetMatchmakerGameInfoResult&);
         DECLARE_DELEGATE_OneParam(FGetMatchmakerGameModesDelegate, const AdminModels::FGetMatchmakerGameModesResult&);
-        DECLARE_DELEGATE_OneParam(FGetMatchmakingQueueDelegate, const AdminModels::FGetMatchmakingQueueResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayedTitleListDelegate, const AdminModels::FGetPlayedTitleListResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerIdFromAuthTokenDelegate, const AdminModels::FGetPlayerIdFromAuthTokenResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerProfileDelegate, const AdminModels::FGetPlayerProfileResult&);
@@ -81,13 +80,11 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGrantItemsToUsersDelegate, const AdminModels::FGrantItemsToUsersResult&);
         DECLARE_DELEGATE_OneParam(FIncrementLimitedEditionItemAvailabilityDelegate, const AdminModels::FIncrementLimitedEditionItemAvailabilityResult&);
         DECLARE_DELEGATE_OneParam(FIncrementPlayerStatisticVersionDelegate, const AdminModels::FIncrementPlayerStatisticVersionResult&);
-        DECLARE_DELEGATE_OneParam(FListMatchmakingQueuesDelegate, const AdminModels::FListMatchmakingQueuesResult&);
         DECLARE_DELEGATE_OneParam(FListServerBuildsDelegate, const AdminModels::FListBuildsResult&);
         DECLARE_DELEGATE_OneParam(FListVirtualCurrencyTypesDelegate, const AdminModels::FListVirtualCurrencyTypesResult&);
         DECLARE_DELEGATE_OneParam(FModifyMatchmakerGameModesDelegate, const AdminModels::FModifyMatchmakerGameModesResult&);
         DECLARE_DELEGATE_OneParam(FModifyServerBuildDelegate, const AdminModels::FModifyServerBuildResult&);
         DECLARE_DELEGATE_OneParam(FRefundPurchaseDelegate, const AdminModels::FRefundPurchaseResponse&);
-        DECLARE_DELEGATE_OneParam(FRemoveMatchmakingQueueDelegate, const AdminModels::FRemoveMatchmakingQueueResult&);
         DECLARE_DELEGATE_OneParam(FRemovePlayerTagDelegate, const AdminModels::FRemovePlayerTagResult&);
         DECLARE_DELEGATE_OneParam(FRemoveServerBuildDelegate, const AdminModels::FRemoveServerBuildResult&);
         DECLARE_DELEGATE_OneParam(FRemoveVirtualCurrencyTypesDelegate, const AdminModels::FBlankResult&);
@@ -102,7 +99,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FRunTaskDelegate, const AdminModels::FRunTaskResult&);
         DECLARE_DELEGATE_OneParam(FSendAccountRecoveryEmailDelegate, const AdminModels::FSendAccountRecoveryEmailResult&);
         DECLARE_DELEGATE_OneParam(FSetCatalogItemsDelegate, const AdminModels::FUpdateCatalogItemsResult&);
-        DECLARE_DELEGATE_OneParam(FSetMatchmakingQueueDelegate, const AdminModels::FSetMatchmakingQueueResult&);
         DECLARE_DELEGATE_OneParam(FSetPlayerSecretDelegate, const AdminModels::FSetPlayerSecretResult&);
         DECLARE_DELEGATE_OneParam(FSetPublishedRevisionDelegate, const AdminModels::FSetPublishedRevisionResult&);
         DECLARE_DELEGATE_OneParam(FSetPublisherDataDelegate, const AdminModels::FSetPublisherDataResult&);
@@ -281,11 +277,6 @@ namespace PlayFab
          */
         bool GetMatchmakerGameModes(AdminModels::FGetMatchmakerGameModesRequest& request, const FGetMatchmakerGameModesDelegate& SuccessDelegate = FGetMatchmakerGameModesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Get a matchmaking queue configuration.
-         * Gets the current configuration for a queue.
-         */
-        bool GetMatchmakingQueue(AdminModels::FGetMatchmakingQueueRequest& request, const FGetMatchmakingQueueDelegate& SuccessDelegate = FGetMatchmakingQueueDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
          * Get the list of titles that the player has played
          * Useful for identifying titles of which the player's data will be deleted by DeleteMasterPlayer.
          */
@@ -430,12 +421,6 @@ namespace PlayFab
          * Statistics are numeric values, with each statistic in the title also generating a leaderboard. When this call is made on a given statistic, this forces a reset of that statistic. Upon reset, the statistic updates to a new version with no values (effectively removing all players from the leaderboard). The previous version's statistic values are also archived for retrieval, if needed (see GetPlayerStatisticVersions). Statistics not created via a call to CreatePlayerStatisticDefinition by default have a VersionChangeInterval of Never, meaning they do not reset on a schedule, but they can be set to do so via a call to UpdatePlayerStatisticDefinition. Once a statistic has been reset (sometimes referred to as versioned or incremented), the now-previous version can still be written to for up a short, pre-defined period (currently 10 seconds), to prevent issues with levels completing around the time of the reset. Also, once reset, the historical statistics for players in the title may be retrieved using the URL specified in the version information (GetPlayerStatisticVersions).
          */
         bool IncrementPlayerStatisticVersion(AdminModels::FIncrementPlayerStatisticVersionRequest& request, const FIncrementPlayerStatisticVersionDelegate& SuccessDelegate = FIncrementPlayerStatisticVersionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * List all matchmaking queue configs.
-         * Gets a list of all the matchmaking queue configurations for the title.
-         */
-
-        bool ListMatchmakingQueues(const FListMatchmakingQueuesDelegate& SuccessDelegate = FListMatchmakingQueuesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the build details for all game server executables which are currently defined for the title
 
         bool ListServerBuilds(const FListServerBuildsDelegate& SuccessDelegate = FListServerBuildsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -451,11 +436,6 @@ namespace PlayFab
         bool ModifyServerBuild(AdminModels::FModifyServerBuildRequest& request, const FModifyServerBuildDelegate& SuccessDelegate = FModifyServerBuildDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Attempts to process an order refund through the original real money payment provider.
         bool RefundPurchase(AdminModels::FRefundPurchaseRequest& request, const FRefundPurchaseDelegate& SuccessDelegate = FRefundPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Remove a matchmaking queue config.
-         * Deletes the configuration for a queue. This will permanently delete the configuration and players will no longer be able to match in the queue. All outstanding matchmaking tickets will be cancelled.
-         */
-        bool RemoveMatchmakingQueue(AdminModels::FRemoveMatchmakingQueueRequest& request, const FRemoveMatchmakingQueueDelegate& SuccessDelegate = FRemoveMatchmakingQueueDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Remove a given tag from a player profile. The tag's namespace is automatically generated based on the source of the tag.
          * This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID from the corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters
@@ -525,11 +505,6 @@ namespace PlayFab
          * This operation is not additive. Using it will cause the indicated catalog version to be created from scratch. If there is an existing catalog with the version number in question, it will be deleted and replaced with only the items specified in this call.
          */
         bool SetCatalogItems(AdminModels::FUpdateCatalogItemsRequest& request, const FSetCatalogItemsDelegate& SuccessDelegate = FSetCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Create or update a matchmaking queue configuration.
-         * Use this API to create or update matchmaking queue configurations. The queue configuration defines the matchmaking rules. The matchmaking service will match tickets together according to the configured rules. Queue resources are not spun up by calling this API. Queues are created when the first ticket is submitted.
-         */
-        bool SetMatchmakingQueue(AdminModels::FSetMatchmakingQueueRequest& request, const FSetMatchmakingQueueDelegate& SuccessDelegate = FSetMatchmakingQueueDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Sets or resets the player's secret. Player secrets are used to sign API requests.
          * APIs that require signatures require that the player have a configured Player Secret Key that is used to sign all requests. Players that don't have a secret will be blocked from making API calls until it is configured. To create a signature header add a SHA256 hashed string containing UTF8 encoded JSON body as it will be sent to the server, the current time in UTC formatted to ISO 8601, and the players secret formatted as 'body.date.secret'. Place the resulting hash into the header X-PlayFab-Signature, along with a header X-PlayFab-Timestamp of the same UTC timestamp used in the signature.
@@ -681,7 +656,6 @@ namespace PlayFab
         void OnGetDataReportResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDataReportDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMatchmakerGameInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakerGameInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMatchmakerGameModesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakerGameModesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetMatchmakingQueueResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakingQueueDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayedTitleListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayedTitleListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerIdFromAuthTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerIdFromAuthTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerProfileResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerProfileDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -713,13 +687,11 @@ namespace PlayFab
         void OnGrantItemsToUsersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUsersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnIncrementLimitedEditionItemAvailabilityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementLimitedEditionItemAvailabilityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnIncrementPlayerStatisticVersionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementPlayerStatisticVersionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnListMatchmakingQueuesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMatchmakingQueuesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListServerBuildsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBuildsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualCurrencyTypesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnModifyMatchmakerGameModesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyMatchmakerGameModesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnModifyServerBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyServerBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRefundPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRefundPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnRemoveMatchmakingQueueResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveMatchmakingQueueDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveServerBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveServerBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveVirtualCurrencyTypesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -734,7 +706,6 @@ namespace PlayFab
         void OnRunTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRunTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSendAccountRecoveryEmailResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendAccountRecoveryEmailDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetCatalogItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetCatalogItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnSetMatchmakingQueueResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetMatchmakingQueueDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPlayerSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPlayerSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPublishedRevisionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPublishedRevisionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

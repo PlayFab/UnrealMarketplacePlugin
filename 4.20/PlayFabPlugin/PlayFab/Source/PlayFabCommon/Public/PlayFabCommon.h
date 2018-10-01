@@ -36,6 +36,7 @@ public:
 	virtual FString GetSdkVersion() const = 0;
 	virtual FString GetBuildIdentifier() const = 0;
 	virtual FString GetVersionString() const = 0;
+	virtual FString GetVerticalName() const = 0;
 
 	virtual FString GetAD_TYPE_IDFA() const = 0;
 	virtual FString GetAD_TYPE_ANDROID_ID() const = 0;

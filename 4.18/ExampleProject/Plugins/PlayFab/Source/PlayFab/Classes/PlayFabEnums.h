@@ -58,24 +58,6 @@ static FORCEINLINE bool GetEnumValueToString(const FString& enumTypeName, const 
 }
 
 
-/** AttributeNotSpecifiedBehavior */
-
-UENUM(BlueprintType)
-enum class EAttributeNotSpecifiedBehavior : uint8
-{
-    pfenum_UseDefault UMETA(DisplayName = "UseDefault"),
-    pfenum_MatchAny UMETA(DisplayName = "MatchAny"),
-};
-
-/** AttributeSource */
-
-UENUM(BlueprintType)
-enum class EAttributeSource : uint8
-{
-    pfenum_User UMETA(DisplayName = "User"),
-    pfenum_PlayerEntity UMETA(DisplayName = "PlayerEntity"),
-};
-
 /** AuthTokenType */
 
 UENUM(BlueprintType)
@@ -642,18 +624,6 @@ enum class EResultTableNodeType : uint8
     pfenum_TableId UMETA(DisplayName = "TableId"),
 };
 
-/** RuleType */
-
-UENUM(BlueprintType)
-enum class ERuleType : uint8
-{
-    pfenum_Unknown UMETA(DisplayName = "Unknown"),
-    pfenum_DifferenceRule UMETA(DisplayName = "DifferenceRule"),
-    pfenum_StringEqualityRule UMETA(DisplayName = "StringEqualityRule"),
-    pfenum_MatchTotalRule UMETA(DisplayName = "MatchTotalRule"),
-    pfenum_SetIntersectionRule UMETA(DisplayName = "SetIntersectionRule"),
-};
-
 /** ScheduledTaskType */
 
 UENUM(BlueprintType)
@@ -749,7 +719,7 @@ enum class ETaskInstanceStatus : uint8
     pfenum_InProgress UMETA(DisplayName = "InProgress"),
     pfenum_Failed UMETA(DisplayName = "Failed"),
     pfenum_Aborted UMETA(DisplayName = "Aborted"),
-    pfenum_Pending UMETA(DisplayName = "Pending"),
+    pfenum_Stalled UMETA(DisplayName = "Stalled"),
 };
 
 /** TitleActivationStatus */

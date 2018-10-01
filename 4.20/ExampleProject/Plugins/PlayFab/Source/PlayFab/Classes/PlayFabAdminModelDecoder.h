@@ -206,25 +206,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
         static FAdminGetMatchmakerGameModesResult decodeGetMatchmakerGameModesResultResponse(UPlayFabJsonObject* response);
 
-    /** Decode the GetMatchmakingQueueResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminGetMatchmakingQueueResult decodeGetMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the ListMatchmakingQueuesResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminListMatchmakingQueuesResult decodeListMatchmakingQueuesResultResponse(UPlayFabJsonObject* response);
-
     /** Decode the ModifyMatchmakerGameModesResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
         static FAdminModifyMatchmakerGameModesResult decodeModifyMatchmakerGameModesResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the RemoveMatchmakingQueueResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminRemoveMatchmakingQueueResult decodeRemoveMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the SetMatchmakingQueueResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminSetMatchmakingQueueResult decodeSetMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
 
 
 

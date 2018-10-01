@@ -15,6 +15,7 @@ namespace PlayFabCommon
 		static const FString sdkVersion;
         static const FString buildIdentifier;
         static const FString versionString;
+        static const FString verticalName;
 
         static FString serverURL;
         static FString productionEnvironmentURL;
@@ -39,7 +40,9 @@ namespace PlayFabCommon
         static FString getURL(const FString& callPath)
         {
             if (serverURL.Len() == 0)
-				serverURL = TEXT("https://") + titleId + productionEnvironmentURL;
+            {
+                serverURL = TEXT("https://") + !verticalName.IsEmpty() ? verticalName : titleId + productionEnvironmentURL;
+            }
 			return serverURL + callPath + TEXT("?sdk=") + versionString;
         }
     };

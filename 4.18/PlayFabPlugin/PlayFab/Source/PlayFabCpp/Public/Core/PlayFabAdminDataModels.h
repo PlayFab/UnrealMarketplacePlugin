@@ -78,7 +78,7 @@ namespace AdminModels
         TaskInstanceStatusInProgress,
         TaskInstanceStatusFailed,
         TaskInstanceStatusAborted,
-        TaskInstanceStatusPending
+        TaskInstanceStatusStalled
     };
 
     PLAYFABCPP_API void writeTaskInstanceStatusEnumJSON(TaskInstanceStatus enumVal, JsonWriter& writer);
@@ -694,26 +694,6 @@ namespace AdminModels
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
-
-    enum AttributeNotSpecifiedBehavior
-    {
-        AttributeNotSpecifiedBehaviorUseDefault,
-        AttributeNotSpecifiedBehaviorMatchAny
-    };
-
-    PLAYFABCPP_API void writeAttributeNotSpecifiedBehaviorEnumJSON(AttributeNotSpecifiedBehavior enumVal, JsonWriter& writer);
-    PLAYFABCPP_API AttributeNotSpecifiedBehavior readAttributeNotSpecifiedBehaviorFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API AttributeNotSpecifiedBehavior readAttributeNotSpecifiedBehaviorFromValue(const FString& value);
-
-    enum AttributeSource
-    {
-        AttributeSourceUser,
-        AttributeSourcePlayerEntity
-    };
-
-    PLAYFABCPP_API void writeAttributeSourceEnumJSON(AttributeSource enumVal, JsonWriter& writer);
-    PLAYFABCPP_API AttributeSource readAttributeSourceFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API AttributeSource readAttributeSourceFromValue(const FString& value);
 
     enum AuthTokenType
     {
@@ -3526,199 +3506,6 @@ namespace AdminModels
         }
 
         ~FGetMatchmakerGameModesResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetMatchmakingQueueRequest : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The Id of the matchmaking queue to retrieve.
-        FString QueueName;
-
-        FGetMatchmakingQueueRequest() :
-            FPlayFabCppBaseModel(),
-            QueueName()
-            {}
-
-        FGetMatchmakingQueueRequest(const FGetMatchmakingQueueRequest& src) :
-            FPlayFabCppBaseModel(),
-            QueueName(src.QueueName)
-            {}
-
-        FGetMatchmakingQueueRequest(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakingQueueRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetMatchmakingQueueRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FQueueRuleAttribute : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Specifies which attribute in a ticket to use.
-        FString Path;
-
-        // Specifies which source the attribute comes from.
-        AttributeSource Source;
-
-        FQueueRuleAttribute() :
-            FPlayFabCppBaseModel(),
-            Path(),
-            Source()
-            {}
-
-        FQueueRuleAttribute(const FQueueRuleAttribute& src) :
-            FPlayFabCppBaseModel(),
-            Path(src.Path),
-            Source(src.Source)
-            {}
-
-        FQueueRuleAttribute(const TSharedPtr<FJsonObject>& obj) : FQueueRuleAttribute()
-        {
-            readFromValue(obj);
-        }
-
-        ~FQueueRuleAttribute();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    enum RuleType
-    {
-        RuleTypeUnknown,
-        RuleTypeDifferenceRule,
-        RuleTypeStringEqualityRule,
-        RuleTypeMatchTotalRule,
-        RuleTypeSetIntersectionRule
-    };
-
-    PLAYFABCPP_API void writeRuleTypeEnumJSON(RuleType enumVal, JsonWriter& writer);
-    PLAYFABCPP_API RuleType readRuleTypeFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API RuleType readRuleTypeFromValue(const FString& value);
-
-    struct PLAYFABCPP_API FMatchmakingQueueRule : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Description of the attribute used by this rule to match tickets.
-        FQueueRuleAttribute Attribute;
-
-        /**
-         * [optional] Describes the behavior when an attribute is not specified in the ticket creation request or in the user's entity
-         * profile.
-         */
-        Boxed<AttributeNotSpecifiedBehavior> pfAttributeNotSpecifiedBehavior;
-
-        // Friendly name chosen by developer.
-        FString Name;
-
-        /**
-         * [optional] How many seconds before this rule is no longer enforced (but tickets that comply with this rule will still be
-         * prioritized over those that don't). Leave blank if this rule is always enforced.
-         */
-        Boxed<uint32> SecondsUntilOptional;
-
-        // Type of rule being described.
-        RuleType Type;
-
-        // The relative weight of this rule compared to others.
-        double Weight;
-
-        FMatchmakingQueueRule() :
-            FPlayFabCppBaseModel(),
-            Attribute(),
-            pfAttributeNotSpecifiedBehavior(),
-            Name(),
-            SecondsUntilOptional(),
-            Type(),
-            Weight(0)
-            {}
-
-        FMatchmakingQueueRule(const FMatchmakingQueueRule& src) :
-            FPlayFabCppBaseModel(),
-            Attribute(src.Attribute),
-            pfAttributeNotSpecifiedBehavior(src.pfAttributeNotSpecifiedBehavior),
-            Name(src.Name),
-            SecondsUntilOptional(src.SecondsUntilOptional),
-            Type(src.Type),
-            Weight(src.Weight)
-            {}
-
-        FMatchmakingQueueRule(const TSharedPtr<FJsonObject>& obj) : FMatchmakingQueueRule()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMatchmakingQueueRule();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FMatchmakingQueueConfig : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Maximum number of players in a match.
-        uint32 MaxMatchSize;
-
-        // Minimum number of players in a match.
-        uint32 MinMatchSize;
-
-        // Unique identifier for a Queue. Chosen by the developer.
-        FString Name;
-
-        // [optional] List of rules used to find an optimal match.
-        TArray<FMatchmakingQueueRule> Rules;
-        FMatchmakingQueueConfig() :
-            FPlayFabCppBaseModel(),
-            MaxMatchSize(0),
-            MinMatchSize(0),
-            Name(),
-            Rules()
-            {}
-
-        FMatchmakingQueueConfig(const FMatchmakingQueueConfig& src) :
-            FPlayFabCppBaseModel(),
-            MaxMatchSize(src.MaxMatchSize),
-            MinMatchSize(src.MinMatchSize),
-            Name(src.Name),
-            Rules(src.Rules)
-            {}
-
-        FMatchmakingQueueConfig(const TSharedPtr<FJsonObject>& obj) : FMatchmakingQueueConfig()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMatchmakingQueueConfig();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetMatchmakingQueueResult : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The matchmaking queue config.
-        TSharedPtr<FMatchmakingQueueConfig> MatchmakingQueue;
-
-        FGetMatchmakingQueueResult() :
-            FPlayFabCppBaseModel(),
-            MatchmakingQueue(nullptr)
-            {}
-
-        FGetMatchmakingQueueResult(const FGetMatchmakingQueueResult& src) :
-            FPlayFabCppBaseModel(),
-            MatchmakingQueue(src.MatchmakingQueue.IsValid() ? MakeShareable(new FMatchmakingQueueConfig(*src.MatchmakingQueue)) : nullptr)
-            {}
-
-        FGetMatchmakingQueueResult(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakingQueueResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetMatchmakingQueueResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -6919,52 +6706,6 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMatchmakingQueuesRequest : public PlayFab::FPlayFabCppBaseModel
-    {
-        FListMatchmakingQueuesRequest() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FListMatchmakingQueuesRequest(const FListMatchmakingQueuesRequest& src) :
-            FPlayFabCppBaseModel()
-            {}
-
-        FListMatchmakingQueuesRequest(const TSharedPtr<FJsonObject>& obj) : FListMatchmakingQueuesRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListMatchmakingQueuesRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListMatchmakingQueuesResult : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The list of matchmaking queue configs for this title.
-        TArray<FMatchmakingQueueConfig> MatchMakingQueues;
-        FListMatchmakingQueuesResult() :
-            FPlayFabCppBaseModel(),
-            MatchMakingQueues()
-            {}
-
-        FListMatchmakingQueuesResult(const FListMatchmakingQueuesResult& src) :
-            FPlayFabCppBaseModel(),
-            MatchMakingQueues(src.MatchMakingQueues)
-            {}
-
-        FListMatchmakingQueuesResult(const TSharedPtr<FJsonObject>& obj) : FListMatchmakingQueuesResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListMatchmakingQueuesResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FListVirtualCurrencyTypesRequest : public PlayFab::FPlayFabCppBaseModel
     {
         FListVirtualCurrencyTypesRequest() :
@@ -8130,53 +7871,6 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemoveMatchmakingQueueRequest : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The Id of the matchmaking queue to remove.
-        FString QueueName;
-
-        FRemoveMatchmakingQueueRequest() :
-            FPlayFabCppBaseModel(),
-            QueueName()
-            {}
-
-        FRemoveMatchmakingQueueRequest(const FRemoveMatchmakingQueueRequest& src) :
-            FPlayFabCppBaseModel(),
-            QueueName(src.QueueName)
-            {}
-
-        FRemoveMatchmakingQueueRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveMatchmakingQueueRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRemoveMatchmakingQueueRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRemoveMatchmakingQueueResult : public PlayFab::FPlayFabCppBaseModel
-    {
-        FRemoveMatchmakingQueueResult() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FRemoveMatchmakingQueueResult(const FRemoveMatchmakingQueueResult& src) :
-            FPlayFabCppBaseModel()
-            {}
-
-        FRemoveMatchmakingQueueResult(const TSharedPtr<FJsonObject>& obj) : FRemoveMatchmakingQueueResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRemoveMatchmakingQueueResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FRemovePlayerTagRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -8914,53 +8608,6 @@ namespace AdminModels
         }
 
         ~FSendAccountRecoveryEmailResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetMatchmakingQueueRequest : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The matchmaking queue config.
-        TSharedPtr<FMatchmakingQueueConfig> MatchmakingQueue;
-
-        FSetMatchmakingQueueRequest() :
-            FPlayFabCppBaseModel(),
-            MatchmakingQueue(nullptr)
-            {}
-
-        FSetMatchmakingQueueRequest(const FSetMatchmakingQueueRequest& src) :
-            FPlayFabCppBaseModel(),
-            MatchmakingQueue(src.MatchmakingQueue.IsValid() ? MakeShareable(new FMatchmakingQueueConfig(*src.MatchmakingQueue)) : nullptr)
-            {}
-
-        FSetMatchmakingQueueRequest(const TSharedPtr<FJsonObject>& obj) : FSetMatchmakingQueueRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetMatchmakingQueueRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetMatchmakingQueueResult : public PlayFab::FPlayFabCppBaseModel
-    {
-        FSetMatchmakingQueueResult() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FSetMatchmakingQueueResult(const FSetMatchmakingQueueResult& src) :
-            FPlayFabCppBaseModel()
-            {}
-
-        FSetMatchmakingQueueResult(const TSharedPtr<FJsonObject>& obj) : FSetMatchmakingQueueResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetMatchmakingQueueResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

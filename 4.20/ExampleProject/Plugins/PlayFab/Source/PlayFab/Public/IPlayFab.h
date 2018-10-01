@@ -82,6 +82,11 @@ public:
 		return IPlayFabCommonModuleInterface::Get().GetVersionString();
 	}
 
+	inline FString getVerticalName() const
+	{
+		return IPlayFabCommonModuleInterface::Get().GetVerticalName();
+	}
+
 	inline FString getBuildIdentifier() const
 	{
 		return IPlayFabCommonModuleInterface::Get().GetBuildIdentifier();

@@ -31,6 +31,7 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
 	FString GetSdkVersion() const override { return PlayFabCommon::PlayFabCommonSettings::sdkVersion; }
 	FString GetBuildIdentifier() const override { return PlayFabCommon::PlayFabCommonSettings::buildIdentifier; }
 	FString GetVersionString() const override { return PlayFabCommon::PlayFabCommonSettings::versionString; }
+	FString GetVerticalName() const override { return PlayFabCommon::PlayFabCommonSettings::verticalName; }
 
 	FString GetAD_TYPE_IDFA() const override { return PlayFabCommon::PlayFabCommonSettings::AD_TYPE_IDFA; }
 	FString GetAD_TYPE_ANDROID_ID() const override { return PlayFabCommon::PlayFabCommonSettings::AD_TYPE_ANDROID_ID; }

@@ -9,10 +9,10 @@
 
 namespace PlayFabCommon
 {
-	class PlayFabCommonSettings
-	{
-	public:
-		static const FString sdkVersion;
+    class PlayFabCommonSettings
+    {
+    public:
+        static const FString sdkVersion;
         static const FString buildIdentifier;
         static const FString versionString;
         static const FString verticalName;
@@ -32,18 +32,18 @@ namespace PlayFabCommon
         static const FString AD_TYPE_IDFA;
         static const FString AD_TYPE_ANDROID_ID;
 
-		static FString playFabApiSecretKey; // PlayFab DeveloperSecretKey
-		static FString photonRealtimeAppId;
-		static FString photonTurnbasedAppId;
-		static FString photonChatAppId;
+        static FString playFabApiSecretKey; // PlayFab DeveloperSecretKey
+        static FString photonRealtimeAppId;
+        static FString photonTurnbasedAppId;
+        static FString photonChatAppId;
 
         static FString getURL(const FString& callPath)
         {
             if (serverURL.Len() == 0)
             {
-                serverURL = TEXT("https://") + !verticalName.IsEmpty() ? verticalName : titleId + productionEnvironmentURL;
+                serverURL = TEXT("https://") + (!verticalName.IsEmpty() ? verticalName : titleId) + productionEnvironmentURL;
             }
-			return serverURL + callPath + TEXT("?sdk=") + versionString;
+            return serverURL + callPath + TEXT("?sdk=") + versionString;
         }
     };
 }

@@ -28,7 +28,7 @@ FString UPlayFabLocalizationAPI::GetBuildIdentifier() const
 
 void UPlayFabLocalizationAPI::SetTitleId(const FString& titleId)
 {
-	PlayFabSettings::SetTitleId(titleId);
+    PlayFabSettings::SetTitleId(titleId);
 }
 
 void UPlayFabLocalizationAPI::SetDevSecretKey(const FString& developerSecretKey)

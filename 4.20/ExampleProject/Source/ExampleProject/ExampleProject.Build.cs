@@ -8,7 +8,7 @@ public class ExampleProject : ModuleRules
 {
     public ExampleProject(ReadOnlyTargetRules Target) : base(Target)
     {
-    	PCHUsage = PCHUsageMode.NoSharedPCHs;
+        PCHUsage = PCHUsageMode.NoSharedPCHs;
 
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "PlayFab", "PlayFabCpp"});
         PublicDependencyModuleNames.AddRange(new string[] { "Json", "JsonUtilities" });

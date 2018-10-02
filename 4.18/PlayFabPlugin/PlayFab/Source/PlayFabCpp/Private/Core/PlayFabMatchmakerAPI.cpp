@@ -28,7 +28,7 @@ FString UPlayFabMatchmakerAPI::GetBuildIdentifier() const
 
 void UPlayFabMatchmakerAPI::SetTitleId(const FString& titleId)
 {
-	PlayFabSettings::SetTitleId(titleId);
+    PlayFabSettings::SetTitleId(titleId);
 }
 
 void UPlayFabMatchmakerAPI::SetDevSecretKey(const FString& developerSecretKey)

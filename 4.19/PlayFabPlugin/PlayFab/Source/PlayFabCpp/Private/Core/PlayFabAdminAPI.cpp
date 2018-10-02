@@ -28,7 +28,7 @@ FString UPlayFabAdminAPI::GetBuildIdentifier() const
 
 void UPlayFabAdminAPI::SetTitleId(const FString& titleId)
 {
-	PlayFabSettings::SetTitleId(titleId);
+    PlayFabSettings::SetTitleId(titleId);
 }
 
 void UPlayFabAdminAPI::SetDevSecretKey(const FString& developerSecretKey)

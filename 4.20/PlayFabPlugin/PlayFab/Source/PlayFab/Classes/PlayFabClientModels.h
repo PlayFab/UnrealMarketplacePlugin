@@ -363,6 +363,29 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The ID of Xbox Live sandbox. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString Sandbox;
+    /** Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString XboxLiveAccountIDs;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of PlayStation Network identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLinkAndroidDeviceIDRequest
 {
     GENERATED_USTRUCT_BODY()
@@ -558,6 +581,32 @@ struct PLAYFAB_API FClientLinkNintendoSwitchDeviceIdResult
 {
     GENERATED_USTRUCT_BODY()
 public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientEmptyResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLinkOpenIdConnectRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString ConnectionId;
+    /** If another user is already linked to a specific OpenId Connect user, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        bool ForceLink = false;
+    /**
+     * The JSON Web token (JWT) returned by the identity provider after login. Represented as the id_token field in the
+     * identity provider's response. Used to validate the request and find the user ID (OpenID Connect subject) to link with.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString IdToken;
 };
 
 USTRUCT(BlueprintType)
@@ -874,6 +923,23 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientEmptyResponse
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientUninkOpenIdConnectRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString ConnectionId;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUnlinkSteamAccountRequest
 {
     GENERATED_USTRUCT_BODY()
@@ -930,13 +996,6 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUnlinkXboxAccountResult
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientEmptyResponse
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1438,6 +1497,37 @@ public:
     /** Nintendo Switch unique identifier for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString NintendoSwitchDeviceId;
+    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString PlayerSecret;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLoginWithOpenIdConnectRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString ConnectionId;
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        bool CreateAccount = false;
+    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString EncryptedRequest;
+    /**
+     * The JSON Web token (JWT) returned by the identity provider after login. Represented as the id_token field in the
+     * identity provider's response.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString IdToken;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+    /** Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        bool LoginTitlePlayerAccountEntity = false;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
@@ -2183,9 +2273,6 @@ public:
         int32 PollWaitTimeMS = 0;
     /** IPV4 address of the server */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
-        FString ServerHostname;
-    /** IPV4 address of the server */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
         FString ServerIPV4Address;
     /** IPV6 address of the server */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
@@ -2243,9 +2330,6 @@ public:
     /** password required to log into the server */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
         FString Password;
-    /** server IPV4 address */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
-        FString ServerHostname;
     /** server IPV4 address */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
         FString ServerIPV4Address;

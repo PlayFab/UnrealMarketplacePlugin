@@ -183,6 +183,17 @@ FClientGetPlayFabIDsFromTwitchIDsResult UPlayFabClientModelDecoder::decodeGetPla
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromXboxLiveIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromXboxLiveIDsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromXboxLiveIDsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientLinkAndroidDeviceIDResult UPlayFabClientModelDecoder::decodeLinkAndroidDeviceIDResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -259,6 +270,15 @@ FClientLinkNintendoSwitchDeviceIdResult UPlayFabClientModelDecoder::decodeLinkNi
 {
     // Temp ustruct
     FClientLinkNintendoSwitchDeviceIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FClientEmptyResult UPlayFabClientModelDecoder::decodeEmptyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientEmptyResult tempStruct;
 
 
     return tempStruct;
@@ -419,6 +439,15 @@ FClientUnlinkNintendoSwitchDeviceIdResult UPlayFabClientModelDecoder::decodeUnli
     return tempStruct;
 }
 
+FClientEmptyResponse UPlayFabClientModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientEmptyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FClientUnlinkSteamAccountResult UPlayFabClientModelDecoder::decodeUnlinkSteamAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -450,15 +479,6 @@ FClientUnlinkXboxAccountResult UPlayFabClientModelDecoder::decodeUnlinkXboxAccou
 {
     // Temp ustruct
     FClientUnlinkXboxAccountResult tempStruct;
-
-
-    return tempStruct;
-}
-
-FClientEmptyResponse UPlayFabClientModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientEmptyResponse tempStruct;
 
 
     return tempStruct;
@@ -802,7 +822,6 @@ FClientMatchmakeResult UPlayFabClientModelDecoder::decodeMatchmakeResultResponse
     tempStruct.Expires = !(dataObj->HasField("Expires")) ? TEXT("") : dataObj->GetStringField("Expires");
     tempStruct.LobbyID = !(dataObj->HasField("LobbyID")) ? TEXT("") : dataObj->GetStringField("LobbyID");
     tempStruct.PollWaitTimeMS = !(dataObj->HasField("PollWaitTimeMS")) ? 0 : int(dataObj->GetNumberField("PollWaitTimeMS"));
-    tempStruct.ServerHostname = !(dataObj->HasField("ServerHostname")) ? TEXT("") : dataObj->GetStringField("ServerHostname");
     tempStruct.ServerIPV4Address = !(dataObj->HasField("ServerIPV4Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV4Address");
     tempStruct.ServerIPV6Address = !(dataObj->HasField("ServerIPV6Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV6Address");
     tempStruct.ServerPort = !(dataObj->HasField("ServerPort")) ? 0 : int(dataObj->GetNumberField("ServerPort"));
@@ -822,7 +841,6 @@ FClientStartGameResult UPlayFabClientModelDecoder::decodeStartGameResultResponse
     tempStruct.Expires = !(dataObj->HasField("Expires")) ? TEXT("") : dataObj->GetStringField("Expires");
     tempStruct.LobbyID = !(dataObj->HasField("LobbyID")) ? TEXT("") : dataObj->GetStringField("LobbyID");
     tempStruct.Password = !(dataObj->HasField("Password")) ? TEXT("") : dataObj->GetStringField("Password");
-    tempStruct.ServerHostname = !(dataObj->HasField("ServerHostname")) ? TEXT("") : dataObj->GetStringField("ServerHostname");
     tempStruct.ServerIPV4Address = !(dataObj->HasField("ServerIPV4Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV4Address");
     tempStruct.ServerIPV6Address = !(dataObj->HasField("ServerIPV6Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV6Address");
     tempStruct.ServerPort = !(dataObj->HasField("ServerPort")) ? 0 : int(dataObj->GetNumberField("ServerPort"));

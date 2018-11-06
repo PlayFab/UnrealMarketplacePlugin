@@ -69,6 +69,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate, const ClientModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamIDsDelegate, const ClientModels::FGetPlayFabIDsFromSteamIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromTwitchIDsDelegate, const ClientModels::FGetPlayFabIDsFromTwitchIDsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromXboxLiveIDsDelegate, const ClientModels::FGetPlayFabIDsFromXboxLiveIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const ClientModels::FGetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FGetPurchaseDelegate, const ClientModels::FGetPurchaseResult&);
         DECLARE_DELEGATE_OneParam(FGetSharedGroupDataDelegate, const ClientModels::FGetSharedGroupDataResult&);
@@ -94,6 +95,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkIOSDeviceIDDelegate, const ClientModels::FLinkIOSDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FLinkKongregateDelegate, const ClientModels::FLinkKongregateAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkNintendoSwitchDeviceIdDelegate, const ClientModels::FLinkNintendoSwitchDeviceIdResult&);
+        DECLARE_DELEGATE_OneParam(FLinkOpenIdConnectDelegate, const ClientModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FLinkSteamAccountDelegate, const ClientModels::FLinkSteamAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkTwitchDelegate, const ClientModels::FLinkTwitchAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkWindowsHelloDelegate, const ClientModels::FLinkWindowsHelloAccountResponse&);
@@ -108,6 +110,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLoginWithIOSDeviceIDDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithKongregateDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithNintendoSwitchDeviceIdDelegate, const ClientModels::FLoginResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithOpenIdConnectDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithPlayFabDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithSteamDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithTwitchDelegate, const ClientModels::FLoginResult&);
@@ -143,6 +146,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUnlinkIOSDeviceIDDelegate, const ClientModels::FUnlinkIOSDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkKongregateDelegate, const ClientModels::FUnlinkKongregateAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkNintendoSwitchDeviceIdDelegate, const ClientModels::FUnlinkNintendoSwitchDeviceIdResult&);
+        DECLARE_DELEGATE_OneParam(FUnlinkOpenIdConnectDelegate, const ClientModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkSteamAccountDelegate, const ClientModels::FUnlinkSteamAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkTwitchDelegate, const ClientModels::FUnlinkTwitchAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkWindowsHelloDelegate, const ClientModels::FUnlinkWindowsHelloAccountResponse&);
@@ -397,6 +401,8 @@ namespace PlayFab
          * https://github.com/justintv/Twitch-API/blob/master/v3_resources/users.md#get-usersuser).
          */
         bool GetPlayFabIDsFromTwitchIDs(ClientModels::FGetPlayFabIDsFromTwitchIDsRequest& request, const FGetPlayFabIDsFromTwitchIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromTwitchIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves the unique PlayFab identifiers for the given set of XboxLive identifiers.
+        bool GetPlayFabIDsFromXboxLiveIDs(ClientModels::FGetPlayFabIDsFromXboxLiveIDsRequest& request, const FGetPlayFabIDsFromXboxLiveIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromXboxLiveIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the key-value store of custom publisher settings
          * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a publisher can use this API. For more information email devrel@playfab.com. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
@@ -498,6 +504,11 @@ namespace PlayFab
         // Links the NintendoSwitchDeviceId to the user's PlayFab account
         bool LinkNintendoSwitchDeviceId(ClientModels::FLinkNintendoSwitchDeviceIdRequest& request, const FLinkNintendoSwitchDeviceIdDelegate& SuccessDelegate = FLinkNintendoSwitchDeviceIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Links an OpenID Connect account to a user's PlayFab account, based on an existing relationship between a title and an
+         * Open ID Connect provider and the OpenId Connect JWT from that provider.
+         */
+        bool LinkOpenIdConnect(ClientModels::FLinkOpenIdConnectRequest& request, const FLinkOpenIdConnectDelegate& SuccessDelegate = FLinkOpenIdConnectDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Links the Steam account associated with the provided Steam authentication ticket to the user's PlayFab account
          * Steam authentication is accomplished with the Steam Session Ticket. More information on the Ticket can be found in the Steamworks SDK, here: https://partner.steamgames.com/documentation/auth (requires sign-in). NOTE: For Steam authentication to work, the title must be configured with the Steam Application ID and Publisher Key in the PlayFab Game Manager (under Properties). Information on creating a Publisher Key (referred to as the Secret Key in PlayFab) for your title can be found here: https://partner.steamgames.com/documentation/webapi#publisherkey.
          */
@@ -569,6 +580,11 @@ namespace PlayFab
          * API calls which require an authenticated user
          */
         bool LoginWithNintendoSwitchDeviceId(ClientModels::FLoginWithNintendoSwitchDeviceIdRequest& request, const FLoginWithNintendoSwitchDeviceIdDelegate& SuccessDelegate = FLoginWithNintendoSwitchDeviceIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Logs in a user with an Open ID Connect JWT created by an existing relationship between a title and an Open ID Connect
+         * provider.
+         */
+        bool LoginWithOpenIdConnect(ClientModels::FLoginWithOpenIdConnectRequest& request, const FLoginWithOpenIdConnectDelegate& SuccessDelegate = FLoginWithOpenIdConnectDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Signs the user into the PlayFab account, returning a session identifier that can subsequently be used for API calls
          * which require an authenticated user. Unlike most other login API calls, LoginWithPlayFab does not permit the creation of
@@ -738,6 +754,11 @@ namespace PlayFab
         bool UnlinkKongregate(const FUnlinkKongregateDelegate& SuccessDelegate = FUnlinkKongregateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account
         bool UnlinkNintendoSwitchDeviceId(ClientModels::FUnlinkNintendoSwitchDeviceIdRequest& request, const FUnlinkNintendoSwitchDeviceIdDelegate& SuccessDelegate = FUnlinkNintendoSwitchDeviceIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Unlinks an OpenID Connect account from a user's PlayFab account, based on the connection ID of an existing relationship
+         * between a title and an Open ID Connect provider.
+         */
+        bool UnlinkOpenIdConnect(ClientModels::FUninkOpenIdConnectRequest& request, const FUnlinkOpenIdConnectDelegate& SuccessDelegate = FUnlinkOpenIdConnectDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Steam account from the user's PlayFab account
 
         bool UnlinkSteamAccount(const FUnlinkSteamAccountDelegate& SuccessDelegate = FUnlinkSteamAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -898,6 +919,7 @@ namespace PlayFab
         void OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromTwitchIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromTwitchIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromXboxLiveIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromXboxLiveIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSharedGroupDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSharedGroupDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -923,6 +945,7 @@ namespace PlayFab
         void OnLinkIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkOpenIdConnectResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkOpenIdConnectDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkSteamAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkSteamAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkWindowsHelloResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkWindowsHelloDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -937,6 +960,7 @@ namespace PlayFab
         void OnLoginWithIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithOpenIdConnectResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithOpenIdConnectDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithPlayFabResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithPlayFabDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithSteamResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithSteamDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -972,6 +996,7 @@ namespace PlayFab
         void OnUnlinkIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkOpenIdConnectResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkOpenIdConnectDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkSteamAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkSteamAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkWindowsHelloResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkWindowsHelloDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

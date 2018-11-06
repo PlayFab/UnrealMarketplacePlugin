@@ -64,6 +64,14 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerGetPlayFabIDsFromSteamIDsResult decodeGetPlayFabIDsFromSteamIDsResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayFabIDsFromXboxLiveIDsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerGetPlayFabIDsFromXboxLiveIDsResult decodeGetPlayFabIDsFromXboxLiveIDsResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetServerCustomIDsFromPlayFabIDsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerGetServerCustomIDsFromPlayFabIDsResult decodeGetServerCustomIDsFromPlayFabIDsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetUserAccountInfoResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerGetUserAccountInfoResult decodeGetUserAccountInfoResultResponse(UPlayFabJsonObject* response);
@@ -71,6 +79,10 @@ public:
     /** Decode the GetUserBansResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerGetUserBansResult decodeGetUserBansResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the LinkXboxAccountResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerLinkXboxAccountResult decodeLinkXboxAccountResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the RevokeAllBansForUserResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
@@ -91,6 +103,10 @@ public:
     /** Decode the SendPushNotificationResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerSendPushNotificationResult decodeSendPushNotificationResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UnlinkXboxAccountResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerUnlinkXboxAccountResult decodeUnlinkXboxAccountResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the EmptyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
@@ -119,6 +135,10 @@ public:
     /** Decode the AuthenticateSessionTicketResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication Models")
         static FServerAuthenticateSessionTicketResult decodeAuthenticateSessionTicketResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ServerLoginResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication Models")
+        static FServerServerLoginResult decodeServerLoginResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the SetPlayerSecretResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication Models")
@@ -249,10 +269,6 @@ public:
     ///////////////////////////////////////////////////////
     // Player Data Management
     //////////////////////////////////////////////////////
-
-    /** Decode the DeleteUsersResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
-        static FServerDeleteUsersResult decodeDeleteUsersResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetLeaderboardResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")

@@ -91,6 +91,57 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FEntityLineage : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The Character Id of the associated entity.
+        FString CharacterId;
+
+        // [optional] The Group Id of the associated entity.
+        FString GroupId;
+
+        // [optional] The Master Player Account Id of the associated entity.
+        FString MasterPlayerAccountId;
+
+        // [optional] The Namespace Id of the associated entity.
+        FString NamespaceId;
+
+        // [optional] The Title Id of the associated entity.
+        FString TitleId;
+
+        // [optional] The Title Player Account Id of the associated entity.
+        FString TitlePlayerAccountId;
+
+        FEntityLineage() :
+            FPlayFabCppBaseModel(),
+            CharacterId(),
+            GroupId(),
+            MasterPlayerAccountId(),
+            NamespaceId(),
+            TitleId(),
+            TitlePlayerAccountId()
+            {}
+
+        FEntityLineage(const FEntityLineage& src) :
+            FPlayFabCppBaseModel(),
+            CharacterId(src.CharacterId),
+            GroupId(src.GroupId),
+            MasterPlayerAccountId(src.MasterPlayerAccountId),
+            NamespaceId(src.NamespaceId),
+            TitleId(src.TitleId),
+            TitlePlayerAccountId(src.TitlePlayerAccountId)
+            {}
+
+        FEntityLineage(const TSharedPtr<FJsonObject>& obj) : FEntityLineage()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEntityLineage();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FEntityPermissionStatement : public PlayFab::FPlayFabCppBaseModel
     {
         // The action this statement effects. May be 'Read', 'Write' or '*' for both read and write.
@@ -188,20 +239,22 @@ namespace ProfilesModels
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
 
-        /**
-         * [optional] The chain of responsibility for this entity. This is a representation of 'ownership'. It is constructed using the
-         * following formats (replace '[ID]' with the unique identifier for the given entity): Namespace: 'namespace![Namespace
-         * ID]' Title: 'title![Namespace ID]/[Title ID]' Master Player Account: 'master_player_account![Namespace
-         * ID]/[MasterPlayerAccount ID]' Title Player Account: 'title_player_account![Namespace ID]/[Title ID]/[MasterPlayerAccount
-         * ID]/[TitlePlayerAccount ID]' Character: 'character![Namespace ID]/[Title ID]/[MasterPlayerAccount
-         * ID]/[TitlePlayerAccount ID]/[Character ID]'
-         */
+        // [optional] The chain of responsibility for this entity. Use Lineage.
         FString EntityChain;
 
         // [optional] The files on this profile.
         TMap<FString, FEntityProfileFileMetadata> Files;
+        /**
+         * [optional] The friendly name of the entity. This field may serve different purposes for different entity types. i.e.: for a title
+         * player account it could represent the display name of the player, whereas on a character it could be character's name.
+         */
+        FString FriendlyName;
+
         // [optional] The language on this profile.
         FString Language;
+
+        // [optional] The lineage of this profile.
+        TSharedPtr<FEntityLineage> Lineage;
 
         // [optional] The objects on this profile.
         TMap<FString, FEntityDataObject> Objects;
@@ -221,7 +274,9 @@ namespace ProfilesModels
             Entity(nullptr),
             EntityChain(),
             Files(),
+            FriendlyName(),
             Language(),
+            Lineage(nullptr),
             Objects(),
             Permissions(),
             VersionNumber(0)
@@ -232,7 +287,9 @@ namespace ProfilesModels
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EntityChain(src.EntityChain),
             Files(src.Files),
+            FriendlyName(src.FriendlyName),
             Language(src.Language),
+            Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr),
             Objects(src.Objects),
             Permissions(src.Permissions),
             VersionNumber(src.VersionNumber)
@@ -257,19 +314,19 @@ namespace ProfilesModels
          */
         Boxed<bool> DataAsObject;
 
-        // The entity to perform this action on.
-        FEntityKey Entity;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
 
         FGetEntityProfileRequest() :
             FPlayFabCppBaseModel(),
             DataAsObject(),
-            Entity()
+            Entity(nullptr)
             {}
 
         FGetEntityProfileRequest(const FGetEntityProfileRequest& src) :
             FPlayFabCppBaseModel(),
             DataAsObject(src.DataAsObject),
-            Entity(src.Entity)
+            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
         FGetEntityProfileRequest(const TSharedPtr<FJsonObject>& obj) : FGetEntityProfileRequest()

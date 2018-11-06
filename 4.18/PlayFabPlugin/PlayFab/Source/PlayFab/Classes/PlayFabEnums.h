@@ -866,3 +866,70 @@ enum class EOperationTypes : uint8
     pfenum_None UMETA(DisplayName = "None"),
 };
 
+/** AzureRegion */
+
+UENUM(BlueprintType)
+enum class EAzureRegion : uint8
+{
+    pfenum_AustraliaEast UMETA(DisplayName = "AustraliaEast"),
+    pfenum_AustraliaSoutheast UMETA(DisplayName = "AustraliaSoutheast"),
+    pfenum_BrazilSouth UMETA(DisplayName = "BrazilSouth"),
+    pfenum_CentralUs UMETA(DisplayName = "CentralUs"),
+    pfenum_EastAsia UMETA(DisplayName = "EastAsia"),
+    pfenum_EastUs UMETA(DisplayName = "EastUs"),
+    pfenum_EastUs2 UMETA(DisplayName = "EastUs2"),
+    pfenum_JapanEast UMETA(DisplayName = "JapanEast"),
+    pfenum_JapanWest UMETA(DisplayName = "JapanWest"),
+    pfenum_NorthCentralUs UMETA(DisplayName = "NorthCentralUs"),
+    pfenum_NorthEurope UMETA(DisplayName = "NorthEurope"),
+    pfenum_SouthCentralUs UMETA(DisplayName = "SouthCentralUs"),
+    pfenum_SoutheastAsia UMETA(DisplayName = "SoutheastAsia"),
+    pfenum_WestEurope UMETA(DisplayName = "WestEurope"),
+    pfenum_WestUs UMETA(DisplayName = "WestUs"),
+};
+
+/** AzureVmSize */
+
+UENUM(BlueprintType)
+enum class EAzureVmSize : uint8
+{
+    pfenum_Standard_A1 UMETA(DisplayName = "Standard_A1"),
+    pfenum_Standard_A2 UMETA(DisplayName = "Standard_A2"),
+    pfenum_Standard_A3 UMETA(DisplayName = "Standard_A3"),
+    pfenum_Standard_A4 UMETA(DisplayName = "Standard_A4"),
+    pfenum_Standard_D1_v2 UMETA(DisplayName = "Standard_D1_v2"),
+    pfenum_Standard_D2_v2 UMETA(DisplayName = "Standard_D2_v2"),
+    pfenum_Standard_D3_v2 UMETA(DisplayName = "Standard_D3_v2"),
+    pfenum_Standard_D4_v2 UMETA(DisplayName = "Standard_D4_v2"),
+    pfenum_Standard_D5_v2 UMETA(DisplayName = "Standard_D5_v2"),
+};
+
+/** ContainerFlavor */
+
+UENUM(BlueprintType)
+enum class EContainerFlavor : uint8
+{
+    pfenum_ManagedWindowsServerCore UMETA(DisplayName = "ManagedWindowsServerCore"),
+    pfenum_CustomLinux UMETA(DisplayName = "CustomLinux"),
+    pfenum_ManagedWindowsServerCorePreview UMETA(DisplayName = "ManagedWindowsServerCorePreview"),
+};
+
+/** ProtocolType */
+
+UENUM(BlueprintType)
+enum class EProtocolType : uint8
+{
+    pfenum_TCP UMETA(DisplayName = "TCP"),
+    pfenum_UDP UMETA(DisplayName = "UDP"),
+};
+
+/** TitleMultiplayerServerEnabledStatus */
+
+UENUM(BlueprintType)
+enum class ETitleMultiplayerServerEnabledStatus : uint8
+{
+    pfenum_Initializing UMETA(DisplayName = "Initializing"),
+    pfenum_Enabled UMETA(DisplayName = "Enabled"),
+    pfenum_Disabled UMETA(DisplayName = "Disabled"),
+};
+

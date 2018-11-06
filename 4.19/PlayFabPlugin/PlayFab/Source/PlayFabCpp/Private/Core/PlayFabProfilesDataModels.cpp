@@ -129,6 +129,79 @@ bool PlayFab::ProfilesModels::FEntityKey::readFromValue(const TSharedPtr<FJsonOb
     return HasSucceeded;
 }
 
+PlayFab::ProfilesModels::FEntityLineage::~FEntityLineage()
+{
+
+}
+
+void PlayFab::ProfilesModels::FEntityLineage::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+
+    if (GroupId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupId")); writer->WriteValue(GroupId); }
+
+    if (MasterPlayerAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MasterPlayerAccountId")); writer->WriteValue(MasterPlayerAccountId); }
+
+    if (NamespaceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NamespaceId")); writer->WriteValue(NamespaceId); }
+
+    if (TitleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId); }
+
+    if (TitlePlayerAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitlePlayerAccountId")); writer->WriteValue(TitlePlayerAccountId); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FEntityLineage::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CharacterIdValue = obj->TryGetField(TEXT("CharacterId"));
+    if (CharacterIdValue.IsValid() && !CharacterIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GroupIdValue = obj->TryGetField(TEXT("GroupId"));
+    if (GroupIdValue.IsValid() && !GroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (GroupIdValue->TryGetString(TmpValue)) { GroupId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MasterPlayerAccountIdValue = obj->TryGetField(TEXT("MasterPlayerAccountId"));
+    if (MasterPlayerAccountIdValue.IsValid() && !MasterPlayerAccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (MasterPlayerAccountIdValue->TryGetString(TmpValue)) { MasterPlayerAccountId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NamespaceIdValue = obj->TryGetField(TEXT("NamespaceId"));
+    if (NamespaceIdValue.IsValid() && !NamespaceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (NamespaceIdValue->TryGetString(TmpValue)) { NamespaceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitlePlayerAccountIdValue = obj->TryGetField(TEXT("TitlePlayerAccountId"));
+    if (TitlePlayerAccountIdValue.IsValid() && !TitlePlayerAccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitlePlayerAccountIdValue->TryGetString(TmpValue)) { TitlePlayerAccountId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ProfilesModels::FEntityPermissionStatement::~FEntityPermissionStatement()
 {
 
@@ -251,6 +324,7 @@ bool PlayFab::ProfilesModels::FEntityProfileFileMetadata::readFromValue(const TS
 PlayFab::ProfilesModels::FEntityProfileBody::~FEntityProfileBody()
 {
     //if (Entity != nullptr) delete Entity;
+    //if (Lineage != nullptr) delete Lineage;
 
 }
 
@@ -273,7 +347,11 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
         writer->WriteObjectEnd();
     }
 
+    if (FriendlyName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendlyName")); writer->WriteValue(FriendlyName); }
+
     if (Language.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Language")); writer->WriteValue(Language); }
+
+    if (Lineage.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Lineage")); Lineage->writeJSON(writer); }
 
     if (Objects.Num() != 0)
     {
@@ -326,11 +404,24 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
         }
     }
 
+    const TSharedPtr<FJsonValue> FriendlyNameValue = obj->TryGetField(TEXT("FriendlyName"));
+    if (FriendlyNameValue.IsValid() && !FriendlyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (FriendlyNameValue->TryGetString(TmpValue)) { FriendlyName = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> LanguageValue = obj->TryGetField(TEXT("Language"));
     if (LanguageValue.IsValid() && !LanguageValue->IsNull())
     {
         FString TmpValue;
         if (LanguageValue->TryGetString(TmpValue)) { Language = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LineageValue = obj->TryGetField(TEXT("Lineage"));
+    if (LineageValue.IsValid() && !LineageValue->IsNull())
+    {
+        Lineage = MakeShareable(new FEntityLineage(LineageValue->AsObject()));
     }
 
     const TSharedPtr<FJsonObject>* ObjectsObject;
@@ -362,6 +453,7 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
 
 PlayFab::ProfilesModels::FGetEntityProfileRequest::~FGetEntityProfileRequest()
 {
+    //if (Entity != nullptr) delete Entity;
 
 }
 
@@ -371,7 +463,7 @@ void PlayFab::ProfilesModels::FGetEntityProfileRequest::writeJSON(JsonWriter& wr
 
     if (DataAsObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DataAsObject")); writer->WriteValue(DataAsObject); }
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
 
     writer->WriteObjectEnd();
 }
@@ -390,7 +482,7 @@ bool PlayFab::ProfilesModels::FGetEntityProfileRequest::readFromValue(const TSha
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
-        Entity = FEntityKey(EntityValue->AsObject());
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
     return HasSucceeded;

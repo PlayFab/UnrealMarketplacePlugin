@@ -931,9 +931,6 @@ public:
     /** region in which the Game Server Instance is running */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
         ERegion Region;
-    /** IPV4 address of the game server instance */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
-        FString ServerAddress;
     /** IPV4 address of the server */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
         FString ServerIPV4Address;

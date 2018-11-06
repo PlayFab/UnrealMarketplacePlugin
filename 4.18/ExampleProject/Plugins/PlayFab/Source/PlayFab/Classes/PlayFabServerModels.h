@@ -176,6 +176,52 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromXboxLiveIDsRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The ID of Xbox Live sandbox. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString Sandbox;
+    /** Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString XboxLiveAccountIDs;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromXboxLiveIDsResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of PlayStation Network identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetServerCustomIDsFromPlayFabIDsRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Array of unique PlayFab player identifiers for which the title needs to get server custom identifiers. Cannot contain
+     * more than 25 identifiers.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabIDs;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetServerCustomIDsFromPlayFabIDsResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of server custom player identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetUserAccountInfoRequest
 {
     GENERATED_USTRUCT_BODY()
@@ -213,6 +259,29 @@ public:
     /** Information about the bans */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         TArray<UPlayFabJsonObject*> BanData;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkXboxAccountRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** If another user is already linked to the account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", ""). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString XboxToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkXboxAccountResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
 };
 
 USTRUCT(BlueprintType)
@@ -331,6 +400,26 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSendPushNotificationResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkXboxAccountRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", ""). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString XboxToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkXboxAccountResult
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -483,6 +572,78 @@ public:
     /** Account info for the user whose session ticket was supplied. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* UserInfo = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLoginWithServerCustomIdRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool CreateAccount = false;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+    /** Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool LoginTitlePlayerAccountEntity = false;
+    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString PlayerSecret;
+    /** The backend server identifier for this player. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString ServerCustomId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerServerLoginResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * If LoginTitlePlayerAccountEntity flag is set on the login request the title_player_account will also be logged in and
+     * returned.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* EntityToken = nullptr;
+    /** Results for requested info. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* InfoResultPayload = nullptr;
+    /** The time of this user's previous login. If there was no previous login, then it's DateTime.MinValue */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString LastLoginTime;
+    /** True if the account was newly created on this login. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool NewlyCreated = false;
+    /** Player's unique PlayFabId. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString PlayFabId;
+    /** Unique token authorizing the user and game at the server level, for the current session. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString SessionTicket;
+    /** Settings specific to this user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* SettingsForUser = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLoginWithXboxRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool CreateAccount = false;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+    /** Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool LoginTitlePlayerAccountEntity = false;
+    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", ""). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString XboxToken;
 };
 
 USTRUCT(BlueprintType)
@@ -1051,9 +1212,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
         ERegion Region;
-    /** IPV4 address of the Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerHost;
     /** IPV4 address of the game server instance. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
         FString ServerIPV4Address;
@@ -1176,23 +1334,6 @@ public:
 ///////////////////////////////////////////////////////
 // Player Data Management
 //////////////////////////////////////////////////////
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerDeleteUsersRequest
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** An array of unique PlayFab assigned ID of the user on whom the operation will be performed. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
-        FString PlayFabIds;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerDeleteUsersResult
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetFriendLeaderboardRequest

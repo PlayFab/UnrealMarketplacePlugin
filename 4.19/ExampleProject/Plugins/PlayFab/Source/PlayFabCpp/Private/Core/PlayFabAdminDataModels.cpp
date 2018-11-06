@@ -4849,8 +4849,6 @@ void PlayFab::AdminModels::FGetMatchmakerGameInfoResult::writeJSON(JsonWriter& w
 
     if (pfRegion.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeRegionEnumJSON(pfRegion, writer); }
 
-    if (ServerAddress.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerAddress")); writer->WriteValue(ServerAddress); }
-
     if (ServerIPV4Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address")); writer->WriteValue(ServerIPV4Address); }
 
     if (ServerIPV6Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address")); writer->WriteValue(ServerIPV6Address); }
@@ -4899,13 +4897,6 @@ bool PlayFab::AdminModels::FGetMatchmakerGameInfoResult::readFromValue(const TSh
     obj->TryGetStringArrayField(TEXT("Players"), Players);
 
     pfRegion = readRegionFromValue(obj->TryGetField(TEXT("Region")));
-
-    const TSharedPtr<FJsonValue> ServerAddressValue = obj->TryGetField(TEXT("ServerAddress"));
-    if (ServerAddressValue.IsValid() && !ServerAddressValue->IsNull())
-    {
-        FString TmpValue;
-        if (ServerAddressValue->TryGetString(TmpValue)) { ServerAddress = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> ServerIPV4AddressValue = obj->TryGetField(TEXT("ServerIPV4Address"));
     if (ServerIPV4AddressValue.IsValid() && !ServerIPV4AddressValue->IsNull())

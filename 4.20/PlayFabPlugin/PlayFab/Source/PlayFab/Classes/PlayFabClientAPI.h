@@ -278,6 +278,19 @@ public:
         void HelperGetPlayFabIDsFromTwitchIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs, FClientGetPlayFabIDsFromXboxLiveIDsResult, result, UObject*, customData);
+
+    /** Retrieves the unique PlayFab identifiers for the given set of XboxLive identifiers. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* GetPlayFabIDsFromXboxLiveIDs(FClientGetPlayFabIDsFromXboxLiveIDsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromXboxLiveIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkAndroidDeviceID, FClientLinkAndroidDeviceIDResult, result, UObject*, customData);
 
     /** Links the Android device identifier to the user's PlayFab account */
@@ -393,6 +406,22 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLinkNintendoSwitchDeviceId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkOpenIdConnect, FClientEmptyResult, result, UObject*, customData);
+
+    /**
+     * Links an OpenID Connect account to a user's PlayFab account, based on an existing relationship between a title and an
+     * Open ID Connect provider and the OpenId Connect JWT from that provider.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LinkOpenIdConnect(FClientLinkOpenIdConnectRequest request,
+            FDelegateOnSuccessLinkOpenIdConnect onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkOpenIdConnect(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkSteamAccount, FClientLinkSteamAccountResult, result, UObject*, customData);
@@ -624,6 +653,22 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUnlinkNintendoSwitchDeviceId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkOpenIdConnect, FClientEmptyResponse, result, UObject*, customData);
+
+    /**
+     * Unlinks an OpenID Connect account from a user's PlayFab account, based on the connection ID of an existing relationship
+     * between a title and an Open ID Connect provider.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* UnlinkOpenIdConnect(FClientUninkOpenIdConnectRequest request,
+            FDelegateOnSuccessUnlinkOpenIdConnect onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkOpenIdConnect(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkSteamAccount, FClientUnlinkSteamAccountResult, result, UObject*, customData);
@@ -980,6 +1025,22 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLoginWithNintendoSwitchDeviceId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithOpenIdConnect, FClientLoginResult, result, UObject*, customData);
+
+    /**
+     * Logs in a user with an Open ID Connect JWT created by an existing relationship between a title and an Open ID Connect
+     * provider.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LoginWithOpenIdConnect(FClientLoginWithOpenIdConnectRequest request,
+            FDelegateOnSuccessLoginWithOpenIdConnect onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithOpenIdConnect(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithPlayFab, FClientLoginResult, result, UObject*, customData);
@@ -2259,6 +2320,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;
     FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs OnSuccessGetPlayFabIDsFromTwitchIDs;
+    FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs OnSuccessGetPlayFabIDsFromXboxLiveIDs;
     FDelegateOnSuccessLinkAndroidDeviceID OnSuccessLinkAndroidDeviceID;
     FDelegateOnSuccessLinkCustomID OnSuccessLinkCustomID;
     FDelegateOnSuccessLinkFacebookAccount OnSuccessLinkFacebookAccount;
@@ -2268,6 +2330,7 @@ public:
     FDelegateOnSuccessLinkIOSDeviceID OnSuccessLinkIOSDeviceID;
     FDelegateOnSuccessLinkKongregate OnSuccessLinkKongregate;
     FDelegateOnSuccessLinkNintendoSwitchDeviceId OnSuccessLinkNintendoSwitchDeviceId;
+    FDelegateOnSuccessLinkOpenIdConnect OnSuccessLinkOpenIdConnect;
     FDelegateOnSuccessLinkSteamAccount OnSuccessLinkSteamAccount;
     FDelegateOnSuccessLinkTwitch OnSuccessLinkTwitch;
     FDelegateOnSuccessLinkWindowsHello OnSuccessLinkWindowsHello;
@@ -2285,6 +2348,7 @@ public:
     FDelegateOnSuccessUnlinkIOSDeviceID OnSuccessUnlinkIOSDeviceID;
     FDelegateOnSuccessUnlinkKongregate OnSuccessUnlinkKongregate;
     FDelegateOnSuccessUnlinkNintendoSwitchDeviceId OnSuccessUnlinkNintendoSwitchDeviceId;
+    FDelegateOnSuccessUnlinkOpenIdConnect OnSuccessUnlinkOpenIdConnect;
     FDelegateOnSuccessUnlinkSteamAccount OnSuccessUnlinkSteamAccount;
     FDelegateOnSuccessUnlinkTwitch OnSuccessUnlinkTwitch;
     FDelegateOnSuccessUnlinkWindowsHello OnSuccessUnlinkWindowsHello;
@@ -2309,6 +2373,7 @@ public:
     FDelegateOnSuccessLoginWithIOSDeviceID OnSuccessLoginWithIOSDeviceID;
     FDelegateOnSuccessLoginWithKongregate OnSuccessLoginWithKongregate;
     FDelegateOnSuccessLoginWithNintendoSwitchDeviceId OnSuccessLoginWithNintendoSwitchDeviceId;
+    FDelegateOnSuccessLoginWithOpenIdConnect OnSuccessLoginWithOpenIdConnect;
     FDelegateOnSuccessLoginWithPlayFab OnSuccessLoginWithPlayFab;
     FDelegateOnSuccessLoginWithSteam OnSuccessLoginWithSteam;
     FDelegateOnSuccessLoginWithTwitch OnSuccessLoginWithTwitch;

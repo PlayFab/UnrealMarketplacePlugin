@@ -19,6 +19,7 @@
 #include "Core/PlayFabEventsAPI.h"
 #include "Core/PlayFabGroupsAPI.h"
 #include "Core/PlayFabLocalizationAPI.h"
+#include "Core/PlayFabMultiplayerAPI.h"
 #include "Core/PlayFabProfilesAPI.h"
 
 DEFINE_LOG_CATEGORY(LogPlayFabCpp);
@@ -41,6 +42,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabEventsPtr GetEventsAPI() const override { return EventsAPI; };
     PlayFabGroupsPtr GetGroupsAPI() const override { return GroupsAPI; };
     PlayFabLocalizationPtr GetLocalizationAPI() const override { return LocalizationAPI; };
+    PlayFabMultiplayerPtr GetMultiplayerAPI() const override { return MultiplayerAPI; };
     PlayFabProfilesPtr GetProfilesAPI() const override { return ProfilesAPI; };
 
     PlayFabAdminPtr AdminAPI;
@@ -53,6 +55,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabEventsPtr EventsAPI;
     PlayFabGroupsPtr GroupsAPI;
     PlayFabLocalizationPtr LocalizationAPI;
+    PlayFabMultiplayerPtr MultiplayerAPI;
     PlayFabProfilesPtr ProfilesAPI;
 
 
@@ -79,6 +82,7 @@ void FPlayFabModule::StartupModule()
         EventsAPI = MakeShareable(new PlayFab::UPlayFabEventsAPI());
         GroupsAPI = MakeShareable(new PlayFab::UPlayFabGroupsAPI());
         LocalizationAPI = MakeShareable(new PlayFab::UPlayFabLocalizationAPI());
+        MultiplayerAPI = MakeShareable(new PlayFab::UPlayFabMultiplayerAPI());
         ProfilesAPI = MakeShareable(new PlayFab::UPlayFabProfilesAPI());
 }
 

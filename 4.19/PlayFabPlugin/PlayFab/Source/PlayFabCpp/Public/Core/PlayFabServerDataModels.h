@@ -2657,60 +2657,6 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteUsersRequest : public PlayFab::FPlayFabCppBaseModel
-    {
-        // An array of unique PlayFab assigned ID of the user on whom the operation will be performed.
-        TArray<FString> PlayFabIds;
-        /**
-         * Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
-         * title has been selected.
-         */
-        FString TitleId;
-
-        FDeleteUsersRequest() :
-            FPlayFabCppBaseModel(),
-            PlayFabIds(),
-            TitleId()
-            {}
-
-        FDeleteUsersRequest(const FDeleteUsersRequest& src) :
-            FPlayFabCppBaseModel(),
-            PlayFabIds(src.PlayFabIds),
-            TitleId(src.TitleId)
-            {}
-
-        FDeleteUsersRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteUsersRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FDeleteUsersRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FDeleteUsersResult : public PlayFab::FPlayFabCppBaseModel
-    {
-        FDeleteUsersResult() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FDeleteUsersResult(const FDeleteUsersResult& src) :
-            FPlayFabCppBaseModel()
-            {}
-
-        FDeleteUsersResult(const TSharedPtr<FJsonObject>& obj) : FDeleteUsersResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FDeleteUsersResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FDeregisterGameRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique identifier for the Game Server Instance that is being deregistered.
@@ -2774,6 +2720,42 @@ namespace ServerModels
         }
 
         ~FEmptyResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEntityTokenResponse : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The entity id and type.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The token used to set X-EntityToken for all entity based API calls.
+        FString EntityToken;
+
+        // [optional] The time the token will expire, if it is an expiring token, in UTC.
+        Boxed<FDateTime> TokenExpiration;
+
+        FEntityTokenResponse() :
+            FPlayFabCppBaseModel(),
+            Entity(nullptr),
+            EntityToken(),
+            TokenExpiration()
+            {}
+
+        FEntityTokenResponse(const FEntityTokenResponse& src) :
+            FPlayFabCppBaseModel(),
+            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
+            EntityToken(src.EntityToken),
+            TokenExpiration(src.TokenExpiration)
+            {}
+
+        FEntityTokenResponse(const TSharedPtr<FJsonObject>& obj) : FEntityTokenResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEntityTokenResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -6146,6 +6128,92 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The ID of Xbox Live sandbox.
+        FString Sandbox;
+
+        // Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers.
+        TArray<FString> XboxLiveAccountIDs;
+        FGetPlayFabIDsFromXboxLiveIDsRequest() :
+            FPlayFabCppBaseModel(),
+            Sandbox(),
+            XboxLiveAccountIDs()
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsRequest(const FGetPlayFabIDsFromXboxLiveIDsRequest& src) :
+            FPlayFabCppBaseModel(),
+            Sandbox(src.Sandbox),
+            XboxLiveAccountIDs(src.XboxLiveAccountIDs)
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromXboxLiveIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromXboxLiveIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FXboxLiveAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        FString PlayFabId;
+
+        // [optional] Unique Xbox Live identifier for a user.
+        FString XboxLiveAccountId;
+
+        FXboxLiveAccountPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            XboxLiveAccountId()
+            {}
+
+        FXboxLiveAccountPlayFabIdPair(const FXboxLiveAccountPlayFabIdPair& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabId(src.PlayFabId),
+            XboxLiveAccountId(src.XboxLiveAccountId)
+            {}
+
+        FXboxLiveAccountPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FXboxLiveAccountPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FXboxLiveAccountPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        TArray<FXboxLiveAccountPlayFabIdPair> Data;
+        FGetPlayFabIDsFromXboxLiveIDsResult() :
+            FPlayFabCppBaseModel(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsResult(const FGetPlayFabIDsFromXboxLiveIDsResult& src) :
+            FPlayFabCppBaseModel(),
+            Data(src.Data)
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromXboxLiveIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromXboxLiveIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPublisherDataRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // array of keys to get back data from the Publisher data blob, set by the admin tools
@@ -6330,6 +6398,90 @@ namespace ServerModels
         }
 
         ~FGetRandomResultTablesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetServerCustomIDsFromPlayFabIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * Array of unique PlayFab player identifiers for which the title needs to get server custom identifiers. Cannot contain
+         * more than 25 identifiers.
+         */
+        TArray<FString> PlayFabIDs;
+        FGetServerCustomIDsFromPlayFabIDsRequest() :
+            FPlayFabCppBaseModel(),
+            PlayFabIDs()
+            {}
+
+        FGetServerCustomIDsFromPlayFabIDsRequest(const FGetServerCustomIDsFromPlayFabIDsRequest& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabIDs(src.PlayFabIDs)
+            {}
+
+        FGetServerCustomIDsFromPlayFabIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetServerCustomIDsFromPlayFabIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetServerCustomIDsFromPlayFabIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FServerCustomIDPlayFabIDPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier.
+        FString PlayFabId;
+
+        // [optional] Unique server custom identifier for this player.
+        FString ServerCustomId;
+
+        FServerCustomIDPlayFabIDPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            ServerCustomId()
+            {}
+
+        FServerCustomIDPlayFabIDPair(const FServerCustomIDPlayFabIDPair& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabId(src.PlayFabId),
+            ServerCustomId(src.ServerCustomId)
+            {}
+
+        FServerCustomIDPlayFabIDPair(const TSharedPtr<FJsonObject>& obj) : FServerCustomIDPlayFabIDPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FServerCustomIDPlayFabIDPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetServerCustomIDsFromPlayFabIDsResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Mapping of server custom player identifiers to PlayFab identifiers.
+        TArray<FServerCustomIDPlayFabIDPair> Data;
+        FGetServerCustomIDsFromPlayFabIDsResult() :
+            FPlayFabCppBaseModel(),
+            Data()
+            {}
+
+        FGetServerCustomIDsFromPlayFabIDsResult(const FGetServerCustomIDsFromPlayFabIDsResult& src) :
+            FPlayFabCppBaseModel(),
+            Data(src.Data)
+            {}
+
+        FGetServerCustomIDsFromPlayFabIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetServerCustomIDsFromPlayFabIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetServerCustomIDsFromPlayFabIDsResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -7294,6 +7446,63 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkXboxAccountRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        FString PlayFabId;
+
+        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
+        FString XboxToken;
+
+        FLinkXboxAccountRequest() :
+            FPlayFabCppBaseModel(),
+            ForceLink(),
+            PlayFabId(),
+            XboxToken()
+            {}
+
+        FLinkXboxAccountRequest(const FLinkXboxAccountRequest& src) :
+            FPlayFabCppBaseModel(),
+            ForceLink(src.ForceLink),
+            PlayFabId(src.PlayFabId),
+            XboxToken(src.XboxToken)
+            {}
+
+        FLinkXboxAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkXboxAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkXboxAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkXboxAccountResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        FLinkXboxAccountResult() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FLinkXboxAccountResult(const FLinkXboxAccountResult& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FLinkXboxAccountResult(const TSharedPtr<FJsonObject>& obj) : FLinkXboxAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkXboxAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FListUsersCharactersRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -7340,6 +7549,93 @@ namespace ServerModels
         }
 
         ~FListUsersCharactersResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithServerCustomIdRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
+        Boxed<bool> LoginTitlePlayerAccountEntity;
+
+        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        FString PlayerSecret;
+
+        // [optional] The backend server identifier for this player.
+        FString ServerCustomId;
+
+        FLoginWithServerCustomIdRequest() :
+            FPlayFabCppBaseModel(),
+            CreateAccount(),
+            InfoRequestParameters(nullptr),
+            LoginTitlePlayerAccountEntity(),
+            PlayerSecret(),
+            ServerCustomId()
+            {}
+
+        FLoginWithServerCustomIdRequest(const FLoginWithServerCustomIdRequest& src) :
+            FPlayFabCppBaseModel(),
+            CreateAccount(src.CreateAccount),
+            InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
+            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
+            PlayerSecret(src.PlayerSecret),
+            ServerCustomId(src.ServerCustomId)
+            {}
+
+        FLoginWithServerCustomIdRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithServerCustomIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithServerCustomIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithXboxRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
+        Boxed<bool> LoginTitlePlayerAccountEntity;
+
+        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
+        FString XboxToken;
+
+        FLoginWithXboxRequest() :
+            FPlayFabCppBaseModel(),
+            CreateAccount(),
+            InfoRequestParameters(nullptr),
+            LoginTitlePlayerAccountEntity(),
+            XboxToken()
+            {}
+
+        FLoginWithXboxRequest(const FLoginWithXboxRequest& src) :
+            FPlayFabCppBaseModel(),
+            CreateAccount(src.CreateAccount),
+            InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
+            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
+            XboxToken(src.XboxToken)
+            {}
+
+        FLoginWithXboxRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithXboxRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithXboxRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -7998,9 +8294,6 @@ namespace ServerModels
          */
         Region pfRegion;
 
-        // [optional] IPV4 address of the Game Server Instance.
-        FString ServerHost;
-
         // [optional] IPV4 address of the game server instance.
         FString ServerIPV4Address;
 
@@ -8021,7 +8314,6 @@ namespace ServerModels
             GameMode(),
             LobbyId(),
             pfRegion(),
-            ServerHost(),
             ServerIPV4Address(),
             ServerIPV6Address(),
             ServerPort(),
@@ -8035,7 +8327,6 @@ namespace ServerModels
             GameMode(src.GameMode),
             LobbyId(src.LobbyId),
             pfRegion(src.pfRegion),
-            ServerHost(src.ServerHost),
             ServerIPV4Address(src.ServerIPV4Address),
             ServerIPV6Address(src.ServerIPV6Address),
             ServerPort(src.ServerPort),
@@ -8739,6 +9030,101 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUserSettings : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Boolean for whether this player is eligible for gathering device info.
+        bool GatherDeviceInfo;
+
+        // Boolean for whether this player should report OnFocus play-time tracking.
+        bool GatherFocusInfo;
+
+        // Boolean for whether this player is eligible for ad tracking.
+        bool NeedsAttribution;
+
+        FUserSettings() :
+            FPlayFabCppBaseModel(),
+            GatherDeviceInfo(false),
+            GatherFocusInfo(false),
+            NeedsAttribution(false)
+            {}
+
+        FUserSettings(const FUserSettings& src) :
+            FPlayFabCppBaseModel(),
+            GatherDeviceInfo(src.GatherDeviceInfo),
+            GatherFocusInfo(src.GatherFocusInfo),
+            NeedsAttribution(src.NeedsAttribution)
+            {}
+
+        FUserSettings(const TSharedPtr<FJsonObject>& obj) : FUserSettings()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserSettings();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FServerLoginResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] If LoginTitlePlayerAccountEntity flag is set on the login request the title_player_account will also be logged in and
+         * returned.
+         */
+        TSharedPtr<FEntityTokenResponse> EntityToken;
+
+        // [optional] Results for requested info.
+        TSharedPtr<FGetPlayerCombinedInfoResultPayload> InfoResultPayload;
+
+        // [optional] The time of this user's previous login. If there was no previous login, then it's DateTime.MinValue
+        Boxed<FDateTime> LastLoginTime;
+
+        // True if the account was newly created on this login.
+        bool NewlyCreated;
+
+        // [optional] Player's unique PlayFabId.
+        FString PlayFabId;
+
+        // [optional] Unique token authorizing the user and game at the server level, for the current session.
+        FString SessionTicket;
+
+        // [optional] Settings specific to this user.
+        TSharedPtr<FUserSettings> SettingsForUser;
+
+        FServerLoginResult() :
+            FPlayFabCppBaseModel(),
+            EntityToken(nullptr),
+            InfoResultPayload(nullptr),
+            LastLoginTime(),
+            NewlyCreated(false),
+            PlayFabId(),
+            SessionTicket(),
+            SettingsForUser(nullptr)
+            {}
+
+        FServerLoginResult(const FServerLoginResult& src) :
+            FPlayFabCppBaseModel(),
+            EntityToken(src.EntityToken.IsValid() ? MakeShareable(new FEntityTokenResponse(*src.EntityToken)) : nullptr),
+            InfoResultPayload(src.InfoResultPayload.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoResultPayload(*src.InfoResultPayload)) : nullptr),
+            LastLoginTime(src.LastLoginTime),
+            NewlyCreated(src.NewlyCreated),
+            PlayFabId(src.PlayFabId),
+            SessionTicket(src.SessionTicket),
+            SettingsForUser(src.SettingsForUser.IsValid() ? MakeShareable(new FUserSettings(*src.SettingsForUser)) : nullptr)
+            {}
+
+        FServerLoginResult(const TSharedPtr<FJsonObject>& obj) : FServerLoginResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FServerLoginResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSetFriendTagsRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // PlayFab identifier of the friend account to which the tag(s) should be applied.
@@ -9205,6 +9591,58 @@ namespace ServerModels
         }
 
         ~FSubtractUserVirtualCurrencyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkXboxAccountRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        FString PlayFabId;
+
+        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
+        FString XboxToken;
+
+        FUnlinkXboxAccountRequest() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            XboxToken()
+            {}
+
+        FUnlinkXboxAccountRequest(const FUnlinkXboxAccountRequest& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabId(src.PlayFabId),
+            XboxToken(src.XboxToken)
+            {}
+
+        FUnlinkXboxAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkXboxAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkXboxAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkXboxAccountResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        FUnlinkXboxAccountResult() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FUnlinkXboxAccountResult(const FUnlinkXboxAccountResult& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FUnlinkXboxAccountResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkXboxAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkXboxAccountResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

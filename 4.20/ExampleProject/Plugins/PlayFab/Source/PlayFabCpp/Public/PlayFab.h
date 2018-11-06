@@ -23,6 +23,7 @@ namespace PlayFab
     class UPlayFabEventsAPI;
     class UPlayFabGroupsAPI;
     class UPlayFabLocalizationAPI;
+    class UPlayFabMultiplayerAPI;
     class UPlayFabProfilesAPI;
 }
 
@@ -36,6 +37,7 @@ typedef TSharedPtr<class PlayFab::UPlayFabDataAPI> PlayFabDataPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabEventsAPI> PlayFabEventsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabGroupsAPI> PlayFabGroupsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabLocalizationAPI> PlayFabLocalizationPtr;
+typedef TSharedPtr<class PlayFab::UPlayFabMultiplayerAPI> PlayFabMultiplayerPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabProfilesAPI> PlayFabProfilesPtr;
 
 /**
@@ -78,6 +80,7 @@ public:
     virtual PlayFabEventsPtr GetEventsAPI() const = 0;
     virtual PlayFabGroupsPtr GetGroupsAPI() const = 0;
     virtual PlayFabLocalizationPtr GetLocalizationAPI() const = 0;
+    virtual PlayFabMultiplayerPtr GetMultiplayerAPI() const = 0;
     virtual PlayFabProfilesPtr GetProfilesAPI() const = 0;
 
 };

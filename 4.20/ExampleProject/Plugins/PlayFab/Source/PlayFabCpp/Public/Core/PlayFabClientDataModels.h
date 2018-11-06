@@ -2132,9 +2132,6 @@ namespace ClientModels
         uint32 RunTime;
 
         // [optional] IPV4 address of the server
-        FString ServerHostname;
-
-        // [optional] IPV4 address of the server
         FString ServerIPV4Address;
 
         // [optional] IPV6 address of the server
@@ -2163,7 +2160,6 @@ namespace ClientModels
             PlayerUserIds(),
             pfRegion(),
             RunTime(0),
-            ServerHostname(),
             ServerIPV4Address(),
             ServerIPV6Address(),
             ServerPort(),
@@ -2184,7 +2180,6 @@ namespace ClientModels
             PlayerUserIds(src.PlayerUserIds),
             pfRegion(src.pfRegion),
             RunTime(src.RunTime),
-            ServerHostname(src.ServerHostname),
             ServerIPV4Address(src.ServerIPV4Address),
             ServerIPV6Address(src.ServerIPV6Address),
             ServerPort(src.ServerPort),
@@ -2280,6 +2275,27 @@ namespace ClientModels
         }
 
         ~FEmptyResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEmptyResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        FEmptyResult() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FEmptyResult(const FEmptyResult& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FEmptyResult(const TSharedPtr<FJsonObject>& obj) : FEmptyResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEmptyResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -6755,6 +6771,92 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The ID of Xbox Live sandbox.
+        FString Sandbox;
+
+        // Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers.
+        TArray<FString> XboxLiveAccountIDs;
+        FGetPlayFabIDsFromXboxLiveIDsRequest() :
+            FPlayFabCppBaseModel(),
+            Sandbox(),
+            XboxLiveAccountIDs()
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsRequest(const FGetPlayFabIDsFromXboxLiveIDsRequest& src) :
+            FPlayFabCppBaseModel(),
+            Sandbox(src.Sandbox),
+            XboxLiveAccountIDs(src.XboxLiveAccountIDs)
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromXboxLiveIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromXboxLiveIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FXboxLiveAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        FString PlayFabId;
+
+        // [optional] Unique Xbox Live identifier for a user.
+        FString XboxLiveAccountId;
+
+        FXboxLiveAccountPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            XboxLiveAccountId()
+            {}
+
+        FXboxLiveAccountPlayFabIdPair(const FXboxLiveAccountPlayFabIdPair& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabId(src.PlayFabId),
+            XboxLiveAccountId(src.XboxLiveAccountId)
+            {}
+
+        FXboxLiveAccountPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FXboxLiveAccountPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FXboxLiveAccountPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        TArray<FXboxLiveAccountPlayFabIdPair> Data;
+        FGetPlayFabIDsFromXboxLiveIDsResult() :
+            FPlayFabCppBaseModel(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsResult(const FGetPlayFabIDsFromXboxLiveIDsResult& src) :
+            FPlayFabCppBaseModel(),
+            Data(src.Data)
+            {}
+
+        FGetPlayFabIDsFromXboxLiveIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromXboxLiveIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromXboxLiveIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPublisherDataRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // array of keys to get back data from the Publisher data blob, set by the admin tools
@@ -8264,6 +8366,45 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkOpenIdConnectRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters.
+        FString ConnectionId;
+
+        // [optional] If another user is already linked to a specific OpenId Connect user, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        /**
+         * The JSON Web token (JWT) returned by the identity provider after login. Represented as the id_token field in the
+         * identity provider's response. Used to validate the request and find the user ID (OpenID Connect subject) to link with.
+         */
+        FString IdToken;
+
+        FLinkOpenIdConnectRequest() :
+            FPlayFabCppBaseModel(),
+            ConnectionId(),
+            ForceLink(),
+            IdToken()
+            {}
+
+        FLinkOpenIdConnectRequest(const FLinkOpenIdConnectRequest& src) :
+            FPlayFabCppBaseModel(),
+            ConnectionId(src.ConnectionId),
+            ForceLink(src.ForceLink),
+            IdToken(src.IdToken)
+            {}
+
+        FLinkOpenIdConnectRequest(const TSharedPtr<FJsonObject>& obj) : FLinkOpenIdConnectRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkOpenIdConnectRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkSteamAccountRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
@@ -9239,6 +9380,73 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLoginWithOpenIdConnectRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters.
+        FString ConnectionId;
+
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        FString EncryptedRequest;
+
+        /**
+         * The JSON Web token (JWT) returned by the identity provider after login. Represented as the id_token field in the
+         * identity provider's response.
+         */
+        FString IdToken;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
+        Boxed<bool> LoginTitlePlayerAccountEntity;
+
+        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        FString PlayerSecret;
+
+        /**
+         * Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+         * title has been selected.
+         */
+        FString TitleId;
+
+        FLoginWithOpenIdConnectRequest() :
+            FPlayFabCppBaseModel(),
+            ConnectionId(),
+            CreateAccount(),
+            EncryptedRequest(),
+            IdToken(),
+            InfoRequestParameters(nullptr),
+            LoginTitlePlayerAccountEntity(),
+            PlayerSecret(),
+            TitleId()
+            {}
+
+        FLoginWithOpenIdConnectRequest(const FLoginWithOpenIdConnectRequest& src) :
+            FPlayFabCppBaseModel(),
+            ConnectionId(src.ConnectionId),
+            CreateAccount(src.CreateAccount),
+            EncryptedRequest(src.EncryptedRequest),
+            IdToken(src.IdToken),
+            InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
+            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
+            PlayerSecret(src.PlayerSecret),
+            TitleId(src.TitleId)
+            {}
+
+        FLoginWithOpenIdConnectRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithOpenIdConnectRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithOpenIdConnectRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLoginWithPlayFabRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Flags for which pieces of info to return for the user.
@@ -9603,9 +9811,6 @@ namespace ClientModels
         Boxed<int32> PollWaitTimeMS;
 
         // [optional] IPV4 address of the server
-        FString ServerHostname;
-
-        // [optional] IPV4 address of the server
         FString ServerIPV4Address;
 
         // [optional] IPV6 address of the server
@@ -9628,7 +9833,6 @@ namespace ClientModels
             Expires(),
             LobbyID(),
             PollWaitTimeMS(),
-            ServerHostname(),
             ServerIPV4Address(),
             ServerIPV6Address(),
             ServerPort(),
@@ -9642,7 +9846,6 @@ namespace ClientModels
             Expires(src.Expires),
             LobbyID(src.LobbyID),
             PollWaitTimeMS(src.PollWaitTimeMS),
-            ServerHostname(src.ServerHostname),
             ServerIPV4Address(src.ServerIPV4Address),
             ServerIPV6Address(src.ServerIPV6Address),
             ServerPort(src.ServerPort),
@@ -10849,9 +11052,6 @@ namespace ClientModels
         FString Password;
 
         // [optional] server IPV4 address
-        FString ServerHostname;
-
-        // [optional] server IPV4 address
         FString ServerIPV4Address;
 
         // [optional] server IPV6 address
@@ -10871,7 +11071,6 @@ namespace ClientModels
             Expires(),
             LobbyID(),
             Password(),
-            ServerHostname(),
             ServerIPV4Address(),
             ServerIPV6Address(),
             ServerPort(),
@@ -10884,7 +11083,6 @@ namespace ClientModels
             Expires(src.Expires),
             LobbyID(src.LobbyID),
             Password(src.Password),
-            ServerHostname(src.ServerHostname),
             ServerIPV4Address(src.ServerIPV4Address),
             ServerIPV6Address(src.ServerIPV6Address),
             ServerPort(src.ServerPort),
@@ -11041,6 +11239,32 @@ namespace ClientModels
         }
 
         ~FSubtractUserVirtualCurrencyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUninkOpenIdConnectRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters.
+        FString ConnectionId;
+
+        FUninkOpenIdConnectRequest() :
+            FPlayFabCppBaseModel(),
+            ConnectionId()
+            {}
+
+        FUninkOpenIdConnectRequest(const FUninkOpenIdConnectRequest& src) :
+            FPlayFabCppBaseModel(),
+            ConnectionId(src.ConnectionId)
+            {}
+
+        FUninkOpenIdConnectRequest(const TSharedPtr<FJsonObject>& obj) : FUninkOpenIdConnectRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUninkOpenIdConnectRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

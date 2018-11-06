@@ -131,9 +131,6 @@ public:
     /** Unique identifier for the game/lobby in the new Game Server Instance. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
         FString GameID;
-    /** IPV4 address of the new Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString ServerHostname;
     /** IPV4 address of the server */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
         FString ServerIPV4Address;

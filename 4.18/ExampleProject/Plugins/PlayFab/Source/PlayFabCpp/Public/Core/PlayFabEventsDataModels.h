@@ -47,8 +47,8 @@ namespace EventsModels
 
     struct PLAYFABCPP_API FEventContents : public PlayFab::FPlayFabCppBaseModel
     {
-        // Entity associated with the event
-        FEntityKey Entity;
+        // [optional] Entity associated with the event. If null, the event will apply to the calling entity.
+        TSharedPtr<FEntityKey> Entity;
 
         // The namespace in which the event is defined. It must be prepended with 'com.playfab.events.'
         FString EventNamespace;
@@ -79,7 +79,7 @@ namespace EventsModels
 
         FEventContents() :
             FPlayFabCppBaseModel(),
-            Entity(),
+            Entity(nullptr),
             EventNamespace(),
             Name(),
             OriginalId(),
@@ -90,7 +90,7 @@ namespace EventsModels
 
         FEventContents(const FEventContents& src) :
             FPlayFabCppBaseModel(),
-            Entity(src.Entity),
+            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EventNamespace(src.EventNamespace),
             Name(src.Name),
             OriginalId(src.OriginalId),

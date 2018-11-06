@@ -96,6 +96,28 @@ FServerGetPlayFabIDsFromSteamIDsResult UPlayFabServerModelDecoder::decodeGetPlay
     return tempStruct;
 }
 
+FServerGetPlayFabIDsFromXboxLiveIDsResult UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromXboxLiveIDsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetPlayFabIDsFromXboxLiveIDsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
+FServerGetServerCustomIDsFromPlayFabIDsResult UPlayFabServerModelDecoder::decodeGetServerCustomIDsFromPlayFabIDsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetServerCustomIDsFromPlayFabIDsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FServerGetUserAccountInfoResult UPlayFabServerModelDecoder::decodeGetUserAccountInfoResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -114,6 +136,15 @@ FServerGetUserBansResult UPlayFabServerModelDecoder::decodeGetUserBansResultResp
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.BanData = !(dataObj->HasField("BanData")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("BanData");
+
+    return tempStruct;
+}
+
+FServerLinkXboxAccountResult UPlayFabServerModelDecoder::decodeLinkXboxAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerLinkXboxAccountResult tempStruct;
+
 
     return tempStruct;
 }
@@ -162,6 +193,15 @@ FServerSendPushNotificationResult UPlayFabServerModelDecoder::decodeSendPushNoti
 {
     // Temp ustruct
     FServerSendPushNotificationResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerUnlinkXboxAccountResult UPlayFabServerModelDecoder::decodeUnlinkXboxAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkXboxAccountResult tempStruct;
 
 
     return tempStruct;
@@ -217,6 +257,23 @@ FServerAuthenticateSessionTicketResult UPlayFabServerModelDecoder::decodeAuthent
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.UserInfo = !(dataObj->HasField("UserInfo")) ? nullptr : dataObj->GetObjectField("UserInfo");
+
+    return tempStruct;
+}
+
+FServerServerLoginResult UPlayFabServerModelDecoder::decodeServerLoginResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerServerLoginResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.EntityToken = !(dataObj->HasField("EntityToken")) ? nullptr : dataObj->GetObjectField("EntityToken");
+    tempStruct.InfoResultPayload = !(dataObj->HasField("InfoResultPayload")) ? nullptr : dataObj->GetObjectField("InfoResultPayload");
+    tempStruct.LastLoginTime = !(dataObj->HasField("LastLoginTime")) ? TEXT("") : dataObj->GetStringField("LastLoginTime");
+    tempStruct.NewlyCreated = !(dataObj->HasField("NewlyCreated")) ? false : dataObj->GetBoolField("NewlyCreated");
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.SessionTicket = !(dataObj->HasField("SessionTicket")) ? TEXT("") : dataObj->GetStringField("SessionTicket");
+    tempStruct.SettingsForUser = !(dataObj->HasField("SettingsForUser")) ? nullptr : dataObj->GetObjectField("SettingsForUser");
 
     return tempStruct;
 }
@@ -495,15 +552,6 @@ FServerAwardSteamAchievementResult UPlayFabServerModelDecoder::decodeAwardSteamA
 ///////////////////////////////////////////////////////
 // Player Data Management
 //////////////////////////////////////////////////////
-
-FServerDeleteUsersResult UPlayFabServerModelDecoder::decodeDeleteUsersResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FServerDeleteUsersResult tempStruct;
-
-
-    return tempStruct;
-}
 
 FServerGetLeaderboardResult UPlayFabServerModelDecoder::decodeGetLeaderboardResultResponse(UPlayFabJsonObject* response)
 {

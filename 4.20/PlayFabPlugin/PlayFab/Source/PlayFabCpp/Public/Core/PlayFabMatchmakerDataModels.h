@@ -348,9 +348,6 @@ namespace MatchmakerModels
         // [optional] Unique identifier for the game/lobby in the new Game Server Instance.
         FString GameID;
 
-        // [optional] IPV4 address of the new Game Server Instance.
-        FString ServerHostname;
-
         // [optional] IPV4 address of the server
         FString ServerIPV4Address;
 
@@ -366,7 +363,6 @@ namespace MatchmakerModels
         FStartGameResponse() :
             FPlayFabCppBaseModel(),
             GameID(),
-            ServerHostname(),
             ServerIPV4Address(),
             ServerIPV6Address(),
             ServerPort(0),
@@ -376,7 +372,6 @@ namespace MatchmakerModels
         FStartGameResponse(const FStartGameResponse& src) :
             FPlayFabCppBaseModel(),
             GameID(src.GameID),
-            ServerHostname(src.ServerHostname),
             ServerIPV4Address(src.ServerIPV4Address),
             ServerIPV6Address(src.ServerIPV6Address),
             ServerPort(src.ServerPort),

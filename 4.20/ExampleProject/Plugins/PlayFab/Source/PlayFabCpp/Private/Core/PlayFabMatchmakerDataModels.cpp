@@ -467,8 +467,6 @@ void PlayFab::MatchmakerModels::FStartGameResponse::writeJSON(JsonWriter& writer
 
     if (GameID.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GameID")); writer->WriteValue(GameID); }
 
-    if (ServerHostname.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerHostname")); writer->WriteValue(ServerHostname); }
-
     if (ServerIPV4Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address")); writer->WriteValue(ServerIPV4Address); }
 
     if (ServerIPV6Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address")); writer->WriteValue(ServerIPV6Address); }
@@ -489,13 +487,6 @@ bool PlayFab::MatchmakerModels::FStartGameResponse::readFromValue(const TSharedP
     {
         FString TmpValue;
         if (GameIDValue->TryGetString(TmpValue)) { GameID = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ServerHostnameValue = obj->TryGetField(TEXT("ServerHostname"));
-    if (ServerHostnameValue.IsValid() && !ServerHostnameValue->IsNull())
-    {
-        FString TmpValue;
-        if (ServerHostnameValue->TryGetString(TmpValue)) { ServerHostname = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ServerIPV4AddressValue = obj->TryGetField(TEXT("ServerIPV4Address"));

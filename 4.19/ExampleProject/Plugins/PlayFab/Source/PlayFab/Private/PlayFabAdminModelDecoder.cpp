@@ -437,7 +437,6 @@ FAdminGetMatchmakerGameInfoResult UPlayFabAdminModelDecoder::decodeGetMatchmaker
     tempStruct.Mode = !(dataObj->HasField("Mode")) ? TEXT("") : dataObj->GetStringField("Mode");
     tempStruct.Players = !(dataObj->HasField("Players")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Players"), TEXT(","));
     GetEnumValueFromString<ERegion>(TEXT("ERegion"), dataObj->GetStringField("Region"), tempStruct.Region);
-    tempStruct.ServerAddress = !(dataObj->HasField("ServerAddress")) ? TEXT("") : dataObj->GetStringField("ServerAddress");
     tempStruct.ServerIPV4Address = !(dataObj->HasField("ServerIPV4Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV4Address");
     tempStruct.ServerIPV6Address = !(dataObj->HasField("ServerIPV6Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV6Address");
     tempStruct.ServerPort = !(dataObj->HasField("ServerPort")) ? 0 : int(dataObj->GetNumberField("ServerPort"));

@@ -24,6 +24,7 @@
 #include "PlayFabEventsAPI.h" 
 #include "PlayFabGroupsAPI.h" 
 #include "PlayFabLocalizationAPI.h" 
+#include "PlayFabMultiplayerAPI.h" 
 #include "PlayFabProfilesAPI.h" 
 
 class FPlayFab : public IPlayFab
@@ -45,6 +46,7 @@ class FPlayFab : public IPlayFab
         UPlayFabEventsAPI::StaticClass();
         UPlayFabGroupsAPI::StaticClass();
         UPlayFabLocalizationAPI::StaticClass();
+        UPlayFabMultiplayerAPI::StaticClass();
         UPlayFabProfilesAPI::StaticClass();
     }
 

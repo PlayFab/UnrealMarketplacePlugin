@@ -3394,9 +3394,6 @@ namespace AdminModels
         // [optional] region in which the Game Server Instance is running
         Boxed<Region> pfRegion;
 
-        // [optional] IPV4 address of the game server instance
-        FString ServerAddress;
-
         // [optional] IPV4 address of the server
         FString ServerIPV4Address;
 
@@ -3423,7 +3420,6 @@ namespace AdminModels
             Mode(),
             Players(),
             pfRegion(),
-            ServerAddress(),
             ServerIPV4Address(),
             ServerIPV6Address(),
             ServerPort(0),
@@ -3440,7 +3436,6 @@ namespace AdminModels
             Mode(src.Mode),
             Players(src.Players),
             pfRegion(src.pfRegion),
-            ServerAddress(src.ServerAddress),
             ServerIPV4Address(src.ServerIPV4Address),
             ServerIPV6Address(src.ServerIPV6Address),
             ServerPort(src.ServerPort),

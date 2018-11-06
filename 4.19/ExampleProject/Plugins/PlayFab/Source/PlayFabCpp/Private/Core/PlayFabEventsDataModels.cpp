@@ -50,6 +50,7 @@ bool PlayFab::EventsModels::FEntityKey::readFromValue(const TSharedPtr<FJsonObje
 
 PlayFab::EventsModels::FEventContents::~FEventContents()
 {
+    //if (Entity != nullptr) delete Entity;
 
 }
 
@@ -57,7 +58,7 @@ void PlayFab::EventsModels::FEventContents::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
 
     writer->WriteIdentifierPrefix(TEXT("EventNamespace")); writer->WriteValue(EventNamespace);
 
@@ -81,7 +82,7 @@ bool PlayFab::EventsModels::FEventContents::readFromValue(const TSharedPtr<FJson
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
-        Entity = FEntityKey(EntityValue->AsObject());
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> EventNamespaceValue = obj->TryGetField(TEXT("EventNamespace"));

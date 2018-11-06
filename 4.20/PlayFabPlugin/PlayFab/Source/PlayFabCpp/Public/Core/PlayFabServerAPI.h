@@ -31,7 +31,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteCharacterFromUserDelegate, const ServerModels::FDeleteCharacterFromUserResult&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const ServerModels::FDeletePlayerResult&);
         DECLARE_DELEGATE_OneParam(FDeleteSharedGroupDelegate, const ServerModels::FEmptyResponse&);
-        DECLARE_DELEGATE_OneParam(FDeleteUsersDelegate, const ServerModels::FDeleteUsersResult&);
         DECLARE_DELEGATE_OneParam(FDeregisterGameDelegate, const ServerModels::FDeregisterGameResponse&);
         DECLARE_DELEGATE_OneParam(FEvaluateRandomResultTableDelegate, const ServerModels::FEvaluateRandomResultTableResult&);
         DECLARE_DELEGATE_OneParam(FExecuteCloudScriptDelegate, const ServerModels::FExecuteCloudScriptResult&);
@@ -62,8 +61,10 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate, const ServerModels::FGetPlayFabIDsFromFacebookInstantGamesIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate, const ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamIDsDelegate, const ServerModels::FGetPlayFabIDsFromSteamIDsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromXboxLiveIDsDelegate, const ServerModels::FGetPlayFabIDsFromXboxLiveIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const ServerModels::FGetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FGetRandomResultTablesDelegate, const ServerModels::FGetRandomResultTablesResult&);
+        DECLARE_DELEGATE_OneParam(FGetServerCustomIDsFromPlayFabIDsDelegate, const ServerModels::FGetServerCustomIDsFromPlayFabIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetSharedGroupDataDelegate, const ServerModels::FGetSharedGroupDataResult&);
         DECLARE_DELEGATE_OneParam(FGetTimeDelegate, const ServerModels::FGetTimeResult&);
         DECLARE_DELEGATE_OneParam(FGetTitleDataDelegate, const ServerModels::FGetTitleDataResult&);
@@ -82,6 +83,9 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGrantItemsToCharacterDelegate, const ServerModels::FGrantItemsToCharacterResult&);
         DECLARE_DELEGATE_OneParam(FGrantItemsToUserDelegate, const ServerModels::FGrantItemsToUserResult&);
         DECLARE_DELEGATE_OneParam(FGrantItemsToUsersDelegate, const ServerModels::FGrantItemsToUsersResult&);
+        DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithXboxDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FModifyItemUsesDelegate, const ServerModels::FModifyItemUsesResult&);
         DECLARE_DELEGATE_OneParam(FMoveItemToCharacterFromCharacterDelegate, const ServerModels::FMoveItemToCharacterFromCharacterResult&);
         DECLARE_DELEGATE_OneParam(FMoveItemToCharacterFromUserDelegate, const ServerModels::FMoveItemToCharacterFromUserResult&);
@@ -112,6 +116,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSetTitleInternalDataDelegate, const ServerModels::FSetTitleDataResult&);
         DECLARE_DELEGATE_OneParam(FSubtractCharacterVirtualCurrencyDelegate, const ServerModels::FModifyCharacterVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const ServerModels::FModifyUserVirtualCurrencyResult&);
+        DECLARE_DELEGATE_OneParam(FUnlinkXboxAccountDelegate, const ServerModels::FUnlinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlockContainerInstanceDelegate, const ServerModels::FUnlockContainerItemResult&);
         DECLARE_DELEGATE_OneParam(FUnlockContainerItemDelegate, const ServerModels::FUnlockContainerItemResult&);
         DECLARE_DELEGATE_OneParam(FUpdateAvatarUrlDelegate, const ServerModels::FEmptyResponse&);
@@ -200,11 +205,6 @@ namespace PlayFab
          * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool DeleteSharedGroup(ServerModels::FDeleteSharedGroupRequest& request, const FDeleteSharedGroupDelegate& SuccessDelegate = FDeleteSharedGroupDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Deletes custom data, all account linkages, and statistics.
-         * Note that this action cannot be undone. It will unlink all accounts, reset any statistics and leaderboards, and clear out any stored custom data for the user. This API must be enabled for use as an option in the game manager website. It is disabled by default.
-         */
-        bool DeleteUsers(ServerModels::FDeleteUsersRequest& request, const FDeleteUsersDelegate& SuccessDelegate = FDeleteUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Inform the matchmaker that a Game Server Instance is removed.
         bool DeregisterGame(ServerModels::FDeregisterGameRequest& request, const FDeregisterGameDelegate& SuccessDelegate = FDeregisterGameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -323,6 +323,8 @@ namespace PlayFab
          * IDs for the user accounts, available as SteamId in the Steamworks Community API calls.
          */
         bool GetPlayFabIDsFromSteamIDs(ServerModels::FGetPlayFabIDsFromSteamIDsRequest& request, const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromSteamIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves the unique PlayFab identifiers for the given set of XboxLive identifiers.
+        bool GetPlayFabIDsFromXboxLiveIDs(ServerModels::FGetPlayFabIDsFromXboxLiveIDsRequest& request, const FGetPlayFabIDsFromXboxLiveIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromXboxLiveIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the key-value store of custom publisher settings
          * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a publisher can use this API. For more information email devrel@playfab.com. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
@@ -333,6 +335,8 @@ namespace PlayFab
          * values and weights
          */
         bool GetRandomResultTables(ServerModels::FGetRandomResultTablesRequest& request, const FGetRandomResultTablesDelegate& SuccessDelegate = FGetRandomResultTablesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves the associated PlayFab account identifiers for the given set of server custom identifiers.
+        bool GetServerCustomIDsFromPlayFabIDs(ServerModels::FGetServerCustomIDsFromPlayFabIDsRequest& request, const FGetServerCustomIDsFromPlayFabIDsDelegate& SuccessDelegate = FGetServerCustomIDsFromPlayFabIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves data stored in a shared group object, as well as the list of members in the group. The server can access all
          * public and private group data. Shared Groups are designed for sharing data between a very small number of players,
@@ -423,6 +427,19 @@ namespace PlayFab
          * This function directly adds inventory items to user inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToUsers(ServerModels::FGrantItemsToUsersRequest& request, const FGrantItemsToUsersDelegate& SuccessDelegate = FGrantItemsToUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Links the Xbox Live account associated with the provided access code to the user's PlayFab account
+        bool LinkXboxAccount(ServerModels::FLinkXboxAccountRequest& request, const FLinkXboxAccountDelegate& SuccessDelegate = FLinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Securely login a game client from an external server backend using a custom identifier for that player. Server Custom ID
+         * and Client Custom ID are mutually exclusive and cannot be used to retrieve the same player account.
+         */
+        bool LoginWithServerCustomId(ServerModels::FLoginWithServerCustomIdRequest& request, const FLoginWithServerCustomIdDelegate& SuccessDelegate = FLoginWithServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Signs the user in using a Xbox Live Token from an external server backend, returning a session identifier that can
+         * subsequently be used for API calls which require an authenticated user
+         * If this is the first time a user has signed in with the Xbox Live account and CreateAccount is set to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
+         */
+        bool LoginWithXbox(ServerModels::FLoginWithXboxRequest& request, const FLoginWithXboxDelegate& SuccessDelegate = FLoginWithXboxDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Modifies the number of remaining uses of a player's inventory item
          * This function can both add and remove uses of an inventory item. If the number of uses drops below zero, the item will be removed from active inventory.
@@ -557,6 +574,8 @@ namespace PlayFab
          * balance negative with this API.
          */
         bool SubtractUserVirtualCurrency(ServerModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the related Xbox Live account from the user's PlayFab account
+        bool UnlinkXboxAccount(ServerModels::FUnlinkXboxAccountRequest& request, const FUnlinkXboxAccountDelegate& SuccessDelegate = FUnlinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Opens a specific container (ContainerItemInstanceId), with a specific key (KeyItemInstanceId, when required), and
          * returns the contents of the opened container. If the container (and key when relevant) are consumable (RemainingUses >
@@ -679,7 +698,6 @@ namespace PlayFab
         void OnDeleteCharacterFromUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteCharacterFromUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnDeleteUsersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUsersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeregisterGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeregisterGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEvaluateRandomResultTableResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEvaluateRandomResultTableDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnExecuteCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -710,8 +728,10 @@ namespace PlayFab
         void OnGetPlayFabIDsFromFacebookInstantGamesIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromXboxLiveIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromXboxLiveIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetServerCustomIDsFromPlayFabIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerCustomIDsFromPlayFabIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSharedGroupDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSharedGroupDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTimeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTimeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -730,6 +750,9 @@ namespace PlayFab
         void OnGrantItemsToCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantItemsToUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantItemsToUsersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUsersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnModifyItemUsesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyItemUsesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnMoveItemToCharacterFromCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMoveItemToCharacterFromCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnMoveItemToCharacterFromUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMoveItemToCharacterFromUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -760,6 +783,7 @@ namespace PlayFab
         void OnSetTitleInternalDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleInternalDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractCharacterVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractCharacterVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlockContainerInstanceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlockContainerInstanceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlockContainerItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlockContainerItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateAvatarUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateAvatarUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

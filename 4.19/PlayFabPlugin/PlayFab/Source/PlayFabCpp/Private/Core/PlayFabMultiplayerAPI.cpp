@@ -414,6 +414,33 @@ void UPlayFabMultiplayerAPI::OnGetTitleEnabledForMultiplayerServersStatusResult(
     }
 }
 
+bool UPlayFabMultiplayerAPI::ListArchivedMultiplayerServers(
+    MultiplayerModels::FListMultiplayerServersRequest& request,
+    const FListArchivedMultiplayerServersDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if (PlayFabSettings::GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListArchivedMultiplayerServers")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnListArchivedMultiplayerServersResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerAPI::OnListArchivedMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListArchivedMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FListMultiplayerServersResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerAPI::ListAssetSummaries(
     MultiplayerModels::FListAssetSummariesRequest& request,
     const FListAssetSummariesDelegate& SuccessDelegate,

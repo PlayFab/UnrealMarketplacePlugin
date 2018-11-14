@@ -532,6 +532,41 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListMultiplayerServersRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string build ID of the multiplayer servers to list. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildId;
+    /** The page size for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The region the multiplayer servers to list. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        EAzureRegion Region;
+    /** The skip token for the paged request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListMultiplayerServersResponse
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of multiplayer server summary details. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> MultiplayerServerSummaries;
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerListAssetSummariesRequest
 {
     GENERATED_USTRUCT_BODY()
@@ -665,41 +700,6 @@ public:
     /** The list of tags for a particular container image. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Tags;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListMultiplayerServersRequest
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The guid string build ID of the multiplayer servers to list. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString BuildId;
-    /** The page size for the request. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        int32 PageSize = 0;
-    /** The region the multiplayer servers to list. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureRegion Region;
-    /** The skip token for the paged request. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString SkipToken;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListMultiplayerServersResponse
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The list of multiplayer server summary details. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        TArray<UPlayFabJsonObject*> MultiplayerServerSummaries;
-    /** The page size on the response. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        int32 PageSize = 0;
-    /** The skip token for the paged response. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString SkipToken;
 };
 
 USTRUCT(BlueprintType)

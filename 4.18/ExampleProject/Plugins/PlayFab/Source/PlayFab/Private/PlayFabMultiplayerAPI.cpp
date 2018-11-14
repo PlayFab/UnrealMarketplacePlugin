@@ -883,6 +883,65 @@ void UPlayFabMultiplayerAPI::HelperGetTitleEnabledForMultiplayerServersStatus(FP
     this->RemoveFromRoot();
 }
 
+/** Lists archived multiplayer server sessions for a build. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListArchivedMultiplayerServers(FMultiplayerListMultiplayerServersRequest request,
+    FDelegateOnSuccessListArchivedMultiplayerServers onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListArchivedMultiplayerServers = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListArchivedMultiplayerServers);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/MultiplayerServer/ListArchivedMultiplayerServers";
+    manager->useEntityToken = true;
+
+    // Serialize all the request properties to json
+    if (request.BuildId.IsEmpty() || request.BuildId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
+    FString temp_Region;
+    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
+        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SkipToken"), request.SkipToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperListArchivedMultiplayerServers(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListArchivedMultiplayerServers.IsBound())
+    {
+        FMultiplayerListMultiplayerServersResponse result = UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(response.responseData);
+        OnSuccessListArchivedMultiplayerServers.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Lists multiplayer server game assets for a title. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListAssetSummaries(FMultiplayerListAssetSummariesRequest request,
     FDelegateOnSuccessListAssetSummaries onSuccess,

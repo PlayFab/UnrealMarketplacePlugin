@@ -32,6 +32,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetMultiplayerServerDetailsDelegate, const MultiplayerModels::FGetMultiplayerServerDetailsResponse&);
         DECLARE_DELEGATE_OneParam(FGetRemoteLoginEndpointDelegate, const MultiplayerModels::FGetRemoteLoginEndpointResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitleEnabledForMultiplayerServersStatusDelegate, const MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResponse&);
+        DECLARE_DELEGATE_OneParam(FListArchivedMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListAssetSummariesDelegate, const MultiplayerModels::FListAssetSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildSummariesDelegate, const MultiplayerModels::FListBuildSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListCertificateSummariesDelegate, const MultiplayerModels::FListCertificateSummariesResponse&);
@@ -129,6 +130,11 @@ namespace PlayFab
 
         bool GetTitleEnabledForMultiplayerServersStatus(const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate = FGetTitleEnabledForMultiplayerServersStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Lists archived multiplayer server sessions for a build.
+         * Returns a list of archived multiplayer servers for a build in a specific region.
+         */
+        bool ListArchivedMultiplayerServers(MultiplayerModels::FListMultiplayerServersRequest& request, const FListArchivedMultiplayerServersDelegate& SuccessDelegate = FListArchivedMultiplayerServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Lists multiplayer server game assets for a title.
          * Returns a list of multiplayer server game asset summaries for a title.
          */
@@ -213,6 +219,7 @@ namespace PlayFab
         void OnGetMultiplayerServerDetailsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerServerDetailsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRemoteLoginEndpointResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRemoteLoginEndpointDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleEnabledForMultiplayerServersStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleEnabledForMultiplayerServersStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListArchivedMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListArchivedMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListAssetSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListAssetSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListBuildSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListCertificateSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListCertificateSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

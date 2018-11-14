@@ -893,15 +893,19 @@ enum class EAzureRegion : uint8
 UENUM(BlueprintType)
 enum class EAzureVmSize : uint8
 {
-    pfenum_Standard_A1 UMETA(DisplayName = "Standard_A1"),
-    pfenum_Standard_A2 UMETA(DisplayName = "Standard_A2"),
-    pfenum_Standard_A3 UMETA(DisplayName = "Standard_A3"),
-    pfenum_Standard_A4 UMETA(DisplayName = "Standard_A4"),
     pfenum_Standard_D1_v2 UMETA(DisplayName = "Standard_D1_v2"),
     pfenum_Standard_D2_v2 UMETA(DisplayName = "Standard_D2_v2"),
     pfenum_Standard_D3_v2 UMETA(DisplayName = "Standard_D3_v2"),
     pfenum_Standard_D4_v2 UMETA(DisplayName = "Standard_D4_v2"),
     pfenum_Standard_D5_v2 UMETA(DisplayName = "Standard_D5_v2"),
+    pfenum_Standard_A1_v2 UMETA(DisplayName = "Standard_A1_v2"),
+    pfenum_Standard_A2_v2 UMETA(DisplayName = "Standard_A2_v2"),
+    pfenum_Standard_A4_v2 UMETA(DisplayName = "Standard_A4_v2"),
+    pfenum_Standard_A8_v2 UMETA(DisplayName = "Standard_A8_v2"),
+    pfenum_Standard_A1 UMETA(DisplayName = "Standard_A1"),
+    pfenum_Standard_A2 UMETA(DisplayName = "Standard_A2"),
+    pfenum_Standard_A3 UMETA(DisplayName = "Standard_A3"),
+    pfenum_Standard_A4 UMETA(DisplayName = "Standard_A4"),
 };
 
 /** ContainerFlavor */

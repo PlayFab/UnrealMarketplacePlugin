@@ -202,6 +202,19 @@ FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse UPlayFabMultiplay
     return tempStruct;
 }
 
+FMultiplayerListMultiplayerServersResponse UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerListMultiplayerServersResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.MultiplayerServerSummaries = !(dataObj->HasField("MultiplayerServerSummaries")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("MultiplayerServerSummaries");
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
+
+    return tempStruct;
+}
+
 FMultiplayerListAssetSummariesResponse UPlayFabMultiplayerModelDecoder::decodeListAssetSummariesResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -261,19 +274,6 @@ FMultiplayerListContainerImageTagsResponse UPlayFabMultiplayerModelDecoder::deco
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.Tags = !(dataObj->HasField("Tags")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Tags"), TEXT(","));
-
-    return tempStruct;
-}
-
-FMultiplayerListMultiplayerServersResponse UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FMultiplayerListMultiplayerServersResponse tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.MultiplayerServerSummaries = !(dataObj->HasField("MultiplayerServerSummaries")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("MultiplayerServerSummaries");
-    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
-    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
 
     return tempStruct;
 }

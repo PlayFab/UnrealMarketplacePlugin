@@ -428,10 +428,11 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1396: returnText = "InvalidFacebookInstantGamesSignature"; break;
     case 1397: returnText = "FacebookInstantGamesAuthNotConfiguredForTitle"; break;
     case 1398: returnText = "EntityProfileConstraintValidationFailed"; break;
-    case 1399: returnText = "PlayInsightsIngestionKeyPending"; break;
-    case 1400: returnText = "PlayInsightsIngestionKeyNotFound"; break;
+    case 1399: returnText = "TelemetryIngestionKeyPending"; break;
+    case 1400: returnText = "TelemetryIngestionKeyNotFound"; break;
     case 1401: returnText = "StatisticTagRequired"; break;
     case 1402: returnText = "StatisticTagInvalid"; break;
+    case 1403: returnText = "DataIntegrityError"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2003: returnText = "MatchmakingCreateRequestMissing"; break;
@@ -469,6 +470,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 2035: returnText = "MatchmakingNotEnabled"; break;
     case 2036: returnText = "MatchmakingGetStatisticsIdentityInvalid"; break;
     case 2037: returnText = "MatchmakingStatisticsIdMissing"; break;
+    case 2038: returnText = "CannotEnableMultiplayerServersForTitle"; break;
     }
 
     // Return the text

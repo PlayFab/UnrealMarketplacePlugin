@@ -131,15 +131,19 @@ namespace MultiplayerModels
 
     enum AzureVmSize
     {
-        AzureVmSizeStandard_A1,
-        AzureVmSizeStandard_A2,
-        AzureVmSizeStandard_A3,
-        AzureVmSizeStandard_A4,
         AzureVmSizeStandard_D1_v2,
         AzureVmSizeStandard_D2_v2,
         AzureVmSizeStandard_D3_v2,
         AzureVmSizeStandard_D4_v2,
-        AzureVmSizeStandard_D5_v2
+        AzureVmSizeStandard_D5_v2,
+        AzureVmSizeStandard_A1_v2,
+        AzureVmSizeStandard_A2_v2,
+        AzureVmSizeStandard_A4_v2,
+        AzureVmSizeStandard_A8_v2,
+        AzureVmSizeStandard_A1,
+        AzureVmSizeStandard_A2,
+        AzureVmSizeStandard_A3,
+        AzureVmSizeStandard_A4
     };
 
     PLAYFABCPP_API void writeAzureVmSizeEnumJSON(AzureVmSize enumVal, JsonWriter& writer);

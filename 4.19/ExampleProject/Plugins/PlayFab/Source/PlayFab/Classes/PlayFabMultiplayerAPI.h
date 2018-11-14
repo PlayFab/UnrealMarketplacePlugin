@@ -245,6 +245,19 @@ public:
         void HelperGetTitleEnabledForMultiplayerServersStatus(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListArchivedMultiplayerServers, FMultiplayerListMultiplayerServersResponse, result, UObject*, customData);
+
+    /** Lists archived multiplayer server sessions for a build. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListArchivedMultiplayerServers(FMultiplayerListMultiplayerServersRequest request,
+            FDelegateOnSuccessListArchivedMultiplayerServers onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListArchivedMultiplayerServers(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListAssetSummaries, FMultiplayerListAssetSummariesResponse, result, UObject*, customData);
 
     /** Lists multiplayer server game assets for a title. */
@@ -447,6 +460,7 @@ public:
     FDelegateOnSuccessGetMultiplayerServerDetails OnSuccessGetMultiplayerServerDetails;
     FDelegateOnSuccessGetRemoteLoginEndpoint OnSuccessGetRemoteLoginEndpoint;
     FDelegateOnSuccessGetTitleEnabledForMultiplayerServersStatus OnSuccessGetTitleEnabledForMultiplayerServersStatus;
+    FDelegateOnSuccessListArchivedMultiplayerServers OnSuccessListArchivedMultiplayerServers;
     FDelegateOnSuccessListAssetSummaries OnSuccessListAssetSummaries;
     FDelegateOnSuccessListBuildSummaries OnSuccessListBuildSummaries;
     FDelegateOnSuccessListCertificateSummaries OnSuccessListCertificateSummaries;

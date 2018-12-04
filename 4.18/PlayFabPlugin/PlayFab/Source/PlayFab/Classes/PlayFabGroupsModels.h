@@ -28,6 +28,10 @@ class UPlayFabJsonObject;
 // Groups
 //////////////////////////////////////////////////////
 
+/**
+ * Accepts an outstanding invitation to to join a group if the invited entity is not blocked by the group. Nothing is
+ * returned in the case of success.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsAcceptGroupApplicationRequest
 {
@@ -51,6 +55,11 @@ struct PLAYFAB_API FGroupsEmptyResponse
 public:
 };
 
+/**
+ * Accepts an outstanding invitation to join the group if the invited entity is not blocked by the group. Only the invited
+ * entity or a parent in its chain (e.g. title) may accept the invitation on the invited entity's behalf. Nothing is
+ * returned in the case of success.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsAcceptGroupInvitationRequest
 {
@@ -64,6 +73,11 @@ public:
         UPlayFabJsonObject* Group = nullptr;
 };
 
+/**
+ * Adds members to a group or role. Existing members of the group will added to roles within the group, but if the user is
+ * not already a member of the group, only title claimants may add them to the group, and others must use the group
+ * application or invite system to add new members to a group. Returns nothing if successful.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsAddMembersRequest
 {
@@ -83,6 +97,13 @@ public:
         FString RoleId;
 };
 
+/**
+ * Creates an application to join a group. Calling this while a group application already exists will return the same
+ * application instead of an error and will not refresh the time before the application expires. By default, if the entity
+ * has an invitation to join the group outstanding, this will accept the invitation to join the group instead and return an
+ * error indicating such, rather than creating a duplicate application to join that will need to be cleaned up later.
+ * Returns information about the application or an error indicating an invitation was accepted instead.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsApplyToGroupRequest
 {
@@ -116,6 +137,11 @@ public:
         UPlayFabJsonObject* Group = nullptr;
 };
 
+/**
+ * Blocks a list of entities from joining a group. Blocked entities may not create new applications to join, be invited to
+ * join, accept an invitation, or have an application accepted. Failure due to being blocked does not clean up existing
+ * applications or invitations to the group. No data is returned in the case of success.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsBlockEntityRequest
 {
@@ -129,6 +155,11 @@ public:
         UPlayFabJsonObject* Group = nullptr;
 };
 
+/**
+ * Changes the role membership of a list of entities from one role to another in in a single operation. The destination
+ * role must already exist. This is equivalent to adding the entities to the destination role and removing from the origin
+ * role. Returns nothing if successful.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsChangeMemberRoleRequest
 {
@@ -154,6 +185,10 @@ public:
         FString OriginRoleId;
 };
 
+/**
+ * Creates a new group, as well as administration and member roles, based off of a title's group template. Returns
+ * information about the group that was created.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsCreateGroupRequest
 {
@@ -195,6 +230,11 @@ public:
         UPlayFabJsonObject* Roles;
 };
 
+/**
+ * Creates a new role within an existing group, with no members. Both the role ID and role name must be unique within the
+ * group, but the name can be the same as the ID. The role ID is set at creation and cannot be changed. Returns information
+ * about the role that was created.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsCreateGroupRoleRequest
 {
@@ -233,6 +273,11 @@ public:
         FString RoleName;
 };
 
+/**
+ * Deletes a group and all roles, invitations, join requests, and blocks associated with it. Permission to delete is only
+ * required the group itself to execute this action. The group and data cannot be cannot be recovered once removed, but any
+ * abuse reports about the group will remain. No data is returned in the case of success.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsDeleteGroupRequest
 {
@@ -243,6 +288,7 @@ public:
         UPlayFabJsonObject* Group = nullptr;
 };
 
+/** Returns information about the role */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsDeleteRoleRequest
 {
@@ -256,6 +302,7 @@ public:
         FString RoleId;
 };
 
+/** Returns the ID, name, role list and other non-membership related information about a group. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsGetGroupRequest
 {
@@ -297,6 +344,13 @@ public:
         UPlayFabJsonObject* Roles;
 };
 
+/**
+ * Invites a player to join a group, if they are not blocked by the group. An optional role can be provided to
+ * automatically assign the player to the role if they accept the invitation. By default, if the entity has an application
+ * to the group outstanding, this will accept the application instead and return an error indicating such, rather than
+ * creating a duplicate invitation to join that will need to be cleaned up later. Returns information about the new
+ * invitation or an error indicating an existing application to join was accepted.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsInviteToGroupRequest
 {
@@ -342,6 +396,11 @@ public:
         FString RoleId;
 };
 
+/**
+ * Checks to see if an entity is a member of a group or role within the group. A result indicating if the entity is a
+ * member of the group is returned, or a permission error if the caller does not have permission to read the group's member
+ * list.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsIsMemberRequest
 {
@@ -371,6 +430,10 @@ public:
         bool IsMember = false;
 };
 
+/**
+ * Lists all outstanding requests to join a group. Returns a list of all requests to join, as well as when the request will
+ * expire. To get the group applications for a specific entity, use ListMembershipOpportunities.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsListGroupApplicationsRequest
 {
@@ -391,6 +454,7 @@ public:
         TArray<UPlayFabJsonObject*> Applications;
 };
 
+/** Lists all entities blocked from joining a group. A list of blocked entities is returned */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsListGroupBlocksRequest
 {
@@ -411,6 +475,10 @@ public:
         TArray<UPlayFabJsonObject*> BlockedEntities;
 };
 
+/**
+ * Lists all outstanding invitations for a group. Returns a list of entities that have been invited, as well as when the
+ * invitation will expire. To get the group invitations for a specific entity, use ListMembershipOpportunities.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsListGroupInvitationsRequest
 {
@@ -431,6 +499,11 @@ public:
         TArray<UPlayFabJsonObject*> Invitations;
 };
 
+/**
+ * Gets a list of members and the roles they belong to within the group. If the caller does not have permission to view the
+ * role, and the member is in no other role, the member is not displayed. Returns a list of entities that are members of
+ * the group.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsListGroupMembersRequest
 {
@@ -451,6 +524,11 @@ public:
         TArray<UPlayFabJsonObject*> Members;
 };
 
+/**
+ * Lists the groups and roles that an entity is a part of, checking to see if group and role metadata and memberships
+ * should be visible to the caller. If the entity is not in any roles that are visible to the caller, the group is not
+ * returned in the results, even if the caller otherwise has permission to see that the entity is a member of that group.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsListMembershipRequest
 {
@@ -471,6 +549,11 @@ public:
         TArray<UPlayFabJsonObject*> Groups;
 };
 
+/**
+ * Lists all outstanding group applications and invitations for an entity. Anyone may call this for any entity, but data
+ * will only be returned for the entity or a parent of that entity. To list invitations or applications for a group to
+ * check if a player is trying to join, use ListGroupInvitations and ListGroupApplications.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsListMembershipOpportunitiesRequest
 {
@@ -494,6 +577,11 @@ public:
         TArray<UPlayFabJsonObject*> Invitations;
 };
 
+/**
+ * Removes an existing application to join the group. This is used for both rejection of an application as well as
+ * withdrawing an application. The applying entity or a parent in its chain (e.g. title) may withdraw the application, and
+ * any caller with appropriate access in the group may reject an application. No data is returned in the case of success.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsRemoveGroupApplicationRequest
 {
@@ -507,6 +595,12 @@ public:
         UPlayFabJsonObject* Group = nullptr;
 };
 
+/**
+ * Removes an existing invitation to join the group. This is used for both rejection of an invitation as well as rescinding
+ * an invitation. The invited entity or a parent in its chain (e.g. title) may reject the invitation by calling this
+ * method, and any caller with appropriate access in the group may rescind an invitation. No data is returned in the case
+ * of success.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsRemoveGroupInvitationRequest
 {
@@ -520,6 +614,10 @@ public:
         UPlayFabJsonObject* Group = nullptr;
 };
 
+/**
+ * Removes members from a group. A member can always remove themselves from a group, regardless of permissions. Returns
+ * nothing if successful.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsRemoveMembersRequest
 {
@@ -536,6 +634,7 @@ public:
         FString RoleId;
 };
 
+/** Unblocks a list of entities from joining a group. No data is returned in the case of success. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsUnblockEntityRequest
 {
@@ -549,6 +648,10 @@ public:
         UPlayFabJsonObject* Group = nullptr;
 };
 
+/**
+ * Updates data about a group, such as the name or default member role. Returns information about whether the update was
+ * successful. Only title claimants may modify the administration role for a group.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsUpdateGroupRequest
 {
@@ -591,6 +694,7 @@ public:
         EOperationTypes SetResult;
 };
 
+/** Updates the role name. Returns information about whether the update was successful. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FGroupsUpdateGroupRoleRequest
 {

@@ -1386,6 +1386,14 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestMultiplayerServer(FMultip
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
     // Check to see if string is empty
+    if (request.InitialPlayers.IsEmpty() || request.InitialPlayers == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("InitialPlayers"));
+    } else {
+        TArray<FString> InitialPlayersArray;
+        FString(request.InitialPlayers).ParseIntoArray(InitialPlayersArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("InitialPlayers"), InitialPlayersArray);
+    }
+    // Check to see if string is empty
     if (request.PreferredRegions.IsEmpty() || request.PreferredRegions == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PreferredRegions"));
     } else {

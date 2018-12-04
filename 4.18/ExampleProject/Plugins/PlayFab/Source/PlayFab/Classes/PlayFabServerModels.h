@@ -28,6 +28,10 @@ class UPlayFabJsonObject;
 // Account Management
 //////////////////////////////////////////////////////
 
+/**
+ * The existence of each user will not be verified. When banning by IP or MAC address, multiple players may be affected, so
+ * use this feature with caution. Returns information about the new bans.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerBanUsersRequest
 {
@@ -48,6 +52,20 @@ public:
         TArray<UPlayFabJsonObject*> BanData;
 };
 
+/**
+ * Deletes all data associated with the player, including statistics, custom data, inventory, purchases, virtual currency
+ * balances,
+ * characters and shared group memberships. Removes the player from all leaderboards and player search
+ * indexes. Does not delete PlayStream event history associated with the player.
+ * Does not delete the publisher user account that created the player in the title nor associated data
+ * such as username, password, email address, account linkages, or friends list.
+ * Note, this API queues the player for deletion and returns immediately. It may take several minutes
+ * or more before all player data is fully deleted.
+ * Until the player data is fully deleted, attempts to recreate the player with the same user account
+ * in the same title will fail with the 'AccountDeleted' error.
+ * This API must be enabled for use as an option in the game manager website. It is disabled by
+ * default.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerDeletePlayerRequest
 {
@@ -65,6 +83,14 @@ struct PLAYFAB_API FServerDeletePlayerResult
 public:
 };
 
+/**
+ * This API allows for access to details regarding a user in the PlayFab service, usually for purposes of
+ * customer support. Note that data returned may be Personally Identifying Information (PII), such as email address, and so
+ * care should be
+ * taken in how this data is stored and managed. Since this call will always return the relevant information for users who
+ * have accessed
+ * the title, the recommendation is to not store this data locally.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayerProfileRequest
 {
@@ -105,6 +131,7 @@ public:
         FString FacebookIDs;
 };
 
+/** For Facebook identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookIDsResult
 {
@@ -125,6 +152,7 @@ public:
         FString FacebookInstantGamesIds;
 };
 
+/** For Facebook Instant Games identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult
 {
@@ -145,6 +173,7 @@ public:
         FString NintendoSwitchDeviceIds;
 };
 
+/** For Nintendo Switch Device identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult
 {
@@ -165,6 +194,7 @@ public:
         FString SteamStringIDs;
 };
 
+/** For Steam identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromSteamIDsResult
 {
@@ -188,6 +218,7 @@ public:
         FString XboxLiveAccountIDs;
 };
 
+/** For XboxLive identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromXboxLiveIDsResult
 {
@@ -211,6 +242,7 @@ public:
         FString PlayFabIDs;
 };
 
+/** For a PlayFab account that isn't associated with a server custom identity, ServerCustomId will be null. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetServerCustomIDsFromPlayFabIDsResult
 {
@@ -221,6 +253,14 @@ public:
         TArray<UPlayFabJsonObject*> Data;
 };
 
+/**
+ * This API allows for access to details regarding a user in the PlayFab service, usually for purposes of
+ * customer support. Note that data returned may be Personally Identifying Information (PII), such as email address, and so
+ * care should be
+ * taken in how this data is stored and managed. Since this call will always return the relevant information for users who
+ * have accessed
+ * the title, the recommendation is to not store this data locally.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetUserAccountInfoRequest
 {
@@ -241,6 +281,7 @@ public:
         UPlayFabJsonObject* UserInfo = nullptr;
 };
 
+/** Get all bans for a user, including inactive and expired bans. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetUserBansRequest
 {
@@ -284,6 +325,10 @@ struct PLAYFAB_API FServerLinkXboxAccountResult
 public:
 };
 
+/**
+ * Setting the active state of all non-expired bans for a user to Inactive. Expired bans with an Active state will be
+ * ignored, however. Returns information about applied updates only.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerRevokeAllBansForUserRequest
 {
@@ -304,6 +349,10 @@ public:
         TArray<UPlayFabJsonObject*> BanData;
 };
 
+/**
+ * Setting the active state of all bans requested to Inactive regardless of whether that ban has already expired. BanIds
+ * that do not exist will be skipped. Returns information about applied updates only.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerRevokeBansRequest
 {
@@ -324,6 +373,10 @@ public:
         TArray<UPlayFabJsonObject*> BanData;
 };
 
+/**
+ * PlayFab accounts which have valid email address or username will be able to receive a password reset email using this
+ * API.The email sent must be an account recovery email template. The username or email can be passed in to send the email
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSendCustomAccountRecoveryEmailRequest
 {
@@ -347,6 +400,10 @@ struct PLAYFAB_API FServerSendCustomAccountRecoveryEmailResult
 public:
 };
 
+/**
+ * Sends an email for only players that have contact emails associated with them. Takes in an email template ID
+ * specifyingthe email template to send.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSendEmailFromTemplateRequest
 {
@@ -445,6 +502,10 @@ public:
         FString PlayFabId;
 };
 
+/**
+ * For each ban, only updates the values that are set. Leave any value to null for no change. If a ban could not be found,
+ * the rest are still applied. Returns information about applied updates only.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdateBansRequest
 {
@@ -483,6 +544,11 @@ public:
         FString EventId;
 };
 
+/**
+ * This API is designed to write a multitude of different event types into PlayStream. It supports a flexible JSON schema,
+ * which allowsfor arbitrary key-value pairs to describe any character-based event. The created event will be locked to the
+ * authenticated title.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerWriteServerCharacterEventRequest
 {
@@ -508,6 +574,11 @@ public:
         FString Timestamp;
 };
 
+/**
+ * This API is designed to write a multitude of different event types into PlayStream. It supports a flexible JSON schema,
+ * which allowsfor arbitrary key-value pairs to describe any player-based event. The created event will be locked to the
+ * authenticated title.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerWriteServerPlayerEventRequest
 {
@@ -530,6 +601,11 @@ public:
         FString Timestamp;
 };
 
+/**
+ * This API is designed to write a multitude of different event types into PlayStream. It supports a flexible JSON schema,
+ * which allowsfor arbitrary key-value pairs to describe any title-based event. The created event will be locked to the
+ * authenticated title.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerWriteTitleEventRequest
 {
@@ -554,6 +630,12 @@ public:
 // Authentication
 //////////////////////////////////////////////////////
 
+/**
+ * Note that data returned may be Personally Identifying Information (PII), such as email address, and so care should be
+ * taken in how this data is stored and managed. Since this call will always return the relevant information for users who
+ * have accessed
+ * the title, the recommendation is to not store this data locally.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerAuthenticateSessionTicketRequest
 {
@@ -627,6 +709,14 @@ public:
         UPlayFabJsonObject* SettingsForUser = nullptr;
 };
 
+/**
+ * If this is the first time a user has signed in with the Xbox Live account and CreateAccount
+ * is set to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case, no email or
+ * username will be
+ * associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error
+ * indicating this will
+ * be returned, so that the title can guide the user through creation of a PlayFab account.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLoginWithXboxRequest
 {
@@ -646,6 +736,14 @@ public:
         FString XboxToken;
 };
 
+/**
+ * APIs that require signatures require that the player have a configured Player Secret Key that is used to sign all
+ * requests. Players that don't have a secret will be blocked from making API calls until it is configured. To create a
+ * signature header add a SHA256 hashed string containing UTF8 encoded JSON body as it will be sent to the server, the
+ * current time in UTC formatted to ISO 8601, and the players secret formatted as 'body.date.secret'. Place the resulting
+ * hash into the header X-PlayFab-Signature, along with a header X-PlayFab-Timestamp of the same UTC timestamp used in the
+ * signature.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSetPlayerSecretRequest
 {
@@ -671,6 +769,11 @@ public:
 // Character Data
 //////////////////////////////////////////////////////
 
+/**
+ * Data is stored as JSON key-value pairs. If the Keys parameter is provided,
+ * the data object returned will only contain the data specific to the indicated Keys. Otherwise, the full set
+ * of custom user data will be returned.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetCharacterDataRequest
 {
@@ -715,6 +818,12 @@ public:
         FString PlayFabId;
 };
 
+/**
+ * This function performs an additive update of the arbitrary JSON object containing
+ * the custom data for the user. In updating the custom data object, keys which already exist in the object will have
+ * their values overwritten, while keys with null values will be removed. No other key-value pairs will be changed apart
+ * from those specified in the call.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdateCharacterDataRequest
 {
@@ -761,6 +870,11 @@ public:
 // Characters
 //////////////////////////////////////////////////////
 
+/**
+ * This function will delete the specified character from the list allowed by the user, and
+ * will also delete any inventory or VC currently held by that character. It will NOT delete any statistics
+ * associated for this character, in order to preserve leaderboard integrity.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerDeleteCharacterFromUserRequest
 {
@@ -787,6 +901,7 @@ struct PLAYFAB_API FServerDeleteCharacterFromUserResult
 public:
 };
 
+/** Returns a list of every character that currently belongs to a user. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerListUsersCharactersRequest
 {
@@ -826,6 +941,7 @@ public:
         FString StatisticName;
 };
 
+/** Note that the Position of the character in the results is for the overall leaderboard. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetCharacterLeaderboardResult
 {
@@ -836,6 +952,11 @@ public:
         TArray<UPlayFabJsonObject*> Leaderboard;
 };
 
+/**
+ * Character statistics are similar to user statistics in that they are numeric values which
+ * may only be updated by a server operation, in order to minimize the opportunity for unauthorized changes. In addition to
+ * being available for use by the title, the statistics are used for all leaderboard operations in PlayFab.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetCharacterStatisticsRequest
 {
@@ -887,6 +1008,10 @@ public:
         FString StatisticName;
 };
 
+/**
+ * Note: When calling 'GetLeaderboardAround...' APIs, the position of the character defaults to 0 when the character does
+ * not have the corresponding statistic.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetLeaderboardAroundCharacterResult
 {
@@ -913,6 +1038,7 @@ public:
         FString StatisticName;
 };
 
+/** Note that the Position of the user in the results is for the overall leaderboard. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetLeaderboardForUsersCharactersResult
 {
@@ -923,6 +1049,7 @@ public:
         TArray<UPlayFabJsonObject*> Leaderboard;
 };
 
+/** Grants a character to the user of the type and name specified in the request. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGrantCharacterToUserRequest
 {
@@ -949,6 +1076,11 @@ public:
         FString CharacterId;
 };
 
+/**
+ * Character statistics are similar to user statistics in that they are numeric values which
+ * may only be updated by a server operation, in order to minimize the opportunity for unauthorized changes. In addition to
+ * being available for use by the title, the statistics are used for all leaderboard operations in PlayFab.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdateCharacterStatisticsRequest
 {
@@ -1059,6 +1191,11 @@ public:
         FString XboxToken;
 };
 
+/**
+ * If any additional services are queried for the user's friends, those friends who also have a PlayFab account registered
+ * for the title will be returned in the results. For Facebook, user has to have logged into the title's Facebook app
+ * recently, and only friends who also plays this game will be included.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetFriendsListResult
 {
@@ -1082,6 +1219,12 @@ public:
         FString PlayFabId;
 };
 
+/**
+ * This operation is not additive. It will completely replace the tag list for the specified user.
+ * Please note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on a friend only
+ * included
+ * in the friends list from a social site integration (such as Facebook or Steam) will return the AccountNotFound error.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSetFriendTagsRequest
 {
@@ -1143,6 +1286,18 @@ public:
         EPlayerConnectionState PlayerState;
 };
 
+/**
+ * This function is used by a Game Server Instance to validate with the PlayFab service that a user has been
+ * registered as connected to the server. The Ticket is provided to the client either as a result of a call to StartGame or
+ * Matchmake, each
+ * of which return a Ticket specific to the Game Server Instance. This function will fail in any case where the Ticket
+ * presented is not valid
+ * for the specific Game Server Instance making the call. Note that data returned may be Personally Identifying Information
+ * (PII), such as
+ * email address, and so care should be taken in how this data is stored and managed. Since this call will always return
+ * the relevant information
+ * for users who have accessed the title, the recommendation is to not store this data locally.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerRedeemMatchmakerTicketRequest
 {
@@ -1376,6 +1531,7 @@ public:
         FString XboxToken;
 };
 
+/** Note that the Position of the user in the results is for the overall leaderboard. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetLeaderboardResult
 {
@@ -1450,6 +1606,10 @@ public:
         int32 Version = 0;
 };
 
+/**
+ * Note: When calling 'GetLeaderboardAround...' APIs, the position of the user defaults to 0 when the user does not have
+ * the corresponding statistic.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetLeaderboardAroundUserResult
 {
@@ -1511,6 +1671,7 @@ public:
         TArray<UPlayFabJsonObject*> StatisticNameVersions;
 };
 
+/** In addition to being available for use by the title, the statistics are used for all leaderboard operations in PlayFab. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayerStatisticsResult
 {
@@ -1544,6 +1705,12 @@ public:
         TArray<UPlayFabJsonObject*> StatisticVersions;
 };
 
+/**
+ * Data is stored as JSON key-value pairs. If the Keys parameter is provided,
+ * the data object returned will only contain the data specific to the indicated Keys. Otherwise, the full set of custom
+ * user
+ * data will be returned.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetUserDataRequest
 {
@@ -1582,6 +1749,10 @@ public:
         FString PlayFabId;
 };
 
+/**
+ * This operation is additive. Statistics not currently defined will be added,
+ * while those already defined will be updated with the given values. All other user statistics will remain unchanged.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdatePlayerStatisticsRequest
 {
@@ -1608,6 +1779,12 @@ struct PLAYFAB_API FServerUpdatePlayerStatisticsResult
 public:
 };
 
+/**
+ * This function performs an additive update of the arbitrary JSON object containing the custom data for the user.
+ * In updating the custom data object, keys which already exist in the object will have their values overwritten, while
+ * keys with null values will
+ * be removed. No other key-value pairs will be changed apart from those specified in the call.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdateUserDataRequest
 {
@@ -1646,6 +1823,12 @@ public:
         int32 DataVersion = 0;
 };
 
+/**
+ * This function performs an additive update of the arbitrary JSON object containing the custom data for the user.
+ * In updating the custom data object, keys which already exist in the object will have their values overwritten, keys with
+ * null values will be
+ * removed. No other key-value pairs will be changed apart from those specified in the call.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdateUserInternalDataRequest
 {
@@ -1797,6 +1980,10 @@ public:
         FString TableId;
 };
 
+/**
+ * Note that if the Random Result Table contains no entries, or does not exist for the catalog specified (the Primary
+ * catalog if one is not specified), an InvalidDropTable error will be returned.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerEvaluateRandomResultTableResult
 {
@@ -1807,6 +1994,12 @@ public:
         FString ResultItemId;
 };
 
+/**
+ * All items currently in the character inventory will be returned, irrespective of how they were acquired
+ * (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not
+ * considered to be
+ * in the user's current inventory, and so will not be not included. Also returns their virtual currency balances.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetCharacterInventoryRequest
 {
@@ -1861,6 +2054,10 @@ public:
         FString TableIDs;
 };
 
+/**
+ * Note that if a specified Random Result Table contains no entries, or does not exist in the catalog, an InvalidDropTable
+ * error will be returned.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetRandomResultTablesResult
 {
@@ -1871,6 +2068,12 @@ public:
         UPlayFabJsonObject* Tables = nullptr;
 };
 
+/**
+ * All items currently in the user inventory will be returned, irrespective of how they were acquired
+ * (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not
+ * considered to be
+ * in the user's current inventory, and so will not be not included.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetUserInventoryRequest
 {
@@ -1900,6 +2103,12 @@ public:
         UPlayFabJsonObject* VirtualCurrencyRechargeTimes = nullptr;
 };
 
+/**
+ * This function directly adds inventory items to the character's inventories. As
+ * a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item
+ * catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally
+ * the more items are in the inventory, and the more items are in the grant/purchase operation.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGrantItemsToCharacterRequest
 {
@@ -1932,6 +2141,14 @@ public:
         TArray<UPlayFabJsonObject*> ItemGrantResults;
 };
 
+/**
+ * This function directly adds inventory items to the user's inventories. As a result of this operations, the user
+ * will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the
+ * processing time for
+ * inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the
+ * grant/purchase
+ * operation.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGrantItemsToUserRequest
 {
@@ -1951,6 +2168,7 @@ public:
         FString PlayFabId;
 };
 
+/** Please note that the order of the items in the response may not match the order of items in the request. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGrantItemsToUserResult
 {
@@ -1961,6 +2179,14 @@ public:
         TArray<UPlayFabJsonObject*> ItemGrantResults;
 };
 
+/**
+ * This function directly adds inventory items to user inventories. As a result of this operations, the user
+ * will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the
+ * processing time for
+ * inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the
+ * grant/purchase
+ * operation.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGrantItemsToUsersRequest
 {
@@ -1974,6 +2200,7 @@ public:
         TArray<UPlayFabJsonObject*> ItemGrants;
 };
 
+/** Please note that the order of the items in the response may not match the order of items in the request. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGrantItemsToUsersResult
 {
@@ -1984,6 +2211,10 @@ public:
         TArray<UPlayFabJsonObject*> ItemGrantResults;
 };
 
+/**
+ * This function can both add and remove uses of an inventory item. If the number of uses drops below zero, the item will
+ * be removed from active inventory.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerModifyItemUsesRequest
 {
@@ -2013,6 +2244,11 @@ public:
         int32 RemainingUses = 0;
 };
 
+/**
+ * Transfers an item from a character to another character that is owned by the same
+ * user. This will remove the item from the character's inventory (until and unless it is moved back), and will enable the
+ * other character to make use of the item instead.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerMoveItemToCharacterFromCharacterRequest
 {
@@ -2039,6 +2275,11 @@ struct PLAYFAB_API FServerMoveItemToCharacterFromCharacterResult
 public:
 };
 
+/**
+ * Transfers an item from a user to a character she owns. This will remove
+ * the item from the user's inventory (until and unless it is moved back), and will enable the
+ * character to make use of the item instead.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerMoveItemToCharacterFromUserRequest
 {
@@ -2062,6 +2303,11 @@ struct PLAYFAB_API FServerMoveItemToCharacterFromUserResult
 public:
 };
 
+/**
+ * Transfers an item from a character to the owning user. This will remove
+ * the item from the character's inventory (until and unless it is moved back), and will enable the
+ * user to make use of the item instead.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerMoveItemToUserFromCharacterRequest
 {
@@ -2085,6 +2331,12 @@ struct PLAYFAB_API FServerMoveItemToUserFromCharacterResult
 public:
 };
 
+/**
+ * Coupon codes can be created for any item, or set of items, in the catalog for the title. This
+ * operation causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to re-use an
+ * already
+ * consumed code, or a code which has not yet been created in the service, will result in an error.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerRedeemCouponRequest
 {
@@ -2130,6 +2382,10 @@ public:
         FString ReporterId;
 };
 
+/**
+ * Players are currently limited to five reports per day. Attempts by a single user account to submit reports beyond five
+ * will result in Updated being returned as false.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerReportPlayerServerResult
 {
@@ -2140,6 +2396,10 @@ public:
         int32 SubmissionsRemaining = 0;
 };
 
+/**
+ * In cases where the inventory item in question is a "crate", and the items it contained have already been dispensed, this
+ * will not revoke access or otherwise remove the items which were dispensed.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerRevokeInventoryItemRequest
 {
@@ -2163,6 +2423,10 @@ struct PLAYFAB_API FServerRevokeInventoryResult
 public:
 };
 
+/**
+ * In cases where the inventory item in question is a "crate", and the items it contained have already been dispensed, this
+ * will not revoke access or otherwise remove the items which were dispensed.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerRevokeInventoryItemsRequest
 {
@@ -2218,6 +2482,7 @@ public:
         FString VirtualCurrency;
 };
 
+/** Specify the container and optionally the catalogVersion for the container to open */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlockContainerInstanceRequest
 {
@@ -2246,6 +2511,7 @@ public:
         FString PlayFabId;
 };
 
+/** The items and vc found within the container.  These will be added and stacked in your inventory as appropriate. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlockContainerItemResult
 {
@@ -2265,6 +2531,7 @@ public:
         UPlayFabJsonObject* VirtualCurrency;
 };
 
+/** Specify the type of container to open and optionally the catalogVersion for the container to open */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlockContainerItemRequest
 {
@@ -2287,6 +2554,12 @@ public:
         FString PlayFabId;
 };
 
+/**
+ * This function performs an additive update of the arbitrary JSON object containing the custom data for the item instance
+ * which belongs to the specified user. In updating the custom data object, keys which already exist in the object will
+ * have their values overwritten, while
+ * keys with null values will be removed. No other key-value pairs will be changed apart from those specified in the call.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdateUserInventoryItemDataRequest
 {
@@ -2320,6 +2593,11 @@ public:
 // PlayStream
 //////////////////////////////////////////////////////
 
+/**
+ * This API will trigger a player_tag_added event and add a tag with the given TagName and PlayFabID to the corresponding
+ * player profile. TagName can be used for segmentation and it is limited to 256 characters. Also there is a limit on the
+ * number of tags a title can have.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerAddPlayerTagRequest
 {
@@ -2340,6 +2618,7 @@ struct PLAYFAB_API FServerAddPlayerTagResult
 public:
 };
 
+/** Request has no paramaters. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetAllSegmentsRequest
 {
@@ -2377,6 +2656,15 @@ public:
         FString PlayFabId;
 };
 
+/**
+ * Initial request must contain at least a Segment ID. Subsequent requests must contain the Segment ID as well as the
+ * Continuation Token. Failure to send the Continuation Token will result in a new player segment list being generated.
+ * Each time the Continuation Token is passed in the length of the Total Seconds to Live is refreshed. If too much time
+ * passes between requests to the point that a subsequent request is past the Total Seconds to Live an error will be
+ * returned and paging will be terminated. This API is resource intensive and should not be used in scenarios which might
+ * generate high request volumes. Only one request to this API at a time should be made per title. Concurrent requests to
+ * the API may be rejected with the APIConcurrentRequestLimitExceeded error.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayersInSegmentRequest
 {
@@ -2415,6 +2703,11 @@ public:
         int32 ProfilesInSegment = 0;
 };
 
+/**
+ * This API will return a list of canonical tags which includes both namespace and tag's name. If namespace is not
+ * provided, the result is a list of all canonical tags. TagName can be used for segmentation and Namespace is limited to
+ * 128 characters.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayerTagsRequest
 {
@@ -2441,6 +2734,10 @@ public:
         FString Tags;
 };
 
+/**
+ * This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID from the
+ * corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerRemovePlayerTagRequest
 {
@@ -2576,6 +2873,11 @@ struct PLAYFAB_API FServerAddSharedGroupMembersResult
 public:
 };
 
+/**
+ * If SharedGroupId is specified, the service will attempt to create a group with that
+ * identifier, and will return an error if it is already in use. If no SharedGroupId is specified, a random identifier will
+ * be assigned.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerCreateSharedGroupRequest
 {
@@ -2658,6 +2960,13 @@ struct PLAYFAB_API FServerRemoveSharedGroupMembersResult
 public:
 };
 
+/**
+ * Note that in the case of multiple calls to write to the same shared group data keys, the
+ * last write received by the PlayFab service will determine the value available to subsequent read operations. For
+ * scenarios
+ * requiring coordination of data updates, it is recommended that titles make use of user data with read permission set to
+ * public, or a combination of user data and shared group data.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUpdateSharedGroupDataRequest
 {
@@ -2715,6 +3024,15 @@ public:
         TArray<UPlayFabJsonObject*> Catalog;
 };
 
+/**
+ * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data
+ * is shared across all
+ * titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a
+ * publisher can use this API.
+ * For more information email devrel@playfab.com. Note that there may up to a minute delay in between updating title data
+ * and this API call returning
+ * the newest value.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPublisherDataRequest
 {
@@ -2735,6 +3053,11 @@ public:
         UPlayFabJsonObject* Data;
 };
 
+/**
+ * This query retrieves the current time from one of the servers in PlayFab. Please note that due to clock drift between
+ * servers,
+ * there is a potential variance of up to 5 seconds.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetTimeRequest
 {
@@ -2742,6 +3065,7 @@ struct PLAYFAB_API FServerGetTimeRequest
 public:
 };
 
+/** Time is always returned as Coordinated Universal Time (UTC). */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetTimeResult
 {
@@ -2752,6 +3076,15 @@ public:
         FString Time;
 };
 
+/**
+ * This API is designed to return title specific values which can be read, but not written to, by the client. For example,
+ * a developer
+ * could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement
+ * speeds, etc. This allows a developer to update
+ * the title without the need to create, test, and ship a new build. Note that there may up to a minute delay in between
+ * updating title data and this API call returning
+ * the newest value.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetTitleDataRequest
 {
@@ -2792,6 +3125,15 @@ public:
         TArray<UPlayFabJsonObject*> News;
 };
 
+/**
+ * This API is designed to store publisher-specific values which can be read, but not written to, by the client. This data
+ * is shared across all
+ * titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a
+ * publisher can use this API. This operation is additive.
+ * If a Key does not exist in the current dataset, it will be added with
+ * the specified Value. If it already exists, the Value for that key will be overwritten with the new Value. For more
+ * information email devrel@playfab.com
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSetPublisherDataRequest
 {
@@ -2815,6 +3157,15 @@ struct PLAYFAB_API FServerSetPublisherDataResult
 public:
 };
 
+/**
+ * This API is designed to store title specific values which can be read, but not written to, by the client. For example, a
+ * developer
+ * could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement
+ * speeds, etc. This allows a developer to update
+ * the title without the need to create, test, and ship a new build. This operation is additive. If a Key does not exist in
+ * the current dataset, it will be added with
+ * the specified Value. If it already exists, the Value for that key will be overwritten with the new Value.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSetTitleDataRequest
 {

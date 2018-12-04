@@ -81,6 +81,7 @@ public:
         int32 Revision = 0;
 };
 
+/** Executes CloudScript with the entity profile that is defined in the request. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FCloudScriptExecuteEntityCloudScriptRequest
 {

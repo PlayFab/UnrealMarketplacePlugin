@@ -65,7 +65,10 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
-    /** Metadata to tag the build. */
+    /**
+     * Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
+     * Game Server SDK (GSDK).
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata;
     /** The number of multiplayer servers to host on a single VM. */
@@ -146,7 +149,10 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
-    /** Metadata to tag the build. */
+    /**
+     * Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
+     * Game Server SDK (GSDK).
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata;
     /** The number of multiplayer servers to host on a single VM. */
@@ -385,7 +391,7 @@ public:
     /** The build name. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildName;
-    /** The current build status. */
+    /** The current build status. Valid values are - Deploying, Deployed, DeletingRegion, Unhealthy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildStatus;
     /** The flavor of container of he build. */
@@ -409,7 +415,10 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
-    /** The metadata of the build. */
+    /**
+     * Metadata of the build. The keys are case insensitive. The build metadata is made available to the server through Game
+     * Server SDK (GSDK).
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata;
     /** The number of multiplayer servers to hosted on a single VM of the build. */
@@ -814,18 +823,20 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
     /**
-     * Initial list of players (potentially matchmade) allowed to connect to the game. The game server can use this list to
-     * validate players connecting to it.
+     * Initial list of players (potentially matchmade) allowed to connect to the game. This list is passed to the game server
+     * when requested (via GSDK) and can be used to validate players connecting to it.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString InitialPlayers;
-    /** The preferred regions to request a multiplayer server from. */
+    /**
+     * The preferred regions to request a multiplayer server from. The Multiplayer Service will iterate through the regions in
+     * the specified order and allocate a server from the first one that has servers available.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString PreferredRegions;
     /**
-     * Data encoded as a string that is passed to the game server when requested. This can be used to share a cryptographic
-     * secret for servers to authenticate clients or to communicate information such as game mode or map through the request
-     * flow.
+     * Data encoded as a string that is passed to the game server when requested. This can be used to to communicate
+     * information such as game mode or map through the request flow.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SessionCookie;

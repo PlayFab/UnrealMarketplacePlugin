@@ -140,6 +140,15 @@ namespace MultiplayerModels
         AzureVmSizeStandard_A2_v2,
         AzureVmSizeStandard_A4_v2,
         AzureVmSizeStandard_A8_v2,
+        AzureVmSizeStandard_F1,
+        AzureVmSizeStandard_F2,
+        AzureVmSizeStandard_F4,
+        AzureVmSizeStandard_F8,
+        AzureVmSizeStandard_F16,
+        AzureVmSizeStandard_F2s_v2,
+        AzureVmSizeStandard_F4s_v2,
+        AzureVmSizeStandard_F8s_v2,
+        AzureVmSizeStandard_F16s_v2,
         AzureVmSizeStandard_A1,
         AzureVmSizeStandard_A2,
         AzureVmSizeStandard_A3,
@@ -161,7 +170,10 @@ namespace MultiplayerModels
         // The number of standby multiplayer servers for the region.
         int32 StandbyServers;
 
-        // [optional] The status of multiplayer servers in the build region.
+        /**
+         * [optional] The status of multiplayer servers in the build region. Valid values are - Unknown, Initialized, Deploying, Deployed,
+         * Unhealthy.
+         */
         FString Status;
 
         FBuildRegion() :
@@ -510,7 +522,10 @@ namespace MultiplayerModels
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
-        // [optional] Metadata to tag the build.
+        /**
+         * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
+         * Game Server SDK (GSDK).
+         */
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
@@ -696,7 +711,10 @@ namespace MultiplayerModels
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
-        // [optional] Metadata to tag the build.
+        /**
+         * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
+         * Game Server SDK (GSDK).
+         */
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
@@ -1200,7 +1218,7 @@ namespace MultiplayerModels
         // [optional] The build name.
         FString BuildName;
 
-        // [optional] The current build status.
+        // [optional] The current build status. Valid values are - Deploying, Deployed, DeletingRegion, Unhealthy.
         FString BuildStatus;
 
         // [optional] The flavor of container of he build.
@@ -1222,7 +1240,10 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
-        // [optional] The metadata of the build.
+        /**
+         * [optional] Metadata of the build. The keys are case insensitive. The build metadata is made available to the server through Game
+         * Server SDK (GSDK).
+         */
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to hosted on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
@@ -2219,16 +2240,18 @@ namespace MultiplayerModels
         FString BuildId;
 
         /**
-         * [optional] Initial list of players (potentially matchmade) allowed to connect to the game. The game server can use this list to
-         * validate players connecting to it.
+         * [optional] Initial list of players (potentially matchmade) allowed to connect to the game. This list is passed to the game server
+         * when requested (via GSDK) and can be used to validate players connecting to it.
          */
         TArray<FString> InitialPlayers;
-        // The preferred regions to request a multiplayer server from.
+        /**
+         * The preferred regions to request a multiplayer server from. The Multiplayer Service will iterate through the regions in
+         * the specified order and allocate a server from the first one that has servers available.
+         */
         TArray<AzureRegion> PreferredRegions;
         /**
-         * [optional] Data encoded as a string that is passed to the game server when requested. This can be used to share a cryptographic
-         * secret for servers to authenticate clients or to communicate information such as game mode or map through the request
-         * flow.
+         * [optional] Data encoded as a string that is passed to the game server when requested. This can be used to to communicate
+         * information such as game mode or map through the request flow.
          */
         FString SessionCookie;
 

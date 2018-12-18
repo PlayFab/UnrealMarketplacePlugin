@@ -758,6 +758,60 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     this->RemoveFromRoot();
 }
 
+/** Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers. */
+UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromPSNAccountIDs(FClientGetPlayFabIDsFromPSNAccountIDsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromPSNAccountIDs = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromPSNAccountIDs);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromPSNAccountIDs";
+    manager->useSessionTicket = true;
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
+    // Check to see if string is empty
+    if (request.PSNAccountIDs.IsEmpty() || request.PSNAccountIDs == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PSNAccountIDs"));
+    } else {
+        TArray<FString> PSNAccountIDsArray;
+        FString(request.PSNAccountIDs).ParseIntoArray(PSNAccountIDsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("PSNAccountIDs"), PSNAccountIDsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperGetPlayFabIDsFromPSNAccountIDs(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromPSNAccountIDs.IsBound())
+    {
+        FClientGetPlayFabIDsFromPSNAccountIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromPSNAccountIDs.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers are the profile IDs for the user accounts, available as SteamId in the Steamworks Community API calls. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromSteamIDs(FClientGetPlayFabIDsFromSteamIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs onSuccess,
@@ -1458,6 +1512,63 @@ void UPlayFabClientAPI::HelperLinkOpenIdConnect(FPlayFabBaseModel response, UObj
     {
         FClientEmptyResult result = UPlayFabClientModelDecoder::decodeEmptyResultResponse(response.responseData);
         OnSuccessLinkOpenIdConnect.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Links the PlayStation Network account associated with the provided access code to the user's PlayFab account */
+UPlayFabClientAPI* UPlayFabClientAPI::LinkPSNAccount(FClientLinkPSNAccountRequest request,
+    FDelegateOnSuccessLinkPSNAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkPSNAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkPSNAccount);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Client/LinkPSNAccount";
+    manager->useSessionTicket = true;
+
+    // Serialize all the request properties to json
+    if (request.AuthCode.IsEmpty() || request.AuthCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
+    if (request.RedirectUri.IsEmpty() || request.RedirectUri == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("RedirectUri"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("RedirectUri"), request.RedirectUri);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLinkPSNAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkPSNAccount.IsBound())
+    {
+        FClientLinkPSNAccountResult result = UPlayFabClientModelDecoder::decodeLinkPSNAccountResultResponse(response.responseData);
+        OnSuccessLinkPSNAccount.Execute(result, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2353,6 +2464,51 @@ void UPlayFabClientAPI::HelperUnlinkOpenIdConnect(FPlayFabBaseModel response, UO
     {
         FClientEmptyResponse result = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
         OnSuccessUnlinkOpenIdConnect.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unlinks the related PSN account from the user's PlayFab account */
+UPlayFabClientAPI* UPlayFabClientAPI::UnlinkPSNAccount(FClientUnlinkPSNAccountRequest request,
+    FDelegateOnSuccessUnlinkPSNAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkPSNAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkPSNAccount);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Client/UnlinkPSNAccount";
+    manager->useSessionTicket = true;
+
+    // Serialize all the request properties to json
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperUnlinkPSNAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkPSNAccount.IsBound())
+    {
+        FClientUnlinkPSNAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkPSNAccountResultResponse(response.responseData);
+        OnSuccessUnlinkPSNAccount.Execute(result, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3865,6 +4021,76 @@ void UPlayFabClientAPI::HelperLoginWithPlayFab(FPlayFabBaseModel response, UObje
     {
         FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
         OnSuccessLoginWithPlayFab.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Signs the user in using a PlayStation Network authentication code, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
+UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPSN(FClientLoginWithPSNRequest request,
+    FDelegateOnSuccessLoginWithPSN onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithPSN = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithPSN);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Client/LoginWithPSN";
+    manager->returnsSessionTicket = true;
+
+    // Serialize all the request properties to json
+    if (request.AuthCode.IsEmpty() || request.AuthCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
+    }
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
+    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
+    if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
+    }
+    if (request.RedirectUri.IsEmpty() || request.RedirectUri == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("RedirectUri"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("RedirectUri"), request.RedirectUri);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLoginWithPSN(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithPSN.IsBound())
+    {
+        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        OnSuccessLoginWithPSN.Execute(result, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5521,6 +5747,57 @@ void UPlayFabClientAPI::HelperAndroidDevicePushNotificationRegistration(FPlayFab
     this->RemoveFromRoot();
 }
 
+/** Checks for any new consumable entitlements. If any are found, they are consumed and added as PlayFab items */
+UPlayFabClientAPI* UPlayFabClientAPI::ConsumePSNEntitlements(FClientConsumePSNEntitlementsRequest request,
+    FDelegateOnSuccessConsumePSNEntitlements onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessConsumePSNEntitlements = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConsumePSNEntitlements);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Client/ConsumePSNEntitlements";
+    manager->useSessionTicket = true;
+
+    // Serialize all the request properties to json
+    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("ServiceLabel"), request.ServiceLabel);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperConsumePSNEntitlements(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessConsumePSNEntitlements.IsBound())
+    {
+        FClientConsumePSNEntitlementsResult result = UPlayFabClientModelDecoder::decodeConsumePSNEntitlementsResultResponse(response.responseData);
+        OnSuccessConsumePSNEntitlements.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Grants the player's current entitlements from Xbox Live, consuming all availble items in Xbox and granting them to the player's PlayFab inventory. This call is idempotent and will not grant previously granted items to the player. */
 UPlayFabClientAPI* UPlayFabClientAPI::ConsumeXboxEntitlements(FClientConsumeXboxEntitlementsRequest request,
     FDelegateOnSuccessConsumeXboxEntitlements onSuccess,
@@ -5572,6 +5849,62 @@ void UPlayFabClientAPI::HelperConsumeXboxEntitlements(FPlayFabBaseModel response
     {
         FClientConsumeXboxEntitlementsResult result = UPlayFabClientModelDecoder::decodeConsumeXboxEntitlementsResultResponse(response.responseData);
         OnSuccessConsumeXboxEntitlements.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Uses the supplied OAuth code to refresh the internally cached player PSN auth token */
+UPlayFabClientAPI* UPlayFabClientAPI::RefreshPSNAuthToken(FClientRefreshPSNAuthTokenRequest request,
+    FDelegateOnSuccessRefreshPSNAuthToken onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRefreshPSNAuthToken = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRefreshPSNAuthToken);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Client/RefreshPSNAuthToken";
+    manager->useSessionTicket = true;
+
+    // Serialize all the request properties to json
+    if (request.AuthCode.IsEmpty() || request.AuthCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
+    if (request.RedirectUri.IsEmpty() || request.RedirectUri == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("RedirectUri"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("RedirectUri"), request.RedirectUri);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperRefreshPSNAuthToken(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRefreshPSNAuthToken.IsBound())
+    {
+        FClientEmptyResponse result = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessRefreshPSNAuthToken.Execute(result, mCustomData);
     }
     this->RemoveFromRoot();
 }

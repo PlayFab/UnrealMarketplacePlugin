@@ -1432,6 +1432,62 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FConsumePSNEntitlementsRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Which catalog to match granted entitlements against. If null, defaults to title default catalog
+        FString CatalogVersion;
+
+        // Id of the PSN service label to consume entitlements from
+        int32 ServiceLabel;
+
+        FConsumePSNEntitlementsRequest() :
+            FPlayFabCppBaseModel(),
+            CatalogVersion(),
+            ServiceLabel(0)
+            {}
+
+        FConsumePSNEntitlementsRequest(const FConsumePSNEntitlementsRequest& src) :
+            FPlayFabCppBaseModel(),
+            CatalogVersion(src.CatalogVersion),
+            ServiceLabel(src.ServiceLabel)
+            {}
+
+        FConsumePSNEntitlementsRequest(const TSharedPtr<FJsonObject>& obj) : FConsumePSNEntitlementsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConsumePSNEntitlementsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FConsumePSNEntitlementsResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Array of items granted to the player as a result of consuming entitlements.
+        TArray<FItemInstance> ItemsGranted;
+        FConsumePSNEntitlementsResult() :
+            FPlayFabCppBaseModel(),
+            ItemsGranted()
+            {}
+
+        FConsumePSNEntitlementsResult(const FConsumePSNEntitlementsResult& src) :
+            FPlayFabCppBaseModel(),
+            ItemsGranted(src.ItemsGranted)
+            {}
+
+        FConsumePSNEntitlementsResult(const TSharedPtr<FJsonObject>& obj) : FConsumePSNEntitlementsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConsumePSNEntitlementsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FConsumeXboxEntitlementsRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Catalog version to use
@@ -6609,6 +6665,92 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        Boxed<int32> IssuerId;
+
+        // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
+        TArray<FString> PSNAccountIDs;
+        FGetPlayFabIDsFromPSNAccountIDsRequest() :
+            FPlayFabCppBaseModel(),
+            IssuerId(),
+            PSNAccountIDs()
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsRequest(const FGetPlayFabIDsFromPSNAccountIDsRequest& src) :
+            FPlayFabCppBaseModel(),
+            IssuerId(src.IssuerId),
+            PSNAccountIDs(src.PSNAccountIDs)
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromPSNAccountIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromPSNAccountIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPSNAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation Network identifier.
+        FString PlayFabId;
+
+        // [optional] Unique PlayStation Network identifier for a user.
+        FString PSNAccountId;
+
+        FPSNAccountPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            PSNAccountId()
+            {}
+
+        FPSNAccountPlayFabIdPair(const FPSNAccountPlayFabIdPair& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabId(src.PlayFabId),
+            PSNAccountId(src.PSNAccountId)
+            {}
+
+        FPSNAccountPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FPSNAccountPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPSNAccountPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        TArray<FPSNAccountPlayFabIdPair> Data;
+        FGetPlayFabIDsFromPSNAccountIDsResult() :
+            FPlayFabCppBaseModel(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsResult(const FGetPlayFabIDsFromPSNAccountIDsResult& src) :
+            FPlayFabCppBaseModel(),
+            Data(src.Data)
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromPSNAccountIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromPSNAccountIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers.
@@ -8405,6 +8547,68 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkPSNAccountRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Authentication code provided by the PlayStation Network.
+        FString AuthCode;
+
+        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        Boxed<int32> IssuerId;
+
+        // Redirect URI supplied to PSN when requesting an auth code
+        FString RedirectUri;
+
+        FLinkPSNAccountRequest() :
+            FPlayFabCppBaseModel(),
+            AuthCode(),
+            ForceLink(),
+            IssuerId(),
+            RedirectUri()
+            {}
+
+        FLinkPSNAccountRequest(const FLinkPSNAccountRequest& src) :
+            FPlayFabCppBaseModel(),
+            AuthCode(src.AuthCode),
+            ForceLink(src.ForceLink),
+            IssuerId(src.IssuerId),
+            RedirectUri(src.RedirectUri)
+            {}
+
+        FLinkPSNAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkPSNAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkPSNAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkPSNAccountResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        FLinkPSNAccountResult() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FLinkPSNAccountResult(const FLinkPSNAccountResult& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FLinkPSNAccountResult(const TSharedPtr<FJsonObject>& obj) : FLinkPSNAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkPSNAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkSteamAccountRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
@@ -9496,6 +9700,75 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLoginWithPSNRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Auth code provided by the PSN OAuth provider.
+        FString AuthCode;
+
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        FString EncryptedRequest;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        Boxed<int32> IssuerId;
+
+        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
+        Boxed<bool> LoginTitlePlayerAccountEntity;
+
+        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        FString PlayerSecret;
+
+        // [optional] Redirect URI supplied to PSN when requesting an auth code
+        FString RedirectUri;
+
+        /**
+         * Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+         * title has been selected.
+         */
+        FString TitleId;
+
+        FLoginWithPSNRequest() :
+            FPlayFabCppBaseModel(),
+            AuthCode(),
+            CreateAccount(),
+            EncryptedRequest(),
+            InfoRequestParameters(nullptr),
+            IssuerId(),
+            LoginTitlePlayerAccountEntity(),
+            PlayerSecret(),
+            RedirectUri(),
+            TitleId()
+            {}
+
+        FLoginWithPSNRequest(const FLoginWithPSNRequest& src) :
+            FPlayFabCppBaseModel(),
+            AuthCode(src.AuthCode),
+            CreateAccount(src.CreateAccount),
+            EncryptedRequest(src.EncryptedRequest),
+            InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
+            IssuerId(src.IssuerId),
+            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
+            PlayerSecret(src.PlayerSecret),
+            RedirectUri(src.RedirectUri),
+            TitleId(src.TitleId)
+            {}
+
+        FLoginWithPSNRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithPSNRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithPSNRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLoginWithSteamRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
@@ -10282,6 +10555,42 @@ namespace ClientModels
         }
 
         ~FRedeemCouponResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRefreshPSNAuthTokenRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Auth code returned by PSN OAuth system.
+        FString AuthCode;
+
+        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        Boxed<int32> IssuerId;
+
+        // Redirect URI supplied to PSN when requesting an auth code
+        FString RedirectUri;
+
+        FRefreshPSNAuthTokenRequest() :
+            FPlayFabCppBaseModel(),
+            AuthCode(),
+            IssuerId(),
+            RedirectUri()
+            {}
+
+        FRefreshPSNAuthTokenRequest(const FRefreshPSNAuthTokenRequest& src) :
+            FPlayFabCppBaseModel(),
+            AuthCode(src.AuthCode),
+            IssuerId(src.IssuerId),
+            RedirectUri(src.RedirectUri)
+            {}
+
+        FRefreshPSNAuthTokenRequest(const TSharedPtr<FJsonObject>& obj) : FRefreshPSNAuthTokenRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRefreshPSNAuthTokenRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -11677,6 +11986,48 @@ namespace ClientModels
         }
 
         ~FUnlinkNintendoSwitchDeviceIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkPSNAccountRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        FUnlinkPSNAccountRequest() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FUnlinkPSNAccountRequest(const FUnlinkPSNAccountRequest& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FUnlinkPSNAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkPSNAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkPSNAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkPSNAccountResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        FUnlinkPSNAccountResult() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FUnlinkPSNAccountResult(const FUnlinkPSNAccountResult& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FUnlinkPSNAccountResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkPSNAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkPSNAccountResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

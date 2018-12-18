@@ -161,6 +161,17 @@ FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult UPlayFabClientModelDecoder
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromPSNAccountIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromPSNAccountIDsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientGetPlayFabIDsFromSteamIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromSteamIDsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -279,6 +290,15 @@ FClientEmptyResult UPlayFabClientModelDecoder::decodeEmptyResultResponse(UPlayFa
 {
     // Temp ustruct
     FClientEmptyResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FClientLinkPSNAccountResult UPlayFabClientModelDecoder::decodeLinkPSNAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientLinkPSNAccountResult tempStruct;
 
 
     return tempStruct;
@@ -443,6 +463,15 @@ FClientEmptyResponse UPlayFabClientModelDecoder::decodeEmptyResponseResponse(UPl
 {
     // Temp ustruct
     FClientEmptyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
+FClientUnlinkPSNAccountResult UPlayFabClientModelDecoder::decodeUnlinkPSNAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientUnlinkPSNAccountResult tempStruct;
 
 
     return tempStruct;
@@ -861,6 +890,17 @@ FClientAndroidDevicePushNotificationRegistrationResult UPlayFabClientModelDecode
     // Temp ustruct
     FClientAndroidDevicePushNotificationRegistrationResult tempStruct;
 
+
+    return tempStruct;
+}
+
+FClientConsumePSNEntitlementsResult UPlayFabClientModelDecoder::decodeConsumePSNEntitlementsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientConsumePSNEntitlementsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ItemsGranted = !(dataObj->HasField("ItemsGranted")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("ItemsGranted");
 
     return tempStruct;
 }

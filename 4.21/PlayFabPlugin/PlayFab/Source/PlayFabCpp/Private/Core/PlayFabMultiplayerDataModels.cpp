@@ -153,6 +153,8 @@ void PlayFab::MultiplayerModels::writeAzureRegionEnumJSON(AzureRegion enumVal, J
     case AzureRegionSoutheastAsia: writer->WriteValue(TEXT("SoutheastAsia")); break;
     case AzureRegionWestEurope: writer->WriteValue(TEXT("WestEurope")); break;
     case AzureRegionWestUs: writer->WriteValue(TEXT("WestUs")); break;
+    case AzureRegionChinaEast2: writer->WriteValue(TEXT("ChinaEast2")); break;
+    case AzureRegionChinaNorth2: writer->WriteValue(TEXT("ChinaNorth2")); break;
     }
 }
 
@@ -182,6 +184,8 @@ MultiplayerModels::AzureRegion PlayFab::MultiplayerModels::readAzureRegionFromVa
         _AzureRegionMap.Add(TEXT("SoutheastAsia"), AzureRegionSoutheastAsia);
         _AzureRegionMap.Add(TEXT("WestEurope"), AzureRegionWestEurope);
         _AzureRegionMap.Add(TEXT("WestUs"), AzureRegionWestUs);
+        _AzureRegionMap.Add(TEXT("ChinaEast2"), AzureRegionChinaEast2);
+        _AzureRegionMap.Add(TEXT("ChinaNorth2"), AzureRegionChinaNorth2);
 
     }
 
@@ -271,14 +275,72 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
     return AzureVmSizeStandard_D1_v2; // Basically critical fail
 }
 
+PlayFab::MultiplayerModels::FCurrentServerStats::~FCurrentServerStats()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCurrentServerStats::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Active")); writer->WriteValue(Active);
+
+    writer->WriteIdentifierPrefix(TEXT("Propping")); writer->WriteValue(Propping);
+
+    writer->WriteIdentifierPrefix(TEXT("StandingBy")); writer->WriteValue(StandingBy);
+
+    writer->WriteIdentifierPrefix(TEXT("Total")); writer->WriteValue(Total);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCurrentServerStats::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ActiveValue = obj->TryGetField(TEXT("Active"));
+    if (ActiveValue.IsValid() && !ActiveValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ActiveValue->TryGetNumber(TmpValue)) { Active = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ProppingValue = obj->TryGetField(TEXT("Propping"));
+    if (ProppingValue.IsValid() && !ProppingValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ProppingValue->TryGetNumber(TmpValue)) { Propping = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StandingByValue = obj->TryGetField(TEXT("StandingBy"));
+    if (StandingByValue.IsValid() && !StandingByValue->IsNull())
+    {
+        int32 TmpValue;
+        if (StandingByValue->TryGetNumber(TmpValue)) { StandingBy = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TotalValue = obj->TryGetField(TEXT("Total"));
+    if (TotalValue.IsValid() && !TotalValue->IsNull())
+    {
+        int32 TmpValue;
+        if (TotalValue->TryGetNumber(TmpValue)) { Total = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FBuildRegion::~FBuildRegion()
 {
+    //if (CurrentServerStats != nullptr) delete CurrentServerStats;
 
 }
 
 void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (pfCurrentServerStats.IsValid()) { writer->WriteIdentifierPrefix(TEXT("CurrentServerStats")); pfCurrentServerStats->writeJSON(writer); }
 
     writer->WriteIdentifierPrefix(TEXT("MaxServers")); writer->WriteValue(MaxServers);
 
@@ -294,6 +356,12 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
 bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CurrentServerStatsValue = obj->TryGetField(TEXT("CurrentServerStats"));
+    if (CurrentServerStatsValue.IsValid() && !CurrentServerStatsValue->IsNull())
+    {
+        pfCurrentServerStats = MakeShareable(new FCurrentServerStats(CurrentServerStatsValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonValue> MaxServersValue = obj->TryGetField(TEXT("MaxServers"));
     if (MaxServersValue.IsValid() && !MaxServersValue->IsNull())

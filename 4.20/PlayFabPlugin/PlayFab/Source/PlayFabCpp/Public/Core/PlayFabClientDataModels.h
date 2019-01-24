@@ -8993,9 +8993,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Specific Operating System version for the user's device.
         FString OS;
 
@@ -9015,7 +9012,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             OS(),
             PlayerSecret(),
             TitleId()
@@ -9028,7 +9024,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             OS(src.OS),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
@@ -9059,9 +9054,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9077,7 +9069,6 @@ namespace ClientModels
             CustomId(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             TitleId()
             {}
@@ -9088,7 +9079,6 @@ namespace ClientModels
             CustomId(src.CustomId),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
             {}
@@ -9112,9 +9102,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // Password for the PlayFab account (6-100 characters)
         FString Password;
 
@@ -9128,7 +9115,6 @@ namespace ClientModels
             FPlayFabCppBaseModel(),
             Email(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             Password(),
             TitleId()
             {}
@@ -9137,7 +9123,6 @@ namespace ClientModels
             FPlayFabCppBaseModel(),
             Email(src.Email),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             Password(src.Password),
             TitleId(src.TitleId)
             {}
@@ -9167,9 +9152,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9185,7 +9167,6 @@ namespace ClientModels
             EncryptedRequest(),
             FacebookInstantGamesSignature(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             TitleId()
             {}
@@ -9196,7 +9177,6 @@ namespace ClientModels
             EncryptedRequest(src.EncryptedRequest),
             FacebookInstantGamesSignature(src.FacebookInstantGamesSignature),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
             {}
@@ -9226,9 +9206,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9244,7 +9221,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             TitleId()
             {}
@@ -9255,7 +9231,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
             {}
@@ -9282,9 +9257,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Unique Game Center player id.
         FString PlayerId;
 
@@ -9302,7 +9274,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerId(),
             PlayerSecret(),
             TitleId()
@@ -9313,7 +9284,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerId(src.PlayerId),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
@@ -9341,9 +9311,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9364,7 +9331,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             ServerAuthCode(),
             TitleId()
@@ -9375,7 +9341,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             ServerAuthCode(src.ServerAuthCode),
             TitleId(src.TitleId)
@@ -9409,9 +9374,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Specific Operating System version for the user's device.
         FString OS;
 
@@ -9431,7 +9393,6 @@ namespace ClientModels
             DeviceModel(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             OS(),
             PlayerSecret(),
             TitleId()
@@ -9444,7 +9405,6 @@ namespace ClientModels
             DeviceModel(src.DeviceModel),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             OS(src.OS),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
@@ -9478,9 +9438,6 @@ namespace ClientModels
         // [optional] Numeric user ID assigned by Kongregate
         FString KongregateId;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9497,7 +9454,6 @@ namespace ClientModels
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
             KongregateId(),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             TitleId()
             {}
@@ -9509,7 +9465,6 @@ namespace ClientModels
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
             KongregateId(src.KongregateId),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
             {}
@@ -9536,9 +9491,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Nintendo Switch unique identifier for the user's device.
         FString NintendoSwitchDeviceId;
 
@@ -9556,7 +9508,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             NintendoSwitchDeviceId(),
             PlayerSecret(),
             TitleId()
@@ -9567,7 +9518,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             NintendoSwitchDeviceId(src.NintendoSwitchDeviceId),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
@@ -9604,9 +9554,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9623,7 +9570,6 @@ namespace ClientModels
             EncryptedRequest(),
             IdToken(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             TitleId()
             {}
@@ -9635,7 +9581,6 @@ namespace ClientModels
             EncryptedRequest(src.EncryptedRequest),
             IdToken(src.IdToken),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
             {}
@@ -9656,9 +9601,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // Password for the PlayFab account (6-100 characters)
         FString Password;
 
@@ -9674,7 +9616,6 @@ namespace ClientModels
         FLoginWithPlayFabRequest() :
             FPlayFabCppBaseModel(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             Password(),
             TitleId(),
             Username()
@@ -9683,7 +9624,6 @@ namespace ClientModels
         FLoginWithPlayFabRequest(const FLoginWithPlayFabRequest& src) :
             FPlayFabCppBaseModel(),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             Password(src.Password),
             TitleId(src.TitleId),
             Username(src.Username)
@@ -9717,9 +9657,6 @@ namespace ClientModels
         // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
         Boxed<int32> IssuerId;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9739,7 +9676,6 @@ namespace ClientModels
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
             IssuerId(),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             RedirectUri(),
             TitleId()
@@ -9752,7 +9688,6 @@ namespace ClientModels
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
             IssuerId(src.IssuerId),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             RedirectUri(src.RedirectUri),
             TitleId(src.TitleId)
@@ -9780,9 +9715,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9803,7 +9735,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             SteamTicket(),
             TitleId()
@@ -9814,7 +9745,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             SteamTicket(src.SteamTicket),
             TitleId(src.TitleId)
@@ -9845,9 +9775,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9863,7 +9790,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             TitleId()
             {}
@@ -9874,7 +9800,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId)
             {}
@@ -9898,9 +9823,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // SHA256 hash of the PublicKey generated by Windows Hello.
         FString PublicKeyHint;
 
@@ -9914,7 +9836,6 @@ namespace ClientModels
             FPlayFabCppBaseModel(),
             ChallengeSignature(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PublicKeyHint(),
             TitleId()
             {}
@@ -9923,7 +9844,6 @@ namespace ClientModels
             FPlayFabCppBaseModel(),
             ChallengeSignature(src.ChallengeSignature),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PublicKeyHint(src.PublicKeyHint),
             TitleId(src.TitleId)
             {}
@@ -9950,9 +9870,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -9970,7 +9887,6 @@ namespace ClientModels
             CreateAccount(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             TitleId(),
             XboxToken()
@@ -9981,7 +9897,6 @@ namespace ClientModels
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             TitleId(src.TitleId),
             XboxToken(src.XboxToken)
@@ -10667,9 +10582,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Password for the PlayFab account (6-100 characters)
         FString Password;
 
@@ -10698,7 +10610,6 @@ namespace ClientModels
             Email(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             Password(),
             PlayerSecret(),
             RequireBothUsernameAndEmail(),
@@ -10712,7 +10623,6 @@ namespace ClientModels
             Email(src.Email),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             Password(src.Password),
             PlayerSecret(src.PlayerSecret),
             RequireBothUsernameAndEmail(src.RequireBothUsernameAndEmail),
@@ -10791,9 +10701,6 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -10814,7 +10721,6 @@ namespace ClientModels
             DeviceName(),
             EncryptedRequest(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             PublicKey(),
             TitleId(),
@@ -10826,7 +10732,6 @@ namespace ClientModels
             DeviceName(src.DeviceName),
             EncryptedRequest(src.EncryptedRequest),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             PublicKey(src.PublicKey),
             TitleId(src.TitleId),

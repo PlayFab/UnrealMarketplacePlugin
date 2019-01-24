@@ -47,7 +47,7 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FAssetReferenceParams : public PlayFab::FPlayFabCppBaseModel
     {
-        // The asset's file name. This must be a filename with the .zip, .tar, or .tar.gz extension.
+        // The asset's file name.
         FString FileName;
 
         // The asset's mount path.
@@ -122,7 +122,9 @@ namespace MultiplayerModels
         AzureRegionSouthCentralUs,
         AzureRegionSoutheastAsia,
         AzureRegionWestEurope,
-        AzureRegionWestUs
+        AzureRegionWestUs,
+        AzureRegionChinaEast2,
+        AzureRegionChinaNorth2
     };
 
     PLAYFABCPP_API void writeAzureRegionEnumJSON(AzureRegion enumVal, JsonWriter& writer);
@@ -159,8 +161,52 @@ namespace MultiplayerModels
     PLAYFABCPP_API AzureVmSize readAzureVmSizeFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API AzureVmSize readAzureVmSizeFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FCurrentServerStats : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The number of active multiplayer servers.
+        int32 Active;
+
+        // The number of multiplayer servers still downloading game resources (such as assets).
+        int32 Propping;
+
+        // The number of standingby multiplayer servers.
+        int32 StandingBy;
+
+        // The total number of multiplayer servers.
+        int32 Total;
+
+        FCurrentServerStats() :
+            FPlayFabCppBaseModel(),
+            Active(0),
+            Propping(0),
+            StandingBy(0),
+            Total(0)
+            {}
+
+        FCurrentServerStats(const FCurrentServerStats& src) :
+            FPlayFabCppBaseModel(),
+            Active(src.Active),
+            Propping(src.Propping),
+            StandingBy(src.StandingBy),
+            Total(src.Total)
+            {}
+
+        FCurrentServerStats(const TSharedPtr<FJsonObject>& obj) : FCurrentServerStats()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCurrentServerStats();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FBuildRegion : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The current multiplayer server stats for the region.
+        TSharedPtr<FCurrentServerStats> pfCurrentServerStats;
+
         // The maximum number of multiplayer servers for the region.
         int32 MaxServers;
 
@@ -178,6 +224,7 @@ namespace MultiplayerModels
 
         FBuildRegion() :
             FPlayFabCppBaseModel(),
+            pfCurrentServerStats(nullptr),
             MaxServers(0),
             Region(),
             StandbyServers(0),
@@ -186,6 +233,7 @@ namespace MultiplayerModels
 
         FBuildRegion(const FBuildRegion& src) :
             FPlayFabCppBaseModel(),
+            pfCurrentServerStats(src.pfCurrentServerStats.IsValid() ? MakeShareable(new FCurrentServerStats(*src.pfCurrentServerStats)) : nullptr),
             MaxServers(src.MaxServers),
             Region(src.Region),
             StandbyServers(src.StandbyServers),
@@ -928,7 +976,7 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FDeleteAssetRequest : public PlayFab::FPlayFabCppBaseModel
     {
-        // The filename of the asset to delete. This must be a filename with the .zip, .tar, or .tar.gz extension.
+        // The filename of the asset to delete.
         FString FileName;
 
         FDeleteAssetRequest() :
@@ -1126,7 +1174,7 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetAssetUploadUrlRequest : public PlayFab::FPlayFabCppBaseModel
     {
-        // The asset's file name to get the upload URL for. This must be a filename with the .zip, .tar, or .tar.gz extension.
+        // The asset's file name to get the upload URL for.
         FString FileName;
 
         FGetAssetUploadUrlRequest() :
@@ -1155,10 +1203,7 @@ namespace MultiplayerModels
         // [optional] The asset's upload URL.
         FString AssetUploadUrl;
 
-        /**
-         * [optional] The asset's file name to get the upload URL for. This must be a filename will be a file with the .zip, .tar, or .tar.gz
-         * extension.
-         */
+        // [optional] The asset's file name to get the upload URL for.
         FString FileName;
 
         FGetAssetUploadUrlResponse() :

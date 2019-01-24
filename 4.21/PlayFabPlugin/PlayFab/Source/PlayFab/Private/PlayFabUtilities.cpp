@@ -450,6 +450,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1418: returnText = "PushNotificationTemplateMissingDefaultVersion"; break;
     case 1419: returnText = "PushNotificationTemplateInvalidSyntax"; break;
     case 1420: returnText = "PushNotificationTemplateNoCustomPayloadForV1"; break;
+    case 1421: returnText = "NoLeaderboardForStatistic"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2003: returnText = "MatchmakingCreateRequestMissing"; break;

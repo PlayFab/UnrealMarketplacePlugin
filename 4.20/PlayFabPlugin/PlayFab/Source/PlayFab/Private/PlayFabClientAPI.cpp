@@ -3278,7 +3278,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithAndroidDeviceID(FClientLoginWithA
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.OS.IsEmpty() || request.OS == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OS"));
     } else {
@@ -3347,7 +3346,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithCustomID(FClientLoginWithCustomID
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -3405,7 +3403,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithEmailAddress(FClientLoginWithEmai
         OutRestJsonObj->SetStringField(TEXT("Email"), request.Email);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.Password.IsEmpty() || request.Password == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Password"));
     } else {
@@ -3469,7 +3466,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebook(FClientLoginWithFacebook
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -3533,7 +3529,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebookInstantGamesId(FClientLog
         OutRestJsonObj->SetStringField(TEXT("FacebookInstantGamesSignature"), request.FacebookInstantGamesSignature);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -3592,7 +3587,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGameCenter(FClientLoginWithGameCe
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerId.IsEmpty() || request.PlayerId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerId"));
     } else {
@@ -3656,7 +3650,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGoogleAccount(FClientLoginWithGoo
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -3730,7 +3723,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithIOSDeviceID(FClientLoginWithIOSDe
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.OS.IsEmpty() || request.OS == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OS"));
     } else {
@@ -3804,7 +3796,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithKongregate(FClientLoginWithKongre
     } else {
         OutRestJsonObj->SetStringField(TEXT("KongregateId"), request.KongregateId);
     }
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -3863,7 +3854,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchDeviceId(FClientLog
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.NintendoSwitchDeviceId.IsEmpty() || request.NintendoSwitchDeviceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("NintendoSwitchDeviceId"));
     } else {
@@ -3937,7 +3927,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithOpenIdConnect(FClientLoginWithOpe
         OutRestJsonObj->SetStringField(TEXT("IdToken"), request.IdToken);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -3990,7 +3979,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPlayFab(FClientLoginWithPlayFabRe
 
     // Serialize all the request properties to json
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.Password.IsEmpty() || request.Password == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Password"));
     } else {
@@ -4060,7 +4048,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPSN(FClientLoginWithPSNRequest re
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
     OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -4124,7 +4111,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithSteam(FClientLoginWithSteamReques
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -4193,7 +4179,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithTwitch(FClientLoginWithTwitchRequ
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -4251,7 +4236,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithWindowsHello(FClientLoginWithWind
         OutRestJsonObj->SetStringField(TEXT("ChallengeSignature"), request.ChallengeSignature);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PublicKeyHint"));
     } else {
@@ -4310,7 +4294,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithXbox(FClientLoginWithXboxRequest 
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -4383,7 +4366,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterPlayFabUser(FClientRegisterPlayFab
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.Password.IsEmpty() || request.Password == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Password"));
     } else {
@@ -4457,7 +4439,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterWithWindowsHello(FClientRegisterWi
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
     }
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {

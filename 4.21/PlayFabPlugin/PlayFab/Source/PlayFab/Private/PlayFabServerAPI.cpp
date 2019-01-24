@@ -1414,7 +1414,6 @@ UPlayFabServerAPI* UPlayFabServerAPI::LoginWithServerCustomId(FServerLoginWithSe
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
     } else {
@@ -1472,7 +1471,6 @@ UPlayFabServerAPI* UPlayFabServerAPI::LoginWithXbox(FServerLoginWithXboxRequest 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    OutRestJsonObj->SetBoolField(TEXT("LoginTitlePlayerAccountEntity"), request.LoginTitlePlayerAccountEntity);
     if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
     } else {

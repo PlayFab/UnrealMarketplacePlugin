@@ -263,7 +263,7 @@ struct PLAYFAB_API FMultiplayerDeleteAssetRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The filename of the asset to delete. This must be a filename with the .zip, .tar, or .tar.gz extension. */
+    /** The filename of the asset to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString FileName;
 };
@@ -348,7 +348,7 @@ struct PLAYFAB_API FMultiplayerGetAssetUploadUrlRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The asset's file name to get the upload URL for. This must be a filename with the .zip, .tar, or .tar.gz extension. */
+    /** The asset's file name to get the upload URL for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString FileName;
 };
@@ -361,10 +361,7 @@ public:
     /** The asset's upload URL. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString AssetUploadUrl;
-    /**
-     * The asset's file name to get the upload URL for. This must be a filename will be a file with the .zip, .tar, or .tar.gz
-     * extension.
-     */
+    /** The asset's file name to get the upload URL for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString FileName;
 };

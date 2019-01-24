@@ -7562,9 +7562,6 @@ namespace ServerModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
@@ -7575,7 +7572,6 @@ namespace ServerModels
             FPlayFabCppBaseModel(),
             CreateAccount(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             PlayerSecret(),
             ServerCustomId()
             {}
@@ -7584,7 +7580,6 @@ namespace ServerModels
             FPlayFabCppBaseModel(),
             CreateAccount(src.CreateAccount),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             PlayerSecret(src.PlayerSecret),
             ServerCustomId(src.ServerCustomId)
             {}
@@ -7608,9 +7603,6 @@ namespace ServerModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Formerly triggered an Entity login with a normal client login. This is now automatic, and always-on.
-        Boxed<bool> LoginTitlePlayerAccountEntity;
-
         // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
         FString XboxToken;
 
@@ -7618,7 +7610,6 @@ namespace ServerModels
             FPlayFabCppBaseModel(),
             CreateAccount(),
             InfoRequestParameters(nullptr),
-            LoginTitlePlayerAccountEntity(),
             XboxToken()
             {}
 
@@ -7626,7 +7617,6 @@ namespace ServerModels
             FPlayFabCppBaseModel(),
             CreateAccount(src.CreateAccount),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
-            LoginTitlePlayerAccountEntity(src.LoginTitlePlayerAccountEntity),
             XboxToken(src.XboxToken)
             {}
 

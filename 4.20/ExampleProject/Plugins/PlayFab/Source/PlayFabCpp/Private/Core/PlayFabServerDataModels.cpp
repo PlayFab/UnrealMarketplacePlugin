@@ -10914,8 +10914,6 @@ void PlayFab::ServerModels::FLoginWithServerCustomIdRequest::writeJSON(JsonWrite
 
     if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
 
-    if (LoginTitlePlayerAccountEntity.notNull()) { writer->WriteIdentifierPrefix(TEXT("LoginTitlePlayerAccountEntity")); writer->WriteValue(LoginTitlePlayerAccountEntity); }
-
     if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
 
     if (ServerCustomId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerCustomId")); writer->WriteValue(ServerCustomId); }
@@ -10938,13 +10936,6 @@ bool PlayFab::ServerModels::FLoginWithServerCustomIdRequest::readFromValue(const
     if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
     {
         InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> LoginTitlePlayerAccountEntityValue = obj->TryGetField(TEXT("LoginTitlePlayerAccountEntity"));
-    if (LoginTitlePlayerAccountEntityValue.IsValid() && !LoginTitlePlayerAccountEntityValue->IsNull())
-    {
-        bool TmpValue;
-        if (LoginTitlePlayerAccountEntityValue->TryGetBool(TmpValue)) { LoginTitlePlayerAccountEntity = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> PlayerSecretValue = obj->TryGetField(TEXT("PlayerSecret"));
@@ -10978,8 +10969,6 @@ void PlayFab::ServerModels::FLoginWithXboxRequest::writeJSON(JsonWriter& writer)
 
     if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
 
-    if (LoginTitlePlayerAccountEntity.notNull()) { writer->WriteIdentifierPrefix(TEXT("LoginTitlePlayerAccountEntity")); writer->WriteValue(LoginTitlePlayerAccountEntity); }
-
     writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken);
 
     writer->WriteObjectEnd();
@@ -11000,13 +10989,6 @@ bool PlayFab::ServerModels::FLoginWithXboxRequest::readFromValue(const TSharedPt
     if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
     {
         InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> LoginTitlePlayerAccountEntityValue = obj->TryGetField(TEXT("LoginTitlePlayerAccountEntity"));
-    if (LoginTitlePlayerAccountEntityValue.IsValid() && !LoginTitlePlayerAccountEntityValue->IsNull())
-    {
-        bool TmpValue;
-        if (LoginTitlePlayerAccountEntityValue->TryGetBool(TmpValue)) { LoginTitlePlayerAccountEntity = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> XboxTokenValue = obj->TryGetField(TEXT("XboxToken"));

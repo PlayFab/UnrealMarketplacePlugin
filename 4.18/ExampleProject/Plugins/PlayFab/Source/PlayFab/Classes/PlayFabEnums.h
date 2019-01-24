@@ -886,6 +886,8 @@ enum class EAzureRegion : uint8
     pfenum_SoutheastAsia UMETA(DisplayName = "SoutheastAsia"),
     pfenum_WestEurope UMETA(DisplayName = "WestEurope"),
     pfenum_WestUs UMETA(DisplayName = "WestUs"),
+    pfenum_ChinaEast2 UMETA(DisplayName = "ChinaEast2"),
+    pfenum_ChinaNorth2 UMETA(DisplayName = "ChinaNorth2"),
 };
 
 /** AzureVmSize */

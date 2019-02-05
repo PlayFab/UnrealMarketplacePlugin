@@ -133,6 +133,19 @@ public:
         void HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs, FServerGetPlayFabIDsFromPSNAccountIDsResult, result, UObject*, customData);
+
+    /** Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* GetPlayFabIDsFromPSNAccountIDs(FServerGetPlayFabIDsFromPSNAccountIDsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromPSNAccountIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromSteamIDs, FServerGetPlayFabIDsFromSteamIDsResult, result, UObject*, customData);
 
     /**
@@ -1786,6 +1799,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromFacebookIDs OnSuccessGetPlayFabIDsFromFacebookIDs;
     FDelegateOnSuccessGetPlayFabIDsFromFacebookInstantGamesIds OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds;
+    FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs OnSuccessGetPlayFabIDsFromPSNAccountIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;
     FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs OnSuccessGetPlayFabIDsFromXboxLiveIDs;
     FDelegateOnSuccessGetServerCustomIDsFromPlayFabIDs OnSuccessGetServerCustomIDsFromPlayFabIDs;

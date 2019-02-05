@@ -2395,17 +2395,43 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminAddLocalizedNewsRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Localized body text of the news. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString Body;
+    /** Language of the news item. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString Language;
+    /** Unique id of the updated news item. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString NewsId;
+    /** Localized title (headline) of the news item. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString Title;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminAddLocalizedNewsResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminAddNewsRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Body text of the news */
+    /** Default body text of the news. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Body;
     /** Time this news was published. If not set, defaults to now. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Timestamp;
-    /** Title (headline) of the news item */
+    /** Default title (headline) of the news item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Title;
 };

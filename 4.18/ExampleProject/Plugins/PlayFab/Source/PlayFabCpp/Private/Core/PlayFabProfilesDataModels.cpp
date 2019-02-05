@@ -332,6 +332,8 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
+    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+
     if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
 
     if (EntityChain.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EntityChain")); writer->WriteValue(EntityChain); }
@@ -346,8 +348,6 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
         }
         writer->WriteObjectEnd();
     }
-
-    if (FriendlyName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendlyName")); writer->WriteValue(FriendlyName); }
 
     if (Language.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Language")); writer->WriteValue(Language); }
 
@@ -382,6 +382,13 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
 {
     bool HasSucceeded = true;
 
+    const TSharedPtr<FJsonValue> DisplayNameValue = obj->TryGetField(TEXT("DisplayName"));
+    if (DisplayNameValue.IsValid() && !DisplayNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (DisplayNameValue->TryGetString(TmpValue)) { DisplayName = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
@@ -402,13 +409,6 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
         {
             Files.Add(It.Key(), FEntityProfileFileMetadata(It.Value()->AsObject()));
         }
-    }
-
-    const TSharedPtr<FJsonValue> FriendlyNameValue = obj->TryGetField(TEXT("FriendlyName"));
-    if (FriendlyNameValue.IsValid() && !FriendlyNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (FriendlyNameValue->TryGetString(TmpValue)) { FriendlyName = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> LanguageValue = obj->TryGetField(TEXT("Language"));

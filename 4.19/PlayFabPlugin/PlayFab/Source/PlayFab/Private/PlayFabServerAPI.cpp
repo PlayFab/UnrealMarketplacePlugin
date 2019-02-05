@@ -377,6 +377,60 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     this->RemoveFromRoot();
 }
 
+/** Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers. */
+UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromPSNAccountIDs(FServerGetPlayFabIDsFromPSNAccountIDsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromPSNAccountIDs = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromPSNAccountIDs);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromPSNAccountIDs";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
+    // Check to see if string is empty
+    if (request.PSNAccountIDs.IsEmpty() || request.PSNAccountIDs == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PSNAccountIDs"));
+    } else {
+        TArray<FString> PSNAccountIDsArray;
+        FString(request.PSNAccountIDs).ParseIntoArray(PSNAccountIDsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("PSNAccountIDs"), PSNAccountIDsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetPlayFabIDsFromPSNAccountIDs(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromPSNAccountIDs.IsBound())
+    {
+        FServerGetPlayFabIDsFromPSNAccountIDsResult result = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromPSNAccountIDs.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers are the profile IDs for the user accounts, available as SteamId in the Steamworks Community API calls. */
 UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromSteamIDs(FServerGetPlayFabIDsFromSteamIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs onSuccess,

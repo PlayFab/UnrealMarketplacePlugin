@@ -4774,6 +4774,71 @@ void UPlayFabAdminAPI::HelperSetPublisherData(FPlayFabBaseModel response, UObjec
 ///////////////////////////////////////////////////////
 // Title-Wide Data Management
 //////////////////////////////////////////////////////
+/** Update news item to include localized version */
+UPlayFabAdminAPI* UPlayFabAdminAPI::AddLocalizedNews(FAdminAddLocalizedNewsRequest request,
+    FDelegateOnSuccessAddLocalizedNews onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessAddLocalizedNews = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAddLocalizedNews);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Admin/AddLocalizedNews";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.Body.IsEmpty() || request.Body == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Body"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Body"), request.Body);
+    }
+    if (request.Language.IsEmpty() || request.Language == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Language"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Language"), request.Language);
+    }
+    if (request.NewsId.IsEmpty() || request.NewsId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("NewsId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("NewsId"), request.NewsId);
+    }
+    if (request.Title.IsEmpty() || request.Title == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Title"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Title"), request.Title);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperAddLocalizedNews(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessAddLocalizedNews.IsBound())
+    {
+        FAdminAddLocalizedNewsResult result = UPlayFabAdminModelDecoder::decodeAddLocalizedNewsResultResponse(response.responseData);
+        OnSuccessAddLocalizedNews.Execute(result, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Adds a new news item to the title's news feed */
 UPlayFabAdminAPI* UPlayFabAdminAPI::AddNews(FAdminAddNewsRequest request,
     FDelegateOnSuccessAddNews onSuccess,

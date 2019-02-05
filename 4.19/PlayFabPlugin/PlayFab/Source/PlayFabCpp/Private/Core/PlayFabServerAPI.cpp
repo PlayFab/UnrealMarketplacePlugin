@@ -1170,6 +1170,33 @@ void UPlayFabServerAPI::OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRe
     }
 }
 
+bool UPlayFabServerAPI::GetPlayFabIDsFromPSNAccountIDs(
+    ServerModels::FGetPlayFabIDsFromPSNAccountIDsRequest& request,
+    const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if (PlayFabSettings::GetDeveloperSecretKey().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Server/GetPlayFabIDsFromPSNAccountIDs")), request.toJSONString(), TEXT("X-SecretKey"), PlayFabSettings::GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabServerAPI::OnGetPlayFabIDsFromPSNAccountIDsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabServerAPI::OnGetPlayFabIDsFromPSNAccountIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNAccountIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ServerModels::FGetPlayFabIDsFromPSNAccountIDsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabServerAPI::GetPlayFabIDsFromSteamIDs(
     ServerModels::FGetPlayFabIDsFromSteamIDsRequest& request,
     const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate,

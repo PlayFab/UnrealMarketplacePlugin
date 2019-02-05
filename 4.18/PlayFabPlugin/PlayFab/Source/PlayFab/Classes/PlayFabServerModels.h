@@ -185,6 +185,30 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromPSNAccountIDsRequest
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        int32 IssuerId = 0;
+    /** Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PSNAccountIDs;
+};
+
+/** For PlayStation Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromPSNAccountIDsResult
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of PlayStation Network identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromSteamIDsRequest
 {
     GENERATED_USTRUCT_BODY()
@@ -3114,7 +3138,7 @@ struct PLAYFAB_API FServerGetTitleNewsResult
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of news items. */
+    /** Array of localized news items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
         TArray<UPlayFabJsonObject*> News;
 };

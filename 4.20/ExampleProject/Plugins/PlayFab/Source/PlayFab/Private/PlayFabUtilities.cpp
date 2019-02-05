@@ -451,6 +451,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1419: returnText = "PushNotificationTemplateInvalidSyntax"; break;
     case 1420: returnText = "PushNotificationTemplateNoCustomPayloadForV1"; break;
     case 1421: returnText = "NoLeaderboardForStatistic"; break;
+    case 1422: returnText = "TitleNewsMissingDefaultLanguage"; break;
+    case 1423: returnText = "TitleNewsNotFound"; break;
+    case 1424: returnText = "TitleNewsDuplicateLanguage"; break;
+    case 1425: returnText = "TitleNewsMissingTitleOrBody"; break;
+    case 1426: returnText = "TitleNewsInvalidLanguage"; break;
+    case 1427: returnText = "EmailRecipientBlacklisted"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2003: returnText = "MatchmakingCreateRequestMissing"; break;
@@ -489,6 +495,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 2036: returnText = "MatchmakingGetStatisticsIdentityInvalid"; break;
     case 2037: returnText = "MatchmakingStatisticsIdMissing"; break;
     case 2038: returnText = "CannotEnableMultiplayerServersForTitle"; break;
+    case 3001: returnText = "TitleConfigNotFound"; break;
+    case 3002: returnText = "TitleConfigUpdateConflict"; break;
+    case 3003: returnText = "TitleConfigSerializationError"; break;
     }
 
     // Return the text

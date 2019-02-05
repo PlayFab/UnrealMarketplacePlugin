@@ -3368,7 +3368,7 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FFriendInfo : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Unique lobby identifier of the Game Server Instance to which this player is currently connected.
+        // [optional] This field is not populated.
         FString CurrentMatchmakerLobbyId;
 
         // [optional] Available Facebook information (if the user and PlayFab friend are also connected in Facebook).
@@ -7534,7 +7534,7 @@ namespace ClientModels
         // [optional] Unique identifier of news item.
         FString NewsId;
 
-        // Date and time when the news items was posted.
+        // Date and time when the news item was posted.
         FDateTime Timestamp;
 
         // [optional] Title of the news item.

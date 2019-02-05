@@ -3592,7 +3592,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FFriendInfo : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Unique lobby identifier of the Game Server Instance to which this player is currently connected.
+        // [optional] This field is not populated.
         FString CurrentMatchmakerLobbyId;
 
         // [optional] Available Facebook information (if the user and PlayFab friend are also connected in Facebook).
@@ -6047,6 +6047,92 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        Boxed<int32> IssuerId;
+
+        // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
+        TArray<FString> PSNAccountIDs;
+        FGetPlayFabIDsFromPSNAccountIDsRequest() :
+            FPlayFabCppBaseModel(),
+            IssuerId(),
+            PSNAccountIDs()
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsRequest(const FGetPlayFabIDsFromPSNAccountIDsRequest& src) :
+            FPlayFabCppBaseModel(),
+            IssuerId(src.IssuerId),
+            PSNAccountIDs(src.PSNAccountIDs)
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromPSNAccountIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromPSNAccountIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPSNAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation Network identifier.
+        FString PlayFabId;
+
+        // [optional] Unique PlayStation Network identifier for a user.
+        FString PSNAccountId;
+
+        FPSNAccountPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            PSNAccountId()
+            {}
+
+        FPSNAccountPlayFabIdPair(const FPSNAccountPlayFabIdPair& src) :
+            FPlayFabCppBaseModel(),
+            PlayFabId(src.PlayFabId),
+            PSNAccountId(src.PSNAccountId)
+            {}
+
+        FPSNAccountPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FPSNAccountPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPSNAccountPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        TArray<FPSNAccountPlayFabIdPair> Data;
+        FGetPlayFabIDsFromPSNAccountIDsResult() :
+            FPlayFabCppBaseModel(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsResult(const FGetPlayFabIDsFromPSNAccountIDsResult& src) :
+            FPlayFabCppBaseModel(),
+            Data(src.Data)
+            {}
+
+        FGetPlayFabIDsFromPSNAccountIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromPSNAccountIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromPSNAccountIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers.
@@ -6720,13 +6806,13 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FTitleNewsItem : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] News item text.
+        // [optional] News item body.
         FString Body;
 
         // [optional] Unique identifier of news item.
         FString NewsId;
 
-        // Date and time when the news items was posted.
+        // Date and time when the news item was posted.
         FDateTime Timestamp;
 
         // [optional] Title of the news item.
@@ -6761,7 +6847,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetTitleNewsResult : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Array of news items.
+        // [optional] Array of localized news items.
         TArray<FTitleNewsItem> News;
         FGetTitleNewsResult() :
             FPlayFabCppBaseModel(),

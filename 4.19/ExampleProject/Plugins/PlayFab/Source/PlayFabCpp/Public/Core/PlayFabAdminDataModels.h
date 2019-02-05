@@ -269,15 +269,77 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FAddLocalizedNewsRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Localized body text of the news.
+        FString Body;
+
+        // Language of the news item.
+        FString Language;
+
+        // Unique id of the updated news item.
+        FString NewsId;
+
+        // Localized title (headline) of the news item.
+        FString Title;
+
+        FAddLocalizedNewsRequest() :
+            FPlayFabCppBaseModel(),
+            Body(),
+            Language(),
+            NewsId(),
+            Title()
+            {}
+
+        FAddLocalizedNewsRequest(const FAddLocalizedNewsRequest& src) :
+            FPlayFabCppBaseModel(),
+            Body(src.Body),
+            Language(src.Language),
+            NewsId(src.NewsId),
+            Title(src.Title)
+            {}
+
+        FAddLocalizedNewsRequest(const TSharedPtr<FJsonObject>& obj) : FAddLocalizedNewsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddLocalizedNewsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAddLocalizedNewsResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        FAddLocalizedNewsResult() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FAddLocalizedNewsResult(const FAddLocalizedNewsResult& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FAddLocalizedNewsResult(const TSharedPtr<FJsonObject>& obj) : FAddLocalizedNewsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddLocalizedNewsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FAddNewsRequest : public PlayFab::FPlayFabCppBaseModel
     {
-        // Body text of the news
+        // Default body text of the news.
         FString Body;
 
         // [optional] Time this news was published. If not set, defaults to now.
         Boxed<FDateTime> Timestamp;
 
-        // Title (headline) of the news item
+        // Default title (headline) of the news item.
         FString Title;
 
         FAddNewsRequest() :

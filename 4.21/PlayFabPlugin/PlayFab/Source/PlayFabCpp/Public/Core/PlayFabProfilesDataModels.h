@@ -236,6 +236,12 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FEntityProfileBody : public PlayFab::FPlayFabCppBaseModel
     {
+        /**
+         * [optional] The display name of the entity. This field may serve different purposes for different entity types. i.e.: for a title
+         * player account it could represent the display name of the player, whereas on a character it could be character's name.
+         */
+        FString DisplayName;
+
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
 
@@ -244,12 +250,6 @@ namespace ProfilesModels
 
         // [optional] The files on this profile.
         TMap<FString, FEntityProfileFileMetadata> Files;
-        /**
-         * [optional] The friendly name of the entity. This field may serve different purposes for different entity types. i.e.: for a title
-         * player account it could represent the display name of the player, whereas on a character it could be character's name.
-         */
-        FString FriendlyName;
-
         // [optional] The language on this profile.
         FString Language;
 
@@ -271,10 +271,10 @@ namespace ProfilesModels
 
         FEntityProfileBody() :
             FPlayFabCppBaseModel(),
+            DisplayName(),
             Entity(nullptr),
             EntityChain(),
             Files(),
-            FriendlyName(),
             Language(),
             Lineage(nullptr),
             Objects(),
@@ -284,10 +284,10 @@ namespace ProfilesModels
 
         FEntityProfileBody(const FEntityProfileBody& src) :
             FPlayFabCppBaseModel(),
+            DisplayName(src.DisplayName),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EntityChain(src.EntityChain),
             Files(src.Files),
-            FriendlyName(src.FriendlyName),
             Language(src.Language),
             Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr),
             Objects(src.Objects),

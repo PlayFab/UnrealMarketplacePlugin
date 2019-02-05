@@ -907,6 +907,15 @@ FAdminSetPublisherDataResult UPlayFabAdminModelDecoder::decodeSetPublisherDataRe
 // Title-Wide Data Management
 //////////////////////////////////////////////////////
 
+FAdminAddLocalizedNewsResult UPlayFabAdminModelDecoder::decodeAddLocalizedNewsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminAddLocalizedNewsResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminAddNewsResult UPlayFabAdminModelDecoder::decodeAddNewsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

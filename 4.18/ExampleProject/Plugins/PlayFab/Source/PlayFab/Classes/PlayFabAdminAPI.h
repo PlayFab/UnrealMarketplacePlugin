@@ -1267,6 +1267,19 @@ public:
     // Title-Wide Data Management
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddLocalizedNews, FAdminAddLocalizedNewsResult, result, UObject*, customData);
+
+    /** Update news item to include localized version */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* AddLocalizedNews(FAdminAddLocalizedNewsRequest request,
+            FDelegateOnSuccessAddLocalizedNews onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperAddLocalizedNews(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddNews, FAdminAddNewsResult, result, UObject*, customData);
 
     /** Adds a new news item to the title's news feed */
@@ -1623,6 +1636,7 @@ public:
     FDelegateOnSuccessSetPublishedRevision OnSuccessSetPublishedRevision;
     FDelegateOnSuccessUpdateCloudScript OnSuccessUpdateCloudScript;
     FDelegateOnSuccessSetPublisherData OnSuccessSetPublisherData;
+    FDelegateOnSuccessAddLocalizedNews OnSuccessAddLocalizedNews;
     FDelegateOnSuccessAddNews OnSuccessAddNews;
     FDelegateOnSuccessAddVirtualCurrencyTypes OnSuccessAddVirtualCurrencyTypes;
     FDelegateOnSuccessDeleteStore OnSuccessDeleteStore;

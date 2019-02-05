@@ -19,6 +19,7 @@ namespace PlayFab
     {
     public:
         DECLARE_DELEGATE_OneParam(FAbortTaskInstanceDelegate, const AdminModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FAddLocalizedNewsDelegate, const AdminModels::FAddLocalizedNewsResult&);
         DECLARE_DELEGATE_OneParam(FAddNewsDelegate, const AdminModels::FAddNewsResult&);
         DECLARE_DELEGATE_OneParam(FAddPlayerTagDelegate, const AdminModels::FAddPlayerTagResult&);
         DECLARE_DELEGATE_OneParam(FAddServerBuildDelegate, const AdminModels::FAddServerBuildResult&);
@@ -138,6 +139,8 @@ namespace PlayFab
          * If the task instance has already completed, there will be no-op.
          */
         bool AbortTaskInstance(AdminModels::FAbortTaskInstanceRequest& request, const FAbortTaskInstanceDelegate& SuccessDelegate = FAbortTaskInstanceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Update news item to include localized version
+        bool AddLocalizedNews(AdminModels::FAddLocalizedNewsRequest& request, const FAddLocalizedNewsDelegate& SuccessDelegate = FAddLocalizedNewsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Adds a new news item to the title's news feed
         bool AddNews(AdminModels::FAddNewsRequest& request, const FAddNewsDelegate& SuccessDelegate = FAddNewsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -626,6 +629,7 @@ namespace PlayFab
     private:
         // ------------ Generated result handlers
         void OnAbortTaskInstanceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAbortTaskInstanceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnAddLocalizedNewsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddLocalizedNewsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddNewsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddNewsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddPlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddServerBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddServerBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

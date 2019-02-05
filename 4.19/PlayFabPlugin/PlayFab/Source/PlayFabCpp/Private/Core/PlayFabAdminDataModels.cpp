@@ -363,6 +363,80 @@ bool PlayFab::AdminModels::FAdCampaignAttributionModel::readFromValue(const TSha
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FAddLocalizedNewsRequest::~FAddLocalizedNewsRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FAddLocalizedNewsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Body")); writer->WriteValue(Body);
+
+    writer->WriteIdentifierPrefix(TEXT("Language")); writer->WriteValue(Language);
+
+    writer->WriteIdentifierPrefix(TEXT("NewsId")); writer->WriteValue(NewsId);
+
+    writer->WriteIdentifierPrefix(TEXT("Title")); writer->WriteValue(Title);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FAddLocalizedNewsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BodyValue = obj->TryGetField(TEXT("Body"));
+    if (BodyValue.IsValid() && !BodyValue->IsNull())
+    {
+        FString TmpValue;
+        if (BodyValue->TryGetString(TmpValue)) { Body = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LanguageValue = obj->TryGetField(TEXT("Language"));
+    if (LanguageValue.IsValid() && !LanguageValue->IsNull())
+    {
+        FString TmpValue;
+        if (LanguageValue->TryGetString(TmpValue)) { Language = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NewsIdValue = obj->TryGetField(TEXT("NewsId"));
+    if (NewsIdValue.IsValid() && !NewsIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (NewsIdValue->TryGetString(TmpValue)) { NewsId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleValue = obj->TryGetField(TEXT("Title"));
+    if (TitleValue.IsValid() && !TitleValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleValue->TryGetString(TmpValue)) { Title = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FAddLocalizedNewsResult::~FAddLocalizedNewsResult()
+{
+
+}
+
+void PlayFab::AdminModels::FAddLocalizedNewsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FAddLocalizedNewsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FAddNewsRequest::~FAddNewsRequest()
 {
 

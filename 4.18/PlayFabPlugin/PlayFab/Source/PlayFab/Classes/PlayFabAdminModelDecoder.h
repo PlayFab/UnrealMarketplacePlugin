@@ -396,6 +396,10 @@ public:
     // Title-Wide Data Management
     //////////////////////////////////////////////////////
 
+    /** Decode the AddLocalizedNewsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        static FAdminAddLocalizedNewsResult decodeAddLocalizedNewsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the AddNewsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         static FAdminAddNewsResult decodeAddNewsResultResponse(UPlayFabJsonObject* response);

@@ -11676,6 +11676,14 @@ void PlayFab::ClientModels::FLinkGameCenterAccountRequest::writeJSON(JsonWriter&
 
     writer->WriteIdentifierPrefix(TEXT("GameCenterId")); writer->WriteValue(GameCenterId);
 
+    if (PublicKeyUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PublicKeyUrl")); writer->WriteValue(PublicKeyUrl); }
+
+    if (Salt.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Salt")); writer->WriteValue(Salt); }
+
+    if (Signature.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Signature")); writer->WriteValue(Signature); }
+
+    if (Timestamp.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Timestamp")); writer->WriteValue(Timestamp); }
+
     writer->WriteObjectEnd();
 }
 
@@ -11695,6 +11703,34 @@ bool PlayFab::ClientModels::FLinkGameCenterAccountRequest::readFromValue(const T
     {
         FString TmpValue;
         if (GameCenterIdValue->TryGetString(TmpValue)) { GameCenterId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PublicKeyUrlValue = obj->TryGetField(TEXT("PublicKeyUrl"));
+    if (PublicKeyUrlValue.IsValid() && !PublicKeyUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (PublicKeyUrlValue->TryGetString(TmpValue)) { PublicKeyUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SaltValue = obj->TryGetField(TEXT("Salt"));
+    if (SaltValue.IsValid() && !SaltValue->IsNull())
+    {
+        FString TmpValue;
+        if (SaltValue->TryGetString(TmpValue)) { Salt = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SignatureValue = obj->TryGetField(TEXT("Signature"));
+    if (SignatureValue.IsValid() && !SignatureValue->IsNull())
+    {
+        FString TmpValue;
+        if (SignatureValue->TryGetString(TmpValue)) { Signature = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TimestampValue = obj->TryGetField(TEXT("Timestamp"));
+    if (TimestampValue.IsValid() && !TimestampValue->IsNull())
+    {
+        FString TmpValue;
+        if (TimestampValue->TryGetString(TmpValue)) { Timestamp = TmpValue; }
     }
 
     return HasSucceeded;
@@ -12907,6 +12943,14 @@ void PlayFab::ClientModels::FLoginWithGameCenterRequest::writeJSON(JsonWriter& w
 
     if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
 
+    if (PublicKeyUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PublicKeyUrl")); writer->WriteValue(PublicKeyUrl); }
+
+    if (Salt.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Salt")); writer->WriteValue(Salt); }
+
+    if (Signature.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Signature")); writer->WriteValue(Signature); }
+
+    if (Timestamp.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Timestamp")); writer->WriteValue(Timestamp); }
+
     writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
 
     writer->WriteObjectEnd();
@@ -12948,6 +12992,34 @@ bool PlayFab::ClientModels::FLoginWithGameCenterRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (PlayerSecretValue->TryGetString(TmpValue)) { PlayerSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PublicKeyUrlValue = obj->TryGetField(TEXT("PublicKeyUrl"));
+    if (PublicKeyUrlValue.IsValid() && !PublicKeyUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (PublicKeyUrlValue->TryGetString(TmpValue)) { PublicKeyUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SaltValue = obj->TryGetField(TEXT("Salt"));
+    if (SaltValue.IsValid() && !SaltValue->IsNull())
+    {
+        FString TmpValue;
+        if (SaltValue->TryGetString(TmpValue)) { Salt = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SignatureValue = obj->TryGetField(TEXT("Signature"));
+    if (SignatureValue.IsValid() && !SignatureValue->IsNull())
+    {
+        FString TmpValue;
+        if (SignatureValue->TryGetString(TmpValue)) { Signature = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TimestampValue = obj->TryGetField(TEXT("Timestamp"));
+    if (TimestampValue.IsValid() && !TimestampValue->IsNull())
+    {
+        FString TmpValue;
+        if (TimestampValue->TryGetString(TmpValue)) { Timestamp = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));

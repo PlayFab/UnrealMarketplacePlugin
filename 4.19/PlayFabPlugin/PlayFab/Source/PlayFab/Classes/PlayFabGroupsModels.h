@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabGroupsModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -33,7 +35,7 @@ class UPlayFabJsonObject;
  * returned in the case of success.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsAcceptGroupApplicationRequest
+struct PLAYFAB_API FGroupsAcceptGroupApplicationRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -49,7 +51,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsEmptyResponse
+struct PLAYFAB_API FGroupsEmptyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -61,7 +63,7 @@ public:
  * returned in the case of success.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsAcceptGroupInvitationRequest
+struct PLAYFAB_API FGroupsAcceptGroupInvitationRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -79,7 +81,7 @@ public:
  * application or invite system to add new members to a group. Returns nothing if successful.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsAddMembersRequest
+struct PLAYFAB_API FGroupsAddMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -105,7 +107,7 @@ public:
  * Returns information about the application or an error indicating an invitation was accepted instead.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsApplyToGroupRequest
+struct PLAYFAB_API FGroupsApplyToGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -122,7 +124,7 @@ public:
 
 /** Describes an application to join a group */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsApplyToGroupResponse
+struct PLAYFAB_API FGroupsApplyToGroupResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -143,7 +145,7 @@ public:
  * applications or invitations to the group. No data is returned in the case of success.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsBlockEntityRequest
+struct PLAYFAB_API FGroupsBlockEntityRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -161,7 +163,7 @@ public:
  * role. Returns nothing if successful.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsChangeMemberRoleRequest
+struct PLAYFAB_API FGroupsChangeMemberRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -190,7 +192,7 @@ public:
  * information about the group that was created.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsCreateGroupRequest
+struct PLAYFAB_API FGroupsCreateGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -203,7 +205,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsCreateGroupResponse
+struct PLAYFAB_API FGroupsCreateGroupResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -236,7 +238,7 @@ public:
  * about the role that was created.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsCreateGroupRoleRequest
+struct PLAYFAB_API FGroupsCreateGroupRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -258,7 +260,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsCreateGroupRoleResponse
+struct PLAYFAB_API FGroupsCreateGroupRoleResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -279,7 +281,7 @@ public:
  * abuse reports about the group will remain. No data is returned in the case of success.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsDeleteGroupRequest
+struct PLAYFAB_API FGroupsDeleteGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -290,7 +292,7 @@ public:
 
 /** Returns information about the role */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsDeleteRoleRequest
+struct PLAYFAB_API FGroupsDeleteRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -304,7 +306,7 @@ public:
 
 /** Returns the ID, name, role list and other non-membership related information about a group. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsGetGroupRequest
+struct PLAYFAB_API FGroupsGetGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -317,7 +319,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsGetGroupResponse
+struct PLAYFAB_API FGroupsGetGroupResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -352,7 +354,7 @@ public:
  * invitation or an error indicating an existing application to join was accepted.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsInviteToGroupRequest
+struct PLAYFAB_API FGroupsInviteToGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -375,7 +377,7 @@ public:
 
 /** Describes an invitation to a group. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsInviteToGroupResponse
+struct PLAYFAB_API FGroupsInviteToGroupResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -402,7 +404,7 @@ public:
  * list.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsIsMemberRequest
+struct PLAYFAB_API FGroupsIsMemberRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -421,7 +423,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsIsMemberResponse
+struct PLAYFAB_API FGroupsIsMemberResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -435,7 +437,7 @@ public:
  * expire. To get the group applications for a specific entity, use ListMembershipOpportunities.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupApplicationsRequest
+struct PLAYFAB_API FGroupsListGroupApplicationsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -445,7 +447,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupApplicationsResponse
+struct PLAYFAB_API FGroupsListGroupApplicationsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -456,7 +458,7 @@ public:
 
 /** Lists all entities blocked from joining a group. A list of blocked entities is returned */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupBlocksRequest
+struct PLAYFAB_API FGroupsListGroupBlocksRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -466,7 +468,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupBlocksResponse
+struct PLAYFAB_API FGroupsListGroupBlocksResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -480,7 +482,7 @@ public:
  * invitation will expire. To get the group invitations for a specific entity, use ListMembershipOpportunities.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupInvitationsRequest
+struct PLAYFAB_API FGroupsListGroupInvitationsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -490,7 +492,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupInvitationsResponse
+struct PLAYFAB_API FGroupsListGroupInvitationsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -505,7 +507,7 @@ public:
  * the group.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupMembersRequest
+struct PLAYFAB_API FGroupsListGroupMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -515,7 +517,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListGroupMembersResponse
+struct PLAYFAB_API FGroupsListGroupMembersResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -530,7 +532,7 @@ public:
  * returned in the results, even if the caller otherwise has permission to see that the entity is a member of that group.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListMembershipRequest
+struct PLAYFAB_API FGroupsListMembershipRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -540,7 +542,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListMembershipResponse
+struct PLAYFAB_API FGroupsListMembershipResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -555,7 +557,7 @@ public:
  * check if a player is trying to join, use ListGroupInvitations and ListGroupApplications.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListMembershipOpportunitiesRequest
+struct PLAYFAB_API FGroupsListMembershipOpportunitiesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -565,7 +567,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsListMembershipOpportunitiesResponse
+struct PLAYFAB_API FGroupsListMembershipOpportunitiesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -583,7 +585,7 @@ public:
  * any caller with appropriate access in the group may reject an application. No data is returned in the case of success.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsRemoveGroupApplicationRequest
+struct PLAYFAB_API FGroupsRemoveGroupApplicationRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -602,7 +604,7 @@ public:
  * of success.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsRemoveGroupInvitationRequest
+struct PLAYFAB_API FGroupsRemoveGroupInvitationRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -619,7 +621,7 @@ public:
  * nothing if successful.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsRemoveMembersRequest
+struct PLAYFAB_API FGroupsRemoveMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -636,7 +638,7 @@ public:
 
 /** Unblocks a list of entities from joining a group. No data is returned in the case of success. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsUnblockEntityRequest
+struct PLAYFAB_API FGroupsUnblockEntityRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -653,7 +655,7 @@ public:
  * successful. Only title claimants may modify the administration role for a group.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsUpdateGroupRequest
+struct PLAYFAB_API FGroupsUpdateGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -679,7 +681,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsUpdateGroupResponse
+struct PLAYFAB_API FGroupsUpdateGroupResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -696,7 +698,7 @@ public:
 
 /** Updates the role name. Returns information about whether the update was successful. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsUpdateGroupRoleRequest
+struct PLAYFAB_API FGroupsUpdateGroupRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -719,7 +721,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FGroupsUpdateGroupRoleResponse
+struct PLAYFAB_API FGroupsUpdateGroupRoleResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

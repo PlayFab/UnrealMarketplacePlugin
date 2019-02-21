@@ -14,10 +14,17 @@
 #include "PlayFabAuthenticationModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabAuthenticationAPI::UPlayFabAuthenticationAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabAuthenticationAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabAuthenticationAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::GetEntityToken(FAuthentica
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAuthenticationAPI::HelperGetEntityToken);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Authentication/GetEntityToken";
     manager->useEntityToken = true;
     manager->useSecretKey = true;
@@ -110,8 +118,8 @@ void UPlayFabAuthenticationAPI::HelperGetEntityToken(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessGetEntityToken.IsBound())
     {
-        FAuthenticationGetEntityTokenResponse result = UPlayFabAuthenticationModelDecoder::decodeGetEntityTokenResponseResponse(response.responseData);
-        OnSuccessGetEntityToken.Execute(result, mCustomData);
+        FAuthenticationGetEntityTokenResponse ResultStruct = UPlayFabAuthenticationModelDecoder::decodeGetEntityTokenResponseResponse(response.responseData);
+        OnSuccessGetEntityToken.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -177,10 +185,15 @@ void UPlayFabAuthenticationAPI::OnProcessRequestComplete(FHttpRequestPtr Request
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -196,15 +209,12 @@ void UPlayFabAuthenticationAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

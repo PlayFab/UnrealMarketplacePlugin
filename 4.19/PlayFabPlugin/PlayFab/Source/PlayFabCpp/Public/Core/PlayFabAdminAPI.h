@@ -228,6 +228,11 @@ namespace PlayFab
 
         bool DeleteTitle(const FDeleteTitleDelegate& SuccessDelegate = FDeleteTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Permanently deletes a title and all associated configuration
+         * Deletes all data associated with the title, including catalog, virtual currencies, leaderboard statistics, Cloud Script revisions, segment definitions, event rules, tasks, add-ons, secret keys, data encryption keys, and permission policies. Removes the title from its studio and removes all associated developer roles and permissions. Does not delete PlayStream event history associated with the title. Note, this API queues the title for deletion and returns immediately. It may take several hours or more before all title data is fully deleted. All player accounts in the title must be deleted before deleting the title. If any player accounts exist, the API will return a 'TitleContainsUserAccounts' error. Until the title data is fully deleted, attempts to call APIs with the title will fail with the 'TitleDeleted' error.
+         */
+        bool DeleteTitle(AdminModels::FDeleteTitleRequest& request, const FDeleteTitleDelegate& SuccessDelegate = FDeleteTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Exports all associated data of a master player account
          * Exports all data associated with the master player account, including data from all titles the player has played, such as statistics, custom data, inventory, purchases, virtual currency balances, characters, group memberships, publisher data, credential data, account linkages, friends list and PlayStream event history. Note, this API queues the player for export and returns a receipt immediately. Record the receipt ID for future reference. It may take some time before the export is available for download. Upon completion of the export, an email containing the URL to download the export dump will be sent to the notification email address configured for the title.
          */
@@ -244,6 +249,12 @@ namespace PlayFab
          */
 
         bool GetAllSegments(const FGetAllSegmentsDelegate& SuccessDelegate = FGetAllSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as
+         * GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change.
+         * Request has no paramaters.
+         */
+        bool GetAllSegments(AdminModels::FGetAllSegmentsRequest& request, const FGetAllSegmentsDelegate& SuccessDelegate = FGetAllSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
         bool GetCatalogItems(AdminModels::FGetCatalogItemsRequest& request, const FGetCatalogItemsDelegate& SuccessDelegate = FGetCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets the contents and information of a specific Cloud Script revision.
@@ -259,6 +270,11 @@ namespace PlayFab
          */
 
         bool GetCloudScriptVersions(const FGetCloudScriptVersionsDelegate& SuccessDelegate = FGetCloudScriptVersionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Lists all the current cloud script versions. For each version, information about the current published and latest
+         * revisions is also listed.
+         */
+        bool GetCloudScriptVersions(AdminModels::FGetCloudScriptVersionsRequest& request, const FGetCloudScriptVersionsDelegate& SuccessDelegate = FGetCloudScriptVersionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // List all contents of the title and get statistics such as size
         bool GetContentList(AdminModels::FGetContentListRequest& request, const FGetContentListDelegate& SuccessDelegate = FGetContentListDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -303,6 +319,11 @@ namespace PlayFab
 
         bool GetPlayerSharedSecrets(const FGetPlayerSharedSecretsDelegate& SuccessDelegate = FGetPlayerSharedSecretsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Returns all Player Shared Secret Keys including disabled and expired.
+         * Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when that API requires a signature header.
+         */
+        bool GetPlayerSharedSecrets(AdminModels::FGetPlayerSharedSecretsRequest& request, const FGetPlayerSharedSecretsDelegate& SuccessDelegate = FGetPlayerSharedSecretsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Allows for paging through all players in a given segment. This API creates a snapshot of all player profiles that match
          * the segment definition at the time of its creation and lives through the Total Seconds to Live, refreshing its life span
          * on each subsequent use of the Continuation Token. Profiles that change during the course of paging will not be reflected
@@ -316,6 +337,11 @@ namespace PlayFab
          */
 
         bool GetPlayerStatisticDefinitions(const FGetPlayerStatisticDefinitionsDelegate& SuccessDelegate = FGetPlayerStatisticDefinitionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the configuration information for all player statistics defined in the title, regardless of whether they have
+         * a reset interval.
+         */
+        bool GetPlayerStatisticDefinitions(AdminModels::FGetPlayerStatisticDefinitionsRequest& request, const FGetPlayerStatisticDefinitionsDelegate& SuccessDelegate = FGetPlayerStatisticDefinitionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the information on the available versions of the specified statistic.
         bool GetPlayerStatisticVersions(AdminModels::FGetPlayerStatisticVersionsRequest& request, const FGetPlayerStatisticVersionsDelegate& SuccessDelegate = FGetPlayerStatisticVersionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -427,9 +453,13 @@ namespace PlayFab
         // Retrieves the build details for all game server executables which are currently defined for the title
 
         bool ListServerBuilds(const FListServerBuildsDelegate& SuccessDelegate = FListServerBuildsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves the build details for all game server executables which are currently defined for the title
+        bool ListServerBuilds(AdminModels::FListBuildsRequest& request, const FListServerBuildsDelegate& SuccessDelegate = FListServerBuildsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retuns the list of all defined virtual currencies for the title
 
         bool ListVirtualCurrencyTypes(const FListVirtualCurrencyTypesDelegate& SuccessDelegate = FListVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retuns the list of all defined virtual currencies for the title
+        bool ListVirtualCurrencyTypes(AdminModels::FListVirtualCurrencyTypesRequest& request, const FListVirtualCurrencyTypesDelegate& SuccessDelegate = FListVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Updates the game server mode details for the specified game server executable
          * These details are used by the PlayFab matchmaking service to determine if an existing Game Server Instance has room for additional users, and by the PlayFab game server management service to determine when a new Game Server Host should be created in order to prevent excess load on existing Hosts. This operation is not additive. Using it will cause the game mode definition for the game server executable in question to be created from scratch. If there is an existing game server mode definition for the given BuildVersion, it will be deleted and replaced with the data specified in this call.

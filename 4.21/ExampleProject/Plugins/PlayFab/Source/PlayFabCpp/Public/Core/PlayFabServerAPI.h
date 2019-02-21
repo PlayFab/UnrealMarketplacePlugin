@@ -223,6 +223,12 @@ namespace PlayFab
 
         bool GetAllSegments(const FGetAllSegmentsDelegate& SuccessDelegate = FGetAllSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Retrieves an array of player segment definitions. Results from this can be used in subsequent API calls such as
+         * GetPlayersInSegment which requires a Segment ID. While segment names can change the ID for that segment will not change.
+         * Request has no paramaters.
+         */
+        bool GetAllSegments(ServerModels::FGetAllSegmentsRequest& request, const FGetAllSegmentsDelegate& SuccessDelegate = FGetAllSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Lists all of the characters that belong to a specific user. CharacterIds are not globally unique; characterId must be
          * evaluated with the parent PlayFabId to guarantee uniqueness.
          * Returns a list of every character that currently belongs to a user.
@@ -352,6 +358,11 @@ namespace PlayFab
          */
 
         bool GetTime(const FGetTimeDelegate& SuccessDelegate = FGetTimeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the current server time
+         * This query retrieves the current time from one of the servers in PlayFab. Please note that due to clock drift between servers, there is a potential variance of up to 5 seconds.
+         */
+        bool GetTime(ServerModels::FGetTimeRequest& request, const FGetTimeDelegate& SuccessDelegate = FGetTimeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the key-value store of custom title settings
          * This API is designed to return title specific values which can be read, but not written to, by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.

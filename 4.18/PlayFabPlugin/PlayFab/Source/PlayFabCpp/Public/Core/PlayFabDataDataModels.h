@@ -45,7 +45,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAbortFileUploadsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAbortFileUploadsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -59,14 +59,14 @@ namespace DataModels
         Boxed<int32> ProfileVersion;
 
         FAbortFileUploadsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             FileNames(),
             ProfileVersion()
             {}
 
         FAbortFileUploadsRequest(const FAbortFileUploadsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             FileNames(src.FileNames),
             ProfileVersion(src.ProfileVersion)
@@ -83,7 +83,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAbortFileUploadsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAbortFileUploadsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -92,13 +92,13 @@ namespace DataModels
         int32 ProfileVersion;
 
         FAbortFileUploadsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             ProfileVersion(0)
             {}
 
         FAbortFileUploadsResponse(const FAbortFileUploadsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             ProfileVersion(src.ProfileVersion)
             {}
@@ -114,7 +114,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteFilesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteFilesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -128,14 +128,14 @@ namespace DataModels
         Boxed<int32> ProfileVersion;
 
         FDeleteFilesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             FileNames(),
             ProfileVersion()
             {}
 
         FDeleteFilesRequest(const FDeleteFilesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             FileNames(src.FileNames),
             ProfileVersion(src.ProfileVersion)
@@ -152,7 +152,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteFilesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteFilesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -161,13 +161,13 @@ namespace DataModels
         int32 ProfileVersion;
 
         FDeleteFilesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             ProfileVersion(0)
             {}
 
         FDeleteFilesResponse(const FDeleteFilesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             ProfileVersion(src.ProfileVersion)
             {}
@@ -183,7 +183,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FFinalizeFileUploadsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FFinalizeFileUploadsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -191,13 +191,13 @@ namespace DataModels
         // Names of the files to be finalized. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'
         TArray<FString> FileNames;
         FFinalizeFileUploadsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             FileNames()
             {}
 
         FFinalizeFileUploadsRequest(const FFinalizeFileUploadsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             FileNames(src.FileNames)
             {}
@@ -259,7 +259,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FFinalizeFileUploadsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FFinalizeFileUploadsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -270,14 +270,14 @@ namespace DataModels
         int32 ProfileVersion;
 
         FFinalizeFileUploadsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             Metadata(),
             ProfileVersion(0)
             {}
 
         FFinalizeFileUploadsResponse(const FFinalizeFileUploadsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             Metadata(src.Metadata),
             ProfileVersion(src.ProfileVersion)
@@ -294,18 +294,18 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetFilesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetFilesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
 
         FGetFilesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity()
             {}
 
         FGetFilesRequest(const FGetFilesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity)
             {}
 
@@ -320,7 +320,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetFilesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetFilesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -331,14 +331,14 @@ namespace DataModels
         int32 ProfileVersion;
 
         FGetFilesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             Metadata(),
             ProfileVersion(0)
             {}
 
         FGetFilesResponse(const FGetFilesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             Metadata(src.Metadata),
             ProfileVersion(src.ProfileVersion)
@@ -355,7 +355,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetObjectsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetObjectsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -367,13 +367,13 @@ namespace DataModels
         Boxed<bool> EscapeObject;
 
         FGetObjectsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             EscapeObject()
             {}
 
         FGetObjectsRequest(const FGetObjectsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             EscapeObject(src.EscapeObject)
             {}
@@ -425,7 +425,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetObjectsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetObjectsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -436,14 +436,14 @@ namespace DataModels
         int32 ProfileVersion;
 
         FGetObjectsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             Objects(),
             ProfileVersion(0)
             {}
 
         FGetObjectsResponse(const FGetObjectsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             Objects(src.Objects),
             ProfileVersion(src.ProfileVersion)
@@ -491,7 +491,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FInitiateFileUploadsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FInitiateFileUploadsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -505,14 +505,14 @@ namespace DataModels
         Boxed<int32> ProfileVersion;
 
         FInitiateFileUploadsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             FileNames(),
             ProfileVersion()
             {}
 
         FInitiateFileUploadsRequest(const FInitiateFileUploadsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             FileNames(src.FileNames),
             ProfileVersion(src.ProfileVersion)
@@ -529,7 +529,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FInitiateFileUploadsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FInitiateFileUploadsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -540,14 +540,14 @@ namespace DataModels
         // [optional] Collection of file names and upload urls
         TArray<FInitiateFileUploadMetadata> UploadDetails;
         FInitiateFileUploadsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             ProfileVersion(0),
             UploadDetails()
             {}
 
         FInitiateFileUploadsResponse(const FInitiateFileUploadsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             ProfileVersion(src.ProfileVersion),
             UploadDetails(src.UploadDetails)
@@ -659,7 +659,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetObjectsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetObjectsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -674,14 +674,14 @@ namespace DataModels
         // Collection of objects to set on the profile.
         TArray<FSetObject> Objects;
         FSetObjectsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             ExpectedProfileVersion(),
             Objects()
             {}
 
         FSetObjectsRequest(const FSetObjectsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             ExpectedProfileVersion(src.ExpectedProfileVersion),
             Objects(src.Objects)
@@ -698,7 +698,7 @@ namespace DataModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetObjectsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetObjectsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // New version of the entity profile.
         int32 ProfileVersion;
@@ -706,13 +706,13 @@ namespace DataModels
         // [optional] New version of the entity profile.
         TArray<FSetObjectInfo> SetResults;
         FSetObjectsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ProfileVersion(0),
             SetResults()
             {}
 
         FSetObjectsResponse(const FSetObjectsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ProfileVersion(src.ProfileVersion),
             SetResults(src.SetResults)
             {}

@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabMatchmakerModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -36,7 +38,7 @@ class UPlayFabJsonObject;
  * AuthorizationTicket in this call.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerAuthUserRequest
+struct PLAYFAB_API FMatchmakerAuthUserRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -46,7 +48,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerAuthUserResponse
+struct PLAYFAB_API FMatchmakerAuthUserResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -59,7 +61,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerPlayerJoinedRequest
+struct PLAYFAB_API FMatchmakerPlayerJoinedRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -75,14 +77,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerPlayerJoinedResponse
+struct PLAYFAB_API FMatchmakerPlayerJoinedResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerPlayerLeftRequest
+struct PLAYFAB_API FMatchmakerPlayerLeftRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -98,14 +100,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerPlayerLeftResponse
+struct PLAYFAB_API FMatchmakerPlayerLeftResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerStartGameRequest
+struct PLAYFAB_API FMatchmakerStartGameRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -131,7 +133,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerStartGameResponse
+struct PLAYFAB_API FMatchmakerStartGameResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -153,7 +155,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerUserInfoRequest
+struct PLAYFAB_API FMatchmakerUserInfoRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -169,7 +171,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerUserInfoResponse
+struct PLAYFAB_API FMatchmakerUserInfoResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

@@ -14,10 +14,17 @@
 #include "PlayFabDataModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabDataAPI::UPlayFabDataAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabDataAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabDataAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::AbortFileUploads(FDataAbortFileUploadsRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabDataAPI::HelperAbortFileUploads);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/File/AbortFileUploads";
     manager->useEntityToken = true;
 
@@ -116,8 +124,8 @@ void UPlayFabDataAPI::HelperAbortFileUploads(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessAbortFileUploads.IsBound())
     {
-        FDataAbortFileUploadsResponse result = UPlayFabDataModelDecoder::decodeAbortFileUploadsResponseResponse(response.responseData);
-        OnSuccessAbortFileUploads.Execute(result, mCustomData);
+        FDataAbortFileUploadsResponse ResultStruct = UPlayFabDataModelDecoder::decodeAbortFileUploadsResponseResponse(response.responseData);
+        OnSuccessAbortFileUploads.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -140,6 +148,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::DeleteFiles(FDataDeleteFilesRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabDataAPI::HelperDeleteFiles);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/File/DeleteFiles";
     manager->useEntityToken = true;
 
@@ -171,8 +180,8 @@ void UPlayFabDataAPI::HelperDeleteFiles(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessDeleteFiles.IsBound())
     {
-        FDataDeleteFilesResponse result = UPlayFabDataModelDecoder::decodeDeleteFilesResponseResponse(response.responseData);
-        OnSuccessDeleteFiles.Execute(result, mCustomData);
+        FDataDeleteFilesResponse ResultStruct = UPlayFabDataModelDecoder::decodeDeleteFilesResponseResponse(response.responseData);
+        OnSuccessDeleteFiles.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -195,6 +204,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::FinalizeFileUploads(FDataFinalizeFileUploadsRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabDataAPI::HelperFinalizeFileUploads);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/File/FinalizeFileUploads";
     manager->useEntityToken = true;
 
@@ -225,8 +235,8 @@ void UPlayFabDataAPI::HelperFinalizeFileUploads(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessFinalizeFileUploads.IsBound())
     {
-        FDataFinalizeFileUploadsResponse result = UPlayFabDataModelDecoder::decodeFinalizeFileUploadsResponseResponse(response.responseData);
-        OnSuccessFinalizeFileUploads.Execute(result, mCustomData);
+        FDataFinalizeFileUploadsResponse ResultStruct = UPlayFabDataModelDecoder::decodeFinalizeFileUploadsResponseResponse(response.responseData);
+        OnSuccessFinalizeFileUploads.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -249,6 +259,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::GetFiles(FDataGetFilesRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabDataAPI::HelperGetFiles);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/File/GetFiles";
     manager->useEntityToken = true;
 
@@ -271,8 +282,8 @@ void UPlayFabDataAPI::HelperGetFiles(FPlayFabBaseModel response, UObject* custom
     }
     else if (!error.hasError && OnSuccessGetFiles.IsBound())
     {
-        FDataGetFilesResponse result = UPlayFabDataModelDecoder::decodeGetFilesResponseResponse(response.responseData);
-        OnSuccessGetFiles.Execute(result, mCustomData);
+        FDataGetFilesResponse ResultStruct = UPlayFabDataModelDecoder::decodeGetFilesResponseResponse(response.responseData);
+        OnSuccessGetFiles.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -295,6 +306,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::InitiateFileUploads(FDataInitiateFileUploadsRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabDataAPI::HelperInitiateFileUploads);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/File/InitiateFileUploads";
     manager->useEntityToken = true;
 
@@ -326,8 +338,8 @@ void UPlayFabDataAPI::HelperInitiateFileUploads(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessInitiateFileUploads.IsBound())
     {
-        FDataInitiateFileUploadsResponse result = UPlayFabDataModelDecoder::decodeInitiateFileUploadsResponseResponse(response.responseData);
-        OnSuccessInitiateFileUploads.Execute(result, mCustomData);
+        FDataInitiateFileUploadsResponse ResultStruct = UPlayFabDataModelDecoder::decodeInitiateFileUploadsResponseResponse(response.responseData);
+        OnSuccessInitiateFileUploads.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -354,6 +366,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::GetObjects(FDataGetObjectsRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabDataAPI::HelperGetObjects);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Object/GetObjects";
     manager->useEntityToken = true;
 
@@ -377,8 +390,8 @@ void UPlayFabDataAPI::HelperGetObjects(FPlayFabBaseModel response, UObject* cust
     }
     else if (!error.hasError && OnSuccessGetObjects.IsBound())
     {
-        FDataGetObjectsResponse result = UPlayFabDataModelDecoder::decodeGetObjectsResponseResponse(response.responseData);
-        OnSuccessGetObjects.Execute(result, mCustomData);
+        FDataGetObjectsResponse ResultStruct = UPlayFabDataModelDecoder::decodeGetObjectsResponseResponse(response.responseData);
+        OnSuccessGetObjects.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -401,6 +414,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::SetObjects(FDataSetObjectsRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabDataAPI::HelperSetObjects);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Object/SetObjects";
     manager->useEntityToken = true;
 
@@ -429,8 +443,8 @@ void UPlayFabDataAPI::HelperSetObjects(FPlayFabBaseModel response, UObject* cust
     }
     else if (!error.hasError && OnSuccessSetObjects.IsBound())
     {
-        FDataSetObjectsResponse result = UPlayFabDataModelDecoder::decodeSetObjectsResponseResponse(response.responseData);
-        OnSuccessSetObjects.Execute(result, mCustomData);
+        FDataSetObjectsResponse ResultStruct = UPlayFabDataModelDecoder::decodeSetObjectsResponseResponse(response.responseData);
+        OnSuccessSetObjects.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -496,10 +510,15 @@ void UPlayFabDataAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpRes
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -515,15 +534,12 @@ void UPlayFabDataAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

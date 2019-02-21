@@ -2,6 +2,7 @@
 #include "PfTestActor.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabClientAPI.h"
 
 const int SUMMARY_INIT_BUFFER_SIZE = 10000;
 const int TEST_TIMEOUT_SECONDS = 10;
@@ -42,6 +43,7 @@ void APfTestActor::InitializeTestSuite()
         AppendTest("InvalidLogin");
         AppendTest("InvalidRegistration");
         AppendTest("LoginOrRegister");
+        AppendTest("MultiUserLogin");
         AppendTest("LoginWithAdvertisingId");
         AppendTest("UserDataApi");
         AppendTest("PlayerStatisticsApi");
@@ -314,6 +316,134 @@ void APfTestActor::OnLoginOrRegister(FClientLoginResult result, UObject* customD
     playFabId = result.PlayFabId;
     UPfTestContext* testContext = dynamic_cast<UPfTestContext*>(customData);
     EndTest(testContext, PlayFabApiTestFinishState::PASSED, "");
+}
+
+/// <summary>
+/// CLIENT API
+/// Test the multi-user login functionality by logging in as two separate 
+///  users, getting the profile data for each, and verifying that their 
+///  specified credentials are being used instead of the statically 
+///  stored ones
+/// </summary>
+void APfTestActor::MultiUserLogin(UPfTestContext* testContext)
+{
+    IPlayFab* playFabSettings = &(IPlayFab::Get());
+
+    // Cache the static login credentials. We will be clearing these in order to test the multi-user functionality
+    //  that circumvents them, but other tests depend on these being set so we need to clean up after ourselves
+    // TODO: Update test framework with a setup/teardown for each test that handles this, so that tests don't depend on each other's side effects
+    cachedClientSessionTicket = playFabSettings->getSessionTicket();
+    cachedEntityToken         = playFabSettings->getEntityToken();
+    cachedDeveloperSecretKey  = playFabSettings->getSecretApiKey();
+
+    // Log In User 1
+    FClientLoginWithCustomIDRequest request1{};
+    request1.CustomId = TEXT("UE4MultiUserBp_1");
+    request1.CreateAccount = true;
+
+    UPlayFabClientAPI::FDelegateOnSuccessLoginWithCustomID onSuccess1; onSuccess1.BindUFunction(this, "OnMultiUser1Login");
+    UPlayFabClientAPI::FDelegateOnFailurePlayFabError onError1; onError1.BindUFunction(this, "OnMultiUserFail");
+    UPlayFabClientAPI* callObj1 = UPlayFabClientAPI::LoginWithCustomID(request1, onSuccess1, onError1, testContext);
+    callObj1->Activate();
+
+    // Log In User 2
+    FClientLoginWithCustomIDRequest request2{};
+    request2.CustomId = TEXT("UE4MultiUserBp_2");
+    request2.CreateAccount = true;
+
+    UPlayFabClientAPI::FDelegateOnSuccessLoginWithCustomID onSuccess2; onSuccess2.BindUFunction(this, "OnMultiUser2Login");
+    UPlayFabClientAPI::FDelegateOnFailurePlayFabError onError2; onError2.BindUFunction(this, "OnMultiUserFail");
+    UPlayFabClientAPI* callObj2 = UPlayFabClientAPI::LoginWithCustomID(request2, onSuccess2, onError2, testContext);
+    callObj2->Activate();
+}
+
+void APfTestActor::OnMultiUser1Login(FClientLoginResult result, UObject* customData)
+{
+    multiUser1LoginResult = result;
+    
+    if (multiUser2LoginResult.EntityToken != nullptr)
+        OnBothUsersLogin(customData);
+}
+
+void APfTestActor::OnMultiUser2Login(FClientLoginResult result, UObject* customData)
+{
+    multiUser2LoginResult = result;
+    
+    if (multiUser1LoginResult.EntityToken != nullptr)
+        OnBothUsersLogin(customData);
+}
+
+void APfTestActor::OnBothUsersLogin(UObject* customData)
+{
+    UPfTestContext* testContext = dynamic_cast<UPfTestContext*>(customData);
+
+    // Ensure that classic credentials (global, statically stored) aren't used:
+    IPlayFab* playFabSettings = &(IPlayFab::Get());
+    playFabSettings->setSessionTicket(TEXT(""));
+    playFabSettings->setEntityToken(TEXT(""));
+    playFabSettings->setApiSecretKey(TEXT(""));
+
+    // Get User 1 Profile
+    FClientGetPlayerProfileRequest request1{};
+    request1.AuthenticationContext = multiUser1LoginResult.AuthenticationContext;
+    request1.PlayFabId = multiUser1LoginResult.PlayFabId;
+
+    UPlayFabClientAPI::FDelegateOnSuccessGetPlayerProfile onSuccess1; onSuccess1.BindUFunction(this, "OnMultiUser1GetProfile");
+    UPlayFabClientAPI::FDelegateOnFailurePlayFabError onError1; onError1.BindUFunction(this, "OnMultiUserFail");
+    UPlayFabClientAPI* callObj1 = UPlayFabClientAPI::GetPlayerProfile(request1, onSuccess1, onError1, testContext);
+    callObj1->Activate();
+
+    // Get User 2 Profile
+    FClientGetPlayerProfileRequest request2{};
+    request2.AuthenticationContext = multiUser2LoginResult.AuthenticationContext;
+    request2.PlayFabId = multiUser2LoginResult.PlayFabId;
+
+    UPlayFabClientAPI::FDelegateOnSuccessGetPlayerProfile onSuccess2; onSuccess2.BindUFunction(this, "OnMultiUser2GetProfile");
+    UPlayFabClientAPI::FDelegateOnFailurePlayFabError onError2; onError2.BindUFunction(this, "OnMultiUserFail");
+    UPlayFabClientAPI* callObj2 = UPlayFabClientAPI::GetPlayerProfile(request2, onSuccess2, onError2, testContext);
+    callObj2->Activate();
+}
+
+void APfTestActor::OnMultiUser1GetProfile(FClientGetPlayerProfileResult result, UObject* customData)
+{
+    multiUser1ProfileResult = result;
+    
+    if (multiUser2ProfileResult.PlayerProfile != nullptr)
+        OnBothUsersGetProfile(customData);
+}
+
+void APfTestActor::OnMultiUser2GetProfile(FClientGetPlayerProfileResult result, UObject* customData)
+{
+    multiUser2ProfileResult = result;
+    
+    if (multiUser1ProfileResult.PlayerProfile != nullptr)
+        OnBothUsersGetProfile(customData);
+}
+
+void APfTestActor::OnBothUsersGetProfile(UObject* customData)
+{
+    UPfTestContext* testContext = dynamic_cast<UPfTestContext*>(customData);
+    ApplyCachedCredentials();
+    EndTest(testContext, PlayFabApiTestFinishState::PASSED, "");
+}
+
+void APfTestActor::OnMultiUserFail(FPlayFabError error, UObject* customData)
+{
+    ApplyCachedCredentials();
+    OnSharedError(error, customData);
+}
+
+/// <summary>
+/// Restore the static credentials originally set by LoginOrRegister but wiped in this test, as other tests depend on them
+///  TODO: Update test framework with a setup/teardown for each test that handles this, so that tests don't depend on each other's side effects
+/// </summary>
+void APfTestActor::ApplyCachedCredentials()
+{
+    IPlayFab* playFabSettings = &(IPlayFab::Get());
+    
+    playFabSettings->setSessionTicket(cachedClientSessionTicket);
+    playFabSettings->setEntityToken(cachedEntityToken);
+    playFabSettings->setApiSecretKey(cachedDeveloperSecretKey);
 }
 
 /// <summary>

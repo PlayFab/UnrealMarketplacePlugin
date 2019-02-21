@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabDataModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -30,7 +32,7 @@ class UPlayFabJsonObject;
 
 /** Aborts the pending upload of the requested files. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataAbortFileUploadsRequest
+struct PLAYFAB_API FDataAbortFileUploadsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -49,7 +51,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataAbortFileUploadsResponse
+struct PLAYFAB_API FDataAbortFileUploadsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -63,7 +65,7 @@ public:
 
 /** Deletes the requested files from the entity's profile. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataDeleteFilesRequest
+struct PLAYFAB_API FDataDeleteFilesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -82,7 +84,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataDeleteFilesResponse
+struct PLAYFAB_API FDataDeleteFilesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -99,7 +101,7 @@ public:
  * pointers from pending to live.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataFinalizeFileUploadsRequest
+struct PLAYFAB_API FDataFinalizeFileUploadsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -112,7 +114,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataFinalizeFileUploadsResponse
+struct PLAYFAB_API FDataFinalizeFileUploadsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -133,7 +135,7 @@ public:
  * nothing.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataGetFilesRequest
+struct PLAYFAB_API FDataGetFilesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -143,7 +145,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataGetFilesResponse
+struct PLAYFAB_API FDataGetFilesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -163,7 +165,7 @@ public:
  * FinalizeFileUploads must be called to move the file status from pending to live.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataInitiateFileUploadsRequest
+struct PLAYFAB_API FDataInitiateFileUploadsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -182,7 +184,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataInitiateFileUploadsResponse
+struct PLAYFAB_API FDataInitiateFileUploadsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -204,7 +206,7 @@ public:
 
 /** Gets JSON objects from an entity profile and returns it. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataGetObjectsRequest
+struct PLAYFAB_API FDataGetObjectsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -220,7 +222,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataGetObjectsResponse
+struct PLAYFAB_API FDataGetObjectsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -243,7 +245,7 @@ public:
  * to update the same profile.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataSetObjectsRequest
+struct PLAYFAB_API FDataSetObjectsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -263,7 +265,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FDataSetObjectsResponse
+struct PLAYFAB_API FDataSetObjectsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

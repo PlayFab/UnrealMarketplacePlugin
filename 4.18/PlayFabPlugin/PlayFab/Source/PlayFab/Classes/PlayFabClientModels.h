@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabClientModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -29,7 +31,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddGenericIDRequest
+struct PLAYFAB_API FClientAddGenericIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -39,7 +41,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddGenericIDResult
+struct PLAYFAB_API FClientAddGenericIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -50,7 +52,7 @@ public:
  * update the contact email to the email address specified.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddOrUpdateContactEmailRequest
+struct PLAYFAB_API FClientAddOrUpdateContactEmailRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -60,14 +62,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddOrUpdateContactEmailResult
+struct PLAYFAB_API FClientAddOrUpdateContactEmailResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddUsernamePasswordRequest
+struct PLAYFAB_API FClientAddUsernamePasswordRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -89,7 +91,7 @@ public:
  * This can also be used to provide a recovery method if the user loses their original means of access.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddUsernamePasswordResult
+struct PLAYFAB_API FClientAddUsernamePasswordResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -99,7 +101,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetAccountInfoRequest
+struct PLAYFAB_API FClientGetAccountInfoRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -134,7 +136,7 @@ public:
  * specified, the currently signed in user's information will be returned.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetAccountInfoResult
+struct PLAYFAB_API FClientGetAccountInfoResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -144,7 +146,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerCombinedInfoRequest
+struct PLAYFAB_API FClientGetPlayerCombinedInfoRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -162,7 +164,7 @@ public:
  * is returned if available. Otherwise, only public information is returned. All parameters default to false.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerCombinedInfoResult
+struct PLAYFAB_API FClientGetPlayerCombinedInfoResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -183,7 +185,7 @@ public:
  * the title, the recommendation is to not store this data locally.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerProfileRequest
+struct PLAYFAB_API FClientGetPlayerProfileRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -200,7 +202,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerProfileResult
+struct PLAYFAB_API FClientGetPlayerProfileResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -213,7 +215,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -224,7 +226,7 @@ public:
 
 /** For Facebook identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -234,7 +236,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookInstantGamesIdsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookInstantGamesIdsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -245,7 +247,7 @@ public:
 
 /** For Facebook Instant Game identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookInstantGamesIdsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookInstantGamesIdsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -255,7 +257,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromGameCenterIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromGameCenterIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -266,7 +268,7 @@ public:
 
 /** For Game Center identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromGameCenterIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromGameCenterIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -276,7 +278,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromGenericIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromGenericIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -290,7 +292,7 @@ public:
 
 /** For generic service identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromGenericIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromGenericIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -300,7 +302,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromGoogleIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromGoogleIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -311,7 +313,7 @@ public:
 
 /** For Google identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromGoogleIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromGoogleIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -321,7 +323,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -332,7 +334,7 @@ public:
 
 /** For Kongregate identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -342,7 +344,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -353,7 +355,7 @@ public:
 
 /** For Nintendo Switch identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -363,7 +365,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -377,7 +379,7 @@ public:
 
 /** For PlayStation Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -387,7 +389,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -398,7 +400,7 @@ public:
 
 /** For Steam identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -408,7 +410,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromTwitchIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromTwitchIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -419,7 +421,7 @@ public:
 
 /** For Twitch identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromTwitchIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromTwitchIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -429,7 +431,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsRequest
+struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -443,7 +445,7 @@ public:
 
 /** For XboxLive identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsResult
+struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -453,7 +455,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkAndroidDeviceIDRequest
+struct PLAYFAB_API FClientLinkAndroidDeviceIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -472,14 +474,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkAndroidDeviceIDResult
+struct PLAYFAB_API FClientLinkAndroidDeviceIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkCustomIDRequest
+struct PLAYFAB_API FClientLinkCustomIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -492,7 +494,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkCustomIDResult
+struct PLAYFAB_API FClientLinkCustomIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -511,7 +513,7 @@ public:
  * Title ID, please be sure to first unlink all accounts from Facebook, or delete all users in the first Title ID.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkFacebookAccountRequest
+struct PLAYFAB_API FClientLinkFacebookAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -524,14 +526,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkFacebookAccountResult
+struct PLAYFAB_API FClientLinkFacebookAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkFacebookInstantGamesIdRequest
+struct PLAYFAB_API FClientLinkFacebookInstantGamesIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -544,14 +546,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkFacebookInstantGamesIdResult
+struct PLAYFAB_API FClientLinkFacebookInstantGamesIdResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkGameCenterAccountRequest
+struct PLAYFAB_API FClientLinkGameCenterAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -561,10 +563,25 @@ public:
     /** Game Center identifier for the player account to be linked. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString GameCenterId;
+    /** The URL for the public encryption key that will be used to verify the signature. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString PublicKeyUrl;
+    /** A random value used to compute the hash and keep it randomized. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString Salt;
+    /** The verification signature of the authentication payload. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString Signature;
+    /**
+     * The integer representation of date and time that the signature was created on. PlayFab will reject authentication
+     * signatures not within 10 minutes of the server's current time.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString Timestamp;
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkGameCenterAccountResult
+struct PLAYFAB_API FClientLinkGameCenterAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -575,7 +592,7 @@ public:
  * the device and passing it to this API.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkGoogleAccountRequest
+struct PLAYFAB_API FClientLinkGoogleAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -591,14 +608,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkGoogleAccountResult
+struct PLAYFAB_API FClientLinkGoogleAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkIOSDeviceIDRequest
+struct PLAYFAB_API FClientLinkIOSDeviceIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -617,14 +634,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkIOSDeviceIDResult
+struct PLAYFAB_API FClientLinkIOSDeviceIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkKongregateAccountRequest
+struct PLAYFAB_API FClientLinkKongregateAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -640,14 +657,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkKongregateAccountResult
+struct PLAYFAB_API FClientLinkKongregateAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkNintendoSwitchDeviceIdRequest
+struct PLAYFAB_API FClientLinkNintendoSwitchDeviceIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -660,21 +677,21 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkNintendoSwitchDeviceIdResult
+struct PLAYFAB_API FClientLinkNintendoSwitchDeviceIdResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientEmptyResult
+struct PLAYFAB_API FClientEmptyResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkOpenIdConnectRequest
+struct PLAYFAB_API FClientLinkOpenIdConnectRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -693,7 +710,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkPSNAccountRequest
+struct PLAYFAB_API FClientLinkPSNAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -712,7 +729,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkPSNAccountResult
+struct PLAYFAB_API FClientLinkPSNAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -728,7 +745,7 @@ public:
  * https://partner.steamgames.com/documentation/webapi#publisherkey.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkSteamAccountRequest
+struct PLAYFAB_API FClientLinkSteamAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -744,14 +761,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkSteamAccountResult
+struct PLAYFAB_API FClientLinkSteamAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkTwitchAccountRequest
+struct PLAYFAB_API FClientLinkTwitchAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -764,7 +781,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkTwitchAccountResult
+struct PLAYFAB_API FClientLinkTwitchAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -772,7 +789,7 @@ public:
 
 /** PublicKey must be generated using the Windows Hello Passport service. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkWindowsHelloAccountRequest
+struct PLAYFAB_API FClientLinkWindowsHelloAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -791,14 +808,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkWindowsHelloAccountResponse
+struct PLAYFAB_API FClientLinkWindowsHelloAccountResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkXboxAccountRequest
+struct PLAYFAB_API FClientLinkXboxAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -811,7 +828,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkXboxAccountResult
+struct PLAYFAB_API FClientLinkXboxAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -819,21 +836,21 @@ public:
 
 /** This API removes an existing contact email from the player's profile. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveContactEmailRequest
+struct PLAYFAB_API FClientRemoveContactEmailRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveContactEmailResult
+struct PLAYFAB_API FClientRemoveContactEmailResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveGenericIDRequest
+struct PLAYFAB_API FClientRemoveGenericIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -843,14 +860,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveGenericIDResult
+struct PLAYFAB_API FClientRemoveGenericIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientReportPlayerClientRequest
+struct PLAYFAB_API FClientReportPlayerClientRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -867,7 +884,7 @@ public:
  * will result in Updated being returned as false.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientReportPlayerClientResult
+struct PLAYFAB_API FClientReportPlayerClientResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -882,7 +899,7 @@ public:
  * able to receive a password reset email using this API.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientSendAccountRecoveryEmailRequest
+struct PLAYFAB_API FClientSendAccountRecoveryEmailRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -895,14 +912,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientSendAccountRecoveryEmailResult
+struct PLAYFAB_API FClientSendAccountRecoveryEmailResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkAndroidDeviceIDRequest
+struct PLAYFAB_API FClientUnlinkAndroidDeviceIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -915,14 +932,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkAndroidDeviceIDResult
+struct PLAYFAB_API FClientUnlinkAndroidDeviceIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkCustomIDRequest
+struct PLAYFAB_API FClientUnlinkCustomIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -935,28 +952,28 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkCustomIDResult
+struct PLAYFAB_API FClientUnlinkCustomIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkFacebookAccountRequest
+struct PLAYFAB_API FClientUnlinkFacebookAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkFacebookAccountResult
+struct PLAYFAB_API FClientUnlinkFacebookAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkFacebookInstantGamesIdRequest
+struct PLAYFAB_API FClientUnlinkFacebookInstantGamesIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -966,42 +983,42 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkFacebookInstantGamesIdResult
+struct PLAYFAB_API FClientUnlinkFacebookInstantGamesIdResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkGameCenterAccountRequest
+struct PLAYFAB_API FClientUnlinkGameCenterAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkGameCenterAccountResult
+struct PLAYFAB_API FClientUnlinkGameCenterAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkGoogleAccountRequest
+struct PLAYFAB_API FClientUnlinkGoogleAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkGoogleAccountResult
+struct PLAYFAB_API FClientUnlinkGoogleAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkIOSDeviceIDRequest
+struct PLAYFAB_API FClientUnlinkIOSDeviceIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1014,28 +1031,28 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkIOSDeviceIDResult
+struct PLAYFAB_API FClientUnlinkIOSDeviceIDResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkKongregateAccountRequest
+struct PLAYFAB_API FClientUnlinkKongregateAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkKongregateAccountResult
+struct PLAYFAB_API FClientUnlinkKongregateAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkNintendoSwitchDeviceIdRequest
+struct PLAYFAB_API FClientUnlinkNintendoSwitchDeviceIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1045,21 +1062,21 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkNintendoSwitchDeviceIdResult
+struct PLAYFAB_API FClientUnlinkNintendoSwitchDeviceIdResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientEmptyResponse
+struct PLAYFAB_API FClientEmptyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUninkOpenIdConnectRequest
+struct PLAYFAB_API FClientUninkOpenIdConnectRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1069,42 +1086,42 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkPSNAccountRequest
+struct PLAYFAB_API FClientUnlinkPSNAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkPSNAccountResult
+struct PLAYFAB_API FClientUnlinkPSNAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkSteamAccountRequest
+struct PLAYFAB_API FClientUnlinkSteamAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkSteamAccountResult
+struct PLAYFAB_API FClientUnlinkSteamAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkTwitchAccountRequest
+struct PLAYFAB_API FClientUnlinkTwitchAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkTwitchAccountResult
+struct PLAYFAB_API FClientUnlinkTwitchAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1112,7 +1129,7 @@ public:
 
 /** Must include the Public Key Hint */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkWindowsHelloAccountRequest
+struct PLAYFAB_API FClientUnlinkWindowsHelloAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1122,14 +1139,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkWindowsHelloAccountResponse
+struct PLAYFAB_API FClientUnlinkWindowsHelloAccountResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkXboxAccountRequest
+struct PLAYFAB_API FClientUnlinkXboxAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1139,14 +1156,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkXboxAccountResult
+struct PLAYFAB_API FClientUnlinkXboxAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateAvatarUrlRequest
+struct PLAYFAB_API FClientUpdateAvatarUrlRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1161,7 +1178,7 @@ public:
  * example.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateUserTitleDisplayNameRequest
+struct PLAYFAB_API FClientUpdateUserTitleDisplayNameRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1171,7 +1188,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateUserTitleDisplayNameResult
+struct PLAYFAB_API FClientUpdateUserTitleDisplayNameResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1190,7 +1207,7 @@ public:
  * to track the device. It uses the given device id to match based on clicks on ads.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAttributeInstallRequest
+struct PLAYFAB_API FClientAttributeInstallRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1203,7 +1220,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAttributeInstallResult
+struct PLAYFAB_API FClientAttributeInstallResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1216,7 +1233,7 @@ public:
 
 /** Any arbitrary information collected by the device */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientDeviceInfoRequest
+struct PLAYFAB_API FClientDeviceInfoRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1231,7 +1248,7 @@ public:
  * locked to the authenticated title and player.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientWriteClientCharacterEventRequest
+struct PLAYFAB_API FClientWriteClientCharacterEventRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1253,7 +1270,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientWriteEventResponse
+struct PLAYFAB_API FClientWriteEventResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1271,7 +1288,7 @@ public:
  * authenticated title and player.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientWriteClientPlayerEventRequest
+struct PLAYFAB_API FClientWriteClientPlayerEventRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1295,7 +1312,7 @@ public:
  * locked to the authenticated title.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientWriteTitleEventRequest
+struct PLAYFAB_API FClientWriteTitleEventRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1319,7 +1336,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPhotonAuthenticationTokenRequest
+struct PLAYFAB_API FClientGetPhotonAuthenticationTokenRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1329,7 +1346,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPhotonAuthenticationTokenResult
+struct PLAYFAB_API FClientGetPhotonAuthenticationTokenResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1348,7 +1365,7 @@ public:
  * requests to LoginWithCustomId will require the X-PlayFab-Signature header.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTitlePublicKeyRequest
+struct PLAYFAB_API FClientGetTitlePublicKeyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1358,7 +1375,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTitlePublicKeyResult
+struct PLAYFAB_API FClientGetTitlePublicKeyResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1369,7 +1386,7 @@ public:
 
 /** Requires the SHA256 hash of the user's public key. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetWindowsHelloChallengeRequest
+struct PLAYFAB_API FClientGetWindowsHelloChallengeRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1379,7 +1396,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetWindowsHelloChallengeResponse
+struct PLAYFAB_API FClientGetWindowsHelloChallengeResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1389,7 +1406,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginResult
+struct PLAYFAB_API FClientLoginResult : public FPlayFabLoginResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1438,7 +1455,7 @@ public:
  * We will be updating to show all linked devices in a future release.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithAndroidDeviceIDRequest
+struct PLAYFAB_API FClientLoginWithAndroidDeviceIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1474,7 +1491,7 @@ public:
  * guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithCustomIDRequest
+struct PLAYFAB_API FClientLoginWithCustomIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1502,7 +1519,7 @@ public:
  * perform this validation locally, so that future updates do not require client updates.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithEmailAddressRequest
+struct PLAYFAB_API FClientLoginWithEmailAddressRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1538,7 +1555,7 @@ public:
  * from Facebook, or delete all users in the first Title ID.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithFacebookRequest
+struct PLAYFAB_API FClientLoginWithFacebookRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1560,7 +1577,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithFacebookInstantGamesIdRequest
+struct PLAYFAB_API FClientLoginWithFacebookInstantGamesIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1597,7 +1614,7 @@ public:
  * guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithGameCenterRequest
+struct PLAYFAB_API FClientLoginWithGameCenterRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1616,6 +1633,21 @@ public:
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
+    /** The URL for the public encryption key that will be used to verify the signature. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString PublicKeyUrl;
+    /** A random value used to compute the hash and keep it randomized. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString Salt;
+    /** The verification signature of the authentication payload. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString Signature;
+    /**
+     * The integer representation of date and time that the signature was created on. PlayFab will reject authentication
+     * signatures not within 10 minutes of the server's current time.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString Timestamp;
 };
 
 /**
@@ -1640,7 +1672,7 @@ public:
  * (https://android-developers.googleblog.com/2016/01/play-games-permissions-are-changing-in.html).
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithGoogleAccountRequest
+struct PLAYFAB_API FClientLoginWithGoogleAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1684,7 +1716,7 @@ public:
  * release.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithIOSDeviceIDRequest
+struct PLAYFAB_API FClientLoginWithIOSDeviceIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1722,7 +1754,7 @@ public:
  * a different PlayFab user linked with this account, then an error will be returned.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithKongregateRequest
+struct PLAYFAB_API FClientLoginWithKongregateRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1747,7 +1779,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithNintendoSwitchDeviceIdRequest
+struct PLAYFAB_API FClientLoginWithNintendoSwitchDeviceIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1769,7 +1801,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithOpenIdConnectRequest
+struct PLAYFAB_API FClientLoginWithOpenIdConnectRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1803,7 +1835,7 @@ public:
  * perform this validation locally, so that future updates to the username or password do not require client updates.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithPlayFabRequest
+struct PLAYFAB_API FClientLoginWithPlayFabRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1827,7 +1859,7 @@ public:
  * be returned, so that the title can guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithPSNRequest
+struct PLAYFAB_API FClientLoginWithPSNRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1871,7 +1903,7 @@ public:
  * can guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithSteamRequest
+struct PLAYFAB_API FClientLoginWithSteamRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1905,7 +1937,7 @@ public:
  * a different PlayFab user linked with this account, then an error will be returned.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithTwitchRequest
+struct PLAYFAB_API FClientLoginWithTwitchRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1928,7 +1960,7 @@ public:
 
 /** Requires both the SHA256 hash of the user's public key as well as the signed response from GetWindowsHelloChallenge */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithWindowsHelloRequest
+struct PLAYFAB_API FClientLoginWithWindowsHelloRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1952,7 +1984,7 @@ public:
  * be returned, so that the title can guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithXboxRequest
+struct PLAYFAB_API FClientLoginWithXboxRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1974,7 +2006,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRegisterPlayFabUserRequest
+struct PLAYFAB_API FClientRegisterPlayFabUserRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2014,7 +2046,7 @@ public:
  * network lists and achievements systems.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRegisterPlayFabUserResult
+struct PLAYFAB_API FClientRegisterPlayFabUserResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2040,7 +2072,7 @@ public:
 
 /** PublicKey must be generated using the Windows Hello Passport service. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRegisterWithWindowsHelloRequest
+struct PLAYFAB_API FClientRegisterWithWindowsHelloRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2073,7 +2105,7 @@ public:
  * signature.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientSetPlayerSecretRequest
+struct PLAYFAB_API FClientSetPlayerSecretRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2086,7 +2118,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientSetPlayerSecretResult
+struct PLAYFAB_API FClientSetPlayerSecretResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2103,7 +2135,7 @@ public:
  * set of custom character data will be returned.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterDataRequest
+struct PLAYFAB_API FClientGetCharacterDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2125,7 +2157,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterDataResult
+struct PLAYFAB_API FClientGetCharacterDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2151,7 +2183,7 @@ public:
  * those specified in the call.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateCharacterDataRequest
+struct PLAYFAB_API FClientUpdateCharacterDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2176,7 +2208,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateCharacterDataResult
+struct PLAYFAB_API FClientUpdateCharacterDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2195,7 +2227,7 @@ public:
 
 /** Returns a list of every character that currently belongs to a user. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientListUsersCharactersRequest
+struct PLAYFAB_API FClientListUsersCharactersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2205,7 +2237,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientListUsersCharactersResult
+struct PLAYFAB_API FClientListUsersCharactersResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2215,7 +2247,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterLeaderboardRequest
+struct PLAYFAB_API FClientGetCharacterLeaderboardRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2235,7 +2267,7 @@ public:
 
 /** Note that the Position of the character in the results is for the overall leaderboard. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterLeaderboardResult
+struct PLAYFAB_API FClientGetCharacterLeaderboardResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2245,7 +2277,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterStatisticsRequest
+struct PLAYFAB_API FClientGetCharacterStatisticsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2256,7 +2288,7 @@ public:
 
 /** In addition to being available for use by the title, the statistics are used for all leaderboard operations in PlayFab. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterStatisticsResult
+struct PLAYFAB_API FClientGetCharacterStatisticsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2266,7 +2298,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardAroundCharacterRequest
+struct PLAYFAB_API FClientGetLeaderboardAroundCharacterRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2289,7 +2321,7 @@ public:
  * not have the corresponding statistic.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardAroundCharacterResult
+struct PLAYFAB_API FClientGetLeaderboardAroundCharacterResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2299,7 +2331,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardForUsersCharactersRequest
+struct PLAYFAB_API FClientGetLeaderboardForUsersCharactersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2313,7 +2345,7 @@ public:
 
 /** Note that the Position of the character in the results is for the overall leaderboard. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardForUsersCharactersResult
+struct PLAYFAB_API FClientGetLeaderboardForUsersCharactersResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2328,7 +2360,7 @@ public:
  * from a purchase or grant, which must be done before calling to create the character.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGrantCharacterToUserRequest
+struct PLAYFAB_API FClientGrantCharacterToUserRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2347,7 +2379,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGrantCharacterToUserResult
+struct PLAYFAB_API FClientGrantCharacterToUserResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2371,7 +2403,7 @@ public:
  * accessible for custom game-logic.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateCharacterStatisticsRequest
+struct PLAYFAB_API FClientUpdateCharacterStatisticsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2384,7 +2416,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateCharacterStatisticsResult
+struct PLAYFAB_API FClientUpdateCharacterStatisticsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2396,7 +2428,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetContentDownloadUrlRequest
+struct PLAYFAB_API FClientGetContentDownloadUrlRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2415,7 +2447,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetContentDownloadUrlResult
+struct PLAYFAB_API FClientGetContentDownloadUrlResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2430,7 +2462,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddFriendRequest
+struct PLAYFAB_API FClientAddFriendRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2449,7 +2481,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddFriendResult
+struct PLAYFAB_API FClientAddFriendResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2459,7 +2491,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetFriendsListRequest
+struct PLAYFAB_API FClientGetFriendsListRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2487,7 +2519,7 @@ public:
  * recently, and only friends who also plays this game will be included.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetFriendsListResult
+struct PLAYFAB_API FClientGetFriendsListResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2497,7 +2529,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveFriendRequest
+struct PLAYFAB_API FClientRemoveFriendRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2507,7 +2539,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveFriendResult
+struct PLAYFAB_API FClientRemoveFriendResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2520,7 +2552,7 @@ public:
  * in the friends list from a social site integration (such as Facebook or Steam) will return the AccountNotFound error.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientSetFriendTagsRequest
+struct PLAYFAB_API FClientSetFriendTagsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2533,7 +2565,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientSetFriendTagsResult
+struct PLAYFAB_API FClientSetFriendTagsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2545,7 +2577,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientCurrentGamesRequest
+struct PLAYFAB_API FClientCurrentGamesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2567,7 +2599,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientCurrentGamesResult
+struct PLAYFAB_API FClientCurrentGamesResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2583,7 +2615,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGameServerRegionsRequest
+struct PLAYFAB_API FClientGameServerRegionsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2593,7 +2625,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGameServerRegionsResult
+struct PLAYFAB_API FClientGameServerRegionsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2603,7 +2635,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientMatchmakeRequest
+struct PLAYFAB_API FClientMatchmakeRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2634,7 +2666,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientMatchmakeResult
+struct PLAYFAB_API FClientMatchmakeResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2669,7 +2701,7 @@ public:
 
 /** This API must be enabled for use as an option in the game manager website. It is disabled by default. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientStartGameRequest
+struct PLAYFAB_API FClientStartGameRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2694,7 +2726,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientStartGameResult
+struct PLAYFAB_API FClientStartGameResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2737,7 +2769,7 @@ public:
  * https://api.playfab.com/docs/pushCrashCourse/.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAndroidDevicePushNotificationRegistrationRequest
+struct PLAYFAB_API FClientAndroidDevicePushNotificationRegistrationRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2756,14 +2788,14 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAndroidDevicePushNotificationRegistrationResult
+struct PLAYFAB_API FClientAndroidDevicePushNotificationRegistrationResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConsumePSNEntitlementsRequest
+struct PLAYFAB_API FClientConsumePSNEntitlementsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2776,7 +2808,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConsumePSNEntitlementsResult
+struct PLAYFAB_API FClientConsumePSNEntitlementsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2786,7 +2818,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConsumeXboxEntitlementsRequest
+struct PLAYFAB_API FClientConsumeXboxEntitlementsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2799,7 +2831,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConsumeXboxEntitlementsResult
+struct PLAYFAB_API FClientConsumeXboxEntitlementsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2809,7 +2841,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRefreshPSNAuthTokenRequest
+struct PLAYFAB_API FClientRefreshPSNAuthTokenRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2829,7 +2861,7 @@ public:
  * https://api.playfab.com/docs/pushCrashCourse/
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRegisterForIOSPushNotificationRequest
+struct PLAYFAB_API FClientRegisterForIOSPushNotificationRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2845,7 +2877,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRegisterForIOSPushNotificationResult
+struct PLAYFAB_API FClientRegisterForIOSPushNotificationResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2860,7 +2892,7 @@ public:
  * they still exist in the catalog and can be validated.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRestoreIOSPurchasesRequest
+struct PLAYFAB_API FClientRestoreIOSPurchasesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2871,14 +2903,14 @@ public:
 
 /** Once verified, the valid items will be restored into the user's inventory. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRestoreIOSPurchasesResult
+struct PLAYFAB_API FClientRestoreIOSPurchasesResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateAmazonReceiptRequest
+struct PLAYFAB_API FClientValidateAmazonReceiptRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2901,7 +2933,7 @@ public:
 
 /** Once verified, the catalog item matching the Amazon item name will be added to the user's inventory. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateAmazonReceiptResult
+struct PLAYFAB_API FClientValidateAmazonReceiptResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2917,7 +2949,7 @@ public:
  * Each receipt may be validated only once to avoid granting the same item over and over from a single purchase.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateGooglePlayPurchaseRequest
+struct PLAYFAB_API FClientValidateGooglePlayPurchaseRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2940,7 +2972,7 @@ public:
  * inventory.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateGooglePlayPurchaseResult
+struct PLAYFAB_API FClientValidateGooglePlayPurchaseResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2955,7 +2987,7 @@ public:
  * (passing a receipt for a 99-cent purchase as being for a $19.99 purchase, for example).
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateIOSReceiptRequest
+struct PLAYFAB_API FClientValidateIOSReceiptRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2972,14 +3004,14 @@ public:
 
 /** Once verified, the catalog item matching the iTunes item name will be added to the user's inventory. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateIOSReceiptResult
+struct PLAYFAB_API FClientValidateIOSReceiptResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateWindowsReceiptRequest
+struct PLAYFAB_API FClientValidateWindowsReceiptRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -2999,7 +3031,7 @@ public:
 
 /** Once verified, the catalog item matching the Product name will be added to the user's inventory. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientValidateWindowsReceiptResult
+struct PLAYFAB_API FClientValidateWindowsReceiptResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3011,7 +3043,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetFriendLeaderboardRequest
+struct PLAYFAB_API FClientGetFriendLeaderboardRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3050,7 +3082,7 @@ public:
 
 /** Note: the user's Position is relative to the overall leaderboard. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardResult
+struct PLAYFAB_API FClientGetLeaderboardResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3066,7 +3098,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetFriendLeaderboardAroundPlayerRequest
+struct PLAYFAB_API FClientGetFriendLeaderboardAroundPlayerRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3109,7 +3141,7 @@ public:
  * call is still valid and not expired.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetFriendLeaderboardAroundPlayerResult
+struct PLAYFAB_API FClientGetFriendLeaderboardAroundPlayerResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3125,7 +3157,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardRequest
+struct PLAYFAB_API FClientGetLeaderboardRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3154,7 +3186,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardAroundPlayerRequest
+struct PLAYFAB_API FClientGetLeaderboardAroundPlayerRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3187,7 +3219,7 @@ public:
  * the corresponding statistic.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetLeaderboardAroundPlayerResult
+struct PLAYFAB_API FClientGetLeaderboardAroundPlayerResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3203,7 +3235,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerStatisticsRequest
+struct PLAYFAB_API FClientGetPlayerStatisticsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3220,7 +3252,7 @@ public:
 
 /** In addition to being available for use by the title, the statistics are used for all leaderboard operations in PlayFab. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerStatisticsResult
+struct PLAYFAB_API FClientGetPlayerStatisticsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3230,7 +3262,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerStatisticVersionsRequest
+struct PLAYFAB_API FClientGetPlayerStatisticVersionsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3240,7 +3272,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerStatisticVersionsResult
+struct PLAYFAB_API FClientGetPlayerStatisticVersionsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3259,7 +3291,7 @@ public:
  * data will be returned.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetUserDataRequest
+struct PLAYFAB_API FClientGetUserDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3281,7 +3313,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetUserDataResult
+struct PLAYFAB_API FClientGetUserDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3309,7 +3341,7 @@ public:
  * short, pre-defined period (currently 10 seconds), using the Version parameter in this call.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdatePlayerStatisticsRequest
+struct PLAYFAB_API FClientUpdatePlayerStatisticsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3319,7 +3351,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdatePlayerStatisticsResult
+struct PLAYFAB_API FClientUpdatePlayerStatisticsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3333,7 +3365,7 @@ public:
  * specified in the call.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateUserDataRequest
+struct PLAYFAB_API FClientUpdateUserDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3358,7 +3390,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateUserDataResult
+struct PLAYFAB_API FClientUpdateUserDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3377,7 +3409,7 @@ public:
 
 /** This API must be enabled for use as an option in the game manager website. It is disabled by default. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddUserVirtualCurrencyRequest
+struct PLAYFAB_API FClientAddUserVirtualCurrencyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3390,7 +3422,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientModifyUserVirtualCurrencyResult
+struct PLAYFAB_API FClientModifyUserVirtualCurrencyResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3422,7 +3454,7 @@ public:
  * in the inventory, and the more items are in the grant/purchase operation.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConfirmPurchaseRequest
+struct PLAYFAB_API FClientConfirmPurchaseRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3438,7 +3470,7 @@ public:
  * may mean that the provider hasn't completed some operation required to finalize the purchase.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConfirmPurchaseResult
+struct PLAYFAB_API FClientConfirmPurchaseResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3454,7 +3486,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConsumeItemRequest
+struct PLAYFAB_API FClientConsumeItemRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3470,7 +3502,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientConsumeItemResult
+struct PLAYFAB_API FClientConsumeItemResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3489,7 +3521,7 @@ public:
  * in the user's current inventory, and so will not be not included. Also returns their virtual currency balances.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterInventoryRequest
+struct PLAYFAB_API FClientGetCharacterInventoryRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3502,7 +3534,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCharacterInventoryResult
+struct PLAYFAB_API FClientGetCharacterInventoryResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3521,7 +3553,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPaymentTokenRequest
+struct PLAYFAB_API FClientGetPaymentTokenRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3531,7 +3563,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPaymentTokenResult
+struct PLAYFAB_API FClientGetPaymentTokenResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3544,7 +3576,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPurchaseRequest
+struct PLAYFAB_API FClientGetPurchaseRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3554,7 +3586,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPurchaseResult
+struct PLAYFAB_API FClientGetPurchaseResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3576,7 +3608,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetUserInventoryRequest
+struct PLAYFAB_API FClientGetUserInventoryRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3589,7 +3621,7 @@ public:
  * in the user's current inventory, and so will not be not included.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetUserInventoryResult
+struct PLAYFAB_API FClientGetUserInventoryResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3611,7 +3643,7 @@ public:
  * tofinalize the process and add the appropriate items to the player inventory.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientPayForPurchaseRequest
+struct PLAYFAB_API FClientPayForPurchaseRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3634,7 +3666,7 @@ public:
  * the purchase. Items added to the user inventory as a result of this operation will be marked as unconfirmed.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientPayForPurchaseResult
+struct PLAYFAB_API FClientPayForPurchaseResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3677,7 +3709,7 @@ public:
  * distinct add).
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientPurchaseItemRequest
+struct PLAYFAB_API FClientPurchaseItemRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3702,7 +3734,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientPurchaseItemResult
+struct PLAYFAB_API FClientPurchaseItemResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3718,7 +3750,7 @@ public:
  * consumed code, or a code which has not yet been created in the service, will result in an error.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRedeemCouponRequest
+struct PLAYFAB_API FClientRedeemCouponRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3734,7 +3766,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRedeemCouponResult
+struct PLAYFAB_API FClientRedeemCouponResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3749,7 +3781,7 @@ public:
  * prices, regardless of any subsequent changes at the catalog level which may occur during the next two steps.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientStartPurchaseRequest
+struct PLAYFAB_API FClientStartPurchaseRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3765,7 +3797,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientStartPurchaseResult
+struct PLAYFAB_API FClientStartPurchaseResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3785,7 +3817,7 @@ public:
 
 /** This API must be enabled for use as an option in the game manager website. It is disabled by default. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientSubtractUserVirtualCurrencyRequest
+struct PLAYFAB_API FClientSubtractUserVirtualCurrencyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3799,7 +3831,7 @@ public:
 
 /** Specify the container and optionally the catalogVersion for the container to open */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlockContainerInstanceRequest
+struct PLAYFAB_API FClientUnlockContainerInstanceRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3825,7 +3857,7 @@ public:
 
 /** The items and vc found within the container.  These will be added and stacked in the appropriate inventory. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlockContainerItemResult
+struct PLAYFAB_API FClientUnlockContainerItemResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3845,7 +3877,7 @@ public:
 
 /** Specify the type of container to open and optionally the catalogVersion for the container to open */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlockContainerItemRequest
+struct PLAYFAB_API FClientUnlockContainerItemRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3869,14 +3901,14 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerSegmentsRequest
+struct PLAYFAB_API FClientGetPlayerSegmentsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerSegmentsResult
+struct PLAYFAB_API FClientGetPlayerSegmentsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3891,7 +3923,7 @@ public:
  * 128 characters.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerTagsRequest
+struct PLAYFAB_API FClientGetPlayerTagsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3904,7 +3936,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerTagsResult
+struct PLAYFAB_API FClientGetPlayerTagsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3922,7 +3954,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientExecuteCloudScriptRequest
+struct PLAYFAB_API FClientExecuteCloudScriptRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3951,7 +3983,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientExecuteCloudScriptResult
+struct PLAYFAB_API FClientExecuteCloudScriptResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4009,7 +4041,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddSharedGroupMembersRequest
+struct PLAYFAB_API FClientAddSharedGroupMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4022,7 +4054,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAddSharedGroupMembersResult
+struct PLAYFAB_API FClientAddSharedGroupMembersResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4033,7 +4065,7 @@ public:
  * return an error if it is already in use. If no SharedGroupId is specified, a random identifier will be assigned.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientCreateSharedGroupRequest
+struct PLAYFAB_API FClientCreateSharedGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4043,7 +4075,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientCreateSharedGroupResult
+struct PLAYFAB_API FClientCreateSharedGroupResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4053,7 +4085,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetSharedGroupDataRequest
+struct PLAYFAB_API FClientGetSharedGroupDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4072,7 +4104,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetSharedGroupDataResult
+struct PLAYFAB_API FClientGetSharedGroupDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4085,7 +4117,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveSharedGroupMembersRequest
+struct PLAYFAB_API FClientRemoveSharedGroupMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4098,7 +4130,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientRemoveSharedGroupMembersResult
+struct PLAYFAB_API FClientRemoveSharedGroupMembersResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4112,7 +4144,7 @@ public:
  * public, or a combination of user data and shared group data.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateSharedGroupDataRequest
+struct PLAYFAB_API FClientUpdateSharedGroupDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4137,7 +4169,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUpdateSharedGroupDataResult
+struct PLAYFAB_API FClientUpdateSharedGroupDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4149,7 +4181,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCatalogItemsRequest
+struct PLAYFAB_API FClientGetCatalogItemsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4163,7 +4195,7 @@ public:
  * the catalog will be returned.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetCatalogItemsResult
+struct PLAYFAB_API FClientGetCatalogItemsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4182,7 +4214,7 @@ public:
  * the newest value.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPublisherDataRequest
+struct PLAYFAB_API FClientGetPublisherDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4192,7 +4224,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPublisherDataResult
+struct PLAYFAB_API FClientGetPublisherDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4213,7 +4245,7 @@ public:
  * for an item, the price set in the catalog should be displayed to the user.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetStoreItemsRequest
+struct PLAYFAB_API FClientGetStoreItemsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4226,7 +4258,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetStoreItemsResult
+struct PLAYFAB_API FClientGetStoreItemsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4253,7 +4285,7 @@ public:
  * there is a potential variance of up to 5 seconds.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTimeRequest
+struct PLAYFAB_API FClientGetTimeRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4261,7 +4293,7 @@ public:
 
 /** Time is always returned as Coordinated Universal Time (UTC). */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTimeResult
+struct PLAYFAB_API FClientGetTimeResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4280,7 +4312,7 @@ public:
  * the newest value.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTitleDataRequest
+struct PLAYFAB_API FClientGetTitleDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4290,7 +4322,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTitleDataResult
+struct PLAYFAB_API FClientGetTitleDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4300,7 +4332,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTitleNewsRequest
+struct PLAYFAB_API FClientGetTitleNewsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4310,7 +4342,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTitleNewsResult
+struct PLAYFAB_API FClientGetTitleNewsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4325,7 +4357,7 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAcceptTradeRequest
+struct PLAYFAB_API FClientAcceptTradeRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4344,7 +4376,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAcceptTradeResponse
+struct PLAYFAB_API FClientAcceptTradeResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4354,7 +4386,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientCancelTradeRequest
+struct PLAYFAB_API FClientCancelTradeRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4364,7 +4396,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientCancelTradeResponse
+struct PLAYFAB_API FClientCancelTradeResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4374,7 +4406,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerTradesRequest
+struct PLAYFAB_API FClientGetPlayerTradesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4384,7 +4416,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetPlayerTradesResponse
+struct PLAYFAB_API FClientGetPlayerTradesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4397,7 +4429,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTradeStatusRequest
+struct PLAYFAB_API FClientGetTradeStatusRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4410,7 +4442,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientGetTradeStatusResponse
+struct PLAYFAB_API FClientGetTradeStatusResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4420,7 +4452,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientOpenTradeRequest
+struct PLAYFAB_API FClientOpenTradeRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -4439,7 +4471,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientOpenTradeResponse
+struct PLAYFAB_API FClientOpenTradeResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

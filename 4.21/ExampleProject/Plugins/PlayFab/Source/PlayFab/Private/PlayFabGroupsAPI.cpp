@@ -14,10 +14,17 @@
 #include "PlayFabGroupsModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabGroupsAPI::UPlayFabGroupsAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabGroupsAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabGroupsAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AcceptGroupApplication(FGroupsAcceptGroupA
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperAcceptGroupApplication);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/AcceptGroupApplication";
     manager->useEntityToken = true;
 
@@ -108,8 +116,8 @@ void UPlayFabGroupsAPI::HelperAcceptGroupApplication(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessAcceptGroupApplication.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessAcceptGroupApplication.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessAcceptGroupApplication.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -132,6 +140,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AcceptGroupInvitation(FGroupsAcceptGroupIn
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperAcceptGroupInvitation);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/AcceptGroupInvitation";
     manager->useEntityToken = true;
 
@@ -155,8 +164,9 @@ void UPlayFabGroupsAPI::HelperAcceptGroupInvitation(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessAcceptGroupInvitation.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessAcceptGroupInvitation.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessAcceptGroupInvitation.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -179,6 +189,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AddMembers(FGroupsAddMembersRequest reques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperAddMembers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/AddMembers";
     manager->useEntityToken = true;
 
@@ -211,8 +222,9 @@ void UPlayFabGroupsAPI::HelperAddMembers(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessAddMembers.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessAddMembers.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessAddMembers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -235,6 +247,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ApplyToGroup(FGroupsApplyToGroupRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperApplyToGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ApplyToGroup";
     manager->useEntityToken = true;
 
@@ -259,8 +272,8 @@ void UPlayFabGroupsAPI::HelperApplyToGroup(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessApplyToGroup.IsBound())
     {
-        FGroupsApplyToGroupResponse result = UPlayFabGroupsModelDecoder::decodeApplyToGroupResponseResponse(response.responseData);
-        OnSuccessApplyToGroup.Execute(result, mCustomData);
+        FGroupsApplyToGroupResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeApplyToGroupResponseResponse(response.responseData);
+        OnSuccessApplyToGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -283,6 +296,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::BlockEntity(FGroupsBlockEntityRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperBlockEntity);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/BlockEntity";
     manager->useEntityToken = true;
 
@@ -306,8 +320,9 @@ void UPlayFabGroupsAPI::HelperBlockEntity(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessBlockEntity.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessBlockEntity.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessBlockEntity.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -330,6 +345,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ChangeMemberRole(FGroupsChangeMemberRoleRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperChangeMemberRole);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ChangeMemberRole";
     manager->useEntityToken = true;
 
@@ -367,8 +383,9 @@ void UPlayFabGroupsAPI::HelperChangeMemberRole(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessChangeMemberRole.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessChangeMemberRole.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessChangeMemberRole.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -391,6 +408,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::CreateGroup(FGroupsCreateGroupRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperCreateGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/CreateGroup";
     manager->useEntityToken = true;
 
@@ -418,8 +436,8 @@ void UPlayFabGroupsAPI::HelperCreateGroup(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessCreateGroup.IsBound())
     {
-        FGroupsCreateGroupResponse result = UPlayFabGroupsModelDecoder::decodeCreateGroupResponseResponse(response.responseData);
-        OnSuccessCreateGroup.Execute(result, mCustomData);
+        FGroupsCreateGroupResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeCreateGroupResponseResponse(response.responseData);
+        OnSuccessCreateGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -442,6 +460,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::CreateRole(FGroupsCreateGroupRoleRequest r
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperCreateRole);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/CreateRole";
     manager->useEntityToken = true;
 
@@ -474,8 +493,8 @@ void UPlayFabGroupsAPI::HelperCreateRole(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessCreateRole.IsBound())
     {
-        FGroupsCreateGroupRoleResponse result = UPlayFabGroupsModelDecoder::decodeCreateGroupRoleResponseResponse(response.responseData);
-        OnSuccessCreateRole.Execute(result, mCustomData);
+        FGroupsCreateGroupRoleResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeCreateGroupRoleResponseResponse(response.responseData);
+        OnSuccessCreateRole.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -498,6 +517,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::DeleteGroup(FGroupsDeleteGroupRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperDeleteGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/DeleteGroup";
     manager->useEntityToken = true;
 
@@ -520,8 +540,9 @@ void UPlayFabGroupsAPI::HelperDeleteGroup(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessDeleteGroup.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteGroup.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -544,6 +565,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::DeleteRole(FGroupsDeleteRoleRequest reques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperDeleteRole);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/DeleteRole";
     manager->useEntityToken = true;
 
@@ -571,8 +593,9 @@ void UPlayFabGroupsAPI::HelperDeleteRole(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessDeleteRole.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteRole.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteRole.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -595,6 +618,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::GetGroup(FGroupsGetGroupRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperGetGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/GetGroup";
     manager->useEntityToken = true;
 
@@ -622,8 +646,8 @@ void UPlayFabGroupsAPI::HelperGetGroup(FPlayFabBaseModel response, UObject* cust
     }
     else if (!error.hasError && OnSuccessGetGroup.IsBound())
     {
-        FGroupsGetGroupResponse result = UPlayFabGroupsModelDecoder::decodeGetGroupResponseResponse(response.responseData);
-        OnSuccessGetGroup.Execute(result, mCustomData);
+        FGroupsGetGroupResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeGetGroupResponseResponse(response.responseData);
+        OnSuccessGetGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -646,6 +670,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::InviteToGroup(FGroupsInviteToGroupRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperInviteToGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/InviteToGroup";
     manager->useEntityToken = true;
 
@@ -675,8 +700,8 @@ void UPlayFabGroupsAPI::HelperInviteToGroup(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessInviteToGroup.IsBound())
     {
-        FGroupsInviteToGroupResponse result = UPlayFabGroupsModelDecoder::decodeInviteToGroupResponseResponse(response.responseData);
-        OnSuccessInviteToGroup.Execute(result, mCustomData);
+        FGroupsInviteToGroupResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeInviteToGroupResponseResponse(response.responseData);
+        OnSuccessInviteToGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -699,6 +724,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::IsMember(FGroupsIsMemberRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperIsMember);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/IsMember";
     manager->useEntityToken = true;
 
@@ -727,8 +753,8 @@ void UPlayFabGroupsAPI::HelperIsMember(FPlayFabBaseModel response, UObject* cust
     }
     else if (!error.hasError && OnSuccessIsMember.IsBound())
     {
-        FGroupsIsMemberResponse result = UPlayFabGroupsModelDecoder::decodeIsMemberResponseResponse(response.responseData);
-        OnSuccessIsMember.Execute(result, mCustomData);
+        FGroupsIsMemberResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeIsMemberResponseResponse(response.responseData);
+        OnSuccessIsMember.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -751,6 +777,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupApplications(FGroupsListGroupAppl
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperListGroupApplications);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListGroupApplications";
     manager->useEntityToken = true;
 
@@ -773,8 +800,8 @@ void UPlayFabGroupsAPI::HelperListGroupApplications(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessListGroupApplications.IsBound())
     {
-        FGroupsListGroupApplicationsResponse result = UPlayFabGroupsModelDecoder::decodeListGroupApplicationsResponseResponse(response.responseData);
-        OnSuccessListGroupApplications.Execute(result, mCustomData);
+        FGroupsListGroupApplicationsResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeListGroupApplicationsResponseResponse(response.responseData);
+        OnSuccessListGroupApplications.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -797,6 +824,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupBlocks(FGroupsListGroupBlocksRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperListGroupBlocks);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListGroupBlocks";
     manager->useEntityToken = true;
 
@@ -819,8 +847,8 @@ void UPlayFabGroupsAPI::HelperListGroupBlocks(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessListGroupBlocks.IsBound())
     {
-        FGroupsListGroupBlocksResponse result = UPlayFabGroupsModelDecoder::decodeListGroupBlocksResponseResponse(response.responseData);
-        OnSuccessListGroupBlocks.Execute(result, mCustomData);
+        FGroupsListGroupBlocksResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeListGroupBlocksResponseResponse(response.responseData);
+        OnSuccessListGroupBlocks.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -843,6 +871,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupInvitations(FGroupsListGroupInvit
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperListGroupInvitations);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListGroupInvitations";
     manager->useEntityToken = true;
 
@@ -865,8 +894,8 @@ void UPlayFabGroupsAPI::HelperListGroupInvitations(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessListGroupInvitations.IsBound())
     {
-        FGroupsListGroupInvitationsResponse result = UPlayFabGroupsModelDecoder::decodeListGroupInvitationsResponseResponse(response.responseData);
-        OnSuccessListGroupInvitations.Execute(result, mCustomData);
+        FGroupsListGroupInvitationsResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeListGroupInvitationsResponseResponse(response.responseData);
+        OnSuccessListGroupInvitations.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -889,6 +918,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupMembers(FGroupsListGroupMembersRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperListGroupMembers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListGroupMembers";
     manager->useEntityToken = true;
 
@@ -911,8 +941,8 @@ void UPlayFabGroupsAPI::HelperListGroupMembers(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessListGroupMembers.IsBound())
     {
-        FGroupsListGroupMembersResponse result = UPlayFabGroupsModelDecoder::decodeListGroupMembersResponseResponse(response.responseData);
-        OnSuccessListGroupMembers.Execute(result, mCustomData);
+        FGroupsListGroupMembersResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeListGroupMembersResponseResponse(response.responseData);
+        OnSuccessListGroupMembers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -935,6 +965,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListMembership(FGroupsListMembershipReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperListMembership);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListMembership";
     manager->useEntityToken = true;
 
@@ -957,8 +988,8 @@ void UPlayFabGroupsAPI::HelperListMembership(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessListMembership.IsBound())
     {
-        FGroupsListMembershipResponse result = UPlayFabGroupsModelDecoder::decodeListMembershipResponseResponse(response.responseData);
-        OnSuccessListMembership.Execute(result, mCustomData);
+        FGroupsListMembershipResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeListMembershipResponseResponse(response.responseData);
+        OnSuccessListMembership.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -981,6 +1012,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListMembershipOpportunities(FGroupsListMem
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperListMembershipOpportunities);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListMembershipOpportunities";
     manager->useEntityToken = true;
 
@@ -1003,8 +1035,8 @@ void UPlayFabGroupsAPI::HelperListMembershipOpportunities(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessListMembershipOpportunities.IsBound())
     {
-        FGroupsListMembershipOpportunitiesResponse result = UPlayFabGroupsModelDecoder::decodeListMembershipOpportunitiesResponseResponse(response.responseData);
-        OnSuccessListMembershipOpportunities.Execute(result, mCustomData);
+        FGroupsListMembershipOpportunitiesResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeListMembershipOpportunitiesResponseResponse(response.responseData);
+        OnSuccessListMembershipOpportunities.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1027,6 +1059,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveGroupApplication(FGroupsRemoveGroupA
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperRemoveGroupApplication);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/RemoveGroupApplication";
     manager->useEntityToken = true;
 
@@ -1050,8 +1083,9 @@ void UPlayFabGroupsAPI::HelperRemoveGroupApplication(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessRemoveGroupApplication.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessRemoveGroupApplication.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRemoveGroupApplication.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1074,6 +1108,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveGroupInvitation(FGroupsRemoveGroupIn
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperRemoveGroupInvitation);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/RemoveGroupInvitation";
     manager->useEntityToken = true;
 
@@ -1097,8 +1132,9 @@ void UPlayFabGroupsAPI::HelperRemoveGroupInvitation(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessRemoveGroupInvitation.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessRemoveGroupInvitation.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRemoveGroupInvitation.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1121,6 +1157,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveMembers(FGroupsRemoveMembersRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperRemoveMembers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/RemoveMembers";
     manager->useEntityToken = true;
 
@@ -1153,8 +1190,9 @@ void UPlayFabGroupsAPI::HelperRemoveMembers(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessRemoveMembers.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessRemoveMembers.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRemoveMembers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1177,6 +1215,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UnblockEntity(FGroupsUnblockEntityRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperUnblockEntity);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/UnblockEntity";
     manager->useEntityToken = true;
 
@@ -1200,8 +1239,9 @@ void UPlayFabGroupsAPI::HelperUnblockEntity(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessUnblockEntity.IsBound())
     {
-        FGroupsEmptyResponse result = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUnblockEntity.Execute(result, mCustomData);
+        FGroupsEmptyResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUnblockEntity.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1224,6 +1264,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UpdateGroup(FGroupsUpdateGroupRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperUpdateGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/UpdateGroup";
     manager->useEntityToken = true;
 
@@ -1262,8 +1303,8 @@ void UPlayFabGroupsAPI::HelperUpdateGroup(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessUpdateGroup.IsBound())
     {
-        FGroupsUpdateGroupResponse result = UPlayFabGroupsModelDecoder::decodeUpdateGroupResponseResponse(response.responseData);
-        OnSuccessUpdateGroup.Execute(result, mCustomData);
+        FGroupsUpdateGroupResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeUpdateGroupResponseResponse(response.responseData);
+        OnSuccessUpdateGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1286,6 +1327,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UpdateRole(FGroupsUpdateGroupRoleRequest r
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabGroupsAPI::HelperUpdateRole);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/UpdateRole";
     manager->useEntityToken = true;
 
@@ -1319,8 +1361,8 @@ void UPlayFabGroupsAPI::HelperUpdateRole(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessUpdateRole.IsBound())
     {
-        FGroupsUpdateGroupRoleResponse result = UPlayFabGroupsModelDecoder::decodeUpdateGroupRoleResponseResponse(response.responseData);
-        OnSuccessUpdateRole.Execute(result, mCustomData);
+        FGroupsUpdateGroupRoleResponse ResultStruct = UPlayFabGroupsModelDecoder::decodeUpdateGroupRoleResponseResponse(response.responseData);
+        OnSuccessUpdateRole.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1386,10 +1428,15 @@ void UPlayFabGroupsAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpR
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -1405,15 +1452,12 @@ void UPlayFabGroupsAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

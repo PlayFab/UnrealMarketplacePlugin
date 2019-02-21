@@ -14,10 +14,17 @@
 #include "PlayFabAdminModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabAdminAPI::UPlayFabAdminAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabAdminAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabAdminAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::BanUsers(FAdminBanUsersRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperBanUsers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/BanUsers";
     manager->useSecretKey = true;
 
@@ -111,8 +119,8 @@ void UPlayFabAdminAPI::HelperBanUsers(FPlayFabBaseModel response, UObject* custo
     }
     else if (!error.hasError && OnSuccessBanUsers.IsBound())
     {
-        FAdminBanUsersResult result = UPlayFabAdminModelDecoder::decodeBanUsersResultResponse(response.responseData);
-        OnSuccessBanUsers.Execute(result, mCustomData);
+        FAdminBanUsersResult ResultStruct = UPlayFabAdminModelDecoder::decodeBanUsersResultResponse(response.responseData);
+        OnSuccessBanUsers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -135,6 +143,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteMasterPlayerAccount(FAdminDeleteMaster
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteMasterPlayerAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/DeleteMasterPlayerAccount";
     manager->useSecretKey = true;
 
@@ -166,8 +175,8 @@ void UPlayFabAdminAPI::HelperDeleteMasterPlayerAccount(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessDeleteMasterPlayerAccount.IsBound())
     {
-        FAdminDeleteMasterPlayerAccountResult result = UPlayFabAdminModelDecoder::decodeDeleteMasterPlayerAccountResultResponse(response.responseData);
-        OnSuccessDeleteMasterPlayerAccount.Execute(result, mCustomData);
+        FAdminDeleteMasterPlayerAccountResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeleteMasterPlayerAccountResultResponse(response.responseData);
+        OnSuccessDeleteMasterPlayerAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -190,6 +199,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeletePlayer(FAdminDeletePlayerRequest reque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeletePlayer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/DeletePlayer";
     manager->useSecretKey = true;
 
@@ -216,8 +226,8 @@ void UPlayFabAdminAPI::HelperDeletePlayer(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessDeletePlayer.IsBound())
     {
-        FAdminDeletePlayerResult result = UPlayFabAdminModelDecoder::decodeDeletePlayerResultResponse(response.responseData);
-        OnSuccessDeletePlayer.Execute(result, mCustomData);
+        FAdminDeletePlayerResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeletePlayerResultResponse(response.responseData);
+        OnSuccessDeletePlayer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -240,6 +250,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteTitle(FAdminDeleteTitleRequest request
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteTitle);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/DeleteTitle";
     manager->useSecretKey = true;
 
@@ -261,8 +272,8 @@ void UPlayFabAdminAPI::HelperDeleteTitle(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessDeleteTitle.IsBound())
     {
-        FAdminDeleteTitleResult result = UPlayFabAdminModelDecoder::decodeDeleteTitleResultResponse(response.responseData);
-        OnSuccessDeleteTitle.Execute(result, mCustomData);
+        FAdminDeleteTitleResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeleteTitleResultResponse(response.responseData);
+        OnSuccessDeleteTitle.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -285,6 +296,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ExportMasterPlayerData(FAdminExportMasterPla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperExportMasterPlayerData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ExportMasterPlayerData";
     manager->useSecretKey = true;
 
@@ -311,8 +323,8 @@ void UPlayFabAdminAPI::HelperExportMasterPlayerData(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessExportMasterPlayerData.IsBound())
     {
-        FAdminExportMasterPlayerDataResult result = UPlayFabAdminModelDecoder::decodeExportMasterPlayerDataResultResponse(response.responseData);
-        OnSuccessExportMasterPlayerData.Execute(result, mCustomData);
+        FAdminExportMasterPlayerDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeExportMasterPlayerDataResultResponse(response.responseData);
+        OnSuccessExportMasterPlayerData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -335,6 +347,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayedTitleList(FAdminGetPlayedTitleListR
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayedTitleList);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayedTitleList";
     manager->useSecretKey = true;
 
@@ -361,8 +374,8 @@ void UPlayFabAdminAPI::HelperGetPlayedTitleList(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGetPlayedTitleList.IsBound())
     {
-        FAdminGetPlayedTitleListResult result = UPlayFabAdminModelDecoder::decodeGetPlayedTitleListResultResponse(response.responseData);
-        OnSuccessGetPlayedTitleList.Execute(result, mCustomData);
+        FAdminGetPlayedTitleListResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayedTitleListResultResponse(response.responseData);
+        OnSuccessGetPlayedTitleList.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -385,6 +398,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerIdFromAuthToken(FAdminGetPlayerIdFr
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayerIdFromAuthToken);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayerIdFromAuthToken";
     manager->useSecretKey = true;
 
@@ -414,8 +428,8 @@ void UPlayFabAdminAPI::HelperGetPlayerIdFromAuthToken(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessGetPlayerIdFromAuthToken.IsBound())
     {
-        FAdminGetPlayerIdFromAuthTokenResult result = UPlayFabAdminModelDecoder::decodeGetPlayerIdFromAuthTokenResultResponse(response.responseData);
-        OnSuccessGetPlayerIdFromAuthToken.Execute(result, mCustomData);
+        FAdminGetPlayerIdFromAuthTokenResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerIdFromAuthTokenResultResponse(response.responseData);
+        OnSuccessGetPlayerIdFromAuthToken.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -438,6 +452,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerProfile(FAdminGetPlayerProfileReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayerProfile);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayerProfile";
     manager->useSecretKey = true;
 
@@ -465,8 +480,8 @@ void UPlayFabAdminAPI::HelperGetPlayerProfile(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetPlayerProfile.IsBound())
     {
-        FAdminGetPlayerProfileResult result = UPlayFabAdminModelDecoder::decodeGetPlayerProfileResultResponse(response.responseData);
-        OnSuccessGetPlayerProfile.Execute(result, mCustomData);
+        FAdminGetPlayerProfileResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerProfileResultResponse(response.responseData);
+        OnSuccessGetPlayerProfile.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -489,6 +504,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserAccountInfo(FAdminLookupUserAccountIn
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserAccountInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserAccountInfo";
     manager->useSecretKey = true;
 
@@ -530,8 +546,8 @@ void UPlayFabAdminAPI::HelperGetUserAccountInfo(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGetUserAccountInfo.IsBound())
     {
-        FAdminLookupUserAccountInfoResult result = UPlayFabAdminModelDecoder::decodeLookupUserAccountInfoResultResponse(response.responseData);
-        OnSuccessGetUserAccountInfo.Execute(result, mCustomData);
+        FAdminLookupUserAccountInfoResult ResultStruct = UPlayFabAdminModelDecoder::decodeLookupUserAccountInfoResultResponse(response.responseData);
+        OnSuccessGetUserAccountInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -554,6 +570,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserBans(FAdminGetUserBansRequest request
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserBans);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserBans";
     manager->useSecretKey = true;
 
@@ -580,8 +597,8 @@ void UPlayFabAdminAPI::HelperGetUserBans(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessGetUserBans.IsBound())
     {
-        FAdminGetUserBansResult result = UPlayFabAdminModelDecoder::decodeGetUserBansResultResponse(response.responseData);
-        OnSuccessGetUserBans.Execute(result, mCustomData);
+        FAdminGetUserBansResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserBansResultResponse(response.responseData);
+        OnSuccessGetUserBans.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -604,6 +621,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ResetPassword(FAdminResetPasswordRequest req
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperResetPassword);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ResetPassword";
     manager->useSecretKey = true;
 
@@ -635,8 +653,8 @@ void UPlayFabAdminAPI::HelperResetPassword(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessResetPassword.IsBound())
     {
-        FAdminResetPasswordResult result = UPlayFabAdminModelDecoder::decodeResetPasswordResultResponse(response.responseData);
-        OnSuccessResetPassword.Execute(result, mCustomData);
+        FAdminResetPasswordResult ResultStruct = UPlayFabAdminModelDecoder::decodeResetPasswordResultResponse(response.responseData);
+        OnSuccessResetPassword.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -659,6 +677,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RevokeAllBansForUser(FAdminRevokeAllBansForU
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRevokeAllBansForUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RevokeAllBansForUser";
     manager->useSecretKey = true;
 
@@ -685,8 +704,8 @@ void UPlayFabAdminAPI::HelperRevokeAllBansForUser(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessRevokeAllBansForUser.IsBound())
     {
-        FAdminRevokeAllBansForUserResult result = UPlayFabAdminModelDecoder::decodeRevokeAllBansForUserResultResponse(response.responseData);
-        OnSuccessRevokeAllBansForUser.Execute(result, mCustomData);
+        FAdminRevokeAllBansForUserResult ResultStruct = UPlayFabAdminModelDecoder::decodeRevokeAllBansForUserResultResponse(response.responseData);
+        OnSuccessRevokeAllBansForUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -709,6 +728,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RevokeBans(FAdminRevokeBansRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRevokeBans);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RevokeBans";
     manager->useSecretKey = true;
 
@@ -738,8 +758,8 @@ void UPlayFabAdminAPI::HelperRevokeBans(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessRevokeBans.IsBound())
     {
-        FAdminRevokeBansResult result = UPlayFabAdminModelDecoder::decodeRevokeBansResultResponse(response.responseData);
-        OnSuccessRevokeBans.Execute(result, mCustomData);
+        FAdminRevokeBansResult ResultStruct = UPlayFabAdminModelDecoder::decodeRevokeBansResultResponse(response.responseData);
+        OnSuccessRevokeBans.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -762,6 +782,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SendAccountRecoveryEmail(FAdminSendAccountRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSendAccountRecoveryEmail);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SendAccountRecoveryEmail";
     manager->useSecretKey = true;
 
@@ -793,8 +814,8 @@ void UPlayFabAdminAPI::HelperSendAccountRecoveryEmail(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessSendAccountRecoveryEmail.IsBound())
     {
-        FAdminSendAccountRecoveryEmailResult result = UPlayFabAdminModelDecoder::decodeSendAccountRecoveryEmailResultResponse(response.responseData);
-        OnSuccessSendAccountRecoveryEmail.Execute(result, mCustomData);
+        FAdminSendAccountRecoveryEmailResult ResultStruct = UPlayFabAdminModelDecoder::decodeSendAccountRecoveryEmailResultResponse(response.responseData);
+        OnSuccessSendAccountRecoveryEmail.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -817,6 +838,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateBans(FAdminUpdateBansRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateBans);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateBans";
     manager->useSecretKey = true;
 
@@ -843,8 +865,8 @@ void UPlayFabAdminAPI::HelperUpdateBans(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessUpdateBans.IsBound())
     {
-        FAdminUpdateBansResult result = UPlayFabAdminModelDecoder::decodeUpdateBansResultResponse(response.responseData);
-        OnSuccessUpdateBans.Execute(result, mCustomData);
+        FAdminUpdateBansResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateBansResultResponse(response.responseData);
+        OnSuccessUpdateBans.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -867,6 +889,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserTitleDisplayName(FAdminUpdateUserT
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateUserTitleDisplayName);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateUserTitleDisplayName";
     manager->useSecretKey = true;
 
@@ -898,8 +921,8 @@ void UPlayFabAdminAPI::HelperUpdateUserTitleDisplayName(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessUpdateUserTitleDisplayName.IsBound())
     {
-        FAdminUpdateUserTitleDisplayNameResult result = UPlayFabAdminModelDecoder::decodeUpdateUserTitleDisplayNameResultResponse(response.responseData);
-        OnSuccessUpdateUserTitleDisplayName.Execute(result, mCustomData);
+        FAdminUpdateUserTitleDisplayNameResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateUserTitleDisplayNameResultResponse(response.responseData);
+        OnSuccessUpdateUserTitleDisplayName.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -926,6 +949,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreatePlayerSharedSecret(FAdminCreatePlayerS
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreatePlayerSharedSecret);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/CreatePlayerSharedSecret";
     manager->useSecretKey = true;
 
@@ -952,8 +976,8 @@ void UPlayFabAdminAPI::HelperCreatePlayerSharedSecret(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessCreatePlayerSharedSecret.IsBound())
     {
-        FAdminCreatePlayerSharedSecretResult result = UPlayFabAdminModelDecoder::decodeCreatePlayerSharedSecretResultResponse(response.responseData);
-        OnSuccessCreatePlayerSharedSecret.Execute(result, mCustomData);
+        FAdminCreatePlayerSharedSecretResult ResultStruct = UPlayFabAdminModelDecoder::decodeCreatePlayerSharedSecretResultResponse(response.responseData);
+        OnSuccessCreatePlayerSharedSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -976,6 +1000,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeletePlayerSharedSecret(FAdminDeletePlayerS
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeletePlayerSharedSecret);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/DeletePlayerSharedSecret";
     manager->useSecretKey = true;
 
@@ -1002,8 +1027,8 @@ void UPlayFabAdminAPI::HelperDeletePlayerSharedSecret(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessDeletePlayerSharedSecret.IsBound())
     {
-        FAdminDeletePlayerSharedSecretResult result = UPlayFabAdminModelDecoder::decodeDeletePlayerSharedSecretResultResponse(response.responseData);
-        OnSuccessDeletePlayerSharedSecret.Execute(result, mCustomData);
+        FAdminDeletePlayerSharedSecretResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeletePlayerSharedSecretResultResponse(response.responseData);
+        OnSuccessDeletePlayerSharedSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1026,6 +1051,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerSharedSecrets(FAdminGetPlayerShared
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayerSharedSecrets);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayerSharedSecrets";
     manager->useSecretKey = true;
 
@@ -1047,8 +1073,8 @@ void UPlayFabAdminAPI::HelperGetPlayerSharedSecrets(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetPlayerSharedSecrets.IsBound())
     {
-        FAdminGetPlayerSharedSecretsResult result = UPlayFabAdminModelDecoder::decodeGetPlayerSharedSecretsResultResponse(response.responseData);
-        OnSuccessGetPlayerSharedSecrets.Execute(result, mCustomData);
+        FAdminGetPlayerSharedSecretsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerSharedSecretsResultResponse(response.responseData);
+        OnSuccessGetPlayerSharedSecrets.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1071,6 +1097,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPolicy(FAdminGetPolicyRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPolicy);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPolicy";
     manager->useSecretKey = true;
 
@@ -1097,8 +1124,8 @@ void UPlayFabAdminAPI::HelperGetPolicy(FPlayFabBaseModel response, UObject* cust
     }
     else if (!error.hasError && OnSuccessGetPolicy.IsBound())
     {
-        FAdminGetPolicyResponse result = UPlayFabAdminModelDecoder::decodeGetPolicyResponseResponse(response.responseData);
-        OnSuccessGetPolicy.Execute(result, mCustomData);
+        FAdminGetPolicyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeGetPolicyResponseResponse(response.responseData);
+        OnSuccessGetPolicy.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1121,6 +1148,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetPlayerSecret(FAdminSetPlayerSecretRequest
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetPlayerSecret);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetPlayerSecret";
     manager->useSecretKey = true;
 
@@ -1152,8 +1180,8 @@ void UPlayFabAdminAPI::HelperSetPlayerSecret(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessSetPlayerSecret.IsBound())
     {
-        FAdminSetPlayerSecretResult result = UPlayFabAdminModelDecoder::decodeSetPlayerSecretResultResponse(response.responseData);
-        OnSuccessSetPlayerSecret.Execute(result, mCustomData);
+        FAdminSetPlayerSecretResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetPlayerSecretResultResponse(response.responseData);
+        OnSuccessSetPlayerSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1176,6 +1204,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdatePlayerSharedSecret(FAdminUpdatePlayerS
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdatePlayerSharedSecret);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdatePlayerSharedSecret";
     manager->useSecretKey = true;
 
@@ -1208,8 +1237,8 @@ void UPlayFabAdminAPI::HelperUpdatePlayerSharedSecret(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUpdatePlayerSharedSecret.IsBound())
     {
-        FAdminUpdatePlayerSharedSecretResult result = UPlayFabAdminModelDecoder::decodeUpdatePlayerSharedSecretResultResponse(response.responseData);
-        OnSuccessUpdatePlayerSharedSecret.Execute(result, mCustomData);
+        FAdminUpdatePlayerSharedSecretResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdatePlayerSharedSecretResultResponse(response.responseData);
+        OnSuccessUpdatePlayerSharedSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1232,6 +1261,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdatePolicy(FAdminUpdatePolicyRequest reque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdatePolicy);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdatePolicy";
     manager->useSecretKey = true;
 
@@ -1264,8 +1294,8 @@ void UPlayFabAdminAPI::HelperUpdatePolicy(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessUpdatePolicy.IsBound())
     {
-        FAdminUpdatePolicyResponse result = UPlayFabAdminModelDecoder::decodeUpdatePolicyResponseResponse(response.responseData);
-        OnSuccessUpdatePolicy.Execute(result, mCustomData);
+        FAdminUpdatePolicyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeUpdatePolicyResponseResponse(response.responseData);
+        OnSuccessUpdatePolicy.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1292,6 +1322,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ResetCharacterStatistics(FAdminResetCharacte
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperResetCharacterStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ResetCharacterStatistics";
     manager->useSecretKey = true;
 
@@ -1323,8 +1354,8 @@ void UPlayFabAdminAPI::HelperResetCharacterStatistics(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessResetCharacterStatistics.IsBound())
     {
-        FAdminResetCharacterStatisticsResult result = UPlayFabAdminModelDecoder::decodeResetCharacterStatisticsResultResponse(response.responseData);
-        OnSuccessResetCharacterStatistics.Execute(result, mCustomData);
+        FAdminResetCharacterStatisticsResult ResultStruct = UPlayFabAdminModelDecoder::decodeResetCharacterStatisticsResultResponse(response.responseData);
+        OnSuccessResetCharacterStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1351,6 +1382,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteContent(FAdminDeleteContentRequest req
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteContent);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/DeleteContent";
     manager->useSecretKey = true;
 
@@ -1377,8 +1409,8 @@ void UPlayFabAdminAPI::HelperDeleteContent(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessDeleteContent.IsBound())
     {
-        FAdminBlankResult result = UPlayFabAdminModelDecoder::decodeBlankResultResponse(response.responseData);
-        OnSuccessDeleteContent.Execute(result, mCustomData);
+        FAdminBlankResult ResultStruct = UPlayFabAdminModelDecoder::decodeBlankResultResponse(response.responseData);
+        OnSuccessDeleteContent.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1401,6 +1433,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetContentList(FAdminGetContentListRequest r
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetContentList);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetContentList";
     manager->useSecretKey = true;
 
@@ -1427,8 +1460,8 @@ void UPlayFabAdminAPI::HelperGetContentList(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessGetContentList.IsBound())
     {
-        FAdminGetContentListResult result = UPlayFabAdminModelDecoder::decodeGetContentListResultResponse(response.responseData);
-        OnSuccessGetContentList.Execute(result, mCustomData);
+        FAdminGetContentListResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetContentListResultResponse(response.responseData);
+        OnSuccessGetContentList.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1451,6 +1484,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetContentUploadUrl(FAdminGetContentUploadUr
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetContentUploadUrl);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetContentUploadUrl";
     manager->useSecretKey = true;
 
@@ -1482,8 +1516,8 @@ void UPlayFabAdminAPI::HelperGetContentUploadUrl(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessGetContentUploadUrl.IsBound())
     {
-        FAdminGetContentUploadUrlResult result = UPlayFabAdminModelDecoder::decodeGetContentUploadUrlResultResponse(response.responseData);
-        OnSuccessGetContentUploadUrl.Execute(result, mCustomData);
+        FAdminGetContentUploadUrlResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetContentUploadUrlResultResponse(response.responseData);
+        OnSuccessGetContentUploadUrl.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1510,6 +1544,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddServerBuild(FAdminAddServerBuildRequest r
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAddServerBuild);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/AddServerBuild";
     manager->useSecretKey = true;
 
@@ -1561,8 +1596,8 @@ void UPlayFabAdminAPI::HelperAddServerBuild(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessAddServerBuild.IsBound())
     {
-        FAdminAddServerBuildResult result = UPlayFabAdminModelDecoder::decodeAddServerBuildResultResponse(response.responseData);
-        OnSuccessAddServerBuild.Execute(result, mCustomData);
+        FAdminAddServerBuildResult ResultStruct = UPlayFabAdminModelDecoder::decodeAddServerBuildResultResponse(response.responseData);
+        OnSuccessAddServerBuild.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1585,6 +1620,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetServerBuildInfo(FAdminGetServerBuildInfoR
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetServerBuildInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetServerBuildInfo";
     manager->useSecretKey = true;
 
@@ -1611,8 +1647,8 @@ void UPlayFabAdminAPI::HelperGetServerBuildInfo(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGetServerBuildInfo.IsBound())
     {
-        FAdminGetServerBuildInfoResult result = UPlayFabAdminModelDecoder::decodeGetServerBuildInfoResultResponse(response.responseData);
-        OnSuccessGetServerBuildInfo.Execute(result, mCustomData);
+        FAdminGetServerBuildInfoResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetServerBuildInfoResultResponse(response.responseData);
+        OnSuccessGetServerBuildInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1635,6 +1671,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetServerBuildUploadUrl(FAdminGetServerBuild
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetServerBuildUploadUrl);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetServerBuildUploadUrl";
     manager->useSecretKey = true;
 
@@ -1661,8 +1698,8 @@ void UPlayFabAdminAPI::HelperGetServerBuildUploadUrl(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessGetServerBuildUploadUrl.IsBound())
     {
-        FAdminGetServerBuildUploadURLResult result = UPlayFabAdminModelDecoder::decodeGetServerBuildUploadURLResultResponse(response.responseData);
-        OnSuccessGetServerBuildUploadUrl.Execute(result, mCustomData);
+        FAdminGetServerBuildUploadURLResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetServerBuildUploadURLResultResponse(response.responseData);
+        OnSuccessGetServerBuildUploadUrl.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1685,6 +1722,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ListServerBuilds(FAdminListBuildsRequest req
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperListServerBuilds);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ListServerBuilds";
     manager->useSecretKey = true;
 
@@ -1706,8 +1744,8 @@ void UPlayFabAdminAPI::HelperListServerBuilds(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessListServerBuilds.IsBound())
     {
-        FAdminListBuildsResult result = UPlayFabAdminModelDecoder::decodeListBuildsResultResponse(response.responseData);
-        OnSuccessListServerBuilds.Execute(result, mCustomData);
+        FAdminListBuildsResult ResultStruct = UPlayFabAdminModelDecoder::decodeListBuildsResultResponse(response.responseData);
+        OnSuccessListServerBuilds.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1730,6 +1768,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ModifyServerBuild(FAdminModifyServerBuildReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperModifyServerBuild);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ModifyServerBuild";
     manager->useSecretKey = true;
 
@@ -1786,8 +1825,8 @@ void UPlayFabAdminAPI::HelperModifyServerBuild(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessModifyServerBuild.IsBound())
     {
-        FAdminModifyServerBuildResult result = UPlayFabAdminModelDecoder::decodeModifyServerBuildResultResponse(response.responseData);
-        OnSuccessModifyServerBuild.Execute(result, mCustomData);
+        FAdminModifyServerBuildResult ResultStruct = UPlayFabAdminModelDecoder::decodeModifyServerBuildResultResponse(response.responseData);
+        OnSuccessModifyServerBuild.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1810,6 +1849,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RemoveServerBuild(FAdminRemoveServerBuildReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRemoveServerBuild);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RemoveServerBuild";
     manager->useSecretKey = true;
 
@@ -1836,8 +1876,8 @@ void UPlayFabAdminAPI::HelperRemoveServerBuild(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessRemoveServerBuild.IsBound())
     {
-        FAdminRemoveServerBuildResult result = UPlayFabAdminModelDecoder::decodeRemoveServerBuildResultResponse(response.responseData);
-        OnSuccessRemoveServerBuild.Execute(result, mCustomData);
+        FAdminRemoveServerBuildResult ResultStruct = UPlayFabAdminModelDecoder::decodeRemoveServerBuildResultResponse(response.responseData);
+        OnSuccessRemoveServerBuild.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1864,6 +1904,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetMatchmakerGameInfo(FAdminGetMatchmakerGam
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetMatchmakerGameInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetMatchmakerGameInfo";
     manager->useSecretKey = true;
 
@@ -1890,8 +1931,8 @@ void UPlayFabAdminAPI::HelperGetMatchmakerGameInfo(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetMatchmakerGameInfo.IsBound())
     {
-        FAdminGetMatchmakerGameInfoResult result = UPlayFabAdminModelDecoder::decodeGetMatchmakerGameInfoResultResponse(response.responseData);
-        OnSuccessGetMatchmakerGameInfo.Execute(result, mCustomData);
+        FAdminGetMatchmakerGameInfoResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetMatchmakerGameInfoResultResponse(response.responseData);
+        OnSuccessGetMatchmakerGameInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1914,6 +1955,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetMatchmakerGameModes(FAdminGetMatchmakerGa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetMatchmakerGameModes);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetMatchmakerGameModes";
     manager->useSecretKey = true;
 
@@ -1940,8 +1982,8 @@ void UPlayFabAdminAPI::HelperGetMatchmakerGameModes(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetMatchmakerGameModes.IsBound())
     {
-        FAdminGetMatchmakerGameModesResult result = UPlayFabAdminModelDecoder::decodeGetMatchmakerGameModesResultResponse(response.responseData);
-        OnSuccessGetMatchmakerGameModes.Execute(result, mCustomData);
+        FAdminGetMatchmakerGameModesResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetMatchmakerGameModesResultResponse(response.responseData);
+        OnSuccessGetMatchmakerGameModes.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1964,6 +2006,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ModifyMatchmakerGameModes(FAdminModifyMatchm
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperModifyMatchmakerGameModes);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ModifyMatchmakerGameModes";
     manager->useSecretKey = true;
 
@@ -1995,8 +2038,8 @@ void UPlayFabAdminAPI::HelperModifyMatchmakerGameModes(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessModifyMatchmakerGameModes.IsBound())
     {
-        FAdminModifyMatchmakerGameModesResult result = UPlayFabAdminModelDecoder::decodeModifyMatchmakerGameModesResultResponse(response.responseData);
-        OnSuccessModifyMatchmakerGameModes.Execute(result, mCustomData);
+        FAdminModifyMatchmakerGameModesResult ResultStruct = UPlayFabAdminModelDecoder::decodeModifyMatchmakerGameModesResultResponse(response.responseData);
+        OnSuccessModifyMatchmakerGameModes.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2023,6 +2066,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreatePlayerStatisticDefinition(FAdminCreate
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreatePlayerStatisticDefinition);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/CreatePlayerStatisticDefinition";
     manager->useSecretKey = true;
 
@@ -2055,8 +2099,8 @@ void UPlayFabAdminAPI::HelperCreatePlayerStatisticDefinition(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessCreatePlayerStatisticDefinition.IsBound())
     {
-        FAdminCreatePlayerStatisticDefinitionResult result = UPlayFabAdminModelDecoder::decodeCreatePlayerStatisticDefinitionResultResponse(response.responseData);
-        OnSuccessCreatePlayerStatisticDefinition.Execute(result, mCustomData);
+        FAdminCreatePlayerStatisticDefinitionResult ResultStruct = UPlayFabAdminModelDecoder::decodeCreatePlayerStatisticDefinitionResultResponse(response.responseData);
+        OnSuccessCreatePlayerStatisticDefinition.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2079,6 +2123,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetDataReport(FAdminGetDataReportRequest req
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetDataReport);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetDataReport";
     manager->useSecretKey = true;
 
@@ -2108,8 +2153,8 @@ void UPlayFabAdminAPI::HelperGetDataReport(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetDataReport.IsBound())
     {
-        FAdminGetDataReportResult result = UPlayFabAdminModelDecoder::decodeGetDataReportResultResponse(response.responseData);
-        OnSuccessGetDataReport.Execute(result, mCustomData);
+        FAdminGetDataReportResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetDataReportResultResponse(response.responseData);
+        OnSuccessGetDataReport.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2132,6 +2177,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerStatisticDefinitions(FAdminGetPlaye
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayerStatisticDefinitions);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayerStatisticDefinitions";
     manager->useSecretKey = true;
 
@@ -2153,8 +2199,8 @@ void UPlayFabAdminAPI::HelperGetPlayerStatisticDefinitions(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetPlayerStatisticDefinitions.IsBound())
     {
-        FAdminGetPlayerStatisticDefinitionsResult result = UPlayFabAdminModelDecoder::decodeGetPlayerStatisticDefinitionsResultResponse(response.responseData);
-        OnSuccessGetPlayerStatisticDefinitions.Execute(result, mCustomData);
+        FAdminGetPlayerStatisticDefinitionsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerStatisticDefinitionsResultResponse(response.responseData);
+        OnSuccessGetPlayerStatisticDefinitions.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2177,6 +2223,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerStatisticVersions(FAdminGetPlayerSt
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayerStatisticVersions);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayerStatisticVersions";
     manager->useSecretKey = true;
 
@@ -2203,8 +2250,8 @@ void UPlayFabAdminAPI::HelperGetPlayerStatisticVersions(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessGetPlayerStatisticVersions.IsBound())
     {
-        FAdminGetPlayerStatisticVersionsResult result = UPlayFabAdminModelDecoder::decodeGetPlayerStatisticVersionsResultResponse(response.responseData);
-        OnSuccessGetPlayerStatisticVersions.Execute(result, mCustomData);
+        FAdminGetPlayerStatisticVersionsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerStatisticVersionsResultResponse(response.responseData);
+        OnSuccessGetPlayerStatisticVersions.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2227,6 +2274,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserData(FAdminGetUserDataRequest request
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserData";
     manager->useSecretKey = true;
 
@@ -2262,8 +2310,8 @@ void UPlayFabAdminAPI::HelperGetUserData(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessGetUserData.IsBound())
     {
-        FAdminGetUserDataResult result = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserData.Execute(result, mCustomData);
+        FAdminGetUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        OnSuccessGetUserData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2286,6 +2334,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserInternalData(FAdminGetUserDataRequest
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserInternalData";
     manager->useSecretKey = true;
 
@@ -2321,8 +2370,9 @@ void UPlayFabAdminAPI::HelperGetUserInternalData(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessGetUserInternalData.IsBound())
     {
-        FAdminGetUserDataResult result = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserInternalData.Execute(result, mCustomData);
+        FAdminGetUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2345,6 +2395,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserPublisherData(FAdminGetUserDataReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserPublisherData";
     manager->useSecretKey = true;
 
@@ -2380,8 +2431,9 @@ void UPlayFabAdminAPI::HelperGetUserPublisherData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetUserPublisherData.IsBound())
     {
-        FAdminGetUserDataResult result = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherData.Execute(result, mCustomData);
+        FAdminGetUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2404,6 +2456,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserPublisherInternalData(FAdminGetUserDa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserPublisherInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserPublisherInternalData";
     manager->useSecretKey = true;
 
@@ -2439,8 +2492,9 @@ void UPlayFabAdminAPI::HelperGetUserPublisherInternalData(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessGetUserPublisherInternalData.IsBound())
     {
-        FAdminGetUserDataResult result = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherInternalData.Execute(result, mCustomData);
+        FAdminGetUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2463,6 +2517,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserPublisherReadOnlyData(FAdminGetUserDa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserPublisherReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserPublisherReadOnlyData";
     manager->useSecretKey = true;
 
@@ -2498,8 +2553,9 @@ void UPlayFabAdminAPI::HelperGetUserPublisherReadOnlyData(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessGetUserPublisherReadOnlyData.IsBound())
     {
-        FAdminGetUserDataResult result = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherReadOnlyData.Execute(result, mCustomData);
+        FAdminGetUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2522,6 +2578,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserReadOnlyData(FAdminGetUserDataRequest
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserReadOnlyData";
     manager->useSecretKey = true;
 
@@ -2557,8 +2614,9 @@ void UPlayFabAdminAPI::HelperGetUserReadOnlyData(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessGetUserReadOnlyData.IsBound())
     {
-        FAdminGetUserDataResult result = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserReadOnlyData.Execute(result, mCustomData);
+        FAdminGetUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2581,6 +2639,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::IncrementPlayerStatisticVersion(FAdminIncrem
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperIncrementPlayerStatisticVersion);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/IncrementPlayerStatisticVersion";
     manager->useSecretKey = true;
 
@@ -2607,8 +2666,8 @@ void UPlayFabAdminAPI::HelperIncrementPlayerStatisticVersion(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessIncrementPlayerStatisticVersion.IsBound())
     {
-        FAdminIncrementPlayerStatisticVersionResult result = UPlayFabAdminModelDecoder::decodeIncrementPlayerStatisticVersionResultResponse(response.responseData);
-        OnSuccessIncrementPlayerStatisticVersion.Execute(result, mCustomData);
+        FAdminIncrementPlayerStatisticVersionResult ResultStruct = UPlayFabAdminModelDecoder::decodeIncrementPlayerStatisticVersionResultResponse(response.responseData);
+        OnSuccessIncrementPlayerStatisticVersion.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2631,6 +2690,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RefundPurchase(FAdminRefundPurchaseRequest r
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRefundPurchase);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RefundPurchase";
     manager->useSecretKey = true;
 
@@ -2667,8 +2727,8 @@ void UPlayFabAdminAPI::HelperRefundPurchase(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessRefundPurchase.IsBound())
     {
-        FAdminRefundPurchaseResponse result = UPlayFabAdminModelDecoder::decodeRefundPurchaseResponseResponse(response.responseData);
-        OnSuccessRefundPurchase.Execute(result, mCustomData);
+        FAdminRefundPurchaseResponse ResultStruct = UPlayFabAdminModelDecoder::decodeRefundPurchaseResponseResponse(response.responseData);
+        OnSuccessRefundPurchase.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2691,6 +2751,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ResetUserStatistics(FAdminResetUserStatistic
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperResetUserStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ResetUserStatistics";
     manager->useSecretKey = true;
 
@@ -2717,8 +2778,8 @@ void UPlayFabAdminAPI::HelperResetUserStatistics(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessResetUserStatistics.IsBound())
     {
-        FAdminResetUserStatisticsResult result = UPlayFabAdminModelDecoder::decodeResetUserStatisticsResultResponse(response.responseData);
-        OnSuccessResetUserStatistics.Execute(result, mCustomData);
+        FAdminResetUserStatisticsResult ResultStruct = UPlayFabAdminModelDecoder::decodeResetUserStatisticsResultResponse(response.responseData);
+        OnSuccessResetUserStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2741,6 +2802,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ResolvePurchaseDispute(FAdminResolvePurchase
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperResolvePurchaseDispute);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ResolvePurchaseDispute";
     manager->useSecretKey = true;
 
@@ -2780,8 +2842,8 @@ void UPlayFabAdminAPI::HelperResolvePurchaseDispute(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessResolvePurchaseDispute.IsBound())
     {
-        FAdminResolvePurchaseDisputeResponse result = UPlayFabAdminModelDecoder::decodeResolvePurchaseDisputeResponseResponse(response.responseData);
-        OnSuccessResolvePurchaseDispute.Execute(result, mCustomData);
+        FAdminResolvePurchaseDisputeResponse ResultStruct = UPlayFabAdminModelDecoder::decodeResolvePurchaseDisputeResponseResponse(response.responseData);
+        OnSuccessResolvePurchaseDispute.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2804,6 +2866,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdatePlayerStatisticDefinition(FAdminUpdate
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdatePlayerStatisticDefinition);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdatePlayerStatisticDefinition";
     manager->useSecretKey = true;
 
@@ -2836,8 +2899,8 @@ void UPlayFabAdminAPI::HelperUpdatePlayerStatisticDefinition(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessUpdatePlayerStatisticDefinition.IsBound())
     {
-        FAdminUpdatePlayerStatisticDefinitionResult result = UPlayFabAdminModelDecoder::decodeUpdatePlayerStatisticDefinitionResultResponse(response.responseData);
-        OnSuccessUpdatePlayerStatisticDefinition.Execute(result, mCustomData);
+        FAdminUpdatePlayerStatisticDefinitionResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdatePlayerStatisticDefinitionResultResponse(response.responseData);
+        OnSuccessUpdatePlayerStatisticDefinition.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2860,6 +2923,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserData(FAdminUpdateUserDataRequest r
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateUserData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateUserData";
     manager->useSecretKey = true;
 
@@ -2898,8 +2962,8 @@ void UPlayFabAdminAPI::HelperUpdateUserData(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessUpdateUserData.IsBound())
     {
-        FAdminUpdateUserDataResult result = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserData.Execute(result, mCustomData);
+        FAdminUpdateUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        OnSuccessUpdateUserData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2922,6 +2986,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserInternalData(FAdminUpdateUserInter
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateUserInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateUserInternalData";
     manager->useSecretKey = true;
 
@@ -2957,8 +3022,9 @@ void UPlayFabAdminAPI::HelperUpdateUserInternalData(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessUpdateUserInternalData.IsBound())
     {
-        FAdminUpdateUserDataResult result = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserInternalData.Execute(result, mCustomData);
+        FAdminUpdateUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2981,6 +3047,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserPublisherData(FAdminUpdateUserData
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateUserPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateUserPublisherData";
     manager->useSecretKey = true;
 
@@ -3019,8 +3086,9 @@ void UPlayFabAdminAPI::HelperUpdateUserPublisherData(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessUpdateUserPublisherData.IsBound())
     {
-        FAdminUpdateUserDataResult result = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserPublisherData.Execute(result, mCustomData);
+        FAdminUpdateUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3043,6 +3111,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserPublisherInternalData(FAdminUpdate
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateUserPublisherInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateUserPublisherInternalData";
     manager->useSecretKey = true;
 
@@ -3078,8 +3147,9 @@ void UPlayFabAdminAPI::HelperUpdateUserPublisherInternalData(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessUpdateUserPublisherInternalData.IsBound())
     {
-        FAdminUpdateUserDataResult result = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserPublisherInternalData.Execute(result, mCustomData);
+        FAdminUpdateUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserPublisherInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3102,6 +3172,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserPublisherReadOnlyData(FAdminUpdate
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateUserPublisherReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateUserPublisherReadOnlyData";
     manager->useSecretKey = true;
 
@@ -3140,8 +3211,9 @@ void UPlayFabAdminAPI::HelperUpdateUserPublisherReadOnlyData(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessUpdateUserPublisherReadOnlyData.IsBound())
     {
-        FAdminUpdateUserDataResult result = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserPublisherReadOnlyData.Execute(result, mCustomData);
+        FAdminUpdateUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserPublisherReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3164,6 +3236,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserReadOnlyData(FAdminUpdateUserDataR
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateUserReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateUserReadOnlyData";
     manager->useSecretKey = true;
 
@@ -3202,8 +3275,9 @@ void UPlayFabAdminAPI::HelperUpdateUserReadOnlyData(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessUpdateUserReadOnlyData.IsBound())
     {
-        FAdminUpdateUserDataResult result = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserReadOnlyData.Execute(result, mCustomData);
+        FAdminUpdateUserDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3230,6 +3304,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddUserVirtualCurrency(FAdminAddUserVirtualC
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAddUserVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/AddUserVirtualCurrency";
     manager->useSecretKey = true;
 
@@ -3262,8 +3337,8 @@ void UPlayFabAdminAPI::HelperAddUserVirtualCurrency(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessAddUserVirtualCurrency.IsBound())
     {
-        FAdminModifyUserVirtualCurrencyResult result = UPlayFabAdminModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessAddUserVirtualCurrency.Execute(result, mCustomData);
+        FAdminModifyUserVirtualCurrencyResult ResultStruct = UPlayFabAdminModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
+        OnSuccessAddUserVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3286,6 +3361,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CheckLimitedEditionItemAvailability(FAdminCh
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCheckLimitedEditionItemAvailability);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/CheckLimitedEditionItemAvailability";
     manager->useSecretKey = true;
 
@@ -3317,8 +3393,8 @@ void UPlayFabAdminAPI::HelperCheckLimitedEditionItemAvailability(FPlayFabBaseMod
     }
     else if (!error.hasError && OnSuccessCheckLimitedEditionItemAvailability.IsBound())
     {
-        FAdminCheckLimitedEditionItemAvailabilityResult result = UPlayFabAdminModelDecoder::decodeCheckLimitedEditionItemAvailabilityResultResponse(response.responseData);
-        OnSuccessCheckLimitedEditionItemAvailability.Execute(result, mCustomData);
+        FAdminCheckLimitedEditionItemAvailabilityResult ResultStruct = UPlayFabAdminModelDecoder::decodeCheckLimitedEditionItemAvailabilityResultResponse(response.responseData);
+        OnSuccessCheckLimitedEditionItemAvailability.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3341,6 +3417,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserInventory(FAdminGetUserInventoryReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetUserInventory);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetUserInventory";
     manager->useSecretKey = true;
 
@@ -3367,8 +3444,8 @@ void UPlayFabAdminAPI::HelperGetUserInventory(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetUserInventory.IsBound())
     {
-        FAdminGetUserInventoryResult result = UPlayFabAdminModelDecoder::decodeGetUserInventoryResultResponse(response.responseData);
-        OnSuccessGetUserInventory.Execute(result, mCustomData);
+        FAdminGetUserInventoryResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetUserInventoryResultResponse(response.responseData);
+        OnSuccessGetUserInventory.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3391,6 +3468,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GrantItemsToUsers(FAdminGrantItemsToUsersReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGrantItemsToUsers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GrantItemsToUsers";
     manager->useSecretKey = true;
 
@@ -3422,8 +3500,8 @@ void UPlayFabAdminAPI::HelperGrantItemsToUsers(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGrantItemsToUsers.IsBound())
     {
-        FAdminGrantItemsToUsersResult result = UPlayFabAdminModelDecoder::decodeGrantItemsToUsersResultResponse(response.responseData);
-        OnSuccessGrantItemsToUsers.Execute(result, mCustomData);
+        FAdminGrantItemsToUsersResult ResultStruct = UPlayFabAdminModelDecoder::decodeGrantItemsToUsersResultResponse(response.responseData);
+        OnSuccessGrantItemsToUsers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3446,6 +3524,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::IncrementLimitedEditionItemAvailability(FAdm
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperIncrementLimitedEditionItemAvailability);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/IncrementLimitedEditionItemAvailability";
     manager->useSecretKey = true;
 
@@ -3478,8 +3557,8 @@ void UPlayFabAdminAPI::HelperIncrementLimitedEditionItemAvailability(FPlayFabBas
     }
     else if (!error.hasError && OnSuccessIncrementLimitedEditionItemAvailability.IsBound())
     {
-        FAdminIncrementLimitedEditionItemAvailabilityResult result = UPlayFabAdminModelDecoder::decodeIncrementLimitedEditionItemAvailabilityResultResponse(response.responseData);
-        OnSuccessIncrementLimitedEditionItemAvailability.Execute(result, mCustomData);
+        FAdminIncrementLimitedEditionItemAvailabilityResult ResultStruct = UPlayFabAdminModelDecoder::decodeIncrementLimitedEditionItemAvailabilityResultResponse(response.responseData);
+        OnSuccessIncrementLimitedEditionItemAvailability.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3502,6 +3581,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RevokeInventoryItem(FAdminRevokeInventoryIte
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRevokeInventoryItem);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RevokeInventoryItem";
     manager->useSecretKey = true;
 
@@ -3538,8 +3618,8 @@ void UPlayFabAdminAPI::HelperRevokeInventoryItem(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessRevokeInventoryItem.IsBound())
     {
-        FAdminRevokeInventoryResult result = UPlayFabAdminModelDecoder::decodeRevokeInventoryResultResponse(response.responseData);
-        OnSuccessRevokeInventoryItem.Execute(result, mCustomData);
+        FAdminRevokeInventoryResult ResultStruct = UPlayFabAdminModelDecoder::decodeRevokeInventoryResultResponse(response.responseData);
+        OnSuccessRevokeInventoryItem.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3562,6 +3642,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RevokeInventoryItems(FAdminRevokeInventoryIt
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRevokeInventoryItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RevokeInventoryItems";
     manager->useSecretKey = true;
 
@@ -3588,8 +3669,8 @@ void UPlayFabAdminAPI::HelperRevokeInventoryItems(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessRevokeInventoryItems.IsBound())
     {
-        FAdminRevokeInventoryItemsResult result = UPlayFabAdminModelDecoder::decodeRevokeInventoryItemsResultResponse(response.responseData);
-        OnSuccessRevokeInventoryItems.Execute(result, mCustomData);
+        FAdminRevokeInventoryItemsResult ResultStruct = UPlayFabAdminModelDecoder::decodeRevokeInventoryItemsResultResponse(response.responseData);
+        OnSuccessRevokeInventoryItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3612,6 +3693,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SubtractUserVirtualCurrency(FAdminSubtractUs
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSubtractUserVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SubtractUserVirtualCurrency";
     manager->useSecretKey = true;
 
@@ -3644,8 +3726,9 @@ void UPlayFabAdminAPI::HelperSubtractUserVirtualCurrency(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessSubtractUserVirtualCurrency.IsBound())
     {
-        FAdminModifyUserVirtualCurrencyResult result = UPlayFabAdminModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessSubtractUserVirtualCurrency.Execute(result, mCustomData);
+        FAdminModifyUserVirtualCurrencyResult ResultStruct = UPlayFabAdminModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSubtractUserVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3672,6 +3755,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddPlayerTag(FAdminAddPlayerTagRequest reque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAddPlayerTag);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/AddPlayerTag";
     manager->useSecretKey = true;
 
@@ -3703,8 +3787,8 @@ void UPlayFabAdminAPI::HelperAddPlayerTag(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessAddPlayerTag.IsBound())
     {
-        FAdminAddPlayerTagResult result = UPlayFabAdminModelDecoder::decodeAddPlayerTagResultResponse(response.responseData);
-        OnSuccessAddPlayerTag.Execute(result, mCustomData);
+        FAdminAddPlayerTagResult ResultStruct = UPlayFabAdminModelDecoder::decodeAddPlayerTagResultResponse(response.responseData);
+        OnSuccessAddPlayerTag.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3727,6 +3811,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetAllSegments(FAdminGetAllSegmentsRequest r
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetAllSegments);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetAllSegments";
     manager->useSecretKey = true;
 
@@ -3748,8 +3833,8 @@ void UPlayFabAdminAPI::HelperGetAllSegments(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessGetAllSegments.IsBound())
     {
-        FAdminGetAllSegmentsResult result = UPlayFabAdminModelDecoder::decodeGetAllSegmentsResultResponse(response.responseData);
-        OnSuccessGetAllSegments.Execute(result, mCustomData);
+        FAdminGetAllSegmentsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetAllSegmentsResultResponse(response.responseData);
+        OnSuccessGetAllSegments.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3772,6 +3857,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerSegments(FAdminGetPlayersSegmentsRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayerSegments);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayerSegments";
     manager->useSecretKey = true;
 
@@ -3798,8 +3884,8 @@ void UPlayFabAdminAPI::HelperGetPlayerSegments(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetPlayerSegments.IsBound())
     {
-        FAdminGetPlayerSegmentsResult result = UPlayFabAdminModelDecoder::decodeGetPlayerSegmentsResultResponse(response.responseData);
-        OnSuccessGetPlayerSegments.Execute(result, mCustomData);
+        FAdminGetPlayerSegmentsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerSegmentsResultResponse(response.responseData);
+        OnSuccessGetPlayerSegments.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3822,6 +3908,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayersInSegment(FAdminGetPlayersInSegmen
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayersInSegment);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayersInSegment";
     manager->useSecretKey = true;
 
@@ -3855,8 +3942,8 @@ void UPlayFabAdminAPI::HelperGetPlayersInSegment(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessGetPlayersInSegment.IsBound())
     {
-        FAdminGetPlayersInSegmentResult result = UPlayFabAdminModelDecoder::decodeGetPlayersInSegmentResultResponse(response.responseData);
-        OnSuccessGetPlayersInSegment.Execute(result, mCustomData);
+        FAdminGetPlayersInSegmentResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayersInSegmentResultResponse(response.responseData);
+        OnSuccessGetPlayersInSegment.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3879,6 +3966,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerTags(FAdminGetPlayerTagsRequest req
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPlayerTags);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPlayerTags";
     manager->useSecretKey = true;
 
@@ -3910,8 +3998,8 @@ void UPlayFabAdminAPI::HelperGetPlayerTags(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetPlayerTags.IsBound())
     {
-        FAdminGetPlayerTagsResult result = UPlayFabAdminModelDecoder::decodeGetPlayerTagsResultResponse(response.responseData);
-        OnSuccessGetPlayerTags.Execute(result, mCustomData);
+        FAdminGetPlayerTagsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPlayerTagsResultResponse(response.responseData);
+        OnSuccessGetPlayerTags.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3934,6 +4022,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RemovePlayerTag(FAdminRemovePlayerTagRequest
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRemovePlayerTag);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RemovePlayerTag";
     manager->useSecretKey = true;
 
@@ -3965,8 +4054,8 @@ void UPlayFabAdminAPI::HelperRemovePlayerTag(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessRemovePlayerTag.IsBound())
     {
-        FAdminRemovePlayerTagResult result = UPlayFabAdminModelDecoder::decodeRemovePlayerTagResultResponse(response.responseData);
-        OnSuccessRemovePlayerTag.Execute(result, mCustomData);
+        FAdminRemovePlayerTagResult ResultStruct = UPlayFabAdminModelDecoder::decodeRemovePlayerTagResultResponse(response.responseData);
+        OnSuccessRemovePlayerTag.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3993,6 +4082,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AbortTaskInstance(FAdminAbortTaskInstanceReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAbortTaskInstance);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/AbortTaskInstance";
     manager->useSecretKey = true;
 
@@ -4019,8 +4109,8 @@ void UPlayFabAdminAPI::HelperAbortTaskInstance(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessAbortTaskInstance.IsBound())
     {
-        FAdminEmptyResponse result = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessAbortTaskInstance.Execute(result, mCustomData);
+        FAdminEmptyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessAbortTaskInstance.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4043,6 +4133,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreateActionsOnPlayersInSegmentTask(FAdminCr
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreateActionsOnPlayersInSegmentTask);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/CreateActionsOnPlayersInSegmentTask";
     manager->useSecretKey = true;
 
@@ -4081,8 +4172,8 @@ void UPlayFabAdminAPI::HelperCreateActionsOnPlayersInSegmentTask(FPlayFabBaseMod
     }
     else if (!error.hasError && OnSuccessCreateActionsOnPlayersInSegmentTask.IsBound())
     {
-        FAdminCreateTaskResult result = UPlayFabAdminModelDecoder::decodeCreateTaskResultResponse(response.responseData);
-        OnSuccessCreateActionsOnPlayersInSegmentTask.Execute(result, mCustomData);
+        FAdminCreateTaskResult ResultStruct = UPlayFabAdminModelDecoder::decodeCreateTaskResultResponse(response.responseData);
+        OnSuccessCreateActionsOnPlayersInSegmentTask.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4105,6 +4196,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreateCloudScriptTask(FAdminCreateCloudScrip
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreateCloudScriptTask);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/CreateCloudScriptTask";
     manager->useSecretKey = true;
 
@@ -4143,8 +4235,9 @@ void UPlayFabAdminAPI::HelperCreateCloudScriptTask(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessCreateCloudScriptTask.IsBound())
     {
-        FAdminCreateTaskResult result = UPlayFabAdminModelDecoder::decodeCreateTaskResultResponse(response.responseData);
-        OnSuccessCreateCloudScriptTask.Execute(result, mCustomData);
+        FAdminCreateTaskResult ResultStruct = UPlayFabAdminModelDecoder::decodeCreateTaskResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessCreateCloudScriptTask.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4167,6 +4260,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteTask(FAdminDeleteTaskRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteTask);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/DeleteTask";
     manager->useSecretKey = true;
 
@@ -4189,8 +4283,9 @@ void UPlayFabAdminAPI::HelperDeleteTask(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessDeleteTask.IsBound())
     {
-        FAdminEmptyResponse result = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteTask.Execute(result, mCustomData);
+        FAdminEmptyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteTask.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4213,6 +4308,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetActionsOnPlayersInSegmentTaskInstance(FAd
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetActionsOnPlayersInSegmentTaskInstance);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetActionsOnPlayersInSegmentTaskInstance";
     manager->useSecretKey = true;
 
@@ -4239,8 +4335,8 @@ void UPlayFabAdminAPI::HelperGetActionsOnPlayersInSegmentTaskInstance(FPlayFabBa
     }
     else if (!error.hasError && OnSuccessGetActionsOnPlayersInSegmentTaskInstance.IsBound())
     {
-        FAdminGetActionsOnPlayersInSegmentTaskInstanceResult result = UPlayFabAdminModelDecoder::decodeGetActionsOnPlayersInSegmentTaskInstanceResultResponse(response.responseData);
-        OnSuccessGetActionsOnPlayersInSegmentTaskInstance.Execute(result, mCustomData);
+        FAdminGetActionsOnPlayersInSegmentTaskInstanceResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetActionsOnPlayersInSegmentTaskInstanceResultResponse(response.responseData);
+        OnSuccessGetActionsOnPlayersInSegmentTaskInstance.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4263,6 +4359,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetCloudScriptTaskInstance(FAdminGetTaskInst
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetCloudScriptTaskInstance);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetCloudScriptTaskInstance";
     manager->useSecretKey = true;
 
@@ -4289,8 +4386,8 @@ void UPlayFabAdminAPI::HelperGetCloudScriptTaskInstance(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessGetCloudScriptTaskInstance.IsBound())
     {
-        FAdminGetCloudScriptTaskInstanceResult result = UPlayFabAdminModelDecoder::decodeGetCloudScriptTaskInstanceResultResponse(response.responseData);
-        OnSuccessGetCloudScriptTaskInstance.Execute(result, mCustomData);
+        FAdminGetCloudScriptTaskInstanceResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetCloudScriptTaskInstanceResultResponse(response.responseData);
+        OnSuccessGetCloudScriptTaskInstance.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4313,6 +4410,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetTaskInstances(FAdminGetTaskInstancesReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetTaskInstances);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetTaskInstances";
     manager->useSecretKey = true;
 
@@ -4348,8 +4446,8 @@ void UPlayFabAdminAPI::HelperGetTaskInstances(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetTaskInstances.IsBound())
     {
-        FAdminGetTaskInstancesResult result = UPlayFabAdminModelDecoder::decodeGetTaskInstancesResultResponse(response.responseData);
-        OnSuccessGetTaskInstances.Execute(result, mCustomData);
+        FAdminGetTaskInstancesResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetTaskInstancesResultResponse(response.responseData);
+        OnSuccessGetTaskInstances.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4372,6 +4470,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetTasks(FAdminGetTasksRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetTasks);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetTasks";
     manager->useSecretKey = true;
 
@@ -4394,8 +4493,8 @@ void UPlayFabAdminAPI::HelperGetTasks(FPlayFabBaseModel response, UObject* custo
     }
     else if (!error.hasError && OnSuccessGetTasks.IsBound())
     {
-        FAdminGetTasksResult result = UPlayFabAdminModelDecoder::decodeGetTasksResultResponse(response.responseData);
-        OnSuccessGetTasks.Execute(result, mCustomData);
+        FAdminGetTasksResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetTasksResultResponse(response.responseData);
+        OnSuccessGetTasks.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4418,6 +4517,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RunTask(FAdminRunTaskRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRunTask);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RunTask";
     manager->useSecretKey = true;
 
@@ -4440,8 +4540,8 @@ void UPlayFabAdminAPI::HelperRunTask(FPlayFabBaseModel response, UObject* custom
     }
     else if (!error.hasError && OnSuccessRunTask.IsBound())
     {
-        FAdminRunTaskResult result = UPlayFabAdminModelDecoder::decodeRunTaskResultResponse(response.responseData);
-        OnSuccessRunTask.Execute(result, mCustomData);
+        FAdminRunTaskResult ResultStruct = UPlayFabAdminModelDecoder::decodeRunTaskResultResponse(response.responseData);
+        OnSuccessRunTask.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4464,6 +4564,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateTask(FAdminUpdateTaskRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateTask);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateTask";
     manager->useSecretKey = true;
 
@@ -4506,8 +4607,9 @@ void UPlayFabAdminAPI::HelperUpdateTask(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessUpdateTask.IsBound())
     {
-        FAdminEmptyResponse result = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUpdateTask.Execute(result, mCustomData);
+        FAdminEmptyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateTask.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4534,6 +4636,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetCloudScriptRevision(FAdminGetCloudScriptR
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetCloudScriptRevision);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetCloudScriptRevision";
     manager->useSecretKey = true;
 
@@ -4557,8 +4660,8 @@ void UPlayFabAdminAPI::HelperGetCloudScriptRevision(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetCloudScriptRevision.IsBound())
     {
-        FAdminGetCloudScriptRevisionResult result = UPlayFabAdminModelDecoder::decodeGetCloudScriptRevisionResultResponse(response.responseData);
-        OnSuccessGetCloudScriptRevision.Execute(result, mCustomData);
+        FAdminGetCloudScriptRevisionResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetCloudScriptRevisionResultResponse(response.responseData);
+        OnSuccessGetCloudScriptRevision.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4581,6 +4684,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetCloudScriptVersions(FAdminGetCloudScriptV
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetCloudScriptVersions);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetCloudScriptVersions";
     manager->useSecretKey = true;
 
@@ -4602,8 +4706,8 @@ void UPlayFabAdminAPI::HelperGetCloudScriptVersions(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetCloudScriptVersions.IsBound())
     {
-        FAdminGetCloudScriptVersionsResult result = UPlayFabAdminModelDecoder::decodeGetCloudScriptVersionsResultResponse(response.responseData);
-        OnSuccessGetCloudScriptVersions.Execute(result, mCustomData);
+        FAdminGetCloudScriptVersionsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetCloudScriptVersionsResultResponse(response.responseData);
+        OnSuccessGetCloudScriptVersions.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4626,6 +4730,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetPublishedRevision(FAdminSetPublishedRevis
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetPublishedRevision);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetPublishedRevision";
     manager->useSecretKey = true;
 
@@ -4649,8 +4754,8 @@ void UPlayFabAdminAPI::HelperSetPublishedRevision(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessSetPublishedRevision.IsBound())
     {
-        FAdminSetPublishedRevisionResult result = UPlayFabAdminModelDecoder::decodeSetPublishedRevisionResultResponse(response.responseData);
-        OnSuccessSetPublishedRevision.Execute(result, mCustomData);
+        FAdminSetPublishedRevisionResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetPublishedRevisionResultResponse(response.responseData);
+        OnSuccessSetPublishedRevision.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4673,6 +4778,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateCloudScript(FAdminUpdateCloudScriptReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateCloudScript);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateCloudScript";
     manager->useSecretKey = true;
 
@@ -4705,8 +4811,8 @@ void UPlayFabAdminAPI::HelperUpdateCloudScript(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessUpdateCloudScript.IsBound())
     {
-        FAdminUpdateCloudScriptResult result = UPlayFabAdminModelDecoder::decodeUpdateCloudScriptResultResponse(response.responseData);
-        OnSuccessUpdateCloudScript.Execute(result, mCustomData);
+        FAdminUpdateCloudScriptResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateCloudScriptResultResponse(response.responseData);
+        OnSuccessUpdateCloudScript.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4733,6 +4839,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetPublisherData(FAdminSetPublisherDataReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetPublisherData";
     manager->useSecretKey = true;
 
@@ -4764,8 +4871,8 @@ void UPlayFabAdminAPI::HelperSetPublisherData(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessSetPublisherData.IsBound())
     {
-        FAdminSetPublisherDataResult result = UPlayFabAdminModelDecoder::decodeSetPublisherDataResultResponse(response.responseData);
-        OnSuccessSetPublisherData.Execute(result, mCustomData);
+        FAdminSetPublisherDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetPublisherDataResultResponse(response.responseData);
+        OnSuccessSetPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4792,6 +4899,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddLocalizedNews(FAdminAddLocalizedNewsReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAddLocalizedNews);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/AddLocalizedNews";
     manager->useSecretKey = true;
 
@@ -4833,8 +4941,8 @@ void UPlayFabAdminAPI::HelperAddLocalizedNews(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessAddLocalizedNews.IsBound())
     {
-        FAdminAddLocalizedNewsResult result = UPlayFabAdminModelDecoder::decodeAddLocalizedNewsResultResponse(response.responseData);
-        OnSuccessAddLocalizedNews.Execute(result, mCustomData);
+        FAdminAddLocalizedNewsResult ResultStruct = UPlayFabAdminModelDecoder::decodeAddLocalizedNewsResultResponse(response.responseData);
+        OnSuccessAddLocalizedNews.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4857,6 +4965,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddNews(FAdminAddNewsRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAddNews);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/AddNews";
     manager->useSecretKey = true;
 
@@ -4893,8 +5002,8 @@ void UPlayFabAdminAPI::HelperAddNews(FPlayFabBaseModel response, UObject* custom
     }
     else if (!error.hasError && OnSuccessAddNews.IsBound())
     {
-        FAdminAddNewsResult result = UPlayFabAdminModelDecoder::decodeAddNewsResultResponse(response.responseData);
-        OnSuccessAddNews.Execute(result, mCustomData);
+        FAdminAddNewsResult ResultStruct = UPlayFabAdminModelDecoder::decodeAddNewsResultResponse(response.responseData);
+        OnSuccessAddNews.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4917,6 +5026,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddVirtualCurrencyTypes(FAdminAddVirtualCurr
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperAddVirtualCurrencyTypes);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/AddVirtualCurrencyTypes";
     manager->useSecretKey = true;
 
@@ -4943,8 +5053,9 @@ void UPlayFabAdminAPI::HelperAddVirtualCurrencyTypes(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessAddVirtualCurrencyTypes.IsBound())
     {
-        FAdminBlankResult result = UPlayFabAdminModelDecoder::decodeBlankResultResponse(response.responseData);
-        OnSuccessAddVirtualCurrencyTypes.Execute(result, mCustomData);
+        FAdminBlankResult ResultStruct = UPlayFabAdminModelDecoder::decodeBlankResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessAddVirtualCurrencyTypes.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4967,6 +5078,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteStore(FAdminDeleteStoreRequest request
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteStore);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/DeleteStore";
     manager->useSecretKey = true;
 
@@ -4998,8 +5110,8 @@ void UPlayFabAdminAPI::HelperDeleteStore(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessDeleteStore.IsBound())
     {
-        FAdminDeleteStoreResult result = UPlayFabAdminModelDecoder::decodeDeleteStoreResultResponse(response.responseData);
-        OnSuccessDeleteStore.Execute(result, mCustomData);
+        FAdminDeleteStoreResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeleteStoreResultResponse(response.responseData);
+        OnSuccessDeleteStore.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5022,6 +5134,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetCatalogItems(FAdminGetCatalogItemsRequest
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetCatalogItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetCatalogItems";
     manager->useSecretKey = true;
 
@@ -5048,8 +5161,8 @@ void UPlayFabAdminAPI::HelperGetCatalogItems(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetCatalogItems.IsBound())
     {
-        FAdminGetCatalogItemsResult result = UPlayFabAdminModelDecoder::decodeGetCatalogItemsResultResponse(response.responseData);
-        OnSuccessGetCatalogItems.Execute(result, mCustomData);
+        FAdminGetCatalogItemsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetCatalogItemsResultResponse(response.responseData);
+        OnSuccessGetCatalogItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5072,6 +5185,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPublisherData(FAdminGetPublisherDataReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetPublisherData";
     manager->useSecretKey = true;
 
@@ -5101,8 +5215,8 @@ void UPlayFabAdminAPI::HelperGetPublisherData(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetPublisherData.IsBound())
     {
-        FAdminGetPublisherDataResult result = UPlayFabAdminModelDecoder::decodeGetPublisherDataResultResponse(response.responseData);
-        OnSuccessGetPublisherData.Execute(result, mCustomData);
+        FAdminGetPublisherDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetPublisherDataResultResponse(response.responseData);
+        OnSuccessGetPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5125,6 +5239,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetRandomResultTables(FAdminGetRandomResultT
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetRandomResultTables);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetRandomResultTables";
     manager->useSecretKey = true;
 
@@ -5151,8 +5266,8 @@ void UPlayFabAdminAPI::HelperGetRandomResultTables(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetRandomResultTables.IsBound())
     {
-        FAdminGetRandomResultTablesResult result = UPlayFabAdminModelDecoder::decodeGetRandomResultTablesResultResponse(response.responseData);
-        OnSuccessGetRandomResultTables.Execute(result, mCustomData);
+        FAdminGetRandomResultTablesResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetRandomResultTablesResultResponse(response.responseData);
+        OnSuccessGetRandomResultTables.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5175,6 +5290,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetStoreItems(FAdminGetStoreItemsRequest req
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetStoreItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetStoreItems";
     manager->useSecretKey = true;
 
@@ -5206,8 +5322,8 @@ void UPlayFabAdminAPI::HelperGetStoreItems(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetStoreItems.IsBound())
     {
-        FAdminGetStoreItemsResult result = UPlayFabAdminModelDecoder::decodeGetStoreItemsResultResponse(response.responseData);
-        OnSuccessGetStoreItems.Execute(result, mCustomData);
+        FAdminGetStoreItemsResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetStoreItemsResultResponse(response.responseData);
+        OnSuccessGetStoreItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5230,6 +5346,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetTitleData(FAdminGetTitleDataRequest reque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetTitleData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetTitleData";
     manager->useSecretKey = true;
 
@@ -5259,8 +5376,8 @@ void UPlayFabAdminAPI::HelperGetTitleData(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessGetTitleData.IsBound())
     {
-        FAdminGetTitleDataResult result = UPlayFabAdminModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
-        OnSuccessGetTitleData.Execute(result, mCustomData);
+        FAdminGetTitleDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
+        OnSuccessGetTitleData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5283,6 +5400,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetTitleInternalData(FAdminGetTitleDataReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetTitleInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/GetTitleInternalData";
     manager->useSecretKey = true;
 
@@ -5312,8 +5430,9 @@ void UPlayFabAdminAPI::HelperGetTitleInternalData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetTitleInternalData.IsBound())
     {
-        FAdminGetTitleDataResult result = UPlayFabAdminModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
-        OnSuccessGetTitleInternalData.Execute(result, mCustomData);
+        FAdminGetTitleDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetTitleInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5336,6 +5455,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ListVirtualCurrencyTypes(FAdminListVirtualCu
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperListVirtualCurrencyTypes);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/ListVirtualCurrencyTypes";
     manager->useSecretKey = true;
 
@@ -5357,8 +5477,8 @@ void UPlayFabAdminAPI::HelperListVirtualCurrencyTypes(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessListVirtualCurrencyTypes.IsBound())
     {
-        FAdminListVirtualCurrencyTypesResult result = UPlayFabAdminModelDecoder::decodeListVirtualCurrencyTypesResultResponse(response.responseData);
-        OnSuccessListVirtualCurrencyTypes.Execute(result, mCustomData);
+        FAdminListVirtualCurrencyTypesResult ResultStruct = UPlayFabAdminModelDecoder::decodeListVirtualCurrencyTypesResultResponse(response.responseData);
+        OnSuccessListVirtualCurrencyTypes.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5381,6 +5501,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RemoveVirtualCurrencyTypes(FAdminRemoveVirtu
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperRemoveVirtualCurrencyTypes);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/RemoveVirtualCurrencyTypes";
     manager->useSecretKey = true;
 
@@ -5407,8 +5528,9 @@ void UPlayFabAdminAPI::HelperRemoveVirtualCurrencyTypes(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessRemoveVirtualCurrencyTypes.IsBound())
     {
-        FAdminBlankResult result = UPlayFabAdminModelDecoder::decodeBlankResultResponse(response.responseData);
-        OnSuccessRemoveVirtualCurrencyTypes.Execute(result, mCustomData);
+        FAdminBlankResult ResultStruct = UPlayFabAdminModelDecoder::decodeBlankResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRemoveVirtualCurrencyTypes.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5431,6 +5553,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetCatalogItems(FAdminUpdateCatalogItemsRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetCatalogItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetCatalogItems";
     manager->useSecretKey = true;
 
@@ -5463,8 +5586,8 @@ void UPlayFabAdminAPI::HelperSetCatalogItems(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessSetCatalogItems.IsBound())
     {
-        FAdminUpdateCatalogItemsResult result = UPlayFabAdminModelDecoder::decodeUpdateCatalogItemsResultResponse(response.responseData);
-        OnSuccessSetCatalogItems.Execute(result, mCustomData);
+        FAdminUpdateCatalogItemsResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateCatalogItemsResultResponse(response.responseData);
+        OnSuccessSetCatalogItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5487,6 +5610,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetStoreItems(FAdminUpdateStoreItemsRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetStoreItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetStoreItems";
     manager->useSecretKey = true;
 
@@ -5524,8 +5648,8 @@ void UPlayFabAdminAPI::HelperSetStoreItems(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessSetStoreItems.IsBound())
     {
-        FAdminUpdateStoreItemsResult result = UPlayFabAdminModelDecoder::decodeUpdateStoreItemsResultResponse(response.responseData);
-        OnSuccessSetStoreItems.Execute(result, mCustomData);
+        FAdminUpdateStoreItemsResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateStoreItemsResultResponse(response.responseData);
+        OnSuccessSetStoreItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5548,6 +5672,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleData(FAdminSetTitleDataRequest reque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetTitleData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetTitleData";
     manager->useSecretKey = true;
 
@@ -5579,8 +5704,8 @@ void UPlayFabAdminAPI::HelperSetTitleData(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessSetTitleData.IsBound())
     {
-        FAdminSetTitleDataResult result = UPlayFabAdminModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
-        OnSuccessSetTitleData.Execute(result, mCustomData);
+        FAdminSetTitleDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
+        OnSuccessSetTitleData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5603,6 +5728,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleInternalData(FAdminSetTitleDataReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetTitleInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetTitleInternalData";
     manager->useSecretKey = true;
 
@@ -5634,8 +5760,9 @@ void UPlayFabAdminAPI::HelperSetTitleInternalData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessSetTitleInternalData.IsBound())
     {
-        FAdminSetTitleDataResult result = UPlayFabAdminModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
-        OnSuccessSetTitleInternalData.Execute(result, mCustomData);
+        FAdminSetTitleDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSetTitleInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5658,6 +5785,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetupPushNotification(FAdminSetupPushNotific
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetupPushNotification);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/SetupPushNotification";
     manager->useSecretKey = true;
 
@@ -5698,8 +5826,8 @@ void UPlayFabAdminAPI::HelperSetupPushNotification(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessSetupPushNotification.IsBound())
     {
-        FAdminSetupPushNotificationResult result = UPlayFabAdminModelDecoder::decodeSetupPushNotificationResultResponse(response.responseData);
-        OnSuccessSetupPushNotification.Execute(result, mCustomData);
+        FAdminSetupPushNotificationResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetupPushNotificationResultResponse(response.responseData);
+        OnSuccessSetupPushNotification.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5722,6 +5850,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateCatalogItems(FAdminUpdateCatalogItemsR
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateCatalogItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateCatalogItems";
     manager->useSecretKey = true;
 
@@ -5754,8 +5883,9 @@ void UPlayFabAdminAPI::HelperUpdateCatalogItems(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessUpdateCatalogItems.IsBound())
     {
-        FAdminUpdateCatalogItemsResult result = UPlayFabAdminModelDecoder::decodeUpdateCatalogItemsResultResponse(response.responseData);
-        OnSuccessUpdateCatalogItems.Execute(result, mCustomData);
+        FAdminUpdateCatalogItemsResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateCatalogItemsResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateCatalogItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5778,6 +5908,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateRandomResultTables(FAdminUpdateRandomR
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateRandomResultTables);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateRandomResultTables";
     manager->useSecretKey = true;
 
@@ -5809,8 +5940,8 @@ void UPlayFabAdminAPI::HelperUpdateRandomResultTables(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUpdateRandomResultTables.IsBound())
     {
-        FAdminUpdateRandomResultTablesResult result = UPlayFabAdminModelDecoder::decodeUpdateRandomResultTablesResultResponse(response.responseData);
-        OnSuccessUpdateRandomResultTables.Execute(result, mCustomData);
+        FAdminUpdateRandomResultTablesResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateRandomResultTablesResultResponse(response.responseData);
+        OnSuccessUpdateRandomResultTables.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5833,6 +5964,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateStoreItems(FAdminUpdateStoreItemsReque
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateStoreItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Admin/UpdateStoreItems";
     manager->useSecretKey = true;
 
@@ -5870,8 +6002,9 @@ void UPlayFabAdminAPI::HelperUpdateStoreItems(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessUpdateStoreItems.IsBound())
     {
-        FAdminUpdateStoreItemsResult result = UPlayFabAdminModelDecoder::decodeUpdateStoreItemsResultResponse(response.responseData);
-        OnSuccessUpdateStoreItems.Execute(result, mCustomData);
+        FAdminUpdateStoreItemsResult ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateStoreItemsResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateStoreItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5937,10 +6070,15 @@ void UPlayFabAdminAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpRe
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -5956,15 +6094,12 @@ void UPlayFabAdminAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

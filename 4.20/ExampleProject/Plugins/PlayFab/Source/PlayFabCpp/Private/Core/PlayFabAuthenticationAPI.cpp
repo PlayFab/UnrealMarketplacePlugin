@@ -36,18 +36,31 @@ void UPlayFabAuthenticationAPI::SetDevSecretKey(const FString& developerSecretKe
     PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
+
+
 bool UPlayFabAuthenticationAPI::GetEntityToken(
     AuthenticationModels::FGetEntityTokenRequest& request,
     const FGetEntityTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     FString authKey; FString authValue;
-    if (PlayFabSettings::GetEntityToken().Len() > 0) {
-        authKey = TEXT("X-EntityToken"); authValue = PlayFabSettings::GetEntityToken();
-    } else if (PlayFabSettings::GetClientSessionTicket().Len() > 0) {
-        authKey = TEXT("X-Authorization"); authValue = PlayFabSettings::GetClientSessionTicket();
-    } else if (PlayFabSettings::GetDeveloperSecretKey().Len() > 0) {
-        authKey = TEXT("X-SecretKey"); authValue = PlayFabSettings::GetDeveloperSecretKey();
+    if (request.AuthenticationContext.IsValid()) {
+        if (request.AuthenticationContext->GetEntityToken().Len() > 0) {
+            authKey = TEXT("X-EntityToken"); authValue = request.AuthenticationContext->GetEntityToken();
+        } else if (request.AuthenticationContext->GetClientSessionTicket().Len() > 0) {
+            authKey = TEXT("X-Authorization"); authValue = request.AuthenticationContext->GetClientSessionTicket();
+        } else if (request.AuthenticationContext->GetDeveloperSecretKey().Len() > 0) {
+            authKey = TEXT("X-SecretKey"); authValue = request.AuthenticationContext->GetDeveloperSecretKey();
+        }
+    }
+    else {
+        if (PlayFabSettings::GetEntityToken().Len() > 0) {
+            authKey = TEXT("X-EntityToken"); authValue = PlayFabSettings::GetEntityToken();
+        } else if (PlayFabSettings::GetClientSessionTicket().Len() > 0) {
+            authKey = TEXT("X-Authorization"); authValue = PlayFabSettings::GetClientSessionTicket();
+        } else if (PlayFabSettings::GetDeveloperSecretKey().Len() > 0) {
+            authKey = TEXT("X-SecretKey"); authValue = PlayFabSettings::GetDeveloperSecretKey();
+        }
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Authentication/GetEntityToken")), request.toJSONString(), authKey, authValue);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAuthenticationAPI::OnGetEntityTokenResult, SuccessDelegate, ErrorDelegate);
@@ -62,7 +75,6 @@ void UPlayFabAuthenticationAPI::OnGetEntityTokenResult(FHttpRequestPtr HttpReque
     {
         if (outResult.EntityToken.Len() > 0)
             PlayFabSettings::SetEntityToken(outResult.EntityToken);
-
         SuccessDelegate.ExecuteIfBound(outResult);
     }
     else

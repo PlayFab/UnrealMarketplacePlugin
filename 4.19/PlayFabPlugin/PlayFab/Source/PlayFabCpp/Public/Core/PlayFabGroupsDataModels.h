@@ -45,7 +45,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAcceptGroupApplicationRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAcceptGroupApplicationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * Optional. Type of the entity to accept as. If specified, must be the same entity as the claimant or an entity that is a
@@ -57,13 +57,13 @@ namespace GroupsModels
         FEntityKey Group;
 
         FAcceptGroupApplicationRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             Group()
             {}
 
         FAcceptGroupApplicationRequest(const FAcceptGroupApplicationRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -79,7 +79,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAcceptGroupInvitationRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAcceptGroupInvitationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
@@ -88,13 +88,13 @@ namespace GroupsModels
         FEntityKey Group;
 
         FAcceptGroupInvitationRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(nullptr),
             Group()
             {}
 
         FAcceptGroupInvitationRequest(const FAcceptGroupInvitationRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             Group(src.Group)
             {}
@@ -110,7 +110,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddMembersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The identifier of the group
         FEntityKey Group;
@@ -124,14 +124,14 @@ namespace GroupsModels
         FString RoleId;
 
         FAddMembersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(),
             Members(),
             RoleId()
             {}
 
         FAddMembersRequest(const FAddMembersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group),
             Members(src.Members),
             RoleId(src.RoleId)
@@ -148,7 +148,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FApplyToGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FApplyToGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Optional, default true. Automatically accept an outstanding invitation if one exists instead of creating an application
         Boxed<bool> AutoAcceptOutstandingInvite;
@@ -160,14 +160,14 @@ namespace GroupsModels
         FEntityKey Group;
 
         FApplyToGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingInvite(),
             Entity(nullptr),
             Group()
             {}
 
         FApplyToGroupRequest(const FApplyToGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingInvite(src.AutoAcceptOutstandingInvite),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             Group(src.Group)
@@ -214,7 +214,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FApplyToGroupResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FApplyToGroupResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Type of entity that requested membership
         TSharedPtr<FEntityWithLineage> Entity;
@@ -226,14 +226,14 @@ namespace GroupsModels
         TSharedPtr<FEntityKey> Group;
 
         FApplyToGroupResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             Expires(0),
             Group(nullptr)
             {}
 
         FApplyToGroupResponse(const FApplyToGroupResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.Entity)) : nullptr),
             Expires(src.Expires),
             Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr)
@@ -250,7 +250,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FBlockEntityRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FBlockEntityRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -259,13 +259,13 @@ namespace GroupsModels
         FEntityKey Group;
 
         FBlockEntityRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             Group()
             {}
 
         FBlockEntityRequest(const FBlockEntityRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -281,7 +281,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FChangeMemberRoleRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FChangeMemberRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] The ID of the role that the entities will become a member of. This must be an existing role. Role IDs must be between 1
@@ -301,7 +301,7 @@ namespace GroupsModels
         FString OriginRoleId;
 
         FChangeMemberRoleRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             DestinationRoleId(),
             Group(),
             Members(),
@@ -309,7 +309,7 @@ namespace GroupsModels
             {}
 
         FChangeMemberRoleRequest(const FChangeMemberRoleRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             DestinationRoleId(src.DestinationRoleId),
             Group(src.Group),
             Members(src.Members),
@@ -327,7 +327,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
@@ -336,13 +336,13 @@ namespace GroupsModels
         FString GroupName;
 
         FCreateGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(nullptr),
             GroupName()
             {}
 
         FCreateGroupRequest(const FCreateGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             GroupName(src.GroupName)
             {}
@@ -358,7 +358,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateGroupResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateGroupResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The ID of the administrator role for the group.
         FString AdminRoleId;
@@ -381,7 +381,7 @@ namespace GroupsModels
         // [optional] The list of roles and names that belong to the group.
         TMap<FString, FString> Roles;
         FCreateGroupResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AdminRoleId(),
             Created(0),
             Group(),
@@ -392,7 +392,7 @@ namespace GroupsModels
             {}
 
         FCreateGroupResponse(const FCreateGroupResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AdminRoleId(src.AdminRoleId),
             Created(src.Created),
             Group(src.Group),
@@ -413,7 +413,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateGroupRoleRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateGroupRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The identifier of the group
         FEntityKey Group;
@@ -431,14 +431,14 @@ namespace GroupsModels
         FString RoleName;
 
         FCreateGroupRoleRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(),
             RoleId(),
             RoleName()
             {}
 
         FCreateGroupRoleRequest(const FCreateGroupRoleRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group),
             RoleId(src.RoleId),
             RoleName(src.RoleName)
@@ -455,7 +455,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateGroupRoleResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateGroupRoleResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // The current version of the group profile, can be used for concurrency control during updates.
         int32 ProfileVersion;
@@ -467,14 +467,14 @@ namespace GroupsModels
         FString RoleName;
 
         FCreateGroupRoleResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ProfileVersion(0),
             RoleId(),
             RoleName()
             {}
 
         FCreateGroupRoleResponse(const FCreateGroupRoleResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ProfileVersion(src.ProfileVersion),
             RoleId(src.RoleId),
             RoleName(src.RoleName)
@@ -491,18 +491,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // ID of the group or role to remove
         FEntityKey Group;
 
         FDeleteGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group()
             {}
 
         FDeleteGroupRequest(const FDeleteGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group)
             {}
 
@@ -517,7 +517,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteRoleRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The identifier of the group
         FEntityKey Group;
@@ -526,13 +526,13 @@ namespace GroupsModels
         FString RoleId;
 
         FDeleteRoleRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(),
             RoleId()
             {}
 
         FDeleteRoleRequest(const FDeleteRoleRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group),
             RoleId(src.RoleId)
             {}
@@ -548,14 +548,14 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppResultCommon
     {
         FEmptyResponse() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FEmptyResponse(const FEmptyResponse& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FEmptyResponse(const TSharedPtr<FJsonObject>& obj) : FEmptyResponse()
@@ -604,7 +604,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The identifier of the group
         TSharedPtr<FEntityKey> Group;
@@ -613,13 +613,13 @@ namespace GroupsModels
         FString GroupName;
 
         FGetGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(nullptr),
             GroupName()
             {}
 
         FGetGroupRequest(const FGetGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr),
             GroupName(src.GroupName)
             {}
@@ -635,7 +635,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetGroupResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetGroupResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The ID of the administrator role for the group.
         FString AdminRoleId;
@@ -658,7 +658,7 @@ namespace GroupsModels
         // [optional] The list of roles and names that belong to the group.
         TMap<FString, FString> Roles;
         FGetGroupResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AdminRoleId(),
             Created(0),
             Group(),
@@ -669,7 +669,7 @@ namespace GroupsModels
             {}
 
         FGetGroupResponse(const FGetGroupResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AdminRoleId(src.AdminRoleId),
             Created(src.Created),
             Group(src.Group),
@@ -874,7 +874,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FInviteToGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FInviteToGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Optional, default true. Automatically accept an application if one exists instead of creating an invitation
         Boxed<bool> AutoAcceptOutstandingApplication;
@@ -892,7 +892,7 @@ namespace GroupsModels
         FString RoleId;
 
         FInviteToGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingApplication(),
             Entity(),
             Group(),
@@ -900,7 +900,7 @@ namespace GroupsModels
             {}
 
         FInviteToGroupRequest(const FInviteToGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingApplication(src.AutoAcceptOutstandingApplication),
             Entity(src.Entity),
             Group(src.Group),
@@ -918,7 +918,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FInviteToGroupResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FInviteToGroupResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // When the invitation will expire and be deleted
         FDateTime Expires;
@@ -936,7 +936,7 @@ namespace GroupsModels
         FString RoleId;
 
         FInviteToGroupResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Expires(0),
             Group(nullptr),
             InvitedByEntity(nullptr),
@@ -945,7 +945,7 @@ namespace GroupsModels
             {}
 
         FInviteToGroupResponse(const FInviteToGroupResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Expires(src.Expires),
             Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr),
             InvitedByEntity(src.InvitedByEntity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.InvitedByEntity)) : nullptr),
@@ -964,7 +964,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FIsMemberRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FIsMemberRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -979,14 +979,14 @@ namespace GroupsModels
         FString RoleId;
 
         FIsMemberRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             Group(),
             RoleId()
             {}
 
         FIsMemberRequest(const FIsMemberRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             Group(src.Group),
             RoleId(src.RoleId)
@@ -1003,18 +1003,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FIsMemberResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FIsMemberResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // A value indicating whether or not the entity is a member.
         bool IsMember;
 
         FIsMemberResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             IsMember(false)
             {}
 
         FIsMemberResponse(const FIsMemberResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             IsMember(src.IsMember)
             {}
 
@@ -1029,18 +1029,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupApplicationsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupApplicationsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The identifier of the group
         FEntityKey Group;
 
         FListGroupApplicationsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group()
             {}
 
         FListGroupApplicationsRequest(const FListGroupApplicationsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group)
             {}
 
@@ -1055,17 +1055,17 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupApplicationsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupApplicationsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The requested list of applications to the group.
         TArray<FGroupApplication> Applications;
         FListGroupApplicationsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Applications()
             {}
 
         FListGroupApplicationsResponse(const FListGroupApplicationsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Applications(src.Applications)
             {}
 
@@ -1080,18 +1080,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupBlocksRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupBlocksRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The identifier of the group
         FEntityKey Group;
 
         FListGroupBlocksRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group()
             {}
 
         FListGroupBlocksRequest(const FListGroupBlocksRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group)
             {}
 
@@ -1106,17 +1106,17 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupBlocksResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupBlocksResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The requested list blocked entities.
         TArray<FGroupBlock> BlockedEntities;
         FListGroupBlocksResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BlockedEntities()
             {}
 
         FListGroupBlocksResponse(const FListGroupBlocksResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BlockedEntities(src.BlockedEntities)
             {}
 
@@ -1131,18 +1131,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupInvitationsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupInvitationsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The identifier of the group
         FEntityKey Group;
 
         FListGroupInvitationsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group()
             {}
 
         FListGroupInvitationsRequest(const FListGroupInvitationsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group)
             {}
 
@@ -1157,17 +1157,17 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupInvitationsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupInvitationsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The requested list of group invitations.
         TArray<FGroupInvitation> Invitations;
         FListGroupInvitationsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Invitations()
             {}
 
         FListGroupInvitationsResponse(const FListGroupInvitationsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Invitations(src.Invitations)
             {}
 
@@ -1182,18 +1182,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupMembersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // ID of the group to list the members and roles for
         FEntityKey Group;
 
         FListGroupMembersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group()
             {}
 
         FListGroupMembersRequest(const FListGroupMembersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group)
             {}
 
@@ -1208,17 +1208,17 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListGroupMembersResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListGroupMembersResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The requested list of roles and member entity IDs.
         TArray<FEntityMemberRole> Members;
         FListGroupMembersResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Members()
             {}
 
         FListGroupMembersResponse(const FListGroupMembersResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Members(src.Members)
             {}
 
@@ -1233,18 +1233,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMembershipOpportunitiesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListMembershipOpportunitiesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FListMembershipOpportunitiesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(nullptr)
             {}
 
         FListMembershipOpportunitiesRequest(const FListMembershipOpportunitiesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -1259,20 +1259,20 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMembershipOpportunitiesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListMembershipOpportunitiesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The requested list of group applications.
         TArray<FGroupApplication> Applications;
         // [optional] The requested list of group invitations.
         TArray<FGroupInvitation> Invitations;
         FListMembershipOpportunitiesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Applications(),
             Invitations()
             {}
 
         FListMembershipOpportunitiesResponse(const FListMembershipOpportunitiesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Applications(src.Applications),
             Invitations(src.Invitations)
             {}
@@ -1288,18 +1288,18 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMembershipRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListMembershipRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FListMembershipRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(nullptr)
             {}
 
         FListMembershipRequest(const FListMembershipRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -1314,17 +1314,17 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMembershipResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListMembershipResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of groups
         TArray<FGroupWithRoles> Groups;
         FListMembershipResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Groups()
             {}
 
         FListMembershipResponse(const FListMembershipResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Groups(src.Groups)
             {}
 
@@ -1351,7 +1351,7 @@ namespace GroupsModels
     PLAYFABCPP_API OperationTypes readOperationTypesFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API OperationTypes readOperationTypesFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FRemoveGroupApplicationRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemoveGroupApplicationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -1360,13 +1360,13 @@ namespace GroupsModels
         FEntityKey Group;
 
         FRemoveGroupApplicationRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             Group()
             {}
 
         FRemoveGroupApplicationRequest(const FRemoveGroupApplicationRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -1382,7 +1382,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemoveGroupInvitationRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemoveGroupInvitationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -1391,13 +1391,13 @@ namespace GroupsModels
         FEntityKey Group;
 
         FRemoveGroupInvitationRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             Group()
             {}
 
         FRemoveGroupInvitationRequest(const FRemoveGroupInvitationRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -1413,7 +1413,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemoveMembersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemoveMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The identifier of the group
         FEntityKey Group;
@@ -1424,14 +1424,14 @@ namespace GroupsModels
         FString RoleId;
 
         FRemoveMembersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(),
             Members(),
             RoleId()
             {}
 
         FRemoveMembersRequest(const FRemoveMembersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Group(src.Group),
             Members(src.Members),
             RoleId(src.RoleId)
@@ -1448,7 +1448,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnblockEntityRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUnblockEntityRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The entity to perform this action on.
         FEntityKey Entity;
@@ -1457,13 +1457,13 @@ namespace GroupsModels
         FEntityKey Group;
 
         FUnblockEntityRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(),
             Group()
             {}
 
         FUnblockEntityRequest(const FUnblockEntityRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -1479,7 +1479,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Optional: the ID of an existing role to set as the new administrator role for the group
         FString AdminRoleId;
@@ -1501,7 +1501,7 @@ namespace GroupsModels
         FString MemberRoleId;
 
         FUpdateGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AdminRoleId(),
             ExpectedProfileVersion(),
             Group(),
@@ -1510,7 +1510,7 @@ namespace GroupsModels
             {}
 
         FUpdateGroupRequest(const FUpdateGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AdminRoleId(src.AdminRoleId),
             ExpectedProfileVersion(src.ExpectedProfileVersion),
             Group(src.Group),
@@ -1529,7 +1529,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateGroupResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateGroupResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Optional reason to explain why the operation was the result that it was.
         FString OperationReason;
@@ -1541,14 +1541,14 @@ namespace GroupsModels
         Boxed<OperationTypes> SetResult;
 
         FUpdateGroupResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             OperationReason(),
             ProfileVersion(0),
             SetResult()
             {}
 
         FUpdateGroupResponse(const FUpdateGroupResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             OperationReason(src.OperationReason),
             ProfileVersion(src.ProfileVersion),
             SetResult(src.SetResult)
@@ -1565,7 +1565,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateGroupRoleRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateGroupRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Optional field used for concurrency control. By specifying the previously returned value of ProfileVersion from the
@@ -1584,7 +1584,7 @@ namespace GroupsModels
         FString RoleName;
 
         FUpdateGroupRoleRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ExpectedProfileVersion(),
             Group(),
             RoleId(),
@@ -1592,7 +1592,7 @@ namespace GroupsModels
             {}
 
         FUpdateGroupRoleRequest(const FUpdateGroupRoleRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ExpectedProfileVersion(src.ExpectedProfileVersion),
             Group(src.Group),
             RoleId(src.RoleId),
@@ -1610,7 +1610,7 @@ namespace GroupsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateGroupRoleResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateGroupRoleResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Optional reason to explain why the operation was the result that it was.
         FString OperationReason;
@@ -1622,14 +1622,14 @@ namespace GroupsModels
         Boxed<OperationTypes> SetResult;
 
         FUpdateGroupRoleResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             OperationReason(),
             ProfileVersion(0),
             SetResult()
             {}
 
         FUpdateGroupRoleResponse(const FUpdateGroupRoleResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             OperationReason(src.OperationReason),
             ProfileVersion(src.ProfileVersion),
             SetResult(src.SetResult)

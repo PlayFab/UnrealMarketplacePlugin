@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabProfilesModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -33,14 +35,14 @@ class UPlayFabJsonObject;
  * customized this will return the default starter policy built by PlayFab.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesGetGlobalPolicyRequest
+struct PLAYFAB_API FProfilesGetGlobalPolicyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesGetGlobalPolicyResponse
+struct PLAYFAB_API FProfilesGetGlobalPolicyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -57,7 +59,7 @@ public:
  * any reader has.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesGetEntityProfileRequest
+struct PLAYFAB_API FProfilesGetEntityProfileRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -73,7 +75,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesGetEntityProfileResponse
+struct PLAYFAB_API FProfilesGetEntityProfileResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -87,7 +89,7 @@ public:
  * Profiles that the caller is not allowed to read will silently not be included in the results.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesGetEntityProfilesRequest
+struct PLAYFAB_API FProfilesGetEntityProfilesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -103,7 +105,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesGetEntityProfilesResponse
+struct PLAYFAB_API FProfilesGetEntityProfilesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -117,7 +119,7 @@ public:
  * compiled and cached for several minutes so an update here may not be reflected in behavior for a short time.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesSetGlobalPolicyRequest
+struct PLAYFAB_API FProfilesSetGlobalPolicyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -127,7 +129,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesSetGlobalPolicyResponse
+struct PLAYFAB_API FProfilesSetGlobalPolicyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -138,7 +140,7 @@ public:
  * passed in.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesSetProfileLanguageRequest
+struct PLAYFAB_API FProfilesSetProfileLanguageRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -154,7 +156,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesSetProfileLanguageResponse
+struct PLAYFAB_API FProfilesSetProfileLanguageResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -171,7 +173,7 @@ public:
  * will be replaced with the statements in this request.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesSetEntityProfilePolicyRequest
+struct PLAYFAB_API FProfilesSetEntityProfilePolicyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -184,7 +186,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProfilesSetEntityProfilePolicyResponse
+struct PLAYFAB_API FProfilesSetEntityProfilePolicyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

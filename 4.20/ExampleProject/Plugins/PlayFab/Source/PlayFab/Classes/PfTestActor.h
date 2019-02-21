@@ -8,15 +8,15 @@
 #include "GameFramework/Actor.h"
 
 #include "PlayFabClientModels.h"
-#include "PlayFabClientApi.h"
+#include "PlayFabClientAPI.h"
 
 #include "PlayFabAuthenticationModels.h"
-#include "PlayFabAuthenticationApi.h"
+#include "PlayFabAuthenticationAPI.h"
 #include "PlayFabDataModels.h"
-#include "PlayFabDataApi.h"
+#include "PlayFabDataAPI.h"
 
 #include "PlayFabServerModels.h"
-#include "PlayFabServerApi.h"
+#include "PlayFabServerAPI.h"
 
 #include "PfTestActor.generated.h"
 
@@ -129,6 +129,20 @@ public:
     UPROPERTY()
         FString playFabId;
     UPROPERTY()
+        FString cachedClientSessionTicket;
+    UPROPERTY()
+        FString cachedEntityToken;
+    UPROPERTY()
+        FString cachedDeveloperSecretKey;
+    UPROPERTY()
+        FClientLoginResult multiUser1LoginResult;
+    UPROPERTY()
+        FClientLoginResult multiUser2LoginResult;
+    UPROPERTY()
+        FClientGetPlayerProfileResult multiUser1ProfileResult;
+    UPROPERTY()
+        FClientGetPlayerProfileResult multiUser2ProfileResult;
+    UPROPERTY()
         FString entityId;
     UPROPERTY()
         FString entityType;
@@ -196,6 +210,34 @@ public:
         void LoginOrRegister(UPfTestContext* testContext);
     UFUNCTION()
         void OnLoginOrRegister(FClientLoginResult result, UObject* customData);
+
+    /// <summary>
+    /// CLIENT API
+    /// Test the multi-user login functionality by logging in as two separate 
+    ///  users, getting the profile data for each, and verifying that their 
+    ///  specified credentials are being used instead of the statically 
+    ///  stored ones
+    /// </summary>
+    UFUNCTION()
+        void MultiUserLogin(UPfTestContext* testContext);
+    UFUNCTION()
+        void OnMultiUser1Login(FClientLoginResult result, UObject* customData);
+    UFUNCTION()
+        void OnMultiUser2Login(FClientLoginResult result, UObject* customData);
+    void OnBothUsersLogin(UObject* customData);
+    UFUNCTION()
+        void OnMultiUser1GetProfile(FClientGetPlayerProfileResult result, UObject* customData);
+    UFUNCTION()
+        void OnMultiUser2GetProfile(FClientGetPlayerProfileResult result, UObject* customData);
+    void OnBothUsersGetProfile(UObject* customData);
+    UFUNCTION()
+        void OnMultiUserFail(FPlayFabError error, UObject* customData);
+    
+    /// <summary>
+    /// Restore the static credentials originally set by LoginOrRegister but wiped in this test, as other tests depend on them
+    ///  TODO: Update test framework with a setup/teardown for each test that handles this, so that tests don't depend on each other's side effects
+    /// </summary>
+    void ApplyCachedCredentials();
 
     /// <summary>
     /// CLIENT API

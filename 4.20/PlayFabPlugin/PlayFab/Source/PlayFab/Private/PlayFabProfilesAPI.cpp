@@ -14,10 +14,17 @@
 #include "PlayFabProfilesModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabProfilesAPI::UPlayFabProfilesAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabProfilesAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabProfilesAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetGlobalPolicy(FProfilesGetGlobalPoli
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperGetGlobalPolicy);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/GetGlobalPolicy";
     manager->useEntityToken = true;
 
@@ -106,8 +114,8 @@ void UPlayFabProfilesAPI::HelperGetGlobalPolicy(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGetGlobalPolicy.IsBound())
     {
-        FProfilesGetGlobalPolicyResponse result = UPlayFabProfilesModelDecoder::decodeGetGlobalPolicyResponseResponse(response.responseData);
-        OnSuccessGetGlobalPolicy.Execute(result, mCustomData);
+        FProfilesGetGlobalPolicyResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeGetGlobalPolicyResponseResponse(response.responseData);
+        OnSuccessGetGlobalPolicy.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -130,6 +138,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfile(FProfilesGetEntityProfileRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperGetProfile);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/GetProfile";
     manager->useEntityToken = true;
 
@@ -153,8 +162,8 @@ void UPlayFabProfilesAPI::HelperGetProfile(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetProfile.IsBound())
     {
-        FProfilesGetEntityProfileResponse result = UPlayFabProfilesModelDecoder::decodeGetEntityProfileResponseResponse(response.responseData);
-        OnSuccessGetProfile.Execute(result, mCustomData);
+        FProfilesGetEntityProfileResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeGetEntityProfileResponseResponse(response.responseData);
+        OnSuccessGetProfile.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -177,6 +186,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfiles(FProfilesGetEntityProfiles
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperGetProfiles);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/GetProfiles";
     manager->useEntityToken = true;
 
@@ -204,8 +214,8 @@ void UPlayFabProfilesAPI::HelperGetProfiles(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessGetProfiles.IsBound())
     {
-        FProfilesGetEntityProfilesResponse result = UPlayFabProfilesModelDecoder::decodeGetEntityProfilesResponseResponse(response.responseData);
-        OnSuccessGetProfiles.Execute(result, mCustomData);
+        FProfilesGetEntityProfilesResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeGetEntityProfilesResponseResponse(response.responseData);
+        OnSuccessGetProfiles.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -228,6 +238,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetGlobalPolicy(FProfilesSetGlobalPoli
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperSetGlobalPolicy);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/SetGlobalPolicy";
     manager->useEntityToken = true;
 
@@ -254,8 +265,8 @@ void UPlayFabProfilesAPI::HelperSetGlobalPolicy(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessSetGlobalPolicy.IsBound())
     {
-        FProfilesSetGlobalPolicyResponse result = UPlayFabProfilesModelDecoder::decodeSetGlobalPolicyResponseResponse(response.responseData);
-        OnSuccessSetGlobalPolicy.Execute(result, mCustomData);
+        FProfilesSetGlobalPolicyResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeSetGlobalPolicyResponseResponse(response.responseData);
+        OnSuccessSetGlobalPolicy.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -278,6 +289,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetProfileLanguage(FProfilesSetProfile
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperSetProfileLanguage);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/SetProfileLanguage";
     manager->useEntityToken = true;
 
@@ -306,8 +318,8 @@ void UPlayFabProfilesAPI::HelperSetProfileLanguage(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessSetProfileLanguage.IsBound())
     {
-        FProfilesSetProfileLanguageResponse result = UPlayFabProfilesModelDecoder::decodeSetProfileLanguageResponseResponse(response.responseData);
-        OnSuccessSetProfileLanguage.Execute(result, mCustomData);
+        FProfilesSetProfileLanguageResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeSetProfileLanguageResponseResponse(response.responseData);
+        OnSuccessSetProfileLanguage.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -330,6 +342,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetProfilePolicy(FProfilesSetEntityPro
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperSetProfilePolicy);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/SetProfilePolicy";
     manager->useEntityToken = true;
 
@@ -357,8 +370,8 @@ void UPlayFabProfilesAPI::HelperSetProfilePolicy(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessSetProfilePolicy.IsBound())
     {
-        FProfilesSetEntityProfilePolicyResponse result = UPlayFabProfilesModelDecoder::decodeSetEntityProfilePolicyResponseResponse(response.responseData);
-        OnSuccessSetProfilePolicy.Execute(result, mCustomData);
+        FProfilesSetEntityProfilePolicyResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeSetEntityProfilePolicyResponseResponse(response.responseData);
+        OnSuccessSetProfilePolicy.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -424,10 +437,15 @@ void UPlayFabProfilesAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHtt
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -443,15 +461,12 @@ void UPlayFabProfilesAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

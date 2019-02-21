@@ -131,7 +131,7 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FExecuteCloudScriptResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FExecuteCloudScriptResult : public PlayFab::FPlayFabCppResultCommon
     {
         // Number of PlayFab API requests issued by the CloudScript function
         int32 APIRequestsIssued;
@@ -179,7 +179,7 @@ namespace CloudScriptModels
         int32 Revision;
 
         FExecuteCloudScriptResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             APIRequestsIssued(0),
             Error(nullptr),
             ExecutionTimeSeconds(0),
@@ -195,7 +195,7 @@ namespace CloudScriptModels
             {}
 
         FExecuteCloudScriptResult(const FExecuteCloudScriptResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             APIRequestsIssued(src.APIRequestsIssued),
             Error(src.Error.IsValid() ? MakeShareable(new FScriptExecutionError(*src.Error)) : nullptr),
             ExecutionTimeSeconds(src.ExecutionTimeSeconds),
@@ -221,7 +221,7 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FExecuteEntityCloudScriptRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FExecuteEntityCloudScriptRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
@@ -249,7 +249,7 @@ namespace CloudScriptModels
         Boxed<int32> SpecificRevision;
 
         FExecuteEntityCloudScriptRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(nullptr),
             FunctionName(),
             FunctionParameter(),
@@ -259,7 +259,7 @@ namespace CloudScriptModels
             {}
 
         FExecuteEntityCloudScriptRequest(const FExecuteEntityCloudScriptRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             FunctionName(src.FunctionName),
             FunctionParameter(src.FunctionParameter),

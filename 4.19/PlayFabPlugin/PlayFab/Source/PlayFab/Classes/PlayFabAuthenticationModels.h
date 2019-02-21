@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabAuthenticationModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -36,7 +38,7 @@ class UPlayFabJsonObject;
  * cannot be expired or revoked.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FAuthenticationGetEntityTokenRequest
+struct PLAYFAB_API FAuthenticationGetEntityTokenRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -46,7 +48,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FAuthenticationGetEntityTokenResponse
+struct PLAYFAB_API FAuthenticationGetEntityTokenResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

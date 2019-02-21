@@ -14,10 +14,17 @@
 #include "PlayFabMatchmakerModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabMatchmakerAPI::UPlayFabMatchmakerAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabMatchmakerAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabMatchmakerAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::AuthUser(FMatchmakerAuthUserReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMatchmakerAPI::HelperAuthUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/AuthUser";
     manager->useSecretKey = true;
 
@@ -111,8 +119,8 @@ void UPlayFabMatchmakerAPI::HelperAuthUser(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessAuthUser.IsBound())
     {
-        FMatchmakerAuthUserResponse result = UPlayFabMatchmakerModelDecoder::decodeAuthUserResponseResponse(response.responseData);
-        OnSuccessAuthUser.Execute(result, mCustomData);
+        FMatchmakerAuthUserResponse ResultStruct = UPlayFabMatchmakerModelDecoder::decodeAuthUserResponseResponse(response.responseData);
+        OnSuccessAuthUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -135,6 +143,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::PlayerJoined(FMatchmakerPlayerJoin
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMatchmakerAPI::HelperPlayerJoined);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/PlayerJoined";
     manager->useSecretKey = true;
 
@@ -166,8 +175,8 @@ void UPlayFabMatchmakerAPI::HelperPlayerJoined(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessPlayerJoined.IsBound())
     {
-        FMatchmakerPlayerJoinedResponse result = UPlayFabMatchmakerModelDecoder::decodePlayerJoinedResponseResponse(response.responseData);
-        OnSuccessPlayerJoined.Execute(result, mCustomData);
+        FMatchmakerPlayerJoinedResponse ResultStruct = UPlayFabMatchmakerModelDecoder::decodePlayerJoinedResponseResponse(response.responseData);
+        OnSuccessPlayerJoined.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -190,6 +199,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::PlayerLeft(FMatchmakerPlayerLeftRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMatchmakerAPI::HelperPlayerLeft);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/PlayerLeft";
     manager->useSecretKey = true;
 
@@ -221,8 +231,8 @@ void UPlayFabMatchmakerAPI::HelperPlayerLeft(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessPlayerLeft.IsBound())
     {
-        FMatchmakerPlayerLeftResponse result = UPlayFabMatchmakerModelDecoder::decodePlayerLeftResponseResponse(response.responseData);
-        OnSuccessPlayerLeft.Execute(result, mCustomData);
+        FMatchmakerPlayerLeftResponse ResultStruct = UPlayFabMatchmakerModelDecoder::decodePlayerLeftResponseResponse(response.responseData);
+        OnSuccessPlayerLeft.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -245,6 +255,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::StartGame(FMatchmakerStartGameRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMatchmakerAPI::HelperStartGame);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/StartGame";
     manager->useSecretKey = true;
 
@@ -289,8 +300,8 @@ void UPlayFabMatchmakerAPI::HelperStartGame(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessStartGame.IsBound())
     {
-        FMatchmakerStartGameResponse result = UPlayFabMatchmakerModelDecoder::decodeStartGameResponseResponse(response.responseData);
-        OnSuccessStartGame.Execute(result, mCustomData);
+        FMatchmakerStartGameResponse ResultStruct = UPlayFabMatchmakerModelDecoder::decodeStartGameResponseResponse(response.responseData);
+        OnSuccessStartGame.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -313,6 +324,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::UserInfo(FMatchmakerUserInfoReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMatchmakerAPI::HelperUserInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/UserInfo";
     manager->useSecretKey = true;
 
@@ -340,8 +352,8 @@ void UPlayFabMatchmakerAPI::HelperUserInfo(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessUserInfo.IsBound())
     {
-        FMatchmakerUserInfoResponse result = UPlayFabMatchmakerModelDecoder::decodeUserInfoResponseResponse(response.responseData);
-        OnSuccessUserInfo.Execute(result, mCustomData);
+        FMatchmakerUserInfoResponse ResultStruct = UPlayFabMatchmakerModelDecoder::decodeUserInfoResponseResponse(response.responseData);
+        OnSuccessUserInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -407,10 +419,15 @@ void UPlayFabMatchmakerAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FH
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -426,15 +443,12 @@ void UPlayFabMatchmakerAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

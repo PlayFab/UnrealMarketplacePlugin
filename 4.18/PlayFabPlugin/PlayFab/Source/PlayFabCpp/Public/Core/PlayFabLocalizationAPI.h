@@ -32,6 +32,8 @@ namespace PlayFab
         // Retrieves the list of allowed languages, only accessible by title entities
 
         bool GetLanguageList(const FGetLanguageListDelegate& SuccessDelegate = FGetLanguageListDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves the list of allowed languages, only accessible by title entities
+        bool GetLanguageList(LocalizationModels::FGetLanguageListRequest& request, const FGetLanguageListDelegate& SuccessDelegate = FGetLanguageListDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
 
     private:
         // ------------ Generated result handlers

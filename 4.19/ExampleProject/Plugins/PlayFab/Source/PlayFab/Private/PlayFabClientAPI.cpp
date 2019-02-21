@@ -14,10 +14,17 @@
 #include "PlayFabClientModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabClientAPI::UPlayFabClientAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabClientAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabClientAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddGenericID(FClientAddGenericIDRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAddGenericID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddGenericID";
     manager->useSessionTicket = true;
 
@@ -107,8 +115,8 @@ void UPlayFabClientAPI::HelperAddGenericID(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessAddGenericID.IsBound())
     {
-        FClientAddGenericIDResult result = UPlayFabClientModelDecoder::decodeAddGenericIDResultResponse(response.responseData);
-        OnSuccessAddGenericID.Execute(result, mCustomData);
+        FClientAddGenericIDResult ResultStruct = UPlayFabClientModelDecoder::decodeAddGenericIDResultResponse(response.responseData);
+        OnSuccessAddGenericID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -131,6 +139,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddOrUpdateContactEmail(FClientAddOrUpdate
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAddOrUpdateContactEmail);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddOrUpdateContactEmail";
     manager->useSessionTicket = true;
 
@@ -157,8 +166,8 @@ void UPlayFabClientAPI::HelperAddOrUpdateContactEmail(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessAddOrUpdateContactEmail.IsBound())
     {
-        FClientAddOrUpdateContactEmailResult result = UPlayFabClientModelDecoder::decodeAddOrUpdateContactEmailResultResponse(response.responseData);
-        OnSuccessAddOrUpdateContactEmail.Execute(result, mCustomData);
+        FClientAddOrUpdateContactEmailResult ResultStruct = UPlayFabClientModelDecoder::decodeAddOrUpdateContactEmailResultResponse(response.responseData);
+        OnSuccessAddOrUpdateContactEmail.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -181,6 +190,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddUsernamePassword(FClientAddUsernamePass
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAddUsernamePassword);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddUsernamePassword";
     manager->useSessionTicket = true;
 
@@ -217,8 +227,8 @@ void UPlayFabClientAPI::HelperAddUsernamePassword(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessAddUsernamePassword.IsBound())
     {
-        FClientAddUsernamePasswordResult result = UPlayFabClientModelDecoder::decodeAddUsernamePasswordResultResponse(response.responseData);
-        OnSuccessAddUsernamePassword.Execute(result, mCustomData);
+        FClientAddUsernamePasswordResult ResultStruct = UPlayFabClientModelDecoder::decodeAddUsernamePasswordResultResponse(response.responseData);
+        OnSuccessAddUsernamePassword.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -241,6 +251,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetAccountInfo(FClientGetAccountInfoReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetAccountInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetAccountInfo";
     manager->useSessionTicket = true;
 
@@ -282,8 +293,8 @@ void UPlayFabClientAPI::HelperGetAccountInfo(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetAccountInfo.IsBound())
     {
-        FClientGetAccountInfoResult result = UPlayFabClientModelDecoder::decodeGetAccountInfoResultResponse(response.responseData);
-        OnSuccessGetAccountInfo.Execute(result, mCustomData);
+        FClientGetAccountInfoResult ResultStruct = UPlayFabClientModelDecoder::decodeGetAccountInfoResultResponse(response.responseData);
+        OnSuccessGetAccountInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -306,6 +317,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerCombinedInfo(FClientGetPlayerComb
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerCombinedInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerCombinedInfo";
     manager->useSessionTicket = true;
 
@@ -333,8 +345,8 @@ void UPlayFabClientAPI::HelperGetPlayerCombinedInfo(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetPlayerCombinedInfo.IsBound())
     {
-        FClientGetPlayerCombinedInfoResult result = UPlayFabClientModelDecoder::decodeGetPlayerCombinedInfoResultResponse(response.responseData);
-        OnSuccessGetPlayerCombinedInfo.Execute(result, mCustomData);
+        FClientGetPlayerCombinedInfoResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerCombinedInfoResultResponse(response.responseData);
+        OnSuccessGetPlayerCombinedInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -357,6 +369,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerProfile(FClientGetPlayerProfileRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerProfile);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerProfile";
     manager->useSessionTicket = true;
 
@@ -384,8 +397,8 @@ void UPlayFabClientAPI::HelperGetPlayerProfile(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetPlayerProfile.IsBound())
     {
-        FClientGetPlayerProfileResult result = UPlayFabClientModelDecoder::decodeGetPlayerProfileResultResponse(response.responseData);
-        OnSuccessGetPlayerProfile.Execute(result, mCustomData);
+        FClientGetPlayerProfileResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerProfileResultResponse(response.responseData);
+        OnSuccessGetPlayerProfile.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -408,6 +421,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromFacebookIDs(FClientGetPla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromFacebookIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromFacebookIDs";
     manager->useSessionTicket = true;
 
@@ -437,8 +451,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromFacebookIDs(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromFacebookIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromFacebookIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromFacebookIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromFacebookIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromFacebookIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromFacebookIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromFacebookIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -461,6 +475,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromFacebookInstantGamesIds(F
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromFacebookInstantGamesIds);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromFacebookInstantGamesIds";
     manager->useSessionTicket = true;
 
@@ -490,8 +505,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromFacebookInstantGamesIds(FPlayFabB
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds.IsBound())
     {
-        FClientGetPlayFabIDsFromFacebookInstantGamesIdsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromFacebookInstantGamesIdsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromFacebookInstantGamesIdsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromFacebookInstantGamesIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -514,6 +529,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromGameCenterIDs(FClientGetP
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromGameCenterIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromGameCenterIDs";
     manager->useSessionTicket = true;
 
@@ -543,8 +559,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromGameCenterIDs(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromGameCenterIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromGameCenterIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGameCenterIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromGameCenterIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromGameCenterIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGameCenterIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromGameCenterIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -567,6 +583,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromGenericIDs(FClientGetPlay
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromGenericIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromGenericIDs";
     manager->useSessionTicket = true;
 
@@ -593,8 +610,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromGenericIDs(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromGenericIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromGenericIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGenericIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromGenericIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromGenericIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGenericIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromGenericIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -617,6 +634,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromGoogleIDs(FClientGetPlayF
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromGoogleIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromGoogleIDs";
     manager->useSessionTicket = true;
 
@@ -646,8 +664,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromGoogleIDs(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromGoogleIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromGoogleIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGoogleIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromGoogleIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromGoogleIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGoogleIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromGoogleIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -670,6 +688,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromKongregateIDs(FClientGetP
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromKongregateIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromKongregateIDs";
     manager->useSessionTicket = true;
 
@@ -699,8 +718,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromKongregateIDs(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromKongregateIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromKongregateIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromKongregateIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromKongregateIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromKongregateIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromKongregateIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromKongregateIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -723,6 +742,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(F
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds";
     manager->useSessionTicket = true;
 
@@ -752,8 +772,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds.IsBound())
     {
-        FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromNintendoSwitchDeviceIdsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromNintendoSwitchDeviceIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -776,6 +796,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromPSNAccountIDs(FClientGetP
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromPSNAccountIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromPSNAccountIDs";
     manager->useSessionTicket = true;
 
@@ -806,8 +827,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromPSNAccountIDs(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromPSNAccountIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromPSNAccountIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromPSNAccountIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromPSNAccountIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromPSNAccountIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -830,6 +851,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromSteamIDs(FClientGetPlayFa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromSteamIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromSteamIDs";
     manager->useSessionTicket = true;
 
@@ -859,8 +881,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromSteamIDs(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromSteamIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromSteamIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromSteamIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromSteamIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromSteamIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromSteamIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromSteamIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -883,6 +905,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromTwitchIDs(FClientGetPlayF
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromTwitchIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromTwitchIDs";
     manager->useSessionTicket = true;
 
@@ -912,8 +935,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromTwitchIDs(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromTwitchIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromTwitchIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromTwitchIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromTwitchIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromTwitchIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromTwitchIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromTwitchIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -936,6 +959,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromXboxLiveIDs(FClientGetPla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromXboxLiveIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromXboxLiveIDs";
     manager->useSessionTicket = true;
 
@@ -970,8 +994,8 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromXboxLiveIDs(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromXboxLiveIDs.IsBound())
     {
-        FClientGetPlayFabIDsFromXboxLiveIDsResult result = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromXboxLiveIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromXboxLiveIDs.Execute(result, mCustomData);
+        FClientGetPlayFabIDsFromXboxLiveIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromXboxLiveIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromXboxLiveIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -994,6 +1018,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkAndroidDeviceID(FClientLinkAndroidDevi
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkAndroidDeviceID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkAndroidDeviceID";
     manager->useSessionTicket = true;
 
@@ -1031,8 +1056,8 @@ void UPlayFabClientAPI::HelperLinkAndroidDeviceID(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessLinkAndroidDeviceID.IsBound())
     {
-        FClientLinkAndroidDeviceIDResult result = UPlayFabClientModelDecoder::decodeLinkAndroidDeviceIDResultResponse(response.responseData);
-        OnSuccessLinkAndroidDeviceID.Execute(result, mCustomData);
+        FClientLinkAndroidDeviceIDResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkAndroidDeviceIDResultResponse(response.responseData);
+        OnSuccessLinkAndroidDeviceID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1055,6 +1080,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkCustomID(FClientLinkCustomIDRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkCustomID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkCustomID";
     manager->useSessionTicket = true;
 
@@ -1082,8 +1108,8 @@ void UPlayFabClientAPI::HelperLinkCustomID(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessLinkCustomID.IsBound())
     {
-        FClientLinkCustomIDResult result = UPlayFabClientModelDecoder::decodeLinkCustomIDResultResponse(response.responseData);
-        OnSuccessLinkCustomID.Execute(result, mCustomData);
+        FClientLinkCustomIDResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkCustomIDResultResponse(response.responseData);
+        OnSuccessLinkCustomID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1106,6 +1132,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkFacebookAccount(FClientLinkFacebookAcc
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkFacebookAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkFacebookAccount";
     manager->useSessionTicket = true;
 
@@ -1133,8 +1160,8 @@ void UPlayFabClientAPI::HelperLinkFacebookAccount(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessLinkFacebookAccount.IsBound())
     {
-        FClientLinkFacebookAccountResult result = UPlayFabClientModelDecoder::decodeLinkFacebookAccountResultResponse(response.responseData);
-        OnSuccessLinkFacebookAccount.Execute(result, mCustomData);
+        FClientLinkFacebookAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkFacebookAccountResultResponse(response.responseData);
+        OnSuccessLinkFacebookAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1157,6 +1184,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkFacebookInstantGamesId(FClientLinkFace
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkFacebookInstantGamesId);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkFacebookInstantGamesId";
     manager->useSessionTicket = true;
 
@@ -1184,8 +1212,8 @@ void UPlayFabClientAPI::HelperLinkFacebookInstantGamesId(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessLinkFacebookInstantGamesId.IsBound())
     {
-        FClientLinkFacebookInstantGamesIdResult result = UPlayFabClientModelDecoder::decodeLinkFacebookInstantGamesIdResultResponse(response.responseData);
-        OnSuccessLinkFacebookInstantGamesId.Execute(result, mCustomData);
+        FClientLinkFacebookInstantGamesIdResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkFacebookInstantGamesIdResultResponse(response.responseData);
+        OnSuccessLinkFacebookInstantGamesId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1208,6 +1236,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkGameCenterAccount(FClientLinkGameCente
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkGameCenterAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkGameCenterAccount";
     manager->useSessionTicket = true;
 
@@ -1217,6 +1246,26 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkGameCenterAccount(FClientLinkGameCente
         OutRestJsonObj->SetFieldNull(TEXT("GameCenterId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("GameCenterId"), request.GameCenterId);
+    }
+    if (request.PublicKeyUrl.IsEmpty() || request.PublicKeyUrl == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PublicKeyUrl"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PublicKeyUrl"), request.PublicKeyUrl);
+    }
+    if (request.Salt.IsEmpty() || request.Salt == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Salt"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Salt"), request.Salt);
+    }
+    if (request.Signature.IsEmpty() || request.Signature == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Signature"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Signature"), request.Signature);
+    }
+    if (request.Timestamp.IsEmpty() || request.Timestamp == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Timestamp"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Timestamp"), request.Timestamp);
     }
 
     // Add Request to manager
@@ -1235,8 +1284,8 @@ void UPlayFabClientAPI::HelperLinkGameCenterAccount(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessLinkGameCenterAccount.IsBound())
     {
-        FClientLinkGameCenterAccountResult result = UPlayFabClientModelDecoder::decodeLinkGameCenterAccountResultResponse(response.responseData);
-        OnSuccessLinkGameCenterAccount.Execute(result, mCustomData);
+        FClientLinkGameCenterAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkGameCenterAccountResultResponse(response.responseData);
+        OnSuccessLinkGameCenterAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1259,6 +1308,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkGoogleAccount(FClientLinkGoogleAccount
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkGoogleAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkGoogleAccount";
     manager->useSessionTicket = true;
 
@@ -1286,8 +1336,8 @@ void UPlayFabClientAPI::HelperLinkGoogleAccount(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessLinkGoogleAccount.IsBound())
     {
-        FClientLinkGoogleAccountResult result = UPlayFabClientModelDecoder::decodeLinkGoogleAccountResultResponse(response.responseData);
-        OnSuccessLinkGoogleAccount.Execute(result, mCustomData);
+        FClientLinkGoogleAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkGoogleAccountResultResponse(response.responseData);
+        OnSuccessLinkGoogleAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1310,6 +1360,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkIOSDeviceID(FClientLinkIOSDeviceIDRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkIOSDeviceID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkIOSDeviceID";
     manager->useSessionTicket = true;
 
@@ -1347,8 +1398,8 @@ void UPlayFabClientAPI::HelperLinkIOSDeviceID(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessLinkIOSDeviceID.IsBound())
     {
-        FClientLinkIOSDeviceIDResult result = UPlayFabClientModelDecoder::decodeLinkIOSDeviceIDResultResponse(response.responseData);
-        OnSuccessLinkIOSDeviceID.Execute(result, mCustomData);
+        FClientLinkIOSDeviceIDResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkIOSDeviceIDResultResponse(response.responseData);
+        OnSuccessLinkIOSDeviceID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1371,6 +1422,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkKongregate(FClientLinkKongregateAccoun
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkKongregate);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkKongregate";
     manager->useSessionTicket = true;
 
@@ -1403,8 +1455,8 @@ void UPlayFabClientAPI::HelperLinkKongregate(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessLinkKongregate.IsBound())
     {
-        FClientLinkKongregateAccountResult result = UPlayFabClientModelDecoder::decodeLinkKongregateAccountResultResponse(response.responseData);
-        OnSuccessLinkKongregate.Execute(result, mCustomData);
+        FClientLinkKongregateAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkKongregateAccountResultResponse(response.responseData);
+        OnSuccessLinkKongregate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1427,6 +1479,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoSwitchDeviceId(FClientLinkNint
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkNintendoSwitchDeviceId);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkNintendoSwitchDeviceId";
     manager->useSessionTicket = true;
 
@@ -1454,8 +1507,8 @@ void UPlayFabClientAPI::HelperLinkNintendoSwitchDeviceId(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessLinkNintendoSwitchDeviceId.IsBound())
     {
-        FClientLinkNintendoSwitchDeviceIdResult result = UPlayFabClientModelDecoder::decodeLinkNintendoSwitchDeviceIdResultResponse(response.responseData);
-        OnSuccessLinkNintendoSwitchDeviceId.Execute(result, mCustomData);
+        FClientLinkNintendoSwitchDeviceIdResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkNintendoSwitchDeviceIdResultResponse(response.responseData);
+        OnSuccessLinkNintendoSwitchDeviceId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1478,6 +1531,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkOpenIdConnect(FClientLinkOpenIdConnect
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkOpenIdConnect);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkOpenIdConnect";
     manager->useSessionTicket = true;
 
@@ -1510,8 +1564,8 @@ void UPlayFabClientAPI::HelperLinkOpenIdConnect(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessLinkOpenIdConnect.IsBound())
     {
-        FClientEmptyResult result = UPlayFabClientModelDecoder::decodeEmptyResultResponse(response.responseData);
-        OnSuccessLinkOpenIdConnect.Execute(result, mCustomData);
+        FClientEmptyResult ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResultResponse(response.responseData);
+        OnSuccessLinkOpenIdConnect.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1534,6 +1588,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkPSNAccount(FClientLinkPSNAccountReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkPSNAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkPSNAccount";
     manager->useSessionTicket = true;
 
@@ -1567,8 +1622,8 @@ void UPlayFabClientAPI::HelperLinkPSNAccount(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessLinkPSNAccount.IsBound())
     {
-        FClientLinkPSNAccountResult result = UPlayFabClientModelDecoder::decodeLinkPSNAccountResultResponse(response.responseData);
-        OnSuccessLinkPSNAccount.Execute(result, mCustomData);
+        FClientLinkPSNAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkPSNAccountResultResponse(response.responseData);
+        OnSuccessLinkPSNAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1591,6 +1646,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkSteamAccount(FClientLinkSteamAccountRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkSteamAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkSteamAccount";
     manager->useSessionTicket = true;
 
@@ -1618,8 +1674,8 @@ void UPlayFabClientAPI::HelperLinkSteamAccount(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessLinkSteamAccount.IsBound())
     {
-        FClientLinkSteamAccountResult result = UPlayFabClientModelDecoder::decodeLinkSteamAccountResultResponse(response.responseData);
-        OnSuccessLinkSteamAccount.Execute(result, mCustomData);
+        FClientLinkSteamAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkSteamAccountResultResponse(response.responseData);
+        OnSuccessLinkSteamAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1642,6 +1698,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkTwitch(FClientLinkTwitchAccountRequest
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkTwitch);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkTwitch";
     manager->useSessionTicket = true;
 
@@ -1669,8 +1726,8 @@ void UPlayFabClientAPI::HelperLinkTwitch(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessLinkTwitch.IsBound())
     {
-        FClientLinkTwitchAccountResult result = UPlayFabClientModelDecoder::decodeLinkTwitchAccountResultResponse(response.responseData);
-        OnSuccessLinkTwitch.Execute(result, mCustomData);
+        FClientLinkTwitchAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkTwitchAccountResultResponse(response.responseData);
+        OnSuccessLinkTwitch.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1693,6 +1750,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkWindowsHello(FClientLinkWindowsHelloAc
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkWindowsHello);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkWindowsHello";
     manager->useSessionTicket = true;
 
@@ -1730,8 +1788,8 @@ void UPlayFabClientAPI::HelperLinkWindowsHello(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessLinkWindowsHello.IsBound())
     {
-        FClientLinkWindowsHelloAccountResponse result = UPlayFabClientModelDecoder::decodeLinkWindowsHelloAccountResponseResponse(response.responseData);
-        OnSuccessLinkWindowsHello.Execute(result, mCustomData);
+        FClientLinkWindowsHelloAccountResponse ResultStruct = UPlayFabClientModelDecoder::decodeLinkWindowsHelloAccountResponseResponse(response.responseData);
+        OnSuccessLinkWindowsHello.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1754,6 +1812,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkXboxAccount(FClientLinkXboxAccountRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkXboxAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkXboxAccount";
     manager->useSessionTicket = true;
 
@@ -1781,8 +1840,8 @@ void UPlayFabClientAPI::HelperLinkXboxAccount(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessLinkXboxAccount.IsBound())
     {
-        FClientLinkXboxAccountResult result = UPlayFabClientModelDecoder::decodeLinkXboxAccountResultResponse(response.responseData);
-        OnSuccessLinkXboxAccount.Execute(result, mCustomData);
+        FClientLinkXboxAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkXboxAccountResultResponse(response.responseData);
+        OnSuccessLinkXboxAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1805,6 +1864,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveContactEmail(FClientRemoveContactEma
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRemoveContactEmail);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RemoveContactEmail";
     manager->useSessionTicket = true;
 
@@ -1826,8 +1886,8 @@ void UPlayFabClientAPI::HelperRemoveContactEmail(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessRemoveContactEmail.IsBound())
     {
-        FClientRemoveContactEmailResult result = UPlayFabClientModelDecoder::decodeRemoveContactEmailResultResponse(response.responseData);
-        OnSuccessRemoveContactEmail.Execute(result, mCustomData);
+        FClientRemoveContactEmailResult ResultStruct = UPlayFabClientModelDecoder::decodeRemoveContactEmailResultResponse(response.responseData);
+        OnSuccessRemoveContactEmail.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1850,6 +1910,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveGenericID(FClientRemoveGenericIDRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRemoveGenericID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RemoveGenericID";
     manager->useSessionTicket = true;
 
@@ -1872,8 +1933,8 @@ void UPlayFabClientAPI::HelperRemoveGenericID(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessRemoveGenericID.IsBound())
     {
-        FClientRemoveGenericIDResult result = UPlayFabClientModelDecoder::decodeRemoveGenericIDResultResponse(response.responseData);
-        OnSuccessRemoveGenericID.Execute(result, mCustomData);
+        FClientRemoveGenericIDResult ResultStruct = UPlayFabClientModelDecoder::decodeRemoveGenericIDResultResponse(response.responseData);
+        OnSuccessRemoveGenericID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1896,6 +1957,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ReportPlayer(FClientReportPlayerClientRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperReportPlayer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ReportPlayer";
     manager->useSessionTicket = true;
 
@@ -1927,8 +1989,8 @@ void UPlayFabClientAPI::HelperReportPlayer(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessReportPlayer.IsBound())
     {
-        FClientReportPlayerClientResult result = UPlayFabClientModelDecoder::decodeReportPlayerClientResultResponse(response.responseData);
-        OnSuccessReportPlayer.Execute(result, mCustomData);
+        FClientReportPlayerClientResult ResultStruct = UPlayFabClientModelDecoder::decodeReportPlayerClientResultResponse(response.responseData);
+        OnSuccessReportPlayer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1951,6 +2013,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SendAccountRecoveryEmail(FClientSendAccoun
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperSendAccountRecoveryEmail);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/SendAccountRecoveryEmail";
 
     // Serialize all the request properties to json
@@ -1982,8 +2045,8 @@ void UPlayFabClientAPI::HelperSendAccountRecoveryEmail(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessSendAccountRecoveryEmail.IsBound())
     {
-        FClientSendAccountRecoveryEmailResult result = UPlayFabClientModelDecoder::decodeSendAccountRecoveryEmailResultResponse(response.responseData);
-        OnSuccessSendAccountRecoveryEmail.Execute(result, mCustomData);
+        FClientSendAccountRecoveryEmailResult ResultStruct = UPlayFabClientModelDecoder::decodeSendAccountRecoveryEmailResultResponse(response.responseData);
+        OnSuccessSendAccountRecoveryEmail.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2006,6 +2069,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkAndroidDeviceID(FClientUnlinkAndroid
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkAndroidDeviceID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkAndroidDeviceID";
     manager->useSessionTicket = true;
 
@@ -2032,8 +2096,8 @@ void UPlayFabClientAPI::HelperUnlinkAndroidDeviceID(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessUnlinkAndroidDeviceID.IsBound())
     {
-        FClientUnlinkAndroidDeviceIDResult result = UPlayFabClientModelDecoder::decodeUnlinkAndroidDeviceIDResultResponse(response.responseData);
-        OnSuccessUnlinkAndroidDeviceID.Execute(result, mCustomData);
+        FClientUnlinkAndroidDeviceIDResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkAndroidDeviceIDResultResponse(response.responseData);
+        OnSuccessUnlinkAndroidDeviceID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2056,6 +2120,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkCustomID(FClientUnlinkCustomIDReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkCustomID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkCustomID";
     manager->useSessionTicket = true;
 
@@ -2082,8 +2147,8 @@ void UPlayFabClientAPI::HelperUnlinkCustomID(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessUnlinkCustomID.IsBound())
     {
-        FClientUnlinkCustomIDResult result = UPlayFabClientModelDecoder::decodeUnlinkCustomIDResultResponse(response.responseData);
-        OnSuccessUnlinkCustomID.Execute(result, mCustomData);
+        FClientUnlinkCustomIDResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkCustomIDResultResponse(response.responseData);
+        OnSuccessUnlinkCustomID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2106,6 +2171,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkFacebookAccount(FClientUnlinkFaceboo
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkFacebookAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkFacebookAccount";
     manager->useSessionTicket = true;
 
@@ -2127,8 +2193,8 @@ void UPlayFabClientAPI::HelperUnlinkFacebookAccount(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessUnlinkFacebookAccount.IsBound())
     {
-        FClientUnlinkFacebookAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkFacebookAccountResultResponse(response.responseData);
-        OnSuccessUnlinkFacebookAccount.Execute(result, mCustomData);
+        FClientUnlinkFacebookAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkFacebookAccountResultResponse(response.responseData);
+        OnSuccessUnlinkFacebookAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2151,6 +2217,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkFacebookInstantGamesId(FClientUnlink
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkFacebookInstantGamesId);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkFacebookInstantGamesId";
     manager->useSessionTicket = true;
 
@@ -2177,8 +2244,8 @@ void UPlayFabClientAPI::HelperUnlinkFacebookInstantGamesId(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessUnlinkFacebookInstantGamesId.IsBound())
     {
-        FClientUnlinkFacebookInstantGamesIdResult result = UPlayFabClientModelDecoder::decodeUnlinkFacebookInstantGamesIdResultResponse(response.responseData);
-        OnSuccessUnlinkFacebookInstantGamesId.Execute(result, mCustomData);
+        FClientUnlinkFacebookInstantGamesIdResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkFacebookInstantGamesIdResultResponse(response.responseData);
+        OnSuccessUnlinkFacebookInstantGamesId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2201,6 +2268,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkGameCenterAccount(FClientUnlinkGameC
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkGameCenterAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkGameCenterAccount";
     manager->useSessionTicket = true;
 
@@ -2222,8 +2290,8 @@ void UPlayFabClientAPI::HelperUnlinkGameCenterAccount(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUnlinkGameCenterAccount.IsBound())
     {
-        FClientUnlinkGameCenterAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkGameCenterAccountResultResponse(response.responseData);
-        OnSuccessUnlinkGameCenterAccount.Execute(result, mCustomData);
+        FClientUnlinkGameCenterAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkGameCenterAccountResultResponse(response.responseData);
+        OnSuccessUnlinkGameCenterAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2246,6 +2314,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkGoogleAccount(FClientUnlinkGoogleAcc
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkGoogleAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkGoogleAccount";
     manager->useSessionTicket = true;
 
@@ -2267,8 +2336,8 @@ void UPlayFabClientAPI::HelperUnlinkGoogleAccount(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessUnlinkGoogleAccount.IsBound())
     {
-        FClientUnlinkGoogleAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkGoogleAccountResultResponse(response.responseData);
-        OnSuccessUnlinkGoogleAccount.Execute(result, mCustomData);
+        FClientUnlinkGoogleAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkGoogleAccountResultResponse(response.responseData);
+        OnSuccessUnlinkGoogleAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2291,6 +2360,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkIOSDeviceID(FClientUnlinkIOSDeviceID
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkIOSDeviceID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkIOSDeviceID";
     manager->useSessionTicket = true;
 
@@ -2317,8 +2387,8 @@ void UPlayFabClientAPI::HelperUnlinkIOSDeviceID(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessUnlinkIOSDeviceID.IsBound())
     {
-        FClientUnlinkIOSDeviceIDResult result = UPlayFabClientModelDecoder::decodeUnlinkIOSDeviceIDResultResponse(response.responseData);
-        OnSuccessUnlinkIOSDeviceID.Execute(result, mCustomData);
+        FClientUnlinkIOSDeviceIDResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkIOSDeviceIDResultResponse(response.responseData);
+        OnSuccessUnlinkIOSDeviceID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2341,6 +2411,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkKongregate(FClientUnlinkKongregateAc
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkKongregate);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkKongregate";
     manager->useSessionTicket = true;
 
@@ -2362,8 +2433,8 @@ void UPlayFabClientAPI::HelperUnlinkKongregate(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessUnlinkKongregate.IsBound())
     {
-        FClientUnlinkKongregateAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkKongregateAccountResultResponse(response.responseData);
-        OnSuccessUnlinkKongregate.Execute(result, mCustomData);
+        FClientUnlinkKongregateAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkKongregateAccountResultResponse(response.responseData);
+        OnSuccessUnlinkKongregate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2386,6 +2457,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoSwitchDeviceId(FClientUnlink
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkNintendoSwitchDeviceId);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkNintendoSwitchDeviceId";
     manager->useSessionTicket = true;
 
@@ -2412,8 +2484,8 @@ void UPlayFabClientAPI::HelperUnlinkNintendoSwitchDeviceId(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessUnlinkNintendoSwitchDeviceId.IsBound())
     {
-        FClientUnlinkNintendoSwitchDeviceIdResult result = UPlayFabClientModelDecoder::decodeUnlinkNintendoSwitchDeviceIdResultResponse(response.responseData);
-        OnSuccessUnlinkNintendoSwitchDeviceId.Execute(result, mCustomData);
+        FClientUnlinkNintendoSwitchDeviceIdResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkNintendoSwitchDeviceIdResultResponse(response.responseData);
+        OnSuccessUnlinkNintendoSwitchDeviceId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2436,6 +2508,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkOpenIdConnect(FClientUninkOpenIdConn
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkOpenIdConnect);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkOpenIdConnect";
     manager->useSessionTicket = true;
 
@@ -2462,8 +2535,8 @@ void UPlayFabClientAPI::HelperUnlinkOpenIdConnect(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessUnlinkOpenIdConnect.IsBound())
     {
-        FClientEmptyResponse result = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUnlinkOpenIdConnect.Execute(result, mCustomData);
+        FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessUnlinkOpenIdConnect.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2486,6 +2559,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkPSNAccount(FClientUnlinkPSNAccountRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkPSNAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkPSNAccount";
     manager->useSessionTicket = true;
 
@@ -2507,8 +2581,8 @@ void UPlayFabClientAPI::HelperUnlinkPSNAccount(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessUnlinkPSNAccount.IsBound())
     {
-        FClientUnlinkPSNAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkPSNAccountResultResponse(response.responseData);
-        OnSuccessUnlinkPSNAccount.Execute(result, mCustomData);
+        FClientUnlinkPSNAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkPSNAccountResultResponse(response.responseData);
+        OnSuccessUnlinkPSNAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2531,6 +2605,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkSteamAccount(FClientUnlinkSteamAccou
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkSteamAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkSteamAccount";
     manager->useSessionTicket = true;
 
@@ -2552,8 +2627,8 @@ void UPlayFabClientAPI::HelperUnlinkSteamAccount(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessUnlinkSteamAccount.IsBound())
     {
-        FClientUnlinkSteamAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkSteamAccountResultResponse(response.responseData);
-        OnSuccessUnlinkSteamAccount.Execute(result, mCustomData);
+        FClientUnlinkSteamAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkSteamAccountResultResponse(response.responseData);
+        OnSuccessUnlinkSteamAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2576,6 +2651,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkTwitch(FClientUnlinkTwitchAccountReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkTwitch);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkTwitch";
     manager->useSessionTicket = true;
 
@@ -2597,8 +2673,8 @@ void UPlayFabClientAPI::HelperUnlinkTwitch(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessUnlinkTwitch.IsBound())
     {
-        FClientUnlinkTwitchAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkTwitchAccountResultResponse(response.responseData);
-        OnSuccessUnlinkTwitch.Execute(result, mCustomData);
+        FClientUnlinkTwitchAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkTwitchAccountResultResponse(response.responseData);
+        OnSuccessUnlinkTwitch.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2621,6 +2697,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkWindowsHello(FClientUnlinkWindowsHel
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkWindowsHello);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkWindowsHello";
     manager->useSessionTicket = true;
 
@@ -2647,8 +2724,8 @@ void UPlayFabClientAPI::HelperUnlinkWindowsHello(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessUnlinkWindowsHello.IsBound())
     {
-        FClientUnlinkWindowsHelloAccountResponse result = UPlayFabClientModelDecoder::decodeUnlinkWindowsHelloAccountResponseResponse(response.responseData);
-        OnSuccessUnlinkWindowsHello.Execute(result, mCustomData);
+        FClientUnlinkWindowsHelloAccountResponse ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkWindowsHelloAccountResponseResponse(response.responseData);
+        OnSuccessUnlinkWindowsHello.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2671,6 +2748,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkXboxAccount(FClientUnlinkXboxAccount
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkXboxAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkXboxAccount";
     manager->useSessionTicket = true;
 
@@ -2697,8 +2775,8 @@ void UPlayFabClientAPI::HelperUnlinkXboxAccount(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessUnlinkXboxAccount.IsBound())
     {
-        FClientUnlinkXboxAccountResult result = UPlayFabClientModelDecoder::decodeUnlinkXboxAccountResultResponse(response.responseData);
-        OnSuccessUnlinkXboxAccount.Execute(result, mCustomData);
+        FClientUnlinkXboxAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkXboxAccountResultResponse(response.responseData);
+        OnSuccessUnlinkXboxAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2721,6 +2799,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateAvatarUrl(FClientUpdateAvatarUrlRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdateAvatarUrl);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateAvatarUrl";
     manager->useSessionTicket = true;
 
@@ -2747,8 +2826,9 @@ void UPlayFabClientAPI::HelperUpdateAvatarUrl(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessUpdateAvatarUrl.IsBound())
     {
-        FClientEmptyResponse result = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUpdateAvatarUrl.Execute(result, mCustomData);
+        FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateAvatarUrl.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2771,6 +2851,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserTitleDisplayName(FClientUpdateUs
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdateUserTitleDisplayName);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateUserTitleDisplayName";
     manager->useSessionTicket = true;
 
@@ -2797,8 +2878,8 @@ void UPlayFabClientAPI::HelperUpdateUserTitleDisplayName(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessUpdateUserTitleDisplayName.IsBound())
     {
-        FClientUpdateUserTitleDisplayNameResult result = UPlayFabClientModelDecoder::decodeUpdateUserTitleDisplayNameResultResponse(response.responseData);
-        OnSuccessUpdateUserTitleDisplayName.Execute(result, mCustomData);
+        FClientUpdateUserTitleDisplayNameResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdateUserTitleDisplayNameResultResponse(response.responseData);
+        OnSuccessUpdateUserTitleDisplayName.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2825,6 +2906,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AttributeInstall(FClientAttributeInstallRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAttributeInstall);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AttributeInstall";
     manager->useSessionTicket = true;
 
@@ -2856,8 +2938,8 @@ void UPlayFabClientAPI::HelperAttributeInstall(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessAttributeInstall.IsBound())
     {
-        FClientAttributeInstallResult result = UPlayFabClientModelDecoder::decodeAttributeInstallResultResponse(response.responseData);
-        OnSuccessAttributeInstall.Execute(result, mCustomData);
+        FClientAttributeInstallResult ResultStruct = UPlayFabClientModelDecoder::decodeAttributeInstallResultResponse(response.responseData);
+        OnSuccessAttributeInstall.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2884,6 +2966,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ReportDeviceInfo(FClientDeviceInfoRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperReportDeviceInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ReportDeviceInfo";
     manager->useSessionTicket = true;
 
@@ -2906,8 +2989,9 @@ void UPlayFabClientAPI::HelperReportDeviceInfo(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessReportDeviceInfo.IsBound())
     {
-        FClientEmptyResponse result = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessReportDeviceInfo.Execute(result, mCustomData);
+        FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessReportDeviceInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2930,6 +3014,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteCharacterEvent(FClientWriteClientChar
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperWriteCharacterEvent);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/WriteCharacterEvent";
     manager->useSessionTicket = true;
 
@@ -2967,8 +3052,8 @@ void UPlayFabClientAPI::HelperWriteCharacterEvent(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessWriteCharacterEvent.IsBound())
     {
-        FClientWriteEventResponse result = UPlayFabClientModelDecoder::decodeWriteEventResponseResponse(response.responseData);
-        OnSuccessWriteCharacterEvent.Execute(result, mCustomData);
+        FClientWriteEventResponse ResultStruct = UPlayFabClientModelDecoder::decodeWriteEventResponseResponse(response.responseData);
+        OnSuccessWriteCharacterEvent.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2991,6 +3076,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WritePlayerEvent(FClientWriteClientPlayerE
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperWritePlayerEvent);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/WritePlayerEvent";
     manager->useSessionTicket = true;
 
@@ -3023,8 +3109,9 @@ void UPlayFabClientAPI::HelperWritePlayerEvent(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessWritePlayerEvent.IsBound())
     {
-        FClientWriteEventResponse result = UPlayFabClientModelDecoder::decodeWriteEventResponseResponse(response.responseData);
-        OnSuccessWritePlayerEvent.Execute(result, mCustomData);
+        FClientWriteEventResponse ResultStruct = UPlayFabClientModelDecoder::decodeWriteEventResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessWritePlayerEvent.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3047,6 +3134,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteTitleEvent(FClientWriteTitleEventRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperWriteTitleEvent);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/WriteTitleEvent";
     manager->useSessionTicket = true;
 
@@ -3079,8 +3167,9 @@ void UPlayFabClientAPI::HelperWriteTitleEvent(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessWriteTitleEvent.IsBound())
     {
-        FClientWriteEventResponse result = UPlayFabClientModelDecoder::decodeWriteEventResponseResponse(response.responseData);
-        OnSuccessWriteTitleEvent.Execute(result, mCustomData);
+        FClientWriteEventResponse ResultStruct = UPlayFabClientModelDecoder::decodeWriteEventResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessWriteTitleEvent.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3107,6 +3196,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPhotonAuthenticationToken(FClientGetPho
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPhotonAuthenticationToken);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPhotonAuthenticationToken";
     manager->useSessionTicket = true;
 
@@ -3133,8 +3223,8 @@ void UPlayFabClientAPI::HelperGetPhotonAuthenticationToken(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetPhotonAuthenticationToken.IsBound())
     {
-        FClientGetPhotonAuthenticationTokenResult result = UPlayFabClientModelDecoder::decodeGetPhotonAuthenticationTokenResultResponse(response.responseData);
-        OnSuccessGetPhotonAuthenticationToken.Execute(result, mCustomData);
+        FClientGetPhotonAuthenticationTokenResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPhotonAuthenticationTokenResultResponse(response.responseData);
+        OnSuccessGetPhotonAuthenticationToken.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3157,6 +3247,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitlePublicKey(FClientGetTitlePublicKey
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetTitlePublicKey);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTitlePublicKey";
 
     // Serialize all the request properties to json
@@ -3183,8 +3274,8 @@ void UPlayFabClientAPI::HelperGetTitlePublicKey(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGetTitlePublicKey.IsBound())
     {
-        FClientGetTitlePublicKeyResult result = UPlayFabClientModelDecoder::decodeGetTitlePublicKeyResultResponse(response.responseData);
-        OnSuccessGetTitlePublicKey.Execute(result, mCustomData);
+        FClientGetTitlePublicKeyResult ResultStruct = UPlayFabClientModelDecoder::decodeGetTitlePublicKeyResultResponse(response.responseData);
+        OnSuccessGetTitlePublicKey.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3207,6 +3298,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetWindowsHelloChallenge(FClientGetWindows
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetWindowsHelloChallenge);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetWindowsHelloChallenge";
 
     // Serialize all the request properties to json
@@ -3233,8 +3325,8 @@ void UPlayFabClientAPI::HelperGetWindowsHelloChallenge(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessGetWindowsHelloChallenge.IsBound())
     {
-        FClientGetWindowsHelloChallengeResponse result = UPlayFabClientModelDecoder::decodeGetWindowsHelloChallengeResponseResponse(response.responseData);
-        OnSuccessGetWindowsHelloChallenge.Execute(result, mCustomData);
+        FClientGetWindowsHelloChallengeResponse ResultStruct = UPlayFabClientModelDecoder::decodeGetWindowsHelloChallengeResponseResponse(response.responseData);
+        OnSuccessGetWindowsHelloChallenge.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3257,6 +3349,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithAndroidDeviceID(FClientLoginWithA
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithAndroidDeviceID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithAndroidDeviceID";
     manager->returnsSessionTicket = true;
 
@@ -3306,8 +3399,8 @@ void UPlayFabClientAPI::HelperLoginWithAndroidDeviceID(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessLoginWithAndroidDeviceID.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithAndroidDeviceID.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        OnSuccessLoginWithAndroidDeviceID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3330,6 +3423,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithCustomID(FClientLoginWithCustomID
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithCustomID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithCustomID";
     manager->returnsSessionTicket = true;
 
@@ -3369,8 +3463,11 @@ void UPlayFabClientAPI::HelperLoginWithCustomID(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessLoginWithCustomID.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithCustomID.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithCustomID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3393,6 +3490,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithEmailAddress(FClientLoginWithEmai
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithEmailAddress);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithEmailAddress";
     manager->returnsSessionTicket = true;
 
@@ -3426,8 +3524,11 @@ void UPlayFabClientAPI::HelperLoginWithEmailAddress(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessLoginWithEmailAddress.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithEmailAddress.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithEmailAddress.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3450,6 +3551,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebook(FClientLoginWithFacebook
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithFacebook);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithFacebook";
     manager->returnsSessionTicket = true;
 
@@ -3489,8 +3591,11 @@ void UPlayFabClientAPI::HelperLoginWithFacebook(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessLoginWithFacebook.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithFacebook.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithFacebook.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3513,6 +3618,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebookInstantGamesId(FClientLog
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithFacebookInstantGamesId);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithFacebookInstantGamesId";
     manager->returnsSessionTicket = true;
 
@@ -3552,8 +3658,11 @@ void UPlayFabClientAPI::HelperLoginWithFacebookInstantGamesId(FPlayFabBaseModel 
     }
     else if (!error.hasError && OnSuccessLoginWithFacebookInstantGamesId.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithFacebookInstantGamesId.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithFacebookInstantGamesId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3576,6 +3685,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGameCenter(FClientLoginWithGameCe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithGameCenter);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithGameCenter";
     manager->returnsSessionTicket = true;
 
@@ -3597,6 +3707,26 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGameCenter(FClientLoginWithGameCe
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
+    if (request.PublicKeyUrl.IsEmpty() || request.PublicKeyUrl == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PublicKeyUrl"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PublicKeyUrl"), request.PublicKeyUrl);
+    }
+    if (request.Salt.IsEmpty() || request.Salt == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Salt"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Salt"), request.Salt);
+    }
+    if (request.Signature.IsEmpty() || request.Signature == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Signature"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Signature"), request.Signature);
+    }
+    if (request.Timestamp.IsEmpty() || request.Timestamp == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Timestamp"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Timestamp"), request.Timestamp);
+    }
     OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
 
     // Add Request to manager
@@ -3615,8 +3745,11 @@ void UPlayFabClientAPI::HelperLoginWithGameCenter(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessLoginWithGameCenter.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithGameCenter.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithGameCenter.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3639,6 +3772,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGoogleAccount(FClientLoginWithGoo
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithGoogleAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithGoogleAccount";
     manager->returnsSessionTicket = true;
 
@@ -3678,8 +3812,11 @@ void UPlayFabClientAPI::HelperLoginWithGoogleAccount(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessLoginWithGoogleAccount.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithGoogleAccount.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithGoogleAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3702,6 +3839,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithIOSDeviceID(FClientLoginWithIOSDe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithIOSDeviceID);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithIOSDeviceID";
     manager->returnsSessionTicket = true;
 
@@ -3751,8 +3889,11 @@ void UPlayFabClientAPI::HelperLoginWithIOSDeviceID(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessLoginWithIOSDeviceID.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithIOSDeviceID.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithIOSDeviceID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3775,6 +3916,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithKongregate(FClientLoginWithKongre
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithKongregate);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithKongregate";
     manager->returnsSessionTicket = true;
 
@@ -3819,8 +3961,11 @@ void UPlayFabClientAPI::HelperLoginWithKongregate(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessLoginWithKongregate.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithKongregate.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithKongregate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3843,6 +3988,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchDeviceId(FClientLog
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithNintendoSwitchDeviceId);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithNintendoSwitchDeviceId";
     manager->returnsSessionTicket = true;
 
@@ -3882,8 +4028,11 @@ void UPlayFabClientAPI::HelperLoginWithNintendoSwitchDeviceId(FPlayFabBaseModel 
     }
     else if (!error.hasError && OnSuccessLoginWithNintendoSwitchDeviceId.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithNintendoSwitchDeviceId.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithNintendoSwitchDeviceId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3906,6 +4055,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithOpenIdConnect(FClientLoginWithOpe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithOpenIdConnect);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithOpenIdConnect";
     manager->returnsSessionTicket = true;
 
@@ -3950,8 +4100,11 @@ void UPlayFabClientAPI::HelperLoginWithOpenIdConnect(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessLoginWithOpenIdConnect.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithOpenIdConnect.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithOpenIdConnect.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3974,6 +4127,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPlayFab(FClientLoginWithPlayFabRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithPlayFab);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithPlayFab";
     manager->returnsSessionTicket = true;
 
@@ -4007,8 +4161,11 @@ void UPlayFabClientAPI::HelperLoginWithPlayFab(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessLoginWithPlayFab.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithPlayFab.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithPlayFab.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4031,6 +4188,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPSN(FClientLoginWithPSNRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithPSN);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithPSN";
     manager->returnsSessionTicket = true;
 
@@ -4076,8 +4234,11 @@ void UPlayFabClientAPI::HelperLoginWithPSN(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessLoginWithPSN.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithPSN.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithPSN.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4100,6 +4261,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithSteam(FClientLoginWithSteamReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithSteam);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithSteam";
     manager->returnsSessionTicket = true;
 
@@ -4139,8 +4301,11 @@ void UPlayFabClientAPI::HelperLoginWithSteam(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessLoginWithSteam.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithSteam.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithSteam.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4163,6 +4328,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithTwitch(FClientLoginWithTwitchRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithTwitch);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithTwitch";
     manager->returnsSessionTicket = true;
 
@@ -4202,8 +4368,11 @@ void UPlayFabClientAPI::HelperLoginWithTwitch(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessLoginWithTwitch.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithTwitch.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithTwitch.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4226,6 +4395,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithWindowsHello(FClientLoginWithWind
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithWindowsHello);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithWindowsHello";
     manager->returnsSessionTicket = true;
 
@@ -4259,8 +4429,11 @@ void UPlayFabClientAPI::HelperLoginWithWindowsHello(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessLoginWithWindowsHello.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithWindowsHello.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithWindowsHello.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4283,6 +4456,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithXbox(FClientLoginWithXboxRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithXbox);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithXbox";
     manager->returnsSessionTicket = true;
 
@@ -4322,8 +4496,11 @@ void UPlayFabClientAPI::HelperLoginWithXbox(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessLoginWithXbox.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessLoginWithXbox.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithXbox.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4346,6 +4523,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterPlayFabUser(FClientRegisterPlayFab
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRegisterPlayFabUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RegisterPlayFabUser";
     manager->returnsSessionTicket = true;
 
@@ -4400,8 +4578,8 @@ void UPlayFabClientAPI::HelperRegisterPlayFabUser(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessRegisterPlayFabUser.IsBound())
     {
-        FClientRegisterPlayFabUserResult result = UPlayFabClientModelDecoder::decodeRegisterPlayFabUserResultResponse(response.responseData);
-        OnSuccessRegisterPlayFabUser.Execute(result, mCustomData);
+        FClientRegisterPlayFabUserResult ResultStruct = UPlayFabClientModelDecoder::decodeRegisterPlayFabUserResultResponse(response.responseData);
+        OnSuccessRegisterPlayFabUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4424,6 +4602,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterWithWindowsHello(FClientRegisterWi
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRegisterWithWindowsHello);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RegisterWithWindowsHello";
     manager->returnsSessionTicket = true;
 
@@ -4472,8 +4651,11 @@ void UPlayFabClientAPI::HelperRegisterWithWindowsHello(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessRegisterWithWindowsHello.IsBound())
     {
-        FClientLoginResult result = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
-        OnSuccessRegisterWithWindowsHello.Execute(result, mCustomData);
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessRegisterWithWindowsHello.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4496,6 +4678,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SetPlayerSecret(FClientSetPlayerSecretRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperSetPlayerSecret);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/SetPlayerSecret";
     manager->useSessionTicket = true;
 
@@ -4527,8 +4710,8 @@ void UPlayFabClientAPI::HelperSetPlayerSecret(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessSetPlayerSecret.IsBound())
     {
-        FClientSetPlayerSecretResult result = UPlayFabClientModelDecoder::decodeSetPlayerSecretResultResponse(response.responseData);
-        OnSuccessSetPlayerSecret.Execute(result, mCustomData);
+        FClientSetPlayerSecretResult ResultStruct = UPlayFabClientModelDecoder::decodeSetPlayerSecretResultResponse(response.responseData);
+        OnSuccessSetPlayerSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4555,6 +4738,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterData(FClientGetCharacterDataRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetCharacterData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCharacterData";
     manager->useSessionTicket = true;
 
@@ -4595,8 +4779,8 @@ void UPlayFabClientAPI::HelperGetCharacterData(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetCharacterData.IsBound())
     {
-        FClientGetCharacterDataResult result = UPlayFabClientModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
-        OnSuccessGetCharacterData.Execute(result, mCustomData);
+        FClientGetCharacterDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
+        OnSuccessGetCharacterData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4619,6 +4803,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterReadOnlyData(FClientGetCharact
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetCharacterReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCharacterReadOnlyData";
     manager->useSessionTicket = true;
 
@@ -4659,8 +4844,9 @@ void UPlayFabClientAPI::HelperGetCharacterReadOnlyData(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessGetCharacterReadOnlyData.IsBound())
     {
-        FClientGetCharacterDataResult result = UPlayFabClientModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
-        OnSuccessGetCharacterReadOnlyData.Execute(result, mCustomData);
+        FClientGetCharacterDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetCharacterReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4683,6 +4869,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateCharacterData(FClientUpdateCharacter
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdateCharacterData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateCharacterData";
     manager->useSessionTicket = true;
 
@@ -4721,8 +4908,8 @@ void UPlayFabClientAPI::HelperUpdateCharacterData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessUpdateCharacterData.IsBound())
     {
-        FClientUpdateCharacterDataResult result = UPlayFabClientModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
-        OnSuccessUpdateCharacterData.Execute(result, mCustomData);
+        FClientUpdateCharacterDataResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
+        OnSuccessUpdateCharacterData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4749,6 +4936,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetAllUsersCharacters(FClientListUsersChar
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetAllUsersCharacters);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetAllUsersCharacters";
     manager->useSessionTicket = true;
 
@@ -4775,8 +4963,8 @@ void UPlayFabClientAPI::HelperGetAllUsersCharacters(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetAllUsersCharacters.IsBound())
     {
-        FClientListUsersCharactersResult result = UPlayFabClientModelDecoder::decodeListUsersCharactersResultResponse(response.responseData);
-        OnSuccessGetAllUsersCharacters.Execute(result, mCustomData);
+        FClientListUsersCharactersResult ResultStruct = UPlayFabClientModelDecoder::decodeListUsersCharactersResultResponse(response.responseData);
+        OnSuccessGetAllUsersCharacters.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4799,6 +4987,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterLeaderboard(FClientGetCharacte
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetCharacterLeaderboard);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCharacterLeaderboard";
     manager->useSessionTicket = true;
 
@@ -4832,8 +5021,8 @@ void UPlayFabClientAPI::HelperGetCharacterLeaderboard(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessGetCharacterLeaderboard.IsBound())
     {
-        FClientGetCharacterLeaderboardResult result = UPlayFabClientModelDecoder::decodeGetCharacterLeaderboardResultResponse(response.responseData);
-        OnSuccessGetCharacterLeaderboard.Execute(result, mCustomData);
+        FClientGetCharacterLeaderboardResult ResultStruct = UPlayFabClientModelDecoder::decodeGetCharacterLeaderboardResultResponse(response.responseData);
+        OnSuccessGetCharacterLeaderboard.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4856,6 +5045,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterStatistics(FClientGetCharacter
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetCharacterStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCharacterStatistics";
     manager->useSessionTicket = true;
 
@@ -4882,8 +5072,8 @@ void UPlayFabClientAPI::HelperGetCharacterStatistics(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessGetCharacterStatistics.IsBound())
     {
-        FClientGetCharacterStatisticsResult result = UPlayFabClientModelDecoder::decodeGetCharacterStatisticsResultResponse(response.responseData);
-        OnSuccessGetCharacterStatistics.Execute(result, mCustomData);
+        FClientGetCharacterStatisticsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetCharacterStatisticsResultResponse(response.responseData);
+        OnSuccessGetCharacterStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4906,6 +5096,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardAroundCharacter(FClientGetLe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetLeaderboardAroundCharacter);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetLeaderboardAroundCharacter";
     manager->useSessionTicket = true;
 
@@ -4943,8 +5134,8 @@ void UPlayFabClientAPI::HelperGetLeaderboardAroundCharacter(FPlayFabBaseModel re
     }
     else if (!error.hasError && OnSuccessGetLeaderboardAroundCharacter.IsBound())
     {
-        FClientGetLeaderboardAroundCharacterResult result = UPlayFabClientModelDecoder::decodeGetLeaderboardAroundCharacterResultResponse(response.responseData);
-        OnSuccessGetLeaderboardAroundCharacter.Execute(result, mCustomData);
+        FClientGetLeaderboardAroundCharacterResult ResultStruct = UPlayFabClientModelDecoder::decodeGetLeaderboardAroundCharacterResultResponse(response.responseData);
+        OnSuccessGetLeaderboardAroundCharacter.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4967,6 +5158,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardForUserCharacters(FClientGet
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetLeaderboardForUserCharacters);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetLeaderboardForUserCharacters";
     manager->useSessionTicket = true;
 
@@ -4994,8 +5186,8 @@ void UPlayFabClientAPI::HelperGetLeaderboardForUserCharacters(FPlayFabBaseModel 
     }
     else if (!error.hasError && OnSuccessGetLeaderboardForUserCharacters.IsBound())
     {
-        FClientGetLeaderboardForUsersCharactersResult result = UPlayFabClientModelDecoder::decodeGetLeaderboardForUsersCharactersResultResponse(response.responseData);
-        OnSuccessGetLeaderboardForUserCharacters.Execute(result, mCustomData);
+        FClientGetLeaderboardForUsersCharactersResult ResultStruct = UPlayFabClientModelDecoder::decodeGetLeaderboardForUsersCharactersResultResponse(response.responseData);
+        OnSuccessGetLeaderboardForUserCharacters.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5018,6 +5210,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GrantCharacterToUser(FClientGrantCharacter
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGrantCharacterToUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GrantCharacterToUser";
     manager->useSessionTicket = true;
 
@@ -5054,8 +5247,8 @@ void UPlayFabClientAPI::HelperGrantCharacterToUser(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGrantCharacterToUser.IsBound())
     {
-        FClientGrantCharacterToUserResult result = UPlayFabClientModelDecoder::decodeGrantCharacterToUserResultResponse(response.responseData);
-        OnSuccessGrantCharacterToUser.Execute(result, mCustomData);
+        FClientGrantCharacterToUserResult ResultStruct = UPlayFabClientModelDecoder::decodeGrantCharacterToUserResultResponse(response.responseData);
+        OnSuccessGrantCharacterToUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5078,6 +5271,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateCharacterStatistics(FClientUpdateCha
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdateCharacterStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateCharacterStatistics";
     manager->useSessionTicket = true;
 
@@ -5105,8 +5299,8 @@ void UPlayFabClientAPI::HelperUpdateCharacterStatistics(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessUpdateCharacterStatistics.IsBound())
     {
-        FClientUpdateCharacterStatisticsResult result = UPlayFabClientModelDecoder::decodeUpdateCharacterStatisticsResultResponse(response.responseData);
-        OnSuccessUpdateCharacterStatistics.Execute(result, mCustomData);
+        FClientUpdateCharacterStatisticsResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdateCharacterStatisticsResultResponse(response.responseData);
+        OnSuccessUpdateCharacterStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5133,6 +5327,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetContentDownloadUrl(FClientGetContentDow
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetContentDownloadUrl);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetContentDownloadUrl";
     manager->useSessionTicket = true;
 
@@ -5165,8 +5360,8 @@ void UPlayFabClientAPI::HelperGetContentDownloadUrl(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetContentDownloadUrl.IsBound())
     {
-        FClientGetContentDownloadUrlResult result = UPlayFabClientModelDecoder::decodeGetContentDownloadUrlResultResponse(response.responseData);
-        OnSuccessGetContentDownloadUrl.Execute(result, mCustomData);
+        FClientGetContentDownloadUrlResult ResultStruct = UPlayFabClientModelDecoder::decodeGetContentDownloadUrlResultResponse(response.responseData);
+        OnSuccessGetContentDownloadUrl.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5193,6 +5388,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddFriend(FClientAddFriendRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAddFriend);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddFriend";
     manager->useSessionTicket = true;
 
@@ -5234,8 +5430,8 @@ void UPlayFabClientAPI::HelperAddFriend(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessAddFriend.IsBound())
     {
-        FClientAddFriendResult result = UPlayFabClientModelDecoder::decodeAddFriendResultResponse(response.responseData);
-        OnSuccessAddFriend.Execute(result, mCustomData);
+        FClientAddFriendResult ResultStruct = UPlayFabClientModelDecoder::decodeAddFriendResultResponse(response.responseData);
+        OnSuccessAddFriend.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5258,6 +5454,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendsList(FClientGetFriendsListReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetFriendsList);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetFriendsList";
     manager->useSessionTicket = true;
 
@@ -5287,8 +5484,8 @@ void UPlayFabClientAPI::HelperGetFriendsList(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetFriendsList.IsBound())
     {
-        FClientGetFriendsListResult result = UPlayFabClientModelDecoder::decodeGetFriendsListResultResponse(response.responseData);
-        OnSuccessGetFriendsList.Execute(result, mCustomData);
+        FClientGetFriendsListResult ResultStruct = UPlayFabClientModelDecoder::decodeGetFriendsListResultResponse(response.responseData);
+        OnSuccessGetFriendsList.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5311,6 +5508,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveFriend(FClientRemoveFriendRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRemoveFriend);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RemoveFriend";
     manager->useSessionTicket = true;
 
@@ -5337,8 +5535,8 @@ void UPlayFabClientAPI::HelperRemoveFriend(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessRemoveFriend.IsBound())
     {
-        FClientRemoveFriendResult result = UPlayFabClientModelDecoder::decodeRemoveFriendResultResponse(response.responseData);
-        OnSuccessRemoveFriend.Execute(result, mCustomData);
+        FClientRemoveFriendResult ResultStruct = UPlayFabClientModelDecoder::decodeRemoveFriendResultResponse(response.responseData);
+        OnSuccessRemoveFriend.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5361,6 +5559,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SetFriendTags(FClientSetFriendTagsRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperSetFriendTags);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/SetFriendTags";
     manager->useSessionTicket = true;
 
@@ -5395,8 +5594,8 @@ void UPlayFabClientAPI::HelperSetFriendTags(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessSetFriendTags.IsBound())
     {
-        FClientSetFriendTagsResult result = UPlayFabClientModelDecoder::decodeSetFriendTagsResultResponse(response.responseData);
-        OnSuccessSetFriendTags.Execute(result, mCustomData);
+        FClientSetFriendTagsResult ResultStruct = UPlayFabClientModelDecoder::decodeSetFriendTagsResultResponse(response.responseData);
+        OnSuccessSetFriendTags.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5423,6 +5622,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCurrentGames(FClientCurrentGamesRequest
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetCurrentGames);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCurrentGames";
     manager->useSessionTicket = true;
 
@@ -5463,8 +5663,8 @@ void UPlayFabClientAPI::HelperGetCurrentGames(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetCurrentGames.IsBound())
     {
-        FClientCurrentGamesResult result = UPlayFabClientModelDecoder::decodeCurrentGamesResultResponse(response.responseData);
-        OnSuccessGetCurrentGames.Execute(result, mCustomData);
+        FClientCurrentGamesResult ResultStruct = UPlayFabClientModelDecoder::decodeCurrentGamesResultResponse(response.responseData);
+        OnSuccessGetCurrentGames.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5487,6 +5687,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetGameServerRegions(FClientGameServerRegi
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetGameServerRegions);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetGameServerRegions";
     manager->useSessionTicket = true;
 
@@ -5514,8 +5715,8 @@ void UPlayFabClientAPI::HelperGetGameServerRegions(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetGameServerRegions.IsBound())
     {
-        FClientGameServerRegionsResult result = UPlayFabClientModelDecoder::decodeGameServerRegionsResultResponse(response.responseData);
-        OnSuccessGetGameServerRegions.Execute(result, mCustomData);
+        FClientGameServerRegionsResult ResultStruct = UPlayFabClientModelDecoder::decodeGameServerRegionsResultResponse(response.responseData);
+        OnSuccessGetGameServerRegions.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5538,6 +5739,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::Matchmake(FClientMatchmakeRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperMatchmake);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/Matchmake";
     manager->useSessionTicket = true;
 
@@ -5589,8 +5791,8 @@ void UPlayFabClientAPI::HelperMatchmake(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessMatchmake.IsBound())
     {
-        FClientMatchmakeResult result = UPlayFabClientModelDecoder::decodeMatchmakeResultResponse(response.responseData);
-        OnSuccessMatchmake.Execute(result, mCustomData);
+        FClientMatchmakeResult ResultStruct = UPlayFabClientModelDecoder::decodeMatchmakeResultResponse(response.responseData);
+        OnSuccessMatchmake.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5613,6 +5815,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::StartGame(FClientStartGameRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperStartGame);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/StartGame";
     manager->useSessionTicket = true;
 
@@ -5662,8 +5865,8 @@ void UPlayFabClientAPI::HelperStartGame(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessStartGame.IsBound())
     {
-        FClientStartGameResult result = UPlayFabClientModelDecoder::decodeStartGameResultResponse(response.responseData);
-        OnSuccessStartGame.Execute(result, mCustomData);
+        FClientStartGameResult ResultStruct = UPlayFabClientModelDecoder::decodeStartGameResultResponse(response.responseData);
+        OnSuccessStartGame.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5690,6 +5893,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AndroidDevicePushNotificationRegistration(
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAndroidDevicePushNotificationRegistration);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AndroidDevicePushNotificationRegistration";
     manager->useSessionTicket = true;
 
@@ -5722,8 +5926,8 @@ void UPlayFabClientAPI::HelperAndroidDevicePushNotificationRegistration(FPlayFab
     }
     else if (!error.hasError && OnSuccessAndroidDevicePushNotificationRegistration.IsBound())
     {
-        FClientAndroidDevicePushNotificationRegistrationResult result = UPlayFabClientModelDecoder::decodeAndroidDevicePushNotificationRegistrationResultResponse(response.responseData);
-        OnSuccessAndroidDevicePushNotificationRegistration.Execute(result, mCustomData);
+        FClientAndroidDevicePushNotificationRegistrationResult ResultStruct = UPlayFabClientModelDecoder::decodeAndroidDevicePushNotificationRegistrationResultResponse(response.responseData);
+        OnSuccessAndroidDevicePushNotificationRegistration.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5746,6 +5950,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumePSNEntitlements(FClientConsumePSNEn
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConsumePSNEntitlements);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ConsumePSNEntitlements";
     manager->useSessionTicket = true;
 
@@ -5773,8 +5978,8 @@ void UPlayFabClientAPI::HelperConsumePSNEntitlements(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessConsumePSNEntitlements.IsBound())
     {
-        FClientConsumePSNEntitlementsResult result = UPlayFabClientModelDecoder::decodeConsumePSNEntitlementsResultResponse(response.responseData);
-        OnSuccessConsumePSNEntitlements.Execute(result, mCustomData);
+        FClientConsumePSNEntitlementsResult ResultStruct = UPlayFabClientModelDecoder::decodeConsumePSNEntitlementsResultResponse(response.responseData);
+        OnSuccessConsumePSNEntitlements.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5797,6 +6002,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumeXboxEntitlements(FClientConsumeXbox
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConsumeXboxEntitlements);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ConsumeXboxEntitlements";
     manager->useSessionTicket = true;
 
@@ -5828,8 +6034,8 @@ void UPlayFabClientAPI::HelperConsumeXboxEntitlements(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessConsumeXboxEntitlements.IsBound())
     {
-        FClientConsumeXboxEntitlementsResult result = UPlayFabClientModelDecoder::decodeConsumeXboxEntitlementsResultResponse(response.responseData);
-        OnSuccessConsumeXboxEntitlements.Execute(result, mCustomData);
+        FClientConsumeXboxEntitlementsResult ResultStruct = UPlayFabClientModelDecoder::decodeConsumeXboxEntitlementsResultResponse(response.responseData);
+        OnSuccessConsumeXboxEntitlements.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5852,6 +6058,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RefreshPSNAuthToken(FClientRefreshPSNAuthT
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRefreshPSNAuthToken);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RefreshPSNAuthToken";
     manager->useSessionTicket = true;
 
@@ -5884,8 +6091,9 @@ void UPlayFabClientAPI::HelperRefreshPSNAuthToken(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessRefreshPSNAuthToken.IsBound())
     {
-        FClientEmptyResponse result = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessRefreshPSNAuthToken.Execute(result, mCustomData);
+        FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRefreshPSNAuthToken.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5908,6 +6116,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterForIOSPushNotification(FClientRegi
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRegisterForIOSPushNotification);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RegisterForIOSPushNotification";
     manager->useSessionTicket = true;
 
@@ -5940,8 +6149,8 @@ void UPlayFabClientAPI::HelperRegisterForIOSPushNotification(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessRegisterForIOSPushNotification.IsBound())
     {
-        FClientRegisterForIOSPushNotificationResult result = UPlayFabClientModelDecoder::decodeRegisterForIOSPushNotificationResultResponse(response.responseData);
-        OnSuccessRegisterForIOSPushNotification.Execute(result, mCustomData);
+        FClientRegisterForIOSPushNotificationResult ResultStruct = UPlayFabClientModelDecoder::decodeRegisterForIOSPushNotificationResultResponse(response.responseData);
+        OnSuccessRegisterForIOSPushNotification.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5964,6 +6173,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RestoreIOSPurchases(FClientRestoreIOSPurch
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRestoreIOSPurchases);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RestoreIOSPurchases";
     manager->useSessionTicket = true;
 
@@ -5990,8 +6200,8 @@ void UPlayFabClientAPI::HelperRestoreIOSPurchases(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessRestoreIOSPurchases.IsBound())
     {
-        FClientRestoreIOSPurchasesResult result = UPlayFabClientModelDecoder::decodeRestoreIOSPurchasesResultResponse(response.responseData);
-        OnSuccessRestoreIOSPurchases.Execute(result, mCustomData);
+        FClientRestoreIOSPurchasesResult ResultStruct = UPlayFabClientModelDecoder::decodeRestoreIOSPurchasesResultResponse(response.responseData);
+        OnSuccessRestoreIOSPurchases.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6014,6 +6224,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateAmazonIAPReceipt(FClientValidateAm
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperValidateAmazonIAPReceipt);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ValidateAmazonIAPReceipt";
     manager->useSessionTicket = true;
 
@@ -6056,8 +6267,8 @@ void UPlayFabClientAPI::HelperValidateAmazonIAPReceipt(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessValidateAmazonIAPReceipt.IsBound())
     {
-        FClientValidateAmazonReceiptResult result = UPlayFabClientModelDecoder::decodeValidateAmazonReceiptResultResponse(response.responseData);
-        OnSuccessValidateAmazonIAPReceipt.Execute(result, mCustomData);
+        FClientValidateAmazonReceiptResult ResultStruct = UPlayFabClientModelDecoder::decodeValidateAmazonReceiptResultResponse(response.responseData);
+        OnSuccessValidateAmazonIAPReceipt.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6080,6 +6291,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateGooglePlayPurchase(FClientValidate
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperValidateGooglePlayPurchase);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ValidateGooglePlayPurchase";
     manager->useSessionTicket = true;
 
@@ -6117,8 +6329,8 @@ void UPlayFabClientAPI::HelperValidateGooglePlayPurchase(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessValidateGooglePlayPurchase.IsBound())
     {
-        FClientValidateGooglePlayPurchaseResult result = UPlayFabClientModelDecoder::decodeValidateGooglePlayPurchaseResultResponse(response.responseData);
-        OnSuccessValidateGooglePlayPurchase.Execute(result, mCustomData);
+        FClientValidateGooglePlayPurchaseResult ResultStruct = UPlayFabClientModelDecoder::decodeValidateGooglePlayPurchaseResultResponse(response.responseData);
+        OnSuccessValidateGooglePlayPurchase.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6141,6 +6353,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateIOSReceipt(FClientValidateIOSRecei
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperValidateIOSReceipt);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ValidateIOSReceipt";
     manager->useSessionTicket = true;
 
@@ -6173,8 +6386,8 @@ void UPlayFabClientAPI::HelperValidateIOSReceipt(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessValidateIOSReceipt.IsBound())
     {
-        FClientValidateIOSReceiptResult result = UPlayFabClientModelDecoder::decodeValidateIOSReceiptResultResponse(response.responseData);
-        OnSuccessValidateIOSReceipt.Execute(result, mCustomData);
+        FClientValidateIOSReceiptResult ResultStruct = UPlayFabClientModelDecoder::decodeValidateIOSReceiptResultResponse(response.responseData);
+        OnSuccessValidateIOSReceipt.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6197,6 +6410,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateWindowsStoreReceipt(FClientValidat
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperValidateWindowsStoreReceipt);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ValidateWindowsStoreReceipt";
     manager->useSessionTicket = true;
 
@@ -6234,8 +6448,8 @@ void UPlayFabClientAPI::HelperValidateWindowsStoreReceipt(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessValidateWindowsStoreReceipt.IsBound())
     {
-        FClientValidateWindowsReceiptResult result = UPlayFabClientModelDecoder::decodeValidateWindowsReceiptResultResponse(response.responseData);
-        OnSuccessValidateWindowsStoreReceipt.Execute(result, mCustomData);
+        FClientValidateWindowsReceiptResult ResultStruct = UPlayFabClientModelDecoder::decodeValidateWindowsReceiptResultResponse(response.responseData);
+        OnSuccessValidateWindowsStoreReceipt.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6262,6 +6476,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboard(FClientGetFriendLeade
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetFriendLeaderboard);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetFriendLeaderboard";
     manager->useSessionTicket = true;
 
@@ -6300,8 +6515,8 @@ void UPlayFabClientAPI::HelperGetFriendLeaderboard(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetFriendLeaderboard.IsBound())
     {
-        FClientGetLeaderboardResult result = UPlayFabClientModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
-        OnSuccessGetFriendLeaderboard.Execute(result, mCustomData);
+        FClientGetLeaderboardResult ResultStruct = UPlayFabClientModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
+        OnSuccessGetFriendLeaderboard.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6324,6 +6539,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboardAroundPlayer(FClientGe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetFriendLeaderboardAroundPlayer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetFriendLeaderboardAroundPlayer";
     manager->useSessionTicket = true;
 
@@ -6366,8 +6582,8 @@ void UPlayFabClientAPI::HelperGetFriendLeaderboardAroundPlayer(FPlayFabBaseModel
     }
     else if (!error.hasError && OnSuccessGetFriendLeaderboardAroundPlayer.IsBound())
     {
-        FClientGetFriendLeaderboardAroundPlayerResult result = UPlayFabClientModelDecoder::decodeGetFriendLeaderboardAroundPlayerResultResponse(response.responseData);
-        OnSuccessGetFriendLeaderboardAroundPlayer.Execute(result, mCustomData);
+        FClientGetFriendLeaderboardAroundPlayerResult ResultStruct = UPlayFabClientModelDecoder::decodeGetFriendLeaderboardAroundPlayerResultResponse(response.responseData);
+        OnSuccessGetFriendLeaderboardAroundPlayer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6390,6 +6606,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboard(FClientGetLeaderboardReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetLeaderboard);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetLeaderboard";
     manager->useSessionTicket = true;
 
@@ -6421,8 +6638,9 @@ void UPlayFabClientAPI::HelperGetLeaderboard(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetLeaderboard.IsBound())
     {
-        FClientGetLeaderboardResult result = UPlayFabClientModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
-        OnSuccessGetLeaderboard.Execute(result, mCustomData);
+        FClientGetLeaderboardResult ResultStruct = UPlayFabClientModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetLeaderboard.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6445,6 +6663,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardAroundPlayer(FClientGetLeade
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetLeaderboardAroundPlayer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetLeaderboardAroundPlayer";
     manager->useSessionTicket = true;
 
@@ -6480,8 +6699,8 @@ void UPlayFabClientAPI::HelperGetLeaderboardAroundPlayer(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessGetLeaderboardAroundPlayer.IsBound())
     {
-        FClientGetLeaderboardAroundPlayerResult result = UPlayFabClientModelDecoder::decodeGetLeaderboardAroundPlayerResultResponse(response.responseData);
-        OnSuccessGetLeaderboardAroundPlayer.Execute(result, mCustomData);
+        FClientGetLeaderboardAroundPlayerResult ResultStruct = UPlayFabClientModelDecoder::decodeGetLeaderboardAroundPlayerResultResponse(response.responseData);
+        OnSuccessGetLeaderboardAroundPlayer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6504,6 +6723,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerStatistics(FClientGetPlayerStatis
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerStatistics";
     manager->useSessionTicket = true;
 
@@ -6538,8 +6758,8 @@ void UPlayFabClientAPI::HelperGetPlayerStatistics(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetPlayerStatistics.IsBound())
     {
-        FClientGetPlayerStatisticsResult result = UPlayFabClientModelDecoder::decodeGetPlayerStatisticsResultResponse(response.responseData);
-        OnSuccessGetPlayerStatistics.Execute(result, mCustomData);
+        FClientGetPlayerStatisticsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerStatisticsResultResponse(response.responseData);
+        OnSuccessGetPlayerStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6562,6 +6782,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerStatisticVersions(FClientGetPlaye
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerStatisticVersions);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerStatisticVersions";
     manager->useSessionTicket = true;
 
@@ -6588,8 +6809,8 @@ void UPlayFabClientAPI::HelperGetPlayerStatisticVersions(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessGetPlayerStatisticVersions.IsBound())
     {
-        FClientGetPlayerStatisticVersionsResult result = UPlayFabClientModelDecoder::decodeGetPlayerStatisticVersionsResultResponse(response.responseData);
-        OnSuccessGetPlayerStatisticVersions.Execute(result, mCustomData);
+        FClientGetPlayerStatisticVersionsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerStatisticVersionsResultResponse(response.responseData);
+        OnSuccessGetPlayerStatisticVersions.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6612,6 +6833,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserData(FClientGetUserDataRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetUserData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserData";
     manager->useSessionTicket = true;
 
@@ -6647,8 +6869,8 @@ void UPlayFabClientAPI::HelperGetUserData(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessGetUserData.IsBound())
     {
-        FClientGetUserDataResult result = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserData.Execute(result, mCustomData);
+        FClientGetUserDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        OnSuccessGetUserData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6671,6 +6893,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserPublisherData(FClientGetUserDataReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetUserPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserPublisherData";
     manager->useSessionTicket = true;
 
@@ -6706,8 +6929,9 @@ void UPlayFabClientAPI::HelperGetUserPublisherData(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetUserPublisherData.IsBound())
     {
-        FClientGetUserDataResult result = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherData.Execute(result, mCustomData);
+        FClientGetUserDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6730,6 +6954,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserPublisherReadOnlyData(FClientGetUse
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetUserPublisherReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserPublisherReadOnlyData";
     manager->useSessionTicket = true;
 
@@ -6765,8 +6990,9 @@ void UPlayFabClientAPI::HelperGetUserPublisherReadOnlyData(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetUserPublisherReadOnlyData.IsBound())
     {
-        FClientGetUserDataResult result = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherReadOnlyData.Execute(result, mCustomData);
+        FClientGetUserDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6789,6 +7015,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserReadOnlyData(FClientGetUserDataRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetUserReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserReadOnlyData";
     manager->useSessionTicket = true;
 
@@ -6824,8 +7051,9 @@ void UPlayFabClientAPI::HelperGetUserReadOnlyData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetUserReadOnlyData.IsBound())
     {
-        FClientGetUserDataResult result = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserReadOnlyData.Execute(result, mCustomData);
+        FClientGetUserDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6848,6 +7076,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdatePlayerStatistics(FClientUpdatePlayer
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdatePlayerStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdatePlayerStatistics";
     manager->useSessionTicket = true;
 
@@ -6874,8 +7103,8 @@ void UPlayFabClientAPI::HelperUpdatePlayerStatistics(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessUpdatePlayerStatistics.IsBound())
     {
-        FClientUpdatePlayerStatisticsResult result = UPlayFabClientModelDecoder::decodeUpdatePlayerStatisticsResultResponse(response.responseData);
-        OnSuccessUpdatePlayerStatistics.Execute(result, mCustomData);
+        FClientUpdatePlayerStatisticsResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdatePlayerStatisticsResultResponse(response.responseData);
+        OnSuccessUpdatePlayerStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6898,6 +7127,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserData(FClientUpdateUserDataReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdateUserData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateUserData";
     manager->useSessionTicket = true;
 
@@ -6931,8 +7161,8 @@ void UPlayFabClientAPI::HelperUpdateUserData(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessUpdateUserData.IsBound())
     {
-        FClientUpdateUserDataResult result = UPlayFabClientModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserData.Execute(result, mCustomData);
+        FClientUpdateUserDataResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        OnSuccessUpdateUserData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6955,6 +7185,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserPublisherData(FClientUpdateUserD
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdateUserPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateUserPublisherData";
     manager->useSessionTicket = true;
 
@@ -6988,8 +7219,9 @@ void UPlayFabClientAPI::HelperUpdateUserPublisherData(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUpdateUserPublisherData.IsBound())
     {
-        FClientUpdateUserDataResult result = UPlayFabClientModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserPublisherData.Execute(result, mCustomData);
+        FClientUpdateUserDataResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7016,6 +7248,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddUserVirtualCurrency(FClientAddUserVirtu
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAddUserVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddUserVirtualCurrency";
     manager->useSessionTicket = true;
 
@@ -7043,8 +7276,8 @@ void UPlayFabClientAPI::HelperAddUserVirtualCurrency(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessAddUserVirtualCurrency.IsBound())
     {
-        FClientModifyUserVirtualCurrencyResult result = UPlayFabClientModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessAddUserVirtualCurrency.Execute(result, mCustomData);
+        FClientModifyUserVirtualCurrencyResult ResultStruct = UPlayFabClientModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
+        OnSuccessAddUserVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7067,6 +7300,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConfirmPurchase(FClientConfirmPurchaseRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConfirmPurchase);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ConfirmPurchase";
     manager->useSessionTicket = true;
 
@@ -7093,8 +7327,8 @@ void UPlayFabClientAPI::HelperConfirmPurchase(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessConfirmPurchase.IsBound())
     {
-        FClientConfirmPurchaseResult result = UPlayFabClientModelDecoder::decodeConfirmPurchaseResultResponse(response.responseData);
-        OnSuccessConfirmPurchase.Execute(result, mCustomData);
+        FClientConfirmPurchaseResult ResultStruct = UPlayFabClientModelDecoder::decodeConfirmPurchaseResultResponse(response.responseData);
+        OnSuccessConfirmPurchase.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7117,6 +7351,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumeItem(FClientConsumeItemRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConsumeItem);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ConsumeItem";
     manager->useSessionTicket = true;
 
@@ -7149,8 +7384,8 @@ void UPlayFabClientAPI::HelperConsumeItem(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessConsumeItem.IsBound())
     {
-        FClientConsumeItemResult result = UPlayFabClientModelDecoder::decodeConsumeItemResultResponse(response.responseData);
-        OnSuccessConsumeItem.Execute(result, mCustomData);
+        FClientConsumeItemResult ResultStruct = UPlayFabClientModelDecoder::decodeConsumeItemResultResponse(response.responseData);
+        OnSuccessConsumeItem.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7173,6 +7408,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterInventory(FClientGetCharacterI
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetCharacterInventory);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCharacterInventory";
     manager->useSessionTicket = true;
 
@@ -7204,8 +7440,8 @@ void UPlayFabClientAPI::HelperGetCharacterInventory(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetCharacterInventory.IsBound())
     {
-        FClientGetCharacterInventoryResult result = UPlayFabClientModelDecoder::decodeGetCharacterInventoryResultResponse(response.responseData);
-        OnSuccessGetCharacterInventory.Execute(result, mCustomData);
+        FClientGetCharacterInventoryResult ResultStruct = UPlayFabClientModelDecoder::decodeGetCharacterInventoryResultResponse(response.responseData);
+        OnSuccessGetCharacterInventory.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7228,6 +7464,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPaymentToken(FClientGetPaymentTokenRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPaymentToken);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPaymentToken";
     manager->useSessionTicket = true;
 
@@ -7254,8 +7491,8 @@ void UPlayFabClientAPI::HelperGetPaymentToken(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetPaymentToken.IsBound())
     {
-        FClientGetPaymentTokenResult result = UPlayFabClientModelDecoder::decodeGetPaymentTokenResultResponse(response.responseData);
-        OnSuccessGetPaymentToken.Execute(result, mCustomData);
+        FClientGetPaymentTokenResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPaymentTokenResultResponse(response.responseData);
+        OnSuccessGetPaymentToken.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7278,6 +7515,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPurchase(FClientGetPurchaseRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPurchase);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPurchase";
     manager->useSessionTicket = true;
 
@@ -7304,8 +7542,8 @@ void UPlayFabClientAPI::HelperGetPurchase(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessGetPurchase.IsBound())
     {
-        FClientGetPurchaseResult result = UPlayFabClientModelDecoder::decodeGetPurchaseResultResponse(response.responseData);
-        OnSuccessGetPurchase.Execute(result, mCustomData);
+        FClientGetPurchaseResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPurchaseResultResponse(response.responseData);
+        OnSuccessGetPurchase.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7328,6 +7566,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserInventory(FClientGetUserInventoryRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetUserInventory);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserInventory";
     manager->useSessionTicket = true;
 
@@ -7349,8 +7588,8 @@ void UPlayFabClientAPI::HelperGetUserInventory(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetUserInventory.IsBound())
     {
-        FClientGetUserInventoryResult result = UPlayFabClientModelDecoder::decodeGetUserInventoryResultResponse(response.responseData);
-        OnSuccessGetUserInventory.Execute(result, mCustomData);
+        FClientGetUserInventoryResult ResultStruct = UPlayFabClientModelDecoder::decodeGetUserInventoryResultResponse(response.responseData);
+        OnSuccessGetUserInventory.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7373,6 +7612,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::PayForPurchase(FClientPayForPurchaseReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperPayForPurchase);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/PayForPurchase";
     manager->useSessionTicket = true;
 
@@ -7414,8 +7654,8 @@ void UPlayFabClientAPI::HelperPayForPurchase(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessPayForPurchase.IsBound())
     {
-        FClientPayForPurchaseResult result = UPlayFabClientModelDecoder::decodePayForPurchaseResultResponse(response.responseData);
-        OnSuccessPayForPurchase.Execute(result, mCustomData);
+        FClientPayForPurchaseResult ResultStruct = UPlayFabClientModelDecoder::decodePayForPurchaseResultResponse(response.responseData);
+        OnSuccessPayForPurchase.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7438,6 +7678,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::PurchaseItem(FClientPurchaseItemRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperPurchaseItem);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/PurchaseItem";
     manager->useSessionTicket = true;
 
@@ -7485,8 +7726,8 @@ void UPlayFabClientAPI::HelperPurchaseItem(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessPurchaseItem.IsBound())
     {
-        FClientPurchaseItemResult result = UPlayFabClientModelDecoder::decodePurchaseItemResultResponse(response.responseData);
-        OnSuccessPurchaseItem.Execute(result, mCustomData);
+        FClientPurchaseItemResult ResultStruct = UPlayFabClientModelDecoder::decodePurchaseItemResultResponse(response.responseData);
+        OnSuccessPurchaseItem.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7509,6 +7750,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RedeemCoupon(FClientRedeemCouponRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRedeemCoupon);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RedeemCoupon";
     manager->useSessionTicket = true;
 
@@ -7545,8 +7787,8 @@ void UPlayFabClientAPI::HelperRedeemCoupon(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessRedeemCoupon.IsBound())
     {
-        FClientRedeemCouponResult result = UPlayFabClientModelDecoder::decodeRedeemCouponResultResponse(response.responseData);
-        OnSuccessRedeemCoupon.Execute(result, mCustomData);
+        FClientRedeemCouponResult ResultStruct = UPlayFabClientModelDecoder::decodeRedeemCouponResultResponse(response.responseData);
+        OnSuccessRedeemCoupon.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7569,6 +7811,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::StartPurchase(FClientStartPurchaseRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperStartPurchase);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/StartPurchase";
     manager->useSessionTicket = true;
 
@@ -7605,8 +7848,8 @@ void UPlayFabClientAPI::HelperStartPurchase(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessStartPurchase.IsBound())
     {
-        FClientStartPurchaseResult result = UPlayFabClientModelDecoder::decodeStartPurchaseResultResponse(response.responseData);
-        OnSuccessStartPurchase.Execute(result, mCustomData);
+        FClientStartPurchaseResult ResultStruct = UPlayFabClientModelDecoder::decodeStartPurchaseResultResponse(response.responseData);
+        OnSuccessStartPurchase.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7629,6 +7872,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SubtractUserVirtualCurrency(FClientSubtrac
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperSubtractUserVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/SubtractUserVirtualCurrency";
     manager->useSessionTicket = true;
 
@@ -7656,8 +7900,9 @@ void UPlayFabClientAPI::HelperSubtractUserVirtualCurrency(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessSubtractUserVirtualCurrency.IsBound())
     {
-        FClientModifyUserVirtualCurrencyResult result = UPlayFabClientModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessSubtractUserVirtualCurrency.Execute(result, mCustomData);
+        FClientModifyUserVirtualCurrencyResult ResultStruct = UPlayFabClientModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSubtractUserVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7680,6 +7925,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerInstance(FClientUnlockConta
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlockContainerInstance);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlockContainerInstance";
     manager->useSessionTicket = true;
 
@@ -7721,8 +7967,8 @@ void UPlayFabClientAPI::HelperUnlockContainerInstance(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUnlockContainerInstance.IsBound())
     {
-        FClientUnlockContainerItemResult result = UPlayFabClientModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
-        OnSuccessUnlockContainerInstance.Execute(result, mCustomData);
+        FClientUnlockContainerItemResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
+        OnSuccessUnlockContainerInstance.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7745,6 +7991,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerItem(FClientUnlockContainer
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlockContainerItem);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlockContainerItem";
     manager->useSessionTicket = true;
 
@@ -7781,8 +8028,9 @@ void UPlayFabClientAPI::HelperUnlockContainerItem(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessUnlockContainerItem.IsBound())
     {
-        FClientUnlockContainerItemResult result = UPlayFabClientModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
-        OnSuccessUnlockContainerItem.Execute(result, mCustomData);
+        FClientUnlockContainerItemResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUnlockContainerItem.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7809,6 +8057,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerSegments(FClientGetPlayerSegments
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerSegments);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerSegments";
     manager->useSessionTicket = true;
 
@@ -7830,8 +8079,8 @@ void UPlayFabClientAPI::HelperGetPlayerSegments(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGetPlayerSegments.IsBound())
     {
-        FClientGetPlayerSegmentsResult result = UPlayFabClientModelDecoder::decodeGetPlayerSegmentsResultResponse(response.responseData);
-        OnSuccessGetPlayerSegments.Execute(result, mCustomData);
+        FClientGetPlayerSegmentsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerSegmentsResultResponse(response.responseData);
+        OnSuccessGetPlayerSegments.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7854,6 +8103,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerTags(FClientGetPlayerTagsRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerTags);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerTags";
     manager->useSessionTicket = true;
 
@@ -7885,8 +8135,8 @@ void UPlayFabClientAPI::HelperGetPlayerTags(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessGetPlayerTags.IsBound())
     {
-        FClientGetPlayerTagsResult result = UPlayFabClientModelDecoder::decodeGetPlayerTagsResultResponse(response.responseData);
-        OnSuccessGetPlayerTags.Execute(result, mCustomData);
+        FClientGetPlayerTagsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerTagsResultResponse(response.responseData);
+        OnSuccessGetPlayerTags.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7913,6 +8163,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ExecuteCloudScript(FClientExecuteCloudScri
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperExecuteCloudScript);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ExecuteCloudScript";
     manager->useSessionTicket = true;
 
@@ -7945,8 +8196,8 @@ void UPlayFabClientAPI::HelperExecuteCloudScript(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessExecuteCloudScript.IsBound())
     {
-        FClientExecuteCloudScriptResult result = UPlayFabClientModelDecoder::decodeExecuteCloudScriptResultResponse(response.responseData);
-        OnSuccessExecuteCloudScript.Execute(result, mCustomData);
+        FClientExecuteCloudScriptResult ResultStruct = UPlayFabClientModelDecoder::decodeExecuteCloudScriptResultResponse(response.responseData);
+        OnSuccessExecuteCloudScript.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7973,6 +8224,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddSharedGroupMembers(FClientAddSharedGrou
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAddSharedGroupMembers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddSharedGroupMembers";
     manager->useSessionTicket = true;
 
@@ -8007,8 +8259,8 @@ void UPlayFabClientAPI::HelperAddSharedGroupMembers(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessAddSharedGroupMembers.IsBound())
     {
-        FClientAddSharedGroupMembersResult result = UPlayFabClientModelDecoder::decodeAddSharedGroupMembersResultResponse(response.responseData);
-        OnSuccessAddSharedGroupMembers.Execute(result, mCustomData);
+        FClientAddSharedGroupMembersResult ResultStruct = UPlayFabClientModelDecoder::decodeAddSharedGroupMembersResultResponse(response.responseData);
+        OnSuccessAddSharedGroupMembers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8031,6 +8283,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::CreateSharedGroup(FClientCreateSharedGroup
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperCreateSharedGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/CreateSharedGroup";
     manager->useSessionTicket = true;
 
@@ -8057,8 +8310,8 @@ void UPlayFabClientAPI::HelperCreateSharedGroup(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessCreateSharedGroup.IsBound())
     {
-        FClientCreateSharedGroupResult result = UPlayFabClientModelDecoder::decodeCreateSharedGroupResultResponse(response.responseData);
-        OnSuccessCreateSharedGroup.Execute(result, mCustomData);
+        FClientCreateSharedGroupResult ResultStruct = UPlayFabClientModelDecoder::decodeCreateSharedGroupResultResponse(response.responseData);
+        OnSuccessCreateSharedGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8081,6 +8334,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetSharedGroupData(FClientGetSharedGroupDa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetSharedGroupData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetSharedGroupData";
     manager->useSessionTicket = true;
 
@@ -8116,8 +8370,8 @@ void UPlayFabClientAPI::HelperGetSharedGroupData(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessGetSharedGroupData.IsBound())
     {
-        FClientGetSharedGroupDataResult result = UPlayFabClientModelDecoder::decodeGetSharedGroupDataResultResponse(response.responseData);
-        OnSuccessGetSharedGroupData.Execute(result, mCustomData);
+        FClientGetSharedGroupDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetSharedGroupDataResultResponse(response.responseData);
+        OnSuccessGetSharedGroupData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8140,6 +8394,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveSharedGroupMembers(FClientRemoveShar
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRemoveSharedGroupMembers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RemoveSharedGroupMembers";
     manager->useSessionTicket = true;
 
@@ -8174,8 +8429,8 @@ void UPlayFabClientAPI::HelperRemoveSharedGroupMembers(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessRemoveSharedGroupMembers.IsBound())
     {
-        FClientRemoveSharedGroupMembersResult result = UPlayFabClientModelDecoder::decodeRemoveSharedGroupMembersResultResponse(response.responseData);
-        OnSuccessRemoveSharedGroupMembers.Execute(result, mCustomData);
+        FClientRemoveSharedGroupMembersResult ResultStruct = UPlayFabClientModelDecoder::decodeRemoveSharedGroupMembersResultResponse(response.responseData);
+        OnSuccessRemoveSharedGroupMembers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8198,6 +8453,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateSharedGroupData(FClientUpdateSharedG
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdateSharedGroupData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateSharedGroupData";
     manager->useSessionTicket = true;
 
@@ -8236,8 +8492,8 @@ void UPlayFabClientAPI::HelperUpdateSharedGroupData(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessUpdateSharedGroupData.IsBound())
     {
-        FClientUpdateSharedGroupDataResult result = UPlayFabClientModelDecoder::decodeUpdateSharedGroupDataResultResponse(response.responseData);
-        OnSuccessUpdateSharedGroupData.Execute(result, mCustomData);
+        FClientUpdateSharedGroupDataResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdateSharedGroupDataResultResponse(response.responseData);
+        OnSuccessUpdateSharedGroupData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8264,6 +8520,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCatalogItems(FClientGetCatalogItemsRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetCatalogItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCatalogItems";
     manager->useSessionTicket = true;
 
@@ -8290,8 +8547,8 @@ void UPlayFabClientAPI::HelperGetCatalogItems(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetCatalogItems.IsBound())
     {
-        FClientGetCatalogItemsResult result = UPlayFabClientModelDecoder::decodeGetCatalogItemsResultResponse(response.responseData);
-        OnSuccessGetCatalogItems.Execute(result, mCustomData);
+        FClientGetCatalogItemsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetCatalogItemsResultResponse(response.responseData);
+        OnSuccessGetCatalogItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8314,6 +8571,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPublisherData(FClientGetPublisherDataRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPublisherData";
     manager->useSessionTicket = true;
 
@@ -8343,8 +8601,8 @@ void UPlayFabClientAPI::HelperGetPublisherData(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetPublisherData.IsBound())
     {
-        FClientGetPublisherDataResult result = UPlayFabClientModelDecoder::decodeGetPublisherDataResultResponse(response.responseData);
-        OnSuccessGetPublisherData.Execute(result, mCustomData);
+        FClientGetPublisherDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPublisherDataResultResponse(response.responseData);
+        OnSuccessGetPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8367,6 +8625,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetStoreItems(FClientGetStoreItemsRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetStoreItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetStoreItems";
     manager->useSessionTicket = true;
 
@@ -8398,8 +8657,8 @@ void UPlayFabClientAPI::HelperGetStoreItems(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessGetStoreItems.IsBound())
     {
-        FClientGetStoreItemsResult result = UPlayFabClientModelDecoder::decodeGetStoreItemsResultResponse(response.responseData);
-        OnSuccessGetStoreItems.Execute(result, mCustomData);
+        FClientGetStoreItemsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetStoreItemsResultResponse(response.responseData);
+        OnSuccessGetStoreItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8422,6 +8681,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTime(FClientGetTimeRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetTime);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTime";
     manager->useSessionTicket = true;
 
@@ -8443,8 +8703,8 @@ void UPlayFabClientAPI::HelperGetTime(FPlayFabBaseModel response, UObject* custo
     }
     else if (!error.hasError && OnSuccessGetTime.IsBound())
     {
-        FClientGetTimeResult result = UPlayFabClientModelDecoder::decodeGetTimeResultResponse(response.responseData);
-        OnSuccessGetTime.Execute(result, mCustomData);
+        FClientGetTimeResult ResultStruct = UPlayFabClientModelDecoder::decodeGetTimeResultResponse(response.responseData);
+        OnSuccessGetTime.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8467,6 +8727,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitleData(FClientGetTitleDataRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetTitleData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTitleData";
     manager->useSessionTicket = true;
 
@@ -8496,8 +8757,8 @@ void UPlayFabClientAPI::HelperGetTitleData(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetTitleData.IsBound())
     {
-        FClientGetTitleDataResult result = UPlayFabClientModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
-        OnSuccessGetTitleData.Execute(result, mCustomData);
+        FClientGetTitleDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
+        OnSuccessGetTitleData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8520,6 +8781,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitleNews(FClientGetTitleNewsRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetTitleNews);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTitleNews";
     manager->useSessionTicket = true;
 
@@ -8542,8 +8804,8 @@ void UPlayFabClientAPI::HelperGetTitleNews(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetTitleNews.IsBound())
     {
-        FClientGetTitleNewsResult result = UPlayFabClientModelDecoder::decodeGetTitleNewsResultResponse(response.responseData);
-        OnSuccessGetTitleNews.Execute(result, mCustomData);
+        FClientGetTitleNewsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetTitleNewsResultResponse(response.responseData);
+        OnSuccessGetTitleNews.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8570,6 +8832,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AcceptTrade(FClientAcceptTradeRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAcceptTrade);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AcceptTrade";
     manager->useSessionTicket = true;
 
@@ -8609,8 +8872,8 @@ void UPlayFabClientAPI::HelperAcceptTrade(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessAcceptTrade.IsBound())
     {
-        FClientAcceptTradeResponse result = UPlayFabClientModelDecoder::decodeAcceptTradeResponseResponse(response.responseData);
-        OnSuccessAcceptTrade.Execute(result, mCustomData);
+        FClientAcceptTradeResponse ResultStruct = UPlayFabClientModelDecoder::decodeAcceptTradeResponseResponse(response.responseData);
+        OnSuccessAcceptTrade.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8633,6 +8896,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::CancelTrade(FClientCancelTradeRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperCancelTrade);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/CancelTrade";
     manager->useSessionTicket = true;
 
@@ -8659,8 +8923,8 @@ void UPlayFabClientAPI::HelperCancelTrade(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessCancelTrade.IsBound())
     {
-        FClientCancelTradeResponse result = UPlayFabClientModelDecoder::decodeCancelTradeResponseResponse(response.responseData);
-        OnSuccessCancelTrade.Execute(result, mCustomData);
+        FClientCancelTradeResponse ResultStruct = UPlayFabClientModelDecoder::decodeCancelTradeResponseResponse(response.responseData);
+        OnSuccessCancelTrade.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8683,6 +8947,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerTrades(FClientGetPlayerTradesRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerTrades);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerTrades";
     manager->useSessionTicket = true;
 
@@ -8707,8 +8972,8 @@ void UPlayFabClientAPI::HelperGetPlayerTrades(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetPlayerTrades.IsBound())
     {
-        FClientGetPlayerTradesResponse result = UPlayFabClientModelDecoder::decodeGetPlayerTradesResponseResponse(response.responseData);
-        OnSuccessGetPlayerTrades.Execute(result, mCustomData);
+        FClientGetPlayerTradesResponse ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerTradesResponseResponse(response.responseData);
+        OnSuccessGetPlayerTrades.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8731,6 +8996,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTradeStatus(FClientGetTradeStatusReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetTradeStatus);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTradeStatus";
     manager->useSessionTicket = true;
 
@@ -8762,8 +9028,8 @@ void UPlayFabClientAPI::HelperGetTradeStatus(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetTradeStatus.IsBound())
     {
-        FClientGetTradeStatusResponse result = UPlayFabClientModelDecoder::decodeGetTradeStatusResponseResponse(response.responseData);
-        OnSuccessGetTradeStatus.Execute(result, mCustomData);
+        FClientGetTradeStatusResponse ResultStruct = UPlayFabClientModelDecoder::decodeGetTradeStatusResponseResponse(response.responseData);
+        OnSuccessGetTradeStatus.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8786,6 +9052,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::OpenTrade(FClientOpenTradeRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperOpenTrade);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/OpenTrade";
     manager->useSessionTicket = true;
 
@@ -8831,8 +9098,8 @@ void UPlayFabClientAPI::HelperOpenTrade(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessOpenTrade.IsBound())
     {
-        FClientOpenTradeResponse result = UPlayFabClientModelDecoder::decodeOpenTradeResponseResponse(response.responseData);
-        OnSuccessOpenTrade.Execute(result, mCustomData);
+        FClientOpenTradeResponse ResultStruct = UPlayFabClientModelDecoder::decodeOpenTradeResponseResponse(response.responseData);
+        OnSuccessOpenTrade.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -8897,13 +9164,27 @@ void UPlayFabClientAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpR
     myResponse.responseData = ResponseJsonObj;
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
+    if (returnsSessionTicket || returnsEntityToken)
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+    }
     if (returnsSessionTicket && !myResponse.responseError.hasError)
     {
         // Auth Tokens
-        auto response = myResponse.responseData->GetObjectField("data");
-        pfSettings->setSessionTicket(response->GetStringField("SessionTicket"));
-        if (response->HasField("EntityToken"))
-            pfSettings->setEntityToken(response->GetObjectField("EntityToken")->GetStringField("EntityToken"));
+        auto ResponseDataJSON = myResponse.responseData->GetObjectField("data");
+        {
+            FString NewSessionTicket = ResponseDataJSON->GetStringField("SessionTicket");
+            pfSettings->setSessionTicket(NewSessionTicket);
+            CallAuthenticationContext->SetClientSessionTicket(MoveTemp(NewSessionTicket));
+        }
+        if (ResponseDataJSON->HasField("EntityToken"))
+        {
+            FString NewEntityToken = ResponseDataJSON->GetObjectField("EntityToken")->GetStringField("EntityToken");
+            pfSettings->setEntityToken(NewEntityToken);
+            // Store entity token so that it can be added to the ResultStruct in the call-specific "Helper" callback
+            // which is responsible for forming response JSON into a semantic struct, and passing it to user code
+            CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+        }
 
         // IDFA Attribution when relevant
         bool needsAttribution = myResponse.responseData->GetObjectField("data")->GetBoolField("SessionTicket");
@@ -8928,10 +9209,14 @@ void UPlayFabClientAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpR
     }
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -8947,15 +9232,12 @@ void UPlayFabClientAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

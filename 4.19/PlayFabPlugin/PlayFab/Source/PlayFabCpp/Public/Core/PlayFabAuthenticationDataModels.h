@@ -45,18 +45,18 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityTokenRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetEntityTokenRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FGetEntityTokenRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(nullptr)
             {}
 
         FGetEntityTokenRequest(const FGetEntityTokenRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -71,7 +71,7 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetEntityTokenResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetEntityTokenResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
@@ -83,14 +83,14 @@ namespace AuthenticationModels
         Boxed<FDateTime> TokenExpiration;
 
         FGetEntityTokenResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(nullptr),
             EntityToken(),
             TokenExpiration()
             {}
 
         FGetEntityTokenResponse(const FGetEntityTokenResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EntityToken(src.EntityToken),
             TokenExpiration(src.TokenExpiration)

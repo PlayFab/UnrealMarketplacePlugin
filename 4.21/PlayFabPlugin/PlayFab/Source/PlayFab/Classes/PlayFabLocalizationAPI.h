@@ -19,6 +19,8 @@
 #include "PlayFabLocalizationModels.h"
 #include "PlayFabLocalizationAPI.generated.h"
 
+class UPlayFabAuthenticationContext;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnPlayFabLocalizationRequestCompleted, FPlayFabBaseModel, response, UObject*, customData, bool, successful);
 
 UCLASS(Blueprintable, BlueprintType)
@@ -31,6 +33,8 @@ public:
 
     UPROPERTY(BlueprintAssignable)
         FOnPlayFabLocalizationRequestCompleted OnPlayFabResponse;
+
+    void SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext);
 
     /** Set the Request Json object */
     void SetRequestObject(UPlayFabJsonObject* JsonObject);
@@ -87,6 +91,9 @@ public:
     FDelegateOnSuccessGetLanguageList OnSuccessGetLanguageList;
 
 private:
+    UPROPERTY()
+        UPlayFabAuthenticationContext* CallAuthenticationContext;
+
     /** Internal bind function for the IHTTPRequest::OnProcessRequestCompleted() event */
     void OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 

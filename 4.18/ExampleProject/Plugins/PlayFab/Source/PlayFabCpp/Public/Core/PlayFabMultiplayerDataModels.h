@@ -549,7 +549,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateBuildWithCustomContainerRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateBuildWithCustomContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The build name.
         FString BuildName;
@@ -586,7 +586,7 @@ namespace MultiplayerModels
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithCustomContainerRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildName(),
             pfContainerFlavor(),
             ContainerRepositoryName(),
@@ -602,7 +602,7 @@ namespace MultiplayerModels
             {}
 
         FCreateBuildWithCustomContainerRequest(const FCreateBuildWithCustomContainerRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
             ContainerRepositoryName(src.ContainerRepositoryName),
@@ -666,7 +666,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateBuildWithCustomContainerResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateBuildWithCustomContainerResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The guid string build ID. Must be unique for every build.
         FString BuildId;
@@ -703,7 +703,7 @@ namespace MultiplayerModels
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithCustomContainerResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildId(),
             BuildName(),
             pfContainerFlavor(),
@@ -720,7 +720,7 @@ namespace MultiplayerModels
             {}
 
         FCreateBuildWithCustomContainerResponse(const FCreateBuildWithCustomContainerResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildId(src.BuildId),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
@@ -747,7 +747,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateBuildWithManagedContainerRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateBuildWithManagedContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The build name.
         FString BuildName;
@@ -778,7 +778,7 @@ namespace MultiplayerModels
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithManagedContainerRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildName(),
             pfContainerFlavor(),
             GameAssetReferences(),
@@ -792,7 +792,7 @@ namespace MultiplayerModels
             {}
 
         FCreateBuildWithManagedContainerRequest(const FCreateBuildWithManagedContainerRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
             GameAssetReferences(src.GameAssetReferences),
@@ -816,7 +816,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateBuildWithManagedContainerResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateBuildWithManagedContainerResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The guid string build ID. Must be unique for every build.
         FString BuildId;
@@ -850,7 +850,7 @@ namespace MultiplayerModels
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithManagedContainerResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildId(),
             BuildName(),
             pfContainerFlavor(),
@@ -866,7 +866,7 @@ namespace MultiplayerModels
             {}
 
         FCreateBuildWithManagedContainerResponse(const FCreateBuildWithManagedContainerResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildId(src.BuildId),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
@@ -892,7 +892,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateRemoteUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateRemoteUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of to create the remote user for.
         FString BuildId;
@@ -910,7 +910,7 @@ namespace MultiplayerModels
         FString VmId;
 
         FCreateRemoteUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             ExpirationTime(),
             Region(),
@@ -919,7 +919,7 @@ namespace MultiplayerModels
             {}
 
         FCreateRemoteUserRequest(const FCreateRemoteUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             ExpirationTime(src.ExpirationTime),
             Region(src.Region),
@@ -938,7 +938,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateRemoteUserResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateRemoteUserResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The expiration time for the remote user created.
         Boxed<FDateTime> ExpirationTime;
@@ -950,14 +950,14 @@ namespace MultiplayerModels
         FString Username;
 
         FCreateRemoteUserResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ExpirationTime(),
             Password(),
             Username()
             {}
 
         FCreateRemoteUserResponse(const FCreateRemoteUserResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ExpirationTime(src.ExpirationTime),
             Password(src.Password),
             Username(src.Username)
@@ -974,18 +974,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteAssetRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteAssetRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The filename of the asset to delete.
         FString FileName;
 
         FDeleteAssetRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FileName()
             {}
 
         FDeleteAssetRequest(const FDeleteAssetRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FileName(src.FileName)
             {}
 
@@ -1000,18 +1000,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteBuildRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteBuildRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the build to delete.
         FString BuildId;
 
         FDeleteBuildRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId()
             {}
 
         FDeleteBuildRequest(const FDeleteBuildRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId)
             {}
 
@@ -1026,18 +1026,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteCertificateRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteCertificateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The name of the certificate.
         FString Name;
 
         FDeleteCertificateRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Name()
             {}
 
         FDeleteCertificateRequest(const FDeleteCertificateRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Name(src.Name)
             {}
 
@@ -1052,7 +1052,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteRemoteUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteRemoteUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server where the remote user is to delete.
         FString BuildId;
@@ -1067,7 +1067,7 @@ namespace MultiplayerModels
         FString VmId;
 
         FDeleteRemoteUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             Region(),
             Username(),
@@ -1075,7 +1075,7 @@ namespace MultiplayerModels
             {}
 
         FDeleteRemoteUserRequest(const FDeleteRemoteUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             Region(src.Region),
             Username(src.Username),
@@ -1093,14 +1093,14 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppResultCommon
     {
         FEmptyResponse() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FEmptyResponse(const FEmptyResponse& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FEmptyResponse(const TSharedPtr<FJsonObject>& obj) : FEmptyResponse()
@@ -1114,14 +1114,14 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEnableMultiplayerServersForTitleRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FEnableMultiplayerServersForTitleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FEnableMultiplayerServersForTitleRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FEnableMultiplayerServersForTitleRequest(const FEnableMultiplayerServersForTitleRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FEnableMultiplayerServersForTitleRequest(const TSharedPtr<FJsonObject>& obj) : FEnableMultiplayerServersForTitleRequest()
@@ -1146,18 +1146,18 @@ namespace MultiplayerModels
     PLAYFABCPP_API TitleMultiplayerServerEnabledStatus readTitleMultiplayerServerEnabledStatusFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API TitleMultiplayerServerEnabledStatus readTitleMultiplayerServerEnabledStatusFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FEnableMultiplayerServersForTitleResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FEnableMultiplayerServersForTitleResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The enabled status for the multiplayer server features for the title.
         Boxed<TitleMultiplayerServerEnabledStatus> Status;
 
         FEnableMultiplayerServersForTitleResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Status()
             {}
 
         FEnableMultiplayerServersForTitleResponse(const FEnableMultiplayerServersForTitleResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Status(src.Status)
             {}
 
@@ -1172,18 +1172,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetAssetUploadUrlRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetAssetUploadUrlRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The asset's file name to get the upload URL for.
         FString FileName;
 
         FGetAssetUploadUrlRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FileName()
             {}
 
         FGetAssetUploadUrlRequest(const FGetAssetUploadUrlRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FileName(src.FileName)
             {}
 
@@ -1198,7 +1198,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetAssetUploadUrlResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetAssetUploadUrlResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The asset's upload URL.
         FString AssetUploadUrl;
@@ -1207,13 +1207,13 @@ namespace MultiplayerModels
         FString FileName;
 
         FGetAssetUploadUrlResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AssetUploadUrl(),
             FileName()
             {}
 
         FGetAssetUploadUrlResponse(const FGetAssetUploadUrlResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AssetUploadUrl(src.AssetUploadUrl),
             FileName(src.FileName)
             {}
@@ -1229,18 +1229,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetBuildRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetBuildRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the build to get.
         FString BuildId;
 
         FGetBuildRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId()
             {}
 
         FGetBuildRequest(const FGetBuildRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId)
             {}
 
@@ -1255,7 +1255,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetBuildResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetBuildResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The guid string build ID of the build.
         FString BuildId;
@@ -1307,7 +1307,7 @@ namespace MultiplayerModels
         Boxed<AzureVmSize> VmSize;
 
         FGetBuildResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildId(),
             BuildName(),
             BuildStatus(),
@@ -1326,7 +1326,7 @@ namespace MultiplayerModels
             {}
 
         FGetBuildResponse(const FGetBuildResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildId(src.BuildId),
             BuildName(src.BuildName),
             BuildStatus(src.BuildStatus),
@@ -1355,14 +1355,14 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetContainerRegistryCredentialsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetContainerRegistryCredentialsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FGetContainerRegistryCredentialsRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetContainerRegistryCredentialsRequest(const FGetContainerRegistryCredentialsRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetContainerRegistryCredentialsRequest(const TSharedPtr<FJsonObject>& obj) : FGetContainerRegistryCredentialsRequest()
@@ -1376,7 +1376,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetContainerRegistryCredentialsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetContainerRegistryCredentialsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The url of the container registry.
         FString DnsName;
@@ -1388,14 +1388,14 @@ namespace MultiplayerModels
         FString Username;
 
         FGetContainerRegistryCredentialsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DnsName(),
             Password(),
             Username()
             {}
 
         FGetContainerRegistryCredentialsResponse(const FGetContainerRegistryCredentialsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DnsName(src.DnsName),
             Password(src.Password),
             Username(src.Username)
@@ -1412,7 +1412,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetMultiplayerServerDetailsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetMultiplayerServerDetailsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server to get details for.
         FString BuildId;
@@ -1427,14 +1427,14 @@ namespace MultiplayerModels
         FString SessionId;
 
         FGetMultiplayerServerDetailsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             Region(),
             SessionId()
             {}
 
         FGetMultiplayerServerDetailsRequest(const FGetMultiplayerServerDetailsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             Region(src.Region),
             SessionId(src.SessionId)
@@ -1451,7 +1451,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetMultiplayerServerDetailsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetMultiplayerServerDetailsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The connected players in the multiplayer server.
         TArray<FConnectedPlayer> ConnectedPlayers;
@@ -1482,7 +1482,7 @@ namespace MultiplayerModels
         FString VmId;
 
         FGetMultiplayerServerDetailsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ConnectedPlayers(),
             FQDN(),
             IPV4Address(),
@@ -1496,7 +1496,7 @@ namespace MultiplayerModels
             {}
 
         FGetMultiplayerServerDetailsResponse(const FGetMultiplayerServerDetailsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ConnectedPlayers(src.ConnectedPlayers),
             FQDN(src.FQDN),
             IPV4Address(src.IPV4Address),
@@ -1520,7 +1520,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetRemoteLoginEndpointRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetRemoteLoginEndpointRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server to get remote login information for.
         FString BuildId;
@@ -1532,14 +1532,14 @@ namespace MultiplayerModels
         FString VmId;
 
         FGetRemoteLoginEndpointRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             Region(),
             VmId()
             {}
 
         FGetRemoteLoginEndpointRequest(const FGetRemoteLoginEndpointRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             Region(src.Region),
             VmId(src.VmId)
@@ -1556,7 +1556,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetRemoteLoginEndpointResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetRemoteLoginEndpointResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The remote login IPV4 address of multiplayer server.
         FString IPV4Address;
@@ -1565,13 +1565,13 @@ namespace MultiplayerModels
         int32 Port;
 
         FGetRemoteLoginEndpointResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             IPV4Address(),
             Port(0)
             {}
 
         FGetRemoteLoginEndpointResponse(const FGetRemoteLoginEndpointResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             IPV4Address(src.IPV4Address),
             Port(src.Port)
             {}
@@ -1587,14 +1587,14 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTitleEnabledForMultiplayerServersStatusRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTitleEnabledForMultiplayerServersStatusRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FGetTitleEnabledForMultiplayerServersStatusRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetTitleEnabledForMultiplayerServersStatusRequest(const FGetTitleEnabledForMultiplayerServersStatusRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetTitleEnabledForMultiplayerServersStatusRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitleEnabledForMultiplayerServersStatusRequest()
@@ -1608,18 +1608,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTitleEnabledForMultiplayerServersStatusResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTitleEnabledForMultiplayerServersStatusResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The enabled status for the multiplayer server features for the title.
         Boxed<TitleMultiplayerServerEnabledStatus> Status;
 
         FGetTitleEnabledForMultiplayerServersStatusResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Status()
             {}
 
         FGetTitleEnabledForMultiplayerServersStatusResponse(const FGetTitleEnabledForMultiplayerServersStatusResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Status(src.Status)
             {}
 
@@ -1634,7 +1634,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListAssetSummariesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListAssetSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
@@ -1643,13 +1643,13 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListAssetSummariesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(),
             SkipToken()
             {}
 
         FListAssetSummariesRequest(const FListAssetSummariesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -1665,7 +1665,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListAssetSummariesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListAssetSummariesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of asset summaries.
         TArray<FAssetSummary> AssetSummaries;
@@ -1676,14 +1676,14 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListAssetSummariesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AssetSummaries(),
             PageSize(0),
             SkipToken()
             {}
 
         FListAssetSummariesResponse(const FListAssetSummariesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AssetSummaries(src.AssetSummaries),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
@@ -1700,7 +1700,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListBuildSummariesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListBuildSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
@@ -1709,13 +1709,13 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListBuildSummariesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(),
             SkipToken()
             {}
 
         FListBuildSummariesRequest(const FListBuildSummariesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -1731,7 +1731,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListBuildSummariesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListBuildSummariesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of build summaries for a title.
         TArray<FBuildSummary> BuildSummaries;
@@ -1742,14 +1742,14 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListBuildSummariesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildSummaries(),
             PageSize(0),
             SkipToken()
             {}
 
         FListBuildSummariesResponse(const FListBuildSummariesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BuildSummaries(src.BuildSummaries),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
@@ -1766,7 +1766,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListCertificateSummariesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListCertificateSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
@@ -1775,13 +1775,13 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListCertificateSummariesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(),
             SkipToken()
             {}
 
         FListCertificateSummariesRequest(const FListCertificateSummariesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -1797,7 +1797,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListCertificateSummariesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListCertificateSummariesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of game certificates.
         TArray<FCertificateSummary> CertificateSummaries;
@@ -1808,14 +1808,14 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListCertificateSummariesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CertificateSummaries(),
             PageSize(0),
             SkipToken()
             {}
 
         FListCertificateSummariesResponse(const FListCertificateSummariesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CertificateSummaries(src.CertificateSummaries),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
@@ -1832,7 +1832,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListContainerImagesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListContainerImagesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
@@ -1841,13 +1841,13 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListContainerImagesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(),
             SkipToken()
             {}
 
         FListContainerImagesRequest(const FListContainerImagesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -1863,7 +1863,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListContainerImagesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListContainerImagesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of container images.
         TArray<FString> Images;
@@ -1874,14 +1874,14 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListContainerImagesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Images(),
             PageSize(0),
             SkipToken()
             {}
 
         FListContainerImagesResponse(const FListContainerImagesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Images(src.Images),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
@@ -1898,18 +1898,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListContainerImageTagsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListContainerImageTagsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The container images we want to list tags for.
         FString ImageName;
 
         FListContainerImageTagsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ImageName()
             {}
 
         FListContainerImageTagsRequest(const FListContainerImageTagsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ImageName(src.ImageName)
             {}
 
@@ -1924,17 +1924,17 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListContainerImageTagsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListContainerImageTagsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of tags for a particular container image.
         TArray<FString> Tags;
         FListContainerImageTagsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Tags()
             {}
 
         FListContainerImageTagsResponse(const FListContainerImageTagsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Tags(src.Tags)
             {}
 
@@ -1949,7 +1949,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMultiplayerServersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListMultiplayerServersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer servers to list.
         FString BuildId;
@@ -1964,7 +1964,7 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListMultiplayerServersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             PageSize(),
             Region(),
@@ -1972,7 +1972,7 @@ namespace MultiplayerModels
             {}
 
         FListMultiplayerServersRequest(const FListMultiplayerServersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             PageSize(src.PageSize),
             Region(src.Region),
@@ -2045,7 +2045,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMultiplayerServersResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListMultiplayerServersResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of multiplayer server summary details.
         TArray<FMultiplayerServerSummary> MultiplayerServerSummaries;
@@ -2056,14 +2056,14 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListMultiplayerServersResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             MultiplayerServerSummaries(),
             PageSize(0),
             SkipToken()
             {}
 
         FListMultiplayerServersResponse(const FListMultiplayerServersResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             MultiplayerServerSummaries(src.MultiplayerServerSummaries),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
@@ -2080,14 +2080,14 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListQosServersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListQosServersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FListQosServersRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FListQosServersRequest(const FListQosServersRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FListQosServersRequest(const TSharedPtr<FJsonObject>& obj) : FListQosServersRequest()
@@ -2132,7 +2132,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListQosServersResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListQosServersResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // The page size on the response.
         int32 PageSize;
@@ -2143,14 +2143,14 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListQosServersResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PageSize(0),
             QosServers(),
             SkipToken()
             {}
 
         FListQosServersResponse(const FListQosServersResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PageSize(src.PageSize),
             QosServers(src.QosServers),
             SkipToken(src.SkipToken)
@@ -2167,7 +2167,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListVirtualMachineSummariesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListVirtualMachineSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the virtual machines to list.
         FString BuildId;
@@ -2182,7 +2182,7 @@ namespace MultiplayerModels
         FString SkipToken;
 
         FListVirtualMachineSummariesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             PageSize(),
             Region(),
@@ -2190,7 +2190,7 @@ namespace MultiplayerModels
             {}
 
         FListVirtualMachineSummariesRequest(const FListVirtualMachineSummariesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             PageSize(src.PageSize),
             Region(src.Region),
@@ -2244,7 +2244,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListVirtualMachineSummariesResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListVirtualMachineSummariesResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // The page size on the response.
         int32 PageSize;
@@ -2255,14 +2255,14 @@ namespace MultiplayerModels
         // [optional] The list of virtual machine summaries.
         TArray<FVirtualMachineSummary> VirtualMachines;
         FListVirtualMachineSummariesResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PageSize(0),
             SkipToken(),
             VirtualMachines()
             {}
 
         FListVirtualMachineSummariesResponse(const FListVirtualMachineSummariesResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken),
             VirtualMachines(src.VirtualMachines)
@@ -2279,7 +2279,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRequestMultiplayerServerRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRequestMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server to request.
         FString BuildId;
@@ -2304,7 +2304,7 @@ namespace MultiplayerModels
         FString SessionId;
 
         FRequestMultiplayerServerRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             InitialPlayers(),
             PreferredRegions(),
@@ -2313,7 +2313,7 @@ namespace MultiplayerModels
             {}
 
         FRequestMultiplayerServerRequest(const FRequestMultiplayerServerRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             InitialPlayers(src.InitialPlayers),
             PreferredRegions(src.PreferredRegions),
@@ -2332,7 +2332,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRequestMultiplayerServerResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRequestMultiplayerServerResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The connected players in the multiplayer server.
         TArray<FConnectedPlayer> ConnectedPlayers;
@@ -2363,7 +2363,7 @@ namespace MultiplayerModels
         FString VmId;
 
         FRequestMultiplayerServerResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ConnectedPlayers(),
             FQDN(),
             IPV4Address(),
@@ -2377,7 +2377,7 @@ namespace MultiplayerModels
             {}
 
         FRequestMultiplayerServerResponse(const FRequestMultiplayerServerResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ConnectedPlayers(src.ConnectedPlayers),
             FQDN(src.FQDN),
             IPV4Address(src.IPV4Address),
@@ -2401,14 +2401,14 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRolloverContainerRegistryCredentialsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRolloverContainerRegistryCredentialsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FRolloverContainerRegistryCredentialsRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FRolloverContainerRegistryCredentialsRequest(const FRolloverContainerRegistryCredentialsRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FRolloverContainerRegistryCredentialsRequest(const TSharedPtr<FJsonObject>& obj) : FRolloverContainerRegistryCredentialsRequest()
@@ -2422,7 +2422,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRolloverContainerRegistryCredentialsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRolloverContainerRegistryCredentialsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The url of the container registry.
         FString DnsName;
@@ -2434,14 +2434,14 @@ namespace MultiplayerModels
         FString Username;
 
         FRolloverContainerRegistryCredentialsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DnsName(),
             Password(),
             Username()
             {}
 
         FRolloverContainerRegistryCredentialsResponse(const FRolloverContainerRegistryCredentialsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DnsName(src.DnsName),
             Password(src.Password),
             Username(src.Username)
@@ -2458,7 +2458,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FShutdownMultiplayerServerRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FShutdownMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server to delete.
         FString BuildId;
@@ -2470,14 +2470,14 @@ namespace MultiplayerModels
         FString SessionId;
 
         FShutdownMultiplayerServerRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             Region(),
             SessionId()
             {}
 
         FShutdownMultiplayerServerRequest(const FShutdownMultiplayerServerRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             Region(src.Region),
             SessionId(src.SessionId)
@@ -2494,7 +2494,7 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateBuildRegionsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateBuildRegionsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string ID of the build we want to update regions for.
         FString BuildId;
@@ -2502,13 +2502,13 @@ namespace MultiplayerModels
         // The updated region configuration that should be applied to the specified build.
         TArray<FBuildRegionParams> BuildRegions;
         FUpdateBuildRegionsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(),
             BuildRegions()
             {}
 
         FUpdateBuildRegionsRequest(const FUpdateBuildRegionsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
             BuildRegions(src.BuildRegions)
             {}
@@ -2524,18 +2524,18 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUploadCertificateRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUploadCertificateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The game certificate to upload.
         FCertificate GameCertificate;
 
         FUploadCertificateRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GameCertificate()
             {}
 
         FUploadCertificateRequest(const FUploadCertificateRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GameCertificate(src.GameCertificate)
             {}
 

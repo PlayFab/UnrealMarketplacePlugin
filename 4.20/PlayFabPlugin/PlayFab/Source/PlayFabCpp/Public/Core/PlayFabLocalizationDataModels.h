@@ -14,14 +14,14 @@ namespace PlayFab
 namespace LocalizationModels
 {
 
-    struct PLAYFABCPP_API FGetLanguageListRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLanguageListRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FGetLanguageListRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetLanguageListRequest(const FGetLanguageListRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetLanguageListRequest(const TSharedPtr<FJsonObject>& obj) : FGetLanguageListRequest()
@@ -35,17 +35,17 @@ namespace LocalizationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLanguageListResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLanguageListResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The list of allowed languages, in BCP47 two-letter format
         TArray<FString> LanguageList;
         FGetLanguageListResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             LanguageList()
             {}
 
         FGetLanguageListResponse(const FGetLanguageListResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             LanguageList(src.LanguageList)
             {}
 

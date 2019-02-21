@@ -110,17 +110,17 @@ namespace EventsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FWriteEventsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FWriteEventsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Collection of events to write to PlayStream.
         TArray<FEventContents> Events;
         FWriteEventsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Events()
             {}
 
         FWriteEventsRequest(const FWriteEventsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Events(src.Events)
             {}
 
@@ -135,7 +135,7 @@ namespace EventsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FWriteEventsResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FWriteEventsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         /**
          * [optional] The unique identifiers assigned by the server to the events, in the same order as the events in the request. Only
@@ -143,12 +143,12 @@ namespace EventsModels
          */
         TArray<FString> AssignedEventIds;
         FWriteEventsResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AssignedEventIds()
             {}
 
         FWriteEventsResponse(const FWriteEventsResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AssignedEventIds(src.AssignedEventIds)
             {}
 

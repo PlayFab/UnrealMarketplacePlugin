@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabEventsModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -29,7 +31,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FEventsWriteEventsRequest
+struct PLAYFAB_API FEventsWriteEventsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -39,7 +41,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FEventsWriteEventsResponse
+struct PLAYFAB_API FEventsWriteEventsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

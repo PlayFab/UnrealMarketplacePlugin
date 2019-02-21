@@ -14,10 +14,17 @@
 #include "PlayFabServerModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabServerAPI::UPlayFabServerAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabServerAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabServerAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::BanUsers(FServerBanUsersRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperBanUsers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/BanUsers";
     manager->useSecretKey = true;
 
@@ -111,8 +119,8 @@ void UPlayFabServerAPI::HelperBanUsers(FPlayFabBaseModel response, UObject* cust
     }
     else if (!error.hasError && OnSuccessBanUsers.IsBound())
     {
-        FServerBanUsersResult result = UPlayFabServerModelDecoder::decodeBanUsersResultResponse(response.responseData);
-        OnSuccessBanUsers.Execute(result, mCustomData);
+        FServerBanUsersResult ResultStruct = UPlayFabServerModelDecoder::decodeBanUsersResultResponse(response.responseData);
+        OnSuccessBanUsers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -135,6 +143,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeletePlayer(FServerDeletePlayerRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeletePlayer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/DeletePlayer";
     manager->useSecretKey = true;
 
@@ -161,8 +170,8 @@ void UPlayFabServerAPI::HelperDeletePlayer(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessDeletePlayer.IsBound())
     {
-        FServerDeletePlayerResult result = UPlayFabServerModelDecoder::decodeDeletePlayerResultResponse(response.responseData);
-        OnSuccessDeletePlayer.Execute(result, mCustomData);
+        FServerDeletePlayerResult ResultStruct = UPlayFabServerModelDecoder::decodeDeletePlayerResultResponse(response.responseData);
+        OnSuccessDeletePlayer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -185,6 +194,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerProfile(FServerGetPlayerProfileRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayerProfile);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerProfile";
     manager->useSecretKey = true;
 
@@ -212,8 +222,8 @@ void UPlayFabServerAPI::HelperGetPlayerProfile(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetPlayerProfile.IsBound())
     {
-        FServerGetPlayerProfileResult result = UPlayFabServerModelDecoder::decodeGetPlayerProfileResultResponse(response.responseData);
-        OnSuccessGetPlayerProfile.Execute(result, mCustomData);
+        FServerGetPlayerProfileResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerProfileResultResponse(response.responseData);
+        OnSuccessGetPlayerProfile.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -236,6 +246,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromFacebookIDs(FServerGetPla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromFacebookIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromFacebookIDs";
     manager->useSecretKey = true;
 
@@ -265,8 +276,8 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromFacebookIDs(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromFacebookIDs.IsBound())
     {
-        FServerGetPlayFabIDsFromFacebookIDsResult result = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromFacebookIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromFacebookIDs.Execute(result, mCustomData);
+        FServerGetPlayFabIDsFromFacebookIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromFacebookIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromFacebookIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -289,6 +300,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromFacebookInstantGamesIds(F
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromFacebookInstantGamesIds);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromFacebookInstantGamesIds";
     manager->useSecretKey = true;
 
@@ -318,8 +330,8 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromFacebookInstantGamesIds(FPlayFabB
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds.IsBound())
     {
-        FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult result = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromFacebookInstantGamesIdsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds.Execute(result, mCustomData);
+        FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromFacebookInstantGamesIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -342,6 +354,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(F
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromNintendoSwitchDeviceIds";
     manager->useSecretKey = true;
 
@@ -371,8 +384,8 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds.IsBound())
     {
-        FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult result = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromNintendoSwitchDeviceIdsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds.Execute(result, mCustomData);
+        FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromNintendoSwitchDeviceIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -395,6 +408,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromPSNAccountIDs(FServerGetP
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromPSNAccountIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromPSNAccountIDs";
     manager->useSecretKey = true;
 
@@ -425,8 +439,8 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromPSNAccountIDs(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromPSNAccountIDs.IsBound())
     {
-        FServerGetPlayFabIDsFromPSNAccountIDsResult result = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromPSNAccountIDs.Execute(result, mCustomData);
+        FServerGetPlayFabIDsFromPSNAccountIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromPSNAccountIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromPSNAccountIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -449,6 +463,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromSteamIDs(FServerGetPlayFa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromSteamIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromSteamIDs";
     manager->useSecretKey = true;
 
@@ -478,8 +493,8 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromSteamIDs(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromSteamIDs.IsBound())
     {
-        FServerGetPlayFabIDsFromSteamIDsResult result = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromSteamIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromSteamIDs.Execute(result, mCustomData);
+        FServerGetPlayFabIDsFromSteamIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromSteamIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromSteamIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -502,6 +517,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromXboxLiveIDs(FServerGetPla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromXboxLiveIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromXboxLiveIDs";
     manager->useSecretKey = true;
 
@@ -536,8 +552,8 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromXboxLiveIDs(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetPlayFabIDsFromXboxLiveIDs.IsBound())
     {
-        FServerGetPlayFabIDsFromXboxLiveIDsResult result = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromXboxLiveIDsResultResponse(response.responseData);
-        OnSuccessGetPlayFabIDsFromXboxLiveIDs.Execute(result, mCustomData);
+        FServerGetPlayFabIDsFromXboxLiveIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromXboxLiveIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromXboxLiveIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -560,6 +576,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetServerCustomIDsFromPlayFabIDs(FServerGe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetServerCustomIDsFromPlayFabIDs);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetServerCustomIDsFromPlayFabIDs";
     manager->useSecretKey = true;
 
@@ -589,8 +606,8 @@ void UPlayFabServerAPI::HelperGetServerCustomIDsFromPlayFabIDs(FPlayFabBaseModel
     }
     else if (!error.hasError && OnSuccessGetServerCustomIDsFromPlayFabIDs.IsBound())
     {
-        FServerGetServerCustomIDsFromPlayFabIDsResult result = UPlayFabServerModelDecoder::decodeGetServerCustomIDsFromPlayFabIDsResultResponse(response.responseData);
-        OnSuccessGetServerCustomIDsFromPlayFabIDs.Execute(result, mCustomData);
+        FServerGetServerCustomIDsFromPlayFabIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetServerCustomIDsFromPlayFabIDsResultResponse(response.responseData);
+        OnSuccessGetServerCustomIDsFromPlayFabIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -613,6 +630,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserAccountInfo(FServerGetUserAccountIn
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserAccountInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserAccountInfo";
     manager->useSecretKey = true;
 
@@ -639,8 +657,8 @@ void UPlayFabServerAPI::HelperGetUserAccountInfo(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessGetUserAccountInfo.IsBound())
     {
-        FServerGetUserAccountInfoResult result = UPlayFabServerModelDecoder::decodeGetUserAccountInfoResultResponse(response.responseData);
-        OnSuccessGetUserAccountInfo.Execute(result, mCustomData);
+        FServerGetUserAccountInfoResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserAccountInfoResultResponse(response.responseData);
+        OnSuccessGetUserAccountInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -663,6 +681,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserBans(FServerGetUserBansRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserBans);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserBans";
     manager->useSecretKey = true;
 
@@ -689,8 +708,8 @@ void UPlayFabServerAPI::HelperGetUserBans(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessGetUserBans.IsBound())
     {
-        FServerGetUserBansResult result = UPlayFabServerModelDecoder::decodeGetUserBansResultResponse(response.responseData);
-        OnSuccessGetUserBans.Execute(result, mCustomData);
+        FServerGetUserBansResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserBansResultResponse(response.responseData);
+        OnSuccessGetUserBans.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -713,6 +732,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::LinkXboxAccount(FServerLinkXboxAccountRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLinkXboxAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/LinkXboxAccount";
     manager->useSecretKey = true;
 
@@ -745,8 +765,8 @@ void UPlayFabServerAPI::HelperLinkXboxAccount(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessLinkXboxAccount.IsBound())
     {
-        FServerLinkXboxAccountResult result = UPlayFabServerModelDecoder::decodeLinkXboxAccountResultResponse(response.responseData);
-        OnSuccessLinkXboxAccount.Execute(result, mCustomData);
+        FServerLinkXboxAccountResult ResultStruct = UPlayFabServerModelDecoder::decodeLinkXboxAccountResultResponse(response.responseData);
+        OnSuccessLinkXboxAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -769,6 +789,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeAllBansForUser(FServerRevokeAllBansF
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRevokeAllBansForUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RevokeAllBansForUser";
     manager->useSecretKey = true;
 
@@ -795,8 +816,8 @@ void UPlayFabServerAPI::HelperRevokeAllBansForUser(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessRevokeAllBansForUser.IsBound())
     {
-        FServerRevokeAllBansForUserResult result = UPlayFabServerModelDecoder::decodeRevokeAllBansForUserResultResponse(response.responseData);
-        OnSuccessRevokeAllBansForUser.Execute(result, mCustomData);
+        FServerRevokeAllBansForUserResult ResultStruct = UPlayFabServerModelDecoder::decodeRevokeAllBansForUserResultResponse(response.responseData);
+        OnSuccessRevokeAllBansForUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -819,6 +840,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeBans(FServerRevokeBansRequest reques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRevokeBans);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RevokeBans";
     manager->useSecretKey = true;
 
@@ -848,8 +870,8 @@ void UPlayFabServerAPI::HelperRevokeBans(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessRevokeBans.IsBound())
     {
-        FServerRevokeBansResult result = UPlayFabServerModelDecoder::decodeRevokeBansResultResponse(response.responseData);
-        OnSuccessRevokeBans.Execute(result, mCustomData);
+        FServerRevokeBansResult ResultStruct = UPlayFabServerModelDecoder::decodeRevokeBansResultResponse(response.responseData);
+        OnSuccessRevokeBans.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -872,6 +894,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SendCustomAccountRecoveryEmail(FServerSend
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSendCustomAccountRecoveryEmail);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SendCustomAccountRecoveryEmail";
     manager->useSecretKey = true;
 
@@ -908,8 +931,8 @@ void UPlayFabServerAPI::HelperSendCustomAccountRecoveryEmail(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessSendCustomAccountRecoveryEmail.IsBound())
     {
-        FServerSendCustomAccountRecoveryEmailResult result = UPlayFabServerModelDecoder::decodeSendCustomAccountRecoveryEmailResultResponse(response.responseData);
-        OnSuccessSendCustomAccountRecoveryEmail.Execute(result, mCustomData);
+        FServerSendCustomAccountRecoveryEmailResult ResultStruct = UPlayFabServerModelDecoder::decodeSendCustomAccountRecoveryEmailResultResponse(response.responseData);
+        OnSuccessSendCustomAccountRecoveryEmail.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -932,6 +955,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SendEmailFromTemplate(FServerSendEmailFrom
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSendEmailFromTemplate);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SendEmailFromTemplate";
     manager->useSecretKey = true;
 
@@ -963,8 +987,8 @@ void UPlayFabServerAPI::HelperSendEmailFromTemplate(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessSendEmailFromTemplate.IsBound())
     {
-        FServerSendEmailFromTemplateResult result = UPlayFabServerModelDecoder::decodeSendEmailFromTemplateResultResponse(response.responseData);
-        OnSuccessSendEmailFromTemplate.Execute(result, mCustomData);
+        FServerSendEmailFromTemplateResult ResultStruct = UPlayFabServerModelDecoder::decodeSendEmailFromTemplateResultResponse(response.responseData);
+        OnSuccessSendEmailFromTemplate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -987,6 +1011,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SendPushNotification(FServerSendPushNotifi
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSendPushNotification);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SendPushNotification";
     manager->useSecretKey = true;
 
@@ -1037,8 +1062,8 @@ void UPlayFabServerAPI::HelperSendPushNotification(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessSendPushNotification.IsBound())
     {
-        FServerSendPushNotificationResult result = UPlayFabServerModelDecoder::decodeSendPushNotificationResultResponse(response.responseData);
-        OnSuccessSendPushNotification.Execute(result, mCustomData);
+        FServerSendPushNotificationResult ResultStruct = UPlayFabServerModelDecoder::decodeSendPushNotificationResultResponse(response.responseData);
+        OnSuccessSendPushNotification.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1061,6 +1086,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlinkXboxAccount(FServerUnlinkXboxAccount
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkXboxAccount);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UnlinkXboxAccount";
     manager->useSecretKey = true;
 
@@ -1092,8 +1118,8 @@ void UPlayFabServerAPI::HelperUnlinkXboxAccount(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessUnlinkXboxAccount.IsBound())
     {
-        FServerUnlinkXboxAccountResult result = UPlayFabServerModelDecoder::decodeUnlinkXboxAccountResultResponse(response.responseData);
-        OnSuccessUnlinkXboxAccount.Execute(result, mCustomData);
+        FServerUnlinkXboxAccountResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkXboxAccountResultResponse(response.responseData);
+        OnSuccessUnlinkXboxAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1116,6 +1142,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateAvatarUrl(FServerUpdateAvatarUrlRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateAvatarUrl);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateAvatarUrl";
     manager->useSecretKey = true;
 
@@ -1147,8 +1174,8 @@ void UPlayFabServerAPI::HelperUpdateAvatarUrl(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessUpdateAvatarUrl.IsBound())
     {
-        FServerEmptyResponse result = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUpdateAvatarUrl.Execute(result, mCustomData);
+        FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessUpdateAvatarUrl.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1171,6 +1198,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateBans(FServerUpdateBansRequest reques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateBans);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateBans";
     manager->useSecretKey = true;
 
@@ -1197,8 +1225,8 @@ void UPlayFabServerAPI::HelperUpdateBans(FPlayFabBaseModel response, UObject* cu
     }
     else if (!error.hasError && OnSuccessUpdateBans.IsBound())
     {
-        FServerUpdateBansResult result = UPlayFabServerModelDecoder::decodeUpdateBansResultResponse(response.responseData);
-        OnSuccessUpdateBans.Execute(result, mCustomData);
+        FServerUpdateBansResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateBansResultResponse(response.responseData);
+        OnSuccessUpdateBans.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1225,6 +1253,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WriteCharacterEvent(FServerWriteServerChar
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperWriteCharacterEvent);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/WriteCharacterEvent";
     manager->useSecretKey = true;
 
@@ -1267,8 +1296,8 @@ void UPlayFabServerAPI::HelperWriteCharacterEvent(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessWriteCharacterEvent.IsBound())
     {
-        FServerWriteEventResponse result = UPlayFabServerModelDecoder::decodeWriteEventResponseResponse(response.responseData);
-        OnSuccessWriteCharacterEvent.Execute(result, mCustomData);
+        FServerWriteEventResponse ResultStruct = UPlayFabServerModelDecoder::decodeWriteEventResponseResponse(response.responseData);
+        OnSuccessWriteCharacterEvent.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1291,6 +1320,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WritePlayerEvent(FServerWriteServerPlayerE
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperWritePlayerEvent);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/WritePlayerEvent";
     manager->useSecretKey = true;
 
@@ -1328,8 +1358,9 @@ void UPlayFabServerAPI::HelperWritePlayerEvent(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessWritePlayerEvent.IsBound())
     {
-        FServerWriteEventResponse result = UPlayFabServerModelDecoder::decodeWriteEventResponseResponse(response.responseData);
-        OnSuccessWritePlayerEvent.Execute(result, mCustomData);
+        FServerWriteEventResponse ResultStruct = UPlayFabServerModelDecoder::decodeWriteEventResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessWritePlayerEvent.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1352,6 +1383,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WriteTitleEvent(FServerWriteTitleEventRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperWriteTitleEvent);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/WriteTitleEvent";
     manager->useSecretKey = true;
 
@@ -1384,8 +1416,9 @@ void UPlayFabServerAPI::HelperWriteTitleEvent(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessWriteTitleEvent.IsBound())
     {
-        FServerWriteEventResponse result = UPlayFabServerModelDecoder::decodeWriteEventResponseResponse(response.responseData);
-        OnSuccessWriteTitleEvent.Execute(result, mCustomData);
+        FServerWriteEventResponse ResultStruct = UPlayFabServerModelDecoder::decodeWriteEventResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessWriteTitleEvent.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1412,6 +1445,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AuthenticateSessionTicket(FServerAuthentic
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAuthenticateSessionTicket);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AuthenticateSessionTicket";
     manager->useSecretKey = true;
 
@@ -1438,8 +1472,8 @@ void UPlayFabServerAPI::HelperAuthenticateSessionTicket(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessAuthenticateSessionTicket.IsBound())
     {
-        FServerAuthenticateSessionTicketResult result = UPlayFabServerModelDecoder::decodeAuthenticateSessionTicketResultResponse(response.responseData);
-        OnSuccessAuthenticateSessionTicket.Execute(result, mCustomData);
+        FServerAuthenticateSessionTicketResult ResultStruct = UPlayFabServerModelDecoder::decodeAuthenticateSessionTicketResultResponse(response.responseData);
+        OnSuccessAuthenticateSessionTicket.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1462,6 +1496,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::LoginWithServerCustomId(FServerLoginWithSe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithServerCustomId);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/LoginWithServerCustomId";
     manager->useSecretKey = true;
 
@@ -1495,8 +1530,8 @@ void UPlayFabServerAPI::HelperLoginWithServerCustomId(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessLoginWithServerCustomId.IsBound())
     {
-        FServerServerLoginResult result = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
-        OnSuccessLoginWithServerCustomId.Execute(result, mCustomData);
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        OnSuccessLoginWithServerCustomId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1519,6 +1554,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::LoginWithXbox(FServerLoginWithXboxRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithXbox);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/LoginWithXbox";
     manager->useSecretKey = true;
 
@@ -1547,8 +1583,9 @@ void UPlayFabServerAPI::HelperLoginWithXbox(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessLoginWithXbox.IsBound())
     {
-        FServerServerLoginResult result = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
-        OnSuccessLoginWithXbox.Execute(result, mCustomData);
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLoginWithXbox.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1571,6 +1608,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetPlayerSecret(FServerSetPlayerSecretRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetPlayerSecret);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetPlayerSecret";
     manager->useSecretKey = true;
 
@@ -1602,8 +1640,8 @@ void UPlayFabServerAPI::HelperSetPlayerSecret(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessSetPlayerSecret.IsBound())
     {
-        FServerSetPlayerSecretResult result = UPlayFabServerModelDecoder::decodeSetPlayerSecretResultResponse(response.responseData);
-        OnSuccessSetPlayerSecret.Execute(result, mCustomData);
+        FServerSetPlayerSecretResult ResultStruct = UPlayFabServerModelDecoder::decodeSetPlayerSecretResultResponse(response.responseData);
+        OnSuccessSetPlayerSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1630,6 +1668,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterData(FServerGetCharacterDataRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetCharacterData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterData";
     manager->useSecretKey = true;
 
@@ -1670,8 +1709,8 @@ void UPlayFabServerAPI::HelperGetCharacterData(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetCharacterData.IsBound())
     {
-        FServerGetCharacterDataResult result = UPlayFabServerModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
-        OnSuccessGetCharacterData.Execute(result, mCustomData);
+        FServerGetCharacterDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
+        OnSuccessGetCharacterData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1694,6 +1733,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterInternalData(FServerGetCharact
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetCharacterInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterInternalData";
     manager->useSecretKey = true;
 
@@ -1734,8 +1774,9 @@ void UPlayFabServerAPI::HelperGetCharacterInternalData(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessGetCharacterInternalData.IsBound())
     {
-        FServerGetCharacterDataResult result = UPlayFabServerModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
-        OnSuccessGetCharacterInternalData.Execute(result, mCustomData);
+        FServerGetCharacterDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetCharacterInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1758,6 +1799,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterReadOnlyData(FServerGetCharact
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetCharacterReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterReadOnlyData";
     manager->useSecretKey = true;
 
@@ -1798,8 +1840,9 @@ void UPlayFabServerAPI::HelperGetCharacterReadOnlyData(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessGetCharacterReadOnlyData.IsBound())
     {
-        FServerGetCharacterDataResult result = UPlayFabServerModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
-        OnSuccessGetCharacterReadOnlyData.Execute(result, mCustomData);
+        FServerGetCharacterDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetCharacterDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetCharacterReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1822,6 +1865,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterData(FServerUpdateCharacter
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateCharacterData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateCharacterData";
     manager->useSecretKey = true;
 
@@ -1865,8 +1909,8 @@ void UPlayFabServerAPI::HelperUpdateCharacterData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessUpdateCharacterData.IsBound())
     {
-        FServerUpdateCharacterDataResult result = UPlayFabServerModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
-        OnSuccessUpdateCharacterData.Execute(result, mCustomData);
+        FServerUpdateCharacterDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
+        OnSuccessUpdateCharacterData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1889,6 +1933,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterInternalData(FServerUpdateC
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateCharacterInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateCharacterInternalData";
     manager->useSecretKey = true;
 
@@ -1932,8 +1977,9 @@ void UPlayFabServerAPI::HelperUpdateCharacterInternalData(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessUpdateCharacterInternalData.IsBound())
     {
-        FServerUpdateCharacterDataResult result = UPlayFabServerModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
-        OnSuccessUpdateCharacterInternalData.Execute(result, mCustomData);
+        FServerUpdateCharacterDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateCharacterInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1956,6 +2002,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterReadOnlyData(FServerUpdateC
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateCharacterReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateCharacterReadOnlyData";
     manager->useSecretKey = true;
 
@@ -1999,8 +2046,9 @@ void UPlayFabServerAPI::HelperUpdateCharacterReadOnlyData(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessUpdateCharacterReadOnlyData.IsBound())
     {
-        FServerUpdateCharacterDataResult result = UPlayFabServerModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
-        OnSuccessUpdateCharacterReadOnlyData.Execute(result, mCustomData);
+        FServerUpdateCharacterDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateCharacterDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateCharacterReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2027,6 +2075,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeleteCharacterFromUser(FServerDeleteChara
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeleteCharacterFromUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/DeleteCharacterFromUser";
     manager->useSecretKey = true;
 
@@ -2059,8 +2108,8 @@ void UPlayFabServerAPI::HelperDeleteCharacterFromUser(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessDeleteCharacterFromUser.IsBound())
     {
-        FServerDeleteCharacterFromUserResult result = UPlayFabServerModelDecoder::decodeDeleteCharacterFromUserResultResponse(response.responseData);
-        OnSuccessDeleteCharacterFromUser.Execute(result, mCustomData);
+        FServerDeleteCharacterFromUserResult ResultStruct = UPlayFabServerModelDecoder::decodeDeleteCharacterFromUserResultResponse(response.responseData);
+        OnSuccessDeleteCharacterFromUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2083,6 +2132,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetAllUsersCharacters(FServerListUsersChar
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetAllUsersCharacters);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetAllUsersCharacters";
     manager->useSecretKey = true;
 
@@ -2109,8 +2159,8 @@ void UPlayFabServerAPI::HelperGetAllUsersCharacters(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetAllUsersCharacters.IsBound())
     {
-        FServerListUsersCharactersResult result = UPlayFabServerModelDecoder::decodeListUsersCharactersResultResponse(response.responseData);
-        OnSuccessGetAllUsersCharacters.Execute(result, mCustomData);
+        FServerListUsersCharactersResult ResultStruct = UPlayFabServerModelDecoder::decodeListUsersCharactersResultResponse(response.responseData);
+        OnSuccessGetAllUsersCharacters.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2133,6 +2183,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterLeaderboard(FServerGetCharacte
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetCharacterLeaderboard);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterLeaderboard";
     manager->useSecretKey = true;
 
@@ -2166,8 +2217,8 @@ void UPlayFabServerAPI::HelperGetCharacterLeaderboard(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessGetCharacterLeaderboard.IsBound())
     {
-        FServerGetCharacterLeaderboardResult result = UPlayFabServerModelDecoder::decodeGetCharacterLeaderboardResultResponse(response.responseData);
-        OnSuccessGetCharacterLeaderboard.Execute(result, mCustomData);
+        FServerGetCharacterLeaderboardResult ResultStruct = UPlayFabServerModelDecoder::decodeGetCharacterLeaderboardResultResponse(response.responseData);
+        OnSuccessGetCharacterLeaderboard.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2190,6 +2241,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterStatistics(FServerGetCharacter
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetCharacterStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterStatistics";
     manager->useSecretKey = true;
 
@@ -2221,8 +2273,8 @@ void UPlayFabServerAPI::HelperGetCharacterStatistics(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessGetCharacterStatistics.IsBound())
     {
-        FServerGetCharacterStatisticsResult result = UPlayFabServerModelDecoder::decodeGetCharacterStatisticsResultResponse(response.responseData);
-        OnSuccessGetCharacterStatistics.Execute(result, mCustomData);
+        FServerGetCharacterStatisticsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetCharacterStatisticsResultResponse(response.responseData);
+        OnSuccessGetCharacterStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2245,6 +2297,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardAroundCharacter(FServerGetLe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetLeaderboardAroundCharacter);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetLeaderboardAroundCharacter";
     manager->useSecretKey = true;
 
@@ -2287,8 +2340,8 @@ void UPlayFabServerAPI::HelperGetLeaderboardAroundCharacter(FPlayFabBaseModel re
     }
     else if (!error.hasError && OnSuccessGetLeaderboardAroundCharacter.IsBound())
     {
-        FServerGetLeaderboardAroundCharacterResult result = UPlayFabServerModelDecoder::decodeGetLeaderboardAroundCharacterResultResponse(response.responseData);
-        OnSuccessGetLeaderboardAroundCharacter.Execute(result, mCustomData);
+        FServerGetLeaderboardAroundCharacterResult ResultStruct = UPlayFabServerModelDecoder::decodeGetLeaderboardAroundCharacterResultResponse(response.responseData);
+        OnSuccessGetLeaderboardAroundCharacter.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2311,6 +2364,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardForUserCharacters(FServerGet
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetLeaderboardForUserCharacters);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetLeaderboardForUserCharacters";
     manager->useSecretKey = true;
 
@@ -2343,8 +2397,8 @@ void UPlayFabServerAPI::HelperGetLeaderboardForUserCharacters(FPlayFabBaseModel 
     }
     else if (!error.hasError && OnSuccessGetLeaderboardForUserCharacters.IsBound())
     {
-        FServerGetLeaderboardForUsersCharactersResult result = UPlayFabServerModelDecoder::decodeGetLeaderboardForUsersCharactersResultResponse(response.responseData);
-        OnSuccessGetLeaderboardForUserCharacters.Execute(result, mCustomData);
+        FServerGetLeaderboardForUsersCharactersResult ResultStruct = UPlayFabServerModelDecoder::decodeGetLeaderboardForUsersCharactersResultResponse(response.responseData);
+        OnSuccessGetLeaderboardForUserCharacters.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2367,6 +2421,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantCharacterToUser(FServerGrantCharacter
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGrantCharacterToUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GrantCharacterToUser";
     manager->useSecretKey = true;
 
@@ -2403,8 +2458,8 @@ void UPlayFabServerAPI::HelperGrantCharacterToUser(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGrantCharacterToUser.IsBound())
     {
-        FServerGrantCharacterToUserResult result = UPlayFabServerModelDecoder::decodeGrantCharacterToUserResultResponse(response.responseData);
-        OnSuccessGrantCharacterToUser.Execute(result, mCustomData);
+        FServerGrantCharacterToUserResult ResultStruct = UPlayFabServerModelDecoder::decodeGrantCharacterToUserResultResponse(response.responseData);
+        OnSuccessGrantCharacterToUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2427,6 +2482,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterStatistics(FServerUpdateCha
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateCharacterStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateCharacterStatistics";
     manager->useSecretKey = true;
 
@@ -2459,8 +2515,8 @@ void UPlayFabServerAPI::HelperUpdateCharacterStatistics(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessUpdateCharacterStatistics.IsBound())
     {
-        FServerUpdateCharacterStatisticsResult result = UPlayFabServerModelDecoder::decodeUpdateCharacterStatisticsResultResponse(response.responseData);
-        OnSuccessUpdateCharacterStatistics.Execute(result, mCustomData);
+        FServerUpdateCharacterStatisticsResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateCharacterStatisticsResultResponse(response.responseData);
+        OnSuccessUpdateCharacterStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2487,6 +2543,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetContentDownloadUrl(FServerGetContentDow
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetContentDownloadUrl);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetContentDownloadUrl";
     manager->useSecretKey = true;
 
@@ -2519,8 +2576,8 @@ void UPlayFabServerAPI::HelperGetContentDownloadUrl(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetContentDownloadUrl.IsBound())
     {
-        FServerGetContentDownloadUrlResult result = UPlayFabServerModelDecoder::decodeGetContentDownloadUrlResultResponse(response.responseData);
-        OnSuccessGetContentDownloadUrl.Execute(result, mCustomData);
+        FServerGetContentDownloadUrlResult ResultStruct = UPlayFabServerModelDecoder::decodeGetContentDownloadUrlResultResponse(response.responseData);
+        OnSuccessGetContentDownloadUrl.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2547,6 +2604,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddFriend(FServerAddFriendRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAddFriend);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AddFriend";
     manager->useSecretKey = true;
 
@@ -2593,8 +2651,9 @@ void UPlayFabServerAPI::HelperAddFriend(FPlayFabBaseModel response, UObject* cus
     }
     else if (!error.hasError && OnSuccessAddFriend.IsBound())
     {
-        FServerEmptyResponse result = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessAddFriend.Execute(result, mCustomData);
+        FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessAddFriend.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2617,6 +2676,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetFriendsList(FServerGetFriendsListReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetFriendsList);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetFriendsList";
     manager->useSecretKey = true;
 
@@ -2651,8 +2711,8 @@ void UPlayFabServerAPI::HelperGetFriendsList(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetFriendsList.IsBound())
     {
-        FServerGetFriendsListResult result = UPlayFabServerModelDecoder::decodeGetFriendsListResultResponse(response.responseData);
-        OnSuccessGetFriendsList.Execute(result, mCustomData);
+        FServerGetFriendsListResult ResultStruct = UPlayFabServerModelDecoder::decodeGetFriendsListResultResponse(response.responseData);
+        OnSuccessGetFriendsList.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2675,6 +2735,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RemoveFriend(FServerRemoveFriendRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRemoveFriend);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RemoveFriend";
     manager->useSecretKey = true;
 
@@ -2706,8 +2767,9 @@ void UPlayFabServerAPI::HelperRemoveFriend(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessRemoveFriend.IsBound())
     {
-        FServerEmptyResponse result = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessRemoveFriend.Execute(result, mCustomData);
+        FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRemoveFriend.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2730,6 +2792,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetFriendTags(FServerSetFriendTagsRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetFriendTags);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetFriendTags";
     manager->useSecretKey = true;
 
@@ -2769,8 +2832,9 @@ void UPlayFabServerAPI::HelperSetFriendTags(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessSetFriendTags.IsBound())
     {
-        FServerEmptyResponse result = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessSetFriendTags.Execute(result, mCustomData);
+        FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSetFriendTags.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2797,6 +2861,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeregisterGame(FServerDeregisterGameReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeregisterGame);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/DeregisterGame";
     manager->useSecretKey = true;
 
@@ -2823,8 +2888,8 @@ void UPlayFabServerAPI::HelperDeregisterGame(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessDeregisterGame.IsBound())
     {
-        FServerDeregisterGameResponse result = UPlayFabServerModelDecoder::decodeDeregisterGameResponseResponse(response.responseData);
-        OnSuccessDeregisterGame.Execute(result, mCustomData);
+        FServerDeregisterGameResponse ResultStruct = UPlayFabServerModelDecoder::decodeDeregisterGameResponseResponse(response.responseData);
+        OnSuccessDeregisterGame.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2847,6 +2912,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::NotifyMatchmakerPlayerLeft(FServerNotifyMa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperNotifyMatchmakerPlayerLeft);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/NotifyMatchmakerPlayerLeft";
     manager->useSecretKey = true;
 
@@ -2878,8 +2944,8 @@ void UPlayFabServerAPI::HelperNotifyMatchmakerPlayerLeft(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessNotifyMatchmakerPlayerLeft.IsBound())
     {
-        FServerNotifyMatchmakerPlayerLeftResult result = UPlayFabServerModelDecoder::decodeNotifyMatchmakerPlayerLeftResultResponse(response.responseData);
-        OnSuccessNotifyMatchmakerPlayerLeft.Execute(result, mCustomData);
+        FServerNotifyMatchmakerPlayerLeftResult ResultStruct = UPlayFabServerModelDecoder::decodeNotifyMatchmakerPlayerLeftResultResponse(response.responseData);
+        OnSuccessNotifyMatchmakerPlayerLeft.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2902,6 +2968,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RedeemMatchmakerTicket(FServerRedeemMatchm
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRedeemMatchmakerTicket);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RedeemMatchmakerTicket";
     manager->useSecretKey = true;
 
@@ -2933,8 +3000,8 @@ void UPlayFabServerAPI::HelperRedeemMatchmakerTicket(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessRedeemMatchmakerTicket.IsBound())
     {
-        FServerRedeemMatchmakerTicketResult result = UPlayFabServerModelDecoder::decodeRedeemMatchmakerTicketResultResponse(response.responseData);
-        OnSuccessRedeemMatchmakerTicket.Execute(result, mCustomData);
+        FServerRedeemMatchmakerTicketResult ResultStruct = UPlayFabServerModelDecoder::decodeRedeemMatchmakerTicketResultResponse(response.responseData);
+        OnSuccessRedeemMatchmakerTicket.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2957,6 +3024,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RefreshGameServerInstanceHeartbeat(FServer
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRefreshGameServerInstanceHeartbeat);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RefreshGameServerInstanceHeartbeat";
     manager->useSecretKey = true;
 
@@ -2983,8 +3051,8 @@ void UPlayFabServerAPI::HelperRefreshGameServerInstanceHeartbeat(FPlayFabBaseMod
     }
     else if (!error.hasError && OnSuccessRefreshGameServerInstanceHeartbeat.IsBound())
     {
-        FServerRefreshGameServerInstanceHeartbeatResult result = UPlayFabServerModelDecoder::decodeRefreshGameServerInstanceHeartbeatResultResponse(response.responseData);
-        OnSuccessRefreshGameServerInstanceHeartbeat.Execute(result, mCustomData);
+        FServerRefreshGameServerInstanceHeartbeatResult ResultStruct = UPlayFabServerModelDecoder::decodeRefreshGameServerInstanceHeartbeatResultResponse(response.responseData);
+        OnSuccessRefreshGameServerInstanceHeartbeat.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3007,6 +3075,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RegisterGame(FServerRegisterGameRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRegisterGame);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RegisterGame";
     manager->useSecretKey = true;
 
@@ -3067,8 +3136,8 @@ void UPlayFabServerAPI::HelperRegisterGame(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessRegisterGame.IsBound())
     {
-        FServerRegisterGameResponse result = UPlayFabServerModelDecoder::decodeRegisterGameResponseResponse(response.responseData);
-        OnSuccessRegisterGame.Execute(result, mCustomData);
+        FServerRegisterGameResponse ResultStruct = UPlayFabServerModelDecoder::decodeRegisterGameResponseResponse(response.responseData);
+        OnSuccessRegisterGame.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3091,6 +3160,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceData(FServerSetGameSe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetGameServerInstanceData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetGameServerInstanceData";
     manager->useSecretKey = true;
 
@@ -3122,8 +3192,8 @@ void UPlayFabServerAPI::HelperSetGameServerInstanceData(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessSetGameServerInstanceData.IsBound())
     {
-        FServerSetGameServerInstanceDataResult result = UPlayFabServerModelDecoder::decodeSetGameServerInstanceDataResultResponse(response.responseData);
-        OnSuccessSetGameServerInstanceData.Execute(result, mCustomData);
+        FServerSetGameServerInstanceDataResult ResultStruct = UPlayFabServerModelDecoder::decodeSetGameServerInstanceDataResultResponse(response.responseData);
+        OnSuccessSetGameServerInstanceData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3146,6 +3216,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceState(FServerSetGameS
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetGameServerInstanceState);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetGameServerInstanceState";
     manager->useSecretKey = true;
 
@@ -3175,8 +3246,8 @@ void UPlayFabServerAPI::HelperSetGameServerInstanceState(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessSetGameServerInstanceState.IsBound())
     {
-        FServerSetGameServerInstanceStateResult result = UPlayFabServerModelDecoder::decodeSetGameServerInstanceStateResultResponse(response.responseData);
-        OnSuccessSetGameServerInstanceState.Execute(result, mCustomData);
+        FServerSetGameServerInstanceStateResult ResultStruct = UPlayFabServerModelDecoder::decodeSetGameServerInstanceStateResultResponse(response.responseData);
+        OnSuccessSetGameServerInstanceState.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3199,6 +3270,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceTags(FServerSetGameSe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetGameServerInstanceTags);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetGameServerInstanceTags";
     manager->useSecretKey = true;
 
@@ -3226,8 +3298,8 @@ void UPlayFabServerAPI::HelperSetGameServerInstanceTags(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessSetGameServerInstanceTags.IsBound())
     {
-        FServerSetGameServerInstanceTagsResult result = UPlayFabServerModelDecoder::decodeSetGameServerInstanceTagsResultResponse(response.responseData);
-        OnSuccessSetGameServerInstanceTags.Execute(result, mCustomData);
+        FServerSetGameServerInstanceTagsResult ResultStruct = UPlayFabServerModelDecoder::decodeSetGameServerInstanceTagsResultResponse(response.responseData);
+        OnSuccessSetGameServerInstanceTags.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3254,6 +3326,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AwardSteamAchievement(FServerAwardSteamAch
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAwardSteamAchievement);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AwardSteamAchievement";
     manager->useSecretKey = true;
 
@@ -3280,8 +3353,8 @@ void UPlayFabServerAPI::HelperAwardSteamAchievement(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessAwardSteamAchievement.IsBound())
     {
-        FServerAwardSteamAchievementResult result = UPlayFabServerModelDecoder::decodeAwardSteamAchievementResultResponse(response.responseData);
-        OnSuccessAwardSteamAchievement.Execute(result, mCustomData);
+        FServerAwardSteamAchievementResult ResultStruct = UPlayFabServerModelDecoder::decodeAwardSteamAchievementResultResponse(response.responseData);
+        OnSuccessAwardSteamAchievement.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3308,6 +3381,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetFriendLeaderboard(FServerGetFriendLeade
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetFriendLeaderboard);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetFriendLeaderboard";
     manager->useSecretKey = true;
 
@@ -3351,8 +3425,8 @@ void UPlayFabServerAPI::HelperGetFriendLeaderboard(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetFriendLeaderboard.IsBound())
     {
-        FServerGetLeaderboardResult result = UPlayFabServerModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
-        OnSuccessGetFriendLeaderboard.Execute(result, mCustomData);
+        FServerGetLeaderboardResult ResultStruct = UPlayFabServerModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
+        OnSuccessGetFriendLeaderboard.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3375,6 +3449,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboard(FServerGetLeaderboardReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetLeaderboard);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetLeaderboard";
     manager->useSecretKey = true;
 
@@ -3406,8 +3481,9 @@ void UPlayFabServerAPI::HelperGetLeaderboard(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetLeaderboard.IsBound())
     {
-        FServerGetLeaderboardResult result = UPlayFabServerModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
-        OnSuccessGetLeaderboard.Execute(result, mCustomData);
+        FServerGetLeaderboardResult ResultStruct = UPlayFabServerModelDecoder::decodeGetLeaderboardResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetLeaderboard.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3430,6 +3506,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardAroundUser(FServerGetLeaderb
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetLeaderboardAroundUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetLeaderboardAroundUser";
     manager->useSecretKey = true;
 
@@ -3465,8 +3542,8 @@ void UPlayFabServerAPI::HelperGetLeaderboardAroundUser(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessGetLeaderboardAroundUser.IsBound())
     {
-        FServerGetLeaderboardAroundUserResult result = UPlayFabServerModelDecoder::decodeGetLeaderboardAroundUserResultResponse(response.responseData);
-        OnSuccessGetLeaderboardAroundUser.Execute(result, mCustomData);
+        FServerGetLeaderboardAroundUserResult ResultStruct = UPlayFabServerModelDecoder::decodeGetLeaderboardAroundUserResultResponse(response.responseData);
+        OnSuccessGetLeaderboardAroundUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3489,6 +3566,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerCombinedInfo(FServerGetPlayerComb
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayerCombinedInfo);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerCombinedInfo";
     manager->useSecretKey = true;
 
@@ -3516,8 +3594,8 @@ void UPlayFabServerAPI::HelperGetPlayerCombinedInfo(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetPlayerCombinedInfo.IsBound())
     {
-        FServerGetPlayerCombinedInfoResult result = UPlayFabServerModelDecoder::decodeGetPlayerCombinedInfoResultResponse(response.responseData);
-        OnSuccessGetPlayerCombinedInfo.Execute(result, mCustomData);
+        FServerGetPlayerCombinedInfoResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerCombinedInfoResultResponse(response.responseData);
+        OnSuccessGetPlayerCombinedInfo.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3540,6 +3618,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerStatistics(FServerGetPlayerStatis
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayerStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerStatistics";
     manager->useSecretKey = true;
 
@@ -3579,8 +3658,8 @@ void UPlayFabServerAPI::HelperGetPlayerStatistics(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetPlayerStatistics.IsBound())
     {
-        FServerGetPlayerStatisticsResult result = UPlayFabServerModelDecoder::decodeGetPlayerStatisticsResultResponse(response.responseData);
-        OnSuccessGetPlayerStatistics.Execute(result, mCustomData);
+        FServerGetPlayerStatisticsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerStatisticsResultResponse(response.responseData);
+        OnSuccessGetPlayerStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3603,6 +3682,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerStatisticVersions(FServerGetPlaye
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayerStatisticVersions);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerStatisticVersions";
     manager->useSecretKey = true;
 
@@ -3629,8 +3709,8 @@ void UPlayFabServerAPI::HelperGetPlayerStatisticVersions(FPlayFabBaseModel respo
     }
     else if (!error.hasError && OnSuccessGetPlayerStatisticVersions.IsBound())
     {
-        FServerGetPlayerStatisticVersionsResult result = UPlayFabServerModelDecoder::decodeGetPlayerStatisticVersionsResultResponse(response.responseData);
-        OnSuccessGetPlayerStatisticVersions.Execute(result, mCustomData);
+        FServerGetPlayerStatisticVersionsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerStatisticVersionsResultResponse(response.responseData);
+        OnSuccessGetPlayerStatisticVersions.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3653,6 +3733,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserData(FServerGetUserDataRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserData";
     manager->useSecretKey = true;
 
@@ -3688,8 +3769,8 @@ void UPlayFabServerAPI::HelperGetUserData(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessGetUserData.IsBound())
     {
-        FServerGetUserDataResult result = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserData.Execute(result, mCustomData);
+        FServerGetUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        OnSuccessGetUserData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3712,6 +3793,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserInternalData(FServerGetUserDataRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserInternalData";
     manager->useSecretKey = true;
 
@@ -3747,8 +3829,9 @@ void UPlayFabServerAPI::HelperGetUserInternalData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetUserInternalData.IsBound())
     {
-        FServerGetUserDataResult result = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserInternalData.Execute(result, mCustomData);
+        FServerGetUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3771,6 +3854,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserPublisherData(FServerGetUserDataReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserPublisherData";
     manager->useSecretKey = true;
 
@@ -3806,8 +3890,9 @@ void UPlayFabServerAPI::HelperGetUserPublisherData(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetUserPublisherData.IsBound())
     {
-        FServerGetUserDataResult result = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherData.Execute(result, mCustomData);
+        FServerGetUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3830,6 +3915,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserPublisherInternalData(FServerGetUse
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserPublisherInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserPublisherInternalData";
     manager->useSecretKey = true;
 
@@ -3865,8 +3951,9 @@ void UPlayFabServerAPI::HelperGetUserPublisherInternalData(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetUserPublisherInternalData.IsBound())
     {
-        FServerGetUserDataResult result = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherInternalData.Execute(result, mCustomData);
+        FServerGetUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3889,6 +3976,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserPublisherReadOnlyData(FServerGetUse
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserPublisherReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserPublisherReadOnlyData";
     manager->useSecretKey = true;
 
@@ -3924,8 +4012,9 @@ void UPlayFabServerAPI::HelperGetUserPublisherReadOnlyData(FPlayFabBaseModel res
     }
     else if (!error.hasError && OnSuccessGetUserPublisherReadOnlyData.IsBound())
     {
-        FServerGetUserDataResult result = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserPublisherReadOnlyData.Execute(result, mCustomData);
+        FServerGetUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserPublisherReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3948,6 +4037,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserReadOnlyData(FServerGetUserDataRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserReadOnlyData";
     manager->useSecretKey = true;
 
@@ -3983,8 +4073,9 @@ void UPlayFabServerAPI::HelperGetUserReadOnlyData(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetUserReadOnlyData.IsBound())
     {
-        FServerGetUserDataResult result = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
-        OnSuccessGetUserReadOnlyData.Execute(result, mCustomData);
+        FServerGetUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetUserReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4007,6 +4098,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdatePlayerStatistics(FServerUpdatePlayer
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdatePlayerStatistics);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdatePlayerStatistics";
     manager->useSecretKey = true;
 
@@ -4039,8 +4131,8 @@ void UPlayFabServerAPI::HelperUpdatePlayerStatistics(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessUpdatePlayerStatistics.IsBound())
     {
-        FServerUpdatePlayerStatisticsResult result = UPlayFabServerModelDecoder::decodeUpdatePlayerStatisticsResultResponse(response.responseData);
-        OnSuccessUpdatePlayerStatistics.Execute(result, mCustomData);
+        FServerUpdatePlayerStatisticsResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdatePlayerStatisticsResultResponse(response.responseData);
+        OnSuccessUpdatePlayerStatistics.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4063,6 +4155,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserData(FServerUpdateUserDataReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateUserData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserData";
     manager->useSecretKey = true;
 
@@ -4101,8 +4194,8 @@ void UPlayFabServerAPI::HelperUpdateUserData(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessUpdateUserData.IsBound())
     {
-        FServerUpdateUserDataResult result = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserData.Execute(result, mCustomData);
+        FServerUpdateUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        OnSuccessUpdateUserData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4125,6 +4218,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserInternalData(FServerUpdateUserIn
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateUserInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserInternalData";
     manager->useSecretKey = true;
 
@@ -4160,8 +4254,9 @@ void UPlayFabServerAPI::HelperUpdateUserInternalData(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessUpdateUserInternalData.IsBound())
     {
-        FServerUpdateUserDataResult result = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserInternalData.Execute(result, mCustomData);
+        FServerUpdateUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4184,6 +4279,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserPublisherData(FServerUpdateUserD
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateUserPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserPublisherData";
     manager->useSecretKey = true;
 
@@ -4222,8 +4318,9 @@ void UPlayFabServerAPI::HelperUpdateUserPublisherData(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUpdateUserPublisherData.IsBound())
     {
-        FServerUpdateUserDataResult result = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserPublisherData.Execute(result, mCustomData);
+        FServerUpdateUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4246,6 +4343,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserPublisherInternalData(FServerUpd
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateUserPublisherInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserPublisherInternalData";
     manager->useSecretKey = true;
 
@@ -4281,8 +4379,9 @@ void UPlayFabServerAPI::HelperUpdateUserPublisherInternalData(FPlayFabBaseModel 
     }
     else if (!error.hasError && OnSuccessUpdateUserPublisherInternalData.IsBound())
     {
-        FServerUpdateUserDataResult result = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserPublisherInternalData.Execute(result, mCustomData);
+        FServerUpdateUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserPublisherInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4305,6 +4404,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserPublisherReadOnlyData(FServerUpd
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateUserPublisherReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserPublisherReadOnlyData";
     manager->useSecretKey = true;
 
@@ -4343,8 +4443,9 @@ void UPlayFabServerAPI::HelperUpdateUserPublisherReadOnlyData(FPlayFabBaseModel 
     }
     else if (!error.hasError && OnSuccessUpdateUserPublisherReadOnlyData.IsBound())
     {
-        FServerUpdateUserDataResult result = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserPublisherReadOnlyData.Execute(result, mCustomData);
+        FServerUpdateUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserPublisherReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4367,6 +4468,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserReadOnlyData(FServerUpdateUserDa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateUserReadOnlyData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserReadOnlyData";
     manager->useSecretKey = true;
 
@@ -4405,8 +4507,9 @@ void UPlayFabServerAPI::HelperUpdateUserReadOnlyData(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessUpdateUserReadOnlyData.IsBound())
     {
-        FServerUpdateUserDataResult result = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
-        OnSuccessUpdateUserReadOnlyData.Execute(result, mCustomData);
+        FServerUpdateUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateUserDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserReadOnlyData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4433,6 +4536,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddCharacterVirtualCurrency(FServerAddChar
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAddCharacterVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AddCharacterVirtualCurrency";
     manager->useSecretKey = true;
 
@@ -4470,8 +4574,8 @@ void UPlayFabServerAPI::HelperAddCharacterVirtualCurrency(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessAddCharacterVirtualCurrency.IsBound())
     {
-        FServerModifyCharacterVirtualCurrencyResult result = UPlayFabServerModelDecoder::decodeModifyCharacterVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessAddCharacterVirtualCurrency.Execute(result, mCustomData);
+        FServerModifyCharacterVirtualCurrencyResult ResultStruct = UPlayFabServerModelDecoder::decodeModifyCharacterVirtualCurrencyResultResponse(response.responseData);
+        OnSuccessAddCharacterVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4494,6 +4598,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddUserVirtualCurrency(FServerAddUserVirtu
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAddUserVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AddUserVirtualCurrency";
     manager->useSecretKey = true;
 
@@ -4526,8 +4631,8 @@ void UPlayFabServerAPI::HelperAddUserVirtualCurrency(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessAddUserVirtualCurrency.IsBound())
     {
-        FServerModifyUserVirtualCurrencyResult result = UPlayFabServerModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessAddUserVirtualCurrency.Execute(result, mCustomData);
+        FServerModifyUserVirtualCurrencyResult ResultStruct = UPlayFabServerModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
+        OnSuccessAddUserVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4550,6 +4655,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ConsumeItem(FServerConsumeItemRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperConsumeItem);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/ConsumeItem";
     manager->useSecretKey = true;
 
@@ -4587,8 +4693,8 @@ void UPlayFabServerAPI::HelperConsumeItem(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessConsumeItem.IsBound())
     {
-        FServerConsumeItemResult result = UPlayFabServerModelDecoder::decodeConsumeItemResultResponse(response.responseData);
-        OnSuccessConsumeItem.Execute(result, mCustomData);
+        FServerConsumeItemResult ResultStruct = UPlayFabServerModelDecoder::decodeConsumeItemResultResponse(response.responseData);
+        OnSuccessConsumeItem.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4611,6 +4717,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::EvaluateRandomResultTable(FServerEvaluateR
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperEvaluateRandomResultTable);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/EvaluateRandomResultTable";
     manager->useSecretKey = true;
 
@@ -4642,8 +4749,8 @@ void UPlayFabServerAPI::HelperEvaluateRandomResultTable(FPlayFabBaseModel respon
     }
     else if (!error.hasError && OnSuccessEvaluateRandomResultTable.IsBound())
     {
-        FServerEvaluateRandomResultTableResult result = UPlayFabServerModelDecoder::decodeEvaluateRandomResultTableResultResponse(response.responseData);
-        OnSuccessEvaluateRandomResultTable.Execute(result, mCustomData);
+        FServerEvaluateRandomResultTableResult ResultStruct = UPlayFabServerModelDecoder::decodeEvaluateRandomResultTableResultResponse(response.responseData);
+        OnSuccessEvaluateRandomResultTable.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4666,6 +4773,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterInventory(FServerGetCharacterI
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetCharacterInventory);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterInventory";
     manager->useSecretKey = true;
 
@@ -4702,8 +4810,8 @@ void UPlayFabServerAPI::HelperGetCharacterInventory(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetCharacterInventory.IsBound())
     {
-        FServerGetCharacterInventoryResult result = UPlayFabServerModelDecoder::decodeGetCharacterInventoryResultResponse(response.responseData);
-        OnSuccessGetCharacterInventory.Execute(result, mCustomData);
+        FServerGetCharacterInventoryResult ResultStruct = UPlayFabServerModelDecoder::decodeGetCharacterInventoryResultResponse(response.responseData);
+        OnSuccessGetCharacterInventory.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4726,6 +4834,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetRandomResultTables(FServerGetRandomResu
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetRandomResultTables);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetRandomResultTables";
     manager->useSecretKey = true;
 
@@ -4760,8 +4869,8 @@ void UPlayFabServerAPI::HelperGetRandomResultTables(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGetRandomResultTables.IsBound())
     {
-        FServerGetRandomResultTablesResult result = UPlayFabServerModelDecoder::decodeGetRandomResultTablesResultResponse(response.responseData);
-        OnSuccessGetRandomResultTables.Execute(result, mCustomData);
+        FServerGetRandomResultTablesResult ResultStruct = UPlayFabServerModelDecoder::decodeGetRandomResultTablesResultResponse(response.responseData);
+        OnSuccessGetRandomResultTables.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4784,6 +4893,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserInventory(FServerGetUserInventoryRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetUserInventory);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserInventory";
     manager->useSecretKey = true;
 
@@ -4810,8 +4920,8 @@ void UPlayFabServerAPI::HelperGetUserInventory(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetUserInventory.IsBound())
     {
-        FServerGetUserInventoryResult result = UPlayFabServerModelDecoder::decodeGetUserInventoryResultResponse(response.responseData);
-        OnSuccessGetUserInventory.Execute(result, mCustomData);
+        FServerGetUserInventoryResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserInventoryResultResponse(response.responseData);
+        OnSuccessGetUserInventory.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4834,6 +4944,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantItemsToCharacter(FServerGrantItemsToC
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGrantItemsToCharacter);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GrantItemsToCharacter";
     manager->useSecretKey = true;
 
@@ -4883,8 +4994,8 @@ void UPlayFabServerAPI::HelperGrantItemsToCharacter(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessGrantItemsToCharacter.IsBound())
     {
-        FServerGrantItemsToCharacterResult result = UPlayFabServerModelDecoder::decodeGrantItemsToCharacterResultResponse(response.responseData);
-        OnSuccessGrantItemsToCharacter.Execute(result, mCustomData);
+        FServerGrantItemsToCharacterResult ResultStruct = UPlayFabServerModelDecoder::decodeGrantItemsToCharacterResultResponse(response.responseData);
+        OnSuccessGrantItemsToCharacter.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4907,6 +5018,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantItemsToUser(FServerGrantItemsToUserRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGrantItemsToUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GrantItemsToUser";
     manager->useSecretKey = true;
 
@@ -4951,8 +5063,8 @@ void UPlayFabServerAPI::HelperGrantItemsToUser(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGrantItemsToUser.IsBound())
     {
-        FServerGrantItemsToUserResult result = UPlayFabServerModelDecoder::decodeGrantItemsToUserResultResponse(response.responseData);
-        OnSuccessGrantItemsToUser.Execute(result, mCustomData);
+        FServerGrantItemsToUserResult ResultStruct = UPlayFabServerModelDecoder::decodeGrantItemsToUserResultResponse(response.responseData);
+        OnSuccessGrantItemsToUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4975,6 +5087,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantItemsToUsers(FServerGrantItemsToUsers
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGrantItemsToUsers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GrantItemsToUsers";
     manager->useSecretKey = true;
 
@@ -5006,8 +5119,8 @@ void UPlayFabServerAPI::HelperGrantItemsToUsers(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGrantItemsToUsers.IsBound())
     {
-        FServerGrantItemsToUsersResult result = UPlayFabServerModelDecoder::decodeGrantItemsToUsersResultResponse(response.responseData);
-        OnSuccessGrantItemsToUsers.Execute(result, mCustomData);
+        FServerGrantItemsToUsersResult ResultStruct = UPlayFabServerModelDecoder::decodeGrantItemsToUsersResultResponse(response.responseData);
+        OnSuccessGrantItemsToUsers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5030,6 +5143,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ModifyItemUses(FServerModifyItemUsesReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperModifyItemUses);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/ModifyItemUses";
     manager->useSecretKey = true;
 
@@ -5062,8 +5176,8 @@ void UPlayFabServerAPI::HelperModifyItemUses(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessModifyItemUses.IsBound())
     {
-        FServerModifyItemUsesResult result = UPlayFabServerModelDecoder::decodeModifyItemUsesResultResponse(response.responseData);
-        OnSuccessModifyItemUses.Execute(result, mCustomData);
+        FServerModifyItemUsesResult ResultStruct = UPlayFabServerModelDecoder::decodeModifyItemUsesResultResponse(response.responseData);
+        OnSuccessModifyItemUses.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5086,6 +5200,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::MoveItemToCharacterFromCharacter(FServerMo
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperMoveItemToCharacterFromCharacter);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/MoveItemToCharacterFromCharacter";
     manager->useSecretKey = true;
 
@@ -5127,8 +5242,8 @@ void UPlayFabServerAPI::HelperMoveItemToCharacterFromCharacter(FPlayFabBaseModel
     }
     else if (!error.hasError && OnSuccessMoveItemToCharacterFromCharacter.IsBound())
     {
-        FServerMoveItemToCharacterFromCharacterResult result = UPlayFabServerModelDecoder::decodeMoveItemToCharacterFromCharacterResultResponse(response.responseData);
-        OnSuccessMoveItemToCharacterFromCharacter.Execute(result, mCustomData);
+        FServerMoveItemToCharacterFromCharacterResult ResultStruct = UPlayFabServerModelDecoder::decodeMoveItemToCharacterFromCharacterResultResponse(response.responseData);
+        OnSuccessMoveItemToCharacterFromCharacter.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5151,6 +5266,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::MoveItemToCharacterFromUser(FServerMoveIte
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperMoveItemToCharacterFromUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/MoveItemToCharacterFromUser";
     manager->useSecretKey = true;
 
@@ -5187,8 +5303,8 @@ void UPlayFabServerAPI::HelperMoveItemToCharacterFromUser(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessMoveItemToCharacterFromUser.IsBound())
     {
-        FServerMoveItemToCharacterFromUserResult result = UPlayFabServerModelDecoder::decodeMoveItemToCharacterFromUserResultResponse(response.responseData);
-        OnSuccessMoveItemToCharacterFromUser.Execute(result, mCustomData);
+        FServerMoveItemToCharacterFromUserResult ResultStruct = UPlayFabServerModelDecoder::decodeMoveItemToCharacterFromUserResultResponse(response.responseData);
+        OnSuccessMoveItemToCharacterFromUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5211,6 +5327,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::MoveItemToUserFromCharacter(FServerMoveIte
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperMoveItemToUserFromCharacter);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/MoveItemToUserFromCharacter";
     manager->useSecretKey = true;
 
@@ -5247,8 +5364,8 @@ void UPlayFabServerAPI::HelperMoveItemToUserFromCharacter(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessMoveItemToUserFromCharacter.IsBound())
     {
-        FServerMoveItemToUserFromCharacterResult result = UPlayFabServerModelDecoder::decodeMoveItemToUserFromCharacterResultResponse(response.responseData);
-        OnSuccessMoveItemToUserFromCharacter.Execute(result, mCustomData);
+        FServerMoveItemToUserFromCharacterResult ResultStruct = UPlayFabServerModelDecoder::decodeMoveItemToUserFromCharacterResultResponse(response.responseData);
+        OnSuccessMoveItemToUserFromCharacter.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5271,6 +5388,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RedeemCoupon(FServerRedeemCouponRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRedeemCoupon);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RedeemCoupon";
     manager->useSecretKey = true;
 
@@ -5312,8 +5430,8 @@ void UPlayFabServerAPI::HelperRedeemCoupon(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessRedeemCoupon.IsBound())
     {
-        FServerRedeemCouponResult result = UPlayFabServerModelDecoder::decodeRedeemCouponResultResponse(response.responseData);
-        OnSuccessRedeemCoupon.Execute(result, mCustomData);
+        FServerRedeemCouponResult ResultStruct = UPlayFabServerModelDecoder::decodeRedeemCouponResultResponse(response.responseData);
+        OnSuccessRedeemCoupon.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5336,6 +5454,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ReportPlayer(FServerReportPlayerServerRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperReportPlayer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/ReportPlayer";
     manager->useSecretKey = true;
 
@@ -5372,8 +5491,8 @@ void UPlayFabServerAPI::HelperReportPlayer(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessReportPlayer.IsBound())
     {
-        FServerReportPlayerServerResult result = UPlayFabServerModelDecoder::decodeReportPlayerServerResultResponse(response.responseData);
-        OnSuccessReportPlayer.Execute(result, mCustomData);
+        FServerReportPlayerServerResult ResultStruct = UPlayFabServerModelDecoder::decodeReportPlayerServerResultResponse(response.responseData);
+        OnSuccessReportPlayer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5396,6 +5515,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeInventoryItem(FServerRevokeInventory
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRevokeInventoryItem);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RevokeInventoryItem";
     manager->useSecretKey = true;
 
@@ -5432,8 +5552,8 @@ void UPlayFabServerAPI::HelperRevokeInventoryItem(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessRevokeInventoryItem.IsBound())
     {
-        FServerRevokeInventoryResult result = UPlayFabServerModelDecoder::decodeRevokeInventoryResultResponse(response.responseData);
-        OnSuccessRevokeInventoryItem.Execute(result, mCustomData);
+        FServerRevokeInventoryResult ResultStruct = UPlayFabServerModelDecoder::decodeRevokeInventoryResultResponse(response.responseData);
+        OnSuccessRevokeInventoryItem.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5456,6 +5576,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeInventoryItems(FServerRevokeInventor
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRevokeInventoryItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RevokeInventoryItems";
     manager->useSecretKey = true;
 
@@ -5482,8 +5603,8 @@ void UPlayFabServerAPI::HelperRevokeInventoryItems(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessRevokeInventoryItems.IsBound())
     {
-        FServerRevokeInventoryItemsResult result = UPlayFabServerModelDecoder::decodeRevokeInventoryItemsResultResponse(response.responseData);
-        OnSuccessRevokeInventoryItems.Execute(result, mCustomData);
+        FServerRevokeInventoryItemsResult ResultStruct = UPlayFabServerModelDecoder::decodeRevokeInventoryItemsResultResponse(response.responseData);
+        OnSuccessRevokeInventoryItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5506,6 +5627,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SubtractCharacterVirtualCurrency(FServerSu
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSubtractCharacterVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SubtractCharacterVirtualCurrency";
     manager->useSecretKey = true;
 
@@ -5543,8 +5665,9 @@ void UPlayFabServerAPI::HelperSubtractCharacterVirtualCurrency(FPlayFabBaseModel
     }
     else if (!error.hasError && OnSuccessSubtractCharacterVirtualCurrency.IsBound())
     {
-        FServerModifyCharacterVirtualCurrencyResult result = UPlayFabServerModelDecoder::decodeModifyCharacterVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessSubtractCharacterVirtualCurrency.Execute(result, mCustomData);
+        FServerModifyCharacterVirtualCurrencyResult ResultStruct = UPlayFabServerModelDecoder::decodeModifyCharacterVirtualCurrencyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSubtractCharacterVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5567,6 +5690,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SubtractUserVirtualCurrency(FServerSubtrac
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSubtractUserVirtualCurrency);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SubtractUserVirtualCurrency";
     manager->useSecretKey = true;
 
@@ -5599,8 +5723,9 @@ void UPlayFabServerAPI::HelperSubtractUserVirtualCurrency(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessSubtractUserVirtualCurrency.IsBound())
     {
-        FServerModifyUserVirtualCurrencyResult result = UPlayFabServerModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
-        OnSuccessSubtractUserVirtualCurrency.Execute(result, mCustomData);
+        FServerModifyUserVirtualCurrencyResult ResultStruct = UPlayFabServerModelDecoder::decodeModifyUserVirtualCurrencyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSubtractUserVirtualCurrency.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5623,6 +5748,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlockContainerInstance(FServerUnlockConta
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlockContainerInstance);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UnlockContainerInstance";
     manager->useSecretKey = true;
 
@@ -5669,8 +5795,8 @@ void UPlayFabServerAPI::HelperUnlockContainerInstance(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUnlockContainerInstance.IsBound())
     {
-        FServerUnlockContainerItemResult result = UPlayFabServerModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
-        OnSuccessUnlockContainerInstance.Execute(result, mCustomData);
+        FServerUnlockContainerItemResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
+        OnSuccessUnlockContainerInstance.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5693,6 +5819,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlockContainerItem(FServerUnlockContainer
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlockContainerItem);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UnlockContainerItem";
     manager->useSecretKey = true;
 
@@ -5734,8 +5861,9 @@ void UPlayFabServerAPI::HelperUnlockContainerItem(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessUnlockContainerItem.IsBound())
     {
-        FServerUnlockContainerItemResult result = UPlayFabServerModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
-        OnSuccessUnlockContainerItem.Execute(result, mCustomData);
+        FServerUnlockContainerItemResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlockContainerItemResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUnlockContainerItem.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5758,6 +5886,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserInventoryItemCustomData(FServerU
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateUserInventoryItemCustomData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserInventoryItemCustomData";
     manager->useSecretKey = true;
 
@@ -5803,8 +5932,9 @@ void UPlayFabServerAPI::HelperUpdateUserInventoryItemCustomData(FPlayFabBaseMode
     }
     else if (!error.hasError && OnSuccessUpdateUserInventoryItemCustomData.IsBound())
     {
-        FServerEmptyResponse result = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUpdateUserInventoryItemCustomData.Execute(result, mCustomData);
+        FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateUserInventoryItemCustomData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5831,6 +5961,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddPlayerTag(FServerAddPlayerTagRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAddPlayerTag);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AddPlayerTag";
     manager->useSecretKey = true;
 
@@ -5862,8 +5993,8 @@ void UPlayFabServerAPI::HelperAddPlayerTag(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessAddPlayerTag.IsBound())
     {
-        FServerAddPlayerTagResult result = UPlayFabServerModelDecoder::decodeAddPlayerTagResultResponse(response.responseData);
-        OnSuccessAddPlayerTag.Execute(result, mCustomData);
+        FServerAddPlayerTagResult ResultStruct = UPlayFabServerModelDecoder::decodeAddPlayerTagResultResponse(response.responseData);
+        OnSuccessAddPlayerTag.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5886,6 +6017,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetAllSegments(FServerGetAllSegmentsReques
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetAllSegments);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetAllSegments";
     manager->useSecretKey = true;
 
@@ -5907,8 +6039,8 @@ void UPlayFabServerAPI::HelperGetAllSegments(FPlayFabBaseModel response, UObject
     }
     else if (!error.hasError && OnSuccessGetAllSegments.IsBound())
     {
-        FServerGetAllSegmentsResult result = UPlayFabServerModelDecoder::decodeGetAllSegmentsResultResponse(response.responseData);
-        OnSuccessGetAllSegments.Execute(result, mCustomData);
+        FServerGetAllSegmentsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetAllSegmentsResultResponse(response.responseData);
+        OnSuccessGetAllSegments.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5931,6 +6063,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerSegments(FServerGetPlayersSegment
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayerSegments);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerSegments";
     manager->useSecretKey = true;
 
@@ -5957,8 +6090,8 @@ void UPlayFabServerAPI::HelperGetPlayerSegments(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessGetPlayerSegments.IsBound())
     {
-        FServerGetPlayerSegmentsResult result = UPlayFabServerModelDecoder::decodeGetPlayerSegmentsResultResponse(response.responseData);
-        OnSuccessGetPlayerSegments.Execute(result, mCustomData);
+        FServerGetPlayerSegmentsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerSegmentsResultResponse(response.responseData);
+        OnSuccessGetPlayerSegments.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5981,6 +6114,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayersInSegment(FServerGetPlayersInSeg
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayersInSegment);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayersInSegment";
     manager->useSecretKey = true;
 
@@ -6014,8 +6148,8 @@ void UPlayFabServerAPI::HelperGetPlayersInSegment(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessGetPlayersInSegment.IsBound())
     {
-        FServerGetPlayersInSegmentResult result = UPlayFabServerModelDecoder::decodeGetPlayersInSegmentResultResponse(response.responseData);
-        OnSuccessGetPlayersInSegment.Execute(result, mCustomData);
+        FServerGetPlayersInSegmentResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayersInSegmentResultResponse(response.responseData);
+        OnSuccessGetPlayersInSegment.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6038,6 +6172,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerTags(FServerGetPlayerTagsRequest 
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayerTags);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerTags";
     manager->useSecretKey = true;
 
@@ -6069,8 +6204,8 @@ void UPlayFabServerAPI::HelperGetPlayerTags(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessGetPlayerTags.IsBound())
     {
-        FServerGetPlayerTagsResult result = UPlayFabServerModelDecoder::decodeGetPlayerTagsResultResponse(response.responseData);
-        OnSuccessGetPlayerTags.Execute(result, mCustomData);
+        FServerGetPlayerTagsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerTagsResultResponse(response.responseData);
+        OnSuccessGetPlayerTags.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6093,6 +6228,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RemovePlayerTag(FServerRemovePlayerTagRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRemovePlayerTag);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RemovePlayerTag";
     manager->useSecretKey = true;
 
@@ -6124,8 +6260,8 @@ void UPlayFabServerAPI::HelperRemovePlayerTag(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessRemovePlayerTag.IsBound())
     {
-        FServerRemovePlayerTagResult result = UPlayFabServerModelDecoder::decodeRemovePlayerTagResultResponse(response.responseData);
-        OnSuccessRemovePlayerTag.Execute(result, mCustomData);
+        FServerRemovePlayerTagResult ResultStruct = UPlayFabServerModelDecoder::decodeRemovePlayerTagResultResponse(response.responseData);
+        OnSuccessRemovePlayerTag.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6152,6 +6288,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ExecuteCloudScript(FServerExecuteCloudScri
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperExecuteCloudScript);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/ExecuteCloudScript";
     manager->useSecretKey = true;
 
@@ -6189,8 +6326,8 @@ void UPlayFabServerAPI::HelperExecuteCloudScript(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessExecuteCloudScript.IsBound())
     {
-        FServerExecuteCloudScriptResult result = UPlayFabServerModelDecoder::decodeExecuteCloudScriptResultResponse(response.responseData);
-        OnSuccessExecuteCloudScript.Execute(result, mCustomData);
+        FServerExecuteCloudScriptResult ResultStruct = UPlayFabServerModelDecoder::decodeExecuteCloudScriptResultResponse(response.responseData);
+        OnSuccessExecuteCloudScript.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6217,6 +6354,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddSharedGroupMembers(FServerAddSharedGrou
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAddSharedGroupMembers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AddSharedGroupMembers";
     manager->useSecretKey = true;
 
@@ -6251,8 +6389,8 @@ void UPlayFabServerAPI::HelperAddSharedGroupMembers(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessAddSharedGroupMembers.IsBound())
     {
-        FServerAddSharedGroupMembersResult result = UPlayFabServerModelDecoder::decodeAddSharedGroupMembersResultResponse(response.responseData);
-        OnSuccessAddSharedGroupMembers.Execute(result, mCustomData);
+        FServerAddSharedGroupMembersResult ResultStruct = UPlayFabServerModelDecoder::decodeAddSharedGroupMembersResultResponse(response.responseData);
+        OnSuccessAddSharedGroupMembers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6275,6 +6413,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::CreateSharedGroup(FServerCreateSharedGroup
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperCreateSharedGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/CreateSharedGroup";
     manager->useSecretKey = true;
 
@@ -6301,8 +6440,8 @@ void UPlayFabServerAPI::HelperCreateSharedGroup(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessCreateSharedGroup.IsBound())
     {
-        FServerCreateSharedGroupResult result = UPlayFabServerModelDecoder::decodeCreateSharedGroupResultResponse(response.responseData);
-        OnSuccessCreateSharedGroup.Execute(result, mCustomData);
+        FServerCreateSharedGroupResult ResultStruct = UPlayFabServerModelDecoder::decodeCreateSharedGroupResultResponse(response.responseData);
+        OnSuccessCreateSharedGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6325,6 +6464,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeleteSharedGroup(FServerDeleteSharedGroup
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeleteSharedGroup);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/DeleteSharedGroup";
     manager->useSecretKey = true;
 
@@ -6351,8 +6491,9 @@ void UPlayFabServerAPI::HelperDeleteSharedGroup(FPlayFabBaseModel response, UObj
     }
     else if (!error.hasError && OnSuccessDeleteSharedGroup.IsBound())
     {
-        FServerEmptyResponse result = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteSharedGroup.Execute(result, mCustomData);
+        FServerEmptyResponse ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteSharedGroup.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6375,6 +6516,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetSharedGroupData(FServerGetSharedGroupDa
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetSharedGroupData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetSharedGroupData";
     manager->useSecretKey = true;
 
@@ -6410,8 +6552,8 @@ void UPlayFabServerAPI::HelperGetSharedGroupData(FPlayFabBaseModel response, UOb
     }
     else if (!error.hasError && OnSuccessGetSharedGroupData.IsBound())
     {
-        FServerGetSharedGroupDataResult result = UPlayFabServerModelDecoder::decodeGetSharedGroupDataResultResponse(response.responseData);
-        OnSuccessGetSharedGroupData.Execute(result, mCustomData);
+        FServerGetSharedGroupDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetSharedGroupDataResultResponse(response.responseData);
+        OnSuccessGetSharedGroupData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6434,6 +6576,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RemoveSharedGroupMembers(FServerRemoveShar
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRemoveSharedGroupMembers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RemoveSharedGroupMembers";
     manager->useSecretKey = true;
 
@@ -6468,8 +6611,8 @@ void UPlayFabServerAPI::HelperRemoveSharedGroupMembers(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessRemoveSharedGroupMembers.IsBound())
     {
-        FServerRemoveSharedGroupMembersResult result = UPlayFabServerModelDecoder::decodeRemoveSharedGroupMembersResultResponse(response.responseData);
-        OnSuccessRemoveSharedGroupMembers.Execute(result, mCustomData);
+        FServerRemoveSharedGroupMembersResult ResultStruct = UPlayFabServerModelDecoder::decodeRemoveSharedGroupMembersResultResponse(response.responseData);
+        OnSuccessRemoveSharedGroupMembers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6492,6 +6635,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateSharedGroupData(FServerUpdateSharedG
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdateSharedGroupData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateSharedGroupData";
     manager->useSecretKey = true;
 
@@ -6530,8 +6674,8 @@ void UPlayFabServerAPI::HelperUpdateSharedGroupData(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessUpdateSharedGroupData.IsBound())
     {
-        FServerUpdateSharedGroupDataResult result = UPlayFabServerModelDecoder::decodeUpdateSharedGroupDataResultResponse(response.responseData);
-        OnSuccessUpdateSharedGroupData.Execute(result, mCustomData);
+        FServerUpdateSharedGroupDataResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdateSharedGroupDataResultResponse(response.responseData);
+        OnSuccessUpdateSharedGroupData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6558,6 +6702,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCatalogItems(FServerGetCatalogItemsRequ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetCatalogItems);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCatalogItems";
     manager->useSecretKey = true;
 
@@ -6584,8 +6729,8 @@ void UPlayFabServerAPI::HelperGetCatalogItems(FPlayFabBaseModel response, UObjec
     }
     else if (!error.hasError && OnSuccessGetCatalogItems.IsBound())
     {
-        FServerGetCatalogItemsResult result = UPlayFabServerModelDecoder::decodeGetCatalogItemsResultResponse(response.responseData);
-        OnSuccessGetCatalogItems.Execute(result, mCustomData);
+        FServerGetCatalogItemsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetCatalogItemsResultResponse(response.responseData);
+        OnSuccessGetCatalogItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6608,6 +6753,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPublisherData(FServerGetPublisherDataRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPublisherData";
     manager->useSecretKey = true;
 
@@ -6637,8 +6783,8 @@ void UPlayFabServerAPI::HelperGetPublisherData(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessGetPublisherData.IsBound())
     {
-        FServerGetPublisherDataResult result = UPlayFabServerModelDecoder::decodeGetPublisherDataResultResponse(response.responseData);
-        OnSuccessGetPublisherData.Execute(result, mCustomData);
+        FServerGetPublisherDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPublisherDataResultResponse(response.responseData);
+        OnSuccessGetPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6661,6 +6807,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTime(FServerGetTimeRequest request,
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetTime);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetTime";
     manager->useSecretKey = true;
 
@@ -6682,8 +6829,8 @@ void UPlayFabServerAPI::HelperGetTime(FPlayFabBaseModel response, UObject* custo
     }
     else if (!error.hasError && OnSuccessGetTime.IsBound())
     {
-        FServerGetTimeResult result = UPlayFabServerModelDecoder::decodeGetTimeResultResponse(response.responseData);
-        OnSuccessGetTime.Execute(result, mCustomData);
+        FServerGetTimeResult ResultStruct = UPlayFabServerModelDecoder::decodeGetTimeResultResponse(response.responseData);
+        OnSuccessGetTime.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6706,6 +6853,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTitleData(FServerGetTitleDataRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetTitleData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetTitleData";
     manager->useSecretKey = true;
 
@@ -6735,8 +6883,8 @@ void UPlayFabServerAPI::HelperGetTitleData(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetTitleData.IsBound())
     {
-        FServerGetTitleDataResult result = UPlayFabServerModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
-        OnSuccessGetTitleData.Execute(result, mCustomData);
+        FServerGetTitleDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
+        OnSuccessGetTitleData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6759,6 +6907,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTitleInternalData(FServerGetTitleDataRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetTitleInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetTitleInternalData";
     manager->useSecretKey = true;
 
@@ -6788,8 +6937,9 @@ void UPlayFabServerAPI::HelperGetTitleInternalData(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessGetTitleInternalData.IsBound())
     {
-        FServerGetTitleDataResult result = UPlayFabServerModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
-        OnSuccessGetTitleInternalData.Execute(result, mCustomData);
+        FServerGetTitleDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetTitleDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetTitleInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6812,6 +6962,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTitleNews(FServerGetTitleNewsRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetTitleNews);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetTitleNews";
     manager->useSecretKey = true;
 
@@ -6834,8 +6985,8 @@ void UPlayFabServerAPI::HelperGetTitleNews(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessGetTitleNews.IsBound())
     {
-        FServerGetTitleNewsResult result = UPlayFabServerModelDecoder::decodeGetTitleNewsResultResponse(response.responseData);
-        OnSuccessGetTitleNews.Execute(result, mCustomData);
+        FServerGetTitleNewsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetTitleNewsResultResponse(response.responseData);
+        OnSuccessGetTitleNews.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6858,6 +7009,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetPublisherData(FServerSetPublisherDataRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetPublisherData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetPublisherData";
     manager->useSecretKey = true;
 
@@ -6889,8 +7041,8 @@ void UPlayFabServerAPI::HelperSetPublisherData(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessSetPublisherData.IsBound())
     {
-        FServerSetPublisherDataResult result = UPlayFabServerModelDecoder::decodeSetPublisherDataResultResponse(response.responseData);
-        OnSuccessSetPublisherData.Execute(result, mCustomData);
+        FServerSetPublisherDataResult ResultStruct = UPlayFabServerModelDecoder::decodeSetPublisherDataResultResponse(response.responseData);
+        OnSuccessSetPublisherData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6913,6 +7065,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleData(FServerSetTitleDataRequest re
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetTitleData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetTitleData";
     manager->useSecretKey = true;
 
@@ -6944,8 +7097,8 @@ void UPlayFabServerAPI::HelperSetTitleData(FPlayFabBaseModel response, UObject* 
     }
     else if (!error.hasError && OnSuccessSetTitleData.IsBound())
     {
-        FServerSetTitleDataResult result = UPlayFabServerModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
-        OnSuccessSetTitleData.Execute(result, mCustomData);
+        FServerSetTitleDataResult ResultStruct = UPlayFabServerModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
+        OnSuccessSetTitleData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6968,6 +7121,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleInternalData(FServerSetTitleDataRe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetTitleInternalData);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetTitleInternalData";
     manager->useSecretKey = true;
 
@@ -6999,8 +7153,9 @@ void UPlayFabServerAPI::HelperSetTitleInternalData(FPlayFabBaseModel response, U
     }
     else if (!error.hasError && OnSuccessSetTitleInternalData.IsBound())
     {
-        FServerSetTitleDataResult result = UPlayFabServerModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
-        OnSuccessSetTitleInternalData.Execute(result, mCustomData);
+        FServerSetTitleDataResult ResultStruct = UPlayFabServerModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSetTitleInternalData.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7066,10 +7221,15 @@ void UPlayFabServerAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpR
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -7085,15 +7245,12 @@ void UPlayFabServerAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

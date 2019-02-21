@@ -98,6 +98,11 @@ namespace PlayFab
 
         bool EnableMultiplayerServersForTitle(const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate = FEnableMultiplayerServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Enables the multiplayer server feature for a title.
+         * Enables the multiplayer server feature for a title and returns the enabled status. The enabled status can be Initializing, Enabled, and Disabled. It can up to 20 minutes or more for the title to be enabled for the feature. On average, it can take up to 20 minutes for the title to be enabled for the feature.
+         */
+        bool EnableMultiplayerServersForTitle(MultiplayerModels::FEnableMultiplayerServersForTitleRequest& request, const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate = FEnableMultiplayerServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Gets the URL to upload assets to.
          * Gets the URL to upload assets to.
          */
@@ -114,6 +119,11 @@ namespace PlayFab
 
         bool GetContainerRegistryCredentials(const FGetContainerRegistryCredentialsDelegate& SuccessDelegate = FGetContainerRegistryCredentialsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Gets the credentials to the container registry.
+         * Gets credentials to the container registry where game developers can upload custom container images to before creating a new build.
+         */
+        bool GetContainerRegistryCredentials(MultiplayerModels::FGetContainerRegistryCredentialsRequest& request, const FGetContainerRegistryCredentialsDelegate& SuccessDelegate = FGetContainerRegistryCredentialsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Gets multiplayer server session details for a build.
          * Gets multiplayer server session details for a build in a specific region.
          */
@@ -129,6 +139,11 @@ namespace PlayFab
          */
 
         bool GetTitleEnabledForMultiplayerServersStatus(const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate = FGetTitleEnabledForMultiplayerServersStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Gets the status of whether a title is enabled for the multiplayer server feature.
+         * Gets the status of whether a title is enabled for the multiplayer server feature. The enabled status can be Initializing, Enabled, and Disabled.
+         */
+        bool GetTitleEnabledForMultiplayerServersStatus(MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequest& request, const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate = FGetTitleEnabledForMultiplayerServersStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists archived multiplayer server sessions for a build.
          * Returns a list of archived multiplayer servers for a build in a specific region.
@@ -171,6 +186,11 @@ namespace PlayFab
 
         bool ListQosServers(const FListQosServersDelegate& SuccessDelegate = FListQosServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Lists quality of service servers.
+         * Returns a list of quality of service servers.
+         */
+        bool ListQosServers(MultiplayerModels::FListQosServersRequest& request, const FListQosServersDelegate& SuccessDelegate = FListQosServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Lists virtual machines for a title.
          * Returns a list of virtual machines for a title.
          */
@@ -187,6 +207,11 @@ namespace PlayFab
          */
 
         bool RolloverContainerRegistryCredentials(const FRolloverContainerRegistryCredentialsDelegate& SuccessDelegate = FRolloverContainerRegistryCredentialsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Rolls over the credentials to the container registry.
+         * Gets new credentials to the container registry where game developers can upload custom container images to before creating a new build.
+         */
+        bool RolloverContainerRegistryCredentials(MultiplayerModels::FRolloverContainerRegistryCredentialsRequest& request, const FRolloverContainerRegistryCredentialsDelegate& SuccessDelegate = FRolloverContainerRegistryCredentialsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Shuts down a multiplayer server session.
          * Executes the shutdown callback from the GSDK and terminates the multiplayer server session. The callback in the GSDK will allow for graceful shutdown with a 15 minute timeoutIf graceful shutdown has not been completed before 15 minutes have elapsed, the multiplayer server session will be forcefully terminated on it's own.

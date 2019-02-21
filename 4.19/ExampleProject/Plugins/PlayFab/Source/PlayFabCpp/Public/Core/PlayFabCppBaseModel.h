@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "Json.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 namespace PlayFab
 {
@@ -43,6 +44,20 @@ namespace PlayFab
         virtual bool readFromValue(const TSharedPtr<FJsonValue>& value) { return false; };
 
         FString toJSONString() const;
+    };
+
+    struct PLAYFABCPP_API FPlayFabCppRequestCommon : FPlayFabCppBaseModel
+    {
+        TSharedPtr<UPlayFabAuthenticationContext> AuthenticationContext; // an optional authentication context (can used in multi-user scenarios)
+    };
+
+    struct PLAYFABCPP_API FPlayFabCppResultCommon : FPlayFabCppBaseModel
+    {
+    };
+
+    struct PLAYFABCPP_API FPlayFabLoginResultCommon : FPlayFabCppResultCommon
+    {
+        TSharedPtr<UPlayFabAuthenticationContext> AuthenticationContext; // an optional authentication context (can used in multi-user scenarios)
     };
 
     struct PLAYFABCPP_API FJsonKeeper : public FPlayFabCppBaseModel

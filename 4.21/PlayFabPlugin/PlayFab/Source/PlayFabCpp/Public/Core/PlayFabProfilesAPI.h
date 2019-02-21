@@ -41,6 +41,11 @@ namespace PlayFab
 
         bool GetGlobalPolicy(const FGetGlobalPolicyDelegate& SuccessDelegate = FGetGlobalPolicyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Gets the global title access policy
+         * Retrieves the title access policy that is used before the profile's policy is inspected during a request. If never customized this will return the default starter policy built by PlayFab.
+         */
+        bool GetGlobalPolicy(ProfilesModels::FGetGlobalPolicyRequest& request, const FGetGlobalPolicyDelegate& SuccessDelegate = FGetGlobalPolicyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Retrieves the entity's profile.
          * Given an entity type and entity identifier will retrieve the profile from the entity store. If the profile being retrieved is the caller's, then the read operation is consistent, if not it is an inconsistent read. An inconsistent read means that we do not guarantee all committed writes have occurred before reading the profile, allowing for a stale read. If consistency is important the Version Number on the result can be used to compare which version of the profile any reader has.
          */

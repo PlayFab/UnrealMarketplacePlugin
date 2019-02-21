@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabCloudScriptModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -29,7 +31,7 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FCloudScriptExecuteCloudScriptResult
+struct PLAYFAB_API FCloudScriptExecuteCloudScriptResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -83,7 +85,7 @@ public:
 
 /** Executes CloudScript with the entity profile that is defined in the request. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FCloudScriptExecuteEntityCloudScriptRequest
+struct PLAYFAB_API FCloudScriptExecuteEntityCloudScriptRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

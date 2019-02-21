@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabMultiplayerModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -40,7 +42,7 @@ class UPlayFabJsonObject;
 
 /** Creates a multiplayer server build with a custom container and returns information about the build creation request. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateBuildWithCustomContainerRequest
+struct PLAYFAB_API FMultiplayerCreateBuildWithCustomContainerRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -86,7 +88,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateBuildWithCustomContainerResponse
+struct PLAYFAB_API FMultiplayerCreateBuildWithCustomContainerResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -133,7 +135,7 @@ public:
 
 /** Creates a multiplayer server build with a managed container and returns information about the build creation request. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateBuildWithManagedContainerRequest
+struct PLAYFAB_API FMultiplayerCreateBuildWithManagedContainerRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -173,7 +175,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateBuildWithManagedContainerResponse
+struct PLAYFAB_API FMultiplayerCreateBuildWithManagedContainerResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -220,7 +222,7 @@ public:
  * information necessary to log on.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateRemoteUserRequest
+struct PLAYFAB_API FMultiplayerCreateRemoteUserRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -242,7 +244,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateRemoteUserResponse
+struct PLAYFAB_API FMultiplayerCreateRemoteUserResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -259,7 +261,7 @@ public:
 
 /** Deletes a multiplayer server game asset for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerDeleteAssetRequest
+struct PLAYFAB_API FMultiplayerDeleteAssetRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -269,7 +271,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerEmptyResponse
+struct PLAYFAB_API FMultiplayerEmptyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -277,7 +279,7 @@ public:
 
 /** Deletes a multiplayer server build. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerDeleteBuildRequest
+struct PLAYFAB_API FMultiplayerDeleteBuildRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -288,7 +290,7 @@ public:
 
 /** Deletes a multiplayer server game certificate. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerDeleteCertificateRequest
+struct PLAYFAB_API FMultiplayerDeleteCertificateRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -302,7 +304,7 @@ public:
  * information necessary to log on.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerDeleteRemoteUserRequest
+struct PLAYFAB_API FMultiplayerDeleteRemoteUserRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -326,14 +328,14 @@ public:
  * average, it can take up to 20 minutes for the title to be enabled for the feature.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerEnableMultiplayerServersForTitleRequest
+struct PLAYFAB_API FMultiplayerEnableMultiplayerServersForTitleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerEnableMultiplayerServersForTitleResponse
+struct PLAYFAB_API FMultiplayerEnableMultiplayerServersForTitleResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -344,7 +346,7 @@ public:
 
 /** Gets the URL to upload assets to. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetAssetUploadUrlRequest
+struct PLAYFAB_API FMultiplayerGetAssetUploadUrlRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -354,7 +356,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetAssetUploadUrlResponse
+struct PLAYFAB_API FMultiplayerGetAssetUploadUrlResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -368,7 +370,7 @@ public:
 
 /** Returns the details about a multiplayer server build. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetBuildRequest
+struct PLAYFAB_API FMultiplayerGetBuildRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -378,7 +380,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetBuildResponse
+struct PLAYFAB_API FMultiplayerGetBuildResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -443,14 +445,14 @@ public:
  * new build.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetContainerRegistryCredentialsRequest
+struct PLAYFAB_API FMultiplayerGetContainerRegistryCredentialsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetContainerRegistryCredentialsResponse
+struct PLAYFAB_API FMultiplayerGetContainerRegistryCredentialsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -467,7 +469,7 @@ public:
 
 /** Gets multiplayer server session details for a build in a specific region. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetMultiplayerServerDetailsRequest
+struct PLAYFAB_API FMultiplayerGetMultiplayerServerDetailsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -486,7 +488,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetMultiplayerServerDetailsResponse
+struct PLAYFAB_API FMultiplayerGetMultiplayerServerDetailsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -524,7 +526,7 @@ public:
 
 /** Gets a remote login endpoint to a VM that is hosting a multiplayer server build in a specific region. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetRemoteLoginEndpointRequest
+struct PLAYFAB_API FMultiplayerGetRemoteLoginEndpointRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -540,7 +542,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetRemoteLoginEndpointResponse
+struct PLAYFAB_API FMultiplayerGetRemoteLoginEndpointResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -557,14 +559,14 @@ public:
  * Initializing, Enabled, and Disabled.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest
+struct PLAYFAB_API FMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse
+struct PLAYFAB_API FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -575,7 +577,7 @@ public:
 
 /** Returns a list of multiplayer servers for a build in a specific region. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListMultiplayerServersRequest
+struct PLAYFAB_API FMultiplayerListMultiplayerServersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -594,7 +596,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListMultiplayerServersResponse
+struct PLAYFAB_API FMultiplayerListMultiplayerServersResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -611,7 +613,7 @@ public:
 
 /** Returns a list of multiplayer server game asset summaries for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListAssetSummariesRequest
+struct PLAYFAB_API FMultiplayerListAssetSummariesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -624,7 +626,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListAssetSummariesResponse
+struct PLAYFAB_API FMultiplayerListAssetSummariesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -641,7 +643,7 @@ public:
 
 /** Returns a list of summarized details of all multiplayer server builds for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListBuildSummariesRequest
+struct PLAYFAB_API FMultiplayerListBuildSummariesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -654,7 +656,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListBuildSummariesResponse
+struct PLAYFAB_API FMultiplayerListBuildSummariesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -671,7 +673,7 @@ public:
 
 /** Returns a list of multiplayer server game certificates for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListCertificateSummariesRequest
+struct PLAYFAB_API FMultiplayerListCertificateSummariesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -684,7 +686,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListCertificateSummariesResponse
+struct PLAYFAB_API FMultiplayerListCertificateSummariesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -701,7 +703,7 @@ public:
 
 /** Returns a list of the container images that have been uploaded to the container registry for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListContainerImagesRequest
+struct PLAYFAB_API FMultiplayerListContainerImagesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -714,7 +716,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListContainerImagesResponse
+struct PLAYFAB_API FMultiplayerListContainerImagesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -731,7 +733,7 @@ public:
 
 /** Returns a list of the tags for a particular container image that exists in the container registry for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListContainerImageTagsRequest
+struct PLAYFAB_API FMultiplayerListContainerImageTagsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -741,7 +743,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListContainerImageTagsResponse
+struct PLAYFAB_API FMultiplayerListContainerImageTagsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -752,14 +754,14 @@ public:
 
 /** Returns a list of quality of service servers. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListQosServersRequest
+struct PLAYFAB_API FMultiplayerListQosServersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListQosServersResponse
+struct PLAYFAB_API FMultiplayerListQosServersResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -776,7 +778,7 @@ public:
 
 /** Returns a list of virtual machines for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListVirtualMachineSummariesRequest
+struct PLAYFAB_API FMultiplayerListVirtualMachineSummariesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -795,7 +797,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListVirtualMachineSummariesResponse
+struct PLAYFAB_API FMultiplayerListVirtualMachineSummariesResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -812,7 +814,7 @@ public:
 
 /** Requests a multiplayer server session from a particular build in any of the given preferred regions. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerRequestMultiplayerServerRequest
+struct PLAYFAB_API FMultiplayerRequestMultiplayerServerRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -843,7 +845,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerRequestMultiplayerServerResponse
+struct PLAYFAB_API FMultiplayerRequestMultiplayerServerResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -884,14 +886,14 @@ public:
  * creating a new build.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerRolloverContainerRegistryCredentialsRequest
+struct PLAYFAB_API FMultiplayerRolloverContainerRegistryCredentialsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerRolloverContainerRegistryCredentialsResponse
+struct PLAYFAB_API FMultiplayerRolloverContainerRegistryCredentialsResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -912,7 +914,7 @@ public:
  * have elapsed, the multiplayer server session will be forcefully terminated on it's own.
  */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerShutdownMultiplayerServerRequest
+struct PLAYFAB_API FMultiplayerShutdownMultiplayerServerRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -929,7 +931,7 @@ public:
 
 /** Updates a multiplayer server build's regions. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerUpdateBuildRegionsRequest
+struct PLAYFAB_API FMultiplayerUpdateBuildRegionsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -943,7 +945,7 @@ public:
 
 /** Uploads a multiplayer server game certificate. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerUploadCertificateRequest
+struct PLAYFAB_API FMultiplayerUploadCertificateRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

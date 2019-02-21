@@ -14,10 +14,17 @@
 #include "PlayFabMultiplayerModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabMultiplayerAPI::UPlayFabMultiplayerAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabMultiplayerAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabMultiplayerAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -93,6 +100,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCreateBuildWithCustomContainer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/CreateBuildWithCustomContainer";
     manager->useEntityToken = true;
 
@@ -162,8 +170,8 @@ void UPlayFabMultiplayerAPI::HelperCreateBuildWithCustomContainer(FPlayFabBaseMo
     }
     else if (!error.hasError && OnSuccessCreateBuildWithCustomContainer.IsBound())
     {
-        FMultiplayerCreateBuildWithCustomContainerResponse result = UPlayFabMultiplayerModelDecoder::decodeCreateBuildWithCustomContainerResponseResponse(response.responseData);
-        OnSuccessCreateBuildWithCustomContainer.Execute(result, mCustomData);
+        FMultiplayerCreateBuildWithCustomContainerResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCreateBuildWithCustomContainerResponseResponse(response.responseData);
+        OnSuccessCreateBuildWithCustomContainer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -186,6 +194,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCreateBuildWithManagedContainer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/CreateBuildWithManagedContainer";
     manager->useEntityToken = true;
 
@@ -245,8 +254,8 @@ void UPlayFabMultiplayerAPI::HelperCreateBuildWithManagedContainer(FPlayFabBaseM
     }
     else if (!error.hasError && OnSuccessCreateBuildWithManagedContainer.IsBound())
     {
-        FMultiplayerCreateBuildWithManagedContainerResponse result = UPlayFabMultiplayerModelDecoder::decodeCreateBuildWithManagedContainerResponseResponse(response.responseData);
-        OnSuccessCreateBuildWithManagedContainer.Execute(result, mCustomData);
+        FMultiplayerCreateBuildWithManagedContainerResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCreateBuildWithManagedContainerResponseResponse(response.responseData);
+        OnSuccessCreateBuildWithManagedContainer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -269,6 +278,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateRemoteUser(FMultiplayerCre
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCreateRemoteUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/CreateRemoteUser";
     manager->useEntityToken = true;
 
@@ -313,8 +323,8 @@ void UPlayFabMultiplayerAPI::HelperCreateRemoteUser(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessCreateRemoteUser.IsBound())
     {
-        FMultiplayerCreateRemoteUserResponse result = UPlayFabMultiplayerModelDecoder::decodeCreateRemoteUserResponseResponse(response.responseData);
-        OnSuccessCreateRemoteUser.Execute(result, mCustomData);
+        FMultiplayerCreateRemoteUserResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCreateRemoteUserResponseResponse(response.responseData);
+        OnSuccessCreateRemoteUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -337,6 +347,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteAsset(FMultiplayerDeleteAs
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteAsset);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteAsset";
     manager->useEntityToken = true;
 
@@ -363,8 +374,8 @@ void UPlayFabMultiplayerAPI::HelperDeleteAsset(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessDeleteAsset.IsBound())
     {
-        FMultiplayerEmptyResponse result = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteAsset.Execute(result, mCustomData);
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessDeleteAsset.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -387,6 +398,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteBuild(FMultiplayerDeleteBu
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteBuild);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteBuild";
     manager->useEntityToken = true;
 
@@ -413,8 +425,9 @@ void UPlayFabMultiplayerAPI::HelperDeleteBuild(FPlayFabBaseModel response, UObje
     }
     else if (!error.hasError && OnSuccessDeleteBuild.IsBound())
     {
-        FMultiplayerEmptyResponse result = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteBuild.Execute(result, mCustomData);
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteBuild.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -437,6 +450,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteCertificate(FMultiplayerDe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteCertificate);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteCertificate";
     manager->useEntityToken = true;
 
@@ -463,8 +477,9 @@ void UPlayFabMultiplayerAPI::HelperDeleteCertificate(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessDeleteCertificate.IsBound())
     {
-        FMultiplayerEmptyResponse result = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteCertificate.Execute(result, mCustomData);
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteCertificate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -487,6 +502,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteRemoteUser(FMultiplayerDel
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteRemoteUser);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteRemoteUser";
     manager->useEntityToken = true;
 
@@ -526,8 +542,9 @@ void UPlayFabMultiplayerAPI::HelperDeleteRemoteUser(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessDeleteRemoteUser.IsBound())
     {
-        FMultiplayerEmptyResponse result = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessDeleteRemoteUser.Execute(result, mCustomData);
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteRemoteUser.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -550,6 +567,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::EnableMultiplayerServersForTitle
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperEnableMultiplayerServersForTitle);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/EnableMultiplayerServersForTitle";
     manager->useEntityToken = true;
 
@@ -571,8 +589,8 @@ void UPlayFabMultiplayerAPI::HelperEnableMultiplayerServersForTitle(FPlayFabBase
     }
     else if (!error.hasError && OnSuccessEnableMultiplayerServersForTitle.IsBound())
     {
-        FMultiplayerEnableMultiplayerServersForTitleResponse result = UPlayFabMultiplayerModelDecoder::decodeEnableMultiplayerServersForTitleResponseResponse(response.responseData);
-        OnSuccessEnableMultiplayerServersForTitle.Execute(result, mCustomData);
+        FMultiplayerEnableMultiplayerServersForTitleResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEnableMultiplayerServersForTitleResponseResponse(response.responseData);
+        OnSuccessEnableMultiplayerServersForTitle.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -595,6 +613,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetAssetUploadUrl(FMultiplayerGe
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetAssetUploadUrl);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetAssetUploadUrl";
     manager->useEntityToken = true;
 
@@ -621,8 +640,8 @@ void UPlayFabMultiplayerAPI::HelperGetAssetUploadUrl(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessGetAssetUploadUrl.IsBound())
     {
-        FMultiplayerGetAssetUploadUrlResponse result = UPlayFabMultiplayerModelDecoder::decodeGetAssetUploadUrlResponseResponse(response.responseData);
-        OnSuccessGetAssetUploadUrl.Execute(result, mCustomData);
+        FMultiplayerGetAssetUploadUrlResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetAssetUploadUrlResponseResponse(response.responseData);
+        OnSuccessGetAssetUploadUrl.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -645,6 +664,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetBuild(FMultiplayerGetBuildReq
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetBuild);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetBuild";
     manager->useEntityToken = true;
 
@@ -671,8 +691,8 @@ void UPlayFabMultiplayerAPI::HelperGetBuild(FPlayFabBaseModel response, UObject*
     }
     else if (!error.hasError && OnSuccessGetBuild.IsBound())
     {
-        FMultiplayerGetBuildResponse result = UPlayFabMultiplayerModelDecoder::decodeGetBuildResponseResponse(response.responseData);
-        OnSuccessGetBuild.Execute(result, mCustomData);
+        FMultiplayerGetBuildResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetBuildResponseResponse(response.responseData);
+        OnSuccessGetBuild.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -695,6 +715,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetContainerRegistryCredentials(
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetContainerRegistryCredentials);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetContainerRegistryCredentials";
     manager->useEntityToken = true;
 
@@ -716,8 +737,8 @@ void UPlayFabMultiplayerAPI::HelperGetContainerRegistryCredentials(FPlayFabBaseM
     }
     else if (!error.hasError && OnSuccessGetContainerRegistryCredentials.IsBound())
     {
-        FMultiplayerGetContainerRegistryCredentialsResponse result = UPlayFabMultiplayerModelDecoder::decodeGetContainerRegistryCredentialsResponseResponse(response.responseData);
-        OnSuccessGetContainerRegistryCredentials.Execute(result, mCustomData);
+        FMultiplayerGetContainerRegistryCredentialsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetContainerRegistryCredentialsResponseResponse(response.responseData);
+        OnSuccessGetContainerRegistryCredentials.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -740,6 +761,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerDetails(FMul
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetMultiplayerServerDetails);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetMultiplayerServerDetails";
     manager->useEntityToken = true;
 
@@ -774,8 +796,8 @@ void UPlayFabMultiplayerAPI::HelperGetMultiplayerServerDetails(FPlayFabBaseModel
     }
     else if (!error.hasError && OnSuccessGetMultiplayerServerDetails.IsBound())
     {
-        FMultiplayerGetMultiplayerServerDetailsResponse result = UPlayFabMultiplayerModelDecoder::decodeGetMultiplayerServerDetailsResponseResponse(response.responseData);
-        OnSuccessGetMultiplayerServerDetails.Execute(result, mCustomData);
+        FMultiplayerGetMultiplayerServerDetailsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetMultiplayerServerDetailsResponseResponse(response.responseData);
+        OnSuccessGetMultiplayerServerDetails.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -798,6 +820,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetRemoteLoginEndpoint(FMultipla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetRemoteLoginEndpoint);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetRemoteLoginEndpoint";
     manager->useEntityToken = true;
 
@@ -832,8 +855,8 @@ void UPlayFabMultiplayerAPI::HelperGetRemoteLoginEndpoint(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessGetRemoteLoginEndpoint.IsBound())
     {
-        FMultiplayerGetRemoteLoginEndpointResponse result = UPlayFabMultiplayerModelDecoder::decodeGetRemoteLoginEndpointResponseResponse(response.responseData);
-        OnSuccessGetRemoteLoginEndpoint.Execute(result, mCustomData);
+        FMultiplayerGetRemoteLoginEndpointResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetRemoteLoginEndpointResponseResponse(response.responseData);
+        OnSuccessGetRemoteLoginEndpoint.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -856,6 +879,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetTitleEnabledForMultiplayerSer
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetTitleEnabledForMultiplayerServersStatus);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetTitleEnabledForMultiplayerServersStatus";
     manager->useEntityToken = true;
 
@@ -877,8 +901,8 @@ void UPlayFabMultiplayerAPI::HelperGetTitleEnabledForMultiplayerServersStatus(FP
     }
     else if (!error.hasError && OnSuccessGetTitleEnabledForMultiplayerServersStatus.IsBound())
     {
-        FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse result = UPlayFabMultiplayerModelDecoder::decodeGetTitleEnabledForMultiplayerServersStatusResponseResponse(response.responseData);
-        OnSuccessGetTitleEnabledForMultiplayerServersStatus.Execute(result, mCustomData);
+        FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetTitleEnabledForMultiplayerServersStatusResponseResponse(response.responseData);
+        OnSuccessGetTitleEnabledForMultiplayerServersStatus.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -901,6 +925,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListArchivedMultiplayerServers(F
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListArchivedMultiplayerServers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListArchivedMultiplayerServers";
     manager->useEntityToken = true;
 
@@ -936,8 +961,8 @@ void UPlayFabMultiplayerAPI::HelperListArchivedMultiplayerServers(FPlayFabBaseMo
     }
     else if (!error.hasError && OnSuccessListArchivedMultiplayerServers.IsBound())
     {
-        FMultiplayerListMultiplayerServersResponse result = UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(response.responseData);
-        OnSuccessListArchivedMultiplayerServers.Execute(result, mCustomData);
+        FMultiplayerListMultiplayerServersResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(response.responseData);
+        OnSuccessListArchivedMultiplayerServers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -960,6 +985,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListAssetSummaries(FMultiplayerL
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListAssetSummaries);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListAssetSummaries";
     manager->useEntityToken = true;
 
@@ -987,8 +1013,8 @@ void UPlayFabMultiplayerAPI::HelperListAssetSummaries(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessListAssetSummaries.IsBound())
     {
-        FMultiplayerListAssetSummariesResponse result = UPlayFabMultiplayerModelDecoder::decodeListAssetSummariesResponseResponse(response.responseData);
-        OnSuccessListAssetSummaries.Execute(result, mCustomData);
+        FMultiplayerListAssetSummariesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListAssetSummariesResponseResponse(response.responseData);
+        OnSuccessListAssetSummaries.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1011,6 +1037,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildSummaries(FMultiplayerL
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListBuildSummaries);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListBuildSummaries";
     manager->useEntityToken = true;
 
@@ -1038,8 +1065,8 @@ void UPlayFabMultiplayerAPI::HelperListBuildSummaries(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessListBuildSummaries.IsBound())
     {
-        FMultiplayerListBuildSummariesResponse result = UPlayFabMultiplayerModelDecoder::decodeListBuildSummariesResponseResponse(response.responseData);
-        OnSuccessListBuildSummaries.Execute(result, mCustomData);
+        FMultiplayerListBuildSummariesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListBuildSummariesResponseResponse(response.responseData);
+        OnSuccessListBuildSummaries.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1062,6 +1089,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListCertificateSummaries(FMultip
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListCertificateSummaries);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListCertificateSummaries";
     manager->useEntityToken = true;
 
@@ -1089,8 +1117,8 @@ void UPlayFabMultiplayerAPI::HelperListCertificateSummaries(FPlayFabBaseModel re
     }
     else if (!error.hasError && OnSuccessListCertificateSummaries.IsBound())
     {
-        FMultiplayerListCertificateSummariesResponse result = UPlayFabMultiplayerModelDecoder::decodeListCertificateSummariesResponseResponse(response.responseData);
-        OnSuccessListCertificateSummaries.Execute(result, mCustomData);
+        FMultiplayerListCertificateSummariesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListCertificateSummariesResponseResponse(response.responseData);
+        OnSuccessListCertificateSummaries.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1113,6 +1141,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListContainerImages(FMultiplayer
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListContainerImages);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListContainerImages";
     manager->useEntityToken = true;
 
@@ -1140,8 +1169,8 @@ void UPlayFabMultiplayerAPI::HelperListContainerImages(FPlayFabBaseModel respons
     }
     else if (!error.hasError && OnSuccessListContainerImages.IsBound())
     {
-        FMultiplayerListContainerImagesResponse result = UPlayFabMultiplayerModelDecoder::decodeListContainerImagesResponseResponse(response.responseData);
-        OnSuccessListContainerImages.Execute(result, mCustomData);
+        FMultiplayerListContainerImagesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListContainerImagesResponseResponse(response.responseData);
+        OnSuccessListContainerImages.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1164,6 +1193,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListContainerImageTags(FMultipla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListContainerImageTags);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListContainerImageTags";
     manager->useEntityToken = true;
 
@@ -1190,8 +1220,8 @@ void UPlayFabMultiplayerAPI::HelperListContainerImageTags(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessListContainerImageTags.IsBound())
     {
-        FMultiplayerListContainerImageTagsResponse result = UPlayFabMultiplayerModelDecoder::decodeListContainerImageTagsResponseResponse(response.responseData);
-        OnSuccessListContainerImageTags.Execute(result, mCustomData);
+        FMultiplayerListContainerImageTagsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListContainerImageTagsResponseResponse(response.responseData);
+        OnSuccessListContainerImageTags.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1214,6 +1244,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListMultiplayerServers(FMultipla
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListMultiplayerServers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListMultiplayerServers";
     manager->useEntityToken = true;
 
@@ -1249,8 +1280,9 @@ void UPlayFabMultiplayerAPI::HelperListMultiplayerServers(FPlayFabBaseModel resp
     }
     else if (!error.hasError && OnSuccessListMultiplayerServers.IsBound())
     {
-        FMultiplayerListMultiplayerServersResponse result = UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(response.responseData);
-        OnSuccessListMultiplayerServers.Execute(result, mCustomData);
+        FMultiplayerListMultiplayerServersResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessListMultiplayerServers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1273,6 +1305,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServers(FMultiplayerListQ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListQosServers);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListQosServers";
 
     // Serialize all the request properties to json
@@ -1293,8 +1326,8 @@ void UPlayFabMultiplayerAPI::HelperListQosServers(FPlayFabBaseModel response, UO
     }
     else if (!error.hasError && OnSuccessListQosServers.IsBound())
     {
-        FMultiplayerListQosServersResponse result = UPlayFabMultiplayerModelDecoder::decodeListQosServersResponseResponse(response.responseData);
-        OnSuccessListQosServers.Execute(result, mCustomData);
+        FMultiplayerListQosServersResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListQosServersResponseResponse(response.responseData);
+        OnSuccessListQosServers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1317,6 +1350,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListVirtualMachineSummaries(FMul
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListVirtualMachineSummaries);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListVirtualMachineSummaries";
     manager->useEntityToken = true;
 
@@ -1352,8 +1386,8 @@ void UPlayFabMultiplayerAPI::HelperListVirtualMachineSummaries(FPlayFabBaseModel
     }
     else if (!error.hasError && OnSuccessListVirtualMachineSummaries.IsBound())
     {
-        FMultiplayerListVirtualMachineSummariesResponse result = UPlayFabMultiplayerModelDecoder::decodeListVirtualMachineSummariesResponseResponse(response.responseData);
-        OnSuccessListVirtualMachineSummaries.Execute(result, mCustomData);
+        FMultiplayerListVirtualMachineSummariesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListVirtualMachineSummariesResponseResponse(response.responseData);
+        OnSuccessListVirtualMachineSummaries.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1376,6 +1410,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestMultiplayerServer(FMultip
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperRequestMultiplayerServer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/RequestMultiplayerServer";
     manager->useEntityToken = true;
 
@@ -1428,8 +1463,8 @@ void UPlayFabMultiplayerAPI::HelperRequestMultiplayerServer(FPlayFabBaseModel re
     }
     else if (!error.hasError && OnSuccessRequestMultiplayerServer.IsBound())
     {
-        FMultiplayerRequestMultiplayerServerResponse result = UPlayFabMultiplayerModelDecoder::decodeRequestMultiplayerServerResponseResponse(response.responseData);
-        OnSuccessRequestMultiplayerServer.Execute(result, mCustomData);
+        FMultiplayerRequestMultiplayerServerResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeRequestMultiplayerServerResponseResponse(response.responseData);
+        OnSuccessRequestMultiplayerServer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1452,6 +1487,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RolloverContainerRegistryCredent
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperRolloverContainerRegistryCredentials);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/RolloverContainerRegistryCredentials";
     manager->useEntityToken = true;
 
@@ -1473,8 +1509,8 @@ void UPlayFabMultiplayerAPI::HelperRolloverContainerRegistryCredentials(FPlayFab
     }
     else if (!error.hasError && OnSuccessRolloverContainerRegistryCredentials.IsBound())
     {
-        FMultiplayerRolloverContainerRegistryCredentialsResponse result = UPlayFabMultiplayerModelDecoder::decodeRolloverContainerRegistryCredentialsResponseResponse(response.responseData);
-        OnSuccessRolloverContainerRegistryCredentials.Execute(result, mCustomData);
+        FMultiplayerRolloverContainerRegistryCredentialsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeRolloverContainerRegistryCredentialsResponseResponse(response.responseData);
+        OnSuccessRolloverContainerRegistryCredentials.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1497,6 +1533,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ShutdownMultiplayerServer(FMulti
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperShutdownMultiplayerServer);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ShutdownMultiplayerServer";
     manager->useEntityToken = true;
 
@@ -1531,8 +1568,9 @@ void UPlayFabMultiplayerAPI::HelperShutdownMultiplayerServer(FPlayFabBaseModel r
     }
     else if (!error.hasError && OnSuccessShutdownMultiplayerServer.IsBound())
     {
-        FMultiplayerEmptyResponse result = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessShutdownMultiplayerServer.Execute(result, mCustomData);
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessShutdownMultiplayerServer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1555,6 +1593,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildRegions(FMultiplayerU
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUpdateBuildRegions);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/UpdateBuildRegions";
     manager->useEntityToken = true;
 
@@ -1586,8 +1625,9 @@ void UPlayFabMultiplayerAPI::HelperUpdateBuildRegions(FPlayFabBaseModel response
     }
     else if (!error.hasError && OnSuccessUpdateBuildRegions.IsBound())
     {
-        FMultiplayerEmptyResponse result = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUpdateBuildRegions.Execute(result, mCustomData);
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateBuildRegions.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1610,6 +1650,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UploadCertificate(FMultiplayerUp
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUploadCertificate);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/UploadCertificate";
     manager->useEntityToken = true;
 
@@ -1632,8 +1673,9 @@ void UPlayFabMultiplayerAPI::HelperUploadCertificate(FPlayFabBaseModel response,
     }
     else if (!error.hasError && OnSuccessUploadCertificate.IsBound())
     {
-        FMultiplayerEmptyResponse result = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
-        OnSuccessUploadCertificate.Execute(result, mCustomData);
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUploadCertificate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1699,10 +1741,15 @@ void UPlayFabMultiplayerAPI::OnProcessRequestComplete(FHttpRequestPtr Request, F
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -1718,15 +1765,12 @@ void UPlayFabMultiplayerAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

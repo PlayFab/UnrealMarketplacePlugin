@@ -19,6 +19,8 @@
 #include "PlayFabCloudScriptModels.h"
 #include "PlayFabCloudScriptAPI.generated.h"
 
+class UPlayFabAuthenticationContext;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnPlayFabCloudScriptRequestCompleted, FPlayFabBaseModel, response, UObject*, customData, bool, successful);
 
 UCLASS(Blueprintable, BlueprintType)
@@ -31,6 +33,8 @@ public:
 
     UPROPERTY(BlueprintAssignable)
         FOnPlayFabCloudScriptRequestCompleted OnPlayFabResponse;
+
+    void SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext);
 
     /** Set the Request Json object */
     void SetRequestObject(UPlayFabJsonObject* JsonObject);
@@ -90,6 +94,9 @@ public:
     FDelegateOnSuccessExecuteEntityCloudScript OnSuccessExecuteEntityCloudScript;
 
 private:
+    UPROPERTY()
+        UPlayFabAuthenticationContext* CallAuthenticationContext;
+
     /** Internal bind function for the IHTTPRequest::OnProcessRequestCompleted() event */
     void OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 

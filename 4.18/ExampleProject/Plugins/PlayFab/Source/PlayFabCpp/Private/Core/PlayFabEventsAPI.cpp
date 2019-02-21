@@ -36,15 +36,18 @@ void UPlayFabEventsAPI::SetDevSecretKey(const FString& developerSecretKey)
     PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
+
+
 bool UPlayFabEventsAPI::WriteEvents(
     EventsModels::FWriteEventsRequest& request,
     const FWriteEventsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetEntityToken().Len() == 0) {
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Event/WriteEvents")), request.toJSONString(), TEXT("X-EntityToken"), PlayFabSettings::GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Event/WriteEvents")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnWriteEventsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

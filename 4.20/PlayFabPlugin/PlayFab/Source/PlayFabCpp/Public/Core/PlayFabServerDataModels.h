@@ -86,7 +86,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddCharacterVirtualCurrencyRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddCharacterVirtualCurrencyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * Amount to be added to the character balance of the specified virtual currency. Maximum VC balance is Int32
@@ -104,7 +104,7 @@ namespace ServerModels
         FString VirtualCurrency;
 
         FAddCharacterVirtualCurrencyRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(0),
             CharacterId(),
             PlayFabId(),
@@ -112,7 +112,7 @@ namespace ServerModels
             {}
 
         FAddCharacterVirtualCurrencyRequest(const FAddCharacterVirtualCurrencyRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(src.Amount),
             CharacterId(src.CharacterId),
             PlayFabId(src.PlayFabId),
@@ -130,7 +130,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddFriendRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddFriendRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Email address of the user being added.
         FString FriendEmail;
@@ -148,7 +148,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FAddFriendRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FriendEmail(),
             FriendPlayFabId(),
             FriendTitleDisplayName(),
@@ -157,7 +157,7 @@ namespace ServerModels
             {}
 
         FAddFriendRequest(const FAddFriendRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FriendEmail(src.FriendEmail),
             FriendPlayFabId(src.FriendPlayFabId),
             FriendTitleDisplayName(src.FriendTitleDisplayName),
@@ -176,7 +176,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddPlayerTagRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddPlayerTagRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
@@ -185,13 +185,13 @@ namespace ServerModels
         FString TagName;
 
         FAddPlayerTagRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(),
             TagName()
             {}
 
         FAddPlayerTagRequest(const FAddPlayerTagRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId),
             TagName(src.TagName)
             {}
@@ -207,14 +207,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddPlayerTagResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddPlayerTagResult : public PlayFab::FPlayFabCppResultCommon
     {
         FAddPlayerTagResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FAddPlayerTagResult(const FAddPlayerTagResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FAddPlayerTagResult(const TSharedPtr<FJsonObject>& obj) : FAddPlayerTagResult()
@@ -228,7 +228,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddSharedGroupMembersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddSharedGroupMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // An array of unique PlayFab assigned ID of the user on whom the operation will be performed.
         TArray<FString> PlayFabIds;
@@ -236,13 +236,13 @@ namespace ServerModels
         FString SharedGroupId;
 
         FAddSharedGroupMembersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabIds(),
             SharedGroupId()
             {}
 
         FAddSharedGroupMembersRequest(const FAddSharedGroupMembersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabIds(src.PlayFabIds),
             SharedGroupId(src.SharedGroupId)
             {}
@@ -258,14 +258,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddSharedGroupMembersResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddSharedGroupMembersResult : public PlayFab::FPlayFabCppResultCommon
     {
         FAddSharedGroupMembersResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FAddSharedGroupMembersResult(const FAddSharedGroupMembersResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FAddSharedGroupMembersResult(const TSharedPtr<FJsonObject>& obj) : FAddSharedGroupMembersResult()
@@ -279,7 +279,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAddUserVirtualCurrencyRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAddUserVirtualCurrencyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * Amount to be added to the user balance of the specified virtual currency. Maximum VC balance is Int32 (2,147,483,647).
@@ -294,14 +294,14 @@ namespace ServerModels
         FString VirtualCurrency;
 
         FAddUserVirtualCurrencyRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(0),
             PlayFabId(),
             VirtualCurrency()
             {}
 
         FAddUserVirtualCurrencyRequest(const FAddUserVirtualCurrencyRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(src.Amount),
             PlayFabId(src.PlayFabId),
             VirtualCurrency(src.VirtualCurrency)
@@ -359,18 +359,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAuthenticateSessionTicketRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAuthenticateSessionTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Session ticket as issued by a PlayFab client login API.
         FString SessionTicket;
 
         FAuthenticateSessionTicketRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SessionTicket()
             {}
 
         FAuthenticateSessionTicketRequest(const FAuthenticateSessionTicketRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SessionTicket(src.SessionTicket)
             {}
 
@@ -1297,18 +1297,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAuthenticateSessionTicketResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAuthenticateSessionTicketResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Account info for the user whose session ticket was supplied.
         TSharedPtr<FUserAccountInfo> UserInfo;
 
         FAuthenticateSessionTicketResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             UserInfo(nullptr)
             {}
 
         FAuthenticateSessionTicketResult(const FAuthenticateSessionTicketResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             UserInfo(src.UserInfo.IsValid() ? MakeShareable(new FUserAccountInfo(*src.UserInfo)) : nullptr)
             {}
 
@@ -1359,17 +1359,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAwardSteamAchievementRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAwardSteamAchievementRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Array of achievements to grant and the users to whom they are to be granted.
         TArray<FAwardSteamAchievementItem> Achievements;
         FAwardSteamAchievementRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Achievements()
             {}
 
         FAwardSteamAchievementRequest(const FAwardSteamAchievementRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Achievements(src.Achievements)
             {}
 
@@ -1384,17 +1384,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAwardSteamAchievementResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAwardSteamAchievementResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of achievements granted.
         TArray<FAwardSteamAchievementItem> AchievementResults;
         FAwardSteamAchievementResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AchievementResults()
             {}
 
         FAwardSteamAchievementResult(const FAwardSteamAchievementResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             AchievementResults(src.AchievementResults)
             {}
 
@@ -1516,17 +1516,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FBanUsersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FBanUsersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // List of ban requests to be applied. Maximum 100.
         TArray<FBanRequest> Bans;
         FBanUsersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Bans()
             {}
 
         FBanUsersRequest(const FBanUsersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Bans(src.Bans)
             {}
 
@@ -1541,17 +1541,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FBanUsersResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FBanUsersResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Information on the bans that were applied
         TArray<FBanInfo> BanData;
         FBanUsersResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData()
             {}
 
         FBanUsersResult(const FBanUsersResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData(src.BanData)
             {}
 
@@ -2045,7 +2045,7 @@ namespace ServerModels
     PLAYFABCPP_API CloudScriptRevisionOption readCloudScriptRevisionOptionFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API CloudScriptRevisionOption readCloudScriptRevisionOptionFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FConsumeItemRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FConsumeItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -2060,7 +2060,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FConsumeItemRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             ConsumeCount(0),
             ItemInstanceId(),
@@ -2068,7 +2068,7 @@ namespace ServerModels
             {}
 
         FConsumeItemRequest(const FConsumeItemRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             ConsumeCount(src.ConsumeCount),
             ItemInstanceId(src.ItemInstanceId),
@@ -2086,7 +2086,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FConsumeItemResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FConsumeItemResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique instance identifier of the item with uses consumed.
         FString ItemInstanceId;
@@ -2095,13 +2095,13 @@ namespace ServerModels
         int32 RemainingUses;
 
         FConsumeItemResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemInstanceId(),
             RemainingUses(0)
             {}
 
         FConsumeItemResult(const FConsumeItemResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemInstanceId(src.ItemInstanceId),
             RemainingUses(src.RemainingUses)
             {}
@@ -2472,18 +2472,18 @@ namespace ServerModels
     PLAYFABCPP_API CountryCode readCountryCodeFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API CountryCode readCountryCodeFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FCreateSharedGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateSharedGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Unique identifier for the shared group (a random identifier will be assigned, if one is not specified).
         FString SharedGroupId;
 
         FCreateSharedGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SharedGroupId()
             {}
 
         FCreateSharedGroupRequest(const FCreateSharedGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SharedGroupId(src.SharedGroupId)
             {}
 
@@ -2498,18 +2498,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCreateSharedGroupResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FCreateSharedGroupResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique identifier for the shared group.
         FString SharedGroupId;
 
         FCreateSharedGroupResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             SharedGroupId()
             {}
 
         FCreateSharedGroupResult(const FCreateSharedGroupResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             SharedGroupId(src.SharedGroupId)
             {}
 
@@ -2524,7 +2524,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteCharacterFromUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteCharacterFromUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -2539,14 +2539,14 @@ namespace ServerModels
         bool SaveCharacterInventory;
 
         FDeleteCharacterFromUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             PlayFabId(),
             SaveCharacterInventory(false)
             {}
 
         FDeleteCharacterFromUserRequest(const FDeleteCharacterFromUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             PlayFabId(src.PlayFabId),
             SaveCharacterInventory(src.SaveCharacterInventory)
@@ -2563,14 +2563,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteCharacterFromUserResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteCharacterFromUserResult : public PlayFab::FPlayFabCppResultCommon
     {
         FDeleteCharacterFromUserResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FDeleteCharacterFromUserResult(const FDeleteCharacterFromUserResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FDeleteCharacterFromUserResult(const TSharedPtr<FJsonObject>& obj) : FDeleteCharacterFromUserResult()
@@ -2584,18 +2584,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeletePlayerRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeletePlayerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FDeletePlayerRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId()
             {}
 
         FDeletePlayerRequest(const FDeletePlayerRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -2610,14 +2610,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeletePlayerResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeletePlayerResult : public PlayFab::FPlayFabCppResultCommon
     {
         FDeletePlayerResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FDeletePlayerResult(const FDeletePlayerResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FDeletePlayerResult(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerResult()
@@ -2631,18 +2631,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeleteSharedGroupRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeleteSharedGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier for the shared group.
         FString SharedGroupId;
 
         FDeleteSharedGroupRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SharedGroupId()
             {}
 
         FDeleteSharedGroupRequest(const FDeleteSharedGroupRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SharedGroupId(src.SharedGroupId)
             {}
 
@@ -2657,18 +2657,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeregisterGameRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeregisterGameRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier for the Game Server Instance that is being deregistered.
         FString LobbyId;
 
         FDeregisterGameRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId()
             {}
 
         FDeregisterGameRequest(const FDeregisterGameRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(src.LobbyId)
             {}
 
@@ -2683,14 +2683,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeregisterGameResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FDeregisterGameResponse : public PlayFab::FPlayFabCppResultCommon
     {
         FDeregisterGameResponse() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FDeregisterGameResponse(const FDeregisterGameResponse& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FDeregisterGameResponse(const TSharedPtr<FJsonObject>& obj) : FDeregisterGameResponse()
@@ -2704,14 +2704,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppResultCommon
     {
         FEmptyResponse() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FEmptyResponse(const FEmptyResponse& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FEmptyResponse(const TSharedPtr<FJsonObject>& obj) : FEmptyResponse()
@@ -2761,7 +2761,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEvaluateRandomResultTableRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FEvaluateRandomResultTableRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Specifies the catalog version that should be used to evaluate the Random Result Table. If unspecified, uses
@@ -2773,13 +2773,13 @@ namespace ServerModels
         FString TableId;
 
         FEvaluateRandomResultTableRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(),
             TableId()
             {}
 
         FEvaluateRandomResultTableRequest(const FEvaluateRandomResultTableRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             TableId(src.TableId)
             {}
@@ -2795,18 +2795,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEvaluateRandomResultTableResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FEvaluateRandomResultTableResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique identifier for the item returned from the Random Result Table evaluation, for the given catalog.
         FString ResultItemId;
 
         FEvaluateRandomResultTableResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ResultItemId()
             {}
 
         FEvaluateRandomResultTableResult(const FEvaluateRandomResultTableResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ResultItemId(src.ResultItemId)
             {}
 
@@ -2896,7 +2896,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FExecuteCloudScriptResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FExecuteCloudScriptResult : public PlayFab::FPlayFabCppResultCommon
     {
         // Number of PlayFab API requests issued by the CloudScript function
         int32 APIRequestsIssued;
@@ -2944,7 +2944,7 @@ namespace ServerModels
         int32 Revision;
 
         FExecuteCloudScriptResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             APIRequestsIssued(0),
             Error(nullptr),
             ExecutionTimeSeconds(0),
@@ -2960,7 +2960,7 @@ namespace ServerModels
             {}
 
         FExecuteCloudScriptResult(const FExecuteCloudScriptResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             APIRequestsIssued(src.APIRequestsIssued),
             Error(src.Error.IsValid() ? MakeShareable(new FScriptExecutionError(*src.Error)) : nullptr),
             ExecutionTimeSeconds(src.ExecutionTimeSeconds),
@@ -2986,7 +2986,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FExecuteCloudScriptServerRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FExecuteCloudScriptServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The name of the CloudScript function to execute
         FString FunctionName;
@@ -3014,7 +3014,7 @@ namespace ServerModels
         Boxed<int32> SpecificRevision;
 
         FExecuteCloudScriptServerRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FunctionName(),
             FunctionParameter(),
             GeneratePlayStreamEvent(),
@@ -3024,7 +3024,7 @@ namespace ServerModels
             {}
 
         FExecuteCloudScriptServerRequest(const FExecuteCloudScriptServerRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FunctionName(src.FunctionName),
             FunctionParameter(src.FunctionParameter),
             GeneratePlayStreamEvent(src.GeneratePlayStreamEvent),
@@ -3675,14 +3675,14 @@ namespace ServerModels
     PLAYFABCPP_API GameInstanceState readGameInstanceStateFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API GameInstanceState readGameInstanceStateFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FGetAllSegmentsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetAllSegmentsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FGetAllSegmentsRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetAllSegmentsRequest(const FGetAllSegmentsRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetAllSegmentsRequest(const TSharedPtr<FJsonObject>& obj) : FGetAllSegmentsRequest()
@@ -3732,17 +3732,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetAllSegmentsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetAllSegmentsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of segments for this title.
         TArray<FGetSegmentResult> Segments;
         FGetAllSegmentsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Segments()
             {}
 
         FGetAllSegmentsResult(const FGetAllSegmentsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Segments(src.Segments)
             {}
 
@@ -3757,18 +3757,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCatalogItemsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCatalogItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Which catalog is being requested. If null, uses the default catalog.
         FString CatalogVersion;
 
         FGetCatalogItemsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion()
             {}
 
         FGetCatalogItemsRequest(const FGetCatalogItemsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion)
             {}
 
@@ -3783,17 +3783,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCatalogItemsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCatalogItemsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of items which can be purchased.
         TArray<FCatalogItem> Catalog;
         FGetCatalogItemsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Catalog()
             {}
 
         FGetCatalogItemsResult(const FGetCatalogItemsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Catalog(src.Catalog)
             {}
 
@@ -3808,7 +3808,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -3825,7 +3825,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetCharacterDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             IfChangedFromDataVersion(),
             Keys(),
@@ -3833,7 +3833,7 @@ namespace ServerModels
             {}
 
         FGetCharacterDataRequest(const FGetCharacterDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             IfChangedFromDataVersion(src.IfChangedFromDataVersion),
             Keys(src.Keys),
@@ -3900,7 +3900,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -3917,7 +3917,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetCharacterDataResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId(),
             Data(),
             DataVersion(0),
@@ -3925,7 +3925,7 @@ namespace ServerModels
             {}
 
         FGetCharacterDataResult(const FGetCharacterDataResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId(src.CharacterId),
             Data(src.Data),
             DataVersion(src.DataVersion),
@@ -3943,7 +3943,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterInventoryRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterInventoryRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Used to limit results to only those from a specific catalog version.
         FString CatalogVersion;
@@ -3955,14 +3955,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetCharacterInventoryRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(),
             CharacterId(),
             PlayFabId()
             {}
 
         FGetCharacterInventoryRequest(const FGetCharacterInventoryRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
             PlayFabId(src.PlayFabId)
@@ -4019,7 +4019,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterInventoryResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterInventoryResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique identifier of the character for this inventory.
         FString CharacterId;
@@ -4034,7 +4034,7 @@ namespace ServerModels
         // [optional] Array of remaining times and timestamps for virtual currencies.
         TMap<FString, FVirtualCurrencyRechargeTime> VirtualCurrencyRechargeTimes;
         FGetCharacterInventoryResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId(),
             Inventory(),
             PlayFabId(),
@@ -4043,7 +4043,7 @@ namespace ServerModels
             {}
 
         FGetCharacterInventoryResult(const FGetCharacterInventoryResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId(src.CharacterId),
             Inventory(src.Inventory),
             PlayFabId(src.PlayFabId),
@@ -4062,7 +4062,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterLeaderboardRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterLeaderboardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Optional character type on which to filter the leaderboard entries.
         FString CharacterType;
@@ -4077,7 +4077,7 @@ namespace ServerModels
         FString StatisticName;
 
         FGetCharacterLeaderboardRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterType(),
             MaxResultsCount(0),
             StartPosition(0),
@@ -4085,7 +4085,7 @@ namespace ServerModels
             {}
 
         FGetCharacterLeaderboardRequest(const FGetCharacterLeaderboardRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterType(src.CharacterType),
             MaxResultsCount(src.MaxResultsCount),
             StartPosition(src.StartPosition),
@@ -4103,17 +4103,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterLeaderboardResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterLeaderboardResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Ordered list of leaderboard entries.
         TArray<FCharacterLeaderboardEntry> Leaderboard;
         FGetCharacterLeaderboardResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard()
             {}
 
         FGetCharacterLeaderboardResult(const FGetCharacterLeaderboardResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard(src.Leaderboard)
             {}
 
@@ -4128,7 +4128,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterStatisticsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -4137,13 +4137,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetCharacterStatisticsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             PlayFabId()
             {}
 
         FGetCharacterStatisticsRequest(const FGetCharacterStatisticsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             PlayFabId(src.PlayFabId)
             {}
@@ -4159,7 +4159,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetCharacterStatisticsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetCharacterStatisticsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique identifier of the character for the statistics.
         FString CharacterId;
@@ -4170,14 +4170,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetCharacterStatisticsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId(),
             CharacterStatistics(),
             PlayFabId()
             {}
 
         FGetCharacterStatisticsResult(const FGetCharacterStatisticsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId(src.CharacterId),
             CharacterStatistics(src.CharacterStatistics),
             PlayFabId(src.PlayFabId)
@@ -4194,7 +4194,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetContentDownloadUrlRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetContentDownloadUrlRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] HTTP method to fetch item - GET or HEAD. Use HEAD when only fetching metadata. Default is GET.
         FString HttpMethod;
@@ -4209,14 +4209,14 @@ namespace ServerModels
         Boxed<bool> ThruCDN;
 
         FGetContentDownloadUrlRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             HttpMethod(),
             Key(),
             ThruCDN()
             {}
 
         FGetContentDownloadUrlRequest(const FGetContentDownloadUrlRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             HttpMethod(src.HttpMethod),
             Key(src.Key),
             ThruCDN(src.ThruCDN)
@@ -4233,18 +4233,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetContentDownloadUrlResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetContentDownloadUrlResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] URL for downloading content via HTTP GET or HEAD method. The URL will expire in approximately one hour.
         FString URL;
 
         FGetContentDownloadUrlResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             URL()
             {}
 
         FGetContentDownloadUrlResult(const FGetContentDownloadUrlResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             URL(src.URL)
             {}
 
@@ -4360,7 +4360,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetFriendLeaderboardRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetFriendLeaderboardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
         Boxed<bool> IncludeFacebookFriends;
@@ -4397,7 +4397,7 @@ namespace ServerModels
         FString XboxToken;
 
         FGetFriendLeaderboardRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IncludeFacebookFriends(),
             IncludeSteamFriends(),
             MaxResultsCount(0),
@@ -4411,7 +4411,7 @@ namespace ServerModels
             {}
 
         FGetFriendLeaderboardRequest(const FGetFriendLeaderboardRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IncludeFacebookFriends(src.IncludeFacebookFriends),
             IncludeSteamFriends(src.IncludeSteamFriends),
             MaxResultsCount(src.MaxResultsCount),
@@ -4435,7 +4435,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetFriendsListRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetFriendsListRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
         Boxed<bool> IncludeFacebookFriends;
@@ -4457,7 +4457,7 @@ namespace ServerModels
         FString XboxToken;
 
         FGetFriendsListRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IncludeFacebookFriends(),
             IncludeSteamFriends(),
             PlayFabId(),
@@ -4466,7 +4466,7 @@ namespace ServerModels
             {}
 
         FGetFriendsListRequest(const FGetFriendsListRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IncludeFacebookFriends(src.IncludeFacebookFriends),
             IncludeSteamFriends(src.IncludeSteamFriends),
             PlayFabId(src.PlayFabId),
@@ -4485,17 +4485,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetFriendsListResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetFriendsListResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of friends found.
         TArray<FFriendInfo> Friends;
         FGetFriendsListResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Friends()
             {}
 
         FGetFriendsListResult(const FGetFriendsListResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Friends(src.Friends)
             {}
 
@@ -4510,7 +4510,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardAroundCharacterRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardAroundCharacterRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -4528,7 +4528,7 @@ namespace ServerModels
         FString StatisticName;
 
         FGetLeaderboardAroundCharacterRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             CharacterType(),
             MaxResultsCount(0),
@@ -4537,7 +4537,7 @@ namespace ServerModels
             {}
 
         FGetLeaderboardAroundCharacterRequest(const FGetLeaderboardAroundCharacterRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             CharacterType(src.CharacterType),
             MaxResultsCount(src.MaxResultsCount),
@@ -4556,17 +4556,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardAroundCharacterResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardAroundCharacterResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Ordered list of leaderboard entries.
         TArray<FCharacterLeaderboardEntry> Leaderboard;
         FGetLeaderboardAroundCharacterResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard()
             {}
 
         FGetLeaderboardAroundCharacterResult(const FGetLeaderboardAroundCharacterResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard(src.Leaderboard)
             {}
 
@@ -4581,7 +4581,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardAroundUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardAroundUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
@@ -4606,7 +4606,7 @@ namespace ServerModels
         Boxed<int32> Version;
 
         FGetLeaderboardAroundUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             MaxResultsCount(0),
             PlayFabId(),
             ProfileConstraints(nullptr),
@@ -4616,7 +4616,7 @@ namespace ServerModels
             {}
 
         FGetLeaderboardAroundUserRequest(const FGetLeaderboardAroundUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             MaxResultsCount(src.MaxResultsCount),
             PlayFabId(src.PlayFabId),
             ProfileConstraints(src.ProfileConstraints.IsValid() ? MakeShareable(new FPlayerProfileViewConstraints(*src.ProfileConstraints)) : nullptr),
@@ -4682,7 +4682,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardAroundUserResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardAroundUserResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Ordered listing of users and their positions in the requested leaderboard.
         TArray<FPlayerLeaderboardEntry> Leaderboard;
@@ -4693,14 +4693,14 @@ namespace ServerModels
         int32 Version;
 
         FGetLeaderboardAroundUserResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard(),
             NextReset(),
             Version(0)
             {}
 
         FGetLeaderboardAroundUserResult(const FGetLeaderboardAroundUserResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard(src.Leaderboard),
             NextReset(src.NextReset),
             Version(src.Version)
@@ -4717,7 +4717,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardForUsersCharactersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardForUsersCharactersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
@@ -4729,14 +4729,14 @@ namespace ServerModels
         FString StatisticName;
 
         FGetLeaderboardForUsersCharactersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             MaxResultsCount(0),
             PlayFabId(),
             StatisticName()
             {}
 
         FGetLeaderboardForUsersCharactersRequest(const FGetLeaderboardForUsersCharactersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             MaxResultsCount(src.MaxResultsCount),
             PlayFabId(src.PlayFabId),
             StatisticName(src.StatisticName)
@@ -4753,17 +4753,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardForUsersCharactersResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardForUsersCharactersResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Ordered list of leaderboard entries.
         TArray<FCharacterLeaderboardEntry> Leaderboard;
         FGetLeaderboardForUsersCharactersResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard()
             {}
 
         FGetLeaderboardForUsersCharactersResult(const FGetLeaderboardForUsersCharactersResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard(src.Leaderboard)
             {}
 
@@ -4778,7 +4778,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
@@ -4803,7 +4803,7 @@ namespace ServerModels
         Boxed<int32> Version;
 
         FGetLeaderboardRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             MaxResultsCount(0),
             ProfileConstraints(nullptr),
             StartPosition(0),
@@ -4813,7 +4813,7 @@ namespace ServerModels
             {}
 
         FGetLeaderboardRequest(const FGetLeaderboardRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             MaxResultsCount(src.MaxResultsCount),
             ProfileConstraints(src.ProfileConstraints.IsValid() ? MakeShareable(new FPlayerProfileViewConstraints(*src.ProfileConstraints)) : nullptr),
             StartPosition(src.StartPosition),
@@ -4833,7 +4833,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetLeaderboardResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetLeaderboardResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Ordered listing of users and their positions in the requested leaderboard.
         TArray<FPlayerLeaderboardEntry> Leaderboard;
@@ -4844,14 +4844,14 @@ namespace ServerModels
         int32 Version;
 
         FGetLeaderboardResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard(),
             NextReset(),
             Version(0)
             {}
 
         FGetLeaderboardResult(const FGetLeaderboardResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Leaderboard(src.Leaderboard),
             NextReset(src.NextReset),
             Version(src.Version)
@@ -4963,7 +4963,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerCombinedInfoRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerCombinedInfoRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Flags for which pieces of info to return for the user.
         FGetPlayerCombinedInfoRequestParams InfoRequestParameters;
@@ -4972,13 +4972,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetPlayerCombinedInfoRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             InfoRequestParameters(),
             PlayFabId()
             {}
 
         FGetPlayerCombinedInfoRequest(const FGetPlayerCombinedInfoRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             InfoRequestParameters(src.InfoRequestParameters),
             PlayFabId(src.PlayFabId)
             {}
@@ -5110,7 +5110,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerCombinedInfoResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerCombinedInfoResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Results for requested info.
         TSharedPtr<FGetPlayerCombinedInfoResultPayload> InfoResultPayload;
@@ -5119,13 +5119,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetPlayerCombinedInfoResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             InfoResultPayload(nullptr),
             PlayFabId()
             {}
 
         FGetPlayerCombinedInfoResult(const FGetPlayerCombinedInfoResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             InfoResultPayload(src.InfoResultPayload.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoResultPayload(*src.InfoResultPayload)) : nullptr),
             PlayFabId(src.PlayFabId)
             {}
@@ -5141,7 +5141,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerProfileRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerProfileRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
@@ -5154,13 +5154,13 @@ namespace ServerModels
         TSharedPtr<FPlayerProfileViewConstraints> ProfileConstraints;
 
         FGetPlayerProfileRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(),
             ProfileConstraints(nullptr)
             {}
 
         FGetPlayerProfileRequest(const FGetPlayerProfileRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId),
             ProfileConstraints(src.ProfileConstraints.IsValid() ? MakeShareable(new FPlayerProfileViewConstraints(*src.ProfileConstraints)) : nullptr)
             {}
@@ -5176,7 +5176,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerProfileResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerProfileResult : public PlayFab::FPlayFabCppResultCommon
     {
         /**
          * [optional] The profile of the player. This profile is not guaranteed to be up-to-date. For a new player, this profile will not
@@ -5185,12 +5185,12 @@ namespace ServerModels
         TSharedPtr<FPlayerProfileModel> PlayerProfile;
 
         FGetPlayerProfileResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayerProfile(nullptr)
             {}
 
         FGetPlayerProfileResult(const FGetPlayerProfileResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayerProfile(src.PlayerProfile.IsValid() ? MakeShareable(new FPlayerProfileModel(*src.PlayerProfile)) : nullptr)
             {}
 
@@ -5205,17 +5205,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerSegmentsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerSegmentsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of segments the requested player currently belongs to.
         TArray<FGetSegmentResult> Segments;
         FGetPlayerSegmentsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Segments()
             {}
 
         FGetPlayerSegmentsResult(const FGetPlayerSegmentsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Segments(src.Segments)
             {}
 
@@ -5230,7 +5230,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayersInSegmentRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayersInSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Continuation token if retrieving subsequent pages of results.
         FString ContinuationToken;
@@ -5248,7 +5248,7 @@ namespace ServerModels
         FString SegmentId;
 
         FGetPlayersInSegmentRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ContinuationToken(),
             MaxBatchSize(),
             SecondsToLive(),
@@ -5256,7 +5256,7 @@ namespace ServerModels
             {}
 
         FGetPlayersInSegmentRequest(const FGetPlayersInSegmentRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ContinuationToken(src.ContinuationToken),
             MaxBatchSize(src.MaxBatchSize),
             SecondsToLive(src.SecondsToLive),
@@ -5544,7 +5544,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayersInSegmentResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayersInSegmentResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Continuation token to use to retrieve subsequent pages of results. If token returns null there are no more results.
         FString ContinuationToken;
@@ -5555,14 +5555,14 @@ namespace ServerModels
         int32 ProfilesInSegment;
 
         FGetPlayersInSegmentResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ContinuationToken(),
             PlayerProfiles(),
             ProfilesInSegment(0)
             {}
 
         FGetPlayersInSegmentResult(const FGetPlayersInSegmentResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ContinuationToken(src.ContinuationToken),
             PlayerProfiles(src.PlayerProfiles),
             ProfilesInSegment(src.ProfilesInSegment)
@@ -5579,18 +5579,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayersSegmentsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayersSegmentsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FGetPlayersSegmentsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId()
             {}
 
         FGetPlayersSegmentsRequest(const FGetPlayersSegmentsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -5636,7 +5636,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerStatisticsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // user for whom statistics are being requested
         FString PlayFabId;
@@ -5649,14 +5649,14 @@ namespace ServerModels
          */
         TArray<FStatisticNameVersion> StatisticNameVersions;
         FGetPlayerStatisticsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(),
             StatisticNames(),
             StatisticNameVersions()
             {}
 
         FGetPlayerStatisticsRequest(const FGetPlayerStatisticsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId),
             StatisticNames(src.StatisticNames),
             StatisticNameVersions(src.StatisticNameVersions)
@@ -5673,7 +5673,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerStatisticsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerStatisticsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] PlayFab unique identifier of the user whose statistics are being returned
         FString PlayFabId;
@@ -5681,13 +5681,13 @@ namespace ServerModels
         // [optional] User statistics for the requested user.
         TArray<FStatisticValue> Statistics;
         FGetPlayerStatisticsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayFabId(),
             Statistics()
             {}
 
         FGetPlayerStatisticsResult(const FGetPlayerStatisticsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayFabId(src.PlayFabId),
             Statistics(src.Statistics)
             {}
@@ -5703,18 +5703,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerStatisticVersionsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerStatisticVersionsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] unique name of the statistic
         FString StatisticName;
 
         FGetPlayerStatisticVersionsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             StatisticName()
             {}
 
         FGetPlayerStatisticVersionsRequest(const FGetPlayerStatisticVersionsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             StatisticName(src.StatisticName)
             {}
 
@@ -5780,17 +5780,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerStatisticVersionsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerStatisticVersionsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] version change history of the statistic
         TArray<FPlayerStatisticVersion> StatisticVersions;
         FGetPlayerStatisticVersionsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             StatisticVersions()
             {}
 
         FGetPlayerStatisticVersionsResult(const FGetPlayerStatisticVersionsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             StatisticVersions(src.StatisticVersions)
             {}
 
@@ -5805,7 +5805,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerTagsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerTagsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Optional namespace to filter results by
         FString Namespace;
@@ -5814,13 +5814,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetPlayerTagsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Namespace(),
             PlayFabId()
             {}
 
         FGetPlayerTagsRequest(const FGetPlayerTagsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Namespace(src.Namespace),
             PlayFabId(src.PlayFabId)
             {}
@@ -5836,7 +5836,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayerTagsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayerTagsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
@@ -5844,13 +5844,13 @@ namespace ServerModels
         // Canonical tags (including namespace and tag's name) for the requested user
         TArray<FString> Tags;
         FGetPlayerTagsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayFabId(),
             Tags()
             {}
 
         FGetPlayerTagsResult(const FGetPlayerTagsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayFabId(src.PlayFabId),
             Tags(src.Tags)
             {}
@@ -5866,17 +5866,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers.
         TArray<FString> FacebookIDs;
         FGetPlayFabIDsFromFacebookIDsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FacebookIDs()
             {}
 
         FGetPlayFabIDsFromFacebookIDsRequest(const FGetPlayFabIDsFromFacebookIDsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FacebookIDs(src.FacebookIDs)
             {}
 
@@ -5891,17 +5891,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookIDsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Mapping of Facebook identifiers to PlayFab identifiers.
         TArray<FFacebookPlayFabIdPair> Data;
         FGetPlayFabIDsFromFacebookIDsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetPlayFabIDsFromFacebookIDsResult(const FGetPlayFabIDsFromFacebookIDsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -5916,17 +5916,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookInstantGamesIdsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookInstantGamesIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers.
         TArray<FString> FacebookInstantGamesIds;
         FGetPlayFabIDsFromFacebookInstantGamesIdsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FacebookInstantGamesIds()
             {}
 
         FGetPlayFabIDsFromFacebookInstantGamesIdsRequest(const FGetPlayFabIDsFromFacebookInstantGamesIdsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FacebookInstantGamesIds(src.FacebookInstantGamesIds)
             {}
 
@@ -5941,17 +5941,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookInstantGamesIdsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookInstantGamesIdsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Mapping of Facebook Instant Games identifiers to PlayFab identifiers.
         TArray<FFacebookInstantGamesPlayFabIdPair> Data;
         FGetPlayFabIDsFromFacebookInstantGamesIdsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetPlayFabIDsFromFacebookInstantGamesIdsResult(const FGetPlayFabIDsFromFacebookInstantGamesIdsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -5966,17 +5966,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers.
         TArray<FString> NintendoSwitchDeviceIds;
         FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             NintendoSwitchDeviceIds()
             {}
 
         FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest(const FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             NintendoSwitchDeviceIds(src.NintendoSwitchDeviceIds)
             {}
 
@@ -6022,17 +6022,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Mapping of Nintendo Switch Device identifiers to PlayFab identifiers.
         TArray<FNintendoSwitchPlayFabIdPair> Data;
         FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(const FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -6047,7 +6047,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
         Boxed<int32> IssuerId;
@@ -6055,13 +6055,13 @@ namespace ServerModels
         // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
         TArray<FString> PSNAccountIDs;
         FGetPlayFabIDsFromPSNAccountIDsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IssuerId(),
             PSNAccountIDs()
             {}
 
         FGetPlayFabIDsFromPSNAccountIDsRequest(const FGetPlayFabIDsFromPSNAccountIDsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IssuerId(src.IssuerId),
             PSNAccountIDs(src.PSNAccountIDs)
             {}
@@ -6108,17 +6108,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
         TArray<FPSNAccountPlayFabIdPair> Data;
         FGetPlayFabIDsFromPSNAccountIDsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetPlayFabIDsFromPSNAccountIDsResult(const FGetPlayFabIDsFromPSNAccountIDsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -6133,17 +6133,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers.
         TArray<FString> SteamStringIDs;
         FGetPlayFabIDsFromSteamIDsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SteamStringIDs()
             {}
 
         FGetPlayFabIDsFromSteamIDsRequest(const FGetPlayFabIDsFromSteamIDsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             SteamStringIDs(src.SteamStringIDs)
             {}
 
@@ -6189,17 +6189,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Mapping of Steam identifiers to PlayFab identifiers.
         TArray<FSteamPlayFabIdPair> Data;
         FGetPlayFabIDsFromSteamIDsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetPlayFabIDsFromSteamIDsResult(const FGetPlayFabIDsFromSteamIDsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -6214,7 +6214,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The ID of Xbox Live sandbox.
         FString Sandbox;
@@ -6222,13 +6222,13 @@ namespace ServerModels
         // Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers.
         TArray<FString> XboxLiveAccountIDs;
         FGetPlayFabIDsFromXboxLiveIDsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Sandbox(),
             XboxLiveAccountIDs()
             {}
 
         FGetPlayFabIDsFromXboxLiveIDsRequest(const FGetPlayFabIDsFromXboxLiveIDsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Sandbox(src.Sandbox),
             XboxLiveAccountIDs(src.XboxLiveAccountIDs)
             {}
@@ -6275,17 +6275,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
         TArray<FXboxLiveAccountPlayFabIdPair> Data;
         FGetPlayFabIDsFromXboxLiveIDsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetPlayFabIDsFromXboxLiveIDsResult(const FGetPlayFabIDsFromXboxLiveIDsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -6300,17 +6300,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPublisherDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPublisherDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // array of keys to get back data from the Publisher data blob, set by the admin tools
         TArray<FString> Keys;
         FGetPublisherDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Keys()
             {}
 
         FGetPublisherDataRequest(const FGetPublisherDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Keys(src.Keys)
             {}
 
@@ -6325,17 +6325,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetPublisherDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetPublisherDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] a dictionary object of key / value pairs
         TMap<FString, FString> Data;
         FGetPublisherDataResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetPublisherDataResult(const FGetPublisherDataResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -6350,7 +6350,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetRandomResultTablesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetRandomResultTablesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Specifies the catalog version that should be used to retrieve the Random Result Tables. If unspecified, uses
@@ -6361,13 +6361,13 @@ namespace ServerModels
         // The unique identifier of the Random Result Table to use.
         TArray<FString> TableIDs;
         FGetRandomResultTablesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(),
             TableIDs()
             {}
 
         FGetRandomResultTablesRequest(const FGetRandomResultTablesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             TableIDs(src.TableIDs)
             {}
@@ -6464,17 +6464,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetRandomResultTablesResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetRandomResultTablesResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] array of random result tables currently available
         TMap<FString, FRandomResultTableListing> Tables;
         FGetRandomResultTablesResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Tables()
             {}
 
         FGetRandomResultTablesResult(const FGetRandomResultTablesResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Tables(src.Tables)
             {}
 
@@ -6489,7 +6489,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetServerCustomIDsFromPlayFabIDsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetServerCustomIDsFromPlayFabIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * Array of unique PlayFab player identifiers for which the title needs to get server custom identifiers. Cannot contain
@@ -6497,12 +6497,12 @@ namespace ServerModels
          */
         TArray<FString> PlayFabIDs;
         FGetServerCustomIDsFromPlayFabIDsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabIDs()
             {}
 
         FGetServerCustomIDsFromPlayFabIDsRequest(const FGetServerCustomIDsFromPlayFabIDsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabIDs(src.PlayFabIDs)
             {}
 
@@ -6548,17 +6548,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetServerCustomIDsFromPlayFabIDsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetServerCustomIDsFromPlayFabIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Mapping of server custom player identifiers to PlayFab identifiers.
         TArray<FServerCustomIDPlayFabIDPair> Data;
         FGetServerCustomIDsFromPlayFabIDsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetServerCustomIDsFromPlayFabIDsResult(const FGetServerCustomIDsFromPlayFabIDsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -6573,7 +6573,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetSharedGroupDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetSharedGroupDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] If true, return the list of all members of the shared group.
         Boxed<bool> GetMembers;
@@ -6587,14 +6587,14 @@ namespace ServerModels
         FString SharedGroupId;
 
         FGetSharedGroupDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GetMembers(),
             Keys(),
             SharedGroupId()
             {}
 
         FGetSharedGroupDataRequest(const FGetSharedGroupDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GetMembers(src.GetMembers),
             Keys(src.Keys),
             SharedGroupId(src.SharedGroupId)
@@ -6652,20 +6652,20 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetSharedGroupDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetSharedGroupDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Data for the requested keys.
         TMap<FString, FSharedGroupDataRecord> Data;
         // [optional] List of PlayFabId identifiers for the members of this group, if requested.
         TArray<FString> Members;
         FGetSharedGroupDataResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(),
             Members()
             {}
 
         FGetSharedGroupDataResult(const FGetSharedGroupDataResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data),
             Members(src.Members)
             {}
@@ -6681,14 +6681,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTimeRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTimeRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FGetTimeRequest() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetTimeRequest(const FGetTimeRequest& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppRequestCommon()
             {}
 
         FGetTimeRequest(const TSharedPtr<FJsonObject>& obj) : FGetTimeRequest()
@@ -6702,18 +6702,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTimeResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTimeResult : public PlayFab::FPlayFabCppResultCommon
     {
         // Current server time when the request was received, in UTC
         FDateTime Time;
 
         FGetTimeResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Time(0)
             {}
 
         FGetTimeResult(const FGetTimeResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Time(src.Time)
             {}
 
@@ -6728,17 +6728,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTitleDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Specific keys to search for in the title data (leave null to get all keys)
         TArray<FString> Keys;
         FGetTitleDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Keys()
             {}
 
         FGetTitleDataRequest(const FGetTitleDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Keys(src.Keys)
             {}
 
@@ -6753,17 +6753,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTitleDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] a dictionary object of key / value pairs
         TMap<FString, FString> Data;
         FGetTitleDataResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data()
             {}
 
         FGetTitleDataResult(const FGetTitleDataResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data)
             {}
 
@@ -6778,18 +6778,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTitleNewsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTitleNewsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Limits the results to the last n entries. Defaults to 10 if not set.
         Boxed<int32> Count;
 
         FGetTitleNewsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Count()
             {}
 
         FGetTitleNewsRequest(const FGetTitleNewsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Count(src.Count)
             {}
 
@@ -6845,17 +6845,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetTitleNewsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetTitleNewsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of localized news items.
         TArray<FTitleNewsItem> News;
         FGetTitleNewsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             News()
             {}
 
         FGetTitleNewsResult(const FGetTitleNewsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             News(src.News)
             {}
 
@@ -6870,18 +6870,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserAccountInfoRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserAccountInfoRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FGetUserAccountInfoRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId()
             {}
 
         FGetUserAccountInfoRequest(const FGetUserAccountInfoRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -6896,18 +6896,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserAccountInfoResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserAccountInfoResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Account details for the user whose information was requested.
         TSharedPtr<FUserAccountInfo> UserInfo;
 
         FGetUserAccountInfoResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             UserInfo(nullptr)
             {}
 
         FGetUserAccountInfoResult(const FGetUserAccountInfoResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             UserInfo(src.UserInfo.IsValid() ? MakeShareable(new FUserAccountInfo(*src.UserInfo)) : nullptr)
             {}
 
@@ -6922,18 +6922,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserBansRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserBansRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FGetUserBansRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId()
             {}
 
         FGetUserBansRequest(const FGetUserBansRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -6948,17 +6948,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserBansResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserBansResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Information about the bans
         TArray<FBanInfo> BanData;
         FGetUserBansResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData()
             {}
 
         FGetUserBansResult(const FGetUserBansResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData(src.BanData)
             {}
 
@@ -6973,7 +6973,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] The version that currently exists according to the caller. The call will return the data for all of the keys if the
@@ -6987,14 +6987,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetUserDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IfChangedFromDataVersion(),
             Keys(),
             PlayFabId()
             {}
 
         FGetUserDataRequest(const FGetUserDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             IfChangedFromDataVersion(src.IfChangedFromDataVersion),
             Keys(src.Keys),
             PlayFabId(src.PlayFabId)
@@ -7011,7 +7011,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] User specific data for this title.
         TMap<FString, FUserDataRecord> Data;
@@ -7025,14 +7025,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FGetUserDataResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(),
             DataVersion(0),
             PlayFabId()
             {}
 
         FGetUserDataResult(const FGetUserDataResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Data(src.Data),
             DataVersion(src.DataVersion),
             PlayFabId(src.PlayFabId)
@@ -7049,18 +7049,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserInventoryRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserInventoryRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FGetUserInventoryRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId()
             {}
 
         FGetUserInventoryRequest(const FGetUserInventoryRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -7075,7 +7075,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetUserInventoryResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGetUserInventoryResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of inventory items belonging to the user.
         TArray<FItemInstance> Inventory;
@@ -7087,7 +7087,7 @@ namespace ServerModels
         // [optional] Array of remaining times and timestamps for virtual currencies.
         TMap<FString, FVirtualCurrencyRechargeTime> VirtualCurrencyRechargeTimes;
         FGetUserInventoryResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Inventory(),
             PlayFabId(),
             VirtualCurrency(),
@@ -7095,7 +7095,7 @@ namespace ServerModels
             {}
 
         FGetUserInventoryResult(const FGetUserInventoryResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Inventory(src.Inventory),
             PlayFabId(src.PlayFabId),
             VirtualCurrency(src.VirtualCurrency),
@@ -7113,7 +7113,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantCharacterToUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantCharacterToUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Non-unique display name of the character being granted (1-20 characters in length).
         FString CharacterName;
@@ -7125,14 +7125,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FGrantCharacterToUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterName(),
             CharacterType(),
             PlayFabId()
             {}
 
         FGrantCharacterToUserRequest(const FGrantCharacterToUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterName(src.CharacterName),
             CharacterType(src.CharacterType),
             PlayFabId(src.PlayFabId)
@@ -7149,18 +7149,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantCharacterToUserResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantCharacterToUserResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique identifier tagged to this character.
         FString CharacterId;
 
         FGrantCharacterToUserResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId()
             {}
 
         FGrantCharacterToUserResult(const FGrantCharacterToUserResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             CharacterId(src.CharacterId)
             {}
 
@@ -7287,7 +7287,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantItemsToCharacterRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantItemsToCharacterRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] String detailing any additional information concerning this operation.
         FString Annotation;
@@ -7304,7 +7304,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FGrantItemsToCharacterRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Annotation(),
             CatalogVersion(),
             CharacterId(),
@@ -7313,7 +7313,7 @@ namespace ServerModels
             {}
 
         FGrantItemsToCharacterRequest(const FGrantItemsToCharacterRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Annotation(src.Annotation),
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
@@ -7332,17 +7332,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantItemsToCharacterResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantItemsToCharacterResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of items granted to users.
         TArray<FGrantedItemInstance> ItemGrantResults;
         FGrantItemsToCharacterResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemGrantResults()
             {}
 
         FGrantItemsToCharacterResult(const FGrantItemsToCharacterResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemGrantResults(src.ItemGrantResults)
             {}
 
@@ -7357,7 +7357,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantItemsToUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantItemsToUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] String detailing any additional information concerning this operation.
         FString Annotation;
@@ -7371,7 +7371,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FGrantItemsToUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Annotation(),
             CatalogVersion(),
             ItemIds(),
@@ -7379,7 +7379,7 @@ namespace ServerModels
             {}
 
         FGrantItemsToUserRequest(const FGrantItemsToUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Annotation(src.Annotation),
             CatalogVersion(src.CatalogVersion),
             ItemIds(src.ItemIds),
@@ -7397,17 +7397,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantItemsToUserResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantItemsToUserResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of items granted to users.
         TArray<FGrantedItemInstance> ItemGrantResults;
         FGrantItemsToUserResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemGrantResults()
             {}
 
         FGrantItemsToUserResult(const FGrantItemsToUserResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemGrantResults(src.ItemGrantResults)
             {}
 
@@ -7477,7 +7477,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantItemsToUsersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantItemsToUsersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Catalog version from which items are to be granted.
         FString CatalogVersion;
@@ -7485,13 +7485,13 @@ namespace ServerModels
         // Array of items to grant and the users to whom the items are to be granted.
         TArray<FItemGrant> ItemGrants;
         FGrantItemsToUsersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(),
             ItemGrants()
             {}
 
         FGrantItemsToUsersRequest(const FGrantItemsToUsersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             ItemGrants(src.ItemGrants)
             {}
@@ -7507,17 +7507,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGrantItemsToUsersResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FGrantItemsToUsersResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Array of items granted to users.
         TArray<FGrantedItemInstance> ItemGrantResults;
         FGrantItemsToUsersResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemGrantResults()
             {}
 
         FGrantItemsToUsersResult(const FGrantItemsToUsersResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemGrantResults(src.ItemGrantResults)
             {}
 
@@ -7532,7 +7532,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLinkXboxAccountRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FLinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
@@ -7544,14 +7544,14 @@ namespace ServerModels
         FString XboxToken;
 
         FLinkXboxAccountRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ForceLink(),
             PlayFabId(),
             XboxToken()
             {}
 
         FLinkXboxAccountRequest(const FLinkXboxAccountRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ForceLink(src.ForceLink),
             PlayFabId(src.PlayFabId),
             XboxToken(src.XboxToken)
@@ -7568,14 +7568,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLinkXboxAccountResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FLinkXboxAccountResult : public PlayFab::FPlayFabCppResultCommon
     {
         FLinkXboxAccountResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FLinkXboxAccountResult(const FLinkXboxAccountResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FLinkXboxAccountResult(const TSharedPtr<FJsonObject>& obj) : FLinkXboxAccountResult()
@@ -7589,18 +7589,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListUsersCharactersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListUsersCharactersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FListUsersCharactersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId()
             {}
 
         FListUsersCharactersRequest(const FListUsersCharactersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -7615,17 +7615,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListUsersCharactersResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FListUsersCharactersResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The requested list of characters.
         TArray<FCharacterResult> Characters;
         FListUsersCharactersResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Characters()
             {}
 
         FListUsersCharactersResult(const FListUsersCharactersResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Characters(src.Characters)
             {}
 
@@ -7640,7 +7640,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLoginWithServerCustomIdRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FLoginWithServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
@@ -7655,7 +7655,7 @@ namespace ServerModels
         FString ServerCustomId;
 
         FLoginWithServerCustomIdRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CreateAccount(),
             InfoRequestParameters(nullptr),
             PlayerSecret(),
@@ -7663,7 +7663,7 @@ namespace ServerModels
             {}
 
         FLoginWithServerCustomIdRequest(const FLoginWithServerCustomIdRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CreateAccount(src.CreateAccount),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
             PlayerSecret(src.PlayerSecret),
@@ -7681,7 +7681,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLoginWithXboxRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FLoginWithXboxRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
@@ -7693,14 +7693,14 @@ namespace ServerModels
         FString XboxToken;
 
         FLoginWithXboxRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CreateAccount(),
             InfoRequestParameters(nullptr),
             XboxToken()
             {}
 
         FLoginWithXboxRequest(const FLoginWithXboxRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CreateAccount(src.CreateAccount),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
             XboxToken(src.XboxToken)
@@ -7717,7 +7717,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FModifyCharacterVirtualCurrencyResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FModifyCharacterVirtualCurrencyResult : public PlayFab::FPlayFabCppResultCommon
     {
         // Balance of the virtual currency after modification.
         int32 Balance;
@@ -7726,13 +7726,13 @@ namespace ServerModels
         FString VirtualCurrency;
 
         FModifyCharacterVirtualCurrencyResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Balance(0),
             VirtualCurrency()
             {}
 
         FModifyCharacterVirtualCurrencyResult(const FModifyCharacterVirtualCurrencyResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Balance(src.Balance),
             VirtualCurrency(src.VirtualCurrency)
             {}
@@ -7748,7 +7748,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FModifyItemUsesRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FModifyItemUsesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique instance identifier of the item to be modified.
         FString ItemInstanceId;
@@ -7760,14 +7760,14 @@ namespace ServerModels
         int32 UsesToAdd;
 
         FModifyItemUsesRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ItemInstanceId(),
             PlayFabId(),
             UsesToAdd(0)
             {}
 
         FModifyItemUsesRequest(const FModifyItemUsesRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ItemInstanceId(src.ItemInstanceId),
             PlayFabId(src.PlayFabId),
             UsesToAdd(src.UsesToAdd)
@@ -7784,7 +7784,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FModifyItemUsesResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FModifyItemUsesResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Unique instance identifier of the item with uses consumed.
         FString ItemInstanceId;
@@ -7793,13 +7793,13 @@ namespace ServerModels
         int32 RemainingUses;
 
         FModifyItemUsesResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemInstanceId(),
             RemainingUses(0)
             {}
 
         FModifyItemUsesResult(const FModifyItemUsesResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             ItemInstanceId(src.ItemInstanceId),
             RemainingUses(src.RemainingUses)
             {}
@@ -7815,7 +7815,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FModifyUserVirtualCurrencyResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FModifyUserVirtualCurrencyResult : public PlayFab::FPlayFabCppResultCommon
     {
         // Balance of the virtual currency after modification.
         int32 Balance;
@@ -7833,7 +7833,7 @@ namespace ServerModels
         FString VirtualCurrency;
 
         FModifyUserVirtualCurrencyResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Balance(0),
             BalanceChange(0),
             PlayFabId(),
@@ -7841,7 +7841,7 @@ namespace ServerModels
             {}
 
         FModifyUserVirtualCurrencyResult(const FModifyUserVirtualCurrencyResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Balance(src.Balance),
             BalanceChange(src.BalanceChange),
             PlayFabId(src.PlayFabId),
@@ -7859,7 +7859,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMoveItemToCharacterFromCharacterRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FMoveItemToCharacterFromCharacterRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier of the character that currently has the item.
         FString GivingCharacterId;
@@ -7874,7 +7874,7 @@ namespace ServerModels
         FString ReceivingCharacterId;
 
         FMoveItemToCharacterFromCharacterRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GivingCharacterId(),
             ItemInstanceId(),
             PlayFabId(),
@@ -7882,7 +7882,7 @@ namespace ServerModels
             {}
 
         FMoveItemToCharacterFromCharacterRequest(const FMoveItemToCharacterFromCharacterRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GivingCharacterId(src.GivingCharacterId),
             ItemInstanceId(src.ItemInstanceId),
             PlayFabId(src.PlayFabId),
@@ -7900,14 +7900,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMoveItemToCharacterFromCharacterResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FMoveItemToCharacterFromCharacterResult : public PlayFab::FPlayFabCppResultCommon
     {
         FMoveItemToCharacterFromCharacterResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FMoveItemToCharacterFromCharacterResult(const FMoveItemToCharacterFromCharacterResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FMoveItemToCharacterFromCharacterResult(const TSharedPtr<FJsonObject>& obj) : FMoveItemToCharacterFromCharacterResult()
@@ -7921,7 +7921,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMoveItemToCharacterFromUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FMoveItemToCharacterFromUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -7933,14 +7933,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FMoveItemToCharacterFromUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             ItemInstanceId(),
             PlayFabId()
             {}
 
         FMoveItemToCharacterFromUserRequest(const FMoveItemToCharacterFromUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             ItemInstanceId(src.ItemInstanceId),
             PlayFabId(src.PlayFabId)
@@ -7957,14 +7957,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMoveItemToCharacterFromUserResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FMoveItemToCharacterFromUserResult : public PlayFab::FPlayFabCppResultCommon
     {
         FMoveItemToCharacterFromUserResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FMoveItemToCharacterFromUserResult(const FMoveItemToCharacterFromUserResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FMoveItemToCharacterFromUserResult(const TSharedPtr<FJsonObject>& obj) : FMoveItemToCharacterFromUserResult()
@@ -7978,7 +7978,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMoveItemToUserFromCharacterRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FMoveItemToUserFromCharacterRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -7990,14 +7990,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FMoveItemToUserFromCharacterRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             ItemInstanceId(),
             PlayFabId()
             {}
 
         FMoveItemToUserFromCharacterRequest(const FMoveItemToUserFromCharacterRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             ItemInstanceId(src.ItemInstanceId),
             PlayFabId(src.PlayFabId)
@@ -8014,14 +8014,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMoveItemToUserFromCharacterResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FMoveItemToUserFromCharacterResult : public PlayFab::FPlayFabCppResultCommon
     {
         FMoveItemToUserFromCharacterResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FMoveItemToUserFromCharacterResult(const FMoveItemToUserFromCharacterResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FMoveItemToUserFromCharacterResult(const TSharedPtr<FJsonObject>& obj) : FMoveItemToUserFromCharacterResult()
@@ -8035,7 +8035,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FNotifyMatchmakerPlayerLeftRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FNotifyMatchmakerPlayerLeftRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier of the Game Instance the user is leaving.
         FString LobbyId;
@@ -8044,13 +8044,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FNotifyMatchmakerPlayerLeftRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(),
             PlayFabId()
             {}
 
         FNotifyMatchmakerPlayerLeftRequest(const FNotifyMatchmakerPlayerLeftRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(src.LobbyId),
             PlayFabId(src.PlayFabId)
             {}
@@ -8078,18 +8078,18 @@ namespace ServerModels
     PLAYFABCPP_API PlayerConnectionState readPlayerConnectionStateFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API PlayerConnectionState readPlayerConnectionStateFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FNotifyMatchmakerPlayerLeftResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FNotifyMatchmakerPlayerLeftResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] State of user leaving the Game Server Instance.
         Boxed<PlayerConnectionState> PlayerState;
 
         FNotifyMatchmakerPlayerLeftResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayerState()
             {}
 
         FNotifyMatchmakerPlayerLeftResult(const FNotifyMatchmakerPlayerLeftResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             PlayerState(src.PlayerState)
             {}
 
@@ -8155,7 +8155,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRedeemCouponRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRedeemCouponRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Catalog version of the coupon.
         FString CatalogVersion;
@@ -8170,7 +8170,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FRedeemCouponRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(),
             CharacterId(),
             CouponCode(),
@@ -8178,7 +8178,7 @@ namespace ServerModels
             {}
 
         FRedeemCouponRequest(const FRedeemCouponRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
             CouponCode(src.CouponCode),
@@ -8196,17 +8196,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRedeemCouponResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRedeemCouponResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Items granted to the player as a result of redeeming the coupon.
         TArray<FItemInstance> GrantedItems;
         FRedeemCouponResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             GrantedItems()
             {}
 
         FRedeemCouponResult(const FRedeemCouponResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             GrantedItems(src.GrantedItems)
             {}
 
@@ -8221,7 +8221,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRedeemMatchmakerTicketRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRedeemMatchmakerTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier of the Game Server Instance that is asking for validation of the authorization ticket.
         FString LobbyId;
@@ -8230,13 +8230,13 @@ namespace ServerModels
         FString Ticket;
 
         FRedeemMatchmakerTicketRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(),
             Ticket()
             {}
 
         FRedeemMatchmakerTicketRequest(const FRedeemMatchmakerTicketRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(src.LobbyId),
             Ticket(src.Ticket)
             {}
@@ -8252,7 +8252,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRedeemMatchmakerTicketResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRedeemMatchmakerTicketResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Error value if the ticket was not validated.
         FString Error;
@@ -8264,14 +8264,14 @@ namespace ServerModels
         TSharedPtr<FUserAccountInfo> UserInfo;
 
         FRedeemMatchmakerTicketResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Error(),
             TicketIsValid(false),
             UserInfo(nullptr)
             {}
 
         FRedeemMatchmakerTicketResult(const FRedeemMatchmakerTicketResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Error(src.Error),
             TicketIsValid(src.TicketIsValid),
             UserInfo(src.UserInfo.IsValid() ? MakeShareable(new FUserAccountInfo(*src.UserInfo)) : nullptr)
@@ -8288,18 +8288,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRefreshGameServerInstanceHeartbeatRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRefreshGameServerInstanceHeartbeatRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier of the Game Server Instance for which the heartbeat is updated.
         FString LobbyId;
 
         FRefreshGameServerInstanceHeartbeatRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId()
             {}
 
         FRefreshGameServerInstanceHeartbeatRequest(const FRefreshGameServerInstanceHeartbeatRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(src.LobbyId)
             {}
 
@@ -8314,14 +8314,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRefreshGameServerInstanceHeartbeatResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRefreshGameServerInstanceHeartbeatResult : public PlayFab::FPlayFabCppResultCommon
     {
         FRefreshGameServerInstanceHeartbeatResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRefreshGameServerInstanceHeartbeatResult(const FRefreshGameServerInstanceHeartbeatResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRefreshGameServerInstanceHeartbeatResult(const TSharedPtr<FJsonObject>& obj) : FRefreshGameServerInstanceHeartbeatResult()
@@ -8350,7 +8350,7 @@ namespace ServerModels
     PLAYFABCPP_API Region readRegionFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API Region readRegionFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FRegisterGameRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRegisterGameRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier of the build running on the Game Server Instance.
         FString Build;
@@ -8385,7 +8385,7 @@ namespace ServerModels
         // [optional] Tags for the Game Server Instance
         TMap<FString, FString> Tags;
         FRegisterGameRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Build(),
             GameMode(),
             LobbyId(),
@@ -8398,7 +8398,7 @@ namespace ServerModels
             {}
 
         FRegisterGameRequest(const FRegisterGameRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Build(src.Build),
             GameMode(src.GameMode),
             LobbyId(src.LobbyId),
@@ -8421,7 +8421,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRegisterGameResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRegisterGameResponse : public PlayFab::FPlayFabCppResultCommon
     {
         /**
          * [optional] Unique identifier generated for the Game Server Instance that is registered. If LobbyId is specified in request and the
@@ -8430,12 +8430,12 @@ namespace ServerModels
         FString LobbyId;
 
         FRegisterGameResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             LobbyId()
             {}
 
         FRegisterGameResponse(const FRegisterGameResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             LobbyId(src.LobbyId)
             {}
 
@@ -8450,7 +8450,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemoveFriendRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemoveFriendRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // PlayFab identifier of the friend account which is to be removed.
         FString FriendPlayFabId;
@@ -8459,13 +8459,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FRemoveFriendRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FriendPlayFabId(),
             PlayFabId()
             {}
 
         FRemoveFriendRequest(const FRemoveFriendRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FriendPlayFabId(src.FriendPlayFabId),
             PlayFabId(src.PlayFabId)
             {}
@@ -8481,7 +8481,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemovePlayerTagRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemovePlayerTagRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
@@ -8490,13 +8490,13 @@ namespace ServerModels
         FString TagName;
 
         FRemovePlayerTagRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(),
             TagName()
             {}
 
         FRemovePlayerTagRequest(const FRemovePlayerTagRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId),
             TagName(src.TagName)
             {}
@@ -8512,14 +8512,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemovePlayerTagResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemovePlayerTagResult : public PlayFab::FPlayFabCppResultCommon
     {
         FRemovePlayerTagResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRemovePlayerTagResult(const FRemovePlayerTagResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRemovePlayerTagResult(const TSharedPtr<FJsonObject>& obj) : FRemovePlayerTagResult()
@@ -8533,7 +8533,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemoveSharedGroupMembersRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemoveSharedGroupMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // An array of unique PlayFab assigned ID of the user on whom the operation will be performed.
         TArray<FString> PlayFabIds;
@@ -8541,13 +8541,13 @@ namespace ServerModels
         FString SharedGroupId;
 
         FRemoveSharedGroupMembersRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabIds(),
             SharedGroupId()
             {}
 
         FRemoveSharedGroupMembersRequest(const FRemoveSharedGroupMembersRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabIds(src.PlayFabIds),
             SharedGroupId(src.SharedGroupId)
             {}
@@ -8563,14 +8563,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemoveSharedGroupMembersResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRemoveSharedGroupMembersResult : public PlayFab::FPlayFabCppResultCommon
     {
         FRemoveSharedGroupMembersResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRemoveSharedGroupMembersResult(const FRemoveSharedGroupMembersResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRemoveSharedGroupMembersResult(const TSharedPtr<FJsonObject>& obj) : FRemoveSharedGroupMembersResult()
@@ -8584,7 +8584,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FReportPlayerServerRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FReportPlayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Optional additional comment by reporting player.
         FString Comment;
@@ -8596,14 +8596,14 @@ namespace ServerModels
         FString ReporterId;
 
         FReportPlayerServerRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Comment(),
             ReporteeId(),
             ReporterId()
             {}
 
         FReportPlayerServerRequest(const FReportPlayerServerRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Comment(src.Comment),
             ReporteeId(src.ReporteeId),
             ReporterId(src.ReporterId)
@@ -8620,18 +8620,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FReportPlayerServerResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FReportPlayerServerResult : public PlayFab::FPlayFabCppResultCommon
     {
         // The number of remaining reports which may be filed today by this reporting player.
         int32 SubmissionsRemaining;
 
         FReportPlayerServerResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             SubmissionsRemaining(0)
             {}
 
         FReportPlayerServerResult(const FReportPlayerServerResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             SubmissionsRemaining(src.SubmissionsRemaining)
             {}
 
@@ -8646,18 +8646,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeAllBansForUserRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeAllBansForUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FRevokeAllBansForUserRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId()
             {}
 
         FRevokeAllBansForUserRequest(const FRevokeAllBansForUserRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -8672,17 +8672,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeAllBansForUserResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeAllBansForUserResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Information on the bans that were revoked.
         TArray<FBanInfo> BanData;
         FRevokeAllBansForUserResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData()
             {}
 
         FRevokeAllBansForUserResult(const FRevokeAllBansForUserResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData(src.BanData)
             {}
 
@@ -8697,17 +8697,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeBansRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeBansRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Ids of the bans to be revoked. Maximum 100.
         TArray<FString> BanIds;
         FRevokeBansRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BanIds()
             {}
 
         FRevokeBansRequest(const FRevokeBansRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             BanIds(src.BanIds)
             {}
 
@@ -8722,17 +8722,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeBansResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeBansResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Information on the bans that were revoked
         TArray<FBanInfo> BanData;
         FRevokeBansResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData()
             {}
 
         FRevokeBansResult(const FRevokeBansResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData(src.BanData)
             {}
 
@@ -8783,7 +8783,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeInventoryItemRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeInventoryItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -8795,14 +8795,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FRevokeInventoryItemRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             ItemInstanceId(),
             PlayFabId()
             {}
 
         FRevokeInventoryItemRequest(const FRevokeInventoryItemRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             ItemInstanceId(src.ItemInstanceId),
             PlayFabId(src.PlayFabId)
@@ -8819,17 +8819,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeInventoryItemsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Array of player items to revoke, between 1 and 25 items.
         TArray<FRevokeInventoryItem> Items;
         FRevokeInventoryItemsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Items()
             {}
 
         FRevokeInventoryItemsRequest(const FRevokeInventoryItemsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Items(src.Items)
             {}
 
@@ -8875,17 +8875,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeInventoryItemsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeInventoryItemsResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Collection of any errors that occurred during processing.
         TArray<FRevokeItemError> Errors;
         FRevokeInventoryItemsResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Errors()
             {}
 
         FRevokeInventoryItemsResult(const FRevokeInventoryItemsResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             Errors(src.Errors)
             {}
 
@@ -8900,14 +8900,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRevokeInventoryResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FRevokeInventoryResult : public PlayFab::FPlayFabCppResultCommon
     {
         FRevokeInventoryResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRevokeInventoryResult(const FRevokeInventoryResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FRevokeInventoryResult(const TSharedPtr<FJsonObject>& obj) : FRevokeInventoryResult()
@@ -8921,7 +8921,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSendCustomAccountRecoveryEmailRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSendCustomAccountRecoveryEmailRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] User email address attached to their account
         FString Email;
@@ -8933,14 +8933,14 @@ namespace ServerModels
         FString Username;
 
         FSendCustomAccountRecoveryEmailRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Email(),
             EmailTemplateId(),
             Username()
             {}
 
         FSendCustomAccountRecoveryEmailRequest(const FSendCustomAccountRecoveryEmailRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Email(src.Email),
             EmailTemplateId(src.EmailTemplateId),
             Username(src.Username)
@@ -8957,14 +8957,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSendCustomAccountRecoveryEmailResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSendCustomAccountRecoveryEmailResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSendCustomAccountRecoveryEmailResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSendCustomAccountRecoveryEmailResult(const FSendCustomAccountRecoveryEmailResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSendCustomAccountRecoveryEmailResult(const TSharedPtr<FJsonObject>& obj) : FSendCustomAccountRecoveryEmailResult()
@@ -8978,7 +8978,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSendEmailFromTemplateRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSendEmailFromTemplateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The email template id of the email template to send.
         FString EmailTemplateId;
@@ -8987,13 +8987,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FSendEmailFromTemplateRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             EmailTemplateId(),
             PlayFabId()
             {}
 
         FSendEmailFromTemplateRequest(const FSendEmailFromTemplateRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             EmailTemplateId(src.EmailTemplateId),
             PlayFabId(src.PlayFabId)
             {}
@@ -9009,14 +9009,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSendEmailFromTemplateResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSendEmailFromTemplateResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSendEmailFromTemplateResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSendEmailFromTemplateResult(const FSendEmailFromTemplateResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSendEmailFromTemplateResult(const TSharedPtr<FJsonObject>& obj) : FSendEmailFromTemplateResult()
@@ -9030,7 +9030,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSendPushNotificationRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSendPushNotificationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Allows you to provide precisely formatted json to target devices. This is an advanced feature, allowing you to deliver
@@ -9055,7 +9055,7 @@ namespace ServerModels
         // [optional] Target Platforms that should receive the Message or Package. If omitted, we will send to all available platforms.
         TArray<PushNotificationPlatform> TargetPlatforms;
         FSendPushNotificationRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AdvancedPlatformDelivery(),
             Message(),
             Package(nullptr),
@@ -9065,7 +9065,7 @@ namespace ServerModels
             {}
 
         FSendPushNotificationRequest(const FSendPushNotificationRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             AdvancedPlatformDelivery(src.AdvancedPlatformDelivery),
             Message(src.Message),
             Package(src.Package.IsValid() ? MakeShareable(new FPushNotificationPackage(*src.Package)) : nullptr),
@@ -9085,14 +9085,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSendPushNotificationResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSendPushNotificationResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSendPushNotificationResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSendPushNotificationResult(const FSendPushNotificationResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSendPushNotificationResult(const TSharedPtr<FJsonObject>& obj) : FSendPushNotificationResult()
@@ -9142,7 +9142,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FServerLoginResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FServerLoginResult : public PlayFab::FPlayFabLoginResultCommon
     {
         /**
          * [optional] If LoginTitlePlayerAccountEntity flag is set on the login request the title_player_account will also be logged in and
@@ -9169,7 +9169,7 @@ namespace ServerModels
         TSharedPtr<FUserSettings> SettingsForUser;
 
         FServerLoginResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabLoginResultCommon(),
             EntityToken(nullptr),
             InfoResultPayload(nullptr),
             LastLoginTime(),
@@ -9180,7 +9180,7 @@ namespace ServerModels
             {}
 
         FServerLoginResult(const FServerLoginResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabLoginResultCommon(),
             EntityToken(src.EntityToken.IsValid() ? MakeShareable(new FEntityTokenResponse(*src.EntityToken)) : nullptr),
             InfoResultPayload(src.InfoResultPayload.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoResultPayload(*src.InfoResultPayload)) : nullptr),
             LastLoginTime(src.LastLoginTime),
@@ -9201,7 +9201,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetFriendTagsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetFriendTagsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // PlayFab identifier of the friend account to which the tag(s) should be applied.
         FString FriendPlayFabId;
@@ -9212,14 +9212,14 @@ namespace ServerModels
         // Array of tags to set on the friend account.
         TArray<FString> Tags;
         FSetFriendTagsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FriendPlayFabId(),
             PlayFabId(),
             Tags()
             {}
 
         FSetFriendTagsRequest(const FSetFriendTagsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             FriendPlayFabId(src.FriendPlayFabId),
             PlayFabId(src.PlayFabId),
             Tags(src.Tags)
@@ -9236,7 +9236,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGameServerInstanceDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetGameServerInstanceDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Custom data to set for the specified game server instance.
         FString GameServerData;
@@ -9245,13 +9245,13 @@ namespace ServerModels
         FString LobbyId;
 
         FSetGameServerInstanceDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GameServerData(),
             LobbyId()
             {}
 
         FSetGameServerInstanceDataRequest(const FSetGameServerInstanceDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             GameServerData(src.GameServerData),
             LobbyId(src.LobbyId)
             {}
@@ -9267,14 +9267,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGameServerInstanceDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetGameServerInstanceDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSetGameServerInstanceDataResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetGameServerInstanceDataResult(const FSetGameServerInstanceDataResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetGameServerInstanceDataResult(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceDataResult()
@@ -9288,7 +9288,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGameServerInstanceStateRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetGameServerInstanceStateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier of the Game Instance to be updated, in decimal format.
         FString LobbyId;
@@ -9297,13 +9297,13 @@ namespace ServerModels
         GameInstanceState State;
 
         FSetGameServerInstanceStateRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(),
             State()
             {}
 
         FSetGameServerInstanceStateRequest(const FSetGameServerInstanceStateRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(src.LobbyId),
             State(src.State)
             {}
@@ -9319,14 +9319,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGameServerInstanceStateResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetGameServerInstanceStateResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSetGameServerInstanceStateResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetGameServerInstanceStateResult(const FSetGameServerInstanceStateResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetGameServerInstanceStateResult(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceStateResult()
@@ -9340,7 +9340,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGameServerInstanceTagsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetGameServerInstanceTagsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier of the Game Server Instance to be updated.
         FString LobbyId;
@@ -9351,13 +9351,13 @@ namespace ServerModels
          */
         TMap<FString, FString> Tags;
         FSetGameServerInstanceTagsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(),
             Tags()
             {}
 
         FSetGameServerInstanceTagsRequest(const FSetGameServerInstanceTagsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             LobbyId(src.LobbyId),
             Tags(src.Tags)
             {}
@@ -9373,14 +9373,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetGameServerInstanceTagsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetGameServerInstanceTagsResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSetGameServerInstanceTagsResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetGameServerInstanceTagsResult(const FSetGameServerInstanceTagsResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetGameServerInstanceTagsResult(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceTagsResult()
@@ -9394,7 +9394,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetPlayerSecretRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetPlayerSecretRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
@@ -9403,13 +9403,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FSetPlayerSecretRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayerSecret(),
             PlayFabId()
             {}
 
         FSetPlayerSecretRequest(const FSetPlayerSecretRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayerSecret(src.PlayerSecret),
             PlayFabId(src.PlayFabId)
             {}
@@ -9425,14 +9425,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetPlayerSecretResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetPlayerSecretResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSetPlayerSecretResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetPlayerSecretResult(const FSetPlayerSecretResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetPlayerSecretResult(const TSharedPtr<FJsonObject>& obj) : FSetPlayerSecretResult()
@@ -9446,7 +9446,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetPublisherDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetPublisherDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
@@ -9458,13 +9458,13 @@ namespace ServerModels
         FString Value;
 
         FSetPublisherDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Key(),
             Value()
             {}
 
         FSetPublisherDataRequest(const FSetPublisherDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Key(src.Key),
             Value(src.Value)
             {}
@@ -9480,14 +9480,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetPublisherDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetPublisherDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSetPublisherDataResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetPublisherDataResult(const FSetPublisherDataResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetPublisherDataResult(const TSharedPtr<FJsonObject>& obj) : FSetPublisherDataResult()
@@ -9501,7 +9501,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
@@ -9513,13 +9513,13 @@ namespace ServerModels
         FString Value;
 
         FSetTitleDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Key(),
             Value()
             {}
 
         FSetTitleDataRequest(const FSetTitleDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Key(src.Key),
             Value(src.Value)
             {}
@@ -9535,14 +9535,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         FSetTitleDataResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetTitleDataResult(const FSetTitleDataResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FSetTitleDataResult(const TSharedPtr<FJsonObject>& obj) : FSetTitleDataResult()
@@ -9595,7 +9595,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSubtractCharacterVirtualCurrencyRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSubtractCharacterVirtualCurrencyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Amount to be subtracted from the user balance of the specified virtual currency.
         int32 Amount;
@@ -9610,7 +9610,7 @@ namespace ServerModels
         FString VirtualCurrency;
 
         FSubtractCharacterVirtualCurrencyRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(0),
             CharacterId(),
             PlayFabId(),
@@ -9618,7 +9618,7 @@ namespace ServerModels
             {}
 
         FSubtractCharacterVirtualCurrencyRequest(const FSubtractCharacterVirtualCurrencyRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(src.Amount),
             CharacterId(src.CharacterId),
             PlayFabId(src.PlayFabId),
@@ -9636,7 +9636,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FSubtractUserVirtualCurrencyRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FSubtractUserVirtualCurrencyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Amount to be subtracted from the user balance of the specified virtual currency.
         int32 Amount;
@@ -9648,14 +9648,14 @@ namespace ServerModels
         FString VirtualCurrency;
 
         FSubtractUserVirtualCurrencyRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(0),
             PlayFabId(),
             VirtualCurrency()
             {}
 
         FSubtractUserVirtualCurrencyRequest(const FSubtractUserVirtualCurrencyRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Amount(src.Amount),
             PlayFabId(src.PlayFabId),
             VirtualCurrency(src.VirtualCurrency)
@@ -9672,7 +9672,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlinkXboxAccountRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUnlinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
         FString PlayFabId;
@@ -9681,13 +9681,13 @@ namespace ServerModels
         FString XboxToken;
 
         FUnlinkXboxAccountRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(),
             XboxToken()
             {}
 
         FUnlinkXboxAccountRequest(const FUnlinkXboxAccountRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             PlayFabId(src.PlayFabId),
             XboxToken(src.XboxToken)
             {}
@@ -9703,14 +9703,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlinkXboxAccountResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUnlinkXboxAccountResult : public PlayFab::FPlayFabCppResultCommon
     {
         FUnlinkXboxAccountResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUnlinkXboxAccountResult(const FUnlinkXboxAccountResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUnlinkXboxAccountResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkXboxAccountResult()
@@ -9724,7 +9724,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlockContainerInstanceRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUnlockContainerInstanceRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Specifies the catalog version that should be used to determine container contents. If unspecified, uses catalog
@@ -9748,7 +9748,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FUnlockContainerInstanceRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(),
             CharacterId(),
             ContainerItemInstanceId(),
@@ -9757,7 +9757,7 @@ namespace ServerModels
             {}
 
         FUnlockContainerInstanceRequest(const FUnlockContainerInstanceRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
             ContainerItemInstanceId(src.ContainerItemInstanceId),
@@ -9776,7 +9776,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlockContainerItemRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUnlockContainerItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Specifies the catalog version that should be used to determine container contents. If unspecified, uses default/primary
@@ -9794,7 +9794,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FUnlockContainerItemRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(),
             CharacterId(),
             ContainerItemId(),
@@ -9802,7 +9802,7 @@ namespace ServerModels
             {}
 
         FUnlockContainerItemRequest(const FUnlockContainerItemRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
             ContainerItemId(src.ContainerItemId),
@@ -9820,7 +9820,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlockContainerItemResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUnlockContainerItemResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Items granted to the player as a result of unlocking the container.
         TArray<FItemInstance> GrantedItems;
@@ -9833,7 +9833,7 @@ namespace ServerModels
         // [optional] Virtual currency granted to the player as a result of unlocking the container.
         TMap<FString, uint32> VirtualCurrency;
         FUnlockContainerItemResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             GrantedItems(),
             UnlockedItemInstanceId(),
             UnlockedWithItemInstanceId(),
@@ -9841,7 +9841,7 @@ namespace ServerModels
             {}
 
         FUnlockContainerItemResult(const FUnlockContainerItemResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             GrantedItems(src.GrantedItems),
             UnlockedItemInstanceId(src.UnlockedItemInstanceId),
             UnlockedWithItemInstanceId(src.UnlockedWithItemInstanceId),
@@ -9859,7 +9859,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateAvatarUrlRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateAvatarUrlRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // URL of the avatar image. If empty, it removes the existing avatar URL.
         FString ImageUrl;
@@ -9868,13 +9868,13 @@ namespace ServerModels
         FString PlayFabId;
 
         FUpdateAvatarUrlRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ImageUrl(),
             PlayFabId()
             {}
 
         FUpdateAvatarUrlRequest(const FUpdateAvatarUrlRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ImageUrl(src.ImageUrl),
             PlayFabId(src.PlayFabId)
             {}
@@ -9946,17 +9946,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateBansRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateBansRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // List of bans to be updated. Maximum 100.
         TArray<FUpdateBanRequest> Bans;
         FUpdateBansRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Bans()
             {}
 
         FUpdateBansRequest(const FUpdateBansRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Bans(src.Bans)
             {}
 
@@ -9971,17 +9971,17 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateBansResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateBansResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] Information on the bans that were updated
         TArray<FBanInfo> BanData;
         FUpdateBansResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData()
             {}
 
         FUpdateBansResult(const FUpdateBansResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             BanData(src.BanData)
             {}
 
@@ -9996,7 +9996,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateCharacterDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateCharacterDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -10018,7 +10018,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FUpdateCharacterDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             Data(),
             KeysToRemove(),
@@ -10027,7 +10027,7 @@ namespace ServerModels
             {}
 
         FUpdateCharacterDataRequest(const FUpdateCharacterDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
@@ -10046,7 +10046,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateCharacterDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateCharacterDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         /**
          * Indicates the current version of the data that has been set. This is incremented with every set call for that type of
@@ -10055,12 +10055,12 @@ namespace ServerModels
         uint32 DataVersion;
 
         FUpdateCharacterDataResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DataVersion(0)
             {}
 
         FUpdateCharacterDataResult(const FUpdateCharacterDataResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DataVersion(src.DataVersion)
             {}
 
@@ -10075,7 +10075,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateCharacterStatisticsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateCharacterStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -10086,14 +10086,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FUpdateCharacterStatisticsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             CharacterStatistics(),
             PlayFabId()
             {}
 
         FUpdateCharacterStatisticsRequest(const FUpdateCharacterStatisticsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             CharacterStatistics(src.CharacterStatistics),
             PlayFabId(src.PlayFabId)
@@ -10110,14 +10110,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateCharacterStatisticsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateCharacterStatisticsResult : public PlayFab::FPlayFabCppResultCommon
     {
         FUpdateCharacterStatisticsResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUpdateCharacterStatisticsResult(const FUpdateCharacterStatisticsResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUpdateCharacterStatisticsResult(const TSharedPtr<FJsonObject>& obj) : FUpdateCharacterStatisticsResult()
@@ -10131,7 +10131,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdatePlayerStatisticsRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdatePlayerStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Indicates whether the statistics provided should be set, regardless of the aggregation method set on the statistic.
@@ -10145,14 +10145,14 @@ namespace ServerModels
         // Statistics to be updated with the provided values
         TArray<FStatisticUpdate> Statistics;
         FUpdatePlayerStatisticsRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ForceUpdate(),
             PlayFabId(),
             Statistics()
             {}
 
         FUpdatePlayerStatisticsRequest(const FUpdatePlayerStatisticsRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             ForceUpdate(src.ForceUpdate),
             PlayFabId(src.PlayFabId),
             Statistics(src.Statistics)
@@ -10169,14 +10169,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdatePlayerStatisticsResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdatePlayerStatisticsResult : public PlayFab::FPlayFabCppResultCommon
     {
         FUpdatePlayerStatisticsResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUpdatePlayerStatisticsResult(const FUpdatePlayerStatisticsResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUpdatePlayerStatisticsResult(const TSharedPtr<FJsonObject>& obj) : FUpdatePlayerStatisticsResult()
@@ -10190,7 +10190,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateSharedGroupDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateSharedGroupDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
@@ -10209,7 +10209,7 @@ namespace ServerModels
         FString SharedGroupId;
 
         FUpdateSharedGroupDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Data(),
             KeysToRemove(),
             Permission(),
@@ -10217,7 +10217,7 @@ namespace ServerModels
             {}
 
         FUpdateSharedGroupDataRequest(const FUpdateSharedGroupDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
             Permission(src.Permission),
@@ -10235,14 +10235,14 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateSharedGroupDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateSharedGroupDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         FUpdateSharedGroupDataResult() :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUpdateSharedGroupDataResult(const FUpdateSharedGroupDataResult& src) :
-            FPlayFabCppBaseModel()
+            FPlayFabCppResultCommon()
             {}
 
         FUpdateSharedGroupDataResult(const TSharedPtr<FJsonObject>& obj) : FUpdateSharedGroupDataResult()
@@ -10256,7 +10256,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateUserDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateUserDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
@@ -10275,7 +10275,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FUpdateUserDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Data(),
             KeysToRemove(),
             Permission(),
@@ -10283,7 +10283,7 @@ namespace ServerModels
             {}
 
         FUpdateUserDataRequest(const FUpdateUserDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
             Permission(src.Permission),
@@ -10301,7 +10301,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateUserDataResult : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateUserDataResult : public PlayFab::FPlayFabCppResultCommon
     {
         /**
          * Indicates the current version of the data that has been set. This is incremented with every set call for that type of
@@ -10310,12 +10310,12 @@ namespace ServerModels
         uint32 DataVersion;
 
         FUpdateUserDataResult() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DataVersion(0)
             {}
 
         FUpdateUserDataResult(const FUpdateUserDataResult& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             DataVersion(src.DataVersion)
             {}
 
@@ -10330,7 +10330,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateUserInternalDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateUserInternalDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
@@ -10346,14 +10346,14 @@ namespace ServerModels
         FString PlayFabId;
 
         FUpdateUserInternalDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Data(),
             KeysToRemove(),
             PlayFabId()
             {}
 
         FUpdateUserInternalDataRequest(const FUpdateUserInternalDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
             PlayFabId(src.PlayFabId)
@@ -10370,7 +10370,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUpdateUserInventoryItemDataRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FUpdateUserInventoryItemDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
@@ -10392,7 +10392,7 @@ namespace ServerModels
         FString PlayFabId;
 
         FUpdateUserInventoryItemDataRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(),
             Data(),
             ItemInstanceId(),
@@ -10401,7 +10401,7 @@ namespace ServerModels
             {}
 
         FUpdateUserInventoryItemDataRequest(const FUpdateUserInventoryItemDataRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             Data(src.Data),
             ItemInstanceId(src.ItemInstanceId),
@@ -10420,7 +10420,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FWriteEventResponse : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FWriteEventResponse : public PlayFab::FPlayFabCppResultCommon
     {
         /**
          * [optional] The unique identifier of the event. The values of this identifier consist of ASCII characters and are not constrained to
@@ -10429,12 +10429,12 @@ namespace ServerModels
         FString EventId;
 
         FWriteEventResponse() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             EventId()
             {}
 
         FWriteEventResponse(const FWriteEventResponse& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppResultCommon(),
             EventId(src.EventId)
             {}
 
@@ -10449,7 +10449,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FWriteServerCharacterEventRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FWriteServerCharacterEventRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Custom event properties. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
@@ -10469,7 +10469,7 @@ namespace ServerModels
         Boxed<FDateTime> Timestamp;
 
         FWriteServerCharacterEventRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Body(),
             CharacterId(),
             EventName(),
@@ -10478,7 +10478,7 @@ namespace ServerModels
             {}
 
         FWriteServerCharacterEventRequest(const FWriteServerCharacterEventRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Body(src.Body),
             CharacterId(src.CharacterId),
             EventName(src.EventName),
@@ -10497,7 +10497,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FWriteServerPlayerEventRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FWriteServerPlayerEventRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
@@ -10514,7 +10514,7 @@ namespace ServerModels
         Boxed<FDateTime> Timestamp;
 
         FWriteServerPlayerEventRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Body(),
             EventName(),
             PlayFabId(),
@@ -10522,7 +10522,7 @@ namespace ServerModels
             {}
 
         FWriteServerPlayerEventRequest(const FWriteServerPlayerEventRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Body(src.Body),
             EventName(src.EventName),
             PlayFabId(src.PlayFabId),
@@ -10540,7 +10540,7 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FWriteTitleEventRequest : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FWriteTitleEventRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Custom event properties. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
@@ -10554,14 +10554,14 @@ namespace ServerModels
         Boxed<FDateTime> Timestamp;
 
         FWriteTitleEventRequest() :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Body(),
             EventName(),
             Timestamp()
             {}
 
         FWriteTitleEventRequest(const FWriteTitleEventRequest& src) :
-            FPlayFabCppBaseModel(),
+            FPlayFabCppRequestCommon(),
             Body(src.Body),
             EventName(src.EventName),
             Timestamp(src.Timestamp)

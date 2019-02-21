@@ -14,10 +14,17 @@
 #include "PlayFabEventsModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 
 UPlayFabEventsAPI::UPlayFabEventsAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
 {
+}
+
+void UPlayFabEventsAPI::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
 }
 
 void UPlayFabEventsAPI::SetRequestObject(UPlayFabJsonObject* JsonObject)
@@ -85,6 +92,7 @@ UPlayFabEventsAPI* UPlayFabEventsAPI::WriteEvents(FEventsWriteEventsRequest requ
     manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperWriteEvents);
 
     // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Event/WriteEvents";
     manager->useEntityToken = true;
 
@@ -111,8 +119,8 @@ void UPlayFabEventsAPI::HelperWriteEvents(FPlayFabBaseModel response, UObject* c
     }
     else if (!error.hasError && OnSuccessWriteEvents.IsBound())
     {
-        FEventsWriteEventsResponse result = UPlayFabEventsModelDecoder::decodeWriteEventsResponseResponse(response.responseData);
-        OnSuccessWriteEvents.Execute(result, mCustomData);
+        FEventsWriteEventsResponse ResultStruct = UPlayFabEventsModelDecoder::decodeWriteEventsResponseResponse(response.responseData);
+        OnSuccessWriteEvents.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -178,10 +186,15 @@ void UPlayFabEventsAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpR
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     if (returnsEntityToken)
-        pfSettings->setEntityToken(myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken"));
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
 
     // Broadcast the result event
-    OnPlayFabResponse.Broadcast(myResponse, mCustomData, myResponse.responseError.hasError);
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
     pfSettings->ModifyPendingCallCount(-1);
 }
 
@@ -197,15 +210,12 @@ void UPlayFabEventsAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    auto entityToken = pfSettings->getEntityToken();
-    auto clientToken = pfSettings->getSessionTicket();
-    auto devSecretKey = pfSettings->getSecretApiKey();
-    if (useEntityToken && entityToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), entityToken);
-    else if (useSessionTicket && clientToken.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-Authentication"), clientToken);
-    else if (useSecretKey && devSecretKey.Len() > 0)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), devSecretKey);
+    if (useEntityToken)
+        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
+    else if (useSessionTicket)
+        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
+    else if (useSecretKey)
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

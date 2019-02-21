@@ -15,6 +15,8 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PlayFabEnums.h"
+#include "PlayFabRequestCommon.h"
+#include "PlayFabLoginResultCommon.h"
 #include "PlayFabLocalizationModels.generated.h"
 
 class UPlayFabJsonObject;
@@ -29,14 +31,14 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FLocalizationGetLanguageListRequest
+struct PLAYFAB_API FLocalizationGetLanguageListRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FLocalizationGetLanguageListResponse
+struct PLAYFAB_API FLocalizationGetLanguageListResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

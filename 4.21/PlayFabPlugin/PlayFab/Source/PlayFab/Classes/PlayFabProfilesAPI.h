@@ -19,6 +19,8 @@
 #include "PlayFabProfilesModels.h"
 #include "PlayFabProfilesAPI.generated.h"
 
+class UPlayFabAuthenticationContext;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnPlayFabProfilesRequestCompleted, FPlayFabBaseModel, response, UObject*, customData, bool, successful);
 
 UCLASS(Blueprintable, BlueprintType)
@@ -31,6 +33,8 @@ public:
 
     UPROPERTY(BlueprintAssignable)
         FOnPlayFabProfilesRequestCompleted OnPlayFabResponse;
+
+    void SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext);
 
     /** Set the Request Json object */
     void SetRequestObject(UPlayFabJsonObject* JsonObject);
@@ -160,6 +164,9 @@ public:
     FDelegateOnSuccessSetProfilePolicy OnSuccessSetProfilePolicy;
 
 private:
+    UPROPERTY()
+        UPlayFabAuthenticationContext* CallAuthenticationContext;
+
     /** Internal bind function for the IHTTPRequest::OnProcessRequestCompleted() event */
     void OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 

@@ -36,7 +36,6 @@ void UPlayFabLocalizationAPI::SetDevSecretKey(const FString& developerSecretKey)
     PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
-
 bool UPlayFabLocalizationAPI::GetLanguageList(
     const FGetLanguageListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -45,14 +44,13 @@ bool UPlayFabLocalizationAPI::GetLanguageList(
     return UPlayFabLocalizationAPI::GetLanguageList(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
-
 bool UPlayFabLocalizationAPI::GetLanguageList(
     LocalizationModels::FGetLanguageListRequest& request,
     const FGetLanguageListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
     auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Locale/GetLanguageList")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
@@ -73,4 +71,3 @@ void UPlayFabLocalizationAPI::OnGetLanguageListResult(FHttpRequestPtr HttpReques
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-

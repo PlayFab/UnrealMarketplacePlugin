@@ -236,6 +236,9 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FEntityProfileBody : public PlayFab::FPlayFabCppBaseModel
     {
+        // The creation time of this profile in UTC.
+        FDateTime Created;
+
         /**
          * [optional] The display name of the entity. This field may serve different purposes for different entity types. i.e.: for a title
          * player account it could represent the display name of the player, whereas on a character it could be character's name.
@@ -271,6 +274,7 @@ namespace ProfilesModels
 
         FEntityProfileBody() :
             FPlayFabCppBaseModel(),
+            Created(0),
             DisplayName(),
             Entity(nullptr),
             EntityChain(),
@@ -284,6 +288,7 @@ namespace ProfilesModels
 
         FEntityProfileBody(const FEntityProfileBody& src) :
             FPlayFabCppBaseModel(),
+            Created(src.Created),
             DisplayName(src.DisplayName),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EntityChain(src.EntityChain),

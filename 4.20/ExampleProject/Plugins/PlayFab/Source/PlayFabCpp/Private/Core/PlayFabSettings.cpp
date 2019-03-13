@@ -52,10 +52,14 @@ namespace PlayFab
     {
         return IPlayFabCommonModuleInterface::Get().GetDisableAdvertising();
     }
+    FString PlayFabSettings::GetVerticalName()
+    {
+        return IPlayFabCommonModuleInterface::Get().GetVerticalName();
+    }
     FString PlayFabSettings::GetUrl(const FString& callPath)
-     {
+    {
         return IPlayFabCommonModuleInterface::Get().GetUrl(callPath);
-     }
+    }
 
     // Setters
     void PlayFabSettings::SetServerURL(const FString&  serverURL)

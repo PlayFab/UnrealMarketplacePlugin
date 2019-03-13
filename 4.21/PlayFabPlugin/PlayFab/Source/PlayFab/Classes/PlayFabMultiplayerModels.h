@@ -30,10 +30,408 @@ class UPlayFabJsonObject;
 // Matchmaking
 //////////////////////////////////////////////////////
 
+/**
+ * Cancels all tickets of which the player is a member in a given queue that are not
+ * cancelled or matched. This API is useful if you lose track of what tickets
+ * the player is a member of (if the title crashes for instance) and want to
+ * "reset".
+ * The Entity field is optional if the caller is a player and defaults to that
+ * player. Players may not cancel tickets for other people.
+ * The Entity field is required if the caller is a server (authenticated as
+ * the title).
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelAllMatchmakingTicketsForPlayerRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity key of the player whose tickets should be canceled. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Id of the queue from which a player's tickets should be canceled. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelAllMatchmakingTicketsForPlayerResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
+ * Only servers and ticket members can cancel a ticket.
+ * The ticket can be in four different states when it is cancelled.
+ * 1: the ticket is waiting for members to join it, and it has not started matching.
+ * If the ticket is cancelled at this stage, it will never match.
+ * 2: the ticket is matching. If the ticket is cancelled, it will stop matching.
+ * 3: the ticket is matched. A matched ticket cannot be cancelled.
+ * 4: the ticket is already cancelled and nothing happens.
+ * There may be race conditions between the ticket getting matched and
+ * the client making a cancellation request. The client must handle the possibility
+ * that the cancel request fails if a match is found before the cancellation request is processed.
+ * We do not allow resubmitting a cancelled ticket because players
+ * must consent to enter matchmaking again. Create a new ticket instead.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelMatchmakingTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of the queue to join. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelMatchmakingTicketResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/** The client specifies the creator's attributes and optionally a list of other users to match with. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateMatchmakingTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The User who created this ticket. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* Creator = nullptr;
+    /** How long to attempt matching this ticket in seconds. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        int32 GiveUpAfterSeconds = 0;
+    /** A list of Entity Keys of other users to match with. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> MembersToMatchWith;
+    /** The Id of a match queue. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateMatchmakingTicketResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+/** The server specifies all the members and their attributes. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateServerMatchmakingTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** How long to attempt matching this ticket in seconds. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        int32 GiveUpAfterSeconds = 0;
+    /** The users who will be part of this ticket. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> Members;
+    /** The Id of a match queue. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+};
+
+/**
+ * When matchmaking has successfully matched together a collection of
+ * tickets, it produces a 'match' with an Id. The match contains all of
+ * the players that were matched together, and their team assigments.
+ * Only servers and ticket members can get the match.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMatchRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
+     * object.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        bool EscapeObject = false;
+    /** The Id of a match. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString MatchId;
+    /** The Id of the queue to join. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** Determines whether the matchmaking attributes for each user should be returned in the response for match request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        bool ReturnMemberAttributes = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMatchResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of a match. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString MatchId;
+    /** A list of Users that are matched together, along with their team assignments. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> Members;
+    /**
+     * A list of regions that the match could be played in sorted by preference. This value is only set if the queue has a
+     * region selection rule.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString RegionPreferences;
+    /** The details of the server that the match has been allocated to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* ServerDetails = nullptr;
+};
+
+/**
+ * The ticket includes the invited players, their attributes if they have joined,
+ * the ticket status, the match Id when applicable, etc.
+ * Only servers, the ticket creator and the invited players can get the ticket.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMatchmakingTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
+     * object.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        bool EscapeObject = false;
+    /** The Id of the queue to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMatchmakingTicketResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        ECancellationReason CancellationReason;
+    /** The server date and time at which ticket was created. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString Created;
+    /** The Creator's entity key. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* Creator = nullptr;
+    /** How long to attempt matching this ticket in seconds. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        int32 GiveUpAfterSeconds = 0;
+    /** The Id of a match. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString MatchId;
+    /** A list of Users that have joined this ticket. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> Members;
+    /** A list of PlayFab Ids of Users to match with. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> MembersToMatchWith;
+    /** The Id of a match queue. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /**
+     * The current ticket status. Possible values are: WaitingForPlayers, WaitingForMatch, WaitingForServer, Canceled and
+     * Matched.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString Status;
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+/**
+ * Returns the matchmaking statistics for a queue. These include the number of players matching
+ * and the statistics related to the time to match statistics in seconds (average and percentiles).
+ * Statistics are refreshed once every 5 minutes.
+ * Servers can access all statistics no matter what the ClientStatisticsVisibility is configured to.
+ * Clients can access statistics according to the ClientStatisticsVisibility.
+ * Client requests are forbidden if all visibility fields are false.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetQueueStatisticsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The name of the queue. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetQueueStatisticsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The current number of players in the matchmaking queue, who are waiting to be matched. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        int32 NumberOfPlayersMatching = 0;
+    /** Statistics representing the time (in seconds) it takes for tickets to find a match. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* TimeToMatchStatisticsInSeconds = nullptr;
+};
+
+/**
+ * Add the player to a matchmaking ticket and specify all of its matchmaking
+ * attributes. Players can join a ticket if and only if their EntityKeys are
+ * already listed in the ticket's Members list.
+ * The matchmaking service automatically starts matching the ticket against
+ * other matchmaking tickets once all players have joined the ticket.
+ * It is not possible to join a ticket once it has started matching.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerJoinMatchmakingTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The User who wants to join the ticket. Their Id must be listed in PlayFabIdsToMatchWith. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* Member = nullptr;
+    /** The Id of the queue to join. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerJoinMatchmakingTicketResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
+ * If the caller is a title, the EntityKey in the request is required.
+ * If the caller is a player, then it is optional. If it is provided it must match the caller's entity.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListMatchmakingTicketsForPlayerRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity key for which to find the ticket Ids. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Id of the queue to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListMatchmakingTicketsForPlayerResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of ticket Ids the user is a member of. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketIds;
+};
+
 
 ///////////////////////////////////////////////////////
 // Matchmaking Admin
 //////////////////////////////////////////////////////
+
+/** Gets the current configuration for a queue. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMatchmakingQueueRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of the matchmaking queue to retrieve. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMatchmakingQueueResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The matchmaking queue config. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        UPlayFabJsonObject* MatchmakingQueue = nullptr;
+};
+
+/** Gets a list of all the matchmaking queue configurations for the title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListMatchmakingQueuesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListMatchmakingQueuesResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of matchmaking queue configs for this title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        TArray<UPlayFabJsonObject*> MatchMakingQueues;
+};
+
+/**
+ * Deletes the configuration for a queue. This will permanently delete the
+ * configuration and players will no longer be able to match in the queue.
+ * All outstanding matchmaking tickets will be cancelled.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerRemoveMatchmakingQueueRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of the matchmaking queue to remove. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerRemoveMatchmakingQueueResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
+ * Use this API to create or update matchmaking queue configurations. The queue
+ * configuration defines the matchmaking rules. The matchmaking service will match
+ * tickets together according to the configured rules. Queue resources are not
+ * spun up by calling this API. Queues are created when the first ticket is submitted.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerSetMatchmakingQueueRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The matchmaking queue config. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        UPlayFabJsonObject* MatchmakingQueue = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerSetMatchmakingQueueResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
 
 
 ///////////////////////////////////////////////////////

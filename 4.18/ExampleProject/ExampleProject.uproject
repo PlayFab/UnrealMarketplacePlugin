@@ -1,0 +1,13 @@
+{
+    "FileVersion": 3,
+    "EngineAssociation": "4.18",
+    "Category": "PlayFab",
+    "Description": "PlayFab Blueprint SDK Example Project for Unreal Engine 4.",
+    "Modules": [
+        {
+            "Name": "ExampleProject",
+            "Type": "Runtime",
+            "LoadingPhase": "Default"
+        }
+    ]
+}

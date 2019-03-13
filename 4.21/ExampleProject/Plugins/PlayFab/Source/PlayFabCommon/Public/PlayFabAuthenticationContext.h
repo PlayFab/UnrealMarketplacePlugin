@@ -6,6 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayFabCommonSettings.h"
 #include "PlayFabAuthenticationContext.generated.h"
 
 /**
@@ -16,11 +17,31 @@ class PLAYFABCOMMON_API UPlayFabAuthenticationContext : public UObject
 {
     GENERATED_BODY()
 public:
-
+    UPlayFabAuthenticationContext()
+    {
+#ifndef DISABLE_PLAYFABCLIENT_API
+        ClientSessionTicket = PlayFabCommon::PlayFabCommonSettings::clientSessionTicket;
+#endif
+#ifndef DISABLE_PLAYFABENTITY_API
+        EntityToken = PlayFabCommon::PlayFabCommonSettings::entityToken;
+#endif
+#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
+        DeveloperSecretKey = PlayFabCommon::PlayFabCommonSettings::developerSecretKey;
+#endif
+    }
 
     // Get the client session ticket that is used as an authentication token in many PlayFab API methods.
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetClientSessionTicket()
+    {
+#ifdef DISABLE_PLAYFABCLIENT_API
+        checkf(false, TEXT("ClientSessionTicket is disabled because DISABLE_PLAYFABCLIENT_API is set."));
+#endif
+        return ClientSessionTicket;
+    }
+
+    // Get the client session ticket that is used as an authentication token in many PlayFab API methods.
+    const FString& GetClientSessionTicket() const
     {
 #ifdef DISABLE_PLAYFABCLIENT_API
         checkf(false, TEXT("ClientSessionTicket is disabled because DISABLE_PLAYFABCLIENT_API is set."));
@@ -38,10 +59,18 @@ public:
         ClientSessionTicket = InTicket;
     }
 
-
     // Get the user's entity token. Entity tokens are required by all Entity API methods.
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetEntityToken()
+    {
+#ifdef DISABLE_PLAYFABENTITY_API
+        checkf(false, TEXT("EntityToken is disabled because DISABLE_PLAYFABENTITY_API is set."));
+#endif
+        return EntityToken;
+    }
+
+    // Get the user's entity token. Entity tokens are required by all Entity API methods.
+    const FString& GetEntityToken() const
     {
 #ifdef DISABLE_PLAYFABENTITY_API
         checkf(false, TEXT("EntityToken is disabled because DISABLE_PLAYFABENTITY_API is set."));
@@ -59,10 +88,20 @@ public:
         EntityToken = InToken;
     }
 
-
     // Get the developer secret key. These keys can be used in development environments.
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetDeveloperSecretKey()
+    {
+#if defined(ENABLE_PLAYFABSERVER_API) && defined(ENABLE_PLAYFABADMIN_API)
+        return DeveloperSecretKey;
+#endif
+
+        checkf(false, TEXT("Cannot call GetDeveloperSecretKey in a non-developer build!"));
+        return DeveloperSecretKey;
+    }
+
+    // Get the developer secret key. These keys can be used in development environments.
+    const FString& GetDeveloperSecretKey() const
     {
 #if defined(ENABLE_PLAYFABSERVER_API) && defined(ENABLE_PLAYFABADMIN_API)
         return DeveloperSecretKey;
@@ -82,8 +121,27 @@ public:
 #endif
 
         checkf(false, TEXT("Cannot call SetDeveloperSecretKey in a non-developer build!"));
-    };
+    }
 
+    // Get the player's unique PlayFabId.
+    UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
+        FString& GetPlayFabId()
+    {
+        return PlayFabId;
+    }
+
+    // Get the player's unique PlayFabId.
+    const FString& GetPlayFabId() const
+    {
+        return PlayFabId;
+    }
+
+    // Set the player's unique PlayFabId.
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
+        void SetPlayFabId(FString InKey)
+    {
+        PlayFabId = InKey;
+    }
 
     // Reset all fields
     UFUNCTION(BlueprintCallable)
@@ -92,6 +150,7 @@ public:
         ClientSessionTicket.Empty();
         EntityToken.Empty();
         DeveloperSecretKey.Empty();
+        PlayFabId.Empty();
     }
 
 private: 
@@ -106,4 +165,8 @@ private:
     // Developer secret key. These keys can be used in development environments.
     UPROPERTY()
     FString DeveloperSecretKey;
+
+    // The player's unique PlayFabId.
+    UPROPERTY()
+    FString PlayFabId;
 };

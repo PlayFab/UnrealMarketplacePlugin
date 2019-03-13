@@ -486,6 +486,40 @@ public:
 // Authentication
 //////////////////////////////////////////////////////
 
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminCreateOpenIdConnectionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The client ID given by the ID provider. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString ClientId;
+    /** The client secret given by the ID provider. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString ClientSecret;
+    /** A name for the connection that identifies it within the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString ConnectionId;
+    /**
+     * The discovery document URL to read issuer information from. This must be the absolute URL to the JSON OpenId
+     * Configuration document and must be accessible from the internet. If you don't know it, try your issuer URL followed by
+     * "/.well-known/openid-configuration". For example, if the issuer is https://example.com, try
+     * https://example.com/.well-known/openid-configuration
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString IssuerDiscoveryUrl;
+    /** Manually specified information for an OpenID Connect issuer. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        UPlayFabJsonObject* IssuerInformation = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminEmptyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
 /**
  * Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the shared secret for an
  * RSA CSP blob to be used to encrypt the payload of account creation requests when that API requires a signature header.
@@ -508,6 +542,16 @@ public:
     /** The player shared secret to use when calling Client/GetTitlePublicKey */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString SecretKey;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteOpenIdConnectionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** unique name of the connection */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString ConnectionId;
 };
 
 /**
@@ -576,6 +620,23 @@ public:
         TArray<UPlayFabJsonObject*> Statements;
 };
 
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminListOpenIdConnectionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminListOpenIdConnectionResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of Open ID Connections */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        TArray<UPlayFabJsonObject*> Connections;
+};
+
 /**
  * APIs that require signatures require that the player have a configured Player Secret Key that is used to sign all
  * requests. Players that don't have a secret will be blocked from making API calls until it is configured. To create a
@@ -602,6 +663,28 @@ struct PLAYFAB_API FAdminSetPlayerSecretResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminUpdateOpenIdConnectionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The client ID given by the ID provider. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString ClientId;
+    /** The client secret given by the ID provider. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString ClientSecret;
+    /** A name for the connection that identifies it within the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString ConnectionId;
+    /** The issuer URL or discovery document URL to read issuer information from */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString IssuerDiscoveryUrl;
+    /** Manually specified information for an OpenID Connect issuer. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        UPlayFabJsonObject* IssuerInformation = nullptr;
 };
 
 /**
@@ -2003,13 +2086,6 @@ public:
     /** ID of a task instance that is being aborted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
         FString TaskInstanceId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FAdminEmptyResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
 };
 
 /**

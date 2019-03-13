@@ -21,11 +21,146 @@
 // Matchmaking
 //////////////////////////////////////////////////////
 
+FMultiplayerCancelAllMatchmakingTicketsForPlayerResult UPlayFabMultiplayerModelDecoder::decodeCancelAllMatchmakingTicketsForPlayerResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerCancelAllMatchmakingTicketsForPlayerResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FMultiplayerCancelMatchmakingTicketResult UPlayFabMultiplayerModelDecoder::decodeCancelMatchmakingTicketResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerCancelMatchmakingTicketResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FMultiplayerCreateMatchmakingTicketResult UPlayFabMultiplayerModelDecoder::decodeCreateMatchmakingTicketResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerCreateMatchmakingTicketResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.TicketId = !(dataObj->HasField("TicketId")) ? TEXT("") : dataObj->GetStringField("TicketId");
+
+    return tempStruct;
+}
+
+FMultiplayerGetMatchResult UPlayFabMultiplayerModelDecoder::decodeGetMatchResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetMatchResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.MatchId = !(dataObj->HasField("MatchId")) ? TEXT("") : dataObj->GetStringField("MatchId");
+    tempStruct.Members = !(dataObj->HasField("Members")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Members");
+    tempStruct.RegionPreferences = !(dataObj->HasField("RegionPreferences")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("RegionPreferences"), TEXT(","));
+    tempStruct.ServerDetails = !(dataObj->HasField("ServerDetails")) ? nullptr : dataObj->GetObjectField("ServerDetails");
+
+    return tempStruct;
+}
+
+FMultiplayerGetMatchmakingTicketResult UPlayFabMultiplayerModelDecoder::decodeGetMatchmakingTicketResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetMatchmakingTicketResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    GetEnumValueFromString<ECancellationReason>(TEXT("ECancellationReason"), dataObj->GetStringField("CancellationReason"), tempStruct.CancellationReason);
+    tempStruct.Created = !(dataObj->HasField("Created")) ? TEXT("") : dataObj->GetStringField("Created");
+    tempStruct.Creator = !(dataObj->HasField("Creator")) ? nullptr : dataObj->GetObjectField("Creator");
+    tempStruct.GiveUpAfterSeconds = !(dataObj->HasField("GiveUpAfterSeconds")) ? 0 : int(dataObj->GetNumberField("GiveUpAfterSeconds"));
+    tempStruct.MatchId = !(dataObj->HasField("MatchId")) ? TEXT("") : dataObj->GetStringField("MatchId");
+    tempStruct.Members = !(dataObj->HasField("Members")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Members");
+    tempStruct.MembersToMatchWith = !(dataObj->HasField("MembersToMatchWith")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("MembersToMatchWith");
+    tempStruct.QueueName = !(dataObj->HasField("QueueName")) ? TEXT("") : dataObj->GetStringField("QueueName");
+    tempStruct.Status = !(dataObj->HasField("Status")) ? TEXT("") : dataObj->GetStringField("Status");
+    tempStruct.TicketId = !(dataObj->HasField("TicketId")) ? TEXT("") : dataObj->GetStringField("TicketId");
+
+    return tempStruct;
+}
+
+FMultiplayerGetQueueStatisticsResult UPlayFabMultiplayerModelDecoder::decodeGetQueueStatisticsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetQueueStatisticsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.NumberOfPlayersMatching = !(dataObj->HasField("NumberOfPlayersMatching")) ? 0 : int(dataObj->GetNumberField("NumberOfPlayersMatching"));
+    tempStruct.TimeToMatchStatisticsInSeconds = !(dataObj->HasField("TimeToMatchStatisticsInSeconds")) ? nullptr : dataObj->GetObjectField("TimeToMatchStatisticsInSeconds");
+
+    return tempStruct;
+}
+
+FMultiplayerJoinMatchmakingTicketResult UPlayFabMultiplayerModelDecoder::decodeJoinMatchmakingTicketResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerJoinMatchmakingTicketResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FMultiplayerListMatchmakingTicketsForPlayerResult UPlayFabMultiplayerModelDecoder::decodeListMatchmakingTicketsForPlayerResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerListMatchmakingTicketsForPlayerResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.TicketIds = !(dataObj->HasField("TicketIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TicketIds"), TEXT(","));
+
+    return tempStruct;
+}
+
 
 
 ///////////////////////////////////////////////////////
 // Matchmaking Admin
 //////////////////////////////////////////////////////
+
+FMultiplayerGetMatchmakingQueueResult UPlayFabMultiplayerModelDecoder::decodeGetMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetMatchmakingQueueResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.MatchmakingQueue = !(dataObj->HasField("MatchmakingQueue")) ? nullptr : dataObj->GetObjectField("MatchmakingQueue");
+
+    return tempStruct;
+}
+
+FMultiplayerListMatchmakingQueuesResult UPlayFabMultiplayerModelDecoder::decodeListMatchmakingQueuesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerListMatchmakingQueuesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.MatchMakingQueues = !(dataObj->HasField("MatchMakingQueues")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("MatchMakingQueues");
+
+    return tempStruct;
+}
+
+FMultiplayerRemoveMatchmakingQueueResult UPlayFabMultiplayerModelDecoder::decodeRemoveMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerRemoveMatchmakingQueueResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FMultiplayerSetMatchmakingQueueResult UPlayFabMultiplayerModelDecoder::decodeSetMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerSetMatchmakingQueueResult tempStruct;
+
+
+    return tempStruct;
+}
 
 
 

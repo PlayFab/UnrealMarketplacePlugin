@@ -58,10 +58,182 @@ public:
     ///////////////////////////////////////////////////////
     // Matchmaking
     //////////////////////////////////////////////////////
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCancelAllMatchmakingTicketsForPlayer, FMultiplayerCancelAllMatchmakingTicketsForPlayerResult, result, UObject*, customData);
+
+    /** Cancel all active tickets the player is a member of in a given queue. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CancelAllMatchmakingTicketsForPlayer(FMultiplayerCancelAllMatchmakingTicketsForPlayerRequest request,
+            FDelegateOnSuccessCancelAllMatchmakingTicketsForPlayer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCancelAllMatchmakingTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCancelMatchmakingTicket, FMultiplayerCancelMatchmakingTicketResult, result, UObject*, customData);
+
+    /** Cancel a matchmaking ticket. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CancelMatchmakingTicket(FMultiplayerCancelMatchmakingTicketRequest request,
+            FDelegateOnSuccessCancelMatchmakingTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCancelMatchmakingTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateMatchmakingTicket, FMultiplayerCreateMatchmakingTicketResult, result, UObject*, customData);
+
+    /** Create a matchmaking ticket as a client. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CreateMatchmakingTicket(FMultiplayerCreateMatchmakingTicketRequest request,
+            FDelegateOnSuccessCreateMatchmakingTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateMatchmakingTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateServerMatchmakingTicket, FMultiplayerCreateMatchmakingTicketResult, result, UObject*, customData);
+
+    /**
+     * Create a matchmaking ticket as a server. The matchmaking service automatically starts matching the ticket against other
+     * matchmaking tickets.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CreateServerMatchmakingTicket(FMultiplayerCreateServerMatchmakingTicketRequest request,
+            FDelegateOnSuccessCreateServerMatchmakingTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateServerMatchmakingTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMatch, FMultiplayerGetMatchResult, result, UObject*, customData);
+
+    /** Get a match. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetMatch(FMultiplayerGetMatchRequest request,
+            FDelegateOnSuccessGetMatch onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetMatch(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMatchmakingTicket, FMultiplayerGetMatchmakingTicketResult, result, UObject*, customData);
+
+    /** Get a matchmaking ticket by ticket Id. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetMatchmakingTicket(FMultiplayerGetMatchmakingTicketRequest request,
+            FDelegateOnSuccessGetMatchmakingTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetMatchmakingTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetQueueStatistics, FMultiplayerGetQueueStatisticsResult, result, UObject*, customData);
+
+    /** Get the statistics for a queue. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetQueueStatistics(FMultiplayerGetQueueStatisticsRequest request,
+            FDelegateOnSuccessGetQueueStatistics onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetQueueStatistics(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessJoinMatchmakingTicket, FMultiplayerJoinMatchmakingTicketResult, result, UObject*, customData);
+
+    /** Join a matchmaking ticket. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* JoinMatchmakingTicket(FMultiplayerJoinMatchmakingTicketRequest request,
+            FDelegateOnSuccessJoinMatchmakingTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperJoinMatchmakingTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListMatchmakingTicketsForPlayer, FMultiplayerListMatchmakingTicketsForPlayerResult, result, UObject*, customData);
+
+    /** List all matchmaking ticket Ids the user is a member of. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListMatchmakingTicketsForPlayer(FMultiplayerListMatchmakingTicketsForPlayerRequest request,
+            FDelegateOnSuccessListMatchmakingTicketsForPlayer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListMatchmakingTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
     ///////////////////////////////////////////////////////
     // Matchmaking Admin
     //////////////////////////////////////////////////////
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMatchmakingQueue, FMultiplayerGetMatchmakingQueueResult, result, UObject*, customData);
+
+    /** Get a matchmaking queue configuration. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetMatchmakingQueue(FMultiplayerGetMatchmakingQueueRequest request,
+            FDelegateOnSuccessGetMatchmakingQueue onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListMatchmakingQueues, FMultiplayerListMatchmakingQueuesResult, result, UObject*, customData);
+
+    /** List all matchmaking queue configs. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListMatchmakingQueues(FMultiplayerListMatchmakingQueuesRequest request,
+            FDelegateOnSuccessListMatchmakingQueues onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListMatchmakingQueues(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveMatchmakingQueue, FMultiplayerRemoveMatchmakingQueueResult, result, UObject*, customData);
+
+    /** Remove a matchmaking queue config. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* RemoveMatchmakingQueue(FMultiplayerRemoveMatchmakingQueueRequest request,
+            FDelegateOnSuccessRemoveMatchmakingQueue onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRemoveMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetMatchmakingQueue, FMultiplayerSetMatchmakingQueueResult, result, UObject*, customData);
+
+    /** Create or update a matchmaking queue configuration. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* SetMatchmakingQueue(FMultiplayerSetMatchmakingQueueRequest request,
+            FDelegateOnSuccessSetMatchmakingQueue onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
     ///////////////////////////////////////////////////////
     // MultiplayerServer
@@ -450,6 +622,19 @@ public:
     UObject* mCustomData;
 
     FDelegateOnFailurePlayFabError OnFailure;
+    FDelegateOnSuccessCancelAllMatchmakingTicketsForPlayer OnSuccessCancelAllMatchmakingTicketsForPlayer;
+    FDelegateOnSuccessCancelMatchmakingTicket OnSuccessCancelMatchmakingTicket;
+    FDelegateOnSuccessCreateMatchmakingTicket OnSuccessCreateMatchmakingTicket;
+    FDelegateOnSuccessCreateServerMatchmakingTicket OnSuccessCreateServerMatchmakingTicket;
+    FDelegateOnSuccessGetMatch OnSuccessGetMatch;
+    FDelegateOnSuccessGetMatchmakingTicket OnSuccessGetMatchmakingTicket;
+    FDelegateOnSuccessGetQueueStatistics OnSuccessGetQueueStatistics;
+    FDelegateOnSuccessJoinMatchmakingTicket OnSuccessJoinMatchmakingTicket;
+    FDelegateOnSuccessListMatchmakingTicketsForPlayer OnSuccessListMatchmakingTicketsForPlayer;
+    FDelegateOnSuccessGetMatchmakingQueue OnSuccessGetMatchmakingQueue;
+    FDelegateOnSuccessListMatchmakingQueues OnSuccessListMatchmakingQueues;
+    FDelegateOnSuccessRemoveMatchmakingQueue OnSuccessRemoveMatchmakingQueue;
+    FDelegateOnSuccessSetMatchmakingQueue OnSuccessSetMatchmakingQueue;
     FDelegateOnSuccessCreateBuildWithCustomContainer OnSuccessCreateBuildWithCustomContainer;
     FDelegateOnSuccessCreateBuildWithManagedContainer OnSuccessCreateBuildWithManagedContainer;
     FDelegateOnSuccessCreateRemoteUser OnSuccessCreateRemoteUser;

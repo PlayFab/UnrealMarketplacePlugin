@@ -275,6 +275,19 @@ public:
     // Authentication
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateOpenIdConnection, FAdminEmptyResponse, result, UObject*, customData);
+
+    /** Registers a relationship between a title and an Open ID Connect provider. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* CreateOpenIdConnection(FAdminCreateOpenIdConnectionRequest request,
+            FDelegateOnSuccessCreateOpenIdConnection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreatePlayerSharedSecret, FAdminCreatePlayerSharedSecretResult, result, UObject*, customData);
 
     /**
@@ -289,6 +302,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperCreatePlayerSharedSecret(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteOpenIdConnection, FAdminEmptyResponse, result, UObject*, customData);
+
+    /** Removes a relationship between a title and an OpenID Connect provider. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteOpenIdConnection(FAdminDeleteOpenIdConnectionRequest request,
+            FDelegateOnSuccessDeleteOpenIdConnection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeletePlayerSharedSecret, FAdminDeletePlayerSharedSecretResult, result, UObject*, customData);
@@ -333,6 +359,19 @@ public:
         void HelperGetPolicy(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListOpenIdConnection, FAdminListOpenIdConnectionResponse, result, UObject*, customData);
+
+    /** Retrieves a list of all Open ID Connect providers registered to a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* ListOpenIdConnection(FAdminListOpenIdConnectionRequest request,
+            FDelegateOnSuccessListOpenIdConnection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetPlayerSecret, FAdminSetPlayerSecretResult, result, UObject*, customData);
 
     /** Sets or resets the player's secret. Player secrets are used to sign API requests. */
@@ -344,6 +383,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperSetPlayerSecret(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateOpenIdConnection, FAdminEmptyResponse, result, UObject*, customData);
+
+    /** Modifies data and credentials for an existing relationship between a title and an Open ID Connect provider */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* UpdateOpenIdConnection(FAdminUpdateOpenIdConnectionRequest request,
+            FDelegateOnSuccessUpdateOpenIdConnection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdatePlayerSharedSecret, FAdminUpdatePlayerSharedSecretResult, result, UObject*, customData);
@@ -1570,11 +1622,15 @@ public:
     FDelegateOnSuccessSendAccountRecoveryEmail OnSuccessSendAccountRecoveryEmail;
     FDelegateOnSuccessUpdateBans OnSuccessUpdateBans;
     FDelegateOnSuccessUpdateUserTitleDisplayName OnSuccessUpdateUserTitleDisplayName;
+    FDelegateOnSuccessCreateOpenIdConnection OnSuccessCreateOpenIdConnection;
     FDelegateOnSuccessCreatePlayerSharedSecret OnSuccessCreatePlayerSharedSecret;
+    FDelegateOnSuccessDeleteOpenIdConnection OnSuccessDeleteOpenIdConnection;
     FDelegateOnSuccessDeletePlayerSharedSecret OnSuccessDeletePlayerSharedSecret;
     FDelegateOnSuccessGetPlayerSharedSecrets OnSuccessGetPlayerSharedSecrets;
     FDelegateOnSuccessGetPolicy OnSuccessGetPolicy;
+    FDelegateOnSuccessListOpenIdConnection OnSuccessListOpenIdConnection;
     FDelegateOnSuccessSetPlayerSecret OnSuccessSetPlayerSecret;
+    FDelegateOnSuccessUpdateOpenIdConnection OnSuccessUpdateOpenIdConnection;
     FDelegateOnSuccessUpdatePlayerSharedSecret OnSuccessUpdatePlayerSharedSecret;
     FDelegateOnSuccessUpdatePolicy OnSuccessUpdatePolicy;
     FDelegateOnSuccessResetCharacterStatistics OnSuccessResetCharacterStatistics;

@@ -931,6 +931,73 @@ void UPlayFabAdminAPI::HelperUpdateUserTitleDisplayName(FPlayFabBaseModel respon
 ///////////////////////////////////////////////////////
 // Authentication
 //////////////////////////////////////////////////////
+/** Registers a relationship between a title and an Open ID Connect provider. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::CreateOpenIdConnection(FAdminCreateOpenIdConnectionRequest request,
+    FDelegateOnSuccessCreateOpenIdConnection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateOpenIdConnection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreateOpenIdConnection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/CreateOpenIdConnection";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.ClientId.IsEmpty() || request.ClientId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ClientId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ClientId"), request.ClientId);
+    }
+    if (request.ClientSecret.IsEmpty() || request.ClientSecret == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ClientSecret"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ClientSecret"), request.ClientSecret);
+    }
+    if (request.ConnectionId.IsEmpty() || request.ConnectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ConnectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
+    }
+    if (request.IssuerDiscoveryUrl.IsEmpty() || request.IssuerDiscoveryUrl == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IssuerDiscoveryUrl"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IssuerDiscoveryUrl"), request.IssuerDiscoveryUrl);
+    }
+    if (request.IssuerInformation != nullptr) OutRestJsonObj->SetObjectField(TEXT("IssuerInformation"), request.IssuerInformation);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperCreateOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateOpenIdConnection.IsBound())
+    {
+        FAdminEmptyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessCreateOpenIdConnection.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Creates a new Player Shared Secret Key. It may take up to 5 minutes for this key to become generally available after this API returns. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::CreatePlayerSharedSecret(FAdminCreatePlayerSharedSecretRequest request,
     FDelegateOnSuccessCreatePlayerSharedSecret onSuccess,
@@ -978,6 +1045,58 @@ void UPlayFabAdminAPI::HelperCreatePlayerSharedSecret(FPlayFabBaseModel response
     {
         FAdminCreatePlayerSharedSecretResult ResultStruct = UPlayFabAdminModelDecoder::decodeCreatePlayerSharedSecretResultResponse(response.responseData);
         OnSuccessCreatePlayerSharedSecret.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Removes a relationship between a title and an OpenID Connect provider. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteOpenIdConnection(FAdminDeleteOpenIdConnectionRequest request,
+    FDelegateOnSuccessDeleteOpenIdConnection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteOpenIdConnection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteOpenIdConnection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/DeleteOpenIdConnection";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.ConnectionId.IsEmpty() || request.ConnectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ConnectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperDeleteOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteOpenIdConnection.IsBound())
+    {
+        FAdminEmptyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteOpenIdConnection.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1130,6 +1249,52 @@ void UPlayFabAdminAPI::HelperGetPolicy(FPlayFabBaseModel response, UObject* cust
     this->RemoveFromRoot();
 }
 
+/** Retrieves a list of all Open ID Connect providers registered to a title. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::ListOpenIdConnection(FAdminListOpenIdConnectionRequest request,
+    FDelegateOnSuccessListOpenIdConnection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListOpenIdConnection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperListOpenIdConnection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/ListOpenIdConnection";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperListOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListOpenIdConnection.IsBound())
+    {
+        FAdminListOpenIdConnectionResponse ResultStruct = UPlayFabAdminModelDecoder::decodeListOpenIdConnectionResponseResponse(response.responseData);
+        OnSuccessListOpenIdConnection.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Sets or resets the player's secret. Player secrets are used to sign API requests. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::SetPlayerSecret(FAdminSetPlayerSecretRequest request,
     FDelegateOnSuccessSetPlayerSecret onSuccess,
@@ -1182,6 +1347,74 @@ void UPlayFabAdminAPI::HelperSetPlayerSecret(FPlayFabBaseModel response, UObject
     {
         FAdminSetPlayerSecretResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetPlayerSecretResultResponse(response.responseData);
         OnSuccessSetPlayerSecret.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Modifies data and credentials for an existing relationship between a title and an Open ID Connect provider */
+UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateOpenIdConnection(FAdminUpdateOpenIdConnectionRequest request,
+    FDelegateOnSuccessUpdateOpenIdConnection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateOpenIdConnection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateOpenIdConnection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/UpdateOpenIdConnection";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.ClientId.IsEmpty() || request.ClientId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ClientId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ClientId"), request.ClientId);
+    }
+    if (request.ClientSecret.IsEmpty() || request.ClientSecret == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ClientSecret"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ClientSecret"), request.ClientSecret);
+    }
+    if (request.ConnectionId.IsEmpty() || request.ConnectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ConnectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
+    }
+    if (request.IssuerDiscoveryUrl.IsEmpty() || request.IssuerDiscoveryUrl == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IssuerDiscoveryUrl"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IssuerDiscoveryUrl"), request.IssuerDiscoveryUrl);
+    }
+    if (request.IssuerInformation != nullptr) OutRestJsonObj->SetObjectField(TEXT("IssuerInformation"), request.IssuerInformation);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperUpdateOpenIdConnection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateOpenIdConnection.IsBound())
+    {
+        FAdminEmptyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateOpenIdConnection.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4110,6 +4343,7 @@ void UPlayFabAdminAPI::HelperAbortTaskInstance(FPlayFabBaseModel response, UObje
     else if (!error.hasError && OnSuccessAbortTaskInstance.IsBound())
     {
         FAdminEmptyResponse ResultStruct = UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
         OnSuccessAbortTaskInstance.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();

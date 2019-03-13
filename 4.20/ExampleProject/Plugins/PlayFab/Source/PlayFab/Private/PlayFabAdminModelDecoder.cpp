@@ -196,6 +196,15 @@ FAdminUpdateUserTitleDisplayNameResult UPlayFabAdminModelDecoder::decodeUpdateUs
 // Authentication
 //////////////////////////////////////////////////////
 
+FAdminEmptyResponse UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminEmptyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminCreatePlayerSharedSecretResult UPlayFabAdminModelDecoder::decodeCreatePlayerSharedSecretResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -235,6 +244,17 @@ FAdminGetPolicyResponse UPlayFabAdminModelDecoder::decodeGetPolicyResponseRespon
 
     tempStruct.PolicyName = !(dataObj->HasField("PolicyName")) ? TEXT("") : dataObj->GetStringField("PolicyName");
     tempStruct.Statements = !(dataObj->HasField("Statements")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Statements");
+
+    return tempStruct;
+}
+
+FAdminListOpenIdConnectionResponse UPlayFabAdminModelDecoder::decodeListOpenIdConnectionResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminListOpenIdConnectionResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Connections = !(dataObj->HasField("Connections")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Connections");
 
     return tempStruct;
 }
@@ -755,15 +775,6 @@ FAdminRemovePlayerTagResult UPlayFabAdminModelDecoder::decodeRemovePlayerTagResu
 ///////////////////////////////////////////////////////
 // ScheduledTask
 //////////////////////////////////////////////////////
-
-FAdminEmptyResponse UPlayFabAdminModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminEmptyResponse tempStruct;
-
-
-    return tempStruct;
-}
 
 FAdminCreateTaskResult UPlayFabAdminModelDecoder::decodeCreateTaskResultResponse(UPlayFabJsonObject* response)
 {

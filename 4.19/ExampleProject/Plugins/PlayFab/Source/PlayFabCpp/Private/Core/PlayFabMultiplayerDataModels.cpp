@@ -494,6 +494,193 @@ bool PlayFab::MultiplayerModels::FBuildSummary::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FEntityKey::~FEntityKey()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FEntityKey::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+
+    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FEntityKey::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
+    if (IdValue.IsValid() && !IdValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TypeValue = obj->TryGetField(TEXT("Type"));
+    if (TypeValue.IsValid() && !TypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest::~FCancelAllMatchmakingTicketsForPlayerRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerResult::~FCancelAllMatchmakingTicketsForPlayerResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+void PlayFab::MultiplayerModels::writeCancellationReasonEnumJSON(CancellationReason enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case CancellationReasonRequested: writer->WriteValue(TEXT("Requested")); break;
+    case CancellationReasonInternal: writer->WriteValue(TEXT("Internal")); break;
+    case CancellationReasonTimeout: writer->WriteValue(TEXT("Timeout")); break;
+    }
+}
+
+MultiplayerModels::CancellationReason PlayFab::MultiplayerModels::readCancellationReasonFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readCancellationReasonFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::CancellationReason PlayFab::MultiplayerModels::readCancellationReasonFromValue(const FString& value)
+{
+    static TMap<FString, CancellationReason> _CancellationReasonMap;
+    if (_CancellationReasonMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _CancellationReasonMap.Add(TEXT("Requested"), CancellationReasonRequested);
+        _CancellationReasonMap.Add(TEXT("Internal"), CancellationReasonInternal);
+        _CancellationReasonMap.Add(TEXT("Timeout"), CancellationReasonTimeout);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _CancellationReasonMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return CancellationReasonRequested; // Basically critical fail
+}
+
+PlayFab::MultiplayerModels::FCancelMatchmakingTicketRequest::~FCancelMatchmakingTicketRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCancelMatchmakingTicketRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteIdentifierPrefix(TEXT("TicketId")); writer->WriteValue(TicketId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCancelMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
+    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCancelMatchmakingTicketResult::~FCancelMatchmakingTicketResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCancelMatchmakingTicketResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCancelMatchmakingTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCertificate::~FCertificate()
 {
 
@@ -1443,6 +1630,168 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FMatchmakingPlayerAttributes::~FMatchmakingPlayerAttributes()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FMatchmakingPlayerAttributes::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DataObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DataObject")); DataObject.writeJSON(writer); }
+
+    if (EscapedDataObject.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EscapedDataObject")); writer->WriteValue(EscapedDataObject); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMatchmakingPlayerAttributes::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DataObjectValue = obj->TryGetField(TEXT("DataObject"));
+    if (DataObjectValue.IsValid() && !DataObjectValue->IsNull())
+    {
+        DataObject = FJsonKeeper(DataObjectValue);
+    }
+
+    const TSharedPtr<FJsonValue> EscapedDataObjectValue = obj->TryGetField(TEXT("EscapedDataObject"));
+    if (EscapedDataObjectValue.IsValid() && !EscapedDataObjectValue->IsNull())
+    {
+        FString TmpValue;
+        if (EscapedDataObjectValue->TryGetString(TmpValue)) { EscapedDataObject = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FMatchmakingPlayer::~FMatchmakingPlayer()
+{
+    //if (Attributes != nullptr) delete Attributes;
+
+}
+
+void PlayFab::MultiplayerModels::FMatchmakingPlayer::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Attributes.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Attributes")); Attributes->writeJSON(writer); }
+
+    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMatchmakingPlayer::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AttributesValue = obj->TryGetField(TEXT("Attributes"));
+    if (AttributesValue.IsValid() && !AttributesValue->IsNull())
+    {
+        Attributes = MakeShareable(new FMatchmakingPlayerAttributes(AttributesValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = FEntityKey(EntityValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCreateMatchmakingTicketRequest::~FCreateMatchmakingTicketRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCreateMatchmakingTicketRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Creator")); Creator.writeJSON(writer);
+
+    writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds")); writer->WriteValue(GiveUpAfterSeconds);
+
+    if (MembersToMatchWith.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("MembersToMatchWith"));
+        for (const FEntityKey& item : MembersToMatchWith)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreatorValue = obj->TryGetField(TEXT("Creator"));
+    if (CreatorValue.IsValid() && !CreatorValue->IsNull())
+    {
+        Creator = FMatchmakingPlayer(CreatorValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
+    if (GiveUpAfterSecondsValue.IsValid() && !GiveUpAfterSecondsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (GiveUpAfterSecondsValue->TryGetNumber(TmpValue)) { GiveUpAfterSeconds = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&MembersToMatchWithArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("MembersToMatchWith"));
+    for (int32 Idx = 0; Idx < MembersToMatchWithArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = MembersToMatchWithArray[Idx];
+        MembersToMatchWith.Add(FEntityKey(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCreateMatchmakingTicketResult::~FCreateMatchmakingTicketResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCreateMatchmakingTicketResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("TicketId")); writer->WriteValue(TicketId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateMatchmakingTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
+    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateRemoteUserRequest::~FCreateRemoteUserRequest()
 {
 
@@ -1539,6 +1888,57 @@ bool PlayFab::MultiplayerModels::FCreateRemoteUserResponse::readFromValue(const 
     {
         FString TmpValue;
         if (UsernameValue->TryGetString(TmpValue)) { Username = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::~FCreateServerMatchmakingTicketRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds")); writer->WriteValue(GiveUpAfterSeconds);
+
+    writer->WriteArrayStart(TEXT("Members"));
+    for (const FMatchmakingPlayer& item : Members)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
+    if (GiveUpAfterSecondsValue.IsValid() && !GiveUpAfterSecondsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (GiveUpAfterSecondsValue->TryGetNumber(TmpValue)) { GiveUpAfterSeconds = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&MembersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Members"));
+    for (int32 Idx = 0; Idx < MembersArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = MembersArray[Idx];
+        Members.Add(FMatchmakingPlayer(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
     }
 
     return HasSucceeded;
@@ -2120,6 +2520,707 @@ bool PlayFab::MultiplayerModels::FGetContainerRegistryCredentialsResponse::readF
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FGetMatchmakingQueueRequest::~FGetMatchmakingQueueRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetMatchmakingQueueRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (QueueName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMatchmakingQueueRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+void PlayFab::MultiplayerModels::writeRuleTypeEnumJSON(RuleType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case RuleTypeUnknown: writer->WriteValue(TEXT("Unknown")); break;
+    case RuleTypeDifferenceRule: writer->WriteValue(TEXT("DifferenceRule")); break;
+    case RuleTypeStringEqualityRule: writer->WriteValue(TEXT("StringEqualityRule")); break;
+    case RuleTypeMatchTotalRule: writer->WriteValue(TEXT("MatchTotalRule")); break;
+    case RuleTypeSetIntersectionRule: writer->WriteValue(TEXT("SetIntersectionRule")); break;
+    case RuleTypeTeamSizeBalanceRule: writer->WriteValue(TEXT("TeamSizeBalanceRule")); break;
+    case RuleTypeRegionSelectionRule: writer->WriteValue(TEXT("RegionSelectionRule")); break;
+    case RuleTypeTeamDifferenceRule: writer->WriteValue(TEXT("TeamDifferenceRule")); break;
+    case RuleTypeTeamTicketSizeSimilarityRule: writer->WriteValue(TEXT("TeamTicketSizeSimilarityRule")); break;
+    }
+}
+
+MultiplayerModels::RuleType PlayFab::MultiplayerModels::readRuleTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readRuleTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::RuleType PlayFab::MultiplayerModels::readRuleTypeFromValue(const FString& value)
+{
+    static TMap<FString, RuleType> _RuleTypeMap;
+    if (_RuleTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _RuleTypeMap.Add(TEXT("Unknown"), RuleTypeUnknown);
+        _RuleTypeMap.Add(TEXT("DifferenceRule"), RuleTypeDifferenceRule);
+        _RuleTypeMap.Add(TEXT("StringEqualityRule"), RuleTypeStringEqualityRule);
+        _RuleTypeMap.Add(TEXT("MatchTotalRule"), RuleTypeMatchTotalRule);
+        _RuleTypeMap.Add(TEXT("SetIntersectionRule"), RuleTypeSetIntersectionRule);
+        _RuleTypeMap.Add(TEXT("TeamSizeBalanceRule"), RuleTypeTeamSizeBalanceRule);
+        _RuleTypeMap.Add(TEXT("RegionSelectionRule"), RuleTypeRegionSelectionRule);
+        _RuleTypeMap.Add(TEXT("TeamDifferenceRule"), RuleTypeTeamDifferenceRule);
+        _RuleTypeMap.Add(TEXT("TeamTicketSizeSimilarityRule"), RuleTypeTeamTicketSizeSimilarityRule);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _RuleTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return RuleTypeUnknown; // Basically critical fail
+}
+
+PlayFab::MultiplayerModels::FMatchmakingQueueRule::~FMatchmakingQueueRule()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FMatchmakingQueueRule::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name);
+
+    if (SecondsUntilOptional.notNull()) { writer->WriteIdentifierPrefix(TEXT("SecondsUntilOptional")); writer->WriteValue(static_cast<int64>(SecondsUntilOptional)); }
+
+    writer->WriteIdentifierPrefix(TEXT("Type")); writeRuleTypeEnumJSON(Type, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMatchmakingQueueRule::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SecondsUntilOptionalValue = obj->TryGetField(TEXT("SecondsUntilOptional"));
+    if (SecondsUntilOptionalValue.IsValid() && !SecondsUntilOptionalValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (SecondsUntilOptionalValue->TryGetNumber(TmpValue)) { SecondsUntilOptional = TmpValue; }
+    }
+
+    Type = readRuleTypeFromValue(obj->TryGetField(TEXT("Type")));
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FStatisticsVisibilityToPlayers::~FStatisticsVisibilityToPlayers()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FStatisticsVisibilityToPlayers::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ShowNumberOfPlayersMatching")); writer->WriteValue(ShowNumberOfPlayersMatching);
+
+    writer->WriteIdentifierPrefix(TEXT("ShowTimeToMatch")); writer->WriteValue(ShowTimeToMatch);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FStatisticsVisibilityToPlayers::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ShowNumberOfPlayersMatchingValue = obj->TryGetField(TEXT("ShowNumberOfPlayersMatching"));
+    if (ShowNumberOfPlayersMatchingValue.IsValid() && !ShowNumberOfPlayersMatchingValue->IsNull())
+    {
+        bool TmpValue;
+        if (ShowNumberOfPlayersMatchingValue->TryGetBool(TmpValue)) { ShowNumberOfPlayersMatching = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ShowTimeToMatchValue = obj->TryGetField(TEXT("ShowTimeToMatch"));
+    if (ShowTimeToMatchValue.IsValid() && !ShowTimeToMatchValue->IsNull())
+    {
+        bool TmpValue;
+        if (ShowTimeToMatchValue->TryGetBool(TmpValue)) { ShowTimeToMatch = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FMatchmakingQueueTeam::~FMatchmakingQueueTeam()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FMatchmakingQueueTeam::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("MaxTeamSize")); writer->WriteValue(static_cast<int64>(MaxTeamSize));
+
+    writer->WriteIdentifierPrefix(TEXT("MinTeamSize")); writer->WriteValue(static_cast<int64>(MinTeamSize));
+
+    writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMatchmakingQueueTeam::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MaxTeamSizeValue = obj->TryGetField(TEXT("MaxTeamSize"));
+    if (MaxTeamSizeValue.IsValid() && !MaxTeamSizeValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MaxTeamSizeValue->TryGetNumber(TmpValue)) { MaxTeamSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MinTeamSizeValue = obj->TryGetField(TEXT("MinTeamSize"));
+    if (MinTeamSizeValue.IsValid() && !MinTeamSizeValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MinTeamSizeValue->TryGetNumber(TmpValue)) { MinTeamSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FMatchmakingQueueConfig::~FMatchmakingQueueConfig()
+{
+    //if (StatisticsVisibilityToPlayers != nullptr) delete StatisticsVisibilityToPlayers;
+
+}
+
+void PlayFab::MultiplayerModels::FMatchmakingQueueConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BuildId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("BuildId")); writer->WriteValue(BuildId); }
+
+    writer->WriteIdentifierPrefix(TEXT("MaxMatchSize")); writer->WriteValue(static_cast<int64>(MaxMatchSize));
+
+    writer->WriteIdentifierPrefix(TEXT("MinMatchSize")); writer->WriteValue(static_cast<int64>(MinMatchSize));
+
+    writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name);
+
+    if (Rules.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Rules"));
+        for (const FMatchmakingQueueRule& item : Rules)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("ServerAllocationEnabled")); writer->WriteValue(ServerAllocationEnabled);
+
+    if (pfStatisticsVisibilityToPlayers.IsValid()) { writer->WriteIdentifierPrefix(TEXT("StatisticsVisibilityToPlayers")); pfStatisticsVisibilityToPlayers->writeJSON(writer); }
+
+    if (Teams.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Teams"));
+        for (const FMatchmakingQueueTeam& item : Teams)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMatchmakingQueueConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
+    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MaxMatchSizeValue = obj->TryGetField(TEXT("MaxMatchSize"));
+    if (MaxMatchSizeValue.IsValid() && !MaxMatchSizeValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MaxMatchSizeValue->TryGetNumber(TmpValue)) { MaxMatchSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MinMatchSizeValue = obj->TryGetField(TEXT("MinMatchSize"));
+    if (MinMatchSizeValue.IsValid() && !MinMatchSizeValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MinMatchSizeValue->TryGetNumber(TmpValue)) { MinMatchSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&RulesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Rules"));
+    for (int32 Idx = 0; Idx < RulesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = RulesArray[Idx];
+        Rules.Add(FMatchmakingQueueRule(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> ServerAllocationEnabledValue = obj->TryGetField(TEXT("ServerAllocationEnabled"));
+    if (ServerAllocationEnabledValue.IsValid() && !ServerAllocationEnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (ServerAllocationEnabledValue->TryGetBool(TmpValue)) { ServerAllocationEnabled = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StatisticsVisibilityToPlayersValue = obj->TryGetField(TEXT("StatisticsVisibilityToPlayers"));
+    if (StatisticsVisibilityToPlayersValue.IsValid() && !StatisticsVisibilityToPlayersValue->IsNull())
+    {
+        pfStatisticsVisibilityToPlayers = MakeShareable(new FStatisticsVisibilityToPlayers(StatisticsVisibilityToPlayersValue->AsObject()));
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&TeamsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Teams"));
+    for (int32 Idx = 0; Idx < TeamsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = TeamsArray[Idx];
+        Teams.Add(FMatchmakingQueueTeam(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetMatchmakingQueueResult::~FGetMatchmakingQueueResult()
+{
+    //if (MatchmakingQueue != nullptr) delete MatchmakingQueue;
+
+}
+
+void PlayFab::MultiplayerModels::FGetMatchmakingQueueResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (MatchmakingQueue.IsValid()) { writer->WriteIdentifierPrefix(TEXT("MatchmakingQueue")); MatchmakingQueue->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMatchmakingQueueResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MatchmakingQueueValue = obj->TryGetField(TEXT("MatchmakingQueue"));
+    if (MatchmakingQueueValue.IsValid() && !MatchmakingQueueValue->IsNull())
+    {
+        MatchmakingQueue = MakeShareable(new FMatchmakingQueueConfig(MatchmakingQueueValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetMatchmakingTicketRequest::~FGetMatchmakingTicketRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetMatchmakingTicketRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("EscapeObject")); writer->WriteValue(EscapeObject);
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteIdentifierPrefix(TEXT("TicketId")); writer->WriteValue(TicketId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EscapeObjectValue = obj->TryGetField(TEXT("EscapeObject"));
+    if (EscapeObjectValue.IsValid() && !EscapeObjectValue->IsNull())
+    {
+        bool TmpValue;
+        if (EscapeObjectValue->TryGetBool(TmpValue)) { EscapeObject = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
+    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::~FGetMatchmakingTicketResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (pfCancellationReason.notNull()) { writer->WriteIdentifierPrefix(TEXT("CancellationReason")); writeCancellationReasonEnumJSON(pfCancellationReason, writer); }
+
+    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+
+    writer->WriteIdentifierPrefix(TEXT("Creator")); Creator.writeJSON(writer);
+
+    writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds")); writer->WriteValue(GiveUpAfterSeconds);
+
+    if (MatchId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MatchId")); writer->WriteValue(MatchId); }
+
+    writer->WriteArrayStart(TEXT("Members"));
+    for (const FMatchmakingPlayer& item : Members)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    if (MembersToMatchWith.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("MembersToMatchWith"));
+        for (const FEntityKey& item : MembersToMatchWith)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteIdentifierPrefix(TEXT("Status")); writer->WriteValue(Status);
+
+    writer->WriteIdentifierPrefix(TEXT("TicketId")); writer->WriteValue(TicketId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    pfCancellationReason = readCancellationReasonFromValue(obj->TryGetField(TEXT("CancellationReason")));
+
+    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
+    if (CreatedValue.IsValid())
+        Created = readDatetime(CreatedValue);
+
+
+    const TSharedPtr<FJsonValue> CreatorValue = obj->TryGetField(TEXT("Creator"));
+    if (CreatorValue.IsValid() && !CreatorValue->IsNull())
+    {
+        Creator = FEntityKey(CreatorValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
+    if (GiveUpAfterSecondsValue.IsValid() && !GiveUpAfterSecondsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (GiveUpAfterSecondsValue->TryGetNumber(TmpValue)) { GiveUpAfterSeconds = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MatchIdValue = obj->TryGetField(TEXT("MatchId"));
+    if (MatchIdValue.IsValid() && !MatchIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (MatchIdValue->TryGetString(TmpValue)) { MatchId = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&MembersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Members"));
+    for (int32 Idx = 0; Idx < MembersArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = MembersArray[Idx];
+        Members.Add(FMatchmakingPlayer(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&MembersToMatchWithArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("MembersToMatchWith"));
+    for (int32 Idx = 0; Idx < MembersToMatchWithArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = MembersToMatchWithArray[Idx];
+        MembersToMatchWith.Add(FEntityKey(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StatusValue = obj->TryGetField(TEXT("Status"));
+    if (StatusValue.IsValid() && !StatusValue->IsNull())
+    {
+        FString TmpValue;
+        if (StatusValue->TryGetString(TmpValue)) { Status = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
+    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetMatchRequest::~FGetMatchRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetMatchRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("EscapeObject")); writer->WriteValue(EscapeObject);
+
+    writer->WriteIdentifierPrefix(TEXT("MatchId")); writer->WriteValue(MatchId);
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteIdentifierPrefix(TEXT("ReturnMemberAttributes")); writer->WriteValue(ReturnMemberAttributes);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMatchRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EscapeObjectValue = obj->TryGetField(TEXT("EscapeObject"));
+    if (EscapeObjectValue.IsValid() && !EscapeObjectValue->IsNull())
+    {
+        bool TmpValue;
+        if (EscapeObjectValue->TryGetBool(TmpValue)) { EscapeObject = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MatchIdValue = obj->TryGetField(TEXT("MatchId"));
+    if (MatchIdValue.IsValid() && !MatchIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (MatchIdValue->TryGetString(TmpValue)) { MatchId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ReturnMemberAttributesValue = obj->TryGetField(TEXT("ReturnMemberAttributes"));
+    if (ReturnMemberAttributesValue.IsValid() && !ReturnMemberAttributesValue->IsNull())
+    {
+        bool TmpValue;
+        if (ReturnMemberAttributesValue->TryGetBool(TmpValue)) { ReturnMemberAttributes = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::~FMatchmakingPlayerWithTeamAssignment()
+{
+    //if (Attributes != nullptr) delete Attributes;
+
+}
+
+void PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Attributes.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Attributes")); Attributes->writeJSON(writer); }
+
+    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+
+    if (TeamId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TeamId")); writer->WriteValue(TeamId); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AttributesValue = obj->TryGetField(TEXT("Attributes"));
+    if (AttributesValue.IsValid() && !AttributesValue->IsNull())
+    {
+        Attributes = MakeShareable(new FMatchmakingPlayerAttributes(AttributesValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = FEntityKey(EntityValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> TeamIdValue = obj->TryGetField(TEXT("TeamId"));
+    if (TeamIdValue.IsValid() && !TeamIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TeamIdValue->TryGetString(TmpValue)) { TeamId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FServerDetails::~FServerDetails()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FServerDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("IPV4Address")); writer->WriteValue(IPV4Address);
+
+    writer->WriteArrayStart(TEXT("Ports"));
+    for (const FPort& item : Ports)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FServerDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IPV4AddressValue = obj->TryGetField(TEXT("IPV4Address"));
+    if (IPV4AddressValue.IsValid() && !IPV4AddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IPV4AddressValue->TryGetString(TmpValue)) { IPV4Address = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
+    for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PortsArray[Idx];
+        Ports.Add(FPort(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetMatchResult::~FGetMatchResult()
+{
+    //if (ServerDetails != nullptr) delete ServerDetails;
+
+}
+
+void PlayFab::MultiplayerModels::FGetMatchResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("MatchId")); writer->WriteValue(MatchId);
+
+    writer->WriteArrayStart(TEXT("Members"));
+    for (const FMatchmakingPlayerWithTeamAssignment& item : Members)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    if (RegionPreferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("RegionPreferences"));
+        for (const FString& item : RegionPreferences)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (pfServerDetails.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ServerDetails")); pfServerDetails->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMatchResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MatchIdValue = obj->TryGetField(TEXT("MatchId"));
+    if (MatchIdValue.IsValid() && !MatchIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (MatchIdValue->TryGetString(TmpValue)) { MatchId = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&MembersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Members"));
+    for (int32 Idx = 0; Idx < MembersArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = MembersArray[Idx];
+        Members.Add(FMatchmakingPlayerWithTeamAssignment(CurrentItem->AsObject()));
+    }
+
+
+    obj->TryGetStringArrayField(TEXT("RegionPreferences"), RegionPreferences);
+
+    const TSharedPtr<FJsonValue> ServerDetailsValue = obj->TryGetField(TEXT("ServerDetails"));
+    if (ServerDetailsValue.IsValid() && !ServerDetailsValue->IsNull())
+    {
+        pfServerDetails = MakeShareable(new FServerDetails(ServerDetailsValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::~FGetMultiplayerServerDetailsRequest()
 {
 
@@ -2279,6 +3380,126 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::readFromV
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FGetQueueStatisticsRequest::~FGetQueueStatisticsRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetQueueStatisticsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetQueueStatisticsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FStatistics::~FStatistics()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FStatistics::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Average")); writer->WriteValue(Average);
+
+    writer->WriteIdentifierPrefix(TEXT("Percentile50")); writer->WriteValue(Percentile50);
+
+    writer->WriteIdentifierPrefix(TEXT("Percentile90")); writer->WriteValue(Percentile90);
+
+    writer->WriteIdentifierPrefix(TEXT("Percentile99")); writer->WriteValue(Percentile99);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FStatistics::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AverageValue = obj->TryGetField(TEXT("Average"));
+    if (AverageValue.IsValid() && !AverageValue->IsNull())
+    {
+        double TmpValue;
+        if (AverageValue->TryGetNumber(TmpValue)) { Average = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> Percentile50Value = obj->TryGetField(TEXT("Percentile50"));
+    if (Percentile50Value.IsValid() && !Percentile50Value->IsNull())
+    {
+        double TmpValue;
+        if (Percentile50Value->TryGetNumber(TmpValue)) { Percentile50 = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> Percentile90Value = obj->TryGetField(TEXT("Percentile90"));
+    if (Percentile90Value.IsValid() && !Percentile90Value->IsNull())
+    {
+        double TmpValue;
+        if (Percentile90Value->TryGetNumber(TmpValue)) { Percentile90 = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> Percentile99Value = obj->TryGetField(TEXT("Percentile99"));
+    if (Percentile99Value.IsValid() && !Percentile99Value->IsNull())
+    {
+        double TmpValue;
+        if (Percentile99Value->TryGetNumber(TmpValue)) { Percentile99 = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetQueueStatisticsResult::~FGetQueueStatisticsResult()
+{
+    //if (TimeToMatchStatisticsInSeconds != nullptr) delete TimeToMatchStatisticsInSeconds;
+
+}
+
+void PlayFab::MultiplayerModels::FGetQueueStatisticsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (NumberOfPlayersMatching.notNull()) { writer->WriteIdentifierPrefix(TEXT("NumberOfPlayersMatching")); writer->WriteValue(static_cast<int64>(NumberOfPlayersMatching)); }
+
+    if (TimeToMatchStatisticsInSeconds.IsValid()) { writer->WriteIdentifierPrefix(TEXT("TimeToMatchStatisticsInSeconds")); TimeToMatchStatisticsInSeconds->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetQueueStatisticsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NumberOfPlayersMatchingValue = obj->TryGetField(TEXT("NumberOfPlayersMatching"));
+    if (NumberOfPlayersMatchingValue.IsValid() && !NumberOfPlayersMatchingValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (NumberOfPlayersMatchingValue->TryGetNumber(TmpValue)) { NumberOfPlayersMatching = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TimeToMatchStatisticsInSecondsValue = obj->TryGetField(TEXT("TimeToMatchStatisticsInSeconds"));
+    if (TimeToMatchStatisticsInSecondsValue.IsValid() && !TimeToMatchStatisticsInSecondsValue->IsNull())
+    {
+        TimeToMatchStatisticsInSeconds = MakeShareable(new FStatistics(TimeToMatchStatisticsInSecondsValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FGetRemoteLoginEndpointRequest::~FGetRemoteLoginEndpointRequest()
 {
 
@@ -2395,6 +3616,70 @@ bool PlayFab::MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResp
     bool HasSucceeded = true;
 
     Status = readTitleMultiplayerServerEnabledStatusFromValue(obj->TryGetField(TEXT("Status")));
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FJoinMatchmakingTicketRequest::~FJoinMatchmakingTicketRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FJoinMatchmakingTicketRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Member")); Member.writeJSON(writer);
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteIdentifierPrefix(TEXT("TicketId")); writer->WriteValue(TicketId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FJoinMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MemberValue = obj->TryGetField(TEXT("Member"));
+    if (MemberValue.IsValid() && !MemberValue->IsNull())
+    {
+        Member = FMatchmakingPlayer(MemberValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
+    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FJoinMatchmakingTicketResult::~FJoinMatchmakingTicketResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FJoinMatchmakingTicketResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FJoinMatchmakingTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
 
     return HasSucceeded;
 }
@@ -2811,6 +4096,125 @@ bool PlayFab::MultiplayerModels::FListContainerImageTagsResponse::readFromValue(
     bool HasSucceeded = true;
 
     obj->TryGetStringArrayField(TEXT("Tags"), Tags);
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListMatchmakingQueuesRequest::~FListMatchmakingQueuesRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListMatchmakingQueuesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListMatchmakingQueuesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListMatchmakingQueuesResult::~FListMatchmakingQueuesResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListMatchmakingQueuesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (MatchMakingQueues.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("MatchMakingQueues"));
+        for (const FMatchmakingQueueConfig& item : MatchMakingQueues)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListMatchmakingQueuesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&MatchMakingQueuesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("MatchMakingQueues"));
+    for (int32 Idx = 0; Idx < MatchMakingQueuesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = MatchMakingQueuesArray[Idx];
+        MatchMakingQueues.Add(FMatchmakingQueueConfig(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerRequest::~FListMatchmakingTicketsForPlayerRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerResult::~FListMatchmakingTicketsForPlayerResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("TicketIds"));
+    for (const FString& item : TicketIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("TicketIds"), TicketIds);
 
     return HasSucceeded;
 }
@@ -3257,6 +4661,53 @@ bool PlayFab::MultiplayerModels::FListVirtualMachineSummariesResponse::readFromV
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FRemoveMatchmakingQueueRequest::~FRemoveMatchmakingQueueRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FRemoveMatchmakingQueueRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (QueueName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("QueueName")); writer->WriteValue(QueueName); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FRemoveMatchmakingQueueRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FRemoveMatchmakingQueueResult::~FRemoveMatchmakingQueueResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FRemoveMatchmakingQueueResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FRemoveMatchmakingQueueResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::~FRequestMultiplayerServerRequest()
 {
 
@@ -3507,6 +4958,53 @@ bool PlayFab::MultiplayerModels::FRolloverContainerRegistryCredentialsResponse::
         FString TmpValue;
         if (UsernameValue->TryGetString(TmpValue)) { Username = TmpValue; }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FSetMatchmakingQueueRequest::~FSetMatchmakingQueueRequest()
+{
+    //if (MatchmakingQueue != nullptr) delete MatchmakingQueue;
+
+}
+
+void PlayFab::MultiplayerModels::FSetMatchmakingQueueRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (MatchmakingQueue.IsValid()) { writer->WriteIdentifierPrefix(TEXT("MatchmakingQueue")); MatchmakingQueue->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FSetMatchmakingQueueRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MatchmakingQueueValue = obj->TryGetField(TEXT("MatchmakingQueue"));
+    if (MatchmakingQueueValue.IsValid() && !MatchmakingQueueValue->IsNull())
+    {
+        MatchmakingQueue = MakeShareable(new FMatchmakingQueueConfig(MatchmakingQueueValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FSetMatchmakingQueueResult::~FSetMatchmakingQueueResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FSetMatchmakingQueueResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FSetMatchmakingQueueResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
 
     return HasSucceeded;
 }

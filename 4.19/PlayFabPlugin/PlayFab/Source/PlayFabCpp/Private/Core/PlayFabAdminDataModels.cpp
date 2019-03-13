@@ -3082,6 +3082,124 @@ bool PlayFab::AdminModels::FCreateCloudScriptTaskRequest::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FOpenIdIssuerInformation::~FOpenIdIssuerInformation()
+{
+
+}
+
+void PlayFab::AdminModels::FOpenIdIssuerInformation::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AuthorizationUrl")); writer->WriteValue(AuthorizationUrl);
+
+    writer->WriteIdentifierPrefix(TEXT("Issuer")); writer->WriteValue(Issuer);
+
+    writer->WriteIdentifierPrefix(TEXT("JsonWebKeySet")); JsonWebKeySet.writeJSON(writer);
+
+    writer->WriteIdentifierPrefix(TEXT("TokenUrl")); writer->WriteValue(TokenUrl);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FOpenIdIssuerInformation::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AuthorizationUrlValue = obj->TryGetField(TEXT("AuthorizationUrl"));
+    if (AuthorizationUrlValue.IsValid() && !AuthorizationUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (AuthorizationUrlValue->TryGetString(TmpValue)) { AuthorizationUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerValue = obj->TryGetField(TEXT("Issuer"));
+    if (IssuerValue.IsValid() && !IssuerValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerValue->TryGetString(TmpValue)) { Issuer = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> JsonWebKeySetValue = obj->TryGetField(TEXT("JsonWebKeySet"));
+    if (JsonWebKeySetValue.IsValid() && !JsonWebKeySetValue->IsNull())
+    {
+        JsonWebKeySet = FJsonKeeper(JsonWebKeySetValue);
+    }
+
+    const TSharedPtr<FJsonValue> TokenUrlValue = obj->TryGetField(TEXT("TokenUrl"));
+    if (TokenUrlValue.IsValid() && !TokenUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (TokenUrlValue->TryGetString(TmpValue)) { TokenUrl = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FCreateOpenIdConnectionRequest::~FCreateOpenIdConnectionRequest()
+{
+    //if (IssuerInformation != nullptr) delete IssuerInformation;
+
+}
+
+void PlayFab::AdminModels::FCreateOpenIdConnectionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ClientId")); writer->WriteValue(ClientId);
+
+    writer->WriteIdentifierPrefix(TEXT("ClientSecret")); writer->WriteValue(ClientSecret);
+
+    writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId);
+
+    if (IssuerDiscoveryUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("IssuerDiscoveryUrl")); writer->WriteValue(IssuerDiscoveryUrl); }
+
+    if (IssuerInformation.IsValid()) { writer->WriteIdentifierPrefix(TEXT("IssuerInformation")); IssuerInformation->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCreateOpenIdConnectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ClientIdValue = obj->TryGetField(TEXT("ClientId"));
+    if (ClientIdValue.IsValid() && !ClientIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClientIdValue->TryGetString(TmpValue)) { ClientId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ClientSecretValue = obj->TryGetField(TEXT("ClientSecret"));
+    if (ClientSecretValue.IsValid() && !ClientSecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClientSecretValue->TryGetString(TmpValue)) { ClientSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ConnectionIdValue = obj->TryGetField(TEXT("ConnectionId"));
+    if (ConnectionIdValue.IsValid() && !ConnectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerDiscoveryUrlValue = obj->TryGetField(TEXT("IssuerDiscoveryUrl"));
+    if (IssuerDiscoveryUrlValue.IsValid() && !IssuerDiscoveryUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerDiscoveryUrlValue->TryGetString(TmpValue)) { IssuerDiscoveryUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerInformationValue = obj->TryGetField(TEXT("IssuerInformation"));
+    if (IssuerInformationValue.IsValid() && !IssuerInformationValue->IsNull())
+    {
+        IssuerInformation = MakeShareable(new FOpenIdIssuerInformation(IssuerInformationValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FCreatePlayerSharedSecretRequest::~FCreatePlayerSharedSecretRequest()
 {
 
@@ -3813,6 +3931,34 @@ bool PlayFab::AdminModels::FDeleteMasterPlayerAccountResult::readFromValue(const
     }
 
     obj->TryGetStringArrayField(TEXT("TitleIds"), TitleIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeleteOpenIdConnectionRequest::~FDeleteOpenIdConnectionRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteOpenIdConnectionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteOpenIdConnectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ConnectionIdValue = obj->TryGetField(TEXT("ConnectionId"));
+    if (ConnectionIdValue.IsValid() && !ConnectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -9709,6 +9855,125 @@ bool PlayFab::AdminModels::FListBuildsResult::readFromValue(const TSharedPtr<FJs
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FListOpenIdConnectionRequest::~FListOpenIdConnectionRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FListOpenIdConnectionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FListOpenIdConnectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FOpenIdConnection::~FOpenIdConnection()
+{
+    //if (IssuerInformation != nullptr) delete IssuerInformation;
+
+}
+
+void PlayFab::AdminModels::FOpenIdConnection::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ClientId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ClientId")); writer->WriteValue(ClientId); }
+
+    if (ClientSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ClientSecret")); writer->WriteValue(ClientSecret); }
+
+    if (ConnectionId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId); }
+
+    writer->WriteIdentifierPrefix(TEXT("DiscoverConfiguration")); writer->WriteValue(DiscoverConfiguration);
+
+    if (IssuerInformation.IsValid()) { writer->WriteIdentifierPrefix(TEXT("IssuerInformation")); IssuerInformation->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FOpenIdConnection::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ClientIdValue = obj->TryGetField(TEXT("ClientId"));
+    if (ClientIdValue.IsValid() && !ClientIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClientIdValue->TryGetString(TmpValue)) { ClientId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ClientSecretValue = obj->TryGetField(TEXT("ClientSecret"));
+    if (ClientSecretValue.IsValid() && !ClientSecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClientSecretValue->TryGetString(TmpValue)) { ClientSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ConnectionIdValue = obj->TryGetField(TEXT("ConnectionId"));
+    if (ConnectionIdValue.IsValid() && !ConnectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DiscoverConfigurationValue = obj->TryGetField(TEXT("DiscoverConfiguration"));
+    if (DiscoverConfigurationValue.IsValid() && !DiscoverConfigurationValue->IsNull())
+    {
+        bool TmpValue;
+        if (DiscoverConfigurationValue->TryGetBool(TmpValue)) { DiscoverConfiguration = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerInformationValue = obj->TryGetField(TEXT("IssuerInformation"));
+    if (IssuerInformationValue.IsValid() && !IssuerInformationValue->IsNull())
+    {
+        IssuerInformation = MakeShareable(new FOpenIdIssuerInformation(IssuerInformationValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FListOpenIdConnectionResponse::~FListOpenIdConnectionResponse()
+{
+
+}
+
+void PlayFab::AdminModels::FListOpenIdConnectionResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Connections.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Connections"));
+        for (const FOpenIdConnection& item : Connections)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FListOpenIdConnectionResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ConnectionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Connections"));
+    for (int32 Idx = 0; Idx < ConnectionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ConnectionsArray[Idx];
+        Connections.Add(FOpenIdConnection(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FListVirtualCurrencyTypesRequest::~FListVirtualCurrencyTypesRequest()
 {
 
@@ -12853,6 +13118,70 @@ bool PlayFab::AdminModels::FUpdateCloudScriptResult::readFromValue(const TShared
     {
         int32 TmpValue;
         if (VersionValue->TryGetNumber(TmpValue)) { Version = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::~FUpdateOpenIdConnectionRequest()
+{
+    //if (IssuerInformation != nullptr) delete IssuerInformation;
+
+}
+
+void PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ClientId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ClientId")); writer->WriteValue(ClientId); }
+
+    if (ClientSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ClientSecret")); writer->WriteValue(ClientSecret); }
+
+    writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId);
+
+    if (IssuerDiscoveryUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("IssuerDiscoveryUrl")); writer->WriteValue(IssuerDiscoveryUrl); }
+
+    if (IssuerInformation.IsValid()) { writer->WriteIdentifierPrefix(TEXT("IssuerInformation")); IssuerInformation->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ClientIdValue = obj->TryGetField(TEXT("ClientId"));
+    if (ClientIdValue.IsValid() && !ClientIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClientIdValue->TryGetString(TmpValue)) { ClientId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ClientSecretValue = obj->TryGetField(TEXT("ClientSecret"));
+    if (ClientSecretValue.IsValid() && !ClientSecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (ClientSecretValue->TryGetString(TmpValue)) { ClientSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ConnectionIdValue = obj->TryGetField(TEXT("ConnectionId"));
+    if (ConnectionIdValue.IsValid() && !ConnectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerDiscoveryUrlValue = obj->TryGetField(TEXT("IssuerDiscoveryUrl"));
+    if (IssuerDiscoveryUrlValue.IsValid() && !IssuerDiscoveryUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerDiscoveryUrlValue->TryGetString(TmpValue)) { IssuerDiscoveryUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerInformationValue = obj->TryGetField(TEXT("IssuerInformation"));
+    if (IssuerInformationValue.IsValid() && !IssuerInformationValue->IsNull())
+    {
+        IssuerInformation = MakeShareable(new FOpenIdIssuerInformation(IssuerInformationValue->AsObject()));
     }
 
     return HasSucceeded;

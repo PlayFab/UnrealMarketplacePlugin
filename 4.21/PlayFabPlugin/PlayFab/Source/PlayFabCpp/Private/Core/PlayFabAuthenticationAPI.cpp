@@ -36,8 +36,6 @@ void UPlayFabAuthenticationAPI::SetDevSecretKey(const FString& developerSecretKe
     PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
-
-
 bool UPlayFabAuthenticationAPI::GetEntityToken(
     AuthenticationModels::FGetEntityTokenRequest& request,
     const FGetEntityTokenDelegate& SuccessDelegate,
@@ -82,4 +80,3 @@ void UPlayFabAuthenticationAPI::OnGetEntityTokenResult(FHttpRequestPtr HttpReque
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-

@@ -36,8 +36,6 @@ void UPlayFabAdminAPI::SetDevSecretKey(const FString& developerSecretKey)
     PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
-
-
 bool UPlayFabAdminAPI::AbortTaskInstance(
     AdminModels::FAbortTaskInstanceRequest& request,
     const FAbortTaskInstanceDelegate& SuccessDelegate,
@@ -65,8 +63,6 @@ void UPlayFabAdminAPI::OnAbortTaskInstanceResult(FHttpRequestPtr HttpRequest, FH
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::AddLocalizedNews(
     AdminModels::FAddLocalizedNewsRequest& request,
@@ -96,8 +92,6 @@ void UPlayFabAdminAPI::OnAddLocalizedNewsResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::AddNews(
     AdminModels::FAddNewsRequest& request,
     const FAddNewsDelegate& SuccessDelegate,
@@ -125,8 +119,6 @@ void UPlayFabAdminAPI::OnAddNewsResult(FHttpRequestPtr HttpRequest, FHttpRespons
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::AddPlayerTag(
     AdminModels::FAddPlayerTagRequest& request,
@@ -156,8 +148,6 @@ void UPlayFabAdminAPI::OnAddPlayerTagResult(FHttpRequestPtr HttpRequest, FHttpRe
     }
 }
 
-
-
 bool UPlayFabAdminAPI::AddServerBuild(
     AdminModels::FAddServerBuildRequest& request,
     const FAddServerBuildDelegate& SuccessDelegate,
@@ -185,8 +175,6 @@ void UPlayFabAdminAPI::OnAddServerBuildResult(FHttpRequestPtr HttpRequest, FHttp
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::AddUserVirtualCurrency(
     AdminModels::FAddUserVirtualCurrencyRequest& request,
@@ -216,8 +204,6 @@ void UPlayFabAdminAPI::OnAddUserVirtualCurrencyResult(FHttpRequestPtr HttpReques
     }
 }
 
-
-
 bool UPlayFabAdminAPI::AddVirtualCurrencyTypes(
     AdminModels::FAddVirtualCurrencyTypesRequest& request,
     const FAddVirtualCurrencyTypesDelegate& SuccessDelegate,
@@ -245,8 +231,6 @@ void UPlayFabAdminAPI::OnAddVirtualCurrencyTypesResult(FHttpRequestPtr HttpReque
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::BanUsers(
     AdminModels::FBanUsersRequest& request,
@@ -276,8 +260,6 @@ void UPlayFabAdminAPI::OnBanUsersResult(FHttpRequestPtr HttpRequest, FHttpRespon
     }
 }
 
-
-
 bool UPlayFabAdminAPI::CheckLimitedEditionItemAvailability(
     AdminModels::FCheckLimitedEditionItemAvailabilityRequest& request,
     const FCheckLimitedEditionItemAvailabilityDelegate& SuccessDelegate,
@@ -305,8 +287,6 @@ void UPlayFabAdminAPI::OnCheckLimitedEditionItemAvailabilityResult(FHttpRequestP
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::CreateActionsOnPlayersInSegmentTask(
     AdminModels::FCreateActionsOnPlayerSegmentTaskRequest& request,
@@ -336,8 +316,6 @@ void UPlayFabAdminAPI::OnCreateActionsOnPlayersInSegmentTaskResult(FHttpRequestP
     }
 }
 
-
-
 bool UPlayFabAdminAPI::CreateCloudScriptTask(
     AdminModels::FCreateCloudScriptTaskRequest& request,
     const FCreateCloudScriptTaskDelegate& SuccessDelegate,
@@ -366,7 +344,33 @@ void UPlayFabAdminAPI::OnCreateCloudScriptTaskResult(FHttpRequestPtr HttpRequest
     }
 }
 
+bool UPlayFabAdminAPI::CreateOpenIdConnection(
+    AdminModels::FCreateOpenIdConnectionRequest& request,
+    const FCreateOpenIdConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CreateOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreateOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
 
+void UPlayFabAdminAPI::OnCreateOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
 
 bool UPlayFabAdminAPI::CreatePlayerSharedSecret(
     AdminModels::FCreatePlayerSharedSecretRequest& request,
@@ -396,8 +400,6 @@ void UPlayFabAdminAPI::OnCreatePlayerSharedSecretResult(FHttpRequestPtr HttpRequ
     }
 }
 
-
-
 bool UPlayFabAdminAPI::CreatePlayerStatisticDefinition(
     AdminModels::FCreatePlayerStatisticDefinitionRequest& request,
     const FCreatePlayerStatisticDefinitionDelegate& SuccessDelegate,
@@ -425,8 +427,6 @@ void UPlayFabAdminAPI::OnCreatePlayerStatisticDefinitionResult(FHttpRequestPtr H
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::DeleteContent(
     AdminModels::FDeleteContentRequest& request,
@@ -456,8 +456,6 @@ void UPlayFabAdminAPI::OnDeleteContentResult(FHttpRequestPtr HttpRequest, FHttpR
     }
 }
 
-
-
 bool UPlayFabAdminAPI::DeleteMasterPlayerAccount(
     AdminModels::FDeleteMasterPlayerAccountRequest& request,
     const FDeleteMasterPlayerAccountDelegate& SuccessDelegate,
@@ -486,7 +484,33 @@ void UPlayFabAdminAPI::OnDeleteMasterPlayerAccountResult(FHttpRequestPtr HttpReq
     }
 }
 
+bool UPlayFabAdminAPI::DeleteOpenIdConnection(
+    AdminModels::FDeleteOpenIdConnectionRequest& request,
+    const FDeleteOpenIdConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
 
+void UPlayFabAdminAPI::OnDeleteOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
 
 bool UPlayFabAdminAPI::DeletePlayer(
     AdminModels::FDeletePlayerRequest& request,
@@ -516,8 +540,6 @@ void UPlayFabAdminAPI::OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpRe
     }
 }
 
-
-
 bool UPlayFabAdminAPI::DeletePlayerSharedSecret(
     AdminModels::FDeletePlayerSharedSecretRequest& request,
     const FDeletePlayerSharedSecretDelegate& SuccessDelegate,
@@ -545,8 +567,6 @@ void UPlayFabAdminAPI::OnDeletePlayerSharedSecretResult(FHttpRequestPtr HttpRequ
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::DeleteStore(
     AdminModels::FDeleteStoreRequest& request,
@@ -576,8 +596,6 @@ void UPlayFabAdminAPI::OnDeleteStoreResult(FHttpRequestPtr HttpRequest, FHttpRes
     }
 }
 
-
-
 bool UPlayFabAdminAPI::DeleteTask(
     AdminModels::FDeleteTaskRequest& request,
     const FDeleteTaskDelegate& SuccessDelegate,
@@ -606,7 +624,6 @@ void UPlayFabAdminAPI::OnDeleteTaskResult(FHttpRequestPtr HttpRequest, FHttpResp
     }
 }
 
-
 bool UPlayFabAdminAPI::DeleteTitle(
     const FDeleteTitleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -614,7 +631,6 @@ bool UPlayFabAdminAPI::DeleteTitle(
     AdminModels::FDeleteTitleRequest emptyRequest = AdminModels::FDeleteTitleRequest();
     return UPlayFabAdminAPI::DeleteTitle(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
-
 
 bool UPlayFabAdminAPI::DeleteTitle(
     AdminModels::FDeleteTitleRequest& request,
@@ -644,8 +660,6 @@ void UPlayFabAdminAPI::OnDeleteTitleResult(FHttpRequestPtr HttpRequest, FHttpRes
     }
 }
 
-
-
 bool UPlayFabAdminAPI::ExportMasterPlayerData(
     AdminModels::FExportMasterPlayerDataRequest& request,
     const FExportMasterPlayerDataDelegate& SuccessDelegate,
@@ -673,8 +687,6 @@ void UPlayFabAdminAPI::OnExportMasterPlayerDataResult(FHttpRequestPtr HttpReques
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetActionsOnPlayersInSegmentTaskInstance(
     AdminModels::FGetTaskInstanceRequest& request,
@@ -704,7 +716,6 @@ void UPlayFabAdminAPI::OnGetActionsOnPlayersInSegmentTaskInstanceResult(FHttpReq
     }
 }
 
-
 bool UPlayFabAdminAPI::GetAllSegments(
     const FGetAllSegmentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -712,7 +723,6 @@ bool UPlayFabAdminAPI::GetAllSegments(
     AdminModels::FGetAllSegmentsRequest emptyRequest = AdminModels::FGetAllSegmentsRequest();
     return UPlayFabAdminAPI::GetAllSegments(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
-
 
 bool UPlayFabAdminAPI::GetAllSegments(
     AdminModels::FGetAllSegmentsRequest& request,
@@ -742,8 +752,6 @@ void UPlayFabAdminAPI::OnGetAllSegmentsResult(FHttpRequestPtr HttpRequest, FHttp
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetCatalogItems(
     AdminModels::FGetCatalogItemsRequest& request,
     const FGetCatalogItemsDelegate& SuccessDelegate,
@@ -771,8 +779,6 @@ void UPlayFabAdminAPI::OnGetCatalogItemsResult(FHttpRequestPtr HttpRequest, FHtt
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetCloudScriptRevision(
     AdminModels::FGetCloudScriptRevisionRequest& request,
@@ -802,8 +808,6 @@ void UPlayFabAdminAPI::OnGetCloudScriptRevisionResult(FHttpRequestPtr HttpReques
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetCloudScriptTaskInstance(
     AdminModels::FGetTaskInstanceRequest& request,
     const FGetCloudScriptTaskInstanceDelegate& SuccessDelegate,
@@ -832,7 +836,6 @@ void UPlayFabAdminAPI::OnGetCloudScriptTaskInstanceResult(FHttpRequestPtr HttpRe
     }
 }
 
-
 bool UPlayFabAdminAPI::GetCloudScriptVersions(
     const FGetCloudScriptVersionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -840,7 +843,6 @@ bool UPlayFabAdminAPI::GetCloudScriptVersions(
     AdminModels::FGetCloudScriptVersionsRequest emptyRequest = AdminModels::FGetCloudScriptVersionsRequest();
     return UPlayFabAdminAPI::GetCloudScriptVersions(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
-
 
 bool UPlayFabAdminAPI::GetCloudScriptVersions(
     AdminModels::FGetCloudScriptVersionsRequest& request,
@@ -870,8 +872,6 @@ void UPlayFabAdminAPI::OnGetCloudScriptVersionsResult(FHttpRequestPtr HttpReques
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetContentList(
     AdminModels::FGetContentListRequest& request,
     const FGetContentListDelegate& SuccessDelegate,
@@ -899,8 +899,6 @@ void UPlayFabAdminAPI::OnGetContentListResult(FHttpRequestPtr HttpRequest, FHttp
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetContentUploadUrl(
     AdminModels::FGetContentUploadUrlRequest& request,
@@ -930,8 +928,6 @@ void UPlayFabAdminAPI::OnGetContentUploadUrlResult(FHttpRequestPtr HttpRequest, 
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetDataReport(
     AdminModels::FGetDataReportRequest& request,
     const FGetDataReportDelegate& SuccessDelegate,
@@ -959,8 +955,6 @@ void UPlayFabAdminAPI::OnGetDataReportResult(FHttpRequestPtr HttpRequest, FHttpR
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetMatchmakerGameInfo(
     AdminModels::FGetMatchmakerGameInfoRequest& request,
@@ -990,8 +984,6 @@ void UPlayFabAdminAPI::OnGetMatchmakerGameInfoResult(FHttpRequestPtr HttpRequest
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetMatchmakerGameModes(
     AdminModels::FGetMatchmakerGameModesRequest& request,
     const FGetMatchmakerGameModesDelegate& SuccessDelegate,
@@ -1019,8 +1011,6 @@ void UPlayFabAdminAPI::OnGetMatchmakerGameModesResult(FHttpRequestPtr HttpReques
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetPlayedTitleList(
     AdminModels::FGetPlayedTitleListRequest& request,
@@ -1050,8 +1040,6 @@ void UPlayFabAdminAPI::OnGetPlayedTitleListResult(FHttpRequestPtr HttpRequest, F
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetPlayerIdFromAuthToken(
     AdminModels::FGetPlayerIdFromAuthTokenRequest& request,
     const FGetPlayerIdFromAuthTokenDelegate& SuccessDelegate,
@@ -1079,8 +1067,6 @@ void UPlayFabAdminAPI::OnGetPlayerIdFromAuthTokenResult(FHttpRequestPtr HttpRequ
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetPlayerProfile(
     AdminModels::FGetPlayerProfileRequest& request,
@@ -1110,8 +1096,6 @@ void UPlayFabAdminAPI::OnGetPlayerProfileResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetPlayerSegments(
     AdminModels::FGetPlayersSegmentsRequest& request,
     const FGetPlayerSegmentsDelegate& SuccessDelegate,
@@ -1140,7 +1124,6 @@ void UPlayFabAdminAPI::OnGetPlayerSegmentsResult(FHttpRequestPtr HttpRequest, FH
     }
 }
 
-
 bool UPlayFabAdminAPI::GetPlayerSharedSecrets(
     const FGetPlayerSharedSecretsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -1148,7 +1131,6 @@ bool UPlayFabAdminAPI::GetPlayerSharedSecrets(
     AdminModels::FGetPlayerSharedSecretsRequest emptyRequest = AdminModels::FGetPlayerSharedSecretsRequest();
     return UPlayFabAdminAPI::GetPlayerSharedSecrets(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
-
 
 bool UPlayFabAdminAPI::GetPlayerSharedSecrets(
     AdminModels::FGetPlayerSharedSecretsRequest& request,
@@ -1178,8 +1160,6 @@ void UPlayFabAdminAPI::OnGetPlayerSharedSecretsResult(FHttpRequestPtr HttpReques
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetPlayersInSegment(
     AdminModels::FGetPlayersInSegmentRequest& request,
     const FGetPlayersInSegmentDelegate& SuccessDelegate,
@@ -1208,7 +1188,6 @@ void UPlayFabAdminAPI::OnGetPlayersInSegmentResult(FHttpRequestPtr HttpRequest, 
     }
 }
 
-
 bool UPlayFabAdminAPI::GetPlayerStatisticDefinitions(
     const FGetPlayerStatisticDefinitionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -1216,7 +1195,6 @@ bool UPlayFabAdminAPI::GetPlayerStatisticDefinitions(
     AdminModels::FGetPlayerStatisticDefinitionsRequest emptyRequest = AdminModels::FGetPlayerStatisticDefinitionsRequest();
     return UPlayFabAdminAPI::GetPlayerStatisticDefinitions(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
-
 
 bool UPlayFabAdminAPI::GetPlayerStatisticDefinitions(
     AdminModels::FGetPlayerStatisticDefinitionsRequest& request,
@@ -1246,8 +1224,6 @@ void UPlayFabAdminAPI::OnGetPlayerStatisticDefinitionsResult(FHttpRequestPtr Htt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetPlayerStatisticVersions(
     AdminModels::FGetPlayerStatisticVersionsRequest& request,
     const FGetPlayerStatisticVersionsDelegate& SuccessDelegate,
@@ -1275,8 +1251,6 @@ void UPlayFabAdminAPI::OnGetPlayerStatisticVersionsResult(FHttpRequestPtr HttpRe
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetPlayerTags(
     AdminModels::FGetPlayerTagsRequest& request,
@@ -1306,8 +1280,6 @@ void UPlayFabAdminAPI::OnGetPlayerTagsResult(FHttpRequestPtr HttpRequest, FHttpR
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetPolicy(
     AdminModels::FGetPolicyRequest& request,
     const FGetPolicyDelegate& SuccessDelegate,
@@ -1335,8 +1307,6 @@ void UPlayFabAdminAPI::OnGetPolicyResult(FHttpRequestPtr HttpRequest, FHttpRespo
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetPublisherData(
     AdminModels::FGetPublisherDataRequest& request,
@@ -1366,8 +1336,6 @@ void UPlayFabAdminAPI::OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetRandomResultTables(
     AdminModels::FGetRandomResultTablesRequest& request,
     const FGetRandomResultTablesDelegate& SuccessDelegate,
@@ -1395,8 +1363,6 @@ void UPlayFabAdminAPI::OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetServerBuildInfo(
     AdminModels::FGetServerBuildInfoRequest& request,
@@ -1426,8 +1392,6 @@ void UPlayFabAdminAPI::OnGetServerBuildInfoResult(FHttpRequestPtr HttpRequest, F
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetServerBuildUploadUrl(
     AdminModels::FGetServerBuildUploadURLRequest& request,
     const FGetServerBuildUploadUrlDelegate& SuccessDelegate,
@@ -1455,8 +1419,6 @@ void UPlayFabAdminAPI::OnGetServerBuildUploadUrlResult(FHttpRequestPtr HttpReque
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetStoreItems(
     AdminModels::FGetStoreItemsRequest& request,
@@ -1486,8 +1448,6 @@ void UPlayFabAdminAPI::OnGetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpR
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetTaskInstances(
     AdminModels::FGetTaskInstancesRequest& request,
     const FGetTaskInstancesDelegate& SuccessDelegate,
@@ -1515,8 +1475,6 @@ void UPlayFabAdminAPI::OnGetTaskInstancesResult(FHttpRequestPtr HttpRequest, FHt
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetTasks(
     AdminModels::FGetTasksRequest& request,
@@ -1546,8 +1504,6 @@ void UPlayFabAdminAPI::OnGetTasksResult(FHttpRequestPtr HttpRequest, FHttpRespon
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetTitleData(
     AdminModels::FGetTitleDataRequest& request,
     const FGetTitleDataDelegate& SuccessDelegate,
@@ -1575,8 +1531,6 @@ void UPlayFabAdminAPI::OnGetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpRe
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetTitleInternalData(
     AdminModels::FGetTitleDataRequest& request,
@@ -1606,8 +1560,6 @@ void UPlayFabAdminAPI::OnGetTitleInternalDataResult(FHttpRequestPtr HttpRequest,
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetUserAccountInfo(
     AdminModels::FLookupUserAccountInfoRequest& request,
     const FGetUserAccountInfoDelegate& SuccessDelegate,
@@ -1635,8 +1587,6 @@ void UPlayFabAdminAPI::OnGetUserAccountInfoResult(FHttpRequestPtr HttpRequest, F
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetUserBans(
     AdminModels::FGetUserBansRequest& request,
@@ -1666,8 +1616,6 @@ void UPlayFabAdminAPI::OnGetUserBansResult(FHttpRequestPtr HttpRequest, FHttpRes
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetUserData(
     AdminModels::FGetUserDataRequest& request,
     const FGetUserDataDelegate& SuccessDelegate,
@@ -1695,8 +1643,6 @@ void UPlayFabAdminAPI::OnGetUserDataResult(FHttpRequestPtr HttpRequest, FHttpRes
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetUserInternalData(
     AdminModels::FGetUserDataRequest& request,
@@ -1726,8 +1672,6 @@ void UPlayFabAdminAPI::OnGetUserInternalDataResult(FHttpRequestPtr HttpRequest, 
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetUserInventory(
     AdminModels::FGetUserInventoryRequest& request,
     const FGetUserInventoryDelegate& SuccessDelegate,
@@ -1755,8 +1699,6 @@ void UPlayFabAdminAPI::OnGetUserInventoryResult(FHttpRequestPtr HttpRequest, FHt
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetUserPublisherData(
     AdminModels::FGetUserDataRequest& request,
@@ -1786,8 +1728,6 @@ void UPlayFabAdminAPI::OnGetUserPublisherDataResult(FHttpRequestPtr HttpRequest,
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetUserPublisherInternalData(
     AdminModels::FGetUserDataRequest& request,
     const FGetUserPublisherInternalDataDelegate& SuccessDelegate,
@@ -1815,8 +1755,6 @@ void UPlayFabAdminAPI::OnGetUserPublisherInternalDataResult(FHttpRequestPtr Http
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GetUserPublisherReadOnlyData(
     AdminModels::FGetUserDataRequest& request,
@@ -1846,8 +1784,6 @@ void UPlayFabAdminAPI::OnGetUserPublisherReadOnlyDataResult(FHttpRequestPtr Http
     }
 }
 
-
-
 bool UPlayFabAdminAPI::GetUserReadOnlyData(
     AdminModels::FGetUserDataRequest& request,
     const FGetUserReadOnlyDataDelegate& SuccessDelegate,
@@ -1875,8 +1811,6 @@ void UPlayFabAdminAPI::OnGetUserReadOnlyDataResult(FHttpRequestPtr HttpRequest, 
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::GrantItemsToUsers(
     AdminModels::FGrantItemsToUsersRequest& request,
@@ -1906,8 +1840,6 @@ void UPlayFabAdminAPI::OnGrantItemsToUsersResult(FHttpRequestPtr HttpRequest, FH
     }
 }
 
-
-
 bool UPlayFabAdminAPI::IncrementLimitedEditionItemAvailability(
     AdminModels::FIncrementLimitedEditionItemAvailabilityRequest& request,
     const FIncrementLimitedEditionItemAvailabilityDelegate& SuccessDelegate,
@@ -1935,8 +1867,6 @@ void UPlayFabAdminAPI::OnIncrementLimitedEditionItemAvailabilityResult(FHttpRequ
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::IncrementPlayerStatisticVersion(
     AdminModels::FIncrementPlayerStatisticVersionRequest& request,
@@ -1966,6 +1896,41 @@ void UPlayFabAdminAPI::OnIncrementPlayerStatisticVersionResult(FHttpRequestPtr H
     }
 }
 
+bool UPlayFabAdminAPI::ListOpenIdConnection(
+    const FListOpenIdConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    AdminModels::FListOpenIdConnectionRequest emptyRequest = AdminModels::FListOpenIdConnectionRequest();
+    return UPlayFabAdminAPI::ListOpenIdConnection(emptyRequest, SuccessDelegate, ErrorDelegate);
+}
+
+bool UPlayFabAdminAPI::ListOpenIdConnection(
+    AdminModels::FListOpenIdConnectionRequest& request,
+    const FListOpenIdConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ListOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnListOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnListOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FListOpenIdConnectionResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
 
 bool UPlayFabAdminAPI::ListServerBuilds(
     const FListServerBuildsDelegate& SuccessDelegate,
@@ -1974,7 +1939,6 @@ bool UPlayFabAdminAPI::ListServerBuilds(
     AdminModels::FListBuildsRequest emptyRequest = AdminModels::FListBuildsRequest();
     return UPlayFabAdminAPI::ListServerBuilds(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
-
 
 bool UPlayFabAdminAPI::ListServerBuilds(
     AdminModels::FListBuildsRequest& request,
@@ -2004,7 +1968,6 @@ void UPlayFabAdminAPI::OnListServerBuildsResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
-
 bool UPlayFabAdminAPI::ListVirtualCurrencyTypes(
     const FListVirtualCurrencyTypesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -2012,7 +1975,6 @@ bool UPlayFabAdminAPI::ListVirtualCurrencyTypes(
     AdminModels::FListVirtualCurrencyTypesRequest emptyRequest = AdminModels::FListVirtualCurrencyTypesRequest();
     return UPlayFabAdminAPI::ListVirtualCurrencyTypes(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
-
 
 bool UPlayFabAdminAPI::ListVirtualCurrencyTypes(
     AdminModels::FListVirtualCurrencyTypesRequest& request,
@@ -2042,8 +2004,6 @@ void UPlayFabAdminAPI::OnListVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequ
     }
 }
 
-
-
 bool UPlayFabAdminAPI::ModifyMatchmakerGameModes(
     AdminModels::FModifyMatchmakerGameModesRequest& request,
     const FModifyMatchmakerGameModesDelegate& SuccessDelegate,
@@ -2071,8 +2031,6 @@ void UPlayFabAdminAPI::OnModifyMatchmakerGameModesResult(FHttpRequestPtr HttpReq
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::ModifyServerBuild(
     AdminModels::FModifyServerBuildRequest& request,
@@ -2102,8 +2060,6 @@ void UPlayFabAdminAPI::OnModifyServerBuildResult(FHttpRequestPtr HttpRequest, FH
     }
 }
 
-
-
 bool UPlayFabAdminAPI::RefundPurchase(
     AdminModels::FRefundPurchaseRequest& request,
     const FRefundPurchaseDelegate& SuccessDelegate,
@@ -2131,8 +2087,6 @@ void UPlayFabAdminAPI::OnRefundPurchaseResult(FHttpRequestPtr HttpRequest, FHttp
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::RemovePlayerTag(
     AdminModels::FRemovePlayerTagRequest& request,
@@ -2162,8 +2116,6 @@ void UPlayFabAdminAPI::OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHtt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::RemoveServerBuild(
     AdminModels::FRemoveServerBuildRequest& request,
     const FRemoveServerBuildDelegate& SuccessDelegate,
@@ -2191,8 +2143,6 @@ void UPlayFabAdminAPI::OnRemoveServerBuildResult(FHttpRequestPtr HttpRequest, FH
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::RemoveVirtualCurrencyTypes(
     AdminModels::FRemoveVirtualCurrencyTypesRequest& request,
@@ -2222,8 +2172,6 @@ void UPlayFabAdminAPI::OnRemoveVirtualCurrencyTypesResult(FHttpRequestPtr HttpRe
     }
 }
 
-
-
 bool UPlayFabAdminAPI::ResetCharacterStatistics(
     AdminModels::FResetCharacterStatisticsRequest& request,
     const FResetCharacterStatisticsDelegate& SuccessDelegate,
@@ -2251,8 +2199,6 @@ void UPlayFabAdminAPI::OnResetCharacterStatisticsResult(FHttpRequestPtr HttpRequ
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::ResetPassword(
     AdminModels::FResetPasswordRequest& request,
@@ -2282,8 +2228,6 @@ void UPlayFabAdminAPI::OnResetPasswordResult(FHttpRequestPtr HttpRequest, FHttpR
     }
 }
 
-
-
 bool UPlayFabAdminAPI::ResetUserStatistics(
     AdminModels::FResetUserStatisticsRequest& request,
     const FResetUserStatisticsDelegate& SuccessDelegate,
@@ -2311,8 +2255,6 @@ void UPlayFabAdminAPI::OnResetUserStatisticsResult(FHttpRequestPtr HttpRequest, 
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::ResolvePurchaseDispute(
     AdminModels::FResolvePurchaseDisputeRequest& request,
@@ -2342,8 +2284,6 @@ void UPlayFabAdminAPI::OnResolvePurchaseDisputeResult(FHttpRequestPtr HttpReques
     }
 }
 
-
-
 bool UPlayFabAdminAPI::RevokeAllBansForUser(
     AdminModels::FRevokeAllBansForUserRequest& request,
     const FRevokeAllBansForUserDelegate& SuccessDelegate,
@@ -2371,8 +2311,6 @@ void UPlayFabAdminAPI::OnRevokeAllBansForUserResult(FHttpRequestPtr HttpRequest,
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::RevokeBans(
     AdminModels::FRevokeBansRequest& request,
@@ -2402,8 +2340,6 @@ void UPlayFabAdminAPI::OnRevokeBansResult(FHttpRequestPtr HttpRequest, FHttpResp
     }
 }
 
-
-
 bool UPlayFabAdminAPI::RevokeInventoryItem(
     AdminModels::FRevokeInventoryItemRequest& request,
     const FRevokeInventoryItemDelegate& SuccessDelegate,
@@ -2431,8 +2367,6 @@ void UPlayFabAdminAPI::OnRevokeInventoryItemResult(FHttpRequestPtr HttpRequest, 
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::RevokeInventoryItems(
     AdminModels::FRevokeInventoryItemsRequest& request,
@@ -2462,8 +2396,6 @@ void UPlayFabAdminAPI::OnRevokeInventoryItemsResult(FHttpRequestPtr HttpRequest,
     }
 }
 
-
-
 bool UPlayFabAdminAPI::RunTask(
     AdminModels::FRunTaskRequest& request,
     const FRunTaskDelegate& SuccessDelegate,
@@ -2491,8 +2423,6 @@ void UPlayFabAdminAPI::OnRunTaskResult(FHttpRequestPtr HttpRequest, FHttpRespons
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::SendAccountRecoveryEmail(
     AdminModels::FSendAccountRecoveryEmailRequest& request,
@@ -2522,8 +2452,6 @@ void UPlayFabAdminAPI::OnSendAccountRecoveryEmailResult(FHttpRequestPtr HttpRequ
     }
 }
 
-
-
 bool UPlayFabAdminAPI::SetCatalogItems(
     AdminModels::FUpdateCatalogItemsRequest& request,
     const FSetCatalogItemsDelegate& SuccessDelegate,
@@ -2551,8 +2479,6 @@ void UPlayFabAdminAPI::OnSetCatalogItemsResult(FHttpRequestPtr HttpRequest, FHtt
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::SetPlayerSecret(
     AdminModels::FSetPlayerSecretRequest& request,
@@ -2582,8 +2508,6 @@ void UPlayFabAdminAPI::OnSetPlayerSecretResult(FHttpRequestPtr HttpRequest, FHtt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::SetPublishedRevision(
     AdminModels::FSetPublishedRevisionRequest& request,
     const FSetPublishedRevisionDelegate& SuccessDelegate,
@@ -2611,8 +2535,6 @@ void UPlayFabAdminAPI::OnSetPublishedRevisionResult(FHttpRequestPtr HttpRequest,
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::SetPublisherData(
     AdminModels::FSetPublisherDataRequest& request,
@@ -2642,8 +2564,6 @@ void UPlayFabAdminAPI::OnSetPublisherDataResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::SetStoreItems(
     AdminModels::FUpdateStoreItemsRequest& request,
     const FSetStoreItemsDelegate& SuccessDelegate,
@@ -2671,8 +2591,6 @@ void UPlayFabAdminAPI::OnSetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpR
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::SetTitleData(
     AdminModels::FSetTitleDataRequest& request,
@@ -2702,8 +2620,6 @@ void UPlayFabAdminAPI::OnSetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpRe
     }
 }
 
-
-
 bool UPlayFabAdminAPI::SetTitleInternalData(
     AdminModels::FSetTitleDataRequest& request,
     const FSetTitleInternalDataDelegate& SuccessDelegate,
@@ -2731,8 +2647,6 @@ void UPlayFabAdminAPI::OnSetTitleInternalDataResult(FHttpRequestPtr HttpRequest,
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::SetupPushNotification(
     AdminModels::FSetupPushNotificationRequest& request,
@@ -2762,8 +2676,6 @@ void UPlayFabAdminAPI::OnSetupPushNotificationResult(FHttpRequestPtr HttpRequest
     }
 }
 
-
-
 bool UPlayFabAdminAPI::SubtractUserVirtualCurrency(
     AdminModels::FSubtractUserVirtualCurrencyRequest& request,
     const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate,
@@ -2791,8 +2703,6 @@ void UPlayFabAdminAPI::OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpR
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::UpdateBans(
     AdminModels::FUpdateBansRequest& request,
@@ -2822,8 +2732,6 @@ void UPlayFabAdminAPI::OnUpdateBansResult(FHttpRequestPtr HttpRequest, FHttpResp
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdateCatalogItems(
     AdminModels::FUpdateCatalogItemsRequest& request,
     const FUpdateCatalogItemsDelegate& SuccessDelegate,
@@ -2851,8 +2759,6 @@ void UPlayFabAdminAPI::OnUpdateCatalogItemsResult(FHttpRequestPtr HttpRequest, F
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::UpdateCloudScript(
     AdminModels::FUpdateCloudScriptRequest& request,
@@ -2882,7 +2788,33 @@ void UPlayFabAdminAPI::OnUpdateCloudScriptResult(FHttpRequestPtr HttpRequest, FH
     }
 }
 
+bool UPlayFabAdminAPI::UpdateOpenIdConnection(
+    AdminModels::FUpdateOpenIdConnectionRequest& request,
+    const FUpdateOpenIdConnectionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
 
+void UPlayFabAdminAPI::OnUpdateOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
 
 bool UPlayFabAdminAPI::UpdatePlayerSharedSecret(
     AdminModels::FUpdatePlayerSharedSecretRequest& request,
@@ -2912,8 +2844,6 @@ void UPlayFabAdminAPI::OnUpdatePlayerSharedSecretResult(FHttpRequestPtr HttpRequ
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdatePlayerStatisticDefinition(
     AdminModels::FUpdatePlayerStatisticDefinitionRequest& request,
     const FUpdatePlayerStatisticDefinitionDelegate& SuccessDelegate,
@@ -2941,8 +2871,6 @@ void UPlayFabAdminAPI::OnUpdatePlayerStatisticDefinitionResult(FHttpRequestPtr H
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::UpdatePolicy(
     AdminModels::FUpdatePolicyRequest& request,
@@ -2972,8 +2900,6 @@ void UPlayFabAdminAPI::OnUpdatePolicyResult(FHttpRequestPtr HttpRequest, FHttpRe
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdateRandomResultTables(
     AdminModels::FUpdateRandomResultTablesRequest& request,
     const FUpdateRandomResultTablesDelegate& SuccessDelegate,
@@ -3001,8 +2927,6 @@ void UPlayFabAdminAPI::OnUpdateRandomResultTablesResult(FHttpRequestPtr HttpRequ
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::UpdateStoreItems(
     AdminModels::FUpdateStoreItemsRequest& request,
@@ -3032,8 +2956,6 @@ void UPlayFabAdminAPI::OnUpdateStoreItemsResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdateTask(
     AdminModels::FUpdateTaskRequest& request,
     const FUpdateTaskDelegate& SuccessDelegate,
@@ -3061,8 +2983,6 @@ void UPlayFabAdminAPI::OnUpdateTaskResult(FHttpRequestPtr HttpRequest, FHttpResp
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::UpdateUserData(
     AdminModels::FUpdateUserDataRequest& request,
@@ -3092,8 +3012,6 @@ void UPlayFabAdminAPI::OnUpdateUserDataResult(FHttpRequestPtr HttpRequest, FHttp
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdateUserInternalData(
     AdminModels::FUpdateUserInternalDataRequest& request,
     const FUpdateUserInternalDataDelegate& SuccessDelegate,
@@ -3121,8 +3039,6 @@ void UPlayFabAdminAPI::OnUpdateUserInternalDataResult(FHttpRequestPtr HttpReques
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::UpdateUserPublisherData(
     AdminModels::FUpdateUserDataRequest& request,
@@ -3152,8 +3068,6 @@ void UPlayFabAdminAPI::OnUpdateUserPublisherDataResult(FHttpRequestPtr HttpReque
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdateUserPublisherInternalData(
     AdminModels::FUpdateUserInternalDataRequest& request,
     const FUpdateUserPublisherInternalDataDelegate& SuccessDelegate,
@@ -3181,8 +3095,6 @@ void UPlayFabAdminAPI::OnUpdateUserPublisherInternalDataResult(FHttpRequestPtr H
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabAdminAPI::UpdateUserPublisherReadOnlyData(
     AdminModels::FUpdateUserDataRequest& request,
@@ -3212,8 +3124,6 @@ void UPlayFabAdminAPI::OnUpdateUserPublisherReadOnlyDataResult(FHttpRequestPtr H
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdateUserReadOnlyData(
     AdminModels::FUpdateUserDataRequest& request,
     const FUpdateUserReadOnlyDataDelegate& SuccessDelegate,
@@ -3242,8 +3152,6 @@ void UPlayFabAdminAPI::OnUpdateUserReadOnlyDataResult(FHttpRequestPtr HttpReques
     }
 }
 
-
-
 bool UPlayFabAdminAPI::UpdateUserTitleDisplayName(
     AdminModels::FUpdateUserTitleDisplayNameRequest& request,
     const FUpdateUserTitleDisplayNameDelegate& SuccessDelegate,
@@ -3271,4 +3179,3 @@ void UPlayFabAdminAPI::OnUpdateUserTitleDisplayNameResult(FHttpRequestPtr HttpRe
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-

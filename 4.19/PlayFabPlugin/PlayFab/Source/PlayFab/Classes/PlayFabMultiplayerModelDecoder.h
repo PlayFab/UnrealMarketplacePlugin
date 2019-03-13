@@ -36,11 +36,59 @@ public:
     // Matchmaking
     //////////////////////////////////////////////////////
 
+    /** Decode the CancelAllMatchmakingTicketsForPlayerResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerCancelAllMatchmakingTicketsForPlayerResult decodeCancelAllMatchmakingTicketsForPlayerResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the CancelMatchmakingTicketResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerCancelMatchmakingTicketResult decodeCancelMatchmakingTicketResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the CreateMatchmakingTicketResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerCreateMatchmakingTicketResult decodeCreateMatchmakingTicketResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetMatchResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerGetMatchResult decodeGetMatchResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetMatchmakingTicketResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerGetMatchmakingTicketResult decodeGetMatchmakingTicketResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetQueueStatisticsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerGetQueueStatisticsResult decodeGetQueueStatisticsResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the JoinMatchmakingTicketResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerJoinMatchmakingTicketResult decodeJoinMatchmakingTicketResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListMatchmakingTicketsForPlayerResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        static FMultiplayerListMatchmakingTicketsForPlayerResult decodeListMatchmakingTicketsForPlayerResultResponse(UPlayFabJsonObject* response);
+
 
 
     ///////////////////////////////////////////////////////
     // Matchmaking Admin
     //////////////////////////////////////////////////////
+
+    /** Decode the GetMatchmakingQueueResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        static FMultiplayerGetMatchmakingQueueResult decodeGetMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListMatchmakingQueuesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        static FMultiplayerListMatchmakingQueuesResult decodeListMatchmakingQueuesResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the RemoveMatchmakingQueueResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        static FMultiplayerRemoveMatchmakingQueueResult decodeRemoveMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SetMatchmakingQueueResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
+        static FMultiplayerSetMatchmakingQueueResult decodeSetMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
 
 
 

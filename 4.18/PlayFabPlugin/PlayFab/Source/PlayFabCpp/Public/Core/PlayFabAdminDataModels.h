@@ -2065,6 +2065,98 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FOpenIdIssuerInformation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Authorization endpoint URL to direct users to for signin.
+        FString AuthorizationUrl;
+
+        // The URL of the issuer of the tokens. This must match the exact URL of the issuer field in tokens.
+        FString Issuer;
+
+        // JSON Web Key Set for validating the signature of tokens.
+        FJsonKeeper JsonWebKeySet;
+
+        // Token endpoint URL for code verification.
+        FString TokenUrl;
+
+        FOpenIdIssuerInformation() :
+            FPlayFabCppBaseModel(),
+            AuthorizationUrl(),
+            Issuer(),
+            JsonWebKeySet(),
+            TokenUrl()
+            {}
+
+        FOpenIdIssuerInformation(const FOpenIdIssuerInformation& src) :
+            FPlayFabCppBaseModel(),
+            AuthorizationUrl(src.AuthorizationUrl),
+            Issuer(src.Issuer),
+            JsonWebKeySet(src.JsonWebKeySet),
+            TokenUrl(src.TokenUrl)
+            {}
+
+        FOpenIdIssuerInformation(const TSharedPtr<FJsonObject>& obj) : FOpenIdIssuerInformation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FOpenIdIssuerInformation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateOpenIdConnectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The client ID given by the ID provider.
+        FString ClientId;
+
+        // The client secret given by the ID provider.
+        FString ClientSecret;
+
+        // A name for the connection that identifies it within the title.
+        FString ConnectionId;
+
+        /**
+         * [optional] The discovery document URL to read issuer information from. This must be the absolute URL to the JSON OpenId
+         * Configuration document and must be accessible from the internet. If you don't know it, try your issuer URL followed by
+         * "/.well-known/openid-configuration". For example, if the issuer is https://example.com, try
+         * https://example.com/.well-known/openid-configuration
+         */
+        FString IssuerDiscoveryUrl;
+
+        // [optional] Manually specified information for an OpenID Connect issuer.
+        TSharedPtr<FOpenIdIssuerInformation> IssuerInformation;
+
+        FCreateOpenIdConnectionRequest() :
+            FPlayFabCppRequestCommon(),
+            ClientId(),
+            ClientSecret(),
+            ConnectionId(),
+            IssuerDiscoveryUrl(),
+            IssuerInformation(nullptr)
+            {}
+
+        FCreateOpenIdConnectionRequest(const FCreateOpenIdConnectionRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ClientId(src.ClientId),
+            ClientSecret(src.ClientSecret),
+            ConnectionId(src.ConnectionId),
+            IssuerDiscoveryUrl(src.IssuerDiscoveryUrl),
+            IssuerInformation(src.IssuerInformation.IsValid() ? MakeShareable(new FOpenIdIssuerInformation(*src.IssuerInformation)) : nullptr)
+            {}
+
+        FCreateOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FCreateOpenIdConnectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateOpenIdConnectionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreatePlayerSharedSecretRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Friendly name for this key
@@ -2526,6 +2618,32 @@ namespace AdminModels
         }
 
         ~FDeleteMasterPlayerAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteOpenIdConnectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // unique name of the connection
+        FString ConnectionId;
+
+        FDeleteOpenIdConnectionRequest() :
+            FPlayFabCppRequestCommon(),
+            ConnectionId()
+            {}
+
+        FDeleteOpenIdConnectionRequest(const FDeleteOpenIdConnectionRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ConnectionId(src.ConnectionId)
+            {}
+
+        FDeleteOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteOpenIdConnectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteOpenIdConnectionRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -6763,6 +6881,98 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FListOpenIdConnectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        FListOpenIdConnectionRequest() :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FListOpenIdConnectionRequest(const FListOpenIdConnectionRequest& src) :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FListOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FListOpenIdConnectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListOpenIdConnectionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FOpenIdConnection : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The client ID given by the ID provider.
+        FString ClientId;
+
+        // [optional] The client secret given by the ID provider.
+        FString ClientSecret;
+
+        // [optional] A name for the connection to identify it within the title.
+        FString ConnectionId;
+
+        // Shows if data about the connection will be loaded from the issuer's discovery document
+        bool DiscoverConfiguration;
+
+        // [optional] Information for an OpenID Connect provider.
+        TSharedPtr<FOpenIdIssuerInformation> IssuerInformation;
+
+        FOpenIdConnection() :
+            FPlayFabCppBaseModel(),
+            ClientId(),
+            ClientSecret(),
+            ConnectionId(),
+            DiscoverConfiguration(false),
+            IssuerInformation(nullptr)
+            {}
+
+        FOpenIdConnection(const FOpenIdConnection& src) :
+            FPlayFabCppBaseModel(),
+            ClientId(src.ClientId),
+            ClientSecret(src.ClientSecret),
+            ConnectionId(src.ConnectionId),
+            DiscoverConfiguration(src.DiscoverConfiguration),
+            IssuerInformation(src.IssuerInformation.IsValid() ? MakeShareable(new FOpenIdIssuerInformation(*src.IssuerInformation)) : nullptr)
+            {}
+
+        FOpenIdConnection(const TSharedPtr<FJsonObject>& obj) : FOpenIdConnection()
+        {
+            readFromValue(obj);
+        }
+
+        ~FOpenIdConnection();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListOpenIdConnectionResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of Open ID Connections
+        TArray<FOpenIdConnection> Connections;
+        FListOpenIdConnectionResponse() :
+            FPlayFabCppResultCommon(),
+            Connections()
+            {}
+
+        FListOpenIdConnectionResponse(const FListOpenIdConnectionResponse& src) :
+            FPlayFabCppResultCommon(),
+            Connections(src.Connections)
+            {}
+
+        FListOpenIdConnectionResponse(const TSharedPtr<FJsonObject>& obj) : FListOpenIdConnectionResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListOpenIdConnectionResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FListVirtualCurrencyTypesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FListVirtualCurrencyTypesRequest() :
@@ -9243,6 +9453,52 @@ namespace AdminModels
         }
 
         ~FUpdateCloudScriptResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateOpenIdConnectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The client ID given by the ID provider.
+        FString ClientId;
+
+        // [optional] The client secret given by the ID provider.
+        FString ClientSecret;
+
+        // A name for the connection that identifies it within the title.
+        FString ConnectionId;
+
+        // [optional] The issuer URL or discovery document URL to read issuer information from
+        FString IssuerDiscoveryUrl;
+
+        // [optional] Manually specified information for an OpenID Connect issuer.
+        TSharedPtr<FOpenIdIssuerInformation> IssuerInformation;
+
+        FUpdateOpenIdConnectionRequest() :
+            FPlayFabCppRequestCommon(),
+            ClientId(),
+            ClientSecret(),
+            ConnectionId(),
+            IssuerDiscoveryUrl(),
+            IssuerInformation(nullptr)
+            {}
+
+        FUpdateOpenIdConnectionRequest(const FUpdateOpenIdConnectionRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ClientId(src.ClientId),
+            ClientSecret(src.ClientSecret),
+            ConnectionId(src.ConnectionId),
+            IssuerDiscoveryUrl(src.IssuerDiscoveryUrl),
+            IssuerInformation(src.IssuerInformation.IsValid() ? MakeShareable(new FOpenIdIssuerInformation(*src.IssuerInformation)) : nullptr)
+            {}
+
+        FUpdateOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateOpenIdConnectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateOpenIdConnectionRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

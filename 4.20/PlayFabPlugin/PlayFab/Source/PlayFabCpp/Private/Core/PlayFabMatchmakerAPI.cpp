@@ -36,8 +36,6 @@ void UPlayFabMatchmakerAPI::SetDevSecretKey(const FString& developerSecretKey)
     PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
-
-
 bool UPlayFabMatchmakerAPI::AuthUser(
     MatchmakerModels::FAuthUserRequest& request,
     const FAuthUserDelegate& SuccessDelegate,
@@ -65,8 +63,6 @@ void UPlayFabMatchmakerAPI::OnAuthUserResult(FHttpRequestPtr HttpRequest, FHttpR
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabMatchmakerAPI::PlayerJoined(
     MatchmakerModels::FPlayerJoinedRequest& request,
@@ -96,8 +92,6 @@ void UPlayFabMatchmakerAPI::OnPlayerJoinedResult(FHttpRequestPtr HttpRequest, FH
     }
 }
 
-
-
 bool UPlayFabMatchmakerAPI::PlayerLeft(
     MatchmakerModels::FPlayerLeftRequest& request,
     const FPlayerLeftDelegate& SuccessDelegate,
@@ -125,8 +119,6 @@ void UPlayFabMatchmakerAPI::OnPlayerLeftResult(FHttpRequestPtr HttpRequest, FHtt
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-
-
 
 bool UPlayFabMatchmakerAPI::StartGame(
     MatchmakerModels::FStartGameRequest& request,
@@ -156,8 +148,6 @@ void UPlayFabMatchmakerAPI::OnStartGameResult(FHttpRequestPtr HttpRequest, FHttp
     }
 }
 
-
-
 bool UPlayFabMatchmakerAPI::UserInfo(
     MatchmakerModels::FUserInfoRequest& request,
     const FUserInfoDelegate& SuccessDelegate,
@@ -185,4 +175,3 @@ void UPlayFabMatchmakerAPI::OnUserInfoResult(FHttpRequestPtr HttpRequest, FHttpR
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
 }
-

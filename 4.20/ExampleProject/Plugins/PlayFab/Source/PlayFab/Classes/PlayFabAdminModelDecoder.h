@@ -106,6 +106,10 @@ public:
     // Authentication
     //////////////////////////////////////////////////////
 
+    /** Decode the EmptyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication Models")
+        static FAdminEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the CreatePlayerSharedSecretResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication Models")
         static FAdminCreatePlayerSharedSecretResult decodeCreatePlayerSharedSecretResultResponse(UPlayFabJsonObject* response);
@@ -121,6 +125,10 @@ public:
     /** Decode the GetPolicyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication Models")
         static FAdminGetPolicyResponse decodeGetPolicyResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListOpenIdConnectionResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication Models")
+        static FAdminListOpenIdConnectionResponse decodeListOpenIdConnectionResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the SetPlayerSecretResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Authentication Models")
@@ -329,10 +337,6 @@ public:
     ///////////////////////////////////////////////////////
     // ScheduledTask
     //////////////////////////////////////////////////////
-
-    /** Decode the EmptyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | ScheduledTask Models")
-        static FAdminEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the CreateTaskResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | ScheduledTask Models")

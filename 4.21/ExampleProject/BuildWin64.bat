@@ -9,8 +9,14 @@ set ueVersion=4.21
 rem # Full Path. In theory it should not be edited (the engine path/version are the only ones that should be edited).
 set uatPath=%uePath%\UE_%ueVersion%\Engine\Build\BatchFiles\RunUAT.bat
 
+rem # Target Platform
+set targetPlatform=Win64
+
 rem # Destination Path, where the build will end up (relative to active directory).
-set archivePath=Build\Win64
+set archivePath=Build\%targetPlatform%
+
 
 rem # The actual build command. To adapt depending on the needs.
-call "%uatPath%" BuildCookRun -rocket -nocompile -nocompileeditor -installed -nop4 -project="%~dp0\ExampleProject.uproject" -cook -stage -archive -archivedirectory="%~dp0\%archivePath%" -package -clientconfig=Development -clean -compressed -CookAll -pak -prereqs -distribution -nodebuginfo -build -utf8output
+call "%uatPath%" BuildCookRun -rocket -installed -nop4 -nocompile -project="%~dp0ExampleProject.uproject" -cook -stage -archive -archivedirectory="%~dp0%archivePath%" -package -clientconfig=Development -Platform=%targetPlatform% -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+
+

@@ -919,6 +919,16 @@ enum class EAzureVmSize : uint8
     pfenum_Standard_A4 UMETA(DisplayName = "Standard_A4"),
 };
 
+/** CancellationReason */
+
+UENUM(BlueprintType)
+enum class ECancellationReason : uint8
+{
+    pfenum_Requested UMETA(DisplayName = "Requested"),
+    pfenum_Internal UMETA(DisplayName = "Internal"),
+    pfenum_Timeout UMETA(DisplayName = "Timeout"),
+};
+
 /** ContainerFlavor */
 
 UENUM(BlueprintType)
@@ -936,6 +946,22 @@ enum class EProtocolType : uint8
 {
     pfenum_TCP UMETA(DisplayName = "TCP"),
     pfenum_UDP UMETA(DisplayName = "UDP"),
+};
+
+/** RuleType */
+
+UENUM(BlueprintType)
+enum class ERuleType : uint8
+{
+    pfenum_Unknown UMETA(DisplayName = "Unknown"),
+    pfenum_DifferenceRule UMETA(DisplayName = "DifferenceRule"),
+    pfenum_StringEqualityRule UMETA(DisplayName = "StringEqualityRule"),
+    pfenum_MatchTotalRule UMETA(DisplayName = "MatchTotalRule"),
+    pfenum_SetIntersectionRule UMETA(DisplayName = "SetIntersectionRule"),
+    pfenum_TeamSizeBalanceRule UMETA(DisplayName = "TeamSizeBalanceRule"),
+    pfenum_RegionSelectionRule UMETA(DisplayName = "RegionSelectionRule"),
+    pfenum_TeamDifferenceRule UMETA(DisplayName = "TeamDifferenceRule"),
+    pfenum_TeamTicketSizeSimilarityRule UMETA(DisplayName = "TeamTicketSizeSimilarityRule"),
 };
 
 /** TitleMultiplayerServerEnabledStatus */

@@ -29,12 +29,6 @@
         "Type": "Runtime",
         "LoadingPhase": "PreDefault",
         "WhitelistPlatforms": [ "Win64", "Win32", "Mac", "IOS", "Android" ]
-      },
-      {
-        "Name": "PlayFabTests",
-        "Type": "Runtime",
-        "LoadingPhase": "PreDefault",
-        "WhitelistPlatforms": [ "Win64", "Win32", "Mac", "IOS", "Android" ]
       }
     ]
 }

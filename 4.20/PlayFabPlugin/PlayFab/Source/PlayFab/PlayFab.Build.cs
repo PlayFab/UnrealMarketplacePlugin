@@ -29,13 +29,6 @@ namespace UnrealBuildTool.Rules
                     "PlayFabCommon"
                 }
             );
-
-            PrivateDependencyModuleNames.AddRange(
-                new string[]
-                {
-                    "PlayFabTests"
-                }
-            );
         }
     }
 }

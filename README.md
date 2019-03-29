@@ -2,7 +2,9 @@
 
 ## 1. Overview:
 
-Unreal 4.17 thru 4.20 Marketplace Plugins for PlayFab
+Unreal Marketplace Plugins for PlayFab
+
+Supported versions will be the root level folders, in the form of version numbers. These numbers update regularly when Unreal releases a new version, and will typically include the latest 3 Unreal versions.
 
 The Unreal Marketplace plugin includes:
 

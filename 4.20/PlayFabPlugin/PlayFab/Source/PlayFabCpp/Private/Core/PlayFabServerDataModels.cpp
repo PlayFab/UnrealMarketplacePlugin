@@ -637,6 +637,8 @@ void PlayFab::ServerModels::FUserGoogleInfo::writeJSON(JsonWriter& writer) const
 
     if (GoogleLocale.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleLocale")); writer->WriteValue(GoogleLocale); }
 
+    if (GoogleName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleName")); writer->WriteValue(GoogleName); }
+
     writer->WriteObjectEnd();
 }
 
@@ -670,6 +672,13 @@ bool PlayFab::ServerModels::FUserGoogleInfo::readFromValue(const TSharedPtr<FJso
     {
         FString TmpValue;
         if (GoogleLocaleValue->TryGetString(TmpValue)) { GoogleLocale = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GoogleNameValue = obj->TryGetField(TEXT("GoogleName"));
+    if (GoogleNameValue.IsValid() && !GoogleNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (GoogleNameValue->TryGetString(TmpValue)) { GoogleName = TmpValue; }
     }
 
     return HasSucceeded;
@@ -1294,6 +1303,8 @@ void PlayFab::ServerModels::FUserSteamInfo::writeJSON(JsonWriter& writer) const
 
     if (SteamId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamId")); writer->WriteValue(SteamId); }
 
+    if (SteamName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamName")); writer->WriteValue(SteamName); }
+
     writer->WriteObjectEnd();
 }
 
@@ -1317,6 +1328,13 @@ bool PlayFab::ServerModels::FUserSteamInfo::readFromValue(const TSharedPtr<FJson
     {
         FString TmpValue;
         if (SteamIdValue->TryGetString(TmpValue)) { SteamId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SteamNameValue = obj->TryGetField(TEXT("SteamName"));
+    if (SteamNameValue.IsValid() && !SteamNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (SteamNameValue->TryGetString(TmpValue)) { SteamName = TmpValue; }
     }
 
     return HasSucceeded;
@@ -5260,8 +5278,6 @@ void PlayFab::ServerModels::FFriendInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (CurrentMatchmakerLobbyId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CurrentMatchmakerLobbyId")); writer->WriteValue(CurrentMatchmakerLobbyId); }
-
     if (FacebookInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("FacebookInfo")); FacebookInfo->writeJSON(writer); }
 
     if (FriendPlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId")); writer->WriteValue(FriendPlayFabId); }
@@ -5295,13 +5311,6 @@ void PlayFab::ServerModels::FFriendInfo::writeJSON(JsonWriter& writer) const
 bool PlayFab::ServerModels::FFriendInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CurrentMatchmakerLobbyIdValue = obj->TryGetField(TEXT("CurrentMatchmakerLobbyId"));
-    if (CurrentMatchmakerLobbyIdValue.IsValid() && !CurrentMatchmakerLobbyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CurrentMatchmakerLobbyIdValue->TryGetString(TmpValue)) { CurrentMatchmakerLobbyId = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> FacebookInfoValue = obj->TryGetField(TEXT("FacebookInfo"));
     if (FacebookInfoValue.IsValid() && !FacebookInfoValue->IsNull())

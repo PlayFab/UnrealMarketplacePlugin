@@ -534,12 +534,16 @@ namespace ServerModels
         // [optional] Locale of the Google account
         FString GoogleLocale;
 
+        // [optional] Name of the Google account user
+        FString GoogleName;
+
         FUserGoogleInfo() :
             FPlayFabCppBaseModel(),
             GoogleEmail(),
             GoogleGender(),
             GoogleId(),
-            GoogleLocale()
+            GoogleLocale(),
+            GoogleName()
             {}
 
         FUserGoogleInfo(const FUserGoogleInfo& src) :
@@ -547,7 +551,8 @@ namespace ServerModels
             GoogleEmail(src.GoogleEmail),
             GoogleGender(src.GoogleGender),
             GoogleId(src.GoogleId),
-            GoogleLocale(src.GoogleLocale)
+            GoogleLocale(src.GoogleLocale),
+            GoogleName(src.GoogleName)
             {}
 
         FUserGoogleInfo(const TSharedPtr<FJsonObject>& obj) : FUserGoogleInfo()
@@ -934,12 +939,16 @@ namespace ServerModels
         // [optional] Steam identifier
         FString SteamId;
 
+        // [optional] Steam display name
+        FString SteamName;
+
         FUserSteamInfo() :
             FPlayFabCppBaseModel(),
             SteamActivationStatus(),
             SteamCountry(),
             SteamCurrency(),
-            SteamId()
+            SteamId(),
+            SteamName()
             {}
 
         FUserSteamInfo(const FUserSteamInfo& src) :
@@ -947,7 +956,8 @@ namespace ServerModels
             SteamActivationStatus(src.SteamActivationStatus),
             SteamCountry(src.SteamCountry),
             SteamCurrency(src.SteamCurrency),
-            SteamId(src.SteamId)
+            SteamId(src.SteamId),
+            SteamName(src.SteamName)
             {}
 
         FUserSteamInfo(const TSharedPtr<FJsonObject>& obj) : FUserSteamInfo()
@@ -3592,9 +3602,6 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FFriendInfo : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] This field is not populated.
-        FString CurrentMatchmakerLobbyId;
-
         // [optional] Available Facebook information (if the user and PlayFab friend are also connected in Facebook).
         TSharedPtr<FUserFacebookInfo> FacebookInfo;
 
@@ -3626,7 +3633,6 @@ namespace ServerModels
 
         FFriendInfo() :
             FPlayFabCppBaseModel(),
-            CurrentMatchmakerLobbyId(),
             FacebookInfo(nullptr),
             FriendPlayFabId(),
             GameCenterInfo(nullptr),
@@ -3641,7 +3647,6 @@ namespace ServerModels
 
         FFriendInfo(const FFriendInfo& src) :
             FPlayFabCppBaseModel(),
-            CurrentMatchmakerLobbyId(src.CurrentMatchmakerLobbyId),
             FacebookInfo(src.FacebookInfo.IsValid() ? MakeShareable(new FUserFacebookInfo(*src.FacebookInfo)) : nullptr),
             FriendPlayFabId(src.FriendPlayFabId),
             GameCenterInfo(src.GameCenterInfo.IsValid() ? MakeShareable(new FUserGameCenterInfo(*src.GameCenterInfo)) : nullptr),
@@ -4876,7 +4881,7 @@ namespace ServerModels
         // Whether to get the list of characters. Defaults to false.
         bool GetCharacterList;
 
-        // Whether to get player profile. Defaults to false.
+        // Whether to get player profile. Defaults to false. Has no effect for a new player.
         bool GetPlayerProfile;
 
         // Whether to get player statistics. Defaults to false.

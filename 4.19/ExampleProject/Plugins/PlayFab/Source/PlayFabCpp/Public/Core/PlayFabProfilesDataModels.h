@@ -234,6 +234,87 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FEntityStatisticChildValue : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Child name value, if child statistic
+        FString ChildName;
+
+        // [optional] Child statistic metadata
+        FString Metadata;
+
+        // Child statistic value
+        int32 Value;
+
+        FEntityStatisticChildValue() :
+            FPlayFabCppBaseModel(),
+            ChildName(),
+            Metadata(),
+            Value(0)
+            {}
+
+        FEntityStatisticChildValue(const FEntityStatisticChildValue& src) :
+            FPlayFabCppBaseModel(),
+            ChildName(src.ChildName),
+            Metadata(src.Metadata),
+            Value(src.Value)
+            {}
+
+        FEntityStatisticChildValue(const TSharedPtr<FJsonObject>& obj) : FEntityStatisticChildValue()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEntityStatisticChildValue();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEntityStatisticValue : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Child statistic values
+        TMap<FString, FEntityStatisticChildValue> ChildStatistics;
+        // [optional] Statistic metadata
+        FString Metadata;
+
+        // [optional] Statistic name
+        FString Name;
+
+        // [optional] Statistic value
+        Boxed<int32> Value;
+
+        // Statistic version
+        int32 Version;
+
+        FEntityStatisticValue() :
+            FPlayFabCppBaseModel(),
+            ChildStatistics(),
+            Metadata(),
+            Name(),
+            Value(),
+            Version(0)
+            {}
+
+        FEntityStatisticValue(const FEntityStatisticValue& src) :
+            FPlayFabCppBaseModel(),
+            ChildStatistics(src.ChildStatistics),
+            Metadata(src.Metadata),
+            Name(src.Name),
+            Value(src.Value),
+            Version(src.Version)
+            {}
+
+        FEntityStatisticValue(const TSharedPtr<FJsonObject>& obj) : FEntityStatisticValue()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEntityStatisticValue();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FEntityProfileBody : public PlayFab::FPlayFabCppBaseModel
     {
         // The creation time of this profile in UTC.
@@ -266,6 +347,8 @@ namespace ProfilesModels
          * profile, not global statements from titles and namespaces.
          */
         TArray<FEntityPermissionStatement> Permissions;
+        // [optional] The statistics on this profile.
+        TMap<FString, FEntityStatisticValue> Statistics;
         /**
          * The version number of the profile in persistent storage at the time of the read. Used for optional optimistic
          * concurrency during update.
@@ -283,6 +366,7 @@ namespace ProfilesModels
             Lineage(nullptr),
             Objects(),
             Permissions(),
+            Statistics(),
             VersionNumber(0)
             {}
 
@@ -297,6 +381,7 @@ namespace ProfilesModels
             Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr),
             Objects(src.Objects),
             Permissions(src.Permissions),
+            Statistics(src.Statistics),
             VersionNumber(src.VersionNumber)
             {}
 

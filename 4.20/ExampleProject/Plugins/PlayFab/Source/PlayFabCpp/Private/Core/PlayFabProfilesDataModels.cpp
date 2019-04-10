@@ -321,6 +321,127 @@ bool PlayFab::ProfilesModels::FEntityProfileFileMetadata::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::ProfilesModels::FEntityStatisticChildValue::~FEntityStatisticChildValue()
+{
+
+}
+
+void PlayFab::ProfilesModels::FEntityStatisticChildValue::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ChildName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ChildName")); writer->WriteValue(ChildName); }
+
+    if (Metadata.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Metadata")); writer->WriteValue(Metadata); }
+
+    writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FEntityStatisticChildValue::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ChildNameValue = obj->TryGetField(TEXT("ChildName"));
+    if (ChildNameValue.IsValid() && !ChildNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ChildNameValue->TryGetString(TmpValue)) { ChildName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MetadataValue = obj->TryGetField(TEXT("Metadata"));
+    if (MetadataValue.IsValid() && !MetadataValue->IsNull())
+    {
+        FString TmpValue;
+        if (MetadataValue->TryGetString(TmpValue)) { Metadata = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ValueValue->TryGetNumber(TmpValue)) { Value = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProfilesModels::FEntityStatisticValue::~FEntityStatisticValue()
+{
+
+}
+
+void PlayFab::ProfilesModels::FEntityStatisticValue::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ChildStatistics.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("ChildStatistics"));
+        for (TMap<FString, FEntityStatisticChildValue>::TConstIterator It(ChildStatistics); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Metadata.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Metadata")); writer->WriteValue(Metadata); }
+
+    if (Name.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name); }
+
+    if (Value.notNull()) { writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value); }
+
+    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FEntityStatisticValue::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* ChildStatisticsObject;
+    if (obj->TryGetObjectField(TEXT("ChildStatistics"), ChildStatisticsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*ChildStatisticsObject)->Values); It; ++It)
+        {
+            ChildStatistics.Add(It.Key(), FEntityStatisticChildValue(It.Value()->AsObject()));
+        }
+    }
+
+    const TSharedPtr<FJsonValue> MetadataValue = obj->TryGetField(TEXT("Metadata"));
+    if (MetadataValue.IsValid() && !MetadataValue->IsNull())
+    {
+        FString TmpValue;
+        if (MetadataValue->TryGetString(TmpValue)) { Metadata = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ValueValue->TryGetNumber(TmpValue)) { Value = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
+    if (VersionValue.IsValid() && !VersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (VersionValue->TryGetNumber(TmpValue)) { Version = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ProfilesModels::FEntityProfileBody::~FEntityProfileBody()
 {
     //if (Entity != nullptr) delete Entity;
@@ -374,6 +495,17 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
         writer->WriteArrayEnd();
     }
 
+
+    if (Statistics.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("Statistics"));
+        for (TMap<FString, FEntityStatisticValue>::TConstIterator It(Statistics); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
 
     writer->WriteIdentifierPrefix(TEXT("VersionNumber")); writer->WriteValue(VersionNumber);
 
@@ -447,6 +579,15 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
         Permissions.Add(FEntityPermissionStatement(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonObject>* StatisticsObject;
+    if (obj->TryGetObjectField(TEXT("Statistics"), StatisticsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*StatisticsObject)->Values); It; ++It)
+        {
+            Statistics.Add(It.Key(), FEntityStatisticValue(It.Value()->AsObject()));
+        }
+    }
 
     const TSharedPtr<FJsonValue> VersionNumberValue = obj->TryGetField(TEXT("VersionNumber"));
     if (VersionNumberValue.IsValid() && !VersionNumberValue->IsNull())

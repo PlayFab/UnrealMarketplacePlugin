@@ -474,6 +474,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1443: returnText = "CannotEnableMultiplayerServersForTitle"; break;
     case 1444: returnText = "WriteAttemptedDuringExport"; break;
     case 1445: returnText = "MultiplayerServerTitleQuotaCoresExceeded"; break;
+    case 1446: returnText = "AutomationRuleNotFound"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -492,6 +493,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 2054: returnText = "MatchmakingRateLimitExceeded"; break;
     case 2055: returnText = "MatchmakingTicketMembershipLimitExceeded"; break;
     case 2056: returnText = "MatchmakingUnauthorized"; break;
+    case 2057: returnText = "MatchmakingQueueLimitExceeded"; break;
     case 3001: returnText = "TitleConfigNotFound"; break;
     case 3002: returnText = "TitleConfigUpdateConflict"; break;
     case 3003: returnText = "TitleConfigSerializationError"; break;
@@ -509,6 +511,13 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 4102: returnText = "CatalogConfigContentTypeTooLong"; break;
     case 4103: returnText = "CatalogConfigTooManyTags"; break;
     case 4104: returnText = "CatalogConfigTagTooLong"; break;
+    case 4105: returnText = "CatalogConfigInvalidDeepLinkObject"; break;
+    case 4106: returnText = "CatalogConfigInvalidDeepLinkPlatform"; break;
+    case 4107: returnText = "CatalogConfigInvalidDeepLinkFormat"; break;
+    case 4108: returnText = "CatalogConfigInvalidDisplayPropertyObject"; break;
+    case 4109: returnText = "CatalogConfigInvalidDisplayPropertyName"; break;
+    case 4110: returnText = "CatalogConfigInvalidDisplayPropertyType"; break;
+    case 4111: returnText = "CatalogConfigDisplayPropertyMappingLimit"; break;
     case 5000: returnText = "ExportInvalidStatusUpdate"; break;
     case 5001: returnText = "ExportInvalidPrefix"; break;
     case 5002: returnText = "ExportBlobContainerDoesNotExist"; break;
@@ -516,6 +525,13 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5004: returnText = "ExportExportTitleIdNotFound"; break;
     case 5005: returnText = "ExportCouldNotUpdate"; break;
     case 5006: returnText = "ExportInvalidStorageType"; break;
+    case 5007: returnText = "ExportAmazonBucketDoesNotExist"; break;
+    case 5008: returnText = "ExportInvalidBlobStorage"; break;
+    case 5009: returnText = "ExportKustoException"; break;
+    case 5010: returnText = "ExportKustoExceptionNew_SomeResources"; break;
+    case 5011: returnText = "ExportKustoExceptionEdit"; break;
+    case 5012: returnText = "ExportKustoConnectionFailed"; break;
+    case 5013: returnText = "ExportUnknownError"; break;
     }
 
     // Return the text

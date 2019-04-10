@@ -294,7 +294,7 @@ namespace PlayFab
         bool GetCloudScriptRevision(AdminModels::FGetCloudScriptRevisionRequest& request, const FGetCloudScriptRevisionDelegate& SuccessDelegate = FGetCloudScriptRevisionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Get detail information about a CloudScript task instance.
-         * The result includes detail information that's specific to a CloudScript tasks. To get a list of task instances with generic basic information, use GetTaskInstances.
+         * The result includes detail information that's specific to a CloudScript task. Only CloudScript tasks configured as "Run Cloud Script function once" will be retrieved. To get a list of task instances by task, status, or time range, use GetTaskInstances.
          */
         bool GetCloudScriptTaskInstance(AdminModels::FGetTaskInstanceRequest& request, const FGetCloudScriptTaskInstanceDelegate& SuccessDelegate = FGetCloudScriptTaskInstanceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

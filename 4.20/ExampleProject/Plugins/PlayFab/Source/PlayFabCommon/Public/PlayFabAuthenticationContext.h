@@ -144,7 +144,7 @@ public:
     }
 
     // Reset all fields
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void ForgetAllCredentials()
     {
         ClientSessionTicket.Empty();

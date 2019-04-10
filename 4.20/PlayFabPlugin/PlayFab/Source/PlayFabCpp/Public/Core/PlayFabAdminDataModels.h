@@ -7209,12 +7209,16 @@ namespace AdminModels
         // [optional] Locale of the Google account
         FString GoogleLocale;
 
+        // [optional] Name of the Google account user
+        FString GoogleName;
+
         FUserGoogleInfo() :
             FPlayFabCppBaseModel(),
             GoogleEmail(),
             GoogleGender(),
             GoogleId(),
-            GoogleLocale()
+            GoogleLocale(),
+            GoogleName()
             {}
 
         FUserGoogleInfo(const FUserGoogleInfo& src) :
@@ -7222,7 +7226,8 @@ namespace AdminModels
             GoogleEmail(src.GoogleEmail),
             GoogleGender(src.GoogleGender),
             GoogleId(src.GoogleId),
-            GoogleLocale(src.GoogleLocale)
+            GoogleLocale(src.GoogleLocale),
+            GoogleName(src.GoogleName)
             {}
 
         FUserGoogleInfo(const TSharedPtr<FJsonObject>& obj) : FUserGoogleInfo()
@@ -7439,12 +7444,16 @@ namespace AdminModels
         // [optional] Steam identifier
         FString SteamId;
 
+        // [optional] Steam display name
+        FString SteamName;
+
         FUserSteamInfo() :
             FPlayFabCppBaseModel(),
             SteamActivationStatus(),
             SteamCountry(),
             SteamCurrency(),
-            SteamId()
+            SteamId(),
+            SteamName()
             {}
 
         FUserSteamInfo(const FUserSteamInfo& src) :
@@ -7452,7 +7461,8 @@ namespace AdminModels
             SteamActivationStatus(src.SteamActivationStatus),
             SteamCountry(src.SteamCountry),
             SteamCurrency(src.SteamCurrency),
-            SteamId(src.SteamId)
+            SteamId(src.SteamId),
+            SteamName(src.SteamName)
             {}
 
         FUserSteamInfo(const TSharedPtr<FJsonObject>& obj) : FUserSteamInfo()

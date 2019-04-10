@@ -10250,6 +10250,8 @@ void PlayFab::AdminModels::FUserGoogleInfo::writeJSON(JsonWriter& writer) const
 
     if (GoogleLocale.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleLocale")); writer->WriteValue(GoogleLocale); }
 
+    if (GoogleName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleName")); writer->WriteValue(GoogleName); }
+
     writer->WriteObjectEnd();
 }
 
@@ -10283,6 +10285,13 @@ bool PlayFab::AdminModels::FUserGoogleInfo::readFromValue(const TSharedPtr<FJson
     {
         FString TmpValue;
         if (GoogleLocaleValue->TryGetString(TmpValue)) { GoogleLocale = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GoogleNameValue = obj->TryGetField(TEXT("GoogleName"));
+    if (GoogleNameValue.IsValid() && !GoogleNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (GoogleNameValue->TryGetString(TmpValue)) { GoogleName = TmpValue; }
     }
 
     return HasSucceeded;
@@ -10551,6 +10560,8 @@ void PlayFab::AdminModels::FUserSteamInfo::writeJSON(JsonWriter& writer) const
 
     if (SteamId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamId")); writer->WriteValue(SteamId); }
 
+    if (SteamName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamName")); writer->WriteValue(SteamName); }
+
     writer->WriteObjectEnd();
 }
 
@@ -10574,6 +10585,13 @@ bool PlayFab::AdminModels::FUserSteamInfo::readFromValue(const TSharedPtr<FJsonO
     {
         FString TmpValue;
         if (SteamIdValue->TryGetString(TmpValue)) { SteamId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SteamNameValue = obj->TryGetField(TEXT("SteamName"));
+    if (SteamNameValue.IsValid() && !SteamNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (SteamNameValue->TryGetString(TmpValue)) { SteamName = TmpValue; }
     }
 
     return HasSucceeded;

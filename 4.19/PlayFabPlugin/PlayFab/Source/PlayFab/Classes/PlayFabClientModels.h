@@ -85,10 +85,10 @@ public:
 };
 
 /**
- * Each account must have a unique username and email address in the PlayFab service. Once created, the
- * account may be associated with additional accounts (Steam, Facebook, Game Center, etc.),
- * allowing for added social network lists and achievements systems.
- * This can also be used to provide a recovery method if the user loses their original means of access.
+ * Each account must have a unique username and email address in the PlayFab service. Once created, the account may be
+ * associated with additional accounts (Steam, Facebook, Game Center, etc.), allowing for added social network lists and
+ * achievements systems. This can also be used to provide a recovery method if the user loses their original means of
+ * access.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientAddUsernamePasswordResult : public FPlayFabResultCommon
@@ -126,14 +126,11 @@ public:
 };
 
 /**
- * This API retrieves details regarding the player in the PlayFab service. Note that when this call is used
- * to retrieve data about another player (not the one signed into the local client), some data, such as Personally
- * Identifying Information
- * (PII), will be omitted for privacy reasons or to comply with the requirements of the platform belongs to. The user
- * account returned
- * will be based on the identifier provided in priority order: PlayFabId, Username, Email, then TitleDisplayName. If no
- * identifier is
- * specified, the currently signed in user's information will be returned.
+ * This API retrieves details regarding the player in the PlayFab service. Note that when this call is used to retrieve
+ * data about another player (not the one signed into the local client), some data, such as Personally Identifying
+ * Information (PII), will be omitted for privacy reasons or to comply with the requirements of the platform belongs to.
+ * The user account returned will be based on the identifier provided in priority order: PlayFabId, Username, Email, then
+ * TitleDisplayName. If no identifier is specified, the currently signed in user's information will be returned.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetAccountInfoResult : public FPlayFabResultCommon
@@ -159,9 +156,9 @@ public:
 };
 
 /**
- * Returns whatever info is requested in the response for the user. If no user is explicitly requested
- * this defaults to the authenticated user. If the user is the same as the requester, PII (like email address, facebook id)
- * is returned if available. Otherwise, only public information is returned. All parameters default to false.
+ * Returns whatever info is requested in the response for the user. If no user is explicitly requested this defaults to the
+ * authenticated user. If the user is the same as the requester, PII (like email address, facebook id) is returned if
+ * available. Otherwise, only public information is returned. All parameters default to false.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayerCombinedInfoResult : public FPlayFabResultCommon
@@ -177,12 +174,10 @@ public:
 };
 
 /**
- * This API allows for access to details regarding a user in the PlayFab service, usually for purposes of
- * customer support. Note that data returned may be Personally Identifying Information (PII), such as email address, and so
- * care should be
+ * This API allows for access to details regarding a user in the PlayFab service, usually for purposes of customer support.
+ * Note that data returned may be Personally Identifying Information (PII), such as email address, and so care should be
  * taken in how this data is stored and managed. Since this call will always return the relevant information for users who
- * have accessed
- * the title, the recommendation is to not store this data locally.
+ * have accessed the title, the recommendation is to not store this data locally.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayerProfileRequest : public FPlayFabRequestCommon
@@ -501,16 +496,13 @@ public:
 };
 
 /**
- * Facebook sign-in is accomplished using the Facebook User Access Token. More information on the Token
- * can be found in the Facebook developer documentation
- * (https://developers.facebook.com/docs/facebook-login/access-tokens/). In Unity,
- * for example, the Token is available as AccessToken in the Facebook SDK ScriptableObject FB. Note that titles should
- * never re-use the
- * same Facebook applications between PlayFab Title IDs, as Facebook provides unique user IDs per application and doing so
- * can result
- * in issues with the Facebook ID for the user in their PlayFab account information. If you must re-use an application in a
- * new PlayFab
- * Title ID, please be sure to first unlink all accounts from Facebook, or delete all users in the first Title ID.
+ * Facebook sign-in is accomplished using the Facebook User Access Token. More information on the Token can be found in the
+ * Facebook developer documentation (https://developers.facebook.com/docs/facebook-login/access-tokens/). In Unity, for
+ * example, the Token is available as AccessToken in the Facebook SDK ScriptableObject FB. Note that titles should never
+ * re-use the same Facebook applications between PlayFab Title IDs, as Facebook provides unique user IDs per application
+ * and doing so can result in issues with the Facebook ID for the user in their PlayFab account information. If you must
+ * re-use an application in a new PlayFab Title ID, please be sure to first unlink all accounts from Facebook, or delete
+ * all users in the first Title ID.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLinkFacebookAccountRequest : public FPlayFabRequestCommon
@@ -736,13 +728,11 @@ public:
 };
 
 /**
- * Steam authentication is accomplished with the Steam Session Ticket. More information on the Ticket can be
- * found in the Steamworks SDK, here: https://partner.steamgames.com/documentation/auth (requires sign-in). NOTE: For Steam
- * authentication
- * to work, the title must be configured with the Steam Application ID and Publisher Key in the PlayFab Game Manager (under
- * Properties).
- * Information on creating a Publisher Key (referred to as the Secret Key in PlayFab) for your title can be found here:
- * https://partner.steamgames.com/documentation/webapi#publisherkey.
+ * Steam authentication is accomplished with the Steam Session Ticket. More information on the Ticket can be found in the
+ * Steamworks SDK, here: https://partner.steamgames.com/documentation/auth (requires sign-in). NOTE: For Steam
+ * authentication to work, the title must be configured with the Steam Application ID and Publisher Key in the PlayFab Game
+ * Manager (under Properties). Information on creating a Publisher Key (referred to as the Secret Key in PlayFab) for your
+ * title can be found here: https://partner.steamgames.com/documentation/webapi#publisherkey.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLinkSteamAccountRequest : public FPlayFabRequestCommon
@@ -1173,9 +1163,8 @@ public:
 };
 
 /**
- * In addition to the PlayFab username, titles can make use of a DisplayName which is also a unique identifier,
- * but specific to the title. This allows for unique names which more closely match the theme or genre of a title, for
- * example.
+ * In addition to the PlayFab username, titles can make use of a DisplayName which is also a unique identifier, but
+ * specific to the title. This allows for unique names which more closely match the theme or genre of a title, for example.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUpdateUserTitleDisplayNameRequest : public FPlayFabRequestCommon
@@ -1203,8 +1192,8 @@ public:
 //////////////////////////////////////////////////////
 
 /**
- * If you have an ad attribution partner enabled, this will post an install to their service
- * to track the device. It uses the given device id to match based on clicks on ads.
+ * If you have an ad attribution partner enabled, this will post an install to their service to track the device. It uses
+ * the given device id to match based on clicks on ads.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientAttributeInstallRequest : public FPlayFabRequestCommon
@@ -1437,22 +1426,16 @@ public:
 };
 
 /**
- * On Android devices, the recommendation is to use the Settings.Secure.ANDROID_ID as the
- * AndroidDeviceId, as described in this blog post
- * (http://android-developers.blogspot.com/2011/03/identifying-app-installations.html).
- * More information on this identifier can be found in the Android documentation
- * (http://developer.android.com/reference/android/provider/Settings.Secure.html).
- * If this is the first time a user has signed in with the Android device and CreateAccount is set to true, a new PlayFab
- * account
- * will be created and linked to the Android device ID. In this case, no email or username will be associated with the
- * PlayFab account.
- * Otherwise, if no PlayFab account is linked to the Android device, an error indicating this will be returned, so that the
- * title can
- * guide the user through creation of a PlayFab account. Please note that while multiple devices of this type can be linked
- * to a single
- * user account, only the one most recently used to login (or most recently linked) will be reflected in the user's account
- * information.
- * We will be updating to show all linked devices in a future release.
+ * On Android devices, the recommendation is to use the Settings.Secure.ANDROID_ID as the AndroidDeviceId, as described in
+ * this blog post (http://android-developers.blogspot.com/2011/03/identifying-app-installations.html). More information on
+ * this identifier can be found in the Android documentation
+ * (http://developer.android.com/reference/android/provider/Settings.Secure.html). If this is the first time a user has
+ * signed in with the Android device and CreateAccount is set to true, a new PlayFab account will be created and linked to
+ * the Android device ID. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no
+ * PlayFab account is linked to the Android device, an error indicating this will be returned, so that the title can guide
+ * the user through creation of a PlayFab account. Please note that while multiple devices of this type can be linked to a
+ * single user account, only the one most recently used to login (or most recently linked) will be reflected in the user's
+ * account information. We will be updating to show all linked devices in a future release.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithAndroidDeviceIDRequest : public FPlayFabRequestCommon
@@ -1483,12 +1466,11 @@ public:
 };
 
 /**
- * It is highly recommended that developers ensure that it is extremely unlikely that
- * a customer could generate an ID which is already in use by another customer. If this is the first time a user has
- * signed in with the Custom ID and CreateAccount is set to true, a new PlayFab account will be created and linked
- * to the Custom ID. In this case, no email or username will be associated with the PlayFab account. Otherwise, if
- * no PlayFab account is linked to the Custom ID, an error indicating this will be returned, so that the title can
- * guide the user through creation of a PlayFab account.
+ * It is highly recommended that developers ensure that it is extremely unlikely that a customer could generate an ID which
+ * is already in use by another customer. If this is the first time a user has signed in with the Custom ID and
+ * CreateAccount is set to true, a new PlayFab account will be created and linked to the Custom ID. In this case, no email
+ * or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Custom ID, an
+ * error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithCustomIDRequest : public FPlayFabRequestCommon
@@ -1513,10 +1495,9 @@ public:
 };
 
 /**
- * Email address and password lengths are provided for information purposes. The server will validate
- * that data passed in conforms to the field definition and report errors appropriately. It is recommended that developers
- * not
- * perform this validation locally, so that future updates do not require client updates.
+ * Email address and password lengths are provided for information purposes. The server will validate that data passed in
+ * conforms to the field definition and report errors appropriately. It is recommended that developers not perform this
+ * validation locally, so that future updates do not require client updates.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithEmailAddressRequest : public FPlayFabRequestCommon
@@ -1535,24 +1516,17 @@ public:
 };
 
 /**
- * Facebook sign-in is accomplished using the Facebook User Access Token. More information on the Token
- * can be found in the Facebook developer documentation
- * (https://developers.facebook.com/docs/facebook-login/access-tokens/). In Unity,
- * for example, the Token is available as AccessToken in the Facebook SDK ScriptableObject FB. If this is the first time a
- * user has
- * signed in with the Facebook account and CreateAccount is set to true, a new PlayFab account will be created and linked
- * to the
- * provided account's Facebook ID. In this case, no email or username will be associated with the PlayFab account.
- * Otherwise, if no
- * PlayFab account is linked to the Facebook account, an error indicating this will be returned, so that the title can
- * guide the user
- * through creation of a PlayFab account. Note that titles should never re-use the same Facebook applications between
- * PlayFab Title IDs,
- * as Facebook provides unique user IDs per application and doing so can result in issues with the Facebook ID for the user
- * in their
- * PlayFab account information. If you must re-use an application in a new PlayFab Title ID, please be sure to first unlink
- * all accounts
- * from Facebook, or delete all users in the first Title ID.
+ * Facebook sign-in is accomplished using the Facebook User Access Token. More information on the Token can be found in the
+ * Facebook developer documentation (https://developers.facebook.com/docs/facebook-login/access-tokens/). In Unity, for
+ * example, the Token is available as AccessToken in the Facebook SDK ScriptableObject FB. If this is the first time a user
+ * has signed in with the Facebook account and CreateAccount is set to true, a new PlayFab account will be created and
+ * linked to the provided account's Facebook ID. In this case, no email or username will be associated with the PlayFab
+ * account. Otherwise, if no PlayFab account is linked to the Facebook account, an error indicating this will be returned,
+ * so that the title can guide the user through creation of a PlayFab account. Note that titles should never re-use the
+ * same Facebook applications between PlayFab Title IDs, as Facebook provides unique user IDs per application and doing so
+ * can result in issues with the Facebook ID for the user in their PlayFab account information. If you must re-use an
+ * application in a new PlayFab Title ID, please be sure to first unlink all accounts from Facebook, or delete all users in
+ * the first Title ID.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithFacebookRequest : public FPlayFabRequestCommon
@@ -1602,16 +1576,11 @@ public:
  * The Game Center player identifier
  * (https://developer.apple.com/library/ios/documentation/Accounts/Reference/ACAccountClassRef/index.html#//apple_ref/occ/instp/ACAccount/identifier)
  * is a generated string which is stored on the local device. As with device identifiers, care must be taken to never
- * expose a
- * player's Game Center identifier to end users, as that could result in a user's account being compromised. If this is the
- * first
- * time a user has signed in with Game Center and CreateAccount is set to true, a new PlayFab account will be created and
- * linked
- * to the Game Center identifier. In this case, no email or username will be associated with the PlayFab account.
- * Otherwise, if
- * no PlayFab account is linked to the Game Center account, an error indicating this will be returned, so that the title
- * can
- * guide the user through creation of a PlayFab account.
+ * expose a player's Game Center identifier to end users, as that could result in a user's account being compromised. If
+ * this is the first time a user has signed in with Game Center and CreateAccount is set to true, a new PlayFab account
+ * will be created and linked to the Game Center identifier. In this case, no email or username will be associated with the
+ * PlayFab account. Otherwise, if no PlayFab account is linked to the Game Center account, an error indicating this will be
+ * returned, so that the title can guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithGameCenterRequest : public FPlayFabRequestCommon
@@ -1652,24 +1621,19 @@ public:
 
 /**
  * Google sign-in is accomplished by obtaining a Google OAuth 2.0 credential using the Google sign-in for Android APIs on
- * the device and passing it to this API.
- * If this is the first time a user has signed in with the Google account and CreateAccount is
- * set to true, a new PlayFab account will be created and linked to the Google account. Otherwise, if no PlayFab account is
- * linked to the Google account, an error indicating this will be returned, so
- * that the title can guide the user through creation of a PlayFab account.
- * The current (recommended) method for obtaining a Google account credential in an Android application is to call
- * GoogleSignInAccount.getServerAuthCode() and send the auth code as the ServerAuthCode parameter of this API.
- * Before doing this, you must create an OAuth 2.0 web application client ID in the Google API Console and configure its
- * client ID and secret in the PlayFab Game Manager Google Add-on
- * for your title. This method does not require prompting of the user for additional Google account permissions, resulting
- * in a user experience with the least possible friction.
- * For more information about obtaining the server auth code, see
- * https://developers.google.com/identity/sign-in/android/offline-access.
- * The previous (deprecated) method was to obtain an OAuth access token by calling GetAccessToken() on the client and
- * passing it as the AccessToken parameter to this API.
- * for the with the Google OAuth 2.0 Access Token. More information on this change can be
- * found in the Google developer documentation
- * (https://android-developers.googleblog.com/2016/01/play-games-permissions-are-changing-in.html).
+ * the device and passing it to this API. If this is the first time a user has signed in with the Google account and
+ * CreateAccount is set to true, a new PlayFab account will be created and linked to the Google account. Otherwise, if no
+ * PlayFab account is linked to the Google account, an error indicating this will be returned, so that the title can guide
+ * the user through creation of a PlayFab account. The current (recommended) method for obtaining a Google account
+ * credential in an Android application is to call GoogleSignInAccount.getServerAuthCode() and send the auth code as the
+ * ServerAuthCode parameter of this API. Before doing this, you must create an OAuth 2.0 web application client ID in the
+ * Google API Console and configure its client ID and secret in the PlayFab Game Manager Google Add-on for your title. This
+ * method does not require prompting of the user for additional Google account permissions, resulting in a user experience
+ * with the least possible friction. For more information about obtaining the server auth code, see
+ * https://developers.google.com/identity/sign-in/android/offline-access. The previous (deprecated) method was to obtain an
+ * OAuth access token by calling GetAccessToken() on the client and passing it as the AccessToken parameter to this API.
+ * for the with the Google OAuth 2.0 Access Token. More information on this change can be found in the Google developer
+ * documentation (https://android-developers.googleblog.com/2016/01/play-games-permissions-are-changing-in.html).
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithGoogleAccountRequest : public FPlayFabRequestCommon
@@ -1700,20 +1664,13 @@ public:
  * On iOS devices, the identifierForVendor
  * (https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIDevice_Class/index.html#//apple_ref/occ/instp/UIDevice/identifierForVendor)
  * must be used as the DeviceId, as the UIDevice uniqueIdentifier has been deprecated as of iOS 5, and use of the
- * advertisingIdentifier
- * for this purpose will result in failure of Apple's certification process. If this is the first time a user has signed in
- * with the iOS
- * device and CreateAccount is set to true, a new PlayFab account will be created and linked to the vendor-specific iOS
- * device ID. In
- * this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked
- * to the iOS
- * device, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab
- * account. Please
- * note that while multiple devices of this type can be linked to a single user account, only the one most recently used to
- * login (or
- * most recently linked) will be reflected in the user's account information. We will be updating to show all linked
- * devices in a future
- * release.
+ * advertisingIdentifier for this purpose will result in failure of Apple's certification process. If this is the first
+ * time a user has signed in with the iOS device and CreateAccount is set to true, a new PlayFab account will be created
+ * and linked to the vendor-specific iOS device ID. In this case, no email or username will be associated with the PlayFab
+ * account. Otherwise, if no PlayFab account is linked to the iOS device, an error indicating this will be returned, so
+ * that the title can guide the user through creation of a PlayFab account. Please note that while multiple devices of this
+ * type can be linked to a single user account, only the one most recently used to login (or most recently linked) will be
+ * reflected in the user's account information. We will be updating to show all linked devices in a future release.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithIOSDeviceIDRequest : public FPlayFabRequestCommon
@@ -1745,13 +1702,12 @@ public:
 
 /**
  * More details regarding Kongregate and their game authentication system can be found at
- * http://developers.kongregate.com/docs/virtual-goods/authentication. Developers must provide the Kongregate user ID
- * and auth token that are generated using the Kongregate client library. PlayFab will combine these identifiers
- * with the title's unique Kongregate app ID to log the player into the Kongregate system. If CreateAccount is set
- * to true and there is not already a user matched to this Kongregate ID, then PlayFab will create a new account for this
- * user
- * and link the ID. In this case, no email or username will be associated with the PlayFab account. If there is already
- * a different PlayFab user linked with this account, then an error will be returned.
+ * http://developers.kongregate.com/docs/virtual-goods/authentication. Developers must provide the Kongregate user ID and
+ * auth token that are generated using the Kongregate client library. PlayFab will combine these identifiers with the
+ * title's unique Kongregate app ID to log the player into the Kongregate system. If CreateAccount is set to true and there
+ * is not already a user matched to this Kongregate ID, then PlayFab will create a new account for this user and link the
+ * ID. In this case, no email or username will be associated with the PlayFab account. If there is already a different
+ * PlayFab user linked with this account, then an error will be returned.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithKongregateRequest : public FPlayFabRequestCommon
@@ -1829,10 +1785,9 @@ public:
 };
 
 /**
- * Username and password lengths are provided for information purposes. The server will validate
- * that data passed in conforms to the field definition and report errors appropriately. It is recommended that developers
- * not
- * perform this validation locally, so that future updates to the username or password do not require client updates.
+ * Username and password lengths are provided for information purposes. The server will validate that data passed in
+ * conforms to the field definition and report errors appropriately. It is recommended that developers not perform this
+ * validation locally, so that future updates to the username or password do not require client updates.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithPlayFabRequest : public FPlayFabRequestCommon
@@ -1851,11 +1806,9 @@ public:
 };
 
 /**
- * If this is the first time a user has signed in with the PlayStation Network account and CreateAccount
- * is set to true, a new PlayFab account will be created and linked to the PSN account. In this case, no email or username
- * will be
- * associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the PSN account, an error indicating
- * this will
+ * If this is the first time a user has signed in with the PlayStation Network account and CreateAccount is set to true, a
+ * new PlayFab account will be created and linked to the PSN account. In this case, no email or username will be associated
+ * with the PlayFab account. Otherwise, if no PlayFab account is linked to the PSN account, an error indicating this will
  * be returned, so that the title can guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
@@ -1887,20 +1840,15 @@ public:
 };
 
 /**
- * Steam sign-in is accomplished with the Steam Session Ticket. More information on the Ticket can be
- * found in the Steamworks SDK, here: https://partner.steamgames.com/documentation/auth (requires sign-in). NOTE: For Steam
- * authentication
- * to work, the title must be configured with the Steam Application ID and Web API Key in the PlayFab Game Manager (under
- * Steam in the
- * Add-ons Marketplace). You can obtain a Web API Key from the Permissions page of any Group associated with your App ID in
- * the Steamworks
- * site. If this is the first time a user has signed in with the Steam account and CreateAccount is set to true, a new
- * PlayFab account
- * will be created and linked to the provided account's Steam ID. In this case, no email or username will be associated
- * with the PlayFab
- * account. Otherwise, if no PlayFab account is linked to the Steam account, an error indicating this will be returned, so
- * that the title
- * can guide the user through creation of a PlayFab account.
+ * Steam sign-in is accomplished with the Steam Session Ticket. More information on the Ticket can be found in the
+ * Steamworks SDK, here: https://partner.steamgames.com/documentation/auth (requires sign-in). NOTE: For Steam
+ * authentication to work, the title must be configured with the Steam Application ID and Web API Key in the PlayFab Game
+ * Manager (under Steam in the Add-ons Marketplace). You can obtain a Web API Key from the Permissions page of any Group
+ * associated with your App ID in the Steamworks site. If this is the first time a user has signed in with the Steam
+ * account and CreateAccount is set to true, a new PlayFab account will be created and linked to the provided account's
+ * Steam ID. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab
+ * account is linked to the Steam account, an error indicating this will be returned, so that the title can guide the user
+ * through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithSteamRequest : public FPlayFabRequestCommon
@@ -1932,9 +1880,9 @@ public:
  * https://github.com/justintv/Twitch-API/blob/master/authentication.md. Developers must provide the Twitch access token
  * that is generated using one of the Twitch authentication flows. PlayFab will use the title's unique Twitch Client ID to
  * authenticate the token and log in to the PlayFab system. If CreateAccount is set to true and there is not already a user
- * matched to the Twitch username that generated the token, then PlayFab will create a new account for this user
- * and link the ID. In this case, no email or username will be associated with the PlayFab account. If there is already
- * a different PlayFab user linked with this account, then an error will be returned.
+ * matched to the Twitch username that generated the token, then PlayFab will create a new account for this user and link
+ * the ID. In this case, no email or username will be associated with the PlayFab account. If there is already a different
+ * PlayFab user linked with this account, then an error will be returned.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithTwitchRequest : public FPlayFabRequestCommon
@@ -1976,12 +1924,10 @@ public:
 };
 
 /**
- * If this is the first time a user has signed in with the Xbox Live account and CreateAccount
- * is set to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case, no email or
- * username will be
+ * If this is the first time a user has signed in with the Xbox Live account and CreateAccount is set to true, a new
+ * PlayFab account will be created and linked to the Xbox Live account. In this case, no email or username will be
  * associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error
- * indicating this will
- * be returned, so that the title can guide the user through creation of a PlayFab account.
+ * indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithXboxRequest : public FPlayFabRequestCommon
@@ -2041,9 +1987,9 @@ public:
 };
 
 /**
- * Each account must have a unique email address in the PlayFab service. Once created, the
- * account may be associated with additional accounts (Steam, Facebook, Game Center, etc.), allowing for added social
- * network lists and achievements systems.
+ * Each account must have a unique email address in the PlayFab service. Once created, the account may be associated with
+ * additional accounts (Steam, Facebook, Game Center, etc.), allowing for added social network lists and achievements
+ * systems.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientRegisterPlayFabUserResult : public FPlayFabResultCommon
@@ -2130,9 +2076,8 @@ public:
 //////////////////////////////////////////////////////
 
 /**
- * Data is stored as JSON key-value pairs. If the Keys parameter is provided,
- * the data object returned will only contain the data specific to the indicated Keys. Otherwise, the full
- * set of custom character data will be returned.
+ * Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned will only contain
+ * the data specific to the indicated Keys. Otherwise, the full set of custom character data will be returned.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetCharacterDataRequest : public FPlayFabRequestCommon
@@ -2176,11 +2121,10 @@ public:
 };
 
 /**
- * This function performs an additive update of the arbitrary strings
- * containing the custom data for the character. In updating the custom data object, keys which already
- * exist in the object will have their values overwritten, while keys with null values will be removed.
- * New keys will be added, with the given values. No other key-value pairs will be changed apart from
- * those specified in the call.
+ * This function performs an additive update of the arbitrary strings containing the custom data for the character. In
+ * updating the custom data object, keys which already exist in the object will have their values overwritten, while keys
+ * with null values will be removed. New keys will be added, with the given values. No other key-value pairs will be
+ * changed apart from those specified in the call.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUpdateCharacterDataRequest : public FPlayFabRequestCommon
@@ -2355,9 +2299,9 @@ public:
 };
 
 /**
- * Grants a character to the user of the type specified by the item ID. The user must
- * already have an instance of this item in their inventory in order to allow character creation. This item can come
- * from a purchase or grant, which must be done before calling to create the character.
+ * Grants a character to the user of the type specified by the item ID. The user must already have an instance of this item
+ * in their inventory in order to allow character creation. This item can come from a purchase or grant, which must be done
+ * before calling to create the character.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGrantCharacterToUserRequest : public FPlayFabRequestCommon
@@ -2396,11 +2340,10 @@ public:
 
 /**
  * Enable this option with the 'Allow Client to Post Player Statistics' option in PlayFab GameManager for your title.
- * However, this is not best practice, as this data will no longer be safely controlled by the server.
- * This operation is additive.  Character Statistics not currently defined will be added, while those already defined will
- * be updated with the given values.
- * All other user statistics will remain unchanged.  Character statistics are used by the character-leaderboard apis, and
- * accessible for custom game-logic.
+ * However, this is not best practice, as this data will no longer be safely controlled by the server. This operation is
+ * additive. Character Statistics not currently defined will be added, while those already defined will be updated with the
+ * given values. All other user statistics will remain unchanged. Character statistics are used by the
+ * character-leaderboard apis, and accessible for custom game-logic.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUpdateCharacterStatisticsRequest : public FPlayFabRequestCommon
@@ -2546,10 +2489,9 @@ public:
 };
 
 /**
- * This operation is not additive. It will completely replace the tag list for the specified user.
- * Please note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on a friend only
- * included
- * in the friends list from a social site integration (such as Facebook or Steam) will return the AccountNotFound error.
+ * This operation is not additive. It will completely replace the tag list for the specified user. Please note that only
+ * users in the PlayFab friends list can be assigned tags. Attempting to set a tag on a friend only included in the friends
+ * list from a social site integration (such as Facebook or Steam) will return the AccountNotFound error.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientSetFriendTagsRequest : public FPlayFabRequestCommon
@@ -2762,11 +2704,9 @@ public:
 //////////////////////////////////////////////////////
 
 /**
- * More information can be found on configuring your game for the
- * Google Cloud Messaging service in the Google developer documentation, here:
- * http://developer.android.com/google/gcm/client.html.
- * The steps to configure and send Push Notifications is described in the PlayFab tutorials, here:
- * https://api.playfab.com/docs/pushCrashCourse/.
+ * More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer
+ * documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push
+ * Notifications is described in the PlayFab tutorials, here: https://api.playfab.com/docs/pushCrashCourse/.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientAndroidDevicePushNotificationRegistrationRequest : public FPlayFabRequestCommon
@@ -2884,11 +2824,9 @@ public:
 };
 
 /**
- * The title should obtain a refresh receipt via restoreCompletedTransactions in the SKPaymentQueue
- * of the Apple StoreKit and pass that in to this call. The resultant receipt contains new receipt instances for all
- * non-consumable
- * goods previously purchased by the user. This API call iterates through every purchase in the receipt and restores the
- * items if
+ * The title should obtain a refresh receipt via restoreCompletedTransactions in the SKPaymentQueue of the Apple StoreKit
+ * and pass that in to this call. The resultant receipt contains new receipt instances for all non-consumable goods
+ * previously purchased by the user. This API call iterates through every purchase in the receipt and restores the items if
  * they still exist in the catalog and can be validated.
  */
 USTRUCT(BlueprintType)
@@ -2941,12 +2879,10 @@ public:
 
 /**
  * The packageName and productId are defined in the GooglePlay store. The productId must match the ItemId of the inventory
- * item
- * in the PlayFab catalog for the title. This enables the PlayFab service to securely validate that the purchase is for the
- * correct item, in order to prevent
- * uses from passing valid receipts as being for more expensive items (passing a receipt for a 99-cent purchase as being
- * for a $19.99 purchase, for example).
- * Each receipt may be validated only once to avoid granting the same item over and over from a single purchase.
+ * item in the PlayFab catalog for the title. This enables the PlayFab service to securely validate that the purchase is
+ * for the correct item, in order to prevent uses from passing valid receipts as being for more expensive items (passing a
+ * receipt for a 99-cent purchase as being for a $19.99 purchase, for example). Each receipt may be validated only once to
+ * avoid granting the same item over and over from a single purchase.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientValidateGooglePlayPurchaseRequest : public FPlayFabRequestCommon
@@ -2981,10 +2917,9 @@ public:
 /**
  * The CurrencyCode and PurchasePrice must match the price which was set up for the item in the Apple store. In addition,
  * The ItemId of the inventory in the PlayFab Catalog must match the Product ID as it was set up in the Apple store. This
- * enables the PlayFab service to
- * securely validate that the purchase is for the correct item, in order to prevent uses from passing valid receipts as
- * being for more expensive items
- * (passing a receipt for a 99-cent purchase as being for a $19.99 purchase, for example).
+ * enables the PlayFab service to securely validate that the purchase is for the correct item, in order to prevent uses
+ * from passing valid receipts as being for more expensive items (passing a receipt for a 99-cent purchase as being for a
+ * $19.99 purchase, for example).
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientValidateIOSReceiptRequest : public FPlayFabRequestCommon
@@ -3283,12 +3218,9 @@ public:
 
 /**
  * Data is stored as JSON key-value pairs. Every time the data is updated via any source, the version counter is
- * incremented. If the
- * Version parameter is provided, then this call will only return data if the current version on the system is greater than
- * the value provided.
- * If the Keys parameter is provided, the data object returned will only contain the data specific to the indicated Keys.
- * Otherwise, the full set of custom user
- * data will be returned.
+ * incremented. If the Version parameter is provided, then this call will only return data if the current version on the
+ * system is greater than the value provided. If the Keys parameter is provided, the data object returned will only contain
+ * the data specific to the indicated Keys. Otherwise, the full set of custom user data will be returned.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetUserDataRequest : public FPlayFabRequestCommon
@@ -3331,14 +3263,11 @@ public:
 /**
  * Enable this option with the 'Allow Client to Post Player Statistics' option in PlayFab GameManager for your title.
  * However, this is not best practice, as this data will no longer be safely controlled by the server. This operation is
- * additive.  Statistics not
- * currently defined will be added, while those already defined will be updated with the given values. All other user
- * statistics will remain
- * unchanged.  Note that if the statistic is intended to have a reset period, the UpdatePlayerStatisticDefinition API call
- * can be used to define
- * that reset period. Once a statistic has been versioned (reset), the now-previous version can still be written to for up
- * a
- * short, pre-defined period (currently 10 seconds), using the Version parameter in this call.
+ * additive. Statistics not currently defined will be added, while those already defined will be updated with the given
+ * values. All other user statistics will remain unchanged. Note that if the statistic is intended to have a reset period,
+ * the UpdatePlayerStatisticDefinition API call can be used to define that reset period. Once a statistic has been
+ * versioned (reset), the now-previous version can still be written to for up a short, pre-defined period (currently 10
+ * seconds), using the Version parameter in this call.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUpdatePlayerStatisticsRequest : public FPlayFabRequestCommon
@@ -3358,11 +3287,10 @@ public:
 };
 
 /**
- * This function performs an additive update of the arbitrary strings containing the custom data for the user.
- * In updating the custom data object, keys which already exist in the object will have their values overwritten, while
- * keys with null values will
- * be removed. New keys will be added, with the given values. No other key-value pairs will be changed apart from those
- * specified in the call.
+ * This function performs an additive update of the arbitrary strings containing the custom data for the user. In updating
+ * the custom data object, keys which already exist in the object will have their values overwritten, while keys with null
+ * values will be removed. New keys will be added, with the given values. No other key-value pairs will be changed apart
+ * from those specified in the call.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUpdateUserDataRequest : public FPlayFabRequestCommon
@@ -3444,14 +3372,12 @@ public:
 };
 
 /**
- * The final step in the purchasing process, this API finalizes the purchase with the payment provider, where
- * applicable, adding virtual goods to the player inventory (including random drop table resolution and recursive addition
- * of bundled items)
- * and adjusting virtual currency balances for funds used or added. Note that this is a pull operation, and should be
- * polled regularly when a
- * purchase is in progress. Please note that the processing time for inventory grants and purchases increases fractionally
- * the more items are
- * in the inventory, and the more items are in the grant/purchase operation.
+ * The final step in the purchasing process, this API finalizes the purchase with the payment provider, where applicable,
+ * adding virtual goods to the player inventory (including random drop table resolution and recursive addition of bundled
+ * items) and adjusting virtual currency balances for funds used or added. Note that this is a pull operation, and should
+ * be polled regularly when a purchase is in progress. Please note that the processing time for inventory grants and
+ * purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase
+ * operation.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientConfirmPurchaseRequest : public FPlayFabRequestCommon
@@ -3464,10 +3390,9 @@ public:
 };
 
 /**
- * When the FailedByPaymentProvider error is returned, it's important to check the ProviderErrorCode,
- * ProviderErrorMessage, and ProviderErrorDetails to understand the specific reason the payment was rejected, as in some
- * rare cases, this
- * may mean that the provider hasn't completed some operation required to finalize the purchase.
+ * When the FailedByPaymentProvider error is returned, it's important to check the ProviderErrorCode, ProviderErrorMessage,
+ * and ProviderErrorDetails to understand the specific reason the payment was rejected, as in some rare cases, this may
+ * mean that the provider hasn't completed some operation required to finalize the purchase.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientConfirmPurchaseResult : public FPlayFabResultCommon
@@ -3515,10 +3440,9 @@ public:
 };
 
 /**
- * All items currently in the character inventory will be returned, irrespective of how they were acquired
- * (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not
- * considered to be
- * in the user's current inventory, and so will not be not included. Also returns their virtual currency balances.
+ * All items currently in the character inventory will be returned, irrespective of how they were acquired (via purchasing,
+ * grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the
+ * user's current inventory, and so will not be not included. Also returns their virtual currency balances.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetCharacterInventoryRequest : public FPlayFabRequestCommon
@@ -3615,10 +3539,9 @@ public:
 };
 
 /**
- * All items currently in the user inventory will be returned, irrespective of how they were acquired
- * (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not
- * considered to be
- * in the user's current inventory, and so will not be not included.
+ * All items currently in the user inventory will be returned, irrespective of how they were acquired (via purchasing,
+ * grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the
+ * user's current inventory, and so will not be not included.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetUserInventoryResult : public FPlayFabResultCommon
@@ -3703,10 +3626,8 @@ public:
 };
 
 /**
- * Please note that the processing time for inventory grants and purchases increases fractionally
- * the more items are in the inventory, and the more items are in the grant/purchase operation (with each item in a bundle
- * being a
- * distinct add).
+ * Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the
+ * inventory, and the more items are in the grant/purchase operation (with each item in a bundle being a distinct add).
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientPurchaseItemRequest : public FPlayFabRequestCommon
@@ -3744,10 +3665,9 @@ public:
 };
 
 /**
- * Coupon codes can be created for any item, or set of items, in the catalog for the title. This
- * operation causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to re-use an
- * already
- * consumed code, or a code which has not yet been created in the service, will result in an error.
+ * Coupon codes can be created for any item, or set of items, in the catalog for the title. This operation causes the
+ * coupon to be consumed, and the specific items to be awarded to the user. Attempting to re-use an already consumed code,
+ * or a code which has not yet been created in the service, will result in an error.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientRedeemCouponRequest : public FPlayFabRequestCommon
@@ -3855,7 +3775,7 @@ public:
         FString KeyItemInstanceId;
 };
 
-/** The items and vc found within the container.  These will be added and stacked in the appropriate inventory. */
+/** The items and vc found within the container. These will be added and stacked in the appropriate inventory. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUnlockContainerItemResult : public FPlayFabResultCommon
 {
@@ -4061,8 +3981,8 @@ public:
 };
 
 /**
- * If SharedGroupId is specified, the service will attempt to create a group with that identifier, and will
- * return an error if it is already in use. If no SharedGroupId is specified, a random identifier will be assigned.
+ * If SharedGroupId is specified, the service will attempt to create a group with that identifier, and will return an error
+ * if it is already in use. If no SharedGroupId is specified, a random identifier will be assigned.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientCreateSharedGroupRequest : public FPlayFabRequestCommon
@@ -4137,11 +4057,10 @@ public:
 };
 
 /**
- * Note that in the case of multiple calls to write to the same shared group data keys, the
- * last write received by the PlayFab service will determine the value available to subsequent read operations. For
- * scenarios
- * requiring coordination of data updates, it is recommended that titles make use of user data with read permission set to
- * public, or a combination of user data and shared group data.
+ * Note that in the case of multiple calls to write to the same shared group data keys, the last write received by the
+ * PlayFab service will determine the value available to subsequent read operations. For scenarios requiring coordination
+ * of data updates, it is recommended that titles make use of user data with read permission set to public, or a
+ * combination of user data and shared group data.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUpdateSharedGroupDataRequest : public FPlayFabRequestCommon
@@ -4191,8 +4110,8 @@ public:
 };
 
 /**
- * If CatalogVersion is not specified, only inventory items associated with the most recent version of
- * the catalog will be returned.
+ * If CatalogVersion is not specified, only inventory items associated with the most recent version of the catalog will be
+ * returned.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetCatalogItemsResult : public FPlayFabResultCommon
@@ -4206,12 +4125,9 @@ public:
 
 /**
  * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data
- * is shared across all
- * titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a
- * publisher can use this API.
- * For more information email devrel@playfab.com. Note that there may up to a minute delay in between updating title data
- * and this API call returning
- * the newest value.
+ * is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles
+ * assigned to a publisher can use this API. For more information email devrel@playfab.com. Note that there may up to a
+ * minute delay in between updating title data and this API call returning the newest value.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPublisherDataRequest : public FPlayFabRequestCommon
@@ -4234,15 +4150,15 @@ public:
 };
 
 /**
- * A store contains an array of references to items defined in one or more catalog
- * versions of the game, along with the prices for the item, in both real world and virtual currencies. These prices
- * act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be
- * defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed.
- * This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not
- * all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices
- * defined in the catalog and store definitions for the item are considered valid, and that a compromised client can
- * be made to send a request for an item based upon any of these definitions. If no price is specified in the store
- * for an item, the price set in the catalog should be displayed to the user.
+ * A store contains an array of references to items defined in one or more catalog versions of the game, along with the
+ * prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in
+ * the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated
+ * properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for
+ * different purposes (in order to simplify showing some, but not all catalog items to users, based upon different
+ * characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the
+ * item are considered valid, and that a compromised client can be made to send a request for an item based upon any of
+ * these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed
+ * to the user.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetStoreItemsRequest : public FPlayFabRequestCommon
@@ -4281,8 +4197,7 @@ public:
 
 /**
  * This query retrieves the current time from one of the servers in PlayFab. Please note that due to clock drift between
- * servers,
- * there is a potential variance of up to 5 seconds.
+ * servers, there is a potential variance of up to 5 seconds.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetTimeRequest : public FPlayFabRequestCommon
@@ -4304,12 +4219,10 @@ public:
 
 /**
  * This API is designed to return title specific values which can be read, but not written to, by the client. For example,
- * a developer
- * could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement
- * speeds, etc. This allows a developer to update
- * the title without the need to create, test, and ship a new build. Note that there may up to a minute delay in between
- * updating title data and this API call returning
- * the newest value.
+ * a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths,
+ * movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new
+ * build. Note that there may up to a minute delay in between updating title data and this API call returning the newest
+ * value.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetTitleDataRequest : public FPlayFabRequestCommon

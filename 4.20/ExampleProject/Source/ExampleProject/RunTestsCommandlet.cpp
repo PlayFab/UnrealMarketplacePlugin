@@ -4,6 +4,7 @@
 
 
 #include "RunTestsCommandlet.h"
+#include "ExampleProject.h"
 
 #include "CppTests/PlayFabCppTests.h"
 #include "Tests/PlayFabBlueprintTests.h"

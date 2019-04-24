@@ -453,6 +453,9 @@ namespace PlayFab
         PlayFabErrorWriteAttemptedDuringExport = 1444,
         PlayFabErrorMultiplayerServerTitleQuotaCoresExceeded = 1445,
         PlayFabErrorAutomationRuleNotFound = 1446,
+        PlayFabErrorEntityAPIKeyLimitExceeded = 1447,
+        PlayFabErrorEntityAPIKeyNotFound = 1448,
+        PlayFabErrorEntityAPIKeyOrSecretInvalid = 1449,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -484,18 +487,7 @@ namespace PlayFab
         PlayFabErrorCatalogItemIdInvalid = 4007,
         PlayFabErrorCatalogSearchParameterInvalid = 4008,
         PlayFabErrorCatalogFeatureDisabled = 4009,
-        PlayFabErrorCatalogConfigMissing = 4100,
-        PlayFabErrorCatalogConfigTooManyContentTypes = 4101,
-        PlayFabErrorCatalogConfigContentTypeTooLong = 4102,
-        PlayFabErrorCatalogConfigTooManyTags = 4103,
-        PlayFabErrorCatalogConfigTagTooLong = 4104,
-        PlayFabErrorCatalogConfigInvalidDeepLinkObject = 4105,
-        PlayFabErrorCatalogConfigInvalidDeepLinkPlatform = 4106,
-        PlayFabErrorCatalogConfigInvalidDeepLinkFormat = 4107,
-        PlayFabErrorCatalogConfigInvalidDisplayPropertyObject = 4108,
-        PlayFabErrorCatalogConfigInvalidDisplayPropertyName = 4109,
-        PlayFabErrorCatalogConfigInvalidDisplayPropertyType = 4110,
-        PlayFabErrorCatalogConfigDisplayPropertyMappingLimit = 4111,
+        PlayFabErrorCatalogConfigInvalid = 4010,
         PlayFabErrorExportInvalidStatusUpdate = 5000,
         PlayFabErrorExportInvalidPrefix = 5001,
         PlayFabErrorExportBlobContainerDoesNotExist = 5002,
@@ -509,7 +501,10 @@ namespace PlayFab
         PlayFabErrorExportKustoExceptionNew_SomeResources = 5010,
         PlayFabErrorExportKustoExceptionEdit = 5011,
         PlayFabErrorExportKustoConnectionFailed = 5012,
-        PlayFabErrorExportUnknownError = 5013
+        PlayFabErrorExportUnknownError = 5013,
+        PlayFabErrorExportCantEditPendingExport = 5014,
+        PlayFabErrorExportLimitExports = 5015,
+        PlayFabErrorExportLimitEvents = 5016
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

@@ -18,6 +18,63 @@
 
 
 ///////////////////////////////////////////////////////
+// API Keys
+//////////////////////////////////////////////////////
+
+FAuthenticationActivateAPIKeyResponse UPlayFabAuthenticationModelDecoder::decodeActivateAPIKeyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationActivateAPIKeyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
+FAuthenticationCreateAPIKeyResponse UPlayFabAuthenticationModelDecoder::decodeCreateAPIKeyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationCreateAPIKeyResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Entity = !(dataObj->HasField("Entity")) ? nullptr : dataObj->GetObjectField("Entity");
+    tempStruct.Key = !(dataObj->HasField("Key")) ? nullptr : dataObj->GetObjectField("Key");
+
+    return tempStruct;
+}
+
+FAuthenticationDeactivateAPIKeyResponse UPlayFabAuthenticationModelDecoder::decodeDeactivateAPIKeyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationDeactivateAPIKeyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
+FAuthenticationDeleteAPIKeyResponse UPlayFabAuthenticationModelDecoder::decodeDeleteAPIKeyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationDeleteAPIKeyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
+FAuthenticationGetAPIKeysResponse UPlayFabAuthenticationModelDecoder::decodeGetAPIKeysResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationGetAPIKeysResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Entity = !(dataObj->HasField("Entity")) ? nullptr : dataObj->GetObjectField("Entity");
+    tempStruct.Keys = !(dataObj->HasField("Keys")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Keys");
+
+    return tempStruct;
+}
+
+
+
+///////////////////////////////////////////////////////
 // Authentication
 //////////////////////////////////////////////////////
 

@@ -60,3 +60,4 @@ class FPlayFab : public IPlayFab
 IMPLEMENT_MODULE(FPlayFab, PlayFab)
 
 DEFINE_LOG_CATEGORY(LogPlayFab);
+DEFINE_LOG_CATEGORY(LogPlayFabTests);

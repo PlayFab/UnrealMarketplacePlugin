@@ -48,6 +48,409 @@ bool PlayFab::AuthenticationModels::FEntityKey::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
+PlayFab::AuthenticationModels::FActivateAPIKeyRequest::~FActivateAPIKeyRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AuthenticationModels::FActivateAPIKeyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (APIKeyId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("APIKeyId")); writer->WriteValue(APIKeyId); }
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FActivateAPIKeyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> APIKeyIdValue = obj->TryGetField(TEXT("APIKeyId"));
+    if (APIKeyIdValue.IsValid() && !APIKeyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (APIKeyIdValue->TryGetString(TmpValue)) { APIKeyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FActivateAPIKeyResponse::~FActivateAPIKeyResponse()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FActivateAPIKeyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FActivateAPIKeyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FCreateAPIKeyDetails::~FCreateAPIKeyDetails()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FCreateAPIKeyDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Active")); writer->WriteValue(Active);
+
+    if (APIKeyId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("APIKeyId")); writer->WriteValue(APIKeyId); }
+
+    if (APIKeySecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("APIKeySecret")); writer->WriteValue(APIKeySecret); }
+
+    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FCreateAPIKeyDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ActiveValue = obj->TryGetField(TEXT("Active"));
+    if (ActiveValue.IsValid() && !ActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (ActiveValue->TryGetBool(TmpValue)) { Active = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> APIKeyIdValue = obj->TryGetField(TEXT("APIKeyId"));
+    if (APIKeyIdValue.IsValid() && !APIKeyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (APIKeyIdValue->TryGetString(TmpValue)) { APIKeyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> APIKeySecretValue = obj->TryGetField(TEXT("APIKeySecret"));
+    if (APIKeySecretValue.IsValid() && !APIKeySecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (APIKeySecretValue->TryGetString(TmpValue)) { APIKeySecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
+    if (CreatedValue.IsValid())
+        Created = readDatetime(CreatedValue);
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FCreateAPIKeyRequest::~FCreateAPIKeyRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AuthenticationModels::FCreateAPIKeyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FCreateAPIKeyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FCreateAPIKeyResponse::~FCreateAPIKeyResponse()
+{
+    //if (Entity != nullptr) delete Entity;
+    //if (Key != nullptr) delete Key;
+
+}
+
+void PlayFab::AuthenticationModels::FCreateAPIKeyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    if (Key.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Key")); Key->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FCreateAPIKeyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> KeyValue = obj->TryGetField(TEXT("Key"));
+    if (KeyValue.IsValid() && !KeyValue->IsNull())
+    {
+        Key = MakeShareable(new FCreateAPIKeyDetails(KeyValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FDeactivateAPIKeyRequest::~FDeactivateAPIKeyRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AuthenticationModels::FDeactivateAPIKeyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (APIKeyId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("APIKeyId")); writer->WriteValue(APIKeyId); }
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FDeactivateAPIKeyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> APIKeyIdValue = obj->TryGetField(TEXT("APIKeyId"));
+    if (APIKeyIdValue.IsValid() && !APIKeyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (APIKeyIdValue->TryGetString(TmpValue)) { APIKeyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FDeactivateAPIKeyResponse::~FDeactivateAPIKeyResponse()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FDeactivateAPIKeyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FDeactivateAPIKeyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FDeleteAPIKeyRequest::~FDeleteAPIKeyRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AuthenticationModels::FDeleteAPIKeyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (APIKeyId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("APIKeyId")); writer->WriteValue(APIKeyId); }
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FDeleteAPIKeyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> APIKeyIdValue = obj->TryGetField(TEXT("APIKeyId"));
+    if (APIKeyIdValue.IsValid() && !APIKeyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (APIKeyIdValue->TryGetString(TmpValue)) { APIKeyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FDeleteAPIKeyResponse::~FDeleteAPIKeyResponse()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FDeleteAPIKeyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FDeleteAPIKeyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FGetAPIKeyDetails::~FGetAPIKeyDetails()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FGetAPIKeyDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Active")); writer->WriteValue(Active);
+
+    if (APIKeyId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("APIKeyId")); writer->WriteValue(APIKeyId); }
+
+    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FGetAPIKeyDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ActiveValue = obj->TryGetField(TEXT("Active"));
+    if (ActiveValue.IsValid() && !ActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (ActiveValue->TryGetBool(TmpValue)) { Active = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> APIKeyIdValue = obj->TryGetField(TEXT("APIKeyId"));
+    if (APIKeyIdValue.IsValid() && !APIKeyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (APIKeyIdValue->TryGetString(TmpValue)) { APIKeyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
+    if (CreatedValue.IsValid())
+        Created = readDatetime(CreatedValue);
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FGetAPIKeysRequest::~FGetAPIKeysRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AuthenticationModels::FGetAPIKeysRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FGetAPIKeysRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FGetAPIKeysResponse::~FGetAPIKeysResponse()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AuthenticationModels::FGetAPIKeysResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+
+    if (Keys.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Keys"));
+        for (const FGetAPIKeyDetails& item : Keys)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FGetAPIKeysResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&KeysArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Keys"));
+    for (int32 Idx = 0; Idx < KeysArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = KeysArray[Idx];
+        Keys.Add(FGetAPIKeyDetails(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::AuthenticationModels::FGetEntityTokenRequest::~FGetEntityTokenRequest()
 {
     //if (Entity != nullptr) delete Entity;

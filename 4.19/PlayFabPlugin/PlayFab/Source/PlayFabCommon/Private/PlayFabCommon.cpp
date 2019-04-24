@@ -15,6 +15,8 @@
 
 #define LOCTEXT_NAMESPACE "FPlayFabCommonsModule"
 
+DEFINE_LOG_CATEGORY(LogPlayFabCommon);
+
 class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
 {
     /** IModuleInterface implementation */

@@ -8,6 +8,8 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabCommon, Log, All);
+
 class IPlayFabCommonModuleInterface : public IModuleInterface
 {
 public:

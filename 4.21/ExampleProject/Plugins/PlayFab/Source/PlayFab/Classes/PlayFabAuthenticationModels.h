@@ -27,6 +27,117 @@ class UPlayFabJsonObject;
 
 
 ///////////////////////////////////////////////////////
+// API Keys
+//////////////////////////////////////////////////////
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationActivateAPIKeyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier for the entity API key to activate. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        FString APIKeyId;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationActivateAPIKeyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationCreateAPIKeyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationCreateAPIKeyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity id and type. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The created API key */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Key = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationDeactivateAPIKeyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier for the entity API key to activate. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        FString APIKeyId;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationDeactivateAPIKeyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationDeleteAPIKeyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier for the entity API key to delete. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        FString APIKeyId;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationDeleteAPIKeyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationGetAPIKeysRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationGetAPIKeysResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity id and type. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The API keys associated with the given entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | API Keys Models")
+        TArray<UPlayFabJsonObject*> Keys;
+};
+
+
+///////////////////////////////////////////////////////
 // Authentication
 //////////////////////////////////////////////////////
 

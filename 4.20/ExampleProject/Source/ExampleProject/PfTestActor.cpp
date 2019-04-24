@@ -5,7 +5,7 @@
 
 #include "PfTestActor.h"
 
-#include "CppTests/PlayFabCppTests.h"
+#include "Tests/PlayFabCppTests.h"
 #include "Tests/PlayFabBlueprintTests.h"
 
 // Sets default values

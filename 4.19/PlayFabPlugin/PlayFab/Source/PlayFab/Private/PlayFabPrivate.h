@@ -19,5 +19,6 @@
 #include "Modules/ModuleManager.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogPlayFab, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabTests, Log, All);
 
 #include "IPlayFab.h"

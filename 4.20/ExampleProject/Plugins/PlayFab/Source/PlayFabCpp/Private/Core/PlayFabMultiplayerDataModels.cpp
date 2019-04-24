@@ -456,6 +456,15 @@ void PlayFab::MultiplayerModels::FBuildSummary::writeJSON(JsonWriter& writer) co
         writer->WriteObjectEnd();
     }
 
+    if (RegionConfigurations.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("RegionConfigurations"));
+        for (const FBuildRegion& item : RegionConfigurations)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
@@ -490,6 +499,14 @@ bool PlayFab::MultiplayerModels::FBuildSummary::readFromValue(const TSharedPtr<F
             Metadata.Add(It.Key(), It.Value()->AsString());
         }
     }
+
+    const TArray<TSharedPtr<FJsonValue>>&RegionConfigurationsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("RegionConfigurations"));
+    for (int32 Idx = 0; Idx < RegionConfigurationsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = RegionConfigurationsArray[Idx];
+        RegionConfigurations.Add(FBuildRegion(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }

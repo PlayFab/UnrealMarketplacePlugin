@@ -56,6 +56,78 @@ public:
     //////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////
+    // API Keys
+    //////////////////////////////////////////////////////
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessActivateKey, FAuthenticationActivateAPIKeyResponse, result, UObject*, customData);
+
+    /** Activates the given API key. Active keys may be used for authentication. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* ActivateKey(FAuthenticationActivateAPIKeyRequest request,
+            FDelegateOnSuccessActivateKey onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperActivateKey(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateKey, FAuthenticationCreateAPIKeyResponse, result, UObject*, customData);
+
+    /** Creates an API key for the given entity. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* CreateKey(FAuthenticationCreateAPIKeyRequest request,
+            FDelegateOnSuccessCreateKey onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateKey(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeactivateKey, FAuthenticationDeactivateAPIKeyResponse, result, UObject*, customData);
+
+    /**
+     * Deactivates the given API key, causing subsequent authentication attempts with it to fail.Deactivating a key is a way to
+     * verify that the key is not in use before deleting it.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* DeactivateKey(FAuthenticationDeactivateAPIKeyRequest request,
+            FDelegateOnSuccessDeactivateKey onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeactivateKey(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteKey, FAuthenticationDeleteAPIKeyResponse, result, UObject*, customData);
+
+    /** Deletes the given API key. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* DeleteKey(FAuthenticationDeleteAPIKeyRequest request,
+            FDelegateOnSuccessDeleteKey onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteKey(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetKeys, FAuthenticationGetAPIKeysResponse, result, UObject*, customData);
+
+    /** Gets the API keys associated with the given entity. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* GetKeys(FAuthenticationGetAPIKeysRequest request,
+            FDelegateOnSuccessGetKeys onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetKeys(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+
+    ///////////////////////////////////////////////////////
     // Authentication
     //////////////////////////////////////////////////////
     // callbacks
@@ -91,6 +163,11 @@ public:
     UObject* mCustomData;
 
     FDelegateOnFailurePlayFabError OnFailure;
+    FDelegateOnSuccessActivateKey OnSuccessActivateKey;
+    FDelegateOnSuccessCreateKey OnSuccessCreateKey;
+    FDelegateOnSuccessDeactivateKey OnSuccessDeactivateKey;
+    FDelegateOnSuccessDeleteKey OnSuccessDeleteKey;
+    FDelegateOnSuccessGetKeys OnSuccessGetKeys;
     FDelegateOnSuccessGetEntityToken OnSuccessGetEntityToken;
 
 private:

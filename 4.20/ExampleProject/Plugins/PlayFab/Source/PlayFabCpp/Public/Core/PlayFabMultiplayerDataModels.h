@@ -300,12 +300,15 @@ namespace MultiplayerModels
 
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
+        // [optional] The configuration and status for each region in the build.
+        TArray<FBuildRegion> RegionConfigurations;
         FBuildSummary() :
             FPlayFabCppBaseModel(),
             BuildId(),
             BuildName(),
             CreationTime(),
-            Metadata()
+            Metadata(),
+            RegionConfigurations()
             {}
 
         FBuildSummary(const FBuildSummary& src) :
@@ -313,7 +316,8 @@ namespace MultiplayerModels
             BuildId(src.BuildId),
             BuildName(src.BuildName),
             CreationTime(src.CreationTime),
-            Metadata(src.Metadata)
+            Metadata(src.Metadata),
+            RegionConfigurations(src.RegionConfigurations)
             {}
 
         FBuildSummary(const TSharedPtr<FJsonObject>& obj) : FBuildSummary()

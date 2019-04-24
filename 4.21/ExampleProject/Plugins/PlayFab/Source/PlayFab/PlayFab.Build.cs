@@ -26,14 +26,8 @@ namespace UnrealBuildTool.Rules
                     "HTTP",
                     "Json",
                     "JsonUtilities",
-                    "PlayFabCommon"
-                }
-            );
-
-            PrivateDependencyModuleNames.AddRange(
-                new string[]
-                {
-                    "PlayFabTests"
+                    "PlayFabCommon",
+                    "PlayFabCpp"
                 }
             );
         }

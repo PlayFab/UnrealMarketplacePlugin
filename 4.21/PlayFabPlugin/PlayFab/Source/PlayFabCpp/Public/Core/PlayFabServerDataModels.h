@@ -176,6 +176,68 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGenericServiceId : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Name of the service for which the player has a unique identifier.
+        FString ServiceName;
+
+        // Unique identifier of the player in that service.
+        FString UserId;
+
+        FGenericServiceId() :
+            FPlayFabCppBaseModel(),
+            ServiceName(),
+            UserId()
+            {}
+
+        FGenericServiceId(const FGenericServiceId& src) :
+            FPlayFabCppBaseModel(),
+            ServiceName(src.ServiceName),
+            UserId(src.UserId)
+            {}
+
+        FGenericServiceId(const TSharedPtr<FJsonObject>& obj) : FGenericServiceId()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGenericServiceId();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAddGenericIDRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Generic service identifier to add to the player account.
+        FGenericServiceId GenericId;
+
+        // PlayFabId of the user to link.
+        FString PlayFabId;
+
+        FAddGenericIDRequest() :
+            FPlayFabCppRequestCommon(),
+            GenericId(),
+            PlayFabId()
+            {}
+
+        FAddGenericIDRequest(const FAddGenericIDRequest& src) :
+            FPlayFabCppRequestCommon(),
+            GenericId(src.GenericId),
+            PlayFabId(src.PlayFabId)
+            {}
+
+        FAddGenericIDRequest(const TSharedPtr<FJsonObject>& obj) : FAddGenericIDRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddGenericIDRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FAddPlayerTagRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -2641,6 +2703,53 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeletePushNotificationTemplateRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Id of the push notification template to be deleted.
+        FString PushNotificationTemplateId;
+
+        FDeletePushNotificationTemplateRequest() :
+            FPlayFabCppRequestCommon(),
+            PushNotificationTemplateId()
+            {}
+
+        FDeletePushNotificationTemplateRequest(const FDeletePushNotificationTemplateRequest& src) :
+            FPlayFabCppRequestCommon(),
+            PushNotificationTemplateId(src.PushNotificationTemplateId)
+            {}
+
+        FDeletePushNotificationTemplateRequest(const TSharedPtr<FJsonObject>& obj) : FDeletePushNotificationTemplateRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePushNotificationTemplateRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePushNotificationTemplateResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FDeletePushNotificationTemplateResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeletePushNotificationTemplateResult(const FDeletePushNotificationTemplateResult& src) :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeletePushNotificationTemplateResult(const TSharedPtr<FJsonObject>& obj) : FDeletePushNotificationTemplateResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePushNotificationTemplateResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteSharedGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique identifier for the shared group.
@@ -2730,6 +2839,27 @@ namespace ServerModels
         }
 
         ~FEmptyResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEmptyResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FEmptyResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FEmptyResult(const FEmptyResult& src) :
+            FPlayFabCppResultCommon()
+            {}
+
+        FEmptyResult(const TSharedPtr<FJsonObject>& obj) : FEmptyResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEmptyResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -3679,6 +3809,37 @@ namespace ServerModels
     PLAYFABCPP_API void writeGameInstanceStateEnumJSON(GameInstanceState enumVal, JsonWriter& writer);
     PLAYFABCPP_API GameInstanceState readGameInstanceStateFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API GameInstanceState readGameInstanceStateFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FGenericPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique generic service identifier for a user.
+        TSharedPtr<FGenericServiceId> GenericId;
+
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the given generic identifier.
+        FString PlayFabId;
+
+        FGenericPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            GenericId(nullptr),
+            PlayFabId()
+            {}
+
+        FGenericPlayFabIdPair(const FGenericPlayFabIdPair& src) :
+            FPlayFabCppBaseModel(),
+            GenericId(src.GenericId.IsValid() ? MakeShareable(new FGenericServiceId(*src.GenericId)) : nullptr),
+            PlayFabId(src.PlayFabId)
+            {}
+
+        FGenericPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FGenericPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGenericPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
 
     struct PLAYFABCPP_API FGetAllSegmentsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
@@ -5971,6 +6132,59 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromGenericIDsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * Array of unique generic service identifiers for which the title needs to get PlayFab identifiers. Currently limited to a
+         * maximum of 10 in a single request.
+         */
+        TArray<FGenericServiceId> GenericIDs;
+        FGetPlayFabIDsFromGenericIDsRequest() :
+            FPlayFabCppRequestCommon(),
+            GenericIDs()
+            {}
+
+        FGetPlayFabIDsFromGenericIDsRequest(const FGetPlayFabIDsFromGenericIDsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            GenericIDs(src.GenericIDs)
+            {}
+
+        FGetPlayFabIDsFromGenericIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromGenericIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromGenericIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromGenericIDsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of generic service identifiers to PlayFab identifiers.
+        TArray<FGenericPlayFabIdPair> Data;
+        FGetPlayFabIDsFromGenericIDsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromGenericIDsResult(const FGetPlayFabIDsFromGenericIDsResult& src) :
+            FPlayFabCppResultCommon(),
+            Data(src.Data)
+            {}
+
+        FGetPlayFabIDsFromGenericIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromGenericIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromGenericIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers.
@@ -7537,6 +7751,63 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] If another user is already linked to the custom ID, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // Unique PlayFab identifier.
+        FString PlayFabId;
+
+        // Unique server custom identifier for this player.
+        FString ServerCustomId;
+
+        FLinkServerCustomIdRequest() :
+            FPlayFabCppRequestCommon(),
+            ForceLink(),
+            PlayFabId(),
+            ServerCustomId()
+            {}
+
+        FLinkServerCustomIdRequest(const FLinkServerCustomIdRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ForceLink(src.ForceLink),
+            PlayFabId(src.PlayFabId),
+            ServerCustomId(src.ServerCustomId)
+            {}
+
+        FLinkServerCustomIdRequest(const TSharedPtr<FJsonObject>& obj) : FLinkServerCustomIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkServerCustomIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkServerCustomIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FLinkServerCustomIdResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FLinkServerCustomIdResult(const FLinkServerCustomIdResult& src) :
+            FPlayFabCppResultCommon()
+            {}
+
+        FLinkServerCustomIdResult(const TSharedPtr<FJsonObject>& obj) : FLinkServerCustomIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkServerCustomIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
@@ -7640,6 +7911,37 @@ namespace ServerModels
         }
 
         ~FListUsersCharactersResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLocalizedPushNotificationProperties : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Message of the localized push notification template.
+        FString Message;
+
+        // [optional] Subject of the localized push notification template.
+        FString Subject;
+
+        FLocalizedPushNotificationProperties() :
+            FPlayFabCppBaseModel(),
+            Message(),
+            Subject()
+            {}
+
+        FLocalizedPushNotificationProperties(const FLocalizedPushNotificationProperties& src) :
+            FPlayFabCppBaseModel(),
+            Message(src.Message),
+            Subject(src.Subject)
+            {}
+
+        FLocalizedPushNotificationProperties(const TSharedPtr<FJsonObject>& obj) : FLocalizedPushNotificationProperties()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLocalizedPushNotificationProperties();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -8486,6 +8788,37 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FRemoveGenericIDRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Generic service identifier to be removed from the player.
+        FGenericServiceId GenericId;
+
+        // PlayFabId of the user to remove.
+        FString PlayFabId;
+
+        FRemoveGenericIDRequest() :
+            FPlayFabCppRequestCommon(),
+            GenericId(),
+            PlayFabId()
+            {}
+
+        FRemoveGenericIDRequest(const FRemoveGenericIDRequest& src) :
+            FPlayFabCppRequestCommon(),
+            GenericId(src.GenericId),
+            PlayFabId(src.PlayFabId)
+            {}
+
+        FRemoveGenericIDRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveGenericIDRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRemoveGenericIDRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRemovePlayerTagRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -8926,6 +9259,77 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FSavePushNotificationTemplateRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Android JSON for the notification template.
+        FString AndroidPayload;
+
+        // [optional] Id of the push notification template.
+        FString Id;
+
+        // [optional] IOS JSON for the notification template.
+        FString IOSPayload;
+
+        // [optional] Dictionary of localized push notification templates.
+        TMap<FString, FLocalizedPushNotificationProperties> LocalizedPushNotificationTemplates;
+        // Name of the push notification template.
+        FString Name;
+
+        FSavePushNotificationTemplateRequest() :
+            FPlayFabCppRequestCommon(),
+            AndroidPayload(),
+            Id(),
+            IOSPayload(),
+            LocalizedPushNotificationTemplates(),
+            Name()
+            {}
+
+        FSavePushNotificationTemplateRequest(const FSavePushNotificationTemplateRequest& src) :
+            FPlayFabCppRequestCommon(),
+            AndroidPayload(src.AndroidPayload),
+            Id(src.Id),
+            IOSPayload(src.IOSPayload),
+            LocalizedPushNotificationTemplates(src.LocalizedPushNotificationTemplates),
+            Name(src.Name)
+            {}
+
+        FSavePushNotificationTemplateRequest(const TSharedPtr<FJsonObject>& obj) : FSavePushNotificationTemplateRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSavePushNotificationTemplateRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSavePushNotificationTemplateResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Id of the push notification template that was saved.
+        FString PushNotificationTemplateId;
+
+        FSavePushNotificationTemplateResult() :
+            FPlayFabCppResultCommon(),
+            PushNotificationTemplateId()
+            {}
+
+        FSavePushNotificationTemplateResult(const FSavePushNotificationTemplateResult& src) :
+            FPlayFabCppResultCommon(),
+            PushNotificationTemplateId(src.PushNotificationTemplateId)
+            {}
+
+        FSavePushNotificationTemplateResult(const TSharedPtr<FJsonObject>& obj) : FSavePushNotificationTemplateResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSavePushNotificationTemplateResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSendCustomAccountRecoveryEmailRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] User email address attached to their account
@@ -9030,6 +9434,37 @@ namespace ServerModels
         }
 
         ~FSendEmailFromTemplateResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSendPushNotificationFromTemplateRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Id of the push notification template.
+        FString PushNotificationTemplateId;
+
+        // PlayFabId of the push notification recipient.
+        FString Recipient;
+
+        FSendPushNotificationFromTemplateRequest() :
+            FPlayFabCppRequestCommon(),
+            PushNotificationTemplateId(),
+            Recipient()
+            {}
+
+        FSendPushNotificationFromTemplateRequest(const FSendPushNotificationFromTemplateRequest& src) :
+            FPlayFabCppRequestCommon(),
+            PushNotificationTemplateId(src.PushNotificationTemplateId),
+            Recipient(src.Recipient)
+            {}
+
+        FSendPushNotificationFromTemplateRequest(const TSharedPtr<FJsonObject>& obj) : FSendPushNotificationFromTemplateRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSendPushNotificationFromTemplateRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -9672,6 +10107,58 @@ namespace ServerModels
         }
 
         ~FSubtractUserVirtualCurrencyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique PlayFab identifier.
+        FString PlayFabId;
+
+        // Unique server custom identifier for this player.
+        FString ServerCustomId;
+
+        FUnlinkServerCustomIdRequest() :
+            FPlayFabCppRequestCommon(),
+            PlayFabId(),
+            ServerCustomId()
+            {}
+
+        FUnlinkServerCustomIdRequest(const FUnlinkServerCustomIdRequest& src) :
+            FPlayFabCppRequestCommon(),
+            PlayFabId(src.PlayFabId),
+            ServerCustomId(src.ServerCustomId)
+            {}
+
+        FUnlinkServerCustomIdRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkServerCustomIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkServerCustomIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkServerCustomIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkServerCustomIdResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkServerCustomIdResult(const FUnlinkServerCustomIdResult& src) :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkServerCustomIdResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkServerCustomIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkServerCustomIdResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

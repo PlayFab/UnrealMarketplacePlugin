@@ -218,6 +218,79 @@ bool PlayFab::ServerModels::FAddFriendRequest::readFromValue(const TSharedPtr<FJ
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FGenericServiceId::~FGenericServiceId()
+{
+
+}
+
+void PlayFab::ServerModels::FGenericServiceId::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("ServiceName")); writer->WriteValue(ServiceName);
+
+    writer->WriteIdentifierPrefix(TEXT("UserId")); writer->WriteValue(UserId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGenericServiceId::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ServiceNameValue = obj->TryGetField(TEXT("ServiceName"));
+    if (ServiceNameValue.IsValid() && !ServiceNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServiceNameValue->TryGetString(TmpValue)) { ServiceName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> UserIdValue = obj->TryGetField(TEXT("UserId"));
+    if (UserIdValue.IsValid() && !UserIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (UserIdValue->TryGetString(TmpValue)) { UserId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FAddGenericIDRequest::~FAddGenericIDRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FAddGenericIDRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("GenericId")); GenericId.writeJSON(writer);
+
+    writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FAddGenericIDRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GenericIdValue = obj->TryGetField(TEXT("GenericId"));
+    if (GenericIdValue.IsValid() && !GenericIdValue->IsNull())
+    {
+        GenericId = FGenericServiceId(GenericIdValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FAddPlayerTagRequest::~FAddPlayerTagRequest()
 {
 
@@ -3919,6 +3992,53 @@ bool PlayFab::ServerModels::FDeletePlayerResult::readFromValue(const TSharedPtr<
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FDeletePushNotificationTemplateRequest::~FDeletePushNotificationTemplateRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FDeletePushNotificationTemplateRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("PushNotificationTemplateId")); writer->WriteValue(PushNotificationTemplateId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FDeletePushNotificationTemplateRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PushNotificationTemplateIdValue = obj->TryGetField(TEXT("PushNotificationTemplateId"));
+    if (PushNotificationTemplateIdValue.IsValid() && !PushNotificationTemplateIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PushNotificationTemplateIdValue->TryGetString(TmpValue)) { PushNotificationTemplateId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FDeletePushNotificationTemplateResult::~FDeletePushNotificationTemplateResult()
+{
+
+}
+
+void PlayFab::ServerModels::FDeletePushNotificationTemplateResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FDeletePushNotificationTemplateResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FDeleteSharedGroupRequest::~FDeleteSharedGroupRequest()
 {
 
@@ -4007,6 +4127,25 @@ void PlayFab::ServerModels::FEmptyResponse::writeJSON(JsonWriter& writer) const
 }
 
 bool PlayFab::ServerModels::FEmptyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FEmptyResult::~FEmptyResult()
+{
+
+}
+
+void PlayFab::ServerModels::FEmptyResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FEmptyResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -5408,6 +5547,43 @@ ServerModels::GameInstanceState PlayFab::ServerModels::readGameInstanceStateFrom
     }
 
     return GameInstanceStateOpen; // Basically critical fail
+}
+
+PlayFab::ServerModels::FGenericPlayFabIdPair::~FGenericPlayFabIdPair()
+{
+    //if (GenericId != nullptr) delete GenericId;
+
+}
+
+void PlayFab::ServerModels::FGenericPlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (GenericId.IsValid()) { writer->WriteIdentifierPrefix(TEXT("GenericId")); GenericId->writeJSON(writer); }
+
+    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGenericPlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GenericIdValue = obj->TryGetField(TEXT("GenericId"));
+    if (GenericIdValue.IsValid() && !GenericIdValue->IsNull())
+    {
+        GenericId = MakeShareable(new FGenericServiceId(GenericIdValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
 }
 
 PlayFab::ServerModels::FGetAllSegmentsRequest::~FGetAllSegmentsRequest()
@@ -8763,6 +8939,75 @@ bool PlayFab::ServerModels::FGetPlayFabIDsFromFacebookInstantGamesIdsResult::rea
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FGetPlayFabIDsFromGenericIDsRequest::~FGetPlayFabIDsFromGenericIDsRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromGenericIDsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("GenericIDs"));
+    for (const FGenericServiceId& item : GenericIDs)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromGenericIDsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&GenericIDsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GenericIDs"));
+    for (int32 Idx = 0; Idx < GenericIDsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GenericIDsArray[Idx];
+        GenericIDs.Add(FGenericServiceId(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayFabIDsFromGenericIDsResult::~FGetPlayFabIDsFromGenericIDsResult()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromGenericIDsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FGenericPlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromGenericIDsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FGenericPlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest::~FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest()
 {
 
@@ -10889,6 +11134,71 @@ bool PlayFab::ServerModels::FGrantItemsToUsersResult::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FLinkServerCustomIdRequest::~FLinkServerCustomIdRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkServerCustomIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+
+    writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId);
+
+    writer->WriteIdentifierPrefix(TEXT("ServerCustomId")); writer->WriteValue(ServerCustomId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkServerCustomIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerCustomIdValue = obj->TryGetField(TEXT("ServerCustomId"));
+    if (ServerCustomIdValue.IsValid() && !ServerCustomIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerCustomIdValue->TryGetString(TmpValue)) { ServerCustomId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLinkServerCustomIdResult::~FLinkServerCustomIdResult()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkServerCustomIdResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkServerCustomIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FLinkXboxAccountRequest::~FLinkXboxAccountRequest()
 {
 
@@ -11014,6 +11324,43 @@ bool PlayFab::ServerModels::FListUsersCharactersResult::readFromValue(const TSha
         Characters.Add(FCharacterResult(CurrentItem->AsObject()));
     }
 
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLocalizedPushNotificationProperties::~FLocalizedPushNotificationProperties()
+{
+
+}
+
+void PlayFab::ServerModels::FLocalizedPushNotificationProperties::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Message.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Message")); writer->WriteValue(Message); }
+
+    if (Subject.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Subject")); writer->WriteValue(Subject); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLocalizedPushNotificationProperties::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MessageValue = obj->TryGetField(TEXT("Message"));
+    if (MessageValue.IsValid() && !MessageValue->IsNull())
+    {
+        FString TmpValue;
+        if (MessageValue->TryGetString(TmpValue)) { Message = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SubjectValue = obj->TryGetField(TEXT("Subject"));
+    if (SubjectValue.IsValid() && !SubjectValue->IsNull())
+    {
+        FString TmpValue;
+        if (SubjectValue->TryGetString(TmpValue)) { Subject = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -12109,6 +12456,42 @@ bool PlayFab::ServerModels::FRemoveFriendRequest::readFromValue(const TSharedPtr
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FRemoveGenericIDRequest::~FRemoveGenericIDRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FRemoveGenericIDRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("GenericId")); GenericId.writeJSON(writer);
+
+    writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FRemoveGenericIDRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GenericIdValue = obj->TryGetField(TEXT("GenericId"));
+    if (GenericIdValue.IsValid() && !GenericIdValue->IsNull())
+    {
+        GenericId = FGenericServiceId(GenericIdValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FRemovePlayerTagRequest::~FRemovePlayerTagRequest()
 {
 
@@ -12638,6 +13021,109 @@ bool PlayFab::ServerModels::FRevokeInventoryResult::readFromValue(const TSharedP
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FSavePushNotificationTemplateRequest::~FSavePushNotificationTemplateRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FSavePushNotificationTemplateRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AndroidPayload.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AndroidPayload")); writer->WriteValue(AndroidPayload); }
+
+    if (Id.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id); }
+
+    if (IOSPayload.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("IOSPayload")); writer->WriteValue(IOSPayload); }
+
+    if (LocalizedPushNotificationTemplates.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("LocalizedPushNotificationTemplates"));
+        for (TMap<FString, FLocalizedPushNotificationProperties>::TConstIterator It(LocalizedPushNotificationTemplates); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FSavePushNotificationTemplateRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AndroidPayloadValue = obj->TryGetField(TEXT("AndroidPayload"));
+    if (AndroidPayloadValue.IsValid() && !AndroidPayloadValue->IsNull())
+    {
+        FString TmpValue;
+        if (AndroidPayloadValue->TryGetString(TmpValue)) { AndroidPayload = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
+    if (IdValue.IsValid() && !IdValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IOSPayloadValue = obj->TryGetField(TEXT("IOSPayload"));
+    if (IOSPayloadValue.IsValid() && !IOSPayloadValue->IsNull())
+    {
+        FString TmpValue;
+        if (IOSPayloadValue->TryGetString(TmpValue)) { IOSPayload = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* LocalizedPushNotificationTemplatesObject;
+    if (obj->TryGetObjectField(TEXT("LocalizedPushNotificationTemplates"), LocalizedPushNotificationTemplatesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*LocalizedPushNotificationTemplatesObject)->Values); It; ++It)
+        {
+            LocalizedPushNotificationTemplates.Add(It.Key(), FLocalizedPushNotificationProperties(It.Value()->AsObject()));
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FSavePushNotificationTemplateResult::~FSavePushNotificationTemplateResult()
+{
+
+}
+
+void PlayFab::ServerModels::FSavePushNotificationTemplateResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PushNotificationTemplateId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PushNotificationTemplateId")); writer->WriteValue(PushNotificationTemplateId); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FSavePushNotificationTemplateResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PushNotificationTemplateIdValue = obj->TryGetField(TEXT("PushNotificationTemplateId"));
+    if (PushNotificationTemplateIdValue.IsValid() && !PushNotificationTemplateIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PushNotificationTemplateIdValue->TryGetString(TmpValue)) { PushNotificationTemplateId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FSendCustomAccountRecoveryEmailRequest::~FSendCustomAccountRecoveryEmailRequest()
 {
 
@@ -12755,6 +13241,43 @@ void PlayFab::ServerModels::FSendEmailFromTemplateResult::writeJSON(JsonWriter& 
 bool PlayFab::ServerModels::FSendEmailFromTemplateResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FSendPushNotificationFromTemplateRequest::~FSendPushNotificationFromTemplateRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FSendPushNotificationFromTemplateRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("PushNotificationTemplateId")); writer->WriteValue(PushNotificationTemplateId);
+
+    writer->WriteIdentifierPrefix(TEXT("Recipient")); writer->WriteValue(Recipient);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FSendPushNotificationFromTemplateRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PushNotificationTemplateIdValue = obj->TryGetField(TEXT("PushNotificationTemplateId"));
+    if (PushNotificationTemplateIdValue.IsValid() && !PushNotificationTemplateIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PushNotificationTemplateIdValue->TryGetString(TmpValue)) { PushNotificationTemplateId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RecipientValue = obj->TryGetField(TEXT("Recipient"));
+    if (RecipientValue.IsValid() && !RecipientValue->IsNull())
+    {
+        FString TmpValue;
+        if (RecipientValue->TryGetString(TmpValue)) { Recipient = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -13521,6 +14044,62 @@ bool PlayFab::ServerModels::FSubtractUserVirtualCurrencyRequest::readFromValue(c
         FString TmpValue;
         if (VirtualCurrencyValue->TryGetString(TmpValue)) { VirtualCurrency = TmpValue; }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkServerCustomIdRequest::~FUnlinkServerCustomIdRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkServerCustomIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId);
+
+    writer->WriteIdentifierPrefix(TEXT("ServerCustomId")); writer->WriteValue(ServerCustomId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkServerCustomIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerCustomIdValue = obj->TryGetField(TEXT("ServerCustomId"));
+    if (ServerCustomIdValue.IsValid() && !ServerCustomIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerCustomIdValue->TryGetString(TmpValue)) { ServerCustomId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkServerCustomIdResult::~FUnlinkServerCustomIdResult()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkServerCustomIdResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkServerCustomIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
 
     return HasSucceeded;
 }

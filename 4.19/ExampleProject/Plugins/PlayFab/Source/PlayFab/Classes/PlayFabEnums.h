@@ -890,6 +890,18 @@ enum class EAzureRegion : uint8
     pfenum_ChinaNorth2 UMETA(DisplayName = "ChinaNorth2"),
 };
 
+/** AzureVmFamily */
+
+UENUM(BlueprintType)
+enum class EAzureVmFamily : uint8
+{
+    pfenum_A UMETA(DisplayName = "A"),
+    pfenum_Av2 UMETA(DisplayName = "Av2"),
+    pfenum_Dv2 UMETA(DisplayName = "Dv2"),
+    pfenum_F UMETA(DisplayName = "F"),
+    pfenum_Fsv2 UMETA(DisplayName = "Fsv2"),
+};
+
 /** AzureVmSize */
 
 UENUM(BlueprintType)
@@ -946,22 +958,6 @@ enum class EProtocolType : uint8
 {
     pfenum_TCP UMETA(DisplayName = "TCP"),
     pfenum_UDP UMETA(DisplayName = "UDP"),
-};
-
-/** RuleType */
-
-UENUM(BlueprintType)
-enum class ERuleType : uint8
-{
-    pfenum_Unknown UMETA(DisplayName = "Unknown"),
-    pfenum_DifferenceRule UMETA(DisplayName = "DifferenceRule"),
-    pfenum_StringEqualityRule UMETA(DisplayName = "StringEqualityRule"),
-    pfenum_MatchTotalRule UMETA(DisplayName = "MatchTotalRule"),
-    pfenum_SetIntersectionRule UMETA(DisplayName = "SetIntersectionRule"),
-    pfenum_TeamSizeBalanceRule UMETA(DisplayName = "TeamSizeBalanceRule"),
-    pfenum_RegionSelectionRule UMETA(DisplayName = "RegionSelectionRule"),
-    pfenum_TeamDifferenceRule UMETA(DisplayName = "TeamDifferenceRule"),
-    pfenum_TeamTicketSizeSimilarityRule UMETA(DisplayName = "TeamTicketSizeSimilarityRule"),
 };
 
 /** TitleMultiplayerServerEnabledStatus */

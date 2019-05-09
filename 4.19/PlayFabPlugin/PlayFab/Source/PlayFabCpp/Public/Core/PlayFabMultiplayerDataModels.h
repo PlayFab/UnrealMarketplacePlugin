@@ -131,6 +131,19 @@ namespace MultiplayerModels
     PLAYFABCPP_API AzureRegion readAzureRegionFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API AzureRegion readAzureRegionFromValue(const FString& value);
 
+    enum AzureVmFamily
+    {
+        AzureVmFamilyA,
+        AzureVmFamilyAv2,
+        AzureVmFamilyDv2,
+        AzureVmFamilyF,
+        AzureVmFamilyFsv2
+    };
+
+    PLAYFABCPP_API void writeAzureVmFamilyEnumJSON(AzureVmFamily enumVal, JsonWriter& writer);
+    PLAYFABCPP_API AzureVmFamily readAzureVmFamilyFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API AzureVmFamily readAzureVmFamilyFromValue(const FString& value);
+
     enum AzureVmSize
     {
         AzureVmSizeStandard_D1_v2,
@@ -367,7 +380,7 @@ namespace MultiplayerModels
         // [optional] The entity key of the player whose tickets should be canceled.
         TSharedPtr<FEntityKey> Entity;
 
-        // The Id of the queue from which a player's tickets should be canceled.
+        // The name of the queue from which a player's tickets should be canceled.
         FString QueueName;
 
         FCancelAllMatchmakingTicketsForPlayerRequest() :
@@ -427,7 +440,7 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCancelMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The Id of the queue to join.
+        // The name of the queue the ticket is in.
         FString QueueName;
 
         // The Id of the ticket to find a match for.
@@ -615,6 +628,47 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FCoreCapacity : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The available core capacity for the (Region, VmFamily)
+        int32 Available;
+
+        // [optional] The AzureRegion
+        Boxed<AzureRegion> Region;
+
+        // The total core capacity for the (Region, VmFamily)
+        int32 Total;
+
+        // [optional] The AzureVmFamily
+        Boxed<AzureVmFamily> VmFamily;
+
+        FCoreCapacity() :
+            FPlayFabCppBaseModel(),
+            Available(0),
+            Region(),
+            Total(0),
+            VmFamily()
+            {}
+
+        FCoreCapacity(const FCoreCapacity& src) :
+            FPlayFabCppBaseModel(),
+            Available(src.Available),
+            Region(src.Region),
+            Total(src.Total),
+            VmFamily(src.VmFamily)
+            {}
+
+        FCoreCapacity(const TSharedPtr<FJsonObject>& obj) : FCoreCapacity()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCoreCapacity();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGameCertificateReferenceParams : public PlayFab::FPlayFabCppBaseModel
     {
         /**
@@ -707,7 +761,10 @@ namespace MultiplayerModels
         // [optional] The flavor of container to create a build from.
         Boxed<ContainerFlavor> pfContainerFlavor;
 
-        // The name of the container repository.
+        // [optional] The container reference, consisting of the image name and tag.
+        TSharedPtr<FContainerImageReference> pfContainerImageReference;
+
+        // [optional] The name of the container repository.
         FString ContainerRepositoryName;
 
         // [optional] The container command to run when the multiplayer server has been allocated, including any arguments.
@@ -739,6 +796,7 @@ namespace MultiplayerModels
             FPlayFabCppRequestCommon(),
             BuildName(),
             pfContainerFlavor(),
+            pfContainerImageReference(nullptr),
             ContainerRepositoryName(),
             ContainerRunCommand(),
             ContainerTag(),
@@ -755,6 +813,7 @@ namespace MultiplayerModels
             FPlayFabCppRequestCommon(),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
+            pfContainerImageReference(src.pfContainerImageReference.IsValid() ? MakeShareable(new FContainerImageReference(*src.pfContainerImageReference)) : nullptr),
             ContainerRepositoryName(src.ContainerRepositoryName),
             ContainerRunCommand(src.ContainerRunCommand),
             ContainerTag(src.ContainerTag),
@@ -1725,240 +1784,6 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetMatchmakingQueueRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The Id of the matchmaking queue to retrieve.
-        FString QueueName;
-
-        FGetMatchmakingQueueRequest() :
-            FPlayFabCppRequestCommon(),
-            QueueName()
-            {}
-
-        FGetMatchmakingQueueRequest(const FGetMatchmakingQueueRequest& src) :
-            FPlayFabCppRequestCommon(),
-            QueueName(src.QueueName)
-            {}
-
-        FGetMatchmakingQueueRequest(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakingQueueRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetMatchmakingQueueRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    enum RuleType
-    {
-        RuleTypeUnknown,
-        RuleTypeDifferenceRule,
-        RuleTypeStringEqualityRule,
-        RuleTypeMatchTotalRule,
-        RuleTypeSetIntersectionRule,
-        RuleTypeTeamSizeBalanceRule,
-        RuleTypeRegionSelectionRule,
-        RuleTypeTeamDifferenceRule,
-        RuleTypeTeamTicketSizeSimilarityRule
-    };
-
-    PLAYFABCPP_API void writeRuleTypeEnumJSON(RuleType enumVal, JsonWriter& writer);
-    PLAYFABCPP_API RuleType readRuleTypeFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API RuleType readRuleTypeFromValue(const FString& value);
-
-    struct PLAYFABCPP_API FMatchmakingQueueRule : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Friendly name chosen by developer.
-        FString Name;
-
-        /**
-         * [optional] How many seconds before this rule is no longer enforced (but tickets that comply with this rule will still be
-         * prioritized over those that don't). Leave blank if this rule is always enforced.
-         */
-        Boxed<uint32> SecondsUntilOptional;
-
-        // Type of rule being described.
-        RuleType Type;
-
-        FMatchmakingQueueRule() :
-            FPlayFabCppBaseModel(),
-            Name(),
-            SecondsUntilOptional(),
-            Type()
-            {}
-
-        FMatchmakingQueueRule(const FMatchmakingQueueRule& src) :
-            FPlayFabCppBaseModel(),
-            Name(src.Name),
-            SecondsUntilOptional(src.SecondsUntilOptional),
-            Type(src.Type)
-            {}
-
-        FMatchmakingQueueRule(const TSharedPtr<FJsonObject>& obj) : FMatchmakingQueueRule()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMatchmakingQueueRule();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FStatisticsVisibilityToPlayers : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Whether to allow players to view the current number of players in the matchmaking queue.
-        bool ShowNumberOfPlayersMatching;
-
-        // Whether to allow players to view statistics representing the time it takes for tickets to find a match.
-        bool ShowTimeToMatch;
-
-        FStatisticsVisibilityToPlayers() :
-            FPlayFabCppBaseModel(),
-            ShowNumberOfPlayersMatching(false),
-            ShowTimeToMatch(false)
-            {}
-
-        FStatisticsVisibilityToPlayers(const FStatisticsVisibilityToPlayers& src) :
-            FPlayFabCppBaseModel(),
-            ShowNumberOfPlayersMatching(src.ShowNumberOfPlayersMatching),
-            ShowTimeToMatch(src.ShowTimeToMatch)
-            {}
-
-        FStatisticsVisibilityToPlayers(const TSharedPtr<FJsonObject>& obj) : FStatisticsVisibilityToPlayers()
-        {
-            readFromValue(obj);
-        }
-
-        ~FStatisticsVisibilityToPlayers();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FMatchmakingQueueTeam : public PlayFab::FPlayFabCppBaseModel
-    {
-        // The maximum number of players required for the team.
-        uint32 MaxTeamSize;
-
-        // The minimum number of players required for the team.
-        uint32 MinTeamSize;
-
-        // A name to identify the team. This is case insensitive.
-        FString Name;
-
-        FMatchmakingQueueTeam() :
-            FPlayFabCppBaseModel(),
-            MaxTeamSize(0),
-            MinTeamSize(0),
-            Name()
-            {}
-
-        FMatchmakingQueueTeam(const FMatchmakingQueueTeam& src) :
-            FPlayFabCppBaseModel(),
-            MaxTeamSize(src.MaxTeamSize),
-            MinTeamSize(src.MinTeamSize),
-            Name(src.Name)
-            {}
-
-        FMatchmakingQueueTeam(const TSharedPtr<FJsonObject>& obj) : FMatchmakingQueueTeam()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMatchmakingQueueTeam();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FMatchmakingQueueConfig : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] This is the buildId that will be used to allocate the multiplayer server for the match.
-        FString BuildId;
-
-        // Maximum number of players in a match.
-        uint32 MaxMatchSize;
-
-        // Minimum number of players in a match.
-        uint32 MinMatchSize;
-
-        // Unique identifier for a Queue. Chosen by the developer.
-        FString Name;
-
-        // [optional] List of rules used to find an optimal match.
-        TArray<FMatchmakingQueueRule> Rules;
-        // Boolean flag to enable server allocation for the queue.
-        bool ServerAllocationEnabled;
-
-        // [optional] Controls which statistics are visible to players.
-        TSharedPtr<FStatisticsVisibilityToPlayers> pfStatisticsVisibilityToPlayers;
-
-        // [optional] The team configuration for a match. This may be null if there are no teams.
-        TArray<FMatchmakingQueueTeam> Teams;
-        FMatchmakingQueueConfig() :
-            FPlayFabCppBaseModel(),
-            BuildId(),
-            MaxMatchSize(0),
-            MinMatchSize(0),
-            Name(),
-            Rules(),
-            ServerAllocationEnabled(false),
-            pfStatisticsVisibilityToPlayers(nullptr),
-            Teams()
-            {}
-
-        FMatchmakingQueueConfig(const FMatchmakingQueueConfig& src) :
-            FPlayFabCppBaseModel(),
-            BuildId(src.BuildId),
-            MaxMatchSize(src.MaxMatchSize),
-            MinMatchSize(src.MinMatchSize),
-            Name(src.Name),
-            Rules(src.Rules),
-            ServerAllocationEnabled(src.ServerAllocationEnabled),
-            pfStatisticsVisibilityToPlayers(src.pfStatisticsVisibilityToPlayers.IsValid() ? MakeShareable(new FStatisticsVisibilityToPlayers(*src.pfStatisticsVisibilityToPlayers)) : nullptr),
-            Teams(src.Teams)
-            {}
-
-        FMatchmakingQueueConfig(const TSharedPtr<FJsonObject>& obj) : FMatchmakingQueueConfig()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMatchmakingQueueConfig();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetMatchmakingQueueResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] The matchmaking queue config.
-        TSharedPtr<FMatchmakingQueueConfig> MatchmakingQueue;
-
-        FGetMatchmakingQueueResult() :
-            FPlayFabCppResultCommon(),
-            MatchmakingQueue(nullptr)
-            {}
-
-        FGetMatchmakingQueueResult(const FGetMatchmakingQueueResult& src) :
-            FPlayFabCppResultCommon(),
-            MatchmakingQueue(src.MatchmakingQueue.IsValid() ? MakeShareable(new FMatchmakingQueueConfig(*src.MatchmakingQueue)) : nullptr)
-            {}
-
-        FGetMatchmakingQueueResult(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakingQueueResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetMatchmakingQueueResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FGetMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
@@ -1967,7 +1792,7 @@ namespace MultiplayerModels
          */
         bool EscapeObject;
 
-        // The Id of the queue to find a match for.
+        // The name of the queue to find a match for.
         FString QueueName;
 
         // The Id of the ticket to find a match for.
@@ -2081,7 +1906,7 @@ namespace MultiplayerModels
         // The Id of a match.
         FString MatchId;
 
-        // The Id of the queue to join.
+        // The name of the queue to join.
         FString QueueName;
 
         // Determines whether the matchmaking attributes for each user should be returned in the response for match request.
@@ -2125,7 +1950,7 @@ namespace MultiplayerModels
         // The entity key of the matchmaking user.
         FEntityKey Entity;
 
-        // [optional] The Id of the team the User has been assigned to by matchmaking.
+        // [optional] The Id of the team the User is assigned to.
         FString TeamId;
 
         FMatchmakingPlayerWithTeamAssignment() :
@@ -2155,21 +1980,26 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FServerDetails : public PlayFab::FPlayFabCppBaseModel
     {
-        // The IPv4 address of the virtual machine that is hosting this multiplayer server.
+        // [optional] The IPv4 address of the virtual machine that is hosting this multiplayer server.
         FString IPV4Address;
 
-        // The ports the multiplayer server uses.
+        // [optional] The ports the multiplayer server uses.
         TArray<FPort> Ports;
+        // [optional] The server's region.
+        FString Region;
+
         FServerDetails() :
             FPlayFabCppBaseModel(),
             IPV4Address(),
-            Ports()
+            Ports(),
+            Region()
             {}
 
         FServerDetails(const FServerDetails& src) :
             FPlayFabCppBaseModel(),
             IPV4Address(src.IPV4Address),
-            Ports(src.Ports)
+            Ports(src.Ports),
+            Region(src.Region)
             {}
 
         FServerDetails(const TSharedPtr<FJsonObject>& obj) : FServerDetails()
@@ -2545,12 +2375,84 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetTitleMultiplayerServersQuotasRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        FGetTitleMultiplayerServersQuotasRequest() :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FGetTitleMultiplayerServersQuotasRequest(const FGetTitleMultiplayerServersQuotasRequest& src) :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FGetTitleMultiplayerServersQuotasRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitleMultiplayerServersQuotasRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitleMultiplayerServersQuotasRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTitleMultiplayerServersQuotas : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The core capacity for the various regions and VM Family
+        TArray<FCoreCapacity> CoreCapacities;
+        FTitleMultiplayerServersQuotas() :
+            FPlayFabCppBaseModel(),
+            CoreCapacities()
+            {}
+
+        FTitleMultiplayerServersQuotas(const FTitleMultiplayerServersQuotas& src) :
+            FPlayFabCppBaseModel(),
+            CoreCapacities(src.CoreCapacities)
+            {}
+
+        FTitleMultiplayerServersQuotas(const TSharedPtr<FJsonObject>& obj) : FTitleMultiplayerServersQuotas()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTitleMultiplayerServersQuotas();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetTitleMultiplayerServersQuotasResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The various quotas for multiplayer servers for the title.
+        TSharedPtr<FTitleMultiplayerServersQuotas> Quotas;
+
+        FGetTitleMultiplayerServersQuotasResponse() :
+            FPlayFabCppResultCommon(),
+            Quotas(nullptr)
+            {}
+
+        FGetTitleMultiplayerServersQuotasResponse(const FGetTitleMultiplayerServersQuotasResponse& src) :
+            FPlayFabCppResultCommon(),
+            Quotas(src.Quotas.IsValid() ? MakeShareable(new FTitleMultiplayerServersQuotas(*src.Quotas)) : nullptr)
+            {}
+
+        FGetTitleMultiplayerServersQuotasResponse(const TSharedPtr<FJsonObject>& obj) : FGetTitleMultiplayerServersQuotasResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitleMultiplayerServersQuotasResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FJoinMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The User who wants to join the ticket. Their Id must be listed in PlayFabIdsToMatchWith.
         FMatchmakingPlayer Member;
 
-        // The Id of the queue to join.
+        // The name of the queue to join.
         FString QueueName;
 
         // The Id of the ticket to find a match for.
@@ -2917,58 +2819,12 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListMatchmakingQueuesRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        FListMatchmakingQueuesRequest() :
-            FPlayFabCppRequestCommon()
-            {}
-
-        FListMatchmakingQueuesRequest(const FListMatchmakingQueuesRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
-
-        FListMatchmakingQueuesRequest(const TSharedPtr<FJsonObject>& obj) : FListMatchmakingQueuesRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListMatchmakingQueuesRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListMatchmakingQueuesResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] The list of matchmaking queue configs for this title.
-        TArray<FMatchmakingQueueConfig> MatchMakingQueues;
-        FListMatchmakingQueuesResult() :
-            FPlayFabCppResultCommon(),
-            MatchMakingQueues()
-            {}
-
-        FListMatchmakingQueuesResult(const FListMatchmakingQueuesResult& src) :
-            FPlayFabCppResultCommon(),
-            MatchMakingQueues(src.MatchMakingQueues)
-            {}
-
-        FListMatchmakingQueuesResult(const TSharedPtr<FJsonObject>& obj) : FListMatchmakingQueuesResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListMatchmakingQueuesResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FListMatchmakingTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity key for which to find the ticket Ids.
         TSharedPtr<FEntityKey> Entity;
 
-        // The Id of the queue to find a match for.
+        // The name of the queue to find a match for.
         FString QueueName;
 
         FListMatchmakingTicketsForPlayerRequest() :
@@ -3349,53 +3205,6 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FRemoveMatchmakingQueueRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The Id of the matchmaking queue to remove.
-        FString QueueName;
-
-        FRemoveMatchmakingQueueRequest() :
-            FPlayFabCppRequestCommon(),
-            QueueName()
-            {}
-
-        FRemoveMatchmakingQueueRequest(const FRemoveMatchmakingQueueRequest& src) :
-            FPlayFabCppRequestCommon(),
-            QueueName(src.QueueName)
-            {}
-
-        FRemoveMatchmakingQueueRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveMatchmakingQueueRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRemoveMatchmakingQueueRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRemoveMatchmakingQueueResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FRemoveMatchmakingQueueResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FRemoveMatchmakingQueueResult(const FRemoveMatchmakingQueueResult& src) :
-            FPlayFabCppResultCommon()
-            {}
-
-        FRemoveMatchmakingQueueResult(const TSharedPtr<FJsonObject>& obj) : FRemoveMatchmakingQueueResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRemoveMatchmakingQueueResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FRequestMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server to request.
@@ -3570,53 +3379,6 @@ namespace MultiplayerModels
         }
 
         ~FRolloverContainerRegistryCredentialsResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetMatchmakingQueueRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The matchmaking queue config.
-        TSharedPtr<FMatchmakingQueueConfig> MatchmakingQueue;
-
-        FSetMatchmakingQueueRequest() :
-            FPlayFabCppRequestCommon(),
-            MatchmakingQueue(nullptr)
-            {}
-
-        FSetMatchmakingQueueRequest(const FSetMatchmakingQueueRequest& src) :
-            FPlayFabCppRequestCommon(),
-            MatchmakingQueue(src.MatchmakingQueue.IsValid() ? MakeShareable(new FMatchmakingQueueConfig(*src.MatchmakingQueue)) : nullptr)
-            {}
-
-        FSetMatchmakingQueueRequest(const TSharedPtr<FJsonObject>& obj) : FSetMatchmakingQueueRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetMatchmakingQueueRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetMatchmakingQueueResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FSetMatchmakingQueueResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FSetMatchmakingQueueResult(const FSetMatchmakingQueueResult& src) :
-            FPlayFabCppResultCommon()
-            {}
-
-        FSetMatchmakingQueueResult(const TSharedPtr<FJsonObject>& obj) : FSetMatchmakingQueueResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetMatchmakingQueueResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

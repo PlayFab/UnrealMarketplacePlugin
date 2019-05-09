@@ -122,46 +122,6 @@ FMultiplayerListMatchmakingTicketsForPlayerResult UPlayFabMultiplayerModelDecode
 // Matchmaking Admin
 //////////////////////////////////////////////////////
 
-FMultiplayerGetMatchmakingQueueResult UPlayFabMultiplayerModelDecoder::decodeGetMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FMultiplayerGetMatchmakingQueueResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.MatchmakingQueue = !(dataObj->HasField("MatchmakingQueue")) ? nullptr : dataObj->GetObjectField("MatchmakingQueue");
-
-    return tempStruct;
-}
-
-FMultiplayerListMatchmakingQueuesResult UPlayFabMultiplayerModelDecoder::decodeListMatchmakingQueuesResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FMultiplayerListMatchmakingQueuesResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.MatchMakingQueues = !(dataObj->HasField("MatchMakingQueues")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("MatchMakingQueues");
-
-    return tempStruct;
-}
-
-FMultiplayerRemoveMatchmakingQueueResult UPlayFabMultiplayerModelDecoder::decodeRemoveMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FMultiplayerRemoveMatchmakingQueueResult tempStruct;
-
-
-    return tempStruct;
-}
-
-FMultiplayerSetMatchmakingQueueResult UPlayFabMultiplayerModelDecoder::decodeSetMatchmakingQueueResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FMultiplayerSetMatchmakingQueueResult tempStruct;
-
-
-    return tempStruct;
-}
-
 
 
 ///////////////////////////////////////////////////////
@@ -335,6 +295,17 @@ FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse UPlayFabMultiplay
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     GetEnumValueFromString<ETitleMultiplayerServerEnabledStatus>(TEXT("ETitleMultiplayerServerEnabledStatus"), dataObj->GetStringField("Status"), tempStruct.Status);
+
+    return tempStruct;
+}
+
+FMultiplayerGetTitleMultiplayerServersQuotasResponse UPlayFabMultiplayerModelDecoder::decodeGetTitleMultiplayerServersQuotasResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetTitleMultiplayerServersQuotasResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Quotas = !(dataObj->HasField("Quotas")) ? nullptr : dataObj->GetObjectField("Quotas");
 
     return tempStruct;
 }

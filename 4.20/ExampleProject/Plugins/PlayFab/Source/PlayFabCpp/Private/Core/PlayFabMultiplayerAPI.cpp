@@ -500,34 +500,6 @@ void UPlayFabMultiplayerAPI::OnGetMatchResult(FHttpRequestPtr HttpRequest, FHttp
     }
 }
 
-bool UPlayFabMultiplayerAPI::GetMatchmakingQueue(
-    MultiplayerModels::FGetMatchmakingQueueRequest& request,
-    const FGetMatchmakingQueueDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
-    }
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Match/GetMatchmakingQueue")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnGetMatchmakingQueueResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabMultiplayerAPI::OnGetMatchmakingQueueResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakingQueueDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    MultiplayerModels::FGetMatchmakingQueueResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabMultiplayerAPI::GetMatchmakingTicket(
     MultiplayerModels::FGetMatchmakingTicketRequest& request,
     const FGetMatchmakingTicketDelegate& SuccessDelegate,
@@ -665,6 +637,42 @@ bool UPlayFabMultiplayerAPI::GetTitleEnabledForMultiplayerServersStatus(
 void UPlayFabMultiplayerAPI::OnGetTitleEnabledForMultiplayerServersStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleEnabledForMultiplayerServersStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(
+    const FGetTitleMultiplayerServersQuotasDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest emptyRequest = MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest();
+    return UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(emptyRequest, SuccessDelegate, ErrorDelegate);
+}
+
+bool UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(
+    MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest& request,
+    const FGetTitleMultiplayerServersQuotasDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetTitleMultiplayerServersQuotas")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnGetTitleMultiplayerServersQuotasResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerAPI::OnGetTitleMultiplayerServersQuotasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleMultiplayerServersQuotasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FGetTitleMultiplayerServersQuotasResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -872,42 +880,6 @@ void UPlayFabMultiplayerAPI::OnListContainerImageTagsResult(FHttpRequestPtr Http
     }
 }
 
-bool UPlayFabMultiplayerAPI::ListMatchmakingQueues(
-    const FListMatchmakingQueuesDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FListMatchmakingQueuesRequest emptyRequest = MultiplayerModels::FListMatchmakingQueuesRequest();
-    return UPlayFabMultiplayerAPI::ListMatchmakingQueues(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabMultiplayerAPI::ListMatchmakingQueues(
-    MultiplayerModels::FListMatchmakingQueuesRequest& request,
-    const FListMatchmakingQueuesDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
-    }
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Match/ListMatchmakingQueues")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnListMatchmakingQueuesResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabMultiplayerAPI::OnListMatchmakingQueuesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMatchmakingQueuesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    MultiplayerModels::FListMatchmakingQueuesResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabMultiplayerAPI::ListMatchmakingTicketsForPlayer(
     MultiplayerModels::FListMatchmakingTicketsForPlayerRequest& request,
     const FListMatchmakingTicketsForPlayerDelegate& SuccessDelegate,
@@ -1024,34 +996,6 @@ void UPlayFabMultiplayerAPI::OnListVirtualMachineSummariesResult(FHttpRequestPtr
     }
 }
 
-bool UPlayFabMultiplayerAPI::RemoveMatchmakingQueue(
-    MultiplayerModels::FRemoveMatchmakingQueueRequest& request,
-    const FRemoveMatchmakingQueueDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
-    }
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Match/RemoveMatchmakingQueue")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnRemoveMatchmakingQueueResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabMultiplayerAPI::OnRemoveMatchmakingQueueResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveMatchmakingQueueDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    MultiplayerModels::FRemoveMatchmakingQueueResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabMultiplayerAPI::RequestMultiplayerServer(
     MultiplayerModels::FRequestMultiplayerServerRequest& request,
     const FRequestMultiplayerServerDelegate& SuccessDelegate,
@@ -1105,34 +1049,6 @@ bool UPlayFabMultiplayerAPI::RolloverContainerRegistryCredentials(
 void UPlayFabMultiplayerAPI::OnRolloverContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRolloverContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MultiplayerModels::FRolloverContainerRegistryCredentialsResponse outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
-bool UPlayFabMultiplayerAPI::SetMatchmakingQueue(
-    MultiplayerModels::FSetMatchmakingQueueRequest& request,
-    const FSetMatchmakingQueueDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
-    }
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Match/SetMatchmakingQueue")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnSetMatchmakingQueueResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabMultiplayerAPI::OnSetMatchmakingQueueResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetMatchmakingQueueDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    MultiplayerModels::FSetMatchmakingQueueResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

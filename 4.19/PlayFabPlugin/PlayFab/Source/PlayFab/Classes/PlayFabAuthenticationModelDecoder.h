@@ -36,26 +36,6 @@ public:
     // API Keys
     //////////////////////////////////////////////////////
 
-    /** Decode the ActivateAPIKeyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys Models")
-        static FAuthenticationActivateAPIKeyResponse decodeActivateAPIKeyResponseResponse(UPlayFabJsonObject* response);
-
-    /** Decode the CreateAPIKeyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys Models")
-        static FAuthenticationCreateAPIKeyResponse decodeCreateAPIKeyResponseResponse(UPlayFabJsonObject* response);
-
-    /** Decode the DeactivateAPIKeyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys Models")
-        static FAuthenticationDeactivateAPIKeyResponse decodeDeactivateAPIKeyResponseResponse(UPlayFabJsonObject* response);
-
-    /** Decode the DeleteAPIKeyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys Models")
-        static FAuthenticationDeleteAPIKeyResponse decodeDeleteAPIKeyResponseResponse(UPlayFabJsonObject* response);
-
-    /** Decode the GetAPIKeysResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | API Keys Models")
-        static FAuthenticationGetAPIKeysResponse decodeGetAPIKeysResponseResponse(UPlayFabJsonObject* response);
-
 
 
     ///////////////////////////////////////////////////////

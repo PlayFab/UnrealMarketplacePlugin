@@ -20,6 +20,7 @@ namespace PlayFab
     public:
         DECLARE_DELEGATE_OneParam(FAddCharacterVirtualCurrencyDelegate, const ServerModels::FModifyCharacterVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FAddFriendDelegate, const ServerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FAddGenericIDDelegate, const ServerModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FAddPlayerTagDelegate, const ServerModels::FAddPlayerTagResult&);
         DECLARE_DELEGATE_OneParam(FAddSharedGroupMembersDelegate, const ServerModels::FAddSharedGroupMembersResult&);
         DECLARE_DELEGATE_OneParam(FAddUserVirtualCurrencyDelegate, const ServerModels::FModifyUserVirtualCurrencyResult&);
@@ -30,6 +31,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateSharedGroupDelegate, const ServerModels::FCreateSharedGroupResult&);
         DECLARE_DELEGATE_OneParam(FDeleteCharacterFromUserDelegate, const ServerModels::FDeleteCharacterFromUserResult&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const ServerModels::FDeletePlayerResult&);
+        DECLARE_DELEGATE_OneParam(FDeletePushNotificationTemplateDelegate, const ServerModels::FDeletePushNotificationTemplateResult&);
         DECLARE_DELEGATE_OneParam(FDeleteSharedGroupDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeregisterGameDelegate, const ServerModels::FDeregisterGameResponse&);
         DECLARE_DELEGATE_OneParam(FEvaluateRandomResultTableDelegate, const ServerModels::FEvaluateRandomResultTableResult&);
@@ -59,6 +61,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayerTagsDelegate, const ServerModels::FGetPlayerTagsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromFacebookIDsDelegate, const ServerModels::FGetPlayFabIDsFromFacebookIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate, const ServerModels::FGetPlayFabIDsFromFacebookInstantGamesIdsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromGenericIDsDelegate, const ServerModels::FGetPlayFabIDsFromGenericIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate, const ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNAccountIDsDelegate, const ServerModels::FGetPlayFabIDsFromPSNAccountIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamIDsDelegate, const ServerModels::FGetPlayFabIDsFromSteamIDsResult&);
@@ -84,6 +87,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGrantItemsToCharacterDelegate, const ServerModels::FGrantItemsToCharacterResult&);
         DECLARE_DELEGATE_OneParam(FGrantItemsToUserDelegate, const ServerModels::FGrantItemsToUserResult&);
         DECLARE_DELEGATE_OneParam(FGrantItemsToUsersDelegate, const ServerModels::FGrantItemsToUsersResult&);
+        DECLARE_DELEGATE_OneParam(FLinkServerCustomIdDelegate, const ServerModels::FLinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxDelegate, const ServerModels::FServerLoginResult&);
@@ -97,6 +101,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FRefreshGameServerInstanceHeartbeatDelegate, const ServerModels::FRefreshGameServerInstanceHeartbeatResult&);
         DECLARE_DELEGATE_OneParam(FRegisterGameDelegate, const ServerModels::FRegisterGameResponse&);
         DECLARE_DELEGATE_OneParam(FRemoveFriendDelegate, const ServerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FRemoveGenericIDDelegate, const ServerModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FRemovePlayerTagDelegate, const ServerModels::FRemovePlayerTagResult&);
         DECLARE_DELEGATE_OneParam(FRemoveSharedGroupMembersDelegate, const ServerModels::FRemoveSharedGroupMembersResult&);
         DECLARE_DELEGATE_OneParam(FReportPlayerDelegate, const ServerModels::FReportPlayerServerResult&);
@@ -104,9 +109,11 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FRevokeBansDelegate, const ServerModels::FRevokeBansResult&);
         DECLARE_DELEGATE_OneParam(FRevokeInventoryItemDelegate, const ServerModels::FRevokeInventoryResult&);
         DECLARE_DELEGATE_OneParam(FRevokeInventoryItemsDelegate, const ServerModels::FRevokeInventoryItemsResult&);
+        DECLARE_DELEGATE_OneParam(FSavePushNotificationTemplateDelegate, const ServerModels::FSavePushNotificationTemplateResult&);
         DECLARE_DELEGATE_OneParam(FSendCustomAccountRecoveryEmailDelegate, const ServerModels::FSendCustomAccountRecoveryEmailResult&);
         DECLARE_DELEGATE_OneParam(FSendEmailFromTemplateDelegate, const ServerModels::FSendEmailFromTemplateResult&);
         DECLARE_DELEGATE_OneParam(FSendPushNotificationDelegate, const ServerModels::FSendPushNotificationResult&);
+        DECLARE_DELEGATE_OneParam(FSendPushNotificationFromTemplateDelegate, const ServerModels::FSendPushNotificationResult&);
         DECLARE_DELEGATE_OneParam(FSetFriendTagsDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FSetGameServerInstanceDataDelegate, const ServerModels::FSetGameServerInstanceDataResult&);
         DECLARE_DELEGATE_OneParam(FSetGameServerInstanceStateDelegate, const ServerModels::FSetGameServerInstanceStateResult&);
@@ -117,6 +124,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSetTitleInternalDataDelegate, const ServerModels::FSetTitleDataResult&);
         DECLARE_DELEGATE_OneParam(FSubtractCharacterVirtualCurrencyDelegate, const ServerModels::FModifyCharacterVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const ServerModels::FModifyUserVirtualCurrencyResult&);
+        DECLARE_DELEGATE_OneParam(FUnlinkServerCustomIdDelegate, const ServerModels::FUnlinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkXboxAccountDelegate, const ServerModels::FUnlinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlockContainerInstanceDelegate, const ServerModels::FUnlockContainerItemResult&);
         DECLARE_DELEGATE_OneParam(FUnlockContainerItemDelegate, const ServerModels::FUnlockContainerItemResult&);
@@ -155,6 +163,12 @@ namespace PlayFab
          * FriendPlayFabId,FriendUsername,FriendEmail, or FriendTitleDisplayName should be initialized.
          */
         bool AddFriend(ServerModels::FAddFriendRequest& request, const FAddFriendDelegate& SuccessDelegate = FAddFriendDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Adds the specified generic service identifier to the player's PlayFab account. This is designed to allow for a PlayFab
+         * ID lookup of any arbitrary service identifier a title wants to add. This identifier should never be used as
+         * authentication credentials, as the intent is that it is easily accessible by other players.
+         */
+        bool AddGenericID(ServerModels::FAddGenericIDRequest& request, const FAddGenericIDDelegate& SuccessDelegate = FAddGenericIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Adds a given tag to a player profile. The tag's namespace is automatically generated based on the source of the tag.
          * This API will trigger a player_tag_added event and add a tag with the given TagName and PlayFabID to the corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters. Also there is a limit on the number of tags a title can have.
@@ -200,6 +214,8 @@ namespace PlayFab
          * Deletes all data associated with the player, including statistics, custom data, inventory, purchases, virtual currency balances, characters and shared group memberships. Removes the player from all leaderboards and player search indexes. Does not delete PlayStream event history associated with the player. Does not delete the publisher user account that created the player in the title nor associated data such as username, password, email address, account linkages, or friends list. Note, this API queues the player for deletion and returns immediately. It may take several minutes or more before all player data is fully deleted. Until the player data is fully deleted, attempts to recreate the player with the same user account in the same title will fail with the 'AccountDeleted' error. This API must be enabled for use as an option in the game manager website. It is disabled by default.
          */
         bool DeletePlayer(ServerModels::FDeletePlayerRequest& request, const FDeletePlayerDelegate& SuccessDelegate = FDeletePlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Deletes push notification template for title
+        bool DeletePushNotificationTemplate(ServerModels::FDeletePushNotificationTemplateRequest& request, const FDeletePushNotificationTemplateDelegate& SuccessDelegate = FDeletePushNotificationTemplateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Deletes a shared group, freeing up the shared group ID to be reused for a new group. Shared Groups are designed for
          * sharing data between a very small number of players, please see our guide:
@@ -323,6 +339,12 @@ namespace PlayFab
         bool GetPlayFabIDsFromFacebookIDs(ServerModels::FGetPlayFabIDsFromFacebookIDsRequest& request, const FGetPlayFabIDsFromFacebookIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromFacebookIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of Facebook Instant Games identifiers.
         bool GetPlayFabIDsFromFacebookInstantGamesIds(ServerModels::FGetPlayFabIDsFromFacebookInstantGamesIdsRequest& request, const FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the unique PlayFab identifiers for the given set of generic service identifiers. A generic identifier is the
+         * service name plus the service-specific ID for the player, as specified by the title when the generic identifier was
+         * added to the player account.
+         */
+        bool GetPlayFabIDsFromGenericIDs(ServerModels::FGetPlayFabIDsFromGenericIDsRequest& request, const FGetPlayFabIDsFromGenericIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromGenericIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch Device identifiers.
         bool GetPlayFabIDsFromNintendoSwitchDeviceIds(ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request, const FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers.
@@ -441,6 +463,8 @@ namespace PlayFab
          * This function directly adds inventory items to user inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToUsers(ServerModels::FGrantItemsToUsersRequest& request, const FGrantItemsToUsersDelegate& SuccessDelegate = FGrantItemsToUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Links the custom server identifier, generated by the title, to the user's PlayFab account.
+        bool LinkServerCustomId(ServerModels::FLinkServerCustomIdRequest& request, const FLinkServerCustomIdDelegate& SuccessDelegate = FLinkServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Xbox Live account associated with the provided access code to the user's PlayFab account
         bool LinkXboxAccount(ServerModels::FLinkXboxAccountRequest& request, const FLinkXboxAccountDelegate& SuccessDelegate = FLinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -493,6 +517,8 @@ namespace PlayFab
         bool RegisterGame(ServerModels::FRegisterGameRequest& request, const FRegisterGameDelegate& SuccessDelegate = FRegisterGameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Removes the specified friend from the the user's friend list
         bool RemoveFriend(ServerModels::FRemoveFriendRequest& request, const FRemoveFriendDelegate& SuccessDelegate = FRemoveFriendDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Removes the specified generic service identifier from the player's PlayFab account.
+        bool RemoveGenericID(ServerModels::FRemoveGenericIDRequest& request, const FRemoveGenericIDDelegate& SuccessDelegate = FRemoveGenericIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Remove a given tag from a player profile. The tag's namespace is automatically generated based on the source of the tag.
          * This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID from the corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters
@@ -530,6 +556,8 @@ namespace PlayFab
          * In cases where the inventory item in question is a "crate", and the items it contained have already been dispensed, this will not revoke access or otherwise remove the items which were dispensed.
          */
         bool RevokeInventoryItems(ServerModels::FRevokeInventoryItemsRequest& request, const FRevokeInventoryItemsDelegate& SuccessDelegate = FRevokeInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Saves push notification template for title
+        bool SavePushNotificationTemplate(ServerModels::FSavePushNotificationTemplateRequest& request, const FSavePushNotificationTemplateDelegate& SuccessDelegate = FSavePushNotificationTemplateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Forces an email to be sent to the registered contact email address for the user's account based on an account recovery
          * email template
@@ -546,6 +574,11 @@ namespace PlayFab
          * Notifications in PlayFab. If a user has linked both Android and iOS devices, both will be notified.
          */
         bool SendPushNotification(ServerModels::FSendPushNotificationRequest& request, const FSendPushNotificationDelegate& SuccessDelegate = FSendPushNotificationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Sends an iOS/Android Push Notification template to a specific user, if that user's device has been configured for Push
+         * Notifications in PlayFab. If a user has linked both Android and iOS devices, both will be notified.
+         */
+        bool SendPushNotificationFromTemplate(ServerModels::FSendPushNotificationFromTemplateRequest& request, const FSendPushNotificationFromTemplateDelegate& SuccessDelegate = FSendPushNotificationFromTemplateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Updates the tag list for a specified user in the friend list of another user
          * This operation is not additive. It will completely replace the tag list for the specified user. Please note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on a friend only included in the friends list from a social site integration (such as Facebook or Steam) will return the AccountNotFound error.
@@ -588,6 +621,8 @@ namespace PlayFab
          * balance negative with this API.
          */
         bool SubtractUserVirtualCurrency(ServerModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the custom server identifier from the user's PlayFab account.
+        bool UnlinkServerCustomId(ServerModels::FUnlinkServerCustomIdRequest& request, const FUnlinkServerCustomIdDelegate& SuccessDelegate = FUnlinkServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Xbox Live account from the user's PlayFab account
         bool UnlinkXboxAccount(ServerModels::FUnlinkXboxAccountRequest& request, const FUnlinkXboxAccountDelegate& SuccessDelegate = FUnlinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -701,6 +736,7 @@ namespace PlayFab
         // ------------ Generated result handlers
         void OnAddCharacterVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddCharacterVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddFriendResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddFriendDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnAddGenericIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddGenericIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddPlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddSharedGroupMembersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddSharedGroupMembersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -711,6 +747,7 @@ namespace PlayFab
         void OnCreateSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteCharacterFromUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteCharacterFromUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeletePushNotificationTemplateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePushNotificationTemplateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeregisterGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeregisterGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEvaluateRandomResultTableResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEvaluateRandomResultTableDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -740,6 +777,7 @@ namespace PlayFab
         void OnGetPlayerTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromFacebookIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromFacebookIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromFacebookInstantGamesIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromGenericIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGenericIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromPSNAccountIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNAccountIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -765,6 +803,7 @@ namespace PlayFab
         void OnGrantItemsToCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantItemsToUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantItemsToUsersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUsersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -778,6 +817,7 @@ namespace PlayFab
         void OnRefreshGameServerInstanceHeartbeatResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRefreshGameServerInstanceHeartbeatDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRegisterGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRegisterGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveFriendResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveFriendDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnRemoveGenericIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveGenericIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveSharedGroupMembersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveSharedGroupMembersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnReportPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FReportPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -785,9 +825,11 @@ namespace PlayFab
         void OnRevokeBansResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeBansDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRevokeInventoryItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeInventoryItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRevokeInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRevokeInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSavePushNotificationTemplateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSavePushNotificationTemplateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSendCustomAccountRecoveryEmailResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendCustomAccountRecoveryEmailDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSendEmailFromTemplateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendEmailFromTemplateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSendPushNotificationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendPushNotificationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSendPushNotificationFromTemplateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendPushNotificationFromTemplateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetFriendTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetFriendTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetGameServerInstanceDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetGameServerInstanceDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetGameServerInstanceStateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetGameServerInstanceStateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -798,6 +840,7 @@ namespace PlayFab
         void OnSetTitleInternalDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleInternalDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractCharacterVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractCharacterVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlockContainerInstanceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlockContainerInstanceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlockContainerItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlockContainerItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

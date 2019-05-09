@@ -21,6 +21,15 @@
 // Account Management
 //////////////////////////////////////////////////////
 
+FServerEmptyResult UPlayFabServerModelDecoder::decodeEmptyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerEmptyResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerBanUsersResult UPlayFabServerModelDecoder::decodeBanUsersResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -36,6 +45,15 @@ FServerDeletePlayerResult UPlayFabServerModelDecoder::decodeDeletePlayerResultRe
 {
     // Temp ustruct
     FServerDeletePlayerResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerDeletePushNotificationTemplateResult UPlayFabServerModelDecoder::decodeDeletePushNotificationTemplateResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerDeletePushNotificationTemplateResult tempStruct;
 
 
     return tempStruct;
@@ -67,6 +85,17 @@ FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult UPlayFabServerModelDecoder
 {
     // Temp ustruct
     FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
+FServerGetPlayFabIDsFromGenericIDsResult UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromGenericIDsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetPlayFabIDsFromGenericIDsResult tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
@@ -151,6 +180,15 @@ FServerGetUserBansResult UPlayFabServerModelDecoder::decodeGetUserBansResultResp
     return tempStruct;
 }
 
+FServerLinkServerCustomIdResult UPlayFabServerModelDecoder::decodeLinkServerCustomIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerLinkServerCustomIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerLinkXboxAccountResult UPlayFabServerModelDecoder::decodeLinkXboxAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -182,6 +220,17 @@ FServerRevokeBansResult UPlayFabServerModelDecoder::decodeRevokeBansResultRespon
     return tempStruct;
 }
 
+FServerSavePushNotificationTemplateResult UPlayFabServerModelDecoder::decodeSavePushNotificationTemplateResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerSavePushNotificationTemplateResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PushNotificationTemplateId = !(dataObj->HasField("PushNotificationTemplateId")) ? TEXT("") : dataObj->GetStringField("PushNotificationTemplateId");
+
+    return tempStruct;
+}
+
 FServerSendCustomAccountRecoveryEmailResult UPlayFabServerModelDecoder::decodeSendCustomAccountRecoveryEmailResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -204,6 +253,15 @@ FServerSendPushNotificationResult UPlayFabServerModelDecoder::decodeSendPushNoti
 {
     // Temp ustruct
     FServerSendPushNotificationResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerUnlinkServerCustomIdResult UPlayFabServerModelDecoder::decodeUnlinkServerCustomIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkServerCustomIdResult tempStruct;
 
 
     return tempStruct;

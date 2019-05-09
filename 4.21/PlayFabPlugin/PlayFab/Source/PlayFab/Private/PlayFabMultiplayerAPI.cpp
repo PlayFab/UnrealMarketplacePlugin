@@ -577,201 +577,6 @@ void UPlayFabMultiplayerAPI::HelperListMatchmakingTicketsForPlayer(FPlayFabBaseM
 ///////////////////////////////////////////////////////
 // Matchmaking Admin
 //////////////////////////////////////////////////////
-/** Get a matchmaking queue configuration. */
-UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMatchmakingQueue(FMultiplayerGetMatchmakingQueueRequest request,
-    FDelegateOnSuccessGetMatchmakingQueue onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessGetMatchmakingQueue = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetMatchmakingQueue);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Match/GetMatchmakingQueue";
-    manager->useEntityToken = true;
-
-    // Serialize all the request properties to json
-    if (request.QueueName.IsEmpty() || request.QueueName == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabMultiplayerRequestCompleted
-void UPlayFabMultiplayerAPI::HelperGetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessGetMatchmakingQueue.IsBound())
-    {
-        FMultiplayerGetMatchmakingQueueResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetMatchmakingQueueResultResponse(response.responseData);
-        OnSuccessGetMatchmakingQueue.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** List all matchmaking queue configs. */
-UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListMatchmakingQueues(FMultiplayerListMatchmakingQueuesRequest request,
-    FDelegateOnSuccessListMatchmakingQueues onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessListMatchmakingQueues = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListMatchmakingQueues);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Match/ListMatchmakingQueues";
-    manager->useEntityToken = true;
-
-    // Serialize all the request properties to json
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabMultiplayerRequestCompleted
-void UPlayFabMultiplayerAPI::HelperListMatchmakingQueues(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessListMatchmakingQueues.IsBound())
-    {
-        FMultiplayerListMatchmakingQueuesResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListMatchmakingQueuesResultResponse(response.responseData);
-        OnSuccessListMatchmakingQueues.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Remove a matchmaking queue config. */
-UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RemoveMatchmakingQueue(FMultiplayerRemoveMatchmakingQueueRequest request,
-    FDelegateOnSuccessRemoveMatchmakingQueue onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessRemoveMatchmakingQueue = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperRemoveMatchmakingQueue);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Match/RemoveMatchmakingQueue";
-    manager->useEntityToken = true;
-
-    // Serialize all the request properties to json
-    if (request.QueueName.IsEmpty() || request.QueueName == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabMultiplayerRequestCompleted
-void UPlayFabMultiplayerAPI::HelperRemoveMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessRemoveMatchmakingQueue.IsBound())
-    {
-        FMultiplayerRemoveMatchmakingQueueResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeRemoveMatchmakingQueueResultResponse(response.responseData);
-        OnSuccessRemoveMatchmakingQueue.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Create or update a matchmaking queue configuration. */
-UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::SetMatchmakingQueue(FMultiplayerSetMatchmakingQueueRequest request,
-    FDelegateOnSuccessSetMatchmakingQueue onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessSetMatchmakingQueue = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperSetMatchmakingQueue);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Match/SetMatchmakingQueue";
-    manager->useEntityToken = true;
-
-    // Serialize all the request properties to json
-    if (request.MatchmakingQueue != nullptr) OutRestJsonObj->SetObjectField(TEXT("MatchmakingQueue"), request.MatchmakingQueue);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabMultiplayerRequestCompleted
-void UPlayFabMultiplayerAPI::HelperSetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessSetMatchmakingQueue.IsBound())
-    {
-        FMultiplayerSetMatchmakingQueueResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeSetMatchmakingQueueResultResponse(response.responseData);
-        OnSuccessSetMatchmakingQueue.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
 
 ///////////////////////////////////////////////////////
 // MultiplayerServer
@@ -807,6 +612,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     FString temp_ContainerFlavor;
     if (GetEnumValueToString<EContainerFlavor>(TEXT("EContainerFlavor"), request.ContainerFlavor, temp_ContainerFlavor))
         OutRestJsonObj->SetStringField(TEXT("ContainerFlavor"), temp_ContainerFlavor);
+    if (request.ContainerImageReference != nullptr) OutRestJsonObj->SetObjectField(TEXT("ContainerImageReference"), request.ContainerImageReference);
     if (request.ContainerRepositoryName.IsEmpty() || request.ContainerRepositoryName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ContainerRepositoryName"));
     } else {
@@ -1597,6 +1403,52 @@ void UPlayFabMultiplayerAPI::HelperGetTitleEnabledForMultiplayerServersStatus(FP
     {
         FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetTitleEnabledForMultiplayerServersStatusResponseResponse(response.responseData);
         OnSuccessGetTitleEnabledForMultiplayerServersStatus.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets the quotas for a title in relation to multiplayer servers. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(FMultiplayerGetTitleMultiplayerServersQuotasRequest request,
+    FDelegateOnSuccessGetTitleMultiplayerServersQuotas onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetTitleMultiplayerServersQuotas = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetTitleMultiplayerServersQuotas);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/GetTitleMultiplayerServersQuotas";
+    manager->useEntityToken = true;
+
+    // Serialize all the request properties to json
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperGetTitleMultiplayerServersQuotas(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetTitleMultiplayerServersQuotas.IsBound())
+    {
+        FMultiplayerGetTitleMultiplayerServersQuotasResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetTitleMultiplayerServersQuotasResponseResponse(response.responseData);
+        OnSuccessGetTitleMultiplayerServersQuotas.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

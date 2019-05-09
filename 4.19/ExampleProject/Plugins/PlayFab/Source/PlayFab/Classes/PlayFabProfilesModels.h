@@ -136,7 +136,7 @@ public:
 };
 
 /**
- * Given an entity profile, will update its language to the one passed in if the profile's version is at least the one
+ * Given an entity profile, will update its language to the one passed in if the profile's version is equal to the one
  * passed in.
  */
 USTRUCT(BlueprintType)

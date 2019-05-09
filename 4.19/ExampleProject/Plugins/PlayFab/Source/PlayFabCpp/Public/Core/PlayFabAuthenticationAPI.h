@@ -18,12 +18,7 @@ namespace PlayFab
     class PLAYFABCPP_API UPlayFabAuthenticationAPI
     {
     public:
-        DECLARE_DELEGATE_OneParam(FActivateKeyDelegate, const AuthenticationModels::FActivateAPIKeyResponse&);
-        DECLARE_DELEGATE_OneParam(FCreateKeyDelegate, const AuthenticationModels::FCreateAPIKeyResponse&);
-        DECLARE_DELEGATE_OneParam(FDeactivateKeyDelegate, const AuthenticationModels::FDeactivateAPIKeyResponse&);
-        DECLARE_DELEGATE_OneParam(FDeleteKeyDelegate, const AuthenticationModels::FDeleteAPIKeyResponse&);
         DECLARE_DELEGATE_OneParam(FGetEntityTokenDelegate, const AuthenticationModels::FGetEntityTokenResponse&);
-        DECLARE_DELEGATE_OneParam(FGetKeysDelegate, const AuthenticationModels::FGetAPIKeysResponse&);
 
         UPlayFabAuthenticationAPI();
         ~UPlayFabAuthenticationAPI();
@@ -34,34 +29,16 @@ namespace PlayFab
         void SetDevSecretKey(const FString& developerSecretKey);
 
         // ------------ Generated API calls
-        // Activates the given API key. Active keys may be used for authentication.
-        bool ActivateKey(AuthenticationModels::FActivateAPIKeyRequest& request, const FActivateKeyDelegate& SuccessDelegate = FActivateKeyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Creates an API key for the given entity.
-        bool CreateKey(AuthenticationModels::FCreateAPIKeyRequest& request, const FCreateKeyDelegate& SuccessDelegate = FCreateKeyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Deactivates the given API key, causing subsequent authentication attempts with it to fail.Deactivating a key is a way to
-         * verify that the key is not in use before deleting it.
-         */
-        bool DeactivateKey(AuthenticationModels::FDeactivateAPIKeyRequest& request, const FDeactivateKeyDelegate& SuccessDelegate = FDeactivateKeyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Deletes the given API key.
-        bool DeleteKey(AuthenticationModels::FDeleteAPIKeyRequest& request, const FDeleteKeyDelegate& SuccessDelegate = FDeleteKeyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Method to exchange a legacy AuthenticationTicket or title SecretKey for an Entity Token or to refresh a still valid
          * Entity Token.
          * This API must be called with X-SecretKey, X-Authentication or X-EntityToken headers. An optional EntityKey may be included to attempt to set the resulting EntityToken to a specific entity, however the entity must be a relation of the caller, such as the master_player_account of a character. If sending X-EntityToken the account will be marked as freshly logged in and will issue a new token. If using X-Authentication or X-EntityToken the header must still be valid and cannot be expired or revoked.
          */
         bool GetEntityToken(AuthenticationModels::FGetEntityTokenRequest& request, const FGetEntityTokenDelegate& SuccessDelegate = FGetEntityTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Gets the API keys associated with the given entity.
-        bool GetKeys(AuthenticationModels::FGetAPIKeysRequest& request, const FGetKeysDelegate& SuccessDelegate = FGetKeysDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
 
     private:
         // ------------ Generated result handlers
-        void OnActivateKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FActivateKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnCreateKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnDeactivateKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeactivateKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnDeleteKeyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteKeyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetEntityTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetEntityTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetKeysResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetKeysDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };
 };

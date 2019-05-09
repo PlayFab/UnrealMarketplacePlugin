@@ -50,7 +50,7 @@ namespace EventsModels
         // [optional] Entity associated with the event. If null, the event will apply to the calling entity.
         TSharedPtr<FEntityKey> Entity;
 
-        // The namespace in which the event is defined. It must be prepended with 'com.playfab.events.'
+        // The namespace in which the event is defined. It must begin with 'com.playfab.events.'
         FString EventNamespace;
 
         // The name of this event.

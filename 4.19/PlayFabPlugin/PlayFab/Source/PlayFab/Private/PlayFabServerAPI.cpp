@@ -74,6 +74,58 @@ FString UPlayFabServerAPI::PercentEncode(const FString& Text)
 ///////////////////////////////////////////////////////
 // Account Management
 //////////////////////////////////////////////////////
+/** Adds the specified generic service identifier to the player's PlayFab account. This is designed to allow for a PlayFab ID lookup of any arbitrary service identifier a title wants to add. This identifier should never be used as authentication credentials, as the intent is that it is easily accessible by other players. */
+UPlayFabServerAPI* UPlayFabServerAPI::AddGenericID(FServerAddGenericIDRequest request,
+    FDelegateOnSuccessAddGenericID onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessAddGenericID = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperAddGenericID);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/AddGenericID";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.GenericId != nullptr) OutRestJsonObj->SetObjectField(TEXT("GenericId"), request.GenericId);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperAddGenericID(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessAddGenericID.IsBound())
+    {
+        FServerEmptyResult ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResultResponse(response.responseData);
+        OnSuccessAddGenericID.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Bans users by PlayFab ID with optional IP address, or MAC address for the provided game. */
 UPlayFabServerAPI* UPlayFabServerAPI::BanUsers(FServerBanUsersRequest request,
     FDelegateOnSuccessBanUsers onSuccess,
@@ -172,6 +224,57 @@ void UPlayFabServerAPI::HelperDeletePlayer(FPlayFabBaseModel response, UObject* 
     {
         FServerDeletePlayerResult ResultStruct = UPlayFabServerModelDecoder::decodeDeletePlayerResultResponse(response.responseData);
         OnSuccessDeletePlayer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Deletes push notification template for title */
+UPlayFabServerAPI* UPlayFabServerAPI::DeletePushNotificationTemplate(FServerDeletePushNotificationTemplateRequest request,
+    FDelegateOnSuccessDeletePushNotificationTemplate onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeletePushNotificationTemplate = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeletePushNotificationTemplate);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/DeletePushNotificationTemplate";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.PushNotificationTemplateId.IsEmpty() || request.PushNotificationTemplateId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PushNotificationTemplateId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PushNotificationTemplateId"), request.PushNotificationTemplateId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperDeletePushNotificationTemplate(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeletePushNotificationTemplate.IsBound())
+    {
+        FServerDeletePushNotificationTemplateResult ResultStruct = UPlayFabServerModelDecoder::decodeDeletePushNotificationTemplateResultResponse(response.responseData);
+        OnSuccessDeletePushNotificationTemplate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -332,6 +435,57 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromFacebookInstantGamesIds(FPlayFabB
     {
         FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromFacebookInstantGamesIdsResultResponse(response.responseData);
         OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves the unique PlayFab identifiers for the given set of generic service identifiers. A generic identifier is the service name plus the service-specific ID for the player, as specified by the title when the generic identifier was added to the player account. */
+UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromGenericIDs(FServerGetPlayFabIDsFromGenericIDsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromGenericIDs onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromGenericIDs = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromGenericIDs);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromGenericIDs";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.GenericIDs.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("GenericIDs"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("GenericIDs"), request.GenericIDs);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetPlayFabIDsFromGenericIDs(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromGenericIDs.IsBound())
+    {
+        FServerGetPlayFabIDsFromGenericIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromGenericIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromGenericIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -714,6 +868,63 @@ void UPlayFabServerAPI::HelperGetUserBans(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
+/** Links the custom server identifier, generated by the title, to the user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::LinkServerCustomId(FServerLinkServerCustomIdRequest request,
+    FDelegateOnSuccessLinkServerCustomId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkServerCustomId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLinkServerCustomId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LinkServerCustomId";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.ServerCustomId.IsEmpty() || request.ServerCustomId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ServerCustomId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ServerCustomId"), request.ServerCustomId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLinkServerCustomId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkServerCustomId.IsBound())
+    {
+        FServerLinkServerCustomIdResult ResultStruct = UPlayFabServerModelDecoder::decodeLinkServerCustomIdResultResponse(response.responseData);
+        OnSuccessLinkServerCustomId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Links the Xbox Live account associated with the provided access code to the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::LinkXboxAccount(FServerLinkXboxAccountRequest request,
     FDelegateOnSuccessLinkXboxAccount onSuccess,
@@ -767,6 +978,59 @@ void UPlayFabServerAPI::HelperLinkXboxAccount(FPlayFabBaseModel response, UObjec
     {
         FServerLinkXboxAccountResult ResultStruct = UPlayFabServerModelDecoder::decodeLinkXboxAccountResultResponse(response.responseData);
         OnSuccessLinkXboxAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Removes the specified generic service identifier from the player's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::RemoveGenericID(FServerRemoveGenericIDRequest request,
+    FDelegateOnSuccessRemoveGenericID onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRemoveGenericID = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRemoveGenericID);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/RemoveGenericID";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.GenericId != nullptr) OutRestJsonObj->SetObjectField(TEXT("GenericId"), request.GenericId);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperRemoveGenericID(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRemoveGenericID.IsBound())
+    {
+        FServerEmptyResult ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRemoveGenericID.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -872,6 +1136,73 @@ void UPlayFabServerAPI::HelperRevokeBans(FPlayFabBaseModel response, UObject* cu
     {
         FServerRevokeBansResult ResultStruct = UPlayFabServerModelDecoder::decodeRevokeBansResultResponse(response.responseData);
         OnSuccessRevokeBans.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Saves push notification template for title */
+UPlayFabServerAPI* UPlayFabServerAPI::SavePushNotificationTemplate(FServerSavePushNotificationTemplateRequest request,
+    FDelegateOnSuccessSavePushNotificationTemplate onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSavePushNotificationTemplate = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSavePushNotificationTemplate);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/SavePushNotificationTemplate";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.AndroidPayload.IsEmpty() || request.AndroidPayload == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AndroidPayload"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AndroidPayload"), request.AndroidPayload);
+    }
+    if (request.Id.IsEmpty() || request.Id == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Id"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Id"), request.Id);
+    }
+    if (request.IOSPayload.IsEmpty() || request.IOSPayload == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IOSPayload"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IOSPayload"), request.IOSPayload);
+    }
+    if (request.LocalizedPushNotificationTemplates != nullptr) OutRestJsonObj->SetObjectField(TEXT("LocalizedPushNotificationTemplates"), request.LocalizedPushNotificationTemplates);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperSavePushNotificationTemplate(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSavePushNotificationTemplate.IsBound())
+    {
+        FServerSavePushNotificationTemplateResult ResultStruct = UPlayFabServerModelDecoder::decodeSavePushNotificationTemplateResultResponse(response.responseData);
+        OnSuccessSavePushNotificationTemplate.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1064,6 +1395,119 @@ void UPlayFabServerAPI::HelperSendPushNotification(FPlayFabBaseModel response, U
     {
         FServerSendPushNotificationResult ResultStruct = UPlayFabServerModelDecoder::decodeSendPushNotificationResultResponse(response.responseData);
         OnSuccessSendPushNotification.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Sends an iOS/Android Push Notification template to a specific user, if that user's device has been configured for Push Notifications in PlayFab. If a user has linked both Android and iOS devices, both will be notified. */
+UPlayFabServerAPI* UPlayFabServerAPI::SendPushNotificationFromTemplate(FServerSendPushNotificationFromTemplateRequest request,
+    FDelegateOnSuccessSendPushNotificationFromTemplate onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSendPushNotificationFromTemplate = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSendPushNotificationFromTemplate);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/SendPushNotificationFromTemplate";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.PushNotificationTemplateId.IsEmpty() || request.PushNotificationTemplateId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PushNotificationTemplateId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PushNotificationTemplateId"), request.PushNotificationTemplateId);
+    }
+    if (request.Recipient.IsEmpty() || request.Recipient == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Recipient"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Recipient"), request.Recipient);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperSendPushNotificationFromTemplate(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSendPushNotificationFromTemplate.IsBound())
+    {
+        FServerSendPushNotificationResult ResultStruct = UPlayFabServerModelDecoder::decodeSendPushNotificationResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSendPushNotificationFromTemplate.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unlinks the custom server identifier from the user's PlayFab account. */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkServerCustomId(FServerUnlinkServerCustomIdRequest request,
+    FDelegateOnSuccessUnlinkServerCustomId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkServerCustomId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkServerCustomId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkServerCustomId";
+    manager->useSecretKey = true;
+
+    // Serialize all the request properties to json
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.ServerCustomId.IsEmpty() || request.ServerCustomId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ServerCustomId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ServerCustomId"), request.ServerCustomId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkServerCustomId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkServerCustomId.IsBound())
+    {
+        FServerUnlinkServerCustomIdResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkServerCustomIdResultResponse(response.responseData);
+        OnSuccessUnlinkServerCustomId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

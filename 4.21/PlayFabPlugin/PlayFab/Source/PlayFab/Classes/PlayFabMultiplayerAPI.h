@@ -182,58 +182,6 @@ public:
     ///////////////////////////////////////////////////////
     // Matchmaking Admin
     //////////////////////////////////////////////////////
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMatchmakingQueue, FMultiplayerGetMatchmakingQueueResult, result, UObject*, customData);
-
-    /** Get a matchmaking queue configuration. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* GetMatchmakingQueue(FMultiplayerGetMatchmakingQueueRequest request,
-            FDelegateOnSuccessGetMatchmakingQueue onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListMatchmakingQueues, FMultiplayerListMatchmakingQueuesResult, result, UObject*, customData);
-
-    /** List all matchmaking queue configs. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* ListMatchmakingQueues(FMultiplayerListMatchmakingQueuesRequest request,
-            FDelegateOnSuccessListMatchmakingQueues onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperListMatchmakingQueues(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveMatchmakingQueue, FMultiplayerRemoveMatchmakingQueueResult, result, UObject*, customData);
-
-    /** Remove a matchmaking queue config. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* RemoveMatchmakingQueue(FMultiplayerRemoveMatchmakingQueueRequest request,
-            FDelegateOnSuccessRemoveMatchmakingQueue onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperRemoveMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetMatchmakingQueue, FMultiplayerSetMatchmakingQueueResult, result, UObject*, customData);
-
-    /** Create or update a matchmaking queue configuration. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* SetMatchmakingQueue(FMultiplayerSetMatchmakingQueueRequest request,
-            FDelegateOnSuccessSetMatchmakingQueue onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperSetMatchmakingQueue(FPlayFabBaseModel response, UObject* customData, bool successful);
-
 
     ///////////////////////////////////////////////////////
     // MultiplayerServer
@@ -419,6 +367,19 @@ public:
     // Implements FOnPlayFabMultiplayerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetTitleEnabledForMultiplayerServersStatus(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTitleMultiplayerServersQuotas, FMultiplayerGetTitleMultiplayerServersQuotasResponse, result, UObject*, customData);
+
+    /** Gets the quotas for a title in relation to multiplayer servers. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetTitleMultiplayerServersQuotas(FMultiplayerGetTitleMultiplayerServersQuotasRequest request,
+            FDelegateOnSuccessGetTitleMultiplayerServersQuotas onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetTitleMultiplayerServersQuotas(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListArchivedMultiplayerServers, FMultiplayerListMultiplayerServersResponse, result, UObject*, customData);
@@ -631,10 +592,6 @@ public:
     FDelegateOnSuccessGetQueueStatistics OnSuccessGetQueueStatistics;
     FDelegateOnSuccessJoinMatchmakingTicket OnSuccessJoinMatchmakingTicket;
     FDelegateOnSuccessListMatchmakingTicketsForPlayer OnSuccessListMatchmakingTicketsForPlayer;
-    FDelegateOnSuccessGetMatchmakingQueue OnSuccessGetMatchmakingQueue;
-    FDelegateOnSuccessListMatchmakingQueues OnSuccessListMatchmakingQueues;
-    FDelegateOnSuccessRemoveMatchmakingQueue OnSuccessRemoveMatchmakingQueue;
-    FDelegateOnSuccessSetMatchmakingQueue OnSuccessSetMatchmakingQueue;
     FDelegateOnSuccessCreateBuildWithCustomContainer OnSuccessCreateBuildWithCustomContainer;
     FDelegateOnSuccessCreateBuildWithManagedContainer OnSuccessCreateBuildWithManagedContainer;
     FDelegateOnSuccessCreateRemoteUser OnSuccessCreateRemoteUser;
@@ -649,6 +606,7 @@ public:
     FDelegateOnSuccessGetMultiplayerServerDetails OnSuccessGetMultiplayerServerDetails;
     FDelegateOnSuccessGetRemoteLoginEndpoint OnSuccessGetRemoteLoginEndpoint;
     FDelegateOnSuccessGetTitleEnabledForMultiplayerServersStatus OnSuccessGetTitleEnabledForMultiplayerServersStatus;
+    FDelegateOnSuccessGetTitleMultiplayerServersQuotas OnSuccessGetTitleMultiplayerServersQuotas;
     FDelegateOnSuccessListArchivedMultiplayerServers OnSuccessListArchivedMultiplayerServers;
     FDelegateOnSuccessListAssetSummaries OnSuccessListAssetSummaries;
     FDelegateOnSuccessListBuildSummaries OnSuccessListBuildSummaries;

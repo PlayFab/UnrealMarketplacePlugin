@@ -30,6 +30,26 @@ class UPlayFabJsonObject;
 // Account Management
 //////////////////////////////////////////////////////
 
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerAddGenericIDRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Generic service identifier to add to the player account. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* GenericId = nullptr;
+    /** PlayFabId of the user to link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerEmptyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
 /**
  * The existence of each user will not be verified. When banning by IP or MAC address, multiple players may be affected, so
  * use this feature with caution. Returns information about the new bans.
@@ -76,6 +96,23 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerDeletePlayerResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerDeletePushNotificationTemplateRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Id of the push notification template to be deleted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PushNotificationTemplateId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerDeletePushNotificationTemplateResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -155,6 +192,30 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookInstantGamesIdsResult : publi
     GENERATED_USTRUCT_BODY()
 public:
     /** Mapping of Facebook Instant Games identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromGenericIDsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Array of unique generic service identifiers for which the title needs to get PlayFab identifiers. Currently limited to a
+     * maximum of 10 in a single request.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> GenericIDs;
+};
+
+/** For generic service identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromGenericIDsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of generic service identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         TArray<UPlayFabJsonObject*> Data;
 };
@@ -321,6 +382,29 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkServerCustomIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** If another user is already linked to the custom ID, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** Unique PlayFab identifier. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+    /** Unique server custom identifier for this player. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString ServerCustomId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkServerCustomIdResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLinkXboxAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -341,6 +425,19 @@ struct PLAYFAB_API FServerLinkXboxAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerRemoveGenericIDRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Generic service identifier to be removed from the player. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* GenericId = nullptr;
+    /** PlayFabId of the user to remove. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
 };
 
 /**
@@ -389,6 +486,38 @@ public:
     /** Information on the bans that were revoked */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         TArray<UPlayFabJsonObject*> BanData;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerSavePushNotificationTemplateRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Android JSON for the notification template. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString AndroidPayload;
+    /** Id of the push notification template. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString Id;
+    /** IOS JSON for the notification template. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString IOSPayload;
+    /** Dictionary of localized push notification templates. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* LocalizedPushNotificationTemplates = nullptr;
+    /** Name of the push notification template. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString Name;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerSavePushNotificationTemplateResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Id of the push notification template that was saved. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PushNotificationTemplateId;
 };
 
 /**
@@ -475,6 +604,39 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSendPushNotificationResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerSendPushNotificationFromTemplateRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Id of the push notification template. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PushNotificationTemplateId;
+    /** PlayFabId of the push notification recipient. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString Recipient;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkServerCustomIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique PlayFab identifier. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+    /** Unique server custom identifier for this player. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString ServerCustomId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkServerCustomIdResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

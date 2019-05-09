@@ -317,6 +317,9 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FEntityProfileBody : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Avatar URL for the entity.
+        FString AvatarUrl;
+
         // The creation time of this profile in UTC.
         FDateTime Created;
 
@@ -357,6 +360,7 @@ namespace ProfilesModels
 
         FEntityProfileBody() :
             FPlayFabCppBaseModel(),
+            AvatarUrl(),
             Created(0),
             DisplayName(),
             Entity(nullptr),
@@ -372,6 +376,7 @@ namespace ProfilesModels
 
         FEntityProfileBody(const FEntityProfileBody& src) :
             FPlayFabCppBaseModel(),
+            AvatarUrl(src.AvatarUrl),
             Created(src.Created),
             DisplayName(src.DisplayName),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),

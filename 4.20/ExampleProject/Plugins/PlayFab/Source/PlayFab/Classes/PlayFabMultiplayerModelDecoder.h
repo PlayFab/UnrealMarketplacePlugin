@@ -74,22 +74,6 @@ public:
     // Matchmaking Admin
     //////////////////////////////////////////////////////
 
-    /** Decode the GetMatchmakingQueueResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
-        static FMultiplayerGetMatchmakingQueueResult decodeGetMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the ListMatchmakingQueuesResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
-        static FMultiplayerListMatchmakingQueuesResult decodeListMatchmakingQueuesResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the RemoveMatchmakingQueueResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
-        static FMultiplayerRemoveMatchmakingQueueResult decodeRemoveMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the SetMatchmakingQueueResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking Admin Models")
-        static FMultiplayerSetMatchmakingQueueResult decodeSetMatchmakingQueueResultResponse(UPlayFabJsonObject* response);
-
 
 
     ///////////////////////////////////////////////////////
@@ -139,6 +123,10 @@ public:
     /** Decode the GetTitleEnabledForMultiplayerServersStatusResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse decodeGetTitleEnabledForMultiplayerServersStatusResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetTitleMultiplayerServersQuotasResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        static FMultiplayerGetTitleMultiplayerServersQuotasResponse decodeGetTitleMultiplayerServersQuotasResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the ListMultiplayerServersResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")

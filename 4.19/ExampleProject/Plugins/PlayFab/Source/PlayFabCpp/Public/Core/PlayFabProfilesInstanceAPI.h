@@ -88,7 +88,7 @@ namespace PlayFab
         /**
          * Updates the entity's language. The precedence hierarchy for communication to the player is Title Player Account
          * language, Master Player Account language, and then title default language if the first two aren't set or supported.
-         * Given an entity profile, will update its language to the one passed in if the profile's version is at least the one passed in.
+         * Given an entity profile, will update its language to the one passed in if the profile's version is equal to the one passed in.
          */
         bool SetProfileLanguage(ProfilesModels::FSetProfileLanguageRequest& request, const FSetProfileLanguageDelegate& SuccessDelegate = FSetProfileLanguageDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

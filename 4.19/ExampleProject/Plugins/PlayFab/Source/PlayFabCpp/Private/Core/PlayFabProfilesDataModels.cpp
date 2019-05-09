@@ -453,6 +453,8 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
+    if (AvatarUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AvatarUrl")); writer->WriteValue(AvatarUrl); }
+
     writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
 
     if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
@@ -515,6 +517,13 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
 bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AvatarUrlValue = obj->TryGetField(TEXT("AvatarUrl"));
+    if (AvatarUrlValue.IsValid() && !AvatarUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (AvatarUrlValue->TryGetString(TmpValue)) { AvatarUrl = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
     if (CreatedValue.IsValid())

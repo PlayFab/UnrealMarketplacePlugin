@@ -86,6 +86,8 @@ bool UPlayFabMultiplayerInstanceAPI::CancelAllMatchmakingTicketsForPlayer(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/CancelAllMatchmakingTicketsForPlayer")) : this->settings->GetUrl(TEXT("/Match/CancelAllMatchmakingTicketsForPlayer")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCancelAllMatchmakingTicketsForPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -114,6 +116,8 @@ bool UPlayFabMultiplayerInstanceAPI::CancelMatchmakingTicket(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/CancelMatchmakingTicket")) : this->settings->GetUrl(TEXT("/Match/CancelMatchmakingTicket")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCancelMatchmakingTicketResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -142,6 +146,8 @@ bool UPlayFabMultiplayerInstanceAPI::CreateBuildWithCustomContainer(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/CreateBuildWithCustomContainer")) : this->settings->GetUrl(TEXT("/MultiplayerServer/CreateBuildWithCustomContainer")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCreateBuildWithCustomContainerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -170,6 +176,8 @@ bool UPlayFabMultiplayerInstanceAPI::CreateBuildWithManagedContainer(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/CreateBuildWithManagedContainer")) : this->settings->GetUrl(TEXT("/MultiplayerServer/CreateBuildWithManagedContainer")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCreateBuildWithManagedContainerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -198,6 +206,8 @@ bool UPlayFabMultiplayerInstanceAPI::CreateMatchmakingTicket(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/CreateMatchmakingTicket")) : this->settings->GetUrl(TEXT("/Match/CreateMatchmakingTicket")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCreateMatchmakingTicketResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -226,6 +236,8 @@ bool UPlayFabMultiplayerInstanceAPI::CreateRemoteUser(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/CreateRemoteUser")) : this->settings->GetUrl(TEXT("/MultiplayerServer/CreateRemoteUser")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCreateRemoteUserResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -254,6 +266,8 @@ bool UPlayFabMultiplayerInstanceAPI::CreateServerMatchmakingTicket(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/CreateServerMatchmakingTicket")) : this->settings->GetUrl(TEXT("/Match/CreateServerMatchmakingTicket")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCreateServerMatchmakingTicketResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -282,6 +296,8 @@ bool UPlayFabMultiplayerInstanceAPI::DeleteAsset(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/DeleteAsset")) : this->settings->GetUrl(TEXT("/MultiplayerServer/DeleteAsset")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnDeleteAssetResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -310,6 +326,8 @@ bool UPlayFabMultiplayerInstanceAPI::DeleteBuild(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/DeleteBuild")) : this->settings->GetUrl(TEXT("/MultiplayerServer/DeleteBuild")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnDeleteBuildResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -338,6 +356,8 @@ bool UPlayFabMultiplayerInstanceAPI::DeleteCertificate(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/DeleteCertificate")) : this->settings->GetUrl(TEXT("/MultiplayerServer/DeleteCertificate")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnDeleteCertificateResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -366,6 +386,8 @@ bool UPlayFabMultiplayerInstanceAPI::DeleteRemoteUser(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/DeleteRemoteUser")) : this->settings->GetUrl(TEXT("/MultiplayerServer/DeleteRemoteUser")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnDeleteRemoteUserResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -402,6 +424,8 @@ bool UPlayFabMultiplayerInstanceAPI::EnableMultiplayerServersForTitle(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/EnableMultiplayerServersForTitle")) : this->settings->GetUrl(TEXT("/MultiplayerServer/EnableMultiplayerServersForTitle")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnEnableMultiplayerServersForTitleResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -430,6 +454,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetAssetUploadUrl(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetAssetUploadUrl")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetAssetUploadUrl")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetAssetUploadUrlResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -458,6 +484,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetBuild(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetBuild")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetBuild")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetBuildResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -494,6 +522,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetContainerRegistryCredentials(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetContainerRegistryCredentials")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetContainerRegistryCredentials")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetContainerRegistryCredentialsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -522,6 +552,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetMatch(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/GetMatch")) : this->settings->GetUrl(TEXT("/Match/GetMatch")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetMatchResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -550,6 +582,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetMatchmakingTicket(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/GetMatchmakingTicket")) : this->settings->GetUrl(TEXT("/Match/GetMatchmakingTicket")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetMatchmakingTicketResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -578,6 +612,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetMultiplayerServerDetails(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetMultiplayerServerDetails")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetMultiplayerServerDetails")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetMultiplayerServerDetailsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -606,6 +642,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetQueueStatistics(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/GetQueueStatistics")) : this->settings->GetUrl(TEXT("/Match/GetQueueStatistics")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetQueueStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -634,6 +672,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetRemoteLoginEndpoint(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetRemoteLoginEndpoint")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetRemoteLoginEndpoint")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetRemoteLoginEndpointResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -670,6 +710,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetTitleEnabledForMultiplayerServersStatus(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetTitleEnabledForMultiplayerServersStatus")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetTitleEnabledForMultiplayerServersStatus")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetTitleEnabledForMultiplayerServersStatusResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -706,6 +748,8 @@ bool UPlayFabMultiplayerInstanceAPI::GetTitleMultiplayerServersQuotas(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetTitleMultiplayerServersQuotas")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetTitleMultiplayerServersQuotas")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetTitleMultiplayerServersQuotasResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -734,6 +778,8 @@ bool UPlayFabMultiplayerInstanceAPI::JoinMatchmakingTicket(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/JoinMatchmakingTicket")) : this->settings->GetUrl(TEXT("/Match/JoinMatchmakingTicket")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnJoinMatchmakingTicketResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -762,6 +808,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListArchivedMultiplayerServers(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListArchivedMultiplayerServers")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListArchivedMultiplayerServers")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListArchivedMultiplayerServersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -790,6 +838,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListAssetSummaries(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListAssetSummaries")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListAssetSummaries")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListAssetSummariesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -818,6 +868,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListBuildSummaries(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListBuildSummaries")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListBuildSummaries")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListBuildSummariesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -846,6 +898,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListCertificateSummaries(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListCertificateSummaries")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListCertificateSummaries")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListCertificateSummariesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -874,6 +928,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListContainerImages(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListContainerImages")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListContainerImages")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListContainerImagesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -902,6 +958,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListContainerImageTags(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListContainerImageTags")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListContainerImageTags")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListContainerImageTagsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -930,6 +988,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListMatchmakingTicketsForPlayer(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Match/ListMatchmakingTicketsForPlayer")) : this->settings->GetUrl(TEXT("/Match/ListMatchmakingTicketsForPlayer")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListMatchmakingTicketsForPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -958,6 +1018,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListMultiplayerServers(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListMultiplayerServers")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListMultiplayerServers")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListMultiplayerServersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -990,6 +1052,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListQosServers(
     const FListQosServersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListQosServers")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListQosServers")), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListQosServersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -1018,6 +1082,8 @@ bool UPlayFabMultiplayerInstanceAPI::ListVirtualMachineSummaries(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListVirtualMachineSummaries")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListVirtualMachineSummaries")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListVirtualMachineSummariesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -1046,6 +1112,8 @@ bool UPlayFabMultiplayerInstanceAPI::RequestMultiplayerServer(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/RequestMultiplayerServer")) : this->settings->GetUrl(TEXT("/MultiplayerServer/RequestMultiplayerServer")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnRequestMultiplayerServerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -1082,6 +1150,8 @@ bool UPlayFabMultiplayerInstanceAPI::RolloverContainerRegistryCredentials(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/RolloverContainerRegistryCredentials")) : this->settings->GetUrl(TEXT("/MultiplayerServer/RolloverContainerRegistryCredentials")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnRolloverContainerRegistryCredentialsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -1110,6 +1180,8 @@ bool UPlayFabMultiplayerInstanceAPI::ShutdownMultiplayerServer(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ShutdownMultiplayerServer")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ShutdownMultiplayerServer")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnShutdownMultiplayerServerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -1138,6 +1210,8 @@ bool UPlayFabMultiplayerInstanceAPI::UpdateBuildRegions(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/UpdateBuildRegions")) : this->settings->GetUrl(TEXT("/MultiplayerServer/UpdateBuildRegions")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnUpdateBuildRegionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
@@ -1166,6 +1240,8 @@ bool UPlayFabMultiplayerInstanceAPI::UploadCertificate(
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
+
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/UploadCertificate")) : this->settings->GetUrl(TEXT("/MultiplayerServer/UploadCertificate")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnUploadCertificateResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();

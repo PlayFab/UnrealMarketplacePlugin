@@ -30,6 +30,7 @@ namespace PlayFab
         static FString GetAdvertisingIdValue();
         static bool GetDisableAdvertising();
         static FString GetVerticalName();
+        static FString GetLocalApiServer();
 
 
         static void SetUseDevelopmentEnvironment(bool useDevelopmentEnvironment);

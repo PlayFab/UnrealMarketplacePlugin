@@ -5855,7 +5855,8 @@ namespace AdminModels
     enum ScheduledTaskType
     {
         ScheduledTaskTypeCloudScript,
-        ScheduledTaskTypeActionsOnPlayerSegment
+        ScheduledTaskTypeActionsOnPlayerSegment,
+        ScheduledTaskTypeCloudScriptAzureFunctions
     };
 
     PLAYFABCPP_API void writeScheduledTaskTypeEnumJSON(ScheduledTaskType enumVal, JsonWriter& writer);

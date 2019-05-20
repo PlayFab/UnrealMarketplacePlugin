@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabDataAPI::UPlayFabDataAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -96,6 +97,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::AbortFileUploads(FDataAbortFileUploadsRequest 
     manager->PlayFabRequestURL = "/File/AbortFileUploads";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     // Check to see if string is empty
@@ -151,6 +153,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::DeleteFiles(FDataDeleteFilesRequest request,
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/File/DeleteFiles";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -208,6 +211,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::FinalizeFileUploads(FDataFinalizeFileUploadsRe
     manager->PlayFabRequestURL = "/File/FinalizeFileUploads";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     // Check to see if string is empty
@@ -263,6 +267,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::GetFiles(FDataGetFilesRequest request,
     manager->PlayFabRequestURL = "/File/GetFiles";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
@@ -309,6 +314,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::InitiateFileUploads(FDataInitiateFileUploadsRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/File/InitiateFileUploads";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -370,6 +376,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::GetObjects(FDataGetObjectsRequest request,
     manager->PlayFabRequestURL = "/Object/GetObjects";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
@@ -417,6 +424,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::SetObjects(FDataSetObjectsRequest request,
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Object/SetObjects";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -528,6 +536,7 @@ void UPlayFabDataAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

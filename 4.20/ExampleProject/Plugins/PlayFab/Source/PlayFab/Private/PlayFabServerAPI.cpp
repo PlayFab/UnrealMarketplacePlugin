@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabServerAPI::UPlayFabServerAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -96,6 +97,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddGenericID(FServerAddGenericIDRequest re
     manager->PlayFabRequestURL = "/Server/AddGenericID";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.GenericId != nullptr) OutRestJsonObj->SetObjectField(TEXT("GenericId"), request.GenericId);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -148,6 +150,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::BanUsers(FServerBanUsersRequest request,
     manager->PlayFabRequestURL = "/Server/BanUsers";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Bans.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Bans"));
@@ -198,6 +201,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeletePlayer(FServerDeletePlayerRequest re
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/DeletePlayer";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -250,6 +254,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeletePushNotificationTemplate(FServerDele
     manager->PlayFabRequestURL = "/Server/DeletePushNotificationTemplate";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PushNotificationTemplateId.IsEmpty() || request.PushNotificationTemplateId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PushNotificationTemplateId"));
@@ -300,6 +305,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerProfile(FServerGetPlayerProfileRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerProfile";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -352,6 +358,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromFacebookIDs(FServerGetPla
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromFacebookIDs";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -407,6 +414,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromFacebookInstantGamesIds(F
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromFacebookInstantGamesIds";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.FacebookInstantGamesIds.IsEmpty() || request.FacebookInstantGamesIds == "") {
@@ -461,6 +469,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromGenericIDs(FServerGetPlay
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromGenericIDs";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.GenericIDs.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("GenericIDs"));
@@ -511,6 +520,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(F
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromNintendoSwitchDeviceIds";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -565,6 +575,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromPSNAccountIDs(FServerGetP
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromPSNAccountIDs";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
@@ -621,6 +632,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromSteamIDs(FServerGetPlayFa
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromSteamIDs";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.SteamStringIDs.IsEmpty() || request.SteamStringIDs == "") {
@@ -674,6 +686,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromXboxLiveIDs(FServerGetPla
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromXboxLiveIDs";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Sandbox.IsEmpty() || request.Sandbox == "") {
@@ -734,6 +747,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetServerCustomIDsFromPlayFabIDs(FServerGe
     manager->PlayFabRequestURL = "/Server/GetServerCustomIDsFromPlayFabIDs";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.PlayFabIDs.IsEmpty() || request.PlayFabIDs == "") {
@@ -788,6 +802,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserAccountInfo(FServerGetUserAccountIn
     manager->PlayFabRequestURL = "/Server/GetUserAccountInfo";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -839,6 +854,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserBans(FServerGetUserBansRequest requ
     manager->PlayFabRequestURL = "/Server/GetUserBans";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -889,6 +905,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::LinkServerCustomId(FServerLinkServerCustom
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/LinkServerCustomId";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
@@ -947,6 +964,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::LinkXboxAccount(FServerLinkXboxAccountRequ
     manager->PlayFabRequestURL = "/Server/LinkXboxAccount";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -1004,6 +1022,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RemoveGenericID(FServerRemoveGenericIDRequ
     manager->PlayFabRequestURL = "/Server/RemoveGenericID";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.GenericId != nullptr) OutRestJsonObj->SetObjectField(TEXT("GenericId"), request.GenericId);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -1057,6 +1076,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeAllBansForUser(FServerRevokeAllBansF
     manager->PlayFabRequestURL = "/Server/RevokeAllBansForUser";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -1107,6 +1127,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeBans(FServerRevokeBansRequest reques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RevokeBans";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -1161,6 +1182,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SavePushNotificationTemplate(FServerSavePu
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SavePushNotificationTemplate";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.AndroidPayload.IsEmpty() || request.AndroidPayload == "") {
@@ -1229,6 +1251,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SendCustomAccountRecoveryEmail(FServerSend
     manager->PlayFabRequestURL = "/Server/SendCustomAccountRecoveryEmail";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Email.IsEmpty() || request.Email == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Email"));
@@ -1290,6 +1313,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SendEmailFromTemplate(FServerSendEmailFrom
     manager->PlayFabRequestURL = "/Server/SendEmailFromTemplate";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.EmailTemplateId.IsEmpty() || request.EmailTemplateId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EmailTemplateId"));
@@ -1345,6 +1369,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SendPushNotification(FServerSendPushNotifi
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SendPushNotification";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.AdvancedPlatformDelivery.Num() == 0) {
@@ -1421,6 +1446,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SendPushNotificationFromTemplate(FServerSe
     manager->PlayFabRequestURL = "/Server/SendPushNotificationFromTemplate";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PushNotificationTemplateId.IsEmpty() || request.PushNotificationTemplateId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PushNotificationTemplateId"));
@@ -1478,6 +1504,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlinkServerCustomId(FServerUnlinkServerCu
     manager->PlayFabRequestURL = "/Server/UnlinkServerCustomId";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -1533,6 +1560,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlinkXboxAccount(FServerUnlinkXboxAccount
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UnlinkXboxAccount";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -1590,6 +1618,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateAvatarUrl(FServerUpdateAvatarUrlRequ
     manager->PlayFabRequestURL = "/Server/UpdateAvatarUrl";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.ImageUrl.IsEmpty() || request.ImageUrl == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ImageUrl"));
@@ -1646,6 +1675,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateBans(FServerUpdateBansRequest reques
     manager->PlayFabRequestURL = "/Server/UpdateBans";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Bans.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Bans"));
@@ -1700,6 +1730,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WriteCharacterEvent(FServerWriteServerChar
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/WriteCharacterEvent";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
@@ -1768,6 +1799,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WritePlayerEvent(FServerWriteServerPlayerE
     manager->PlayFabRequestURL = "/Server/WritePlayerEvent";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
     if (request.EventName.IsEmpty() || request.EventName == "") {
@@ -1831,6 +1863,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WriteTitleEvent(FServerWriteTitleEventRequ
     manager->PlayFabRequestURL = "/Server/WriteTitleEvent";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
     if (request.EventName.IsEmpty() || request.EventName == "") {
@@ -1893,6 +1926,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AuthenticateSessionTicket(FServerAuthentic
     manager->PlayFabRequestURL = "/Server/AuthenticateSessionTicket";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.SessionTicket.IsEmpty() || request.SessionTicket == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SessionTicket"));
@@ -1943,6 +1977,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::LoginWithServerCustomId(FServerLoginWithSe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/LoginWithServerCustomId";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
@@ -2002,6 +2037,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::LoginWithXbox(FServerLoginWithXboxRequest 
     manager->PlayFabRequestURL = "/Server/LoginWithXbox";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
@@ -2055,6 +2091,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetPlayerSecret(FServerSetPlayerSecretRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetPlayerSecret";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
@@ -2115,6 +2152,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterData(FServerGetCharacterDataRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -2180,6 +2218,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterInternalData(FServerGetCharact
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterInternalData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -2247,6 +2286,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterReadOnlyData(FServerGetCharact
     manager->PlayFabRequestURL = "/Server/GetCharacterReadOnlyData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -2312,6 +2352,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterData(FServerUpdateCharacter
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateCharacterData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -2381,6 +2422,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterInternalData(FServerUpdateC
     manager->PlayFabRequestURL = "/Server/UpdateCharacterInternalData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -2449,6 +2491,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterReadOnlyData(FServerUpdateC
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateCharacterReadOnlyData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -2523,6 +2566,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeleteCharacterFromUser(FServerDeleteChara
     manager->PlayFabRequestURL = "/Server/DeleteCharacterFromUser";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -2580,6 +2624,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetAllUsersCharacters(FServerListUsersChar
     manager->PlayFabRequestURL = "/Server/GetAllUsersCharacters";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -2630,6 +2675,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterLeaderboard(FServerGetCharacte
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterLeaderboard";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterType.IsEmpty() || request.CharacterType == "") {
@@ -2689,6 +2735,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterStatistics(FServerGetCharacter
     manager->PlayFabRequestURL = "/Server/GetCharacterStatistics";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -2744,6 +2791,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardAroundCharacter(FServerGetLe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetLeaderboardAroundCharacter";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -2812,6 +2860,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardForUserCharacters(FServerGet
     manager->PlayFabRequestURL = "/Server/GetLeaderboardForUserCharacters";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -2868,6 +2917,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantCharacterToUser(FServerGrantCharacter
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GrantCharacterToUser";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterName.IsEmpty() || request.CharacterName == "") {
@@ -2930,6 +2980,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateCharacterStatistics(FServerUpdateCha
     manager->PlayFabRequestURL = "/Server/UpdateCharacterStatistics";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -2991,6 +3042,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetContentDownloadUrl(FServerGetContentDow
     manager->PlayFabRequestURL = "/Server/GetContentDownloadUrl";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.HttpMethod.IsEmpty() || request.HttpMethod == "") {
         OutRestJsonObj->SetFieldNull(TEXT("HttpMethod"));
@@ -3051,6 +3103,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddFriend(FServerAddFriendRequest request,
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/AddFriend";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.FriendEmail.IsEmpty() || request.FriendEmail == "") {
@@ -3124,6 +3177,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetFriendsList(FServerGetFriendsListReques
     manager->PlayFabRequestURL = "/Server/GetFriendsList";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
@@ -3183,6 +3237,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RemoveFriend(FServerRemoveFriendRequest re
     manager->PlayFabRequestURL = "/Server/RemoveFriend";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.FriendPlayFabId.IsEmpty() || request.FriendPlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FriendPlayFabId"));
@@ -3239,6 +3294,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetFriendTags(FServerSetFriendTagsRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetFriendTags";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.FriendPlayFabId.IsEmpty() || request.FriendPlayFabId == "") {
@@ -3309,6 +3365,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeregisterGame(FServerDeregisterGameReques
     manager->PlayFabRequestURL = "/Server/DeregisterGame";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
@@ -3359,6 +3416,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::NotifyMatchmakerPlayerLeft(FServerNotifyMa
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/NotifyMatchmakerPlayerLeft";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
@@ -3416,6 +3474,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RedeemMatchmakerTicket(FServerRedeemMatchm
     manager->PlayFabRequestURL = "/Server/RedeemMatchmakerTicket";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
@@ -3472,6 +3531,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RefreshGameServerInstanceHeartbeat(FServer
     manager->PlayFabRequestURL = "/Server/RefreshGameServerInstanceHeartbeat";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
@@ -3522,6 +3582,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RegisterGame(FServerRegisterGameRequest re
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RegisterGame";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Build.IsEmpty() || request.Build == "") {
@@ -3608,6 +3669,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceData(FServerSetGameSe
     manager->PlayFabRequestURL = "/Server/SetGameServerInstanceData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.GameServerData.IsEmpty() || request.GameServerData == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GameServerData"));
@@ -3664,6 +3726,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceState(FServerSetGameS
     manager->PlayFabRequestURL = "/Server/SetGameServerInstanceState";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
@@ -3717,6 +3780,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceTags(FServerSetGameSe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetGameServerInstanceTags";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
@@ -3774,6 +3838,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AwardSteamAchievement(FServerAwardSteamAch
     manager->PlayFabRequestURL = "/Server/AwardSteamAchievement";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Achievements.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Achievements"));
@@ -3828,6 +3893,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetFriendLeaderboard(FServerGetFriendLeade
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetFriendLeaderboard";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
@@ -3897,6 +3963,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboard(FServerGetLeaderboardReques
     manager->PlayFabRequestURL = "/Server/GetLeaderboard";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.ProfileConstraints != nullptr) OutRestJsonObj->SetObjectField(TEXT("ProfileConstraints"), request.ProfileConstraints);
@@ -3953,6 +4020,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardAroundUser(FServerGetLeaderb
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetLeaderboardAroundUser";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
@@ -4014,6 +4082,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerCombinedInfo(FServerGetPlayerComb
     manager->PlayFabRequestURL = "/Server/GetPlayerCombinedInfo";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -4065,6 +4134,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerStatistics(FServerGetPlayerStatis
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerStatistics";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -4130,6 +4200,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerStatisticVersions(FServerGetPlaye
     manager->PlayFabRequestURL = "/Server/GetPlayerStatisticVersions";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticName"));
@@ -4180,6 +4251,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserData(FServerGetUserDataRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
@@ -4240,6 +4312,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserInternalData(FServerGetUserDataRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserInternalData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
@@ -4302,6 +4375,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserPublisherData(FServerGetUserDataReq
     manager->PlayFabRequestURL = "/Server/GetUserPublisherData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
     // Check to see if string is empty
@@ -4362,6 +4436,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserPublisherInternalData(FServerGetUse
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserPublisherInternalData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
@@ -4424,6 +4499,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserPublisherReadOnlyData(FServerGetUse
     manager->PlayFabRequestURL = "/Server/GetUserPublisherReadOnlyData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
     // Check to see if string is empty
@@ -4484,6 +4560,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserReadOnlyData(FServerGetUserDataRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetUserReadOnlyData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
@@ -4546,6 +4623,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdatePlayerStatistics(FServerUpdatePlayer
     manager->PlayFabRequestURL = "/Server/UpdatePlayerStatistics";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceUpdate"), request.ForceUpdate);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -4602,6 +4680,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserData(FServerUpdateUserDataReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -4666,6 +4745,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserInternalData(FServerUpdateUserIn
     manager->PlayFabRequestURL = "/Server/UpdateUserInternalData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
@@ -4726,6 +4806,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserPublisherData(FServerUpdateUserD
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserPublisherData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -4791,6 +4872,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserPublisherInternalData(FServerUpd
     manager->PlayFabRequestURL = "/Server/UpdateUserPublisherInternalData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
@@ -4851,6 +4933,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserPublisherReadOnlyData(FServerUpd
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserPublisherReadOnlyData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -4915,6 +4998,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserReadOnlyData(FServerUpdateUserDa
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserReadOnlyData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -4984,6 +5068,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddCharacterVirtualCurrency(FServerAddChar
     manager->PlayFabRequestURL = "/Server/AddCharacterVirtualCurrency";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -5046,6 +5131,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddUserVirtualCurrency(FServerAddUserVirtu
     manager->PlayFabRequestURL = "/Server/AddUserVirtualCurrency";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -5102,6 +5188,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ConsumeItem(FServerConsumeItemRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/ConsumeItem";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -5165,6 +5252,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::EvaluateRandomResultTable(FServerEvaluateR
     manager->PlayFabRequestURL = "/Server/EvaluateRandomResultTable";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -5220,6 +5308,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterInventory(FServerGetCharacterI
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetCharacterInventory";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -5282,6 +5371,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetRandomResultTables(FServerGetRandomResu
     manager->PlayFabRequestURL = "/Server/GetRandomResultTables";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -5341,6 +5431,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetUserInventory(FServerGetUserInventoryRe
     manager->PlayFabRequestURL = "/Server/GetUserInventory";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -5391,6 +5482,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantItemsToCharacter(FServerGrantItemsToC
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GrantItemsToCharacter";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Annotation.IsEmpty() || request.Annotation == "") {
@@ -5466,6 +5558,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantItemsToUser(FServerGrantItemsToUserRe
     manager->PlayFabRequestURL = "/Server/GrantItemsToUser";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Annotation.IsEmpty() || request.Annotation == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Annotation"));
@@ -5535,6 +5628,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GrantItemsToUsers(FServerGrantItemsToUsers
     manager->PlayFabRequestURL = "/Server/GrantItemsToUsers";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -5590,6 +5684,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ModifyItemUses(FServerModifyItemUsesReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/ModifyItemUses";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.ItemInstanceId.IsEmpty() || request.ItemInstanceId == "") {
@@ -5647,6 +5742,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::MoveItemToCharacterFromCharacter(FServerMo
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/MoveItemToCharacterFromCharacter";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.GivingCharacterId.IsEmpty() || request.GivingCharacterId == "") {
@@ -5714,6 +5810,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::MoveItemToCharacterFromUser(FServerMoveIte
     manager->PlayFabRequestURL = "/Server/MoveItemToCharacterFromUser";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -5775,6 +5872,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::MoveItemToUserFromCharacter(FServerMoveIte
     manager->PlayFabRequestURL = "/Server/MoveItemToUserFromCharacter";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -5835,6 +5933,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RedeemCoupon(FServerRedeemCouponRequest re
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RedeemCoupon";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -5902,6 +6001,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ReportPlayer(FServerReportPlayerServerRequ
     manager->PlayFabRequestURL = "/Server/ReportPlayer";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Comment.IsEmpty() || request.Comment == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Comment"));
@@ -5962,6 +6062,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeInventoryItem(FServerRevokeInventory
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RevokeInventoryItem";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -6024,6 +6125,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RevokeInventoryItems(FServerRevokeInventor
     manager->PlayFabRequestURL = "/Server/RevokeInventoryItems";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Items.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Items"));
@@ -6074,6 +6176,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SubtractCharacterVirtualCurrency(FServerSu
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SubtractCharacterVirtualCurrency";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
@@ -6138,6 +6241,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SubtractUserVirtualCurrency(FServerSubtrac
     manager->PlayFabRequestURL = "/Server/SubtractUserVirtualCurrency";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -6195,6 +6299,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlockContainerInstance(FServerUnlockConta
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UnlockContainerInstance";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -6267,6 +6372,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlockContainerItem(FServerUnlockContainer
     manager->PlayFabRequestURL = "/Server/UnlockContainerItem";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -6333,6 +6439,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateUserInventoryItemCustomData(FServerU
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateUserInventoryItemCustomData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -6409,6 +6516,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddPlayerTag(FServerAddPlayerTagRequest re
     manager->PlayFabRequestURL = "/Server/AddPlayerTag";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -6465,6 +6573,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetAllSegments(FServerGetAllSegmentsReques
     manager->PlayFabRequestURL = "/Server/GetAllSegments";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -6510,6 +6619,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerSegments(FServerGetPlayersSegment
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayerSegments";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -6561,6 +6671,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayersInSegment(FServerGetPlayersInSeg
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPlayersInSegment";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
@@ -6620,6 +6731,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerTags(FServerGetPlayerTagsRequest 
     manager->PlayFabRequestURL = "/Server/GetPlayerTags";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Namespace.IsEmpty() || request.Namespace == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Namespace"));
@@ -6675,6 +6787,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RemovePlayerTag(FServerRemovePlayerTagRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/RemovePlayerTag";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -6735,6 +6848,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::ExecuteCloudScript(FServerExecuteCloudScri
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/ExecuteCloudScript";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
@@ -6802,6 +6916,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::AddSharedGroupMembers(FServerAddSharedGrou
     manager->PlayFabRequestURL = "/Server/AddSharedGroupMembers";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.PlayFabIds.IsEmpty() || request.PlayFabIds == "") {
@@ -6861,6 +6976,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::CreateSharedGroup(FServerCreateSharedGroup
     manager->PlayFabRequestURL = "/Server/CreateSharedGroup";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.SharedGroupId.IsEmpty() || request.SharedGroupId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SharedGroupId"));
@@ -6911,6 +7027,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::DeleteSharedGroup(FServerDeleteSharedGroup
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/DeleteSharedGroup";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.SharedGroupId.IsEmpty() || request.SharedGroupId == "") {
@@ -6963,6 +7080,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetSharedGroupData(FServerGetSharedGroupDa
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetSharedGroupData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("GetMembers"), request.GetMembers);
@@ -7024,6 +7142,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::RemoveSharedGroupMembers(FServerRemoveShar
     manager->PlayFabRequestURL = "/Server/RemoveSharedGroupMembers";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.PlayFabIds.IsEmpty() || request.PlayFabIds == "") {
@@ -7082,6 +7201,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::UpdateSharedGroupData(FServerUpdateSharedG
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/UpdateSharedGroupData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -7150,6 +7270,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCatalogItems(FServerGetCatalogItemsRequ
     manager->PlayFabRequestURL = "/Server/GetCatalogItems";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -7200,6 +7321,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetPublisherData(FServerGetPublisherDataRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetPublisherData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -7255,6 +7377,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTime(FServerGetTimeRequest request,
     manager->PlayFabRequestURL = "/Server/GetTime";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -7300,6 +7423,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTitleData(FServerGetTitleDataRequest re
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetTitleData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -7354,6 +7478,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTitleInternalData(FServerGetTitleDataRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/GetTitleInternalData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -7410,6 +7535,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetTitleNews(FServerGetTitleNewsRequest re
     manager->PlayFabRequestURL = "/Server/GetTitleNews";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
 
@@ -7456,6 +7582,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetPublisherData(FServerSetPublisherDataRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetPublisherData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Key.IsEmpty() || request.Key == "") {
@@ -7513,6 +7640,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleData(FServerSetTitleDataRequest re
     manager->PlayFabRequestURL = "/Server/SetTitleData";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.Key.IsEmpty() || request.Key == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Key"));
@@ -7568,6 +7696,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleInternalData(FServerSetTitleDataRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Server/SetTitleInternalData";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Key.IsEmpty() || request.Key == "") {
@@ -7683,6 +7812,7 @@ void UPlayFabServerAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

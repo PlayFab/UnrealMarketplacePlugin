@@ -15,14 +15,14 @@ class PLAYFABCPP_API UPlayFabAPISettings
 {
 public:
     UPlayFabAPISettings() :
+        VerticalName(PlayFab::PlayFabSettings::GetVerticalName())
+        , BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
+        , TitleId(PlayFab::PlayFabSettings::GetTitleId())
 #ifndef DISABLE_PLAYFABCLIENT_API
-        AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
+        , AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
         , AdvertisingIdValue(PlayFab::PlayFabSettings::GetAdvertisingIdValue())
         , DisableAdvertising(PlayFab::PlayFabSettings::GetDisableAdvertising())
 #endif
-        , VerticalName(PlayFab::PlayFabSettings::GetVerticalName())
-        , BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
-        , TitleId(PlayFab::PlayFabSettings::GetTitleId())
     {
     }
 

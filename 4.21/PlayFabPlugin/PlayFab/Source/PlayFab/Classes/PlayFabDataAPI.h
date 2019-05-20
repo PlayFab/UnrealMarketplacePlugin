@@ -157,6 +157,7 @@ public:
 
     /** PlayFab Request Info */
     FString PlayFabRequestURL;
+
     bool useEntityToken = false;
     bool useSecretKey = false;
     bool useSessionTicket = false;

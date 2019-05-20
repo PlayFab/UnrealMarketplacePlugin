@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabLocalizationAPI::UPlayFabLocalizationAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -95,6 +96,7 @@ UPlayFabLocalizationAPI* UPlayFabLocalizationAPI::GetLanguageList(FLocalizationG
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Locale/GetLanguageList";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
 
@@ -199,6 +201,7 @@ void UPlayFabLocalizationAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

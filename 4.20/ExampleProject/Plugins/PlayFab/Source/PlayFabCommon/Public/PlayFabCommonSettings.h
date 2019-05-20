@@ -41,7 +41,7 @@ namespace PlayFabCommon
         {
             if (serverURL.Len() == 0)
             {
-                serverURL = TEXT("https://") + (!verticalName.IsEmpty() ? verticalName : titleId) + productionEnvironmentURL;
+                serverURL = TEXT("https://") + titleId + (verticalName.IsEmpty() ? "" : "." + verticalName) + productionEnvironmentURL;
             }
             return serverURL + callPath + TEXT("?sdk=") + versionString;
         }

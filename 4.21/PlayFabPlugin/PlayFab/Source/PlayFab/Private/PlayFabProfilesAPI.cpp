@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabProfilesAPI::UPlayFabProfilesAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -96,6 +97,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetGlobalPolicy(FProfilesGetGlobalPoli
     manager->PlayFabRequestURL = "/Profile/GetGlobalPolicy";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -141,6 +143,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfile(FProfilesGetEntityProfileRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/GetProfile";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("DataAsObject"), request.DataAsObject);
@@ -189,6 +192,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfiles(FProfilesGetEntityProfiles
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/GetProfiles";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("DataAsObject"), request.DataAsObject);
@@ -242,6 +246,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetGlobalPolicy(FProfilesSetGlobalPoli
     manager->PlayFabRequestURL = "/Profile/SetGlobalPolicy";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Permissions.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Permissions"));
@@ -292,6 +297,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetProfileLanguage(FProfilesSetProfile
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/SetProfileLanguage";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -345,6 +351,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetProfilePolicy(FProfilesSetEntityPro
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Profile/SetProfilePolicy";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -455,6 +462,7 @@ void UPlayFabProfilesAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

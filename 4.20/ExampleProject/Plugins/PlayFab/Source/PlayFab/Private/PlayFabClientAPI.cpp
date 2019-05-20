@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabClientAPI::UPlayFabClientAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -96,6 +97,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddGenericID(FClientAddGenericIDRequest re
     manager->PlayFabRequestURL = "/Client/AddGenericID";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.GenericId != nullptr) OutRestJsonObj->SetObjectField(TEXT("GenericId"), request.GenericId);
 
@@ -142,6 +144,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddOrUpdateContactEmail(FClientAddOrUpdate
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddOrUpdateContactEmail";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.EmailAddress.IsEmpty() || request.EmailAddress == "") {
@@ -193,6 +196,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddUsernamePassword(FClientAddUsernamePass
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddUsernamePassword";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Email.IsEmpty() || request.Email == "") {
@@ -254,6 +258,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetAccountInfo(FClientGetAccountInfoReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetAccountInfo";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Email.IsEmpty() || request.Email == "") {
@@ -321,6 +326,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerCombinedInfo(FClientGetPlayerComb
     manager->PlayFabRequestURL = "/Client/GetPlayerCombinedInfo";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -373,6 +379,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerProfile(FClientGetPlayerProfileRe
     manager->PlayFabRequestURL = "/Client/GetPlayerProfile";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -424,6 +431,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromFacebookIDs(FClientGetPla
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromFacebookIDs";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -479,6 +487,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromFacebookInstantGamesIds(F
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromFacebookInstantGamesIds";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.FacebookInstantGamesIds.IsEmpty() || request.FacebookInstantGamesIds == "") {
@@ -532,6 +541,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromGameCenterIDs(FClientGetP
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromGameCenterIDs";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -587,6 +597,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromGenericIDs(FClientGetPlay
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromGenericIDs";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.GenericIDs.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("GenericIDs"));
@@ -637,6 +648,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromGoogleIDs(FClientGetPlayF
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromGoogleIDs";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -692,6 +704,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromKongregateIDs(FClientGetP
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromKongregateIDs";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.KongregateIDs.IsEmpty() || request.KongregateIDs == "") {
@@ -746,6 +759,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(F
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.NintendoSwitchDeviceIds.IsEmpty() || request.NintendoSwitchDeviceIds == "") {
@@ -799,6 +813,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromPSNAccountIDs(FClientGetP
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromPSNAccountIDs";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
@@ -855,6 +870,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromSteamIDs(FClientGetPlayFa
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromSteamIDs";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.SteamStringIDs.IsEmpty() || request.SteamStringIDs == "") {
@@ -909,6 +925,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromTwitchIDs(FClientGetPlayF
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromTwitchIDs";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.TwitchIds.IsEmpty() || request.TwitchIds == "") {
@@ -962,6 +979,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromXboxLiveIDs(FClientGetPla
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromXboxLiveIDs";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Sandbox.IsEmpty() || request.Sandbox == "") {
@@ -1021,6 +1039,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkAndroidDeviceID(FClientLinkAndroidDevi
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkAndroidDeviceID";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AndroidDevice.IsEmpty() || request.AndroidDevice == "") {
@@ -1084,6 +1103,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkCustomID(FClientLinkCustomIDRequest re
     manager->PlayFabRequestURL = "/Client/LinkCustomID";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CustomId.IsEmpty() || request.CustomId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CustomId"));
@@ -1135,6 +1155,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkFacebookAccount(FClientLinkFacebookAcc
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkFacebookAccount";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
@@ -1188,6 +1209,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkFacebookInstantGamesId(FClientLinkFace
     manager->PlayFabRequestURL = "/Client/LinkFacebookInstantGamesId";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.FacebookInstantGamesSignature.IsEmpty() || request.FacebookInstantGamesSignature == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FacebookInstantGamesSignature"));
@@ -1239,6 +1261,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkGameCenterAccount(FClientLinkGameCente
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkGameCenterAccount";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
@@ -1312,6 +1335,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkGoogleAccount(FClientLinkGoogleAccount
     manager->PlayFabRequestURL = "/Client/LinkGoogleAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.ServerAuthCode.IsEmpty() || request.ServerAuthCode == "") {
@@ -1363,6 +1387,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkIOSDeviceID(FClientLinkIOSDeviceIDRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkIOSDeviceID";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.DeviceId.IsEmpty() || request.DeviceId == "") {
@@ -1426,6 +1451,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkKongregate(FClientLinkKongregateAccoun
     manager->PlayFabRequestURL = "/Client/LinkKongregate";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.AuthTicket.IsEmpty() || request.AuthTicket == "") {
         OutRestJsonObj->SetFieldNull(TEXT("AuthTicket"));
@@ -1483,6 +1509,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoSwitchDeviceId(FClientLinkNint
     manager->PlayFabRequestURL = "/Client/LinkNintendoSwitchDeviceId";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.NintendoSwitchDeviceId.IsEmpty() || request.NintendoSwitchDeviceId == "") {
@@ -1534,6 +1561,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkOpenIdConnect(FClientLinkOpenIdConnect
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkOpenIdConnect";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.ConnectionId.IsEmpty() || request.ConnectionId == "") {
@@ -1591,6 +1619,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkPSNAccount(FClientLinkPSNAccountReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkPSNAccount";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AuthCode.IsEmpty() || request.AuthCode == "") {
@@ -1650,6 +1679,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkSteamAccount(FClientLinkSteamAccountRe
     manager->PlayFabRequestURL = "/Client/LinkSteamAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.SteamTicket.IsEmpty() || request.SteamTicket == "") {
@@ -1702,6 +1732,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkTwitch(FClientLinkTwitchAccountRequest
     manager->PlayFabRequestURL = "/Client/LinkTwitch";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("AccessToken"));
@@ -1753,6 +1784,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkWindowsHello(FClientLinkWindowsHelloAc
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LinkWindowsHello";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.DeviceName.IsEmpty() || request.DeviceName == "") {
@@ -1816,6 +1848,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkXboxAccount(FClientLinkXboxAccountRequ
     manager->PlayFabRequestURL = "/Client/LinkXboxAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
@@ -1868,6 +1901,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveContactEmail(FClientRemoveContactEma
     manager->PlayFabRequestURL = "/Client/RemoveContactEmail";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -1913,6 +1947,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveGenericID(FClientRemoveGenericIDRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RemoveGenericID";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.GenericId != nullptr) OutRestJsonObj->SetObjectField(TEXT("GenericId"), request.GenericId);
@@ -1960,6 +1995,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ReportPlayer(FClientReportPlayerClientRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ReportPlayer";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Comment.IsEmpty() || request.Comment == "") {
@@ -2015,6 +2051,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SendAccountRecoveryEmail(FClientSendAccoun
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/SendAccountRecoveryEmail";
+
 
     // Serialize all the request properties to json
     if (request.Email.IsEmpty() || request.Email == "") {
@@ -2073,6 +2110,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkAndroidDeviceID(FClientUnlinkAndroid
     manager->PlayFabRequestURL = "/Client/UnlinkAndroidDeviceID";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.AndroidDeviceId.IsEmpty() || request.AndroidDeviceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("AndroidDeviceId"));
@@ -2123,6 +2161,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkCustomID(FClientUnlinkCustomIDReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkCustomID";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CustomId.IsEmpty() || request.CustomId == "") {
@@ -2175,6 +2214,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkFacebookAccount(FClientUnlinkFaceboo
     manager->PlayFabRequestURL = "/Client/UnlinkFacebookAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -2220,6 +2260,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkFacebookInstantGamesId(FClientUnlink
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkFacebookInstantGamesId";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.FacebookInstantGamesId.IsEmpty() || request.FacebookInstantGamesId == "") {
@@ -2272,6 +2313,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkGameCenterAccount(FClientUnlinkGameC
     manager->PlayFabRequestURL = "/Client/UnlinkGameCenterAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -2318,6 +2360,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkGoogleAccount(FClientUnlinkGoogleAcc
     manager->PlayFabRequestURL = "/Client/UnlinkGoogleAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -2363,6 +2406,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkIOSDeviceID(FClientUnlinkIOSDeviceID
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkIOSDeviceID";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.DeviceId.IsEmpty() || request.DeviceId == "") {
@@ -2415,6 +2459,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkKongregate(FClientUnlinkKongregateAc
     manager->PlayFabRequestURL = "/Client/UnlinkKongregate";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -2460,6 +2505,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoSwitchDeviceId(FClientUnlink
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkNintendoSwitchDeviceId";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.NintendoSwitchDeviceId.IsEmpty() || request.NintendoSwitchDeviceId == "") {
@@ -2512,6 +2558,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkOpenIdConnect(FClientUninkOpenIdConn
     manager->PlayFabRequestURL = "/Client/UnlinkOpenIdConnect";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.ConnectionId.IsEmpty() || request.ConnectionId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ConnectionId"));
@@ -2563,6 +2610,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkPSNAccount(FClientUnlinkPSNAccountRe
     manager->PlayFabRequestURL = "/Client/UnlinkPSNAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -2608,6 +2656,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkSteamAccount(FClientUnlinkSteamAccou
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkSteamAccount";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
 
@@ -2655,6 +2704,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkTwitch(FClientUnlinkTwitchAccountReq
     manager->PlayFabRequestURL = "/Client/UnlinkTwitch";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -2700,6 +2750,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkWindowsHello(FClientUnlinkWindowsHel
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlinkWindowsHello";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
@@ -2752,6 +2803,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkXboxAccount(FClientUnlinkXboxAccount
     manager->PlayFabRequestURL = "/Client/UnlinkXboxAccount";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
@@ -2802,6 +2854,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateAvatarUrl(FClientUpdateAvatarUrlRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateAvatarUrl";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.ImageUrl.IsEmpty() || request.ImageUrl == "") {
@@ -2854,6 +2907,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserTitleDisplayName(FClientUpdateUs
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateUserTitleDisplayName";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.DisplayName.IsEmpty() || request.DisplayName == "") {
@@ -2909,6 +2963,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AttributeInstall(FClientAttributeInstallRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AttributeInstall";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Adid.IsEmpty() || request.Adid == "") {
@@ -2970,6 +3025,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ReportDeviceInfo(FClientDeviceInfoRequest 
     manager->PlayFabRequestURL = "/Client/ReportDeviceInfo";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.Info != nullptr) OutRestJsonObj->SetObjectField(TEXT("Info"), request.Info);
 
@@ -3017,6 +3073,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteCharacterEvent(FClientWriteClientChar
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/WriteCharacterEvent";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
@@ -3080,6 +3137,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WritePlayerEvent(FClientWriteClientPlayerE
     manager->PlayFabRequestURL = "/Client/WritePlayerEvent";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
     if (request.EventName.IsEmpty() || request.EventName == "") {
@@ -3137,6 +3195,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteTitleEvent(FClientWriteTitleEventRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/WriteTitleEvent";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
@@ -3200,6 +3259,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPhotonAuthenticationToken(FClientGetPho
     manager->PlayFabRequestURL = "/Client/GetPhotonAuthenticationToken";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.PhotonApplicationId.IsEmpty() || request.PhotonApplicationId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PhotonApplicationId"));
@@ -3249,6 +3309,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitlePublicKey(FClientGetTitlePublicKey
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTitlePublicKey";
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
@@ -3301,6 +3362,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetWindowsHelloChallenge(FClientGetWindows
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetWindowsHelloChallenge";
 
+
     // Serialize all the request properties to json
     if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PublicKeyHint"));
@@ -3352,6 +3414,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithAndroidDeviceID(FClientLoginWithA
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithAndroidDeviceID";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AndroidDevice.IsEmpty() || request.AndroidDevice == "") {
@@ -3427,6 +3490,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithCustomID(FClientLoginWithCustomID
     manager->PlayFabRequestURL = "/Client/LoginWithCustomID";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.CustomId.IsEmpty() || request.CustomId == "") {
@@ -3494,6 +3558,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithEmailAddress(FClientLoginWithEmai
     manager->PlayFabRequestURL = "/Client/LoginWithEmailAddress";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.Email.IsEmpty() || request.Email == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Email"));
@@ -3554,6 +3619,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebook(FClientLoginWithFacebook
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithFacebook";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
@@ -3622,6 +3688,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebookInstantGamesId(FClientLog
     manager->PlayFabRequestURL = "/Client/LoginWithFacebookInstantGamesId";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
@@ -3688,6 +3755,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGameCenter(FClientLoginWithGameCe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithGameCenter";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
@@ -3776,6 +3844,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGoogleAccount(FClientLoginWithGoo
     manager->PlayFabRequestURL = "/Client/LoginWithGoogleAccount";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
@@ -3842,6 +3911,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithIOSDeviceID(FClientLoginWithIOSDe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithIOSDeviceID";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
@@ -3920,6 +3990,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithKongregate(FClientLoginWithKongre
     manager->PlayFabRequestURL = "/Client/LoginWithKongregate";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.AuthTicket.IsEmpty() || request.AuthTicket == "") {
         OutRestJsonObj->SetFieldNull(TEXT("AuthTicket"));
@@ -3992,6 +4063,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchDeviceId(FClientLog
     manager->PlayFabRequestURL = "/Client/LoginWithNintendoSwitchDeviceId";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
@@ -4058,6 +4130,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithOpenIdConnect(FClientLoginWithOpe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithOpenIdConnect";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.ConnectionId.IsEmpty() || request.ConnectionId == "") {
@@ -4131,6 +4204,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPlayFab(FClientLoginWithPlayFabRe
     manager->PlayFabRequestURL = "/Client/LoginWithPlayFab";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
     if (request.Password.IsEmpty() || request.Password == "") {
@@ -4191,6 +4265,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPSN(FClientLoginWithPSNRequest re
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithPSN";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AuthCode.IsEmpty() || request.AuthCode == "") {
@@ -4265,6 +4340,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithSteam(FClientLoginWithSteamReques
     manager->PlayFabRequestURL = "/Client/LoginWithSteam";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
@@ -4331,6 +4407,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithTwitch(FClientLoginWithTwitchRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithTwitch";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
@@ -4399,6 +4476,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithWindowsHello(FClientLoginWithWind
     manager->PlayFabRequestURL = "/Client/LoginWithWindowsHello";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.ChallengeSignature.IsEmpty() || request.ChallengeSignature == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ChallengeSignature"));
@@ -4459,6 +4537,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithXbox(FClientLoginWithXboxRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/LoginWithXbox";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
@@ -4526,6 +4605,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterPlayFabUser(FClientRegisterPlayFab
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RegisterPlayFabUser";
     manager->returnsSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.DisplayName.IsEmpty() || request.DisplayName == "") {
@@ -4606,6 +4686,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterWithWindowsHello(FClientRegisterWi
     manager->PlayFabRequestURL = "/Client/RegisterWithWindowsHello";
     manager->returnsSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.DeviceName.IsEmpty() || request.DeviceName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DeviceName"));
@@ -4682,6 +4763,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SetPlayerSecret(FClientSetPlayerSecretRequ
     manager->PlayFabRequestURL = "/Client/SetPlayerSecret";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
@@ -4741,6 +4823,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterData(FClientGetCharacterDataRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCharacterData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -4807,6 +4890,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterReadOnlyData(FClientGetCharact
     manager->PlayFabRequestURL = "/Client/GetCharacterReadOnlyData";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -4872,6 +4956,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateCharacterData(FClientUpdateCharacter
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateCharacterData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -4940,6 +5025,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetAllUsersCharacters(FClientListUsersChar
     manager->PlayFabRequestURL = "/Client/GetAllUsersCharacters";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -4990,6 +5076,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterLeaderboard(FClientGetCharacte
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCharacterLeaderboard";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterType.IsEmpty() || request.CharacterType == "") {
@@ -5049,6 +5136,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterStatistics(FClientGetCharacter
     manager->PlayFabRequestURL = "/Client/GetCharacterStatistics";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -5099,6 +5187,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardAroundCharacter(FClientGetLe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetLeaderboardAroundCharacter";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -5162,6 +5251,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardForUserCharacters(FClientGet
     manager->PlayFabRequestURL = "/Client/GetLeaderboardForUserCharacters";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
@@ -5213,6 +5303,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GrantCharacterToUser(FClientGrantCharacter
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GrantCharacterToUser";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -5275,6 +5366,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateCharacterStatistics(FClientUpdateCha
     manager->PlayFabRequestURL = "/Client/UpdateCharacterStatistics";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
@@ -5330,6 +5422,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetContentDownloadUrl(FClientGetContentDow
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetContentDownloadUrl";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.HttpMethod.IsEmpty() || request.HttpMethod == "") {
@@ -5391,6 +5484,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddFriend(FClientAddFriendRequest request,
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AddFriend";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.FriendEmail.IsEmpty() || request.FriendEmail == "") {
@@ -5458,6 +5552,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendsList(FClientGetFriendsListReques
     manager->PlayFabRequestURL = "/Client/GetFriendsList";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
@@ -5512,6 +5607,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveFriend(FClientRemoveFriendRequest re
     manager->PlayFabRequestURL = "/Client/RemoveFriend";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.FriendPlayFabId.IsEmpty() || request.FriendPlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FriendPlayFabId"));
@@ -5562,6 +5658,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SetFriendTags(FClientSetFriendTagsRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/SetFriendTags";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.FriendPlayFabId.IsEmpty() || request.FriendPlayFabId == "") {
@@ -5625,6 +5722,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCurrentGames(FClientCurrentGamesRequest
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetCurrentGames";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildVersion.IsEmpty() || request.BuildVersion == "") {
@@ -5691,6 +5789,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetGameServerRegions(FClientGameServerRegi
     manager->PlayFabRequestURL = "/Client/GetGameServerRegions";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.BuildVersion.IsEmpty() || request.BuildVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildVersion"));
@@ -5742,6 +5841,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::Matchmake(FClientMatchmakeRequest request,
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/Matchmake";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildVersion.IsEmpty() || request.BuildVersion == "") {
@@ -5818,6 +5918,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::StartGame(FClientStartGameRequest request,
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/StartGame";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildVersion.IsEmpty() || request.BuildVersion == "") {
@@ -5897,6 +5998,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AndroidDevicePushNotificationRegistration(
     manager->PlayFabRequestURL = "/Client/AndroidDevicePushNotificationRegistration";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.ConfirmationMessage.IsEmpty() || request.ConfirmationMessage == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ConfirmationMessage"));
@@ -5954,6 +6056,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumePSNEntitlements(FClientConsumePSNEn
     manager->PlayFabRequestURL = "/Client/ConsumePSNEntitlements";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -6005,6 +6108,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumeXboxEntitlements(FClientConsumeXbox
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ConsumeXboxEntitlements";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -6061,6 +6165,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RefreshPSNAuthToken(FClientRefreshPSNAuthT
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/RefreshPSNAuthToken";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.AuthCode.IsEmpty() || request.AuthCode == "") {
@@ -6120,6 +6225,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterForIOSPushNotification(FClientRegi
     manager->PlayFabRequestURL = "/Client/RegisterForIOSPushNotification";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.ConfirmationMessage.IsEmpty() || request.ConfirmationMessage == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ConfirmationMessage"));
@@ -6177,6 +6283,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RestoreIOSPurchases(FClientRestoreIOSPurch
     manager->PlayFabRequestURL = "/Client/RestoreIOSPurchases";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.ReceiptData.IsEmpty() || request.ReceiptData == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceiptData"));
@@ -6227,6 +6334,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateAmazonIAPReceipt(FClientValidateAm
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ValidateAmazonIAPReceipt";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -6295,6 +6403,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateGooglePlayPurchase(FClientValidate
     manager->PlayFabRequestURL = "/Client/ValidateGooglePlayPurchase";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CurrencyCode.IsEmpty() || request.CurrencyCode == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CurrencyCode"));
@@ -6357,6 +6466,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateIOSReceipt(FClientValidateIOSRecei
     manager->PlayFabRequestURL = "/Client/ValidateIOSReceipt";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CurrencyCode.IsEmpty() || request.CurrencyCode == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CurrencyCode"));
@@ -6413,6 +6523,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateWindowsStoreReceipt(FClientValidat
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ValidateWindowsStoreReceipt";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -6480,6 +6591,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboard(FClientGetFriendLeade
     manager->PlayFabRequestURL = "/Client/GetFriendLeaderboard";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
@@ -6542,6 +6654,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboardAroundPlayer(FClientGe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetFriendLeaderboardAroundPlayer";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
@@ -6610,6 +6723,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboard(FClientGetLeaderboardReques
     manager->PlayFabRequestURL = "/Client/GetLeaderboard";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.ProfileConstraints != nullptr) OutRestJsonObj->SetObjectField(TEXT("ProfileConstraints"), request.ProfileConstraints);
@@ -6666,6 +6780,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardAroundPlayer(FClientGetLeade
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetLeaderboardAroundPlayer";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
@@ -6727,6 +6842,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerStatistics(FClientGetPlayerStatis
     manager->PlayFabRequestURL = "/Client/GetPlayerStatistics";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.StatisticNames.IsEmpty() || request.StatisticNames == "") {
@@ -6786,6 +6902,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerStatisticVersions(FClientGetPlaye
     manager->PlayFabRequestURL = "/Client/GetPlayerStatisticVersions";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticName"));
@@ -6836,6 +6953,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserData(FClientGetUserDataRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
@@ -6896,6 +7014,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserPublisherData(FClientGetUserDataReq
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserPublisherData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
@@ -6958,6 +7077,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserPublisherReadOnlyData(FClientGetUse
     manager->PlayFabRequestURL = "/Client/GetUserPublisherReadOnlyData";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
     // Check to see if string is empty
@@ -7018,6 +7138,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserReadOnlyData(FClientGetUserDataRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetUserReadOnlyData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("IfChangedFromDataVersion"), request.IfChangedFromDataVersion);
@@ -7080,6 +7201,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdatePlayerStatistics(FClientUpdatePlayer
     manager->PlayFabRequestURL = "/Client/UpdatePlayerStatistics";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.Statistics.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Statistics"));
@@ -7130,6 +7252,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserData(FClientUpdateUserDataReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateUserData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -7188,6 +7311,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserPublisherData(FClientUpdateUserD
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateUserPublisherData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -7252,6 +7376,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddUserVirtualCurrency(FClientAddUserVirtu
     manager->PlayFabRequestURL = "/Client/AddUserVirtualCurrency";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
     if (request.VirtualCurrency.IsEmpty() || request.VirtualCurrency == "") {
@@ -7304,6 +7429,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConfirmPurchase(FClientConfirmPurchaseRequ
     manager->PlayFabRequestURL = "/Client/ConfirmPurchase";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.OrderId.IsEmpty() || request.OrderId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OrderId"));
@@ -7354,6 +7480,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumeItem(FClientConsumeItemRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ConsumeItem";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CharacterId.IsEmpty() || request.CharacterId == "") {
@@ -7412,6 +7539,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterInventory(FClientGetCharacterI
     manager->PlayFabRequestURL = "/Client/GetCharacterInventory";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -7468,6 +7596,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPaymentToken(FClientGetPaymentTokenRequ
     manager->PlayFabRequestURL = "/Client/GetPaymentToken";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.TokenProvider.IsEmpty() || request.TokenProvider == "") {
         OutRestJsonObj->SetFieldNull(TEXT("TokenProvider"));
@@ -7518,6 +7647,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPurchase(FClientGetPurchaseRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPurchase";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.OrderId.IsEmpty() || request.OrderId == "") {
@@ -7570,6 +7700,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserInventory(FClientGetUserInventoryRe
     manager->PlayFabRequestURL = "/Client/GetUserInventory";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -7615,6 +7746,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::PayForPurchase(FClientPayForPurchaseReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/PayForPurchase";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Currency.IsEmpty() || request.Currency == "") {
@@ -7681,6 +7813,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::PurchaseItem(FClientPurchaseItemRequest re
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/PurchaseItem";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -7754,6 +7887,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RedeemCoupon(FClientRedeemCouponRequest re
     manager->PlayFabRequestURL = "/Client/RedeemCoupon";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -7814,6 +7948,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::StartPurchase(FClientStartPurchaseRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/StartPurchase";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -7876,6 +8011,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SubtractUserVirtualCurrency(FClientSubtrac
     manager->PlayFabRequestURL = "/Client/SubtractUserVirtualCurrency";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
     if (request.VirtualCurrency.IsEmpty() || request.VirtualCurrency == "") {
@@ -7928,6 +8064,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerInstance(FClientUnlockConta
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UnlockContainerInstance";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -7995,6 +8132,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerItem(FClientUnlockContainer
     manager->PlayFabRequestURL = "/Client/UnlockContainerItem";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -8061,6 +8199,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerSegments(FClientGetPlayerSegments
     manager->PlayFabRequestURL = "/Client/GetPlayerSegments";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -8106,6 +8245,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerTags(FClientGetPlayerTagsRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPlayerTags";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Namespace.IsEmpty() || request.Namespace == "") {
@@ -8166,6 +8306,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ExecuteCloudScript(FClientExecuteCloudScri
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/ExecuteCloudScript";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
@@ -8228,6 +8369,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddSharedGroupMembers(FClientAddSharedGrou
     manager->PlayFabRequestURL = "/Client/AddSharedGroupMembers";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.PlayFabIds.IsEmpty() || request.PlayFabIds == "") {
@@ -8287,6 +8429,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::CreateSharedGroup(FClientCreateSharedGroup
     manager->PlayFabRequestURL = "/Client/CreateSharedGroup";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.SharedGroupId.IsEmpty() || request.SharedGroupId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SharedGroupId"));
@@ -8337,6 +8480,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetSharedGroupData(FClientGetSharedGroupDa
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetSharedGroupData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("GetMembers"), request.GetMembers);
@@ -8398,6 +8542,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveSharedGroupMembers(FClientRemoveShar
     manager->PlayFabRequestURL = "/Client/RemoveSharedGroupMembers";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     // Check to see if string is empty
     if (request.PlayFabIds.IsEmpty() || request.PlayFabIds == "") {
@@ -8456,6 +8601,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateSharedGroupData(FClientUpdateSharedG
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/UpdateSharedGroupData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
@@ -8524,6 +8670,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCatalogItems(FClientGetCatalogItemsRequ
     manager->PlayFabRequestURL = "/Client/GetCatalogItems";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
@@ -8574,6 +8721,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPublisherData(FClientGetPublisherDataRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetPublisherData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -8628,6 +8776,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetStoreItems(FClientGetStoreItemsRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetStoreItems";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
@@ -8685,6 +8834,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTime(FClientGetTimeRequest request,
     manager->PlayFabRequestURL = "/Client/GetTime";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -8730,6 +8880,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitleData(FClientGetTitleDataRequest re
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTitleData";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -8785,6 +8936,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitleNews(FClientGetTitleNewsRequest re
     manager->PlayFabRequestURL = "/Client/GetTitleNews";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
 
@@ -8835,6 +8987,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AcceptTrade(FClientAcceptTradeRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/AcceptTrade";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -8900,6 +9053,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::CancelTrade(FClientCancelTradeRequest requ
     manager->PlayFabRequestURL = "/Client/CancelTrade";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     if (request.TradeId.IsEmpty() || request.TradeId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("TradeId"));
@@ -8951,6 +9105,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerTrades(FClientGetPlayerTradesRequ
     manager->PlayFabRequestURL = "/Client/GetPlayerTrades";
     manager->useSessionTicket = true;
 
+
     // Serialize all the request properties to json
     FString temp_StatusFilter;
     if (GetEnumValueToString<ETradeStatus>(TEXT("ETradeStatus"), request.StatusFilter, temp_StatusFilter))
@@ -8999,6 +9154,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTradeStatus(FClientGetTradeStatusReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/GetTradeStatus";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     if (request.OfferingPlayerId.IsEmpty() || request.OfferingPlayerId == "") {
@@ -9055,6 +9211,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::OpenTrade(FClientOpenTradeRequest request,
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Client/OpenTrade";
     manager->useSessionTicket = true;
+
 
     // Serialize all the request properties to json
     // Check to see if string is empty
@@ -9226,6 +9383,7 @@ void UPlayFabClientAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

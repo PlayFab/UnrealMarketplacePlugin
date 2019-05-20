@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabEventsAPI::UPlayFabEventsAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -95,6 +96,7 @@ UPlayFabEventsAPI* UPlayFabEventsAPI::WriteEvents(FEventsWriteEventsRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Event/WriteEvents";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Events.Num() == 0) {
@@ -204,6 +206,7 @@ void UPlayFabEventsAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

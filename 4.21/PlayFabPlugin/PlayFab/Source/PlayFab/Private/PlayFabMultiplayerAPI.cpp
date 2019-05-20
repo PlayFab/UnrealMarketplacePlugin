@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabMultiplayerAPI::UPlayFabMultiplayerAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -96,6 +97,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelAllMatchmakingTicketsForPl
     manager->PlayFabRequestURL = "/Match/CancelAllMatchmakingTicketsForPlayer";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
@@ -147,6 +149,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelMatchmakingTicket(FMultipl
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Match/CancelMatchmakingTicket";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
@@ -203,6 +206,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateMatchmakingTicket(FMultipl
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Match/CreateMatchmakingTicket";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Creator != nullptr) OutRestJsonObj->SetObjectField(TEXT("Creator"), request.Creator);
@@ -262,6 +266,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateServerMatchmakingTicket(FM
     manager->PlayFabRequestURL = "/Match/CreateServerMatchmakingTicket";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("GiveUpAfterSeconds"), request.GiveUpAfterSeconds);
     if (request.Members.Num() == 0) {
@@ -319,6 +324,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMatch(FMultiplayerGetMatchReq
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Match/GetMatch";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
@@ -378,6 +384,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMatchmakingTicket(FMultiplaye
     manager->PlayFabRequestURL = "/Match/GetMatchmakingTicket";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
@@ -435,6 +442,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetQueueStatistics(FMultiplayerG
     manager->PlayFabRequestURL = "/Match/GetQueueStatistics";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -485,6 +493,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::JoinMatchmakingTicket(FMultiplay
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Match/JoinMatchmakingTicket";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Member != nullptr) OutRestJsonObj->SetObjectField(TEXT("Member"), request.Member);
@@ -542,6 +551,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListMatchmakingTicketsForPlayer(
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Match/ListMatchmakingTicketsForPlayer";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -602,6 +612,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/CreateBuildWithCustomContainer";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildName.IsEmpty() || request.BuildName == "") {
@@ -698,6 +709,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     manager->PlayFabRequestURL = "/MultiplayerServer/CreateBuildWithManagedContainer";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.BuildName.IsEmpty() || request.BuildName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildName"));
@@ -782,6 +794,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateRemoteUser(FMultiplayerCre
     manager->PlayFabRequestURL = "/MultiplayerServer/CreateRemoteUser";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
@@ -851,6 +864,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteAsset(FMultiplayerDeleteAs
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteAsset";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.FileName.IsEmpty() || request.FileName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FileName"));
@@ -901,6 +915,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteBuild(FMultiplayerDeleteBu
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteBuild";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -954,6 +969,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteCertificate(FMultiplayerDe
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteCertificate";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Name.IsEmpty() || request.Name == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Name"));
@@ -1005,6 +1021,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteRemoteUser(FMultiplayerDel
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/DeleteRemoteUser";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -1071,6 +1088,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::EnableMultiplayerServersForTitle
     manager->PlayFabRequestURL = "/MultiplayerServer/EnableMultiplayerServersForTitle";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -1116,6 +1134,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetAssetUploadUrl(FMultiplayerGe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetAssetUploadUrl";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.FileName.IsEmpty() || request.FileName == "") {
@@ -1168,6 +1187,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetBuild(FMultiplayerGetBuildReq
     manager->PlayFabRequestURL = "/MultiplayerServer/GetBuild";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
@@ -1219,6 +1239,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetContainerRegistryCredentials(
     manager->PlayFabRequestURL = "/MultiplayerServer/GetContainerRegistryCredentials";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -1264,6 +1285,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerDetails(FMul
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/GetMultiplayerServerDetails";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -1324,6 +1346,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetRemoteLoginEndpoint(FMultipla
     manager->PlayFabRequestURL = "/MultiplayerServer/GetRemoteLoginEndpoint";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
@@ -1383,6 +1406,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetTitleEnabledForMultiplayerSer
     manager->PlayFabRequestURL = "/MultiplayerServer/GetTitleEnabledForMultiplayerServersStatus";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -1429,6 +1453,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas
     manager->PlayFabRequestURL = "/MultiplayerServer/GetTitleMultiplayerServersQuotas";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -1474,6 +1499,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListArchivedMultiplayerServers(F
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListArchivedMultiplayerServers";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -1535,6 +1561,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListAssetSummaries(FMultiplayerL
     manager->PlayFabRequestURL = "/MultiplayerServer/ListAssetSummaries";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
@@ -1586,6 +1613,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildSummaries(FMultiplayerL
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListBuildSummaries";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
@@ -1639,6 +1667,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListCertificateSummaries(FMultip
     manager->PlayFabRequestURL = "/MultiplayerServer/ListCertificateSummaries";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
@@ -1690,6 +1719,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListContainerImages(FMultiplayer
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListContainerImages";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
@@ -1743,6 +1773,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListContainerImageTags(FMultipla
     manager->PlayFabRequestURL = "/MultiplayerServer/ListContainerImageTags";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.ImageName.IsEmpty() || request.ImageName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ImageName"));
@@ -1793,6 +1824,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListMultiplayerServers(FMultipla
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListMultiplayerServers";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -1854,6 +1886,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServers(FMultiplayerListQ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListQosServers";
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -1899,6 +1932,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListVirtualMachineSummaries(FMul
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListVirtualMachineSummaries";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -1959,6 +1993,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestMultiplayerServer(FMultip
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/RequestMultiplayerServer";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -2037,6 +2072,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RolloverContainerRegistryCredent
     manager->PlayFabRequestURL = "/MultiplayerServer/RolloverContainerRegistryCredentials";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
 
     // Add Request to manager
@@ -2082,6 +2118,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ShutdownMultiplayerServer(FMulti
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ShutdownMultiplayerServer";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
@@ -2143,6 +2180,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildRegions(FMultiplayerU
     manager->PlayFabRequestURL = "/MultiplayerServer/UpdateBuildRegions";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
@@ -2199,6 +2237,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UploadCertificate(FMultiplayerUp
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/UploadCertificate";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.GameCertificate != nullptr) OutRestJsonObj->SetObjectField(TEXT("GameCertificate"), request.GameCertificate);
@@ -2305,6 +2344,7 @@ void UPlayFabMultiplayerAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

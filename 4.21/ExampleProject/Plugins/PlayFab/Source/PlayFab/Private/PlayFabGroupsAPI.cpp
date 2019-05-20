@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabGroupsAPI::UPlayFabGroupsAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -96,6 +97,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AcceptGroupApplication(FGroupsAcceptGroupA
     manager->PlayFabRequestURL = "/Group/AcceptGroupApplication";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -143,6 +145,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AcceptGroupInvitation(FGroupsAcceptGroupIn
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/AcceptGroupInvitation";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -192,6 +195,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AddMembers(FGroupsAddMembersRequest reques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/AddMembers";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -251,6 +255,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ApplyToGroup(FGroupsApplyToGroupRequest re
     manager->PlayFabRequestURL = "/Group/ApplyToGroup";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("AutoAcceptOutstandingInvite"), request.AutoAcceptOutstandingInvite);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -300,6 +305,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::BlockEntity(FGroupsBlockEntityRequest requ
     manager->PlayFabRequestURL = "/Group/BlockEntity";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -348,6 +354,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ChangeMemberRole(FGroupsChangeMemberRoleRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ChangeMemberRole";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.DestinationRoleId.IsEmpty() || request.DestinationRoleId == "") {
@@ -412,6 +419,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::CreateGroup(FGroupsCreateGroupRequest requ
     manager->PlayFabRequestURL = "/Group/CreateGroup";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.GroupName.IsEmpty() || request.GroupName == "") {
@@ -463,6 +471,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::CreateRole(FGroupsCreateGroupRoleRequest r
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/CreateRole";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -521,6 +530,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::DeleteGroup(FGroupsDeleteGroupRequest requ
     manager->PlayFabRequestURL = "/Group/DeleteGroup";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -568,6 +578,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::DeleteRole(FGroupsDeleteRoleRequest reques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/DeleteRole";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -622,6 +633,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::GetGroup(FGroupsGetGroupRequest request,
     manager->PlayFabRequestURL = "/Group/GetGroup";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.GroupName.IsEmpty() || request.GroupName == "") {
@@ -673,6 +685,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::InviteToGroup(FGroupsInviteToGroupRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/InviteToGroup";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("AutoAcceptOutstandingApplication"), request.AutoAcceptOutstandingApplication);
@@ -728,6 +741,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::IsMember(FGroupsIsMemberRequest request,
     manager->PlayFabRequestURL = "/Group/IsMember";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -781,6 +795,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupApplications(FGroupsListGroupAppl
     manager->PlayFabRequestURL = "/Group/ListGroupApplications";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -827,6 +842,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupBlocks(FGroupsListGroupBlocksRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListGroupBlocks";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -875,6 +891,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupInvitations(FGroupsListGroupInvit
     manager->PlayFabRequestURL = "/Group/ListGroupInvitations";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -921,6 +938,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupMembers(FGroupsListGroupMembersRe
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/ListGroupMembers";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -969,6 +987,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListMembership(FGroupsListMembershipReques
     manager->PlayFabRequestURL = "/Group/ListMembership";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
@@ -1016,6 +1035,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListMembershipOpportunities(FGroupsListMem
     manager->PlayFabRequestURL = "/Group/ListMembershipOpportunities";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
@@ -1062,6 +1082,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveGroupApplication(FGroupsRemoveGroupA
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/RemoveGroupApplication";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -1112,6 +1133,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveGroupInvitation(FGroupsRemoveGroupIn
     manager->PlayFabRequestURL = "/Group/RemoveGroupInvitation";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -1160,6 +1182,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveMembers(FGroupsRemoveMembersRequest 
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/RemoveMembers";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -1219,6 +1242,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UnblockEntity(FGroupsUnblockEntityRequest 
     manager->PlayFabRequestURL = "/Group/UnblockEntity";
     manager->useEntityToken = true;
 
+
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
@@ -1267,6 +1291,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UpdateGroup(FGroupsUpdateGroupRequest requ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/UpdateGroup";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.AdminRoleId.IsEmpty() || request.AdminRoleId == "") {
@@ -1330,6 +1355,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UpdateRole(FGroupsUpdateGroupRoleRequest r
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Group/UpdateRole";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("ExpectedProfileVersion"), request.ExpectedProfileVersion);
@@ -1446,6 +1472,7 @@ void UPlayFabGroupsAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

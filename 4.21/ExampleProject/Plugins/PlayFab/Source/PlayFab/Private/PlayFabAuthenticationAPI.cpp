@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabAuthenticationAPI::UPlayFabAuthenticationAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -102,6 +103,7 @@ UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::GetEntityToken(FAuthentica
     manager->useSecretKey = true;
     manager->useSessionTicket = true;
     manager->returnsEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -207,6 +209,7 @@ void UPlayFabAuthenticationAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

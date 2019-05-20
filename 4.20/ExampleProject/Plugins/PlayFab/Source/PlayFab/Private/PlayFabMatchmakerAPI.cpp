@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabMatchmakerAPI::UPlayFabMatchmakerAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -96,6 +97,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::AuthUser(FMatchmakerAuthUserReques
     manager->PlayFabRequestURL = "/Matchmaker/AuthUser";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.AuthorizationTicket.IsEmpty() || request.AuthorizationTicket == "") {
         OutRestJsonObj->SetFieldNull(TEXT("AuthorizationTicket"));
@@ -146,6 +148,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::PlayerJoined(FMatchmakerPlayerJoin
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/PlayerJoined";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
@@ -203,6 +206,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::PlayerLeft(FMatchmakerPlayerLeftRe
     manager->PlayFabRequestURL = "/Matchmaker/PlayerLeft";
     manager->useSecretKey = true;
 
+
     // Serialize all the request properties to json
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
@@ -258,6 +262,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::StartGame(FMatchmakerStartGameRequ
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/StartGame";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     if (request.Build.IsEmpty() || request.Build == "") {
@@ -327,6 +332,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::UserInfo(FMatchmakerUserInfoReques
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/Matchmaker/UserInfo";
     manager->useSecretKey = true;
+
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("MinCatalogVersion"), request.MinCatalogVersion);
@@ -437,6 +443,7 @@ void UPlayFabMatchmakerAPI::Activate()
 
     FString RequestUrl;
     RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

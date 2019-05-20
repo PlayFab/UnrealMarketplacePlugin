@@ -631,6 +631,7 @@ enum class EScheduledTaskType : uint8
 {
     pfenum_CloudScript UMETA(DisplayName = "CloudScript"),
     pfenum_ActionsOnPlayerSegment UMETA(DisplayName = "ActionsOnPlayerSegment"),
+    pfenum_CloudScriptAzureFunctions UMETA(DisplayName = "CloudScriptAzureFunctions"),
 };
 
 /** SourceType */

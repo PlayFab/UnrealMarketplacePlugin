@@ -15,6 +15,7 @@
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
 
 UPlayFabCloudScriptAPI::UPlayFabCloudScriptAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
@@ -95,6 +96,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ExecuteEntityCloudScript(FCloudS
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/CloudScript/ExecuteEntityCloudScript";
     manager->useEntityToken = true;
+
 
     // Serialize all the request properties to json
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
@@ -210,7 +212,8 @@ void UPlayFabCloudScriptAPI::Activate()
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     FString RequestUrl;
-    RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+    RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->getUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;
+
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);

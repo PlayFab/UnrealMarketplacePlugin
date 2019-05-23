@@ -33,5 +33,12 @@ public class PlayFabCommon : ModuleRules
                 "Settings"
             });
         }
+
+        BuildVersion Version;
+        BuildVersion.TryRead(BuildVersion.GetDefaultFileName(), out Version);
+        System.Console.WriteLine("MAJOR VERSION {0} MINOR VERSION {1}", Version.MajorVersion, Version.MinorVersion);
+        Definitions.Add(string.Format("ENGINE_MAJOR_VERSION={0}", Version.MajorVersion));
+        Definitions.Add(string.Format("ENGINE_MINOR_VERSION={0}", Version.MinorVersion));
+
     }
 }

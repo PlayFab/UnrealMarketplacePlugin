@@ -40,9 +40,9 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
 
     FString GetServerURL() const override { return PlayFabCommon::PlayFabCommonSettings::serverURL; }
     FString GetProductionEnvironmentURL() const override { return PlayFabCommon::PlayFabCommonSettings::productionEnvironmentURL; }
-    FString GetTitleId() const override { return PlayFabCommon::PlayFabCommonSettings::titleId; }
+    FString GetTitleId() const override { return (PlayFabCommon::PlayFabCommonSettings::titleId.IsEmpty() ? GetDefault<UPlayFabRuntimeSettings>()->TitleId : PlayFabCommon::PlayFabCommonSettings::titleId); }
     FString GetClientSessionTicket() const override { return PlayFabCommon::PlayFabCommonSettings::clientSessionTicket; }
-    FString GetDeveloperSecretKey() const override { return PlayFabCommon::PlayFabCommonSettings::developerSecretKey; }
+    FString GetDeveloperSecretKey() const override { return (PlayFabCommon::PlayFabCommonSettings::developerSecretKey.IsEmpty() ? GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey : PlayFabCommon::PlayFabCommonSettings::developerSecretKey); }
     FString GetEntityToken() const override { return PlayFabCommon::PlayFabCommonSettings::entityToken; }
     FString GetAdvertisingIdType() const override { return PlayFabCommon::PlayFabCommonSettings::advertisingIdType; }
     FString GetAdvertisingIdValue() const override { return PlayFabCommon::PlayFabCommonSettings::advertisingIdValue; }

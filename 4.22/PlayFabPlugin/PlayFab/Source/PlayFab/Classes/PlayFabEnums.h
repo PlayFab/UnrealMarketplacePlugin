@@ -889,6 +889,7 @@ enum class EAzureRegion : uint8
     pfenum_WestUs UMETA(DisplayName = "WestUs"),
     pfenum_ChinaEast2 UMETA(DisplayName = "ChinaEast2"),
     pfenum_ChinaNorth2 UMETA(DisplayName = "ChinaNorth2"),
+    pfenum_SouthAfricaNorth UMETA(DisplayName = "SouthAfricaNorth"),
 };
 
 /** AzureVmFamily */
@@ -940,6 +941,7 @@ enum class ECancellationReason : uint8
     pfenum_Requested UMETA(DisplayName = "Requested"),
     pfenum_Internal UMETA(DisplayName = "Internal"),
     pfenum_Timeout UMETA(DisplayName = "Timeout"),
+    pfenum_ServerAllocationFailed UMETA(DisplayName = "ServerAllocationFailed"),
 };
 
 /** ContainerFlavor */

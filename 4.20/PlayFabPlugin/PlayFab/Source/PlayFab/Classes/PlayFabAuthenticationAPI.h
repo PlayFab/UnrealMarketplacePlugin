@@ -78,6 +78,19 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetEntityToken(FPlayFabBaseModel response, UObject* customData, bool successful);
 
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessValidateEntityToken, FAuthenticationValidateEntityTokenResponse, result, UObject*, customData);
+
+    /** Method for a server to validate a client provided EntityToken. Only callable by the title entity. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* ValidateEntityToken(FAuthenticationValidateEntityTokenRequest request,
+            FDelegateOnSuccessValidateEntityToken onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperValidateEntityToken(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
 
     /** PlayFab Request Info */
@@ -97,6 +110,7 @@ public:
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessGetEntityToken OnSuccessGetEntityToken;
+    FDelegateOnSuccessValidateEntityToken OnSuccessValidateEntityToken;
 
 private:
     UPROPERTY()

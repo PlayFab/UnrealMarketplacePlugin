@@ -40,4 +40,16 @@ FAuthenticationGetEntityTokenResponse UPlayFabAuthenticationModelDecoder::decode
     return tempStruct;
 }
 
+FAuthenticationValidateEntityTokenResponse UPlayFabAuthenticationModelDecoder::decodeValidateEntityTokenResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationValidateEntityTokenResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Entity = !(dataObj->HasField("Entity")) ? nullptr : dataObj->GetObjectField("Entity");
+    tempStruct.Lineage = !(dataObj->HasField("Lineage")) ? nullptr : dataObj->GetObjectField("Lineage");
+
+    return tempStruct;
+}
+
 

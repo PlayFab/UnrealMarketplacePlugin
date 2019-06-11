@@ -124,7 +124,8 @@ namespace MultiplayerModels
         AzureRegionWestEurope,
         AzureRegionWestUs,
         AzureRegionChinaEast2,
-        AzureRegionChinaNorth2
+        AzureRegionChinaNorth2,
+        AzureRegionSouthAfricaNorth
     };
 
     PLAYFABCPP_API void writeAzureRegionEnumJSON(AzureRegion enumVal, JsonWriter& writer);
@@ -431,7 +432,8 @@ namespace MultiplayerModels
     {
         CancellationReasonRequested,
         CancellationReasonInternal,
-        CancellationReasonTimeout
+        CancellationReasonTimeout,
+        CancellationReasonServerAllocationFailed
     };
 
     PLAYFABCPP_API void writeCancellationReasonEnumJSON(CancellationReason enumVal, JsonWriter& writer);

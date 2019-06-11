@@ -10,6 +10,8 @@
 
 #include "TestFramework/PlayFabTestRunner.h"
 
+#include "ACloudScriptTestResultUploader.h"
+
 #include "RunTestsCommandlet.generated.h"
 
 namespace PlayFab
@@ -29,11 +31,8 @@ class URunTestsCommandlet : public UCommandlet, public IPlayFabTestRunner
     GENERATED_BODY()
 
 private:
-    PlayFabClientPtr ClientAPI;
-
-    bool UploadResultToCloud();
-    void OnCloudUploadSuccess(const PlayFab::ClientModels::FExecuteCloudScriptResult& result) const;
-    void OnCloudUploadError(const PlayFab::FPlayFabCppError& error) const;
+    UPROPERTY()
+    ACloudScriptTestResultUploader* pUploader;
 
 public:
     // Default CTor

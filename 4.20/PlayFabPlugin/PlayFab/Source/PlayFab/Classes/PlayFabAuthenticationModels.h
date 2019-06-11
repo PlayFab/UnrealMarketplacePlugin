@@ -68,3 +68,27 @@ public:
         FString TokenExpiration;
 };
 
+/** Given an entity token, validates that it hasn't exipired or been revoked and will return details of the owner. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationValidateEntityTokenRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Client EntityToken */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        FString EntityToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationValidateEntityTokenResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity id and type. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The lineage of this profile. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* Lineage = nullptr;
+};
+

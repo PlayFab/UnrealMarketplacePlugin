@@ -2353,7 +2353,7 @@ public:
     /** Unique PlayFab assigned ID for a specific character owned by a user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
         FString CharacterId;
-    /** Statistics to be updated with the provided values. */
+    /** Statistics to be updated with the provided values, in the Key(string), Value(int) pattern. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
         UPlayFabJsonObject* CharacterStatistics;
 };

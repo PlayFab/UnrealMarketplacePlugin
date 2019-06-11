@@ -90,3 +90,13 @@ Build/*/**
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Ignore MacOS generated files
+*.DS_Store
+
+# Ignore vscode files
+*.vscode
+
+# Ignore swp files
+*.swp
+

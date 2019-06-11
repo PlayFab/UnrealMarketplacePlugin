@@ -45,6 +45,57 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FEntityLineage : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The Character Id of the associated entity.
+        FString CharacterId;
+
+        // [optional] The Group Id of the associated entity.
+        FString GroupId;
+
+        // [optional] The Master Player Account Id of the associated entity.
+        FString MasterPlayerAccountId;
+
+        // [optional] The Namespace Id of the associated entity.
+        FString NamespaceId;
+
+        // [optional] The Title Id of the associated entity.
+        FString TitleId;
+
+        // [optional] The Title Player Account Id of the associated entity.
+        FString TitlePlayerAccountId;
+
+        FEntityLineage() :
+            FPlayFabCppBaseModel(),
+            CharacterId(),
+            GroupId(),
+            MasterPlayerAccountId(),
+            NamespaceId(),
+            TitleId(),
+            TitlePlayerAccountId()
+            {}
+
+        FEntityLineage(const FEntityLineage& src) :
+            FPlayFabCppBaseModel(),
+            CharacterId(src.CharacterId),
+            GroupId(src.GroupId),
+            MasterPlayerAccountId(src.MasterPlayerAccountId),
+            NamespaceId(src.NamespaceId),
+            TitleId(src.TitleId),
+            TitlePlayerAccountId(src.TitlePlayerAccountId)
+            {}
+
+        FEntityLineage(const TSharedPtr<FJsonObject>& obj) : FEntityLineage()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEntityLineage();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetEntityTokenRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The entity to perform this action on.
@@ -102,6 +153,63 @@ namespace AuthenticationModels
         }
 
         ~FGetEntityTokenResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FValidateEntityTokenRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Client EntityToken
+        FString EntityToken;
+
+        FValidateEntityTokenRequest() :
+            FPlayFabCppRequestCommon(),
+            EntityToken()
+            {}
+
+        FValidateEntityTokenRequest(const FValidateEntityTokenRequest& src) :
+            FPlayFabCppRequestCommon(),
+            EntityToken(src.EntityToken)
+            {}
+
+        FValidateEntityTokenRequest(const TSharedPtr<FJsonObject>& obj) : FValidateEntityTokenRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FValidateEntityTokenRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FValidateEntityTokenResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The entity id and type.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The lineage of this profile.
+        TSharedPtr<FEntityLineage> Lineage;
+
+        FValidateEntityTokenResponse() :
+            FPlayFabCppResultCommon(),
+            Entity(nullptr),
+            Lineage(nullptr)
+            {}
+
+        FValidateEntityTokenResponse(const FValidateEntityTokenResponse& src) :
+            FPlayFabCppResultCommon(),
+            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
+            Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr)
+            {}
+
+        FValidateEntityTokenResponse(const TSharedPtr<FJsonObject>& obj) : FValidateEntityTokenResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FValidateEntityTokenResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

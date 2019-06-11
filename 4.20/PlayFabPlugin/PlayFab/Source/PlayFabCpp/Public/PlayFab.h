@@ -13,6 +13,17 @@ DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabCpp, Log, All);
 // forward declaration of classes
 namespace PlayFab
 {
+    template<typename T>
+    TSharedPtr<T> MakeSharedUObject()
+    {    
+        return TSharedPtr<T>(NewObject<T>((UObject*)GetTransientPackage(), NAME_None, RF_Standalone),
+        [](T* Instance)
+        {
+            // Recommended way of destroying UObjects according to https://udn.unrealengine.com/questions/402414/view.html
+            Instance->ClearFlags(RF_Standalone);
+        });
+    }
+
     class UPlayFabAdminAPI;
     class UPlayFabClientAPI;
     class UPlayFabMatchmakerAPI;

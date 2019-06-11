@@ -12397,7 +12397,7 @@ namespace ClientModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
-        // [optional] Statistics to be updated with the provided values.
+        // [optional] Statistics to be updated with the provided values, in the Key(string), Value(int) pattern.
         TMap<FString, int32> CharacterStatistics;
         FUpdateCharacterStatisticsRequest() :
             FPlayFabCppRequestCommon(),

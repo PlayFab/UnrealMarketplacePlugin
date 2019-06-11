@@ -130,6 +130,58 @@ void UPlayFabAuthenticationAPI::HelperGetEntityToken(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
+/** Method for a server to validate a client provided EntityToken. Only callable by the title entity. */
+UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::ValidateEntityToken(FAuthenticationValidateEntityTokenRequest request,
+    FDelegateOnSuccessValidateEntityToken onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAuthenticationAPI* manager = NewObject<UPlayFabAuthenticationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessValidateEntityToken = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAuthenticationAPI::HelperValidateEntityToken);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Authentication/ValidateEntityToken";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.EntityToken.IsEmpty() || request.EntityToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EntityToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EntityToken"), request.EntityToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAuthenticationRequestCompleted
+void UPlayFabAuthenticationAPI::HelperValidateEntityToken(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessValidateEntityToken.IsBound())
+    {
+        FAuthenticationValidateEntityTokenResponse ResultStruct = UPlayFabAuthenticationModelDecoder::decodeValidateEntityTokenResponseResponse(response.responseData);
+        OnSuccessValidateEntityToken.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 
 
 void UPlayFabAuthenticationAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)

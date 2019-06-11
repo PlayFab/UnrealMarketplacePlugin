@@ -22,6 +22,7 @@ void APfTestActor::BeginPlay()
 
     AddTestCase(NewObject<UPlayFabCppTests>());
     AddTestCase(NewObject<UPlayFabBlueprintTests>());
+    _submitCloudScript = false;
 }
 
 // Called every frame
@@ -30,4 +31,24 @@ void APfTestActor::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
 
     Run(DeltaTime);
+
+    if (TestsAreComplete() && !_submitCloudScript)
+    {
+        _submitCloudScript = true;
+        pUploader = NewObject<ACloudScriptTestResultUploader>();
+        pUploader->UploadToCloudscript(SuiteTests);
+    }
+}
+
+void APfTestActor::EndPlay(const EEndPlayReason::Type reason)
+{
+    Super::EndPlay(reason);
+    if(pUploader != nullptr)
+    {
+        delete pUploader;
+    }
+}
+
+bool APfTestActor::TestsAreComplete() const {
+    return SuiteState == PlayFabApiTestActiveState::COMPLETE;
 }

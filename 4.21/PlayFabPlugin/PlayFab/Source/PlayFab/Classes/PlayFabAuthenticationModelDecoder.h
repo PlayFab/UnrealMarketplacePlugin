@@ -46,6 +46,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication Models")
         static FAuthenticationGetEntityTokenResponse decodeGetEntityTokenResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ValidateEntityTokenResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication Models")
+        static FAuthenticationValidateEntityTokenResponse decodeValidateEntityTokenResponseResponse(UPlayFabJsonObject* response);
+
 
 
 };

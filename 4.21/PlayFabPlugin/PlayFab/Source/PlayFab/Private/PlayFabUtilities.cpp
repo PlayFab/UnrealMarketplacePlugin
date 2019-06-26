@@ -553,6 +553,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5014: returnText = "ExportCantEditPendingExport"; break;
     case 5015: returnText = "ExportLimitExports"; break;
     case 5016: returnText = "ExportLimitEvents"; break;
+    case 6000: returnText = "TitleNotEnabledForParty"; break;
+    case 6001: returnText = "PartyVersionNotFound"; break;
     }
 
     // Return the text

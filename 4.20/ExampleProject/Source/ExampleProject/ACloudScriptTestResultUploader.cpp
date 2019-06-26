@@ -11,6 +11,9 @@
 #include "Core/PlayFabClientAPI.h"
 #include "PlayFabTestContext.h"
 #include "GenericPlatformMisc.h"
+
+#include "Runtime/Engine/Classes/Engine/World.h"
+
 DEFINE_LOG_CATEGORY(LogTestResults);
 
 void ACloudScriptTestResultUploader::UploadToCloudscript(const TArray<class UPlayFabTestContext*>& SuiteTests)
@@ -68,17 +71,22 @@ void ACloudScriptTestResultUploader::UploadToCloudscript(const TArray<class UPla
     );
 }
 
-void ACloudScriptTestResultUploader::SuccessfulUpload(const PlayFab::ClientModels::FExecuteCloudScriptResult& result) const
+void ACloudScriptTestResultUploader::SuccessfulUpload(const PlayFab::ClientModels::FExecuteCloudScriptResult& result)
 {
     UE_LOG(LogTestResults, Log, TEXT("Cloud Upload Success: \n%s"), *result.toJSONString());
     if(ShouldQuitOnCompletion()) {
         FGenericPlatformMisc::RequestExit(true);
     }
+    Destroy();
 }
 
-void ACloudScriptTestResultUploader::UploadErrored(const PlayFab::FPlayFabCppError& error) const
+void ACloudScriptTestResultUploader::UploadErrored(const PlayFab::FPlayFabCppError& error)
 {
     UE_LOG(LogTestResults, Error, TEXT("Cloud Upload Error: \n%s"), *error.GenerateErrorReport());
+    if(ShouldQuitOnCompletion()) {
+        FGenericPlatformMisc::RequestExit(true);
+    }
+    Destroy();
 }
 
 bool ACloudScriptTestResultUploader::ShouldQuitOnCompletion() const {

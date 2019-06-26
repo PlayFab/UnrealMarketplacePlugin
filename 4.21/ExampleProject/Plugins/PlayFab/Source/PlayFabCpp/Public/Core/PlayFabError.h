@@ -530,7 +530,9 @@ namespace PlayFab
         PlayFabErrorExportUnknownError = 5013,
         PlayFabErrorExportCantEditPendingExport = 5014,
         PlayFabErrorExportLimitExports = 5015,
-        PlayFabErrorExportLimitEvents = 5016
+        PlayFabErrorExportLimitEvents = 5016,
+        PlayFabErrorTitleNotEnabledForParty = 6000,
+        PlayFabErrorPartyVersionNotFound = 6001
     };
 
     struct PLAYFABCPP_API FPlayFabCppError
@@ -542,11 +544,26 @@ namespace PlayFab
         FString ErrorMessage;
         TMultiMap< FString, FString > ErrorDetails;
 
+        /*
+         * This converts the PlayFabError into a human readable string describing the error.
+         * If error is not found, it will return the http code, status, and error
+         */
         FString GenerateErrorReport() const
         {
             FString output = TEXT("");
-            if (ErrorMessage.Len() > 0)
+            if (ErrorMessage.Len() > 0) 
+            {
                 output += ErrorMessage;
+            }
+            else 
+            {
+                output += "Http Code: ";
+                output += FString::FromInt(HttpCode);
+                output += "\nHttp Status: ";
+                output += HttpStatus;
+                output += "\nError Code: ";
+                output += FString::FromInt(ErrorCode);
+            }
             for (auto& Elem : ErrorDetails)
                 output += TEXT(" - ") + Elem.Key + TEXT(": ") + Elem.Value;
             return output;

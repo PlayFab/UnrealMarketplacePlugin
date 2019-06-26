@@ -28,9 +28,6 @@ private:
     UPROPERTY()
     bool _submitCloudScript;
 
-    UPROPERTY()
-    ACloudScriptTestResultUploader* pUploader;
-
     UFUNCTION()
     bool TestsAreComplete() const;
 };

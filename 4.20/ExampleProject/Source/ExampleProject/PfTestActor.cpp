@@ -8,6 +8,8 @@
 #include "Tests/PlayFabCppTests.h"
 #include "Tests/PlayFabBlueprintTests.h"
 
+#include "Runtime/Engine/Classes/Engine/World.h"
+
 // Sets default values
 APfTestActor::APfTestActor()
 {
@@ -25,7 +27,13 @@ void APfTestActor::BeginPlay()
     _submitCloudScript = false;
 }
 
-// Called every frame
+ACloudScriptTestResultUploader* SpawnUploader(UWorld* world) {
+    FActorSpawnParameters spawnParams;
+    FVector loc(0, 0, 0);
+    FRotator rot(0, 0, 0);
+    return world->SpawnActor<ACloudScriptTestResultUploader>(loc, rot, spawnParams);
+}
+
 void APfTestActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -34,8 +42,8 @@ void APfTestActor::Tick(float DeltaTime)
 
     if (TestsAreComplete() && !_submitCloudScript)
     {
+        auto pUploader = SpawnUploader(GetWorld());
         _submitCloudScript = true;
-        pUploader = NewObject<ACloudScriptTestResultUploader>();
         pUploader->UploadToCloudscript(SuiteTests);
     }
 }
@@ -43,10 +51,6 @@ void APfTestActor::Tick(float DeltaTime)
 void APfTestActor::EndPlay(const EEndPlayReason::Type reason)
 {
     Super::EndPlay(reason);
-    if(pUploader != nullptr)
-    {
-        delete pUploader;
-    }
 }
 
 bool APfTestActor::TestsAreComplete() const {

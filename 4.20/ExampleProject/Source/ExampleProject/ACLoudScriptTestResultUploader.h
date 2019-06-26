@@ -23,9 +23,9 @@ public:
     void UploadToCloudscript(const TArray<class UPlayFabTestContext*>& SuiteTests);
 
 private:
-    void SuccessfulUpload(const PlayFab::ClientModels::FExecuteCloudScriptResult& result) const;
+    void SuccessfulUpload(const PlayFab::ClientModels::FExecuteCloudScriptResult& result);
 
-    void UploadErrored(const PlayFab::FPlayFabCppError& error) const;
+    void UploadErrored(const PlayFab::FPlayFabCppError& error);
 
     bool ShouldQuitOnCompletion() const;
 };

@@ -24,6 +24,10 @@ public:
 
     static inline IPlayFab& Get()
     {
+        if (IsAvailable())
+        {
+            return FModuleManager::GetModuleChecked< IPlayFab >("PlayFab");
+        }
         return FModuleManager::LoadModuleChecked< IPlayFab >("PlayFab");
     }
 

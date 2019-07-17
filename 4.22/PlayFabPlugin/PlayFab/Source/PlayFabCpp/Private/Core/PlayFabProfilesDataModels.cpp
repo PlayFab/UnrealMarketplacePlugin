@@ -476,6 +476,8 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
 
     if (Language.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Language")); writer->WriteValue(Language); }
 
+    if (LeaderboardMetadata.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("LeaderboardMetadata")); writer->WriteValue(LeaderboardMetadata); }
+
     if (Lineage.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Lineage")); Lineage->writeJSON(writer); }
 
     if (Objects.Num() != 0)
@@ -564,6 +566,13 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (LanguageValue->TryGetString(TmpValue)) { Language = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LeaderboardMetadataValue = obj->TryGetField(TEXT("LeaderboardMetadata"));
+    if (LeaderboardMetadataValue.IsValid() && !LeaderboardMetadataValue->IsNull())
+    {
+        FString TmpValue;
+        if (LeaderboardMetadataValue->TryGetString(TmpValue)) { LeaderboardMetadata = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> LineageValue = obj->TryGetField(TEXT("Lineage"));
@@ -806,6 +815,81 @@ bool PlayFab::ProfilesModels::FGetGlobalPolicyResponse::readFromValue(const TSha
     return HasSucceeded;
 }
 
+PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest::~FGetTitlePlayersFromMasterPlayerAccountIdsRequest()
+{
+
+}
+
+void PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("MasterPlayerAccountIds"));
+    for (const FString& item : MasterPlayerAccountIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    if (TitleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("MasterPlayerAccountIds"), MasterPlayerAccountIds);
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse::~FGetTitlePlayersFromMasterPlayerAccountIdsResponse()
+{
+
+}
+
+void PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (TitlePlayerAccounts.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("TitlePlayerAccounts"));
+        for (TMap<FString, FEntityKey>::TConstIterator It(TitlePlayerAccounts); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* TitlePlayerAccountsObject;
+    if (obj->TryGetObjectField(TEXT("TitlePlayerAccounts"), TitlePlayerAccountsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*TitlePlayerAccountsObject)->Values); It; ++It)
+        {
+            TitlePlayerAccounts.Add(It.Key(), FEntityKey(It.Value()->AsObject()));
+        }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::ProfilesModels::writeOperationTypesEnumJSON(OperationTypes enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -993,7 +1077,7 @@ void PlayFab::ProfilesModels::FSetProfileLanguageRequest::writeJSON(JsonWriter& 
 
     if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
 
-    writer->WriteIdentifierPrefix(TEXT("ExpectedVersion")); writer->WriteValue(ExpectedVersion);
+    if (ExpectedVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ExpectedVersion")); writer->WriteValue(ExpectedVersion); }
 
     if (Language.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Language")); writer->WriteValue(Language); }
 

@@ -127,6 +127,59 @@ void UPlayFabEventsAPI::HelperWriteEvents(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
+/** Write batches of entity based events to as Telemetry events (bypass PlayStream). */
+UPlayFabEventsAPI* UPlayFabEventsAPI::WriteTelemetryEvents(FEventsWriteEventsRequest request,
+    FDelegateOnSuccessWriteTelemetryEvents onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEventsAPI* manager = NewObject<UPlayFabEventsAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessWriteTelemetryEvents = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperWriteTelemetryEvents);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Event/WriteTelemetryEvents";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.Events.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Events"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Events"), request.Events);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEventsRequestCompleted
+void UPlayFabEventsAPI::HelperWriteTelemetryEvents(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessWriteTelemetryEvents.IsBound())
+    {
+        FEventsWriteEventsResponse ResultStruct = UPlayFabEventsModelDecoder::decodeWriteEventsResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessWriteTelemetryEvents.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 
 
 void UPlayFabEventsAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)

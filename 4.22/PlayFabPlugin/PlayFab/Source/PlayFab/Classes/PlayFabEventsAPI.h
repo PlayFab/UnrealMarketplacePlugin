@@ -71,6 +71,19 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperWriteEvents(FPlayFabBaseModel response, UObject* customData, bool successful);
 
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessWriteTelemetryEvents, FEventsWriteEventsResponse, result, UObject*, customData);
+
+    /** Write batches of entity based events to as Telemetry events (bypass PlayStream). */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEventsAPI* WriteTelemetryEvents(FEventsWriteEventsRequest request,
+            FDelegateOnSuccessWriteTelemetryEvents onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEventsRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperWriteTelemetryEvents(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
 
     /** PlayFab Request Info */
@@ -90,6 +103,7 @@ public:
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessWriteEvents OnSuccessWriteEvents;
+    FDelegateOnSuccessWriteTelemetryEvents OnSuccessWriteTelemetryEvents;
 
 private:
     UPROPERTY()

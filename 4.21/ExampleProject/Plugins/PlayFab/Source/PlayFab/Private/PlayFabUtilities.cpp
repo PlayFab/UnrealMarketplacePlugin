@@ -482,6 +482,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1451: returnText = "EconomyServiceInternalError"; break;
     case 1452: returnText = "QueryRateLimitExceeded"; break;
     case 1453: returnText = "EntityAPIKeyCreationDisabledForEntity"; break;
+    case 1454: returnText = "ForbiddenByEntityPolicy"; break;
     case 1456: returnText = "StudioCreationRateLimited"; break;
     case 1457: returnText = "StudioCreationInProgress"; break;
     case 1458: returnText = "DuplicateStudioName"; break;
@@ -500,6 +501,14 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1471: returnText = "CloudScriptAzureFunctionsArgumentSizeExceeded"; break;
     case 1472: returnText = "CloudScriptAzureFunctionsReturnSizeExceeded"; break;
     case 1473: returnText = "CloudScriptAzureFunctionsHTTPRequestError"; break;
+    case 1474: returnText = "VirtualCurrencyBetaGetError"; break;
+    case 1475: returnText = "VirtualCurrencyBetaCreateError"; break;
+    case 1476: returnText = "VirtualCurrencyBetaInitialDepositSaveError"; break;
+    case 1477: returnText = "VirtualCurrencyBetaSaveError"; break;
+    case 1478: returnText = "VirtualCurrencyBetaDeleteError"; break;
+    case 1479: returnText = "VirtualCurrencyBetaRestoreError"; break;
+    case 1480: returnText = "VirtualCurrencyBetaSaveConflict"; break;
+    case 1481: returnText = "VirtualCurrencyBetaUpdateError"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -539,15 +548,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5000: returnText = "ExportInvalidStatusUpdate"; break;
     case 5001: returnText = "ExportInvalidPrefix"; break;
     case 5002: returnText = "ExportBlobContainerDoesNotExist"; break;
-    case 5003: returnText = "ExportEventNameNotFound"; break;
-    case 5004: returnText = "ExportExportTitleIdNotFound"; break;
+    case 5004: returnText = "ExportNotFound"; break;
     case 5005: returnText = "ExportCouldNotUpdate"; break;
     case 5006: returnText = "ExportInvalidStorageType"; break;
     case 5007: returnText = "ExportAmazonBucketDoesNotExist"; break;
     case 5008: returnText = "ExportInvalidBlobStorage"; break;
     case 5009: returnText = "ExportKustoException"; break;
-    case 5010: returnText = "ExportKustoExceptionPartialErrorOnNewExport"; break;
-    case 5011: returnText = "ExportKustoExceptionEdit"; break;
     case 5012: returnText = "ExportKustoConnectionFailed"; break;
     case 5013: returnText = "ExportUnknownError"; break;
     case 5014: returnText = "ExportCantEditPendingExport"; break;
@@ -555,6 +561,17 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5016: returnText = "ExportLimitEvents"; break;
     case 6000: returnText = "TitleNotEnabledForParty"; break;
     case 6001: returnText = "PartyVersionNotFound"; break;
+    case 6002: returnText = "MultiplayerServerBuildReferencedByMatchmakingQueue"; break;
+    case 7000: returnText = "ExperimentationExperimentStopped"; break;
+    case 7001: returnText = "ExperimentationExperimentRunning"; break;
+    case 7002: returnText = "ExperimentationExperimentNotFound"; break;
+    case 7003: returnText = "ExperimentationExperimentNeverStarted"; break;
+    case 7004: returnText = "ExperimentationExperimentDeleted"; break;
+    case 7005: returnText = "ExperimentationClientTimeout"; break;
+    case 7006: returnText = "ExperimentationExceededVariantNameLength"; break;
+    case 7007: returnText = "ExperimentationExceededMaxVariantLength"; break;
+    case 7008: returnText = "ExperimentInvalidId"; break;
+    case 11000: returnText = "SnapshotNotFound"; break;
     }
 
     // Return the text

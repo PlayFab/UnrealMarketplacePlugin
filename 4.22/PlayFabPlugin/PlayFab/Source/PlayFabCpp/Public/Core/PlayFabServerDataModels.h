@@ -9270,7 +9270,7 @@ namespace ServerModels
         // [optional] IOS JSON for the notification template.
         FString IOSPayload;
 
-        // [optional] Dictionary of localized push notification templates.
+        // [optional] Dictionary of localized push notification templates with the language as the key.
         TMap<FString, FLocalizedPushNotificationProperties> LocalizedPushNotificationTemplates;
         // Name of the push notification template.
         FString Name;
@@ -9836,7 +9836,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetPlayerSecretRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.

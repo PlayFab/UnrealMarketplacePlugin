@@ -101,6 +101,7 @@ struct PLAYFAB_API FServerDeletePlayerResult : public FPlayFabResultCommon
 public:
 };
 
+/** Represents the request to delete a push notification template. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerDeletePushNotificationTemplateRequest : public FPlayFabRequestCommon
 {
@@ -488,6 +489,7 @@ public:
         TArray<UPlayFabJsonObject*> BanData;
 };
 
+/** Represents the save push notification template request. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSavePushNotificationTemplateRequest : public FPlayFabRequestCommon
 {
@@ -502,7 +504,7 @@ public:
     /** IOS JSON for the notification template. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString IOSPayload;
-    /** Dictionary of localized push notification templates. */
+    /** Dictionary of localized push notification templates with the language as the key. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         UPlayFabJsonObject* LocalizedPushNotificationTemplates = nullptr;
     /** Name of the push notification template. */
@@ -510,6 +512,7 @@ public:
         FString Name;
 };
 
+/** Represents the save push notification template result. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSavePushNotificationTemplateResult : public FPlayFabResultCommon
 {
@@ -609,6 +612,7 @@ struct PLAYFAB_API FServerSendPushNotificationResult : public FPlayFabResultComm
 public:
 };
 
+/** Represents the request for sending a push notification template to a recipient. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSendPushNotificationFromTemplateRequest : public FPlayFabRequestCommon
 {

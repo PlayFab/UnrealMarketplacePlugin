@@ -54,6 +54,17 @@ FProfilesGetEntityProfilesResponse UPlayFabProfilesModelDecoder::decodeGetEntity
     return tempStruct;
 }
 
+FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse UPlayFabProfilesModelDecoder::decodeGetTitlePlayersFromMasterPlayerAccountIdsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.TitlePlayerAccounts = !(dataObj->HasField("TitlePlayerAccounts")) ? nullptr : dataObj->GetObjectField("TitlePlayerAccounts");
+
+    return tempStruct;
+}
+
 FProfilesSetGlobalPolicyResponse UPlayFabProfilesModelDecoder::decodeSetGlobalPolicyResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

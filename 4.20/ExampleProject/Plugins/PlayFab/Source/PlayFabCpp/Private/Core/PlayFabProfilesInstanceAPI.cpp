@@ -175,6 +175,36 @@ void UPlayFabProfilesInstanceAPI::OnGetProfilesResult(FHttpRequestPtr HttpReques
     }
 }
 
+bool UPlayFabProfilesInstanceAPI::GetTitlePlayersFromMasterPlayerAccountIds(
+    ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest& request,
+    const FGetTitlePlayersFromMasterPlayerAccountIdsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Profile/GetTitlePlayersFromMasterPlayerAccountIds")) : this->settings->GetUrl(TEXT("/Profile/GetTitlePlayersFromMasterPlayerAccountIds")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesInstanceAPI::OnGetTitlePlayersFromMasterPlayerAccountIdsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabProfilesInstanceAPI::OnGetTitlePlayersFromMasterPlayerAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitlePlayersFromMasterPlayerAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabProfilesInstanceAPI::SetGlobalPolicy(
     ProfilesModels::FSetGlobalPolicyRequest& request,
     const FSetGlobalPolicyDelegate& SuccessDelegate,

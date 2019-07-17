@@ -432,8 +432,7 @@ namespace MultiplayerModels
     {
         CancellationReasonRequested,
         CancellationReasonInternal,
-        CancellationReasonTimeout,
-        CancellationReasonServerAllocationFailed
+        CancellationReasonTimeout
     };
 
     PLAYFABCPP_API void writeCancellationReasonEnumJSON(CancellationReason enumVal, JsonWriter& writer);
@@ -766,14 +765,8 @@ namespace MultiplayerModels
         // [optional] The container reference, consisting of the image name and tag.
         TSharedPtr<FContainerImageReference> pfContainerImageReference;
 
-        // [optional] The name of the container repository.
-        FString ContainerRepositoryName;
-
         // [optional] The container command to run when the multiplayer server has been allocated, including any arguments.
         FString ContainerRunCommand;
-
-        // [optional] The tag for the container.
-        FString ContainerTag;
 
         // [optional] The list of game assets related to the build.
         TArray<FAssetReferenceParams> GameAssetReferences;
@@ -799,9 +792,7 @@ namespace MultiplayerModels
             BuildName(),
             pfContainerFlavor(),
             pfContainerImageReference(nullptr),
-            ContainerRepositoryName(),
             ContainerRunCommand(),
-            ContainerTag(),
             GameAssetReferences(),
             GameCertificateReferences(),
             Metadata(),
@@ -816,9 +807,7 @@ namespace MultiplayerModels
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
             pfContainerImageReference(src.pfContainerImageReference.IsValid() ? MakeShareable(new FContainerImageReference(*src.pfContainerImageReference)) : nullptr),
-            ContainerRepositoryName(src.ContainerRepositoryName),
             ContainerRunCommand(src.ContainerRunCommand),
-            ContainerTag(src.ContainerTag),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
             Metadata(src.Metadata),
@@ -1830,6 +1819,9 @@ namespace MultiplayerModels
         // [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
         Boxed<CancellationReason> pfCancellationReason;
 
+        // [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
+        FString CancellationReasonString;
+
         // The server date and time at which ticket was created.
         FDateTime Created;
 
@@ -1861,6 +1853,7 @@ namespace MultiplayerModels
         FGetMatchmakingTicketResult() :
             FPlayFabCppResultCommon(),
             pfCancellationReason(),
+            CancellationReasonString(),
             Created(0),
             Creator(),
             GiveUpAfterSeconds(0),
@@ -1875,6 +1868,7 @@ namespace MultiplayerModels
         FGetMatchmakingTicketResult(const FGetMatchmakingTicketResult& src) :
             FPlayFabCppResultCommon(),
             pfCancellationReason(src.pfCancellationReason),
+            CancellationReasonString(src.CancellationReasonString),
             Created(src.Created),
             Creator(src.Creator),
             GiveUpAfterSeconds(src.GiveUpAfterSeconds),

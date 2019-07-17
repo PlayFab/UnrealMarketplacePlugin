@@ -340,6 +340,9 @@ namespace ProfilesModels
         // [optional] The language on this profile.
         FString Language;
 
+        // [optional] Leaderboard metadata for the entity.
+        FString LeaderboardMetadata;
+
         // [optional] The lineage of this profile.
         TSharedPtr<FEntityLineage> Lineage;
 
@@ -367,6 +370,7 @@ namespace ProfilesModels
             EntityChain(),
             Files(),
             Language(),
+            LeaderboardMetadata(),
             Lineage(nullptr),
             Objects(),
             Permissions(),
@@ -383,6 +387,7 @@ namespace ProfilesModels
             EntityChain(src.EntityChain),
             Files(src.Files),
             Language(src.Language),
+            LeaderboardMetadata(src.LeaderboardMetadata),
             Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr),
             Objects(src.Objects),
             Permissions(src.Permissions),
@@ -565,6 +570,61 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetTitlePlayersFromMasterPlayerAccountIdsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Master player account ids.
+        TArray<FString> MasterPlayerAccountIds;
+        // [optional] Id of title to get players from.
+        FString TitleId;
+
+        FGetTitlePlayersFromMasterPlayerAccountIdsRequest() :
+            FPlayFabCppRequestCommon(),
+            MasterPlayerAccountIds(),
+            TitleId()
+            {}
+
+        FGetTitlePlayersFromMasterPlayerAccountIdsRequest(const FGetTitlePlayersFromMasterPlayerAccountIdsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            MasterPlayerAccountIds(src.MasterPlayerAccountIds),
+            TitleId(src.TitleId)
+            {}
+
+        FGetTitlePlayersFromMasterPlayerAccountIdsRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitlePlayersFromMasterPlayerAccountIdsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitlePlayersFromMasterPlayerAccountIdsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetTitlePlayersFromMasterPlayerAccountIdsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Dictionary of master player ids mapped to title player entity keys and id pairs
+        TMap<FString, FEntityKey> TitlePlayerAccounts;
+        FGetTitlePlayersFromMasterPlayerAccountIdsResponse() :
+            FPlayFabCppResultCommon(),
+            TitlePlayerAccounts()
+            {}
+
+        FGetTitlePlayersFromMasterPlayerAccountIdsResponse(const FGetTitlePlayersFromMasterPlayerAccountIdsResponse& src) :
+            FPlayFabCppResultCommon(),
+            TitlePlayerAccounts(src.TitlePlayerAccounts)
+            {}
+
+        FGetTitlePlayersFromMasterPlayerAccountIdsResponse(const TSharedPtr<FJsonObject>& obj) : FGetTitlePlayersFromMasterPlayerAccountIdsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitlePlayersFromMasterPlayerAccountIdsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum OperationTypes
     {
         OperationTypesCreated,
@@ -686,8 +746,8 @@ namespace ProfilesModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // The expected version of a profile to perform this update on
-        int32 ExpectedVersion;
+        // [optional] The expected version of a profile to perform this update on
+        Boxed<int32> ExpectedVersion;
 
         // [optional] The language to set on the given entity. Deletes the profile's language if passed in a null string.
         FString Language;
@@ -695,7 +755,7 @@ namespace ProfilesModels
         FSetProfileLanguageRequest() :
             FPlayFabCppRequestCommon(),
             Entity(nullptr),
-            ExpectedVersion(0),
+            ExpectedVersion(),
             Language()
             {}
 

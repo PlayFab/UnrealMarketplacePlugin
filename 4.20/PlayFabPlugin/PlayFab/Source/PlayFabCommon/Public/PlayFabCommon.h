@@ -22,6 +22,10 @@ public:
     */
     static inline IPlayFabCommonModuleInterface& Get()
     {
+        if (IsAvailable())
+        {
+            return FModuleManager::GetModuleChecked<IPlayFabCommonModuleInterface>("PlayFabCommon");
+        }
         return FModuleManager::LoadModuleChecked<IPlayFabCommonModuleInterface>("PlayFabCommon");
     }
 

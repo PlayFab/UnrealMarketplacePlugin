@@ -8893,7 +8893,7 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetPlayerSecretRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Player secret that is used to verify API request signatures (Enterprise Only).
+        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.

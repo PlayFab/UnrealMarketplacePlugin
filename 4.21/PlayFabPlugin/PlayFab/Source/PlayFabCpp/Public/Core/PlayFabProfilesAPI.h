@@ -21,6 +21,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetGlobalPolicyDelegate, const ProfilesModels::FGetGlobalPolicyResponse&);
         DECLARE_DELEGATE_OneParam(FGetProfileDelegate, const ProfilesModels::FGetEntityProfileResponse&);
         DECLARE_DELEGATE_OneParam(FGetProfilesDelegate, const ProfilesModels::FGetEntityProfilesResponse&);
+        DECLARE_DELEGATE_OneParam(FGetTitlePlayersFromMasterPlayerAccountIdsDelegate, const ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse&);
         DECLARE_DELEGATE_OneParam(FSetGlobalPolicyDelegate, const ProfilesModels::FSetGlobalPolicyResponse&);
         DECLARE_DELEGATE_OneParam(FSetProfileLanguageDelegate, const ProfilesModels::FSetProfileLanguageResponse&);
         DECLARE_DELEGATE_OneParam(FSetProfilePolicyDelegate, const ProfilesModels::FSetEntityProfilePolicyResponse&);
@@ -56,6 +57,11 @@ namespace PlayFab
          */
         bool GetProfiles(ProfilesModels::FGetEntityProfilesRequest& request, const FGetProfilesDelegate& SuccessDelegate = FGetProfilesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Retrieves the title player accounts associated with the given master player account.
+         * Given a master player account id (PlayFab ID), returns all title player accounts associated with it.
+         */
+        bool GetTitlePlayersFromMasterPlayerAccountIds(ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest& request, const FGetTitlePlayersFromMasterPlayerAccountIdsDelegate& SuccessDelegate = FGetTitlePlayersFromMasterPlayerAccountIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Sets the global title access policy
          * Updates the title access policy that is used before the profile's policy is inspected during a request. Policies are compiled and cached for several minutes so an update here may not be reflected in behavior for a short time.
          */
@@ -77,6 +83,7 @@ namespace PlayFab
         void OnGetGlobalPolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGlobalPolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetProfileResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetProfileDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetProfilesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetProfilesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetTitlePlayersFromMasterPlayerAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitlePlayersFromMasterPlayerAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetGlobalPolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetGlobalPolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetProfileLanguageResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetProfileLanguageDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetProfilePolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetProfilePolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

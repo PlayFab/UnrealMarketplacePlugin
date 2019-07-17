@@ -134,6 +134,36 @@ void UPlayFabProfilesAPI::OnGetProfilesResult(FHttpRequestPtr HttpRequest, FHttp
     }
 }
 
+bool UPlayFabProfilesAPI::GetTitlePlayersFromMasterPlayerAccountIds(
+    ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest& request,
+    const FGetTitlePlayersFromMasterPlayerAccountIdsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/GetTitlePlayersFromMasterPlayerAccountIds")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnGetTitlePlayersFromMasterPlayerAccountIdsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabProfilesAPI::OnGetTitlePlayersFromMasterPlayerAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitlePlayersFromMasterPlayerAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabProfilesAPI::SetGlobalPolicy(
     ProfilesModels::FSetGlobalPolicyRequest& request,
     const FSetGlobalPolicyDelegate& SuccessDelegate,

@@ -98,6 +98,19 @@ public:
         void HelperGetProfiles(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTitlePlayersFromMasterPlayerAccountIds, FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse, result, UObject*, customData);
+
+    /** Retrieves the title player accounts associated with the given master player account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabProfilesAPI* GetTitlePlayersFromMasterPlayerAccountIds(FProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest request,
+            FDelegateOnSuccessGetTitlePlayersFromMasterPlayerAccountIds onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabProfilesRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetTitlePlayersFromMasterPlayerAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetGlobalPolicy, FProfilesSetGlobalPolicyResponse, result, UObject*, customData);
 
     /** Sets the global title access policy */
@@ -160,6 +173,7 @@ public:
     FDelegateOnSuccessGetGlobalPolicy OnSuccessGetGlobalPolicy;
     FDelegateOnSuccessGetProfile OnSuccessGetProfile;
     FDelegateOnSuccessGetProfiles OnSuccessGetProfiles;
+    FDelegateOnSuccessGetTitlePlayersFromMasterPlayerAccountIds OnSuccessGetTitlePlayersFromMasterPlayerAccountIds;
     FDelegateOnSuccessSetGlobalPolicy OnSuccessSetGlobalPolicy;
     FDelegateOnSuccessSetProfileLanguage OnSuccessSetProfileLanguage;
     FDelegateOnSuccessSetProfilePolicy OnSuccessSetProfilePolicy;

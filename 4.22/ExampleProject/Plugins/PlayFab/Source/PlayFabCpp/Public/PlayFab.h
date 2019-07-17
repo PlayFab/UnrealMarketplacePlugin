@@ -67,6 +67,10 @@ public:
     */
     static inline IPlayFabModuleInterface& Get()
     {
+        if (IsAvailable())
+        {
+            return FModuleManager::GetModuleChecked< IPlayFabModuleInterface >("PlayFabCpp");
+        }
         return FModuleManager::LoadModuleChecked< IPlayFabModuleInterface >("PlayFabCpp");
     }
 

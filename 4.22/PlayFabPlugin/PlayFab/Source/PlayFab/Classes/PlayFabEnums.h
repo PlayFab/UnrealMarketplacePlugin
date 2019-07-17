@@ -941,7 +941,6 @@ enum class ECancellationReason : uint8
     pfenum_Requested UMETA(DisplayName = "Requested"),
     pfenum_Internal UMETA(DisplayName = "Internal"),
     pfenum_Timeout UMETA(DisplayName = "Timeout"),
-    pfenum_ServerAllocationFailed UMETA(DisplayName = "ServerAllocationFailed"),
 };
 
 /** ContainerFlavor */

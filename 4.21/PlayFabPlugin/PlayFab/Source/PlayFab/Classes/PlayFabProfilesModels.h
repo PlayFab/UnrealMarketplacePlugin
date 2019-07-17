@@ -114,6 +114,27 @@ public:
         TArray<UPlayFabJsonObject*> Profiles;
 };
 
+/** Given a master player account id (PlayFab ID), returns all title player accounts associated with it. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Master player account ids. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        FString MasterPlayerAccountIds;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Dictionary of master player ids mapped to title player entity keys and id pairs */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* TitlePlayerAccounts = nullptr;
+};
+
 /**
  * Updates the title access policy that is used before the profile's policy is inspected during a request. Policies are
  * compiled and cached for several minutes so an update here may not be reflected in behavior for a short time.

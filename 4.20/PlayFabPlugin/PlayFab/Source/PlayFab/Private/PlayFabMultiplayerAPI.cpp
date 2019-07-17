@@ -624,20 +624,10 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     if (GetEnumValueToString<EContainerFlavor>(TEXT("EContainerFlavor"), request.ContainerFlavor, temp_ContainerFlavor))
         OutRestJsonObj->SetStringField(TEXT("ContainerFlavor"), temp_ContainerFlavor);
     if (request.ContainerImageReference != nullptr) OutRestJsonObj->SetObjectField(TEXT("ContainerImageReference"), request.ContainerImageReference);
-    if (request.ContainerRepositoryName.IsEmpty() || request.ContainerRepositoryName == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ContainerRepositoryName"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ContainerRepositoryName"), request.ContainerRepositoryName);
-    }
     if (request.ContainerRunCommand.IsEmpty() || request.ContainerRunCommand == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ContainerRunCommand"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("ContainerRunCommand"), request.ContainerRunCommand);
-    }
-    if (request.ContainerTag.IsEmpty() || request.ContainerTag == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ContainerTag"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ContainerTag"), request.ContainerTag);
     }
     if (request.GameAssetReferences.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("GameAssetReferences"));

@@ -224,6 +224,62 @@ void UPlayFabProfilesAPI::HelperGetProfiles(FPlayFabBaseModel response, UObject*
     this->RemoveFromRoot();
 }
 
+/** Retrieves the title player accounts associated with the given master player account. */
+UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetTitlePlayersFromMasterPlayerAccountIds(FProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest request,
+    FDelegateOnSuccessGetTitlePlayersFromMasterPlayerAccountIds onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabProfilesAPI* manager = NewObject<UPlayFabProfilesAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetTitlePlayersFromMasterPlayerAccountIds = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperGetTitlePlayersFromMasterPlayerAccountIds);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Profile/GetTitlePlayersFromMasterPlayerAccountIds";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.MasterPlayerAccountIds.IsEmpty() || request.MasterPlayerAccountIds == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("MasterPlayerAccountIds"));
+    } else {
+        TArray<FString> MasterPlayerAccountIdsArray;
+        FString(request.MasterPlayerAccountIds).ParseIntoArray(MasterPlayerAccountIdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("MasterPlayerAccountIds"), MasterPlayerAccountIdsArray);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabProfilesRequestCompleted
+void UPlayFabProfilesAPI::HelperGetTitlePlayersFromMasterPlayerAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetTitlePlayersFromMasterPlayerAccountIds.IsBound())
+    {
+        FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeGetTitlePlayersFromMasterPlayerAccountIdsResponseResponse(response.responseData);
+        OnSuccessGetTitlePlayersFromMasterPlayerAccountIds.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Sets the global title access policy  */
 UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetGlobalPolicy(FProfilesSetGlobalPolicyRequest request,
     FDelegateOnSuccessSetGlobalPolicy onSuccess,

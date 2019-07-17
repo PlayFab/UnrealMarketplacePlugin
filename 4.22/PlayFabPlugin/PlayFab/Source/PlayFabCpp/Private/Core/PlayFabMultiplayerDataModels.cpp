@@ -656,7 +656,6 @@ void PlayFab::MultiplayerModels::writeCancellationReasonEnumJSON(CancellationRea
     case CancellationReasonRequested: writer->WriteValue(TEXT("Requested")); break;
     case CancellationReasonInternal: writer->WriteValue(TEXT("Internal")); break;
     case CancellationReasonTimeout: writer->WriteValue(TEXT("Timeout")); break;
-    case CancellationReasonServerAllocationFailed: writer->WriteValue(TEXT("ServerAllocationFailed")); break;
     }
 }
 
@@ -674,7 +673,6 @@ MultiplayerModels::CancellationReason PlayFab::MultiplayerModels::readCancellati
         _CancellationReasonMap.Add(TEXT("Requested"), CancellationReasonRequested);
         _CancellationReasonMap.Add(TEXT("Internal"), CancellationReasonInternal);
         _CancellationReasonMap.Add(TEXT("Timeout"), CancellationReasonTimeout);
-        _CancellationReasonMap.Add(TEXT("ServerAllocationFailed"), CancellationReasonServerAllocationFailed);
 
     }
 
@@ -1105,11 +1103,7 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
 
     if (pfContainerImageReference.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ContainerImageReference")); pfContainerImageReference->writeJSON(writer); }
 
-    if (ContainerRepositoryName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ContainerRepositoryName")); writer->WriteValue(ContainerRepositoryName); }
-
     if (ContainerRunCommand.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ContainerRunCommand")); writer->WriteValue(ContainerRunCommand); }
-
-    if (ContainerTag.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ContainerTag")); writer->WriteValue(ContainerTag); }
 
     if (GameAssetReferences.Num() != 0)
     {
@@ -1178,25 +1172,11 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
         pfContainerImageReference = MakeShareable(new FContainerImageReference(ContainerImageReferenceValue->AsObject()));
     }
 
-    const TSharedPtr<FJsonValue> ContainerRepositoryNameValue = obj->TryGetField(TEXT("ContainerRepositoryName"));
-    if (ContainerRepositoryNameValue.IsValid() && !ContainerRepositoryNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContainerRepositoryNameValue->TryGetString(TmpValue)) { ContainerRepositoryName = TmpValue; }
-    }
-
     const TSharedPtr<FJsonValue> ContainerRunCommandValue = obj->TryGetField(TEXT("ContainerRunCommand"));
     if (ContainerRunCommandValue.IsValid() && !ContainerRunCommandValue->IsNull())
     {
         FString TmpValue;
         if (ContainerRunCommandValue->TryGetString(TmpValue)) { ContainerRunCommand = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ContainerTagValue = obj->TryGetField(TEXT("ContainerTag"));
-    if (ContainerTagValue.IsValid() && !ContainerTagValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContainerTagValue->TryGetString(TmpValue)) { ContainerTag = TmpValue; }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&GameAssetReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameAssetReferences"));
@@ -2694,6 +2674,8 @@ void PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::writeJSON(JsonWrit
 
     if (pfCancellationReason.notNull()) { writer->WriteIdentifierPrefix(TEXT("CancellationReason")); writeCancellationReasonEnumJSON(pfCancellationReason, writer); }
 
+    if (CancellationReasonString.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CancellationReasonString")); writer->WriteValue(CancellationReasonString); }
+
     writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
 
     writer->WriteIdentifierPrefix(TEXT("Creator")); Creator.writeJSON(writer);
@@ -2731,6 +2713,13 @@ bool PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::readFromValue(cons
     bool HasSucceeded = true;
 
     pfCancellationReason = readCancellationReasonFromValue(obj->TryGetField(TEXT("CancellationReason")));
+
+    const TSharedPtr<FJsonValue> CancellationReasonStringValue = obj->TryGetField(TEXT("CancellationReasonString"));
+    if (CancellationReasonStringValue.IsValid() && !CancellationReasonStringValue->IsNull())
+    {
+        FString TmpValue;
+        if (CancellationReasonStringValue->TryGetString(TmpValue)) { CancellationReasonString = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
     if (CreatedValue.IsValid())

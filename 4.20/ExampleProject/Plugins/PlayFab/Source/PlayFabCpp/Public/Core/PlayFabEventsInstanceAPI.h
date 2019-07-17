@@ -23,6 +23,7 @@ namespace PlayFab
     {
     public:
         DECLARE_DELEGATE_OneParam(FWriteEventsDelegate, const EventsModels::FWriteEventsResponse&);
+        DECLARE_DELEGATE_OneParam(FWriteTelemetryEventsDelegate, const EventsModels::FWriteEventsResponse&);
 
 
     private:
@@ -56,10 +57,13 @@ namespace PlayFab
         // ------------ Generated API calls
         // Write batches of entity based events to PlayStream.
         bool WriteEvents(EventsModels::FWriteEventsRequest& request, const FWriteEventsDelegate& SuccessDelegate = FWriteEventsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Write batches of entity based events to as Telemetry events (bypass PlayStream).
+        bool WriteTelemetryEvents(EventsModels::FWriteEventsRequest& request, const FWriteTelemetryEventsDelegate& SuccessDelegate = FWriteTelemetryEventsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
 
     private:
         // ------------ Generated result handlers
         void OnWriteEventsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FWriteEventsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnWriteTelemetryEventsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FWriteTelemetryEventsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };
 };

@@ -71,6 +71,7 @@ FMultiplayerGetMatchmakingTicketResult UPlayFabMultiplayerModelDecoder::decodeGe
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     GetEnumValueFromString<ECancellationReason>(TEXT("ECancellationReason"), dataObj->GetStringField("CancellationReason"), tempStruct.CancellationReason);
+    tempStruct.CancellationReasonString = !(dataObj->HasField("CancellationReasonString")) ? TEXT("") : dataObj->GetStringField("CancellationReasonString");
     tempStruct.Created = !(dataObj->HasField("Created")) ? TEXT("") : dataObj->GetStringField("Created");
     tempStruct.Creator = !(dataObj->HasField("Creator")) ? nullptr : dataObj->GetObjectField("Creator");
     tempStruct.GiveUpAfterSeconds = !(dataObj->HasField("GiveUpAfterSeconds")) ? 0 : int(dataObj->GetNumberField("GiveUpAfterSeconds"));

@@ -214,6 +214,9 @@ public:
     /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         ECancellationReason CancellationReason;
+    /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString CancellationReasonString;
     /** The server date and time at which ticket was created. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString Created;
@@ -357,15 +360,9 @@ public:
     /** The container reference, consisting of the image name and tag. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* ContainerImageReference = nullptr;
-    /** The name of the container repository. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString ContainerRepositoryName;
     /** The container command to run when the multiplayer server has been allocated, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ContainerRunCommand;
-    /** The tag for the container. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString ContainerTag;
     /** The list of game assets related to the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameAssetReferences;

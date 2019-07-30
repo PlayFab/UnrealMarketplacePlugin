@@ -18,8 +18,8 @@ int PlayFabRequestHandler::GetPendingCalls()
 
 TSharedRef<IHttpRequest> PlayFabRequestHandler::SendRequest(const FString& url, const FString& callBody, const FString& authKey, const FString& authValue)
 {
-    if (PlayFabSettings::GetTitleId().Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must define a titleID before making API Calls."));
+    if (PlayFabCommon::PlayFabCommonSettings::titleId.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call SetTitleID before making API Calls."));
     }
     PlayFabRequestHandler::pendingCalls += 1;
 

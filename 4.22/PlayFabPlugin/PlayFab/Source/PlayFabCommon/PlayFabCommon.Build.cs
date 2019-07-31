@@ -36,7 +36,6 @@ public class PlayFabCommon : ModuleRules
 
         BuildVersion Version;
         BuildVersion.TryRead(BuildVersion.GetDefaultFileName(), out Version);
-        System.Console.WriteLine("MAJOR VERSION {0} MINOR VERSION {1}", Version.MajorVersion, Version.MinorVersion);
         PublicDefinitions.Add(string.Format("ENGINE_MAJOR_VERSION={0}", Version.MajorVersion));
         PublicDefinitions.Add(string.Format("ENGINE_MINOR_VERSION={0}", Version.MinorVersion));
 

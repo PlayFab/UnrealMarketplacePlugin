@@ -1056,10 +1056,10 @@ namespace ClientModels
         // [optional] Total number of remaining uses, if this is a consumable item.
         Boxed<int32> RemainingUses;
 
-        // [optional] Currency type for the cost of the catalog item.
+        // [optional] Currency type for the cost of the catalog item. Not available when granting items.
         FString UnitCurrency;
 
-        // Cost of the catalog item in the given currency.
+        // Cost of the catalog item in the given currency. Not available when granting items.
         uint32 UnitPrice;
 
         // [optional] The number of uses that were added or removed to this item in this call.
@@ -1493,7 +1493,7 @@ namespace ClientModels
         // [optional] Catalog version to use
         FString CatalogVersion;
 
-        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
+        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         FString XboxToken;
 
         FConsumeXboxEntitlementsRequest() :
@@ -8811,7 +8811,7 @@ namespace ClientModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
+        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         FString XboxToken;
 
         FLinkXboxAccountRequest() :
@@ -9930,7 +9930,7 @@ namespace ClientModels
          */
         FString TitleId;
 
-        // [optional] Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
+        // [optional] Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         FString XboxToken;
 
         FLoginWithXboxRequest() :
@@ -10460,6 +10460,51 @@ namespace ClientModels
         }
 
         ~FPurchaseItemResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPurchaseReceiptFulfillment : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Items granted to the player in fulfillment of the validated receipt.
+        TArray<FItemInstance> FulfilledItems;
+        /**
+         * [optional] Source of the payment price information for the recorded purchase transaction. A value of 'Request' indicates that the
+         * price specified in the request was used, whereas a value of 'Catalog' indicates that the real-money price of the catalog
+         * item matching the product ID in the validated receipt transaction and the currency specified in the request (defaulting
+         * to USD) was used.
+         */
+        FString RecordedPriceSource;
+
+        // [optional] Currency used to purchase the items (ISO 4217 currency code).
+        FString RecordedTransactionCurrency;
+
+        // [optional] Amount of the stated currency paid for the items, in centesimal units
+        Boxed<uint32> RecordedTransactionTotal;
+
+        FPurchaseReceiptFulfillment() :
+            FPlayFabCppBaseModel(),
+            FulfilledItems(),
+            RecordedPriceSource(),
+            RecordedTransactionCurrency(),
+            RecordedTransactionTotal()
+            {}
+
+        FPurchaseReceiptFulfillment(const FPurchaseReceiptFulfillment& src) :
+            FPlayFabCppBaseModel(),
+            FulfilledItems(src.FulfilledItems),
+            RecordedPriceSource(src.RecordedPriceSource),
+            RecordedTransactionCurrency(src.RecordedTransactionCurrency),
+            RecordedTransactionTotal(src.RecordedTransactionTotal)
+            {}
+
+        FPurchaseReceiptFulfillment(const TSharedPtr<FJsonObject>& obj) : FPurchaseReceiptFulfillment()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPurchaseReceiptFulfillment();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -11046,16 +11091,21 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FRestoreIOSPurchasesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] Catalog version of the restored items. If null, defaults to primary catalog.
+        FString CatalogVersion;
+
         // Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase.
         FString ReceiptData;
 
         FRestoreIOSPurchasesRequest() :
             FPlayFabCppRequestCommon(),
+            CatalogVersion(),
             ReceiptData()
             {}
 
         FRestoreIOSPurchasesRequest(const FRestoreIOSPurchasesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CatalogVersion(src.CatalogVersion),
             ReceiptData(src.ReceiptData)
             {}
 
@@ -11072,12 +11122,16 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FRestoreIOSPurchasesResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions.
+        TArray<FPurchaseReceiptFulfillment> Fulfillments;
         FRestoreIOSPurchasesResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments()
             {}
 
         FRestoreIOSPurchasesResult(const FRestoreIOSPurchasesResult& src) :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments(src.Fulfillments)
             {}
 
         FRestoreIOSPurchasesResult(const TSharedPtr<FJsonObject>& obj) : FRestoreIOSPurchasesResult()
@@ -12122,7 +12176,7 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FUnlinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", "").
+        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         FString XboxToken;
 
         FUnlinkXboxAccountRequest() :
@@ -12681,13 +12735,13 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateAmazonReceiptRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Catalog version to use when granting receipt item. If null, defaults to primary catalog.
+        // [optional] Catalog version of the fulfilled items. If null, defaults to the primary catalog.
         FString CatalogVersion;
 
-        // Currency used for the purchase.
+        // Currency used to pay for the purchase (ISO 4217 currency code).
         FString CurrencyCode;
 
-        // Amount of the stated currency paid for the object.
+        // Amount of the stated currency paid, in centesimal units.
         int32 PurchasePrice;
 
         // ReceiptId returned by the Amazon App Store in-app purchase API
@@ -12727,12 +12781,16 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateAmazonReceiptResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions.
+        TArray<FPurchaseReceiptFulfillment> Fulfillments;
         FValidateAmazonReceiptResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments()
             {}
 
         FValidateAmazonReceiptResult(const FValidateAmazonReceiptResult& src) :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments(src.Fulfillments)
             {}
 
         FValidateAmazonReceiptResult(const TSharedPtr<FJsonObject>& obj) : FValidateAmazonReceiptResult()
@@ -12748,10 +12806,13 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateGooglePlayPurchaseRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Currency used for the purchase.
+        // [optional] Catalog version of the fulfilled items. If null, defaults to the primary catalog.
+        FString CatalogVersion;
+
+        // [optional] Currency used to pay for the purchase (ISO 4217 currency code).
         FString CurrencyCode;
 
-        // [optional] Amount of the stated currency paid for the object.
+        // [optional] Amount of the stated currency paid, in centesimal units.
         Boxed<uint32> PurchasePrice;
 
         // Original JSON string returned by the Google Play IAB API.
@@ -12762,6 +12823,7 @@ namespace ClientModels
 
         FValidateGooglePlayPurchaseRequest() :
             FPlayFabCppRequestCommon(),
+            CatalogVersion(),
             CurrencyCode(),
             PurchasePrice(),
             ReceiptJson(),
@@ -12770,6 +12832,7 @@ namespace ClientModels
 
         FValidateGooglePlayPurchaseRequest(const FValidateGooglePlayPurchaseRequest& src) :
             FPlayFabCppRequestCommon(),
+            CatalogVersion(src.CatalogVersion),
             CurrencyCode(src.CurrencyCode),
             PurchasePrice(src.PurchasePrice),
             ReceiptJson(src.ReceiptJson),
@@ -12789,12 +12852,16 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateGooglePlayPurchaseResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions.
+        TArray<FPurchaseReceiptFulfillment> Fulfillments;
         FValidateGooglePlayPurchaseResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments()
             {}
 
         FValidateGooglePlayPurchaseResult(const FValidateGooglePlayPurchaseResult& src) :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments(src.Fulfillments)
             {}
 
         FValidateGooglePlayPurchaseResult(const TSharedPtr<FJsonObject>& obj) : FValidateGooglePlayPurchaseResult()
@@ -12810,10 +12877,13 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateIOSReceiptRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Currency used for the purchase.
+        // [optional] Catalog version of the fulfilled items. If null, defaults to the primary catalog.
+        FString CatalogVersion;
+
+        // Currency used to pay for the purchase (ISO 4217 currency code).
         FString CurrencyCode;
 
-        // Amount of the stated currency paid for the object.
+        // Amount of the stated currency paid, in centesimal units.
         int32 PurchasePrice;
 
         // Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase.
@@ -12821,6 +12891,7 @@ namespace ClientModels
 
         FValidateIOSReceiptRequest() :
             FPlayFabCppRequestCommon(),
+            CatalogVersion(),
             CurrencyCode(),
             PurchasePrice(0),
             ReceiptData()
@@ -12828,6 +12899,7 @@ namespace ClientModels
 
         FValidateIOSReceiptRequest(const FValidateIOSReceiptRequest& src) :
             FPlayFabCppRequestCommon(),
+            CatalogVersion(src.CatalogVersion),
             CurrencyCode(src.CurrencyCode),
             PurchasePrice(src.PurchasePrice),
             ReceiptData(src.ReceiptData)
@@ -12846,12 +12918,16 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateIOSReceiptResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions.
+        TArray<FPurchaseReceiptFulfillment> Fulfillments;
         FValidateIOSReceiptResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments()
             {}
 
         FValidateIOSReceiptResult(const FValidateIOSReceiptResult& src) :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments(src.Fulfillments)
             {}
 
         FValidateIOSReceiptResult(const TSharedPtr<FJsonObject>& obj) : FValidateIOSReceiptResult()
@@ -12867,13 +12943,13 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateWindowsReceiptRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Catalog version to use when granting receipt item. If null, defaults to primary catalog.
+        // [optional] Catalog version of the fulfilled items. If null, defaults to the primary catalog.
         FString CatalogVersion;
 
-        // Currency used for the purchase.
+        // Currency used to pay for the purchase (ISO 4217 currency code).
         FString CurrencyCode;
 
-        // Amount of the stated currency paid for the object.
+        // Amount of the stated currency paid, in centesimal units.
         uint32 PurchasePrice;
 
         // XML Receipt returned by the Windows App Store in-app purchase API
@@ -12908,12 +12984,16 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FValidateWindowsReceiptResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions.
+        TArray<FPurchaseReceiptFulfillment> Fulfillments;
         FValidateWindowsReceiptResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments()
             {}
 
         FValidateWindowsReceiptResult(const FValidateWindowsReceiptResult& src) :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            Fulfillments(src.Fulfillments)
             {}
 
         FValidateWindowsReceiptResult(const TSharedPtr<FJsonObject>& obj) : FValidateWindowsReceiptResult()

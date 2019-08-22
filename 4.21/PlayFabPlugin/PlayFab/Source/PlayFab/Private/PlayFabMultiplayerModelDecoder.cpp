@@ -268,7 +268,7 @@ FMultiplayerGetMultiplayerServerDetailsResponse UPlayFabMultiplayerModelDecoder:
     tempStruct.IPV4Address = !(dataObj->HasField("IPV4Address")) ? TEXT("") : dataObj->GetStringField("IPV4Address");
     tempStruct.LastStateTransitionTime = !(dataObj->HasField("LastStateTransitionTime")) ? TEXT("") : dataObj->GetStringField("LastStateTransitionTime");
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
-    GetEnumValueFromString<EAzureRegion>(TEXT("EAzureRegion"), dataObj->GetStringField("Region"), tempStruct.Region);
+    tempStruct.Region = !(dataObj->HasField("Region")) ? TEXT("") : dataObj->GetStringField("Region");
     tempStruct.ServerId = !(dataObj->HasField("ServerId")) ? TEXT("") : dataObj->GetStringField("ServerId");
     tempStruct.SessionId = !(dataObj->HasField("SessionId")) ? TEXT("") : dataObj->GetStringField("SessionId");
     tempStruct.State = !(dataObj->HasField("State")) ? TEXT("") : dataObj->GetStringField("State");
@@ -387,6 +387,19 @@ FMultiplayerListContainerImageTagsResponse UPlayFabMultiplayerModelDecoder::deco
     return tempStruct;
 }
 
+FMultiplayerListPartyQosServersResponse UPlayFabMultiplayerModelDecoder::decodeListPartyQosServersResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerListPartyQosServersResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.QosServers = !(dataObj->HasField("QosServers")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("QosServers");
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
+
+    return tempStruct;
+}
+
 FMultiplayerListQosServersResponse UPlayFabMultiplayerModelDecoder::decodeListQosServersResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -424,7 +437,7 @@ FMultiplayerRequestMultiplayerServerResponse UPlayFabMultiplayerModelDecoder::de
     tempStruct.IPV4Address = !(dataObj->HasField("IPV4Address")) ? TEXT("") : dataObj->GetStringField("IPV4Address");
     tempStruct.LastStateTransitionTime = !(dataObj->HasField("LastStateTransitionTime")) ? TEXT("") : dataObj->GetStringField("LastStateTransitionTime");
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
-    GetEnumValueFromString<EAzureRegion>(TEXT("EAzureRegion"), dataObj->GetStringField("Region"), tempStruct.Region);
+    tempStruct.Region = !(dataObj->HasField("Region")) ? TEXT("") : dataObj->GetStringField("Region");
     tempStruct.ServerId = !(dataObj->HasField("ServerId")) ? TEXT("") : dataObj->GetStringField("ServerId");
     tempStruct.SessionId = !(dataObj->HasField("SessionId")) ? TEXT("") : dataObj->GetStringField("SessionId");
     tempStruct.State = !(dataObj->HasField("State")) ? TEXT("") : dataObj->GetStringField("State");

@@ -158,6 +158,33 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum LoginIdentityProvider
+    {
+        LoginIdentityProviderUnknown,
+        LoginIdentityProviderPlayFab,
+        LoginIdentityProviderCustom,
+        LoginIdentityProviderGameCenter,
+        LoginIdentityProviderGooglePlay,
+        LoginIdentityProviderSteam,
+        LoginIdentityProviderXBoxLive,
+        LoginIdentityProviderPSN,
+        LoginIdentityProviderKongregate,
+        LoginIdentityProviderFacebook,
+        LoginIdentityProviderIOSDevice,
+        LoginIdentityProviderAndroidDevice,
+        LoginIdentityProviderTwitch,
+        LoginIdentityProviderWindowsHello,
+        LoginIdentityProviderGameServer,
+        LoginIdentityProviderCustomServer,
+        LoginIdentityProviderNintendoSwitch,
+        LoginIdentityProviderFacebookInstantGames,
+        LoginIdentityProviderOpenIdConnect
+    };
+
+    PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
+    PLAYFABCPP_API LoginIdentityProvider readLoginIdentityProviderFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API LoginIdentityProvider readLoginIdentityProviderFromValue(const FString& value);
+
     struct PLAYFABCPP_API FValidateEntityTokenRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Client EntityToken
@@ -189,18 +216,23 @@ namespace AuthenticationModels
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] The identity provider for this entity, for the given login
+        Boxed<LoginIdentityProvider> IdentityProvider;
+
         // [optional] The lineage of this profile.
         TSharedPtr<FEntityLineage> Lineage;
 
         FValidateEntityTokenResponse() :
             FPlayFabCppResultCommon(),
             Entity(nullptr),
+            IdentityProvider(),
             Lineage(nullptr)
             {}
 
         FValidateEntityTokenResponse(const FValidateEntityTokenResponse& src) :
             FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
+            IdentityProvider(src.IdentityProvider),
             Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr)
             {}
 

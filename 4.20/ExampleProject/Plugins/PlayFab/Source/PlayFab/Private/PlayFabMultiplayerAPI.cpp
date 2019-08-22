@@ -796,9 +796,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateRemoteUser(FMultiplayerCre
     } else {
         OutRestJsonObj->SetStringField(TEXT("ExpirationTime"), request.ExpirationTime);
     }
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.Username.IsEmpty() || request.Username == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Username"));
     } else {
@@ -1019,9 +1021,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteRemoteUser(FMultiplayerDel
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.Username.IsEmpty() || request.Username == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Username"));
     } else {
@@ -1283,9 +1287,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerDetails(FMul
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.SessionId.IsEmpty() || request.SessionId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SessionId"));
     } else {
@@ -1343,9 +1349,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetRemoteLoginEndpoint(FMultipla
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.VmId.IsEmpty() || request.VmId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("VmId"));
     } else {
@@ -1498,9 +1506,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListArchivedMultiplayerServers(F
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
     } else {
@@ -1823,9 +1833,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListMultiplayerServers(FMultipla
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
     } else {
@@ -1851,6 +1863,58 @@ void UPlayFabMultiplayerAPI::HelperListMultiplayerServers(FPlayFabBaseModel resp
         FMultiplayerListMultiplayerServersResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListMultiplayerServersResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessListMultiplayerServers.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Lists quality of service servers for party. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListPartyQosServers(FMultiplayerListPartyQosServersRequest request,
+    FDelegateOnSuccessListPartyQosServers onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListPartyQosServers = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListPartyQosServers);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/ListPartyQosServers";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.Version.IsEmpty() || request.Version == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Version"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Version"), request.Version);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperListPartyQosServers(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListPartyQosServers.IsBound())
+    {
+        FMultiplayerListPartyQosServersResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListPartyQosServersResponseResponse(response.responseData);
+        OnSuccessListPartyQosServers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1931,9 +1995,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListVirtualMachineSummaries(FMul
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
     } else {
@@ -2116,9 +2182,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ShutdownMultiplayerServer(FMulti
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
-    FString temp_Region;
-    if (GetEnumValueToString<EAzureRegion>(TEXT("EAzureRegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
     if (request.SessionId.IsEmpty() || request.SessionId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SessionId"));
     } else {

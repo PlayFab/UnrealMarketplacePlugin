@@ -6369,10 +6369,10 @@ namespace AdminModels
         // [optional] Total number of remaining uses, if this is a consumable item.
         Boxed<int32> RemainingUses;
 
-        // [optional] Currency type for the cost of the catalog item.
+        // [optional] Currency type for the cost of the catalog item. Not available when granting items.
         FString UnitCurrency;
 
-        // Cost of the catalog item in the given currency.
+        // Cost of the catalog item in the given currency. Not available when granting items.
         uint32 UnitPrice;
 
         // [optional] The number of uses that were added or removed to this item in this call.
@@ -6553,10 +6553,10 @@ namespace AdminModels
         // Result of this operation.
         bool Result;
 
-        // [optional] Currency type for the cost of the catalog item.
+        // [optional] Currency type for the cost of the catalog item. Not available when granting items.
         FString UnitCurrency;
 
-        // Cost of the catalog item in the given currency.
+        // Cost of the catalog item in the given currency. Not available when granting items.
         uint32 UnitPrice;
 
         // [optional] The number of uses that were added or removed to this item in this call.

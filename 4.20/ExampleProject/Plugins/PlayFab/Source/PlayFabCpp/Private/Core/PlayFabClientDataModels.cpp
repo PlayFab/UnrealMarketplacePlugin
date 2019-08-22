@@ -14639,6 +14639,69 @@ bool PlayFab::ClientModels::FPurchaseItemResult::readFromValue(const TSharedPtr<
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FPurchaseReceiptFulfillment::~FPurchaseReceiptFulfillment()
+{
+
+}
+
+void PlayFab::ClientModels::FPurchaseReceiptFulfillment::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (FulfilledItems.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("FulfilledItems"));
+        for (const FItemInstance& item : FulfilledItems)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (RecordedPriceSource.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RecordedPriceSource")); writer->WriteValue(RecordedPriceSource); }
+
+    if (RecordedTransactionCurrency.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RecordedTransactionCurrency")); writer->WriteValue(RecordedTransactionCurrency); }
+
+    if (RecordedTransactionTotal.notNull()) { writer->WriteIdentifierPrefix(TEXT("RecordedTransactionTotal")); writer->WriteValue(static_cast<int64>(RecordedTransactionTotal)); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FPurchaseReceiptFulfillment::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FulfilledItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("FulfilledItems"));
+    for (int32 Idx = 0; Idx < FulfilledItemsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FulfilledItemsArray[Idx];
+        FulfilledItems.Add(FItemInstance(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> RecordedPriceSourceValue = obj->TryGetField(TEXT("RecordedPriceSource"));
+    if (RecordedPriceSourceValue.IsValid() && !RecordedPriceSourceValue->IsNull())
+    {
+        FString TmpValue;
+        if (RecordedPriceSourceValue->TryGetString(TmpValue)) { RecordedPriceSource = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RecordedTransactionCurrencyValue = obj->TryGetField(TEXT("RecordedTransactionCurrency"));
+    if (RecordedTransactionCurrencyValue.IsValid() && !RecordedTransactionCurrencyValue->IsNull())
+    {
+        FString TmpValue;
+        if (RecordedTransactionCurrencyValue->TryGetString(TmpValue)) { RecordedTransactionCurrency = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RecordedTransactionTotalValue = obj->TryGetField(TEXT("RecordedTransactionTotal"));
+    if (RecordedTransactionTotalValue.IsValid() && !RecordedTransactionTotalValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (RecordedTransactionTotalValue->TryGetNumber(TmpValue)) { RecordedTransactionTotal = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FRedeemCouponRequest::~FRedeemCouponRequest()
 {
 
@@ -15338,6 +15401,8 @@ void PlayFab::ClientModels::FRestoreIOSPurchasesRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+
     writer->WriteIdentifierPrefix(TEXT("ReceiptData")); writer->WriteValue(ReceiptData);
 
     writer->WriteObjectEnd();
@@ -15346,6 +15411,13 @@ void PlayFab::ClientModels::FRestoreIOSPurchasesRequest::writeJSON(JsonWriter& w
 bool PlayFab::ClientModels::FRestoreIOSPurchasesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatalogVersionValue = obj->TryGetField(TEXT("CatalogVersion"));
+    if (CatalogVersionValue.IsValid() && !CatalogVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> ReceiptDataValue = obj->TryGetField(TEXT("ReceiptData"));
     if (ReceiptDataValue.IsValid() && !ReceiptDataValue->IsNull())
@@ -15366,12 +15438,29 @@ void PlayFab::ClientModels::FRestoreIOSPurchasesResult::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (Fulfillments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Fulfillments"));
+        for (const FPurchaseReceiptFulfillment& item : Fulfillments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FRestoreIOSPurchasesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FulfillmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Fulfillments"));
+    for (int32 Idx = 0; Idx < FulfillmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FulfillmentsArray[Idx];
+        Fulfillments.Add(FPurchaseReceiptFulfillment(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -17259,12 +17348,29 @@ void PlayFab::ClientModels::FValidateAmazonReceiptResult::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
+    if (Fulfillments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Fulfillments"));
+        for (const FPurchaseReceiptFulfillment& item : Fulfillments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FValidateAmazonReceiptResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FulfillmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Fulfillments"));
+    for (int32 Idx = 0; Idx < FulfillmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FulfillmentsArray[Idx];
+        Fulfillments.Add(FPurchaseReceiptFulfillment(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -17277,6 +17383,8 @@ PlayFab::ClientModels::FValidateGooglePlayPurchaseRequest::~FValidateGooglePlayP
 void PlayFab::ClientModels::FValidateGooglePlayPurchaseRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
 
     if (CurrencyCode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CurrencyCode")); writer->WriteValue(CurrencyCode); }
 
@@ -17292,6 +17400,13 @@ void PlayFab::ClientModels::FValidateGooglePlayPurchaseRequest::writeJSON(JsonWr
 bool PlayFab::ClientModels::FValidateGooglePlayPurchaseRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatalogVersionValue = obj->TryGetField(TEXT("CatalogVersion"));
+    if (CatalogVersionValue.IsValid() && !CatalogVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> CurrencyCodeValue = obj->TryGetField(TEXT("CurrencyCode"));
     if (CurrencyCodeValue.IsValid() && !CurrencyCodeValue->IsNull())
@@ -17333,12 +17448,29 @@ void PlayFab::ClientModels::FValidateGooglePlayPurchaseResult::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
+    if (Fulfillments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Fulfillments"));
+        for (const FPurchaseReceiptFulfillment& item : Fulfillments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FValidateGooglePlayPurchaseResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FulfillmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Fulfillments"));
+    for (int32 Idx = 0; Idx < FulfillmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FulfillmentsArray[Idx];
+        Fulfillments.Add(FPurchaseReceiptFulfillment(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -17352,6 +17484,8 @@ void PlayFab::ClientModels::FValidateIOSReceiptRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+
     writer->WriteIdentifierPrefix(TEXT("CurrencyCode")); writer->WriteValue(CurrencyCode);
 
     writer->WriteIdentifierPrefix(TEXT("PurchasePrice")); writer->WriteValue(PurchasePrice);
@@ -17364,6 +17498,13 @@ void PlayFab::ClientModels::FValidateIOSReceiptRequest::writeJSON(JsonWriter& wr
 bool PlayFab::ClientModels::FValidateIOSReceiptRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatalogVersionValue = obj->TryGetField(TEXT("CatalogVersion"));
+    if (CatalogVersionValue.IsValid() && !CatalogVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> CurrencyCodeValue = obj->TryGetField(TEXT("CurrencyCode"));
     if (CurrencyCodeValue.IsValid() && !CurrencyCodeValue->IsNull())
@@ -17398,12 +17539,29 @@ void PlayFab::ClientModels::FValidateIOSReceiptResult::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
+    if (Fulfillments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Fulfillments"));
+        for (const FPurchaseReceiptFulfillment& item : Fulfillments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FValidateIOSReceiptResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FulfillmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Fulfillments"));
+    for (int32 Idx = 0; Idx < FulfillmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FulfillmentsArray[Idx];
+        Fulfillments.Add(FPurchaseReceiptFulfillment(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -17472,12 +17630,29 @@ void PlayFab::ClientModels::FValidateWindowsReceiptResult::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (Fulfillments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Fulfillments"));
+        for (const FPurchaseReceiptFulfillment& item : Fulfillments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FValidateWindowsReceiptResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FulfillmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Fulfillments"));
+    for (int32 Idx = 0; Idx < FulfillmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FulfillmentsArray[Idx];
+        Fulfillments.Add(FPurchaseReceiptFulfillment(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }

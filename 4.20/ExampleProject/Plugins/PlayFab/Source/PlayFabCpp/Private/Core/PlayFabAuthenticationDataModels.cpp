@@ -193,6 +193,76 @@ bool PlayFab::AuthenticationModels::FGetEntityTokenResponse::readFromValue(const
     return HasSucceeded;
 }
 
+void PlayFab::AuthenticationModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case LoginIdentityProviderUnknown: writer->WriteValue(TEXT("Unknown")); break;
+    case LoginIdentityProviderPlayFab: writer->WriteValue(TEXT("PlayFab")); break;
+    case LoginIdentityProviderCustom: writer->WriteValue(TEXT("Custom")); break;
+    case LoginIdentityProviderGameCenter: writer->WriteValue(TEXT("GameCenter")); break;
+    case LoginIdentityProviderGooglePlay: writer->WriteValue(TEXT("GooglePlay")); break;
+    case LoginIdentityProviderSteam: writer->WriteValue(TEXT("Steam")); break;
+    case LoginIdentityProviderXBoxLive: writer->WriteValue(TEXT("XBoxLive")); break;
+    case LoginIdentityProviderPSN: writer->WriteValue(TEXT("PSN")); break;
+    case LoginIdentityProviderKongregate: writer->WriteValue(TEXT("Kongregate")); break;
+    case LoginIdentityProviderFacebook: writer->WriteValue(TEXT("Facebook")); break;
+    case LoginIdentityProviderIOSDevice: writer->WriteValue(TEXT("IOSDevice")); break;
+    case LoginIdentityProviderAndroidDevice: writer->WriteValue(TEXT("AndroidDevice")); break;
+    case LoginIdentityProviderTwitch: writer->WriteValue(TEXT("Twitch")); break;
+    case LoginIdentityProviderWindowsHello: writer->WriteValue(TEXT("WindowsHello")); break;
+    case LoginIdentityProviderGameServer: writer->WriteValue(TEXT("GameServer")); break;
+    case LoginIdentityProviderCustomServer: writer->WriteValue(TEXT("CustomServer")); break;
+    case LoginIdentityProviderNintendoSwitch: writer->WriteValue(TEXT("NintendoSwitch")); break;
+    case LoginIdentityProviderFacebookInstantGames: writer->WriteValue(TEXT("FacebookInstantGames")); break;
+    case LoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
+    }
+}
+
+AuthenticationModels::LoginIdentityProvider PlayFab::AuthenticationModels::readLoginIdentityProviderFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readLoginIdentityProviderFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AuthenticationModels::LoginIdentityProvider PlayFab::AuthenticationModels::readLoginIdentityProviderFromValue(const FString& value)
+{
+    static TMap<FString, LoginIdentityProvider> _LoginIdentityProviderMap;
+    if (_LoginIdentityProviderMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _LoginIdentityProviderMap.Add(TEXT("Unknown"), LoginIdentityProviderUnknown);
+        _LoginIdentityProviderMap.Add(TEXT("PlayFab"), LoginIdentityProviderPlayFab);
+        _LoginIdentityProviderMap.Add(TEXT("Custom"), LoginIdentityProviderCustom);
+        _LoginIdentityProviderMap.Add(TEXT("GameCenter"), LoginIdentityProviderGameCenter);
+        _LoginIdentityProviderMap.Add(TEXT("GooglePlay"), LoginIdentityProviderGooglePlay);
+        _LoginIdentityProviderMap.Add(TEXT("Steam"), LoginIdentityProviderSteam);
+        _LoginIdentityProviderMap.Add(TEXT("XBoxLive"), LoginIdentityProviderXBoxLive);
+        _LoginIdentityProviderMap.Add(TEXT("PSN"), LoginIdentityProviderPSN);
+        _LoginIdentityProviderMap.Add(TEXT("Kongregate"), LoginIdentityProviderKongregate);
+        _LoginIdentityProviderMap.Add(TEXT("Facebook"), LoginIdentityProviderFacebook);
+        _LoginIdentityProviderMap.Add(TEXT("IOSDevice"), LoginIdentityProviderIOSDevice);
+        _LoginIdentityProviderMap.Add(TEXT("AndroidDevice"), LoginIdentityProviderAndroidDevice);
+        _LoginIdentityProviderMap.Add(TEXT("Twitch"), LoginIdentityProviderTwitch);
+        _LoginIdentityProviderMap.Add(TEXT("WindowsHello"), LoginIdentityProviderWindowsHello);
+        _LoginIdentityProviderMap.Add(TEXT("GameServer"), LoginIdentityProviderGameServer);
+        _LoginIdentityProviderMap.Add(TEXT("CustomServer"), LoginIdentityProviderCustomServer);
+        _LoginIdentityProviderMap.Add(TEXT("NintendoSwitch"), LoginIdentityProviderNintendoSwitch);
+        _LoginIdentityProviderMap.Add(TEXT("FacebookInstantGames"), LoginIdentityProviderFacebookInstantGames);
+        _LoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), LoginIdentityProviderOpenIdConnect);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _LoginIdentityProviderMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return LoginIdentityProviderUnknown; // Basically critical fail
+}
+
 PlayFab::AuthenticationModels::FValidateEntityTokenRequest::~FValidateEntityTokenRequest()
 {
 
@@ -234,6 +304,8 @@ void PlayFab::AuthenticationModels::FValidateEntityTokenResponse::writeJSON(Json
 
     if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
 
+    if (IdentityProvider.notNull()) { writer->WriteIdentifierPrefix(TEXT("IdentityProvider")); writeLoginIdentityProviderEnumJSON(IdentityProvider, writer); }
+
     if (Lineage.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Lineage")); Lineage->writeJSON(writer); }
 
     writer->WriteObjectEnd();
@@ -248,6 +320,8 @@ bool PlayFab::AuthenticationModels::FValidateEntityTokenResponse::readFromValue(
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
+
+    IdentityProvider = readLoginIdentityProviderFromValue(obj->TryGetField(TEXT("IdentityProvider")));
 
     const TSharedPtr<FJsonValue> LineageValue = obj->TryGetField(TEXT("Lineage"));
     if (LineageValue.IsValid() && !LineageValue->IsNull())

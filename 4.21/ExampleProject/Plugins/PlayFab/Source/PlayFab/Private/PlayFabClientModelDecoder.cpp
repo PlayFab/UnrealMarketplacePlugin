@@ -929,7 +929,9 @@ FClientRestoreIOSPurchasesResult UPlayFabClientModelDecoder::decodeRestoreIOSPur
 {
     // Temp ustruct
     FClientRestoreIOSPurchasesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.Fulfillments = !(dataObj->HasField("Fulfillments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Fulfillments");
 
     return tempStruct;
 }
@@ -938,7 +940,9 @@ FClientValidateAmazonReceiptResult UPlayFabClientModelDecoder::decodeValidateAma
 {
     // Temp ustruct
     FClientValidateAmazonReceiptResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.Fulfillments = !(dataObj->HasField("Fulfillments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Fulfillments");
 
     return tempStruct;
 }
@@ -947,7 +951,9 @@ FClientValidateGooglePlayPurchaseResult UPlayFabClientModelDecoder::decodeValida
 {
     // Temp ustruct
     FClientValidateGooglePlayPurchaseResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.Fulfillments = !(dataObj->HasField("Fulfillments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Fulfillments");
 
     return tempStruct;
 }
@@ -956,7 +962,9 @@ FClientValidateIOSReceiptResult UPlayFabClientModelDecoder::decodeValidateIOSRec
 {
     // Temp ustruct
     FClientValidateIOSReceiptResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.Fulfillments = !(dataObj->HasField("Fulfillments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Fulfillments");
 
     return tempStruct;
 }
@@ -965,7 +973,9 @@ FClientValidateWindowsReceiptResult UPlayFabClientModelDecoder::decodeValidateWi
 {
     // Temp ustruct
     FClientValidateWindowsReceiptResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.Fulfillments = !(dataObj->HasField("Fulfillments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Fulfillments");
 
     return tempStruct;
 }

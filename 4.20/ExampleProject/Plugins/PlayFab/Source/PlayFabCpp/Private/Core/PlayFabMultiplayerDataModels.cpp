@@ -388,7 +388,7 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
 
     writer->WriteIdentifierPrefix(TEXT("MaxServers")); writer->WriteValue(MaxServers);
 
-    if (Region.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer); }
+    if (Region.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region); }
 
     writer->WriteIdentifierPrefix(TEXT("StandbyServers")); writer->WriteValue(StandbyServers);
 
@@ -414,7 +414,12 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
         if (MaxServersValue->TryGetNumber(TmpValue)) { MaxServers = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> StandbyServersValue = obj->TryGetField(TEXT("StandbyServers"));
     if (StandbyServersValue.IsValid() && !StandbyServersValue->IsNull())
@@ -444,7 +449,7 @@ void PlayFab::MultiplayerModels::FBuildRegionParams::writeJSON(JsonWriter& write
 
     writer->WriteIdentifierPrefix(TEXT("MaxServers")); writer->WriteValue(MaxServers);
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     writer->WriteIdentifierPrefix(TEXT("StandbyServers")); writer->WriteValue(StandbyServers);
 
@@ -462,7 +467,12 @@ bool PlayFab::MultiplayerModels::FBuildRegionParams::readFromValue(const TShared
         if (MaxServersValue->TryGetNumber(TmpValue)) { MaxServers = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> StandbyServersValue = obj->TryGetField(TEXT("StandbyServers"));
     if (StandbyServersValue.IsValid() && !StandbyServersValue->IsNull())
@@ -939,7 +949,7 @@ void PlayFab::MultiplayerModels::FCoreCapacity::writeJSON(JsonWriter& writer) co
 
     writer->WriteIdentifierPrefix(TEXT("Available")); writer->WriteValue(Available);
 
-    if (Region.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer); }
+    if (Region.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region); }
 
     writer->WriteIdentifierPrefix(TEXT("Total")); writer->WriteValue(Total);
 
@@ -959,7 +969,12 @@ bool PlayFab::MultiplayerModels::FCoreCapacity::readFromValue(const TSharedPtr<F
         if (AvailableValue->TryGetNumber(TmpValue)) { Available = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> TotalValue = obj->TryGetField(TEXT("Total"));
     if (TotalValue.IsValid() && !TotalValue->IsNull())
@@ -1902,7 +1917,7 @@ void PlayFab::MultiplayerModels::FCreateRemoteUserRequest::writeJSON(JsonWriter&
 
     if (ExpirationTime.notNull()) { writer->WriteIdentifierPrefix(TEXT("ExpirationTime")); writeDatetime(ExpirationTime, writer); }
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username);
 
@@ -1927,7 +1942,12 @@ bool PlayFab::MultiplayerModels::FCreateRemoteUserRequest::readFromValue(const T
         ExpirationTime = readDatetime(ExpirationTimeValue);
 
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> UsernameValue = obj->TryGetField(TEXT("Username"));
     if (UsernameValue.IsValid() && !UsernameValue->IsNull())
@@ -2136,7 +2156,7 @@ void PlayFab::MultiplayerModels::FDeleteRemoteUserRequest::writeJSON(JsonWriter&
 
     writer->WriteIdentifierPrefix(TEXT("BuildId")); writer->WriteValue(BuildId);
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username);
 
@@ -2156,7 +2176,12 @@ bool PlayFab::MultiplayerModels::FDeleteRemoteUserRequest::readFromValue(const T
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> UsernameValue = obj->TryGetField(TEXT("Username"));
     if (UsernameValue.IsValid() && !UsernameValue->IsNull())
@@ -3013,7 +3038,7 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::writeJSON(
 
     writer->WriteIdentifierPrefix(TEXT("BuildId")); writer->WriteValue(BuildId);
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     writer->WriteIdentifierPrefix(TEXT("SessionId")); writer->WriteValue(SessionId);
 
@@ -3031,7 +3056,12 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::readFromVa
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> SessionIdValue = obj->TryGetField(TEXT("SessionId"));
     if (SessionIdValue.IsValid() && !SessionIdValue->IsNull())
@@ -3076,7 +3106,7 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::writeJSON
     }
 
 
-    if (Region.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer); }
+    if (Region.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region); }
 
     if (ServerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerId")); writer->WriteValue(ServerId); }
 
@@ -3128,7 +3158,12 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::readFromV
     }
 
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> ServerIdValue = obj->TryGetField(TEXT("ServerId"));
     if (ServerIdValue.IsValid() && !ServerIdValue->IsNull())
@@ -3292,7 +3327,7 @@ void PlayFab::MultiplayerModels::FGetRemoteLoginEndpointRequest::writeJSON(JsonW
 
     writer->WriteIdentifierPrefix(TEXT("BuildId")); writer->WriteValue(BuildId);
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     writer->WriteIdentifierPrefix(TEXT("VmId")); writer->WriteValue(VmId);
 
@@ -3310,7 +3345,12 @@ bool PlayFab::MultiplayerModels::FGetRemoteLoginEndpointRequest::readFromValue(c
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> VmIdValue = obj->TryGetField(TEXT("VmId"));
     if (VmIdValue.IsValid() && !VmIdValue->IsNull())
@@ -4041,7 +4081,7 @@ void PlayFab::MultiplayerModels::FListMultiplayerServersRequest::writeJSON(JsonW
 
     if (PageSize.notNull()) { writer->WriteIdentifierPrefix(TEXT("PageSize")); writer->WriteValue(PageSize); }
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     if (SkipToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SkipToken")); writer->WriteValue(SkipToken); }
 
@@ -4066,7 +4106,12 @@ bool PlayFab::MultiplayerModels::FListMultiplayerServersRequest::readFromValue(c
         if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
     if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
@@ -4098,7 +4143,7 @@ void PlayFab::MultiplayerModels::FMultiplayerServerSummary::writeJSON(JsonWriter
 
     if (LastStateTransitionTime.notNull()) { writer->WriteIdentifierPrefix(TEXT("LastStateTransitionTime")); writeDatetime(LastStateTransitionTime, writer); }
 
-    if (Region.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer); }
+    if (Region.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region); }
 
     if (ServerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerId")); writer->WriteValue(ServerId); }
 
@@ -4128,7 +4173,12 @@ bool PlayFab::MultiplayerModels::FMultiplayerServerSummary::readFromValue(const 
         LastStateTransitionTime = readDatetime(LastStateTransitionTimeValue);
 
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> ServerIdValue = obj->TryGetField(TEXT("ServerId"));
     if (ServerIdValue.IsValid() && !ServerIdValue->IsNull())
@@ -4215,6 +4265,125 @@ bool PlayFab::MultiplayerModels::FListMultiplayerServersResponse::readFromValue(
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FListPartyQosServersRequest::~FListPartyQosServersRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListPartyQosServersRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListPartyQosServersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
+    if (VersionValue.IsValid() && !VersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (VersionValue->TryGetString(TmpValue)) { Version = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FQosServer::~FQosServer()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FQosServer::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Region.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region); }
+
+    if (ServerUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerUrl")); writer->WriteValue(ServerUrl); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FQosServer::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerUrlValue = obj->TryGetField(TEXT("ServerUrl"));
+    if (ServerUrlValue.IsValid() && !ServerUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerUrlValue->TryGetString(TmpValue)) { ServerUrl = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListPartyQosServersResponse::~FListPartyQosServersResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListPartyQosServersResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("PageSize")); writer->WriteValue(PageSize);
+
+    if (QosServers.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("QosServers"));
+        for (const FQosServer& item : QosServers)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (SkipToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SkipToken")); writer->WriteValue(SkipToken); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListPartyQosServersResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&QosServersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("QosServers"));
+    for (int32 Idx = 0; Idx < QosServersArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = QosServersArray[Idx];
+        QosServers.Add(FQosServer(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FListQosServersRequest::~FListQosServersRequest()
 {
 
@@ -4230,38 +4399,6 @@ void PlayFab::MultiplayerModels::FListQosServersRequest::writeJSON(JsonWriter& w
 bool PlayFab::MultiplayerModels::FListQosServersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FQosServer::~FQosServer()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FQosServer::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Region.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer); }
-
-    if (ServerUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerUrl")); writer->WriteValue(ServerUrl); }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FQosServer::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
-
-    const TSharedPtr<FJsonValue> ServerUrlValue = obj->TryGetField(TEXT("ServerUrl"));
-    if (ServerUrlValue.IsValid() && !ServerUrlValue->IsNull())
-    {
-        FString TmpValue;
-        if (ServerUrlValue->TryGetString(TmpValue)) { ServerUrl = TmpValue; }
-    }
 
     return HasSucceeded;
 }
@@ -4333,7 +4470,7 @@ void PlayFab::MultiplayerModels::FListVirtualMachineSummariesRequest::writeJSON(
 
     if (PageSize.notNull()) { writer->WriteIdentifierPrefix(TEXT("PageSize")); writer->WriteValue(PageSize); }
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     if (SkipToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SkipToken")); writer->WriteValue(SkipToken); }
 
@@ -4358,7 +4495,12 @@ bool PlayFab::MultiplayerModels::FListVirtualMachineSummariesRequest::readFromVa
         if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
     if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
@@ -4491,8 +4633,8 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::writeJSON(Jso
 
 
     writer->WriteArrayStart(TEXT("PreferredRegions"));
-    for (const AzureRegion& item : PreferredRegions)
-        writeAzureRegionEnumJSON(item, writer);
+    for (const FString& item : PreferredRegions)
+        writer->WriteValue(item);
     writer->WriteArrayEnd();
 
 
@@ -4516,13 +4658,7 @@ bool PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::readFromValue
 
     obj->TryGetStringArrayField(TEXT("InitialPlayers"), InitialPlayers);
 
-    const TArray<TSharedPtr<FJsonValue>>&PreferredRegionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PreferredRegions"));
-    for (int32 Idx = 0; Idx < PreferredRegionsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = PreferredRegionsArray[Idx];
-        PreferredRegions.Add(readAzureRegionFromValue(CurrentItem));
-    }
-
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PreferredRegions"), PreferredRegions);
 
     const TSharedPtr<FJsonValue> SessionCookieValue = obj->TryGetField(TEXT("SessionCookie"));
     if (SessionCookieValue.IsValid() && !SessionCookieValue->IsNull())
@@ -4574,7 +4710,7 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::writeJSON(Js
     }
 
 
-    if (Region.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer); }
+    if (Region.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region); }
 
     if (ServerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerId")); writer->WriteValue(ServerId); }
 
@@ -4626,7 +4762,12 @@ bool PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::readFromValu
     }
 
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> ServerIdValue = obj->TryGetField(TEXT("ServerId"));
     if (ServerIdValue.IsValid() && !ServerIdValue->IsNull())
@@ -4735,7 +4876,7 @@ void PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::writeJSON(Js
 
     writer->WriteIdentifierPrefix(TEXT("BuildId")); writer->WriteValue(BuildId);
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeAzureRegionEnumJSON(Region, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region")); writer->WriteValue(Region);
 
     writer->WriteIdentifierPrefix(TEXT("SessionId")); writer->WriteValue(SessionId);
 
@@ -4753,7 +4894,12 @@ bool PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::readFromValu
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
     }
 
-    Region = readAzureRegionFromValue(obj->TryGetField(TEXT("Region")));
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> SessionIdValue = obj->TryGetField(TEXT("SessionId"));
     if (SessionIdValue.IsValid() && !SessionIdValue->IsNull())

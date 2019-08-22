@@ -87,6 +87,9 @@ public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** The identity provider for this entity, for the given login */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        ELoginIdentityProvider IdentityProvider;
     /** The lineage of this profile. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         UPlayFabJsonObject* Lineage = nullptr;

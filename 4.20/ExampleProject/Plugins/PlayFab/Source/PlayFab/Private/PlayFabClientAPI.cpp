@@ -6285,6 +6285,11 @@ UPlayFabClientAPI* UPlayFabClientAPI::RestoreIOSPurchases(FClientRestoreIOSPurch
 
 
     // Serialize all the request properties to json
+    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
+    }
     if (request.ReceiptData.IsEmpty() || request.ReceiptData == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceiptData"));
     } else {
@@ -6405,6 +6410,11 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateGooglePlayPurchase(FClientValidate
 
 
     // Serialize all the request properties to json
+    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
+    }
     if (request.CurrencyCode.IsEmpty() || request.CurrencyCode == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CurrencyCode"));
     } else {
@@ -6468,6 +6478,11 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateIOSReceipt(FClientValidateIOSRecei
 
 
     // Serialize all the request properties to json
+    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
+    }
     if (request.CurrencyCode.IsEmpty() || request.CurrencyCode == "") {
         OutRestJsonObj->SetFieldNull(TEXT("CurrencyCode"));
     } else {

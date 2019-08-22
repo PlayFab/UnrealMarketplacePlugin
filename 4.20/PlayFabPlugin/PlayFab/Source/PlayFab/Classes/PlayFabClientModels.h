@@ -812,7 +812,7 @@ public:
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
-    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", ""). */
+    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString XboxToken;
 };
@@ -1140,7 +1140,7 @@ struct PLAYFAB_API FClientUnlinkXboxAccountRequest : public FPlayFabRequestCommo
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", ""). */
+    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString XboxToken;
 };
@@ -1946,7 +1946,7 @@ public:
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
-    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", ""). */
+    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString XboxToken;
 };
@@ -2765,7 +2765,7 @@ public:
     /** Catalog version to use */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString CatalogVersion;
-    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com", ""). */
+    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString XboxToken;
 };
@@ -2834,6 +2834,9 @@ struct PLAYFAB_API FClientRestoreIOSPurchasesRequest : public FPlayFabRequestCom
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Catalog version of the restored items. If null, defaults to primary catalog. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        FString CatalogVersion;
     /** Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString ReceiptData;
@@ -2845,6 +2848,9 @@ struct PLAYFAB_API FClientRestoreIOSPurchasesResult : public FPlayFabResultCommo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        TArray<UPlayFabJsonObject*> Fulfillments;
 };
 
 USTRUCT(BlueprintType)
@@ -2852,13 +2858,13 @@ struct PLAYFAB_API FClientValidateAmazonReceiptRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Catalog version to use when granting receipt item. If null, defaults to primary catalog. */
+    /** Catalog version of the fulfilled items. If null, defaults to the primary catalog. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString CatalogVersion;
-    /** Currency used for the purchase. */
+    /** Currency used to pay for the purchase (ISO 4217 currency code). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString CurrencyCode;
-    /** Amount of the stated currency paid for the object. */
+    /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;
     /** ReceiptId returned by the Amazon App Store in-app purchase API */
@@ -2875,6 +2881,9 @@ struct PLAYFAB_API FClientValidateAmazonReceiptResult : public FPlayFabResultCom
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        TArray<UPlayFabJsonObject*> Fulfillments;
 };
 
 /**
@@ -2889,10 +2898,13 @@ struct PLAYFAB_API FClientValidateGooglePlayPurchaseRequest : public FPlayFabReq
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Currency used for the purchase. */
+    /** Catalog version of the fulfilled items. If null, defaults to the primary catalog. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        FString CatalogVersion;
+    /** Currency used to pay for the purchase (ISO 4217 currency code). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString CurrencyCode;
-    /** Amount of the stated currency paid for the object. */
+    /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;
     /** Original JSON string returned by the Google Play IAB API. */
@@ -2912,6 +2924,9 @@ struct PLAYFAB_API FClientValidateGooglePlayPurchaseResult : public FPlayFabResu
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        TArray<UPlayFabJsonObject*> Fulfillments;
 };
 
 /**
@@ -2926,10 +2941,13 @@ struct PLAYFAB_API FClientValidateIOSReceiptRequest : public FPlayFabRequestComm
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Currency used for the purchase. */
+    /** Catalog version of the fulfilled items. If null, defaults to the primary catalog. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        FString CatalogVersion;
+    /** Currency used to pay for the purchase (ISO 4217 currency code). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString CurrencyCode;
-    /** Amount of the stated currency paid for the object. */
+    /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;
     /** Base64 encoded receipt data, passed back by the App Store as a result of a successful purchase. */
@@ -2943,6 +2961,9 @@ struct PLAYFAB_API FClientValidateIOSReceiptResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        TArray<UPlayFabJsonObject*> Fulfillments;
 };
 
 USTRUCT(BlueprintType)
@@ -2950,13 +2971,13 @@ struct PLAYFAB_API FClientValidateWindowsReceiptRequest : public FPlayFabRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Catalog version to use when granting receipt item. If null, defaults to primary catalog. */
+    /** Catalog version of the fulfilled items. If null, defaults to the primary catalog. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString CatalogVersion;
-    /** Currency used for the purchase. */
+    /** Currency used to pay for the purchase (ISO 4217 currency code). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString CurrencyCode;
-    /** Amount of the stated currency paid for the object. */
+    /** Amount of the stated currency paid, in centesimal units. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 PurchasePrice = 0;
     /** XML Receipt returned by the Windows App Store in-app purchase API */
@@ -2970,6 +2991,9 @@ struct PLAYFAB_API FClientValidateWindowsReceiptResult : public FPlayFabResultCo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Fulfilled inventory items and recorded purchases in fulfillment of the validated receipt transactions. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        TArray<UPlayFabJsonObject*> Fulfillments;
 };
 
 

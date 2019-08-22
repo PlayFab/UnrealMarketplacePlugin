@@ -473,6 +473,19 @@ public:
         void HelperListMultiplayerServers(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListPartyQosServers, FMultiplayerListPartyQosServersResponse, result, UObject*, customData);
+
+    /** Lists quality of service servers for party. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListPartyQosServers(FMultiplayerListPartyQosServersRequest request,
+            FDelegateOnSuccessListPartyQosServers onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListPartyQosServers(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListQosServers, FMultiplayerListQosServersResponse, result, UObject*, customData);
 
     /** Lists quality of service servers. */
@@ -615,6 +628,7 @@ public:
     FDelegateOnSuccessListContainerImages OnSuccessListContainerImages;
     FDelegateOnSuccessListContainerImageTags OnSuccessListContainerImageTags;
     FDelegateOnSuccessListMultiplayerServers OnSuccessListMultiplayerServers;
+    FDelegateOnSuccessListPartyQosServers OnSuccessListPartyQosServers;
     FDelegateOnSuccessListQosServers OnSuccessListQosServers;
     FDelegateOnSuccessListVirtualMachineSummaries OnSuccessListVirtualMachineSummaries;
     FDelegateOnSuccessRequestMultiplayerServer OnSuccessRequestMultiplayerServer;

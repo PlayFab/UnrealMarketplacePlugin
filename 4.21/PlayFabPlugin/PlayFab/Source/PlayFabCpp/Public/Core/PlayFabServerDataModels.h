@@ -6900,6 +6900,188 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FStoreMarketingModel : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Tagline for a store.
+        FString Description;
+
+        // [optional] Display name of a store as it will appear to users.
+        FString DisplayName;
+
+        // [optional] Custom data about a store.
+        FJsonKeeper Metadata;
+
+        FStoreMarketingModel() :
+            FPlayFabCppBaseModel(),
+            Description(),
+            DisplayName(),
+            Metadata()
+            {}
+
+        FStoreMarketingModel(const FStoreMarketingModel& src) :
+            FPlayFabCppBaseModel(),
+            Description(src.Description),
+            DisplayName(src.DisplayName),
+            Metadata(src.Metadata)
+            {}
+
+        FStoreMarketingModel(const TSharedPtr<FJsonObject>& obj) : FStoreMarketingModel()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStoreMarketingModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SourceType
+    {
+        SourceTypeAdmin,
+        SourceTypeBackEnd,
+        SourceTypeGameClient,
+        SourceTypeGameServer,
+        SourceTypePartner,
+        SourceTypeCustom,
+        SourceTypeAPI
+    };
+
+    PLAYFABCPP_API void writeSourceTypeEnumJSON(SourceType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SourceType readSourceTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SourceType readSourceTypeFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FStoreItem : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Store specific custom data. The data only exists as part of this store; it is not transferred to item instances
+        FJsonKeeper CustomData;
+
+        // [optional] Intended display position for this item. Note that 0 is the first position
+        Boxed<uint32> DisplayPosition;
+
+        /**
+         * Unique identifier of the item as it exists in the catalog - note that this must exactly match the ItemId from the
+         * catalog
+         */
+        FString ItemId;
+
+        // [optional] Override prices for this item for specific currencies
+        TMap<FString, uint32> RealCurrencyPrices;
+        // [optional] Override prices for this item in virtual currencies and "RM" (the base Real Money purchase price, in USD pennies)
+        TMap<FString, uint32> VirtualCurrencyPrices;
+        FStoreItem() :
+            FPlayFabCppBaseModel(),
+            CustomData(),
+            DisplayPosition(),
+            ItemId(),
+            RealCurrencyPrices(),
+            VirtualCurrencyPrices()
+            {}
+
+        FStoreItem(const FStoreItem& src) :
+            FPlayFabCppBaseModel(),
+            CustomData(src.CustomData),
+            DisplayPosition(src.DisplayPosition),
+            ItemId(src.ItemId),
+            RealCurrencyPrices(src.RealCurrencyPrices),
+            VirtualCurrencyPrices(src.VirtualCurrencyPrices)
+            {}
+
+        FStoreItem(const TSharedPtr<FJsonObject>& obj) : FStoreItem()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStoreItem();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetStoreItemsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The base catalog that this store is a part of.
+        FString CatalogVersion;
+
+        // [optional] Additional data about the store.
+        TSharedPtr<FStoreMarketingModel> MarketingData;
+
+        // [optional] How the store was last updated (Admin or a third party).
+        Boxed<SourceType> Source;
+
+        // [optional] Array of items which can be purchased from this store.
+        TArray<FStoreItem> Store;
+        // [optional] The ID of this store.
+        FString StoreId;
+
+        FGetStoreItemsResult() :
+            FPlayFabCppResultCommon(),
+            CatalogVersion(),
+            MarketingData(nullptr),
+            Source(),
+            Store(),
+            StoreId()
+            {}
+
+        FGetStoreItemsResult(const FGetStoreItemsResult& src) :
+            FPlayFabCppResultCommon(),
+            CatalogVersion(src.CatalogVersion),
+            MarketingData(src.MarketingData.IsValid() ? MakeShareable(new FStoreMarketingModel(*src.MarketingData)) : nullptr),
+            Source(src.Source),
+            Store(src.Store),
+            StoreId(src.StoreId)
+            {}
+
+        FGetStoreItemsResult(const TSharedPtr<FJsonObject>& obj) : FGetStoreItemsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetStoreItemsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetStoreItemsServerRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Catalog version to store items from. Use default catalog version if null
+        FString CatalogVersion;
+
+        /**
+         * [optional] Optional identifier for the player to use in requesting the store information - if used, segment overrides will be
+         * applied
+         */
+        FString PlayFabId;
+
+        // Unqiue identifier for the store which is being requested
+        FString StoreId;
+
+        FGetStoreItemsServerRequest() :
+            FPlayFabCppRequestCommon(),
+            CatalogVersion(),
+            PlayFabId(),
+            StoreId()
+            {}
+
+        FGetStoreItemsServerRequest(const FGetStoreItemsServerRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CatalogVersion(src.CatalogVersion),
+            PlayFabId(src.PlayFabId),
+            StoreId(src.StoreId)
+            {}
+
+        FGetStoreItemsServerRequest(const TSharedPtr<FJsonObject>& obj) : FGetStoreItemsServerRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetStoreItemsServerRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetTimeRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FGetTimeRequest() :
@@ -7983,6 +8165,47 @@ namespace ServerModels
         }
 
         ~FLoginWithServerCustomIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithXboxIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // The id of Xbox Live sandbox.
+        FString Sandbox;
+
+        // Unique Xbox identifier for a user
+        FString XboxId;
+
+        FLoginWithXboxIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(),
+            InfoRequestParameters(nullptr),
+            Sandbox(),
+            XboxId()
+            {}
+
+        FLoginWithXboxIdRequest(const FLoginWithXboxIdRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(src.CreateAccount),
+            InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
+            Sandbox(src.Sandbox),
+            XboxId(src.XboxId)
+            {}
+
+        FLoginWithXboxIdRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithXboxIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithXboxIdRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

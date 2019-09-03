@@ -70,6 +70,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetRandomResultTablesDelegate, const ServerModels::FGetRandomResultTablesResult&);
         DECLARE_DELEGATE_OneParam(FGetServerCustomIDsFromPlayFabIDsDelegate, const ServerModels::FGetServerCustomIDsFromPlayFabIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetSharedGroupDataDelegate, const ServerModels::FGetSharedGroupDataResult&);
+        DECLARE_DELEGATE_OneParam(FGetStoreItemsDelegate, const ServerModels::FGetStoreItemsResult&);
         DECLARE_DELEGATE_OneParam(FGetTimeDelegate, const ServerModels::FGetTimeResult&);
         DECLARE_DELEGATE_OneParam(FGetTitleDataDelegate, const ServerModels::FGetTitleDataResult&);
         DECLARE_DELEGATE_OneParam(FGetTitleInternalDataDelegate, const ServerModels::FGetTitleDataResult&);
@@ -91,6 +92,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxDelegate, const ServerModels::FServerLoginResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithXboxIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FModifyItemUsesDelegate, const ServerModels::FModifyItemUsesResult&);
         DECLARE_DELEGATE_OneParam(FMoveItemToCharacterFromCharacterDelegate, const ServerModels::FMoveItemToCharacterFromCharacterResult&);
         DECLARE_DELEGATE_OneParam(FMoveItemToCharacterFromUserDelegate, const ServerModels::FMoveItemToCharacterFromUserResult&);
@@ -375,6 +377,11 @@ namespace PlayFab
          */
         bool GetSharedGroupData(ServerModels::FGetSharedGroupDataRequest& request, const FGetSharedGroupDataDelegate& SuccessDelegate = FGetSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Retrieves the set of items defined for the specified store, including all prices defined, for the specified player
+         * A store contains an array of references to items defined in one or more catalog versions of the game, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
+         */
+        bool GetStoreItems(ServerModels::FGetStoreItemsServerRequest& request, const FGetStoreItemsDelegate& SuccessDelegate = FGetStoreItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Retrieves the current server time
          * This query retrieves the current time from one of the servers in PlayFab. Please note that due to clock drift between servers, there is a potential variance of up to 5 seconds.
          */
@@ -478,6 +485,12 @@ namespace PlayFab
          * If this is the first time a user has signed in with the Xbox Live account and CreateAccount is set to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
          */
         bool LoginWithXbox(ServerModels::FLoginWithXboxRequest& request, const FLoginWithXboxDelegate& SuccessDelegate = FLoginWithXboxDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Signs the user in using an Xbox ID and Sandbox ID, returning a session identifier that can subsequently be used for API
+         * calls which require an authenticated user
+         * If this is the first time a user has signed in with the Xbox ID and CreateAccount is set to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
+         */
+        bool LoginWithXboxId(ServerModels::FLoginWithXboxIdRequest& request, const FLoginWithXboxIdDelegate& SuccessDelegate = FLoginWithXboxIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Modifies the number of remaining uses of a player's inventory item
          * This function can both add and remove uses of an inventory item. If the number of uses drops below zero, the item will be removed from active inventory.
@@ -786,6 +799,7 @@ namespace PlayFab
         void OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetServerCustomIDsFromPlayFabIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerCustomIDsFromPlayFabIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSharedGroupDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSharedGroupDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStoreItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTimeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTimeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleInternalDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleInternalDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -807,6 +821,7 @@ namespace PlayFab
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithXboxIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnModifyItemUsesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyItemUsesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnMoveItemToCharacterFromCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMoveItemToCharacterFromCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnMoveItemToCharacterFromUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMoveItemToCharacterFromUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

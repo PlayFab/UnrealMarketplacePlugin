@@ -492,6 +492,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Title-Wide Data Management Models")
         static FServerGetPublisherDataResult decodeGetPublisherDataResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetStoreItemsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        static FServerGetStoreItemsResult decodeGetStoreItemsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetTimeResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Title-Wide Data Management Models")
         static FServerGetTimeResult decodeGetTimeResultResponse(UPlayFabJsonObject* response);

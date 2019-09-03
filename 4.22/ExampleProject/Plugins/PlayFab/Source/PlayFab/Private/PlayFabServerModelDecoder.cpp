@@ -1122,6 +1122,21 @@ FServerGetPublisherDataResult UPlayFabServerModelDecoder::decodeGetPublisherData
     return tempStruct;
 }
 
+FServerGetStoreItemsResult UPlayFabServerModelDecoder::decodeGetStoreItemsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetStoreItemsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.CatalogVersion = !(dataObj->HasField("CatalogVersion")) ? TEXT("") : dataObj->GetStringField("CatalogVersion");
+    tempStruct.MarketingData = !(dataObj->HasField("MarketingData")) ? nullptr : dataObj->GetObjectField("MarketingData");
+    GetEnumValueFromString<EPfSourceType>(TEXT("EPfSourceType"), dataObj->GetStringField("Source"), tempStruct.Source);
+    tempStruct.Store = !(dataObj->HasField("Store")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Store");
+    tempStruct.StoreId = !(dataObj->HasField("StoreId")) ? TEXT("") : dataObj->GetStringField("StoreId");
+
+    return tempStruct;
+}
+
 FServerGetTimeResult UPlayFabServerModelDecoder::decodeGetTimeResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

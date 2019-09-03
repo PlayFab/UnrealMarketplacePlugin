@@ -5610,7 +5610,7 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FGetStoreItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] catalog version to store items from. Use default catalog version if null
+        // [optional] Catalog version to store items from. Use default catalog version if null
         FString CatalogVersion;
 
         // Unqiue identifier for the store which is being requested.

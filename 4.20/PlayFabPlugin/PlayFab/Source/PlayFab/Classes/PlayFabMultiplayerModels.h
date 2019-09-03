@@ -453,6 +453,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The instrumentation configuration for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
     /**
      * Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
      * Game Server SDK (GSDK).
@@ -499,6 +502,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The instrumentation configuration for this build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata;
@@ -716,6 +722,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The instrumentation configuration of the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
     /**
      * Metadata of the build. The keys are case insensitive. The build metadata is made available to the server through Game
      * Server SDK (GSDK).
@@ -1109,6 +1118,30 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerListQosServersResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The list of QoS servers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> QosServers;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
+};
+
+/** Returns a list of quality of service servers for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListQosServersForTitleRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListQosServersForTitleResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

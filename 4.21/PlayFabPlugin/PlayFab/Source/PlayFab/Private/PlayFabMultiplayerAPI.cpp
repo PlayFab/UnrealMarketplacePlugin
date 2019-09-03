@@ -719,6 +719,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("GameCertificateReferences"), request.GameCertificateReferences);
     }
+    if (request.InstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("InstrumentationConfiguration"), request.InstrumentationConfiguration);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
     if (request.Ports.Num() == 0) {
@@ -1961,6 +1962,53 @@ void UPlayFabMultiplayerAPI::HelperListQosServers(FPlayFabBaseModel response, UO
     {
         FMultiplayerListQosServersResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListQosServersResponseResponse(response.responseData);
         OnSuccessListQosServers.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Lists quality of service servers. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServersForTitle(FMultiplayerListQosServersForTitleRequest request,
+    FDelegateOnSuccessListQosServersForTitle onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListQosServersForTitle = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListQosServersForTitle);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/ListQosServersForTitle";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperListQosServersForTitle(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListQosServersForTitle.IsBound())
+    {
+        FMultiplayerListQosServersForTitleResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListQosServersForTitleResponseResponse(response.responseData);
+        OnSuccessListQosServersForTitle.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

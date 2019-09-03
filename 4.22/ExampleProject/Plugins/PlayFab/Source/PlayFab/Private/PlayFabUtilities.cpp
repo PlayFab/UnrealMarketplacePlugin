@@ -483,6 +483,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1452: returnText = "QueryRateLimitExceeded"; break;
     case 1453: returnText = "EntityAPIKeyCreationDisabledForEntity"; break;
     case 1454: returnText = "ForbiddenByEntityPolicy"; break;
+    case 1455: returnText = "UpdateInventoryRateLimitExceeded"; break;
     case 1456: returnText = "StudioCreationRateLimited"; break;
     case 1457: returnText = "StudioCreationInProgress"; break;
     case 1458: returnText = "DuplicateStudioName"; break;

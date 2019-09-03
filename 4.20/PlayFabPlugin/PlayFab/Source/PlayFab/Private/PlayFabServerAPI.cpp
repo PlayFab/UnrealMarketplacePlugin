@@ -2070,6 +2070,66 @@ void UPlayFabServerAPI::HelperLoginWithXbox(FPlayFabBaseModel response, UObject*
     this->RemoveFromRoot();
 }
 
+/** Signs the user in using an Xbox ID and Sandbox ID, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
+UPlayFabServerAPI* UPlayFabServerAPI::LoginWithXboxId(FServerLoginWithXboxIdRequest request,
+    FDelegateOnSuccessLoginWithXboxId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithXboxId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithXboxId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LoginWithXboxId";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.Sandbox.IsEmpty() || request.Sandbox == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Sandbox"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Sandbox"), request.Sandbox);
+    }
+    if (request.XboxId.IsEmpty() || request.XboxId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("XboxId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("XboxId"), request.XboxId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLoginWithXboxId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithXboxId.IsBound())
+    {
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLoginWithXboxId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Sets the player's secret if it is not already set. Player secrets are used to sign API requests. To reset a player's secret use the Admin or Server API method SetPlayerSecret. */
 UPlayFabServerAPI* UPlayFabServerAPI::SetPlayerSecret(FServerSetPlayerSecretRequest request,
     FDelegateOnSuccessSetPlayerSecret onSuccess,
@@ -7351,6 +7411,68 @@ void UPlayFabServerAPI::HelperGetPublisherData(FPlayFabBaseModel response, UObje
     {
         FServerGetPublisherDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPublisherDataResultResponse(response.responseData);
         OnSuccessGetPublisherData.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves the set of items defined for the specified store, including all prices defined, for the specified player */
+UPlayFabServerAPI* UPlayFabServerAPI::GetStoreItems(FServerGetStoreItemsServerRequest request,
+    FDelegateOnSuccessGetStoreItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetStoreItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetStoreItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetStoreItems";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
+    }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.StoreId.IsEmpty() || request.StoreId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("StoreId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("StoreId"), request.StoreId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetStoreItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetStoreItems.IsBound())
+    {
+        FServerGetStoreItemsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetStoreItemsResultResponse(response.responseData);
+        OnSuccessGetStoreItems.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

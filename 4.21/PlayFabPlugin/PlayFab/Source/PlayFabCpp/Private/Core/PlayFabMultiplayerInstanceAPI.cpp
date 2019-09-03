@@ -1103,6 +1103,44 @@ void UPlayFabMultiplayerInstanceAPI::OnListQosServersResult(FHttpRequestPtr Http
     }
 }
 
+bool UPlayFabMultiplayerInstanceAPI::ListQosServersForTitle(
+    const FListQosServersForTitleDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{ 
+    MultiplayerModels::FListQosServersForTitleRequest emptyRequest = MultiplayerModels::FListQosServersForTitleRequest();
+    return UPlayFabMultiplayerInstanceAPI::ListQosServersForTitle(emptyRequest, SuccessDelegate, ErrorDelegate);
+}
+
+bool UPlayFabMultiplayerInstanceAPI::ListQosServersForTitle(
+    MultiplayerModels::FListQosServersForTitleRequest& request,
+    const FListQosServersForTitleDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListQosServersForTitle")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListQosServersForTitle")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListQosServersForTitleResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnListQosServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FListQosServersForTitleResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerInstanceAPI::ListVirtualMachineSummaries(
     MultiplayerModels::FListVirtualMachineSummariesRequest& request,
     const FListVirtualMachineSummariesDelegate& SuccessDelegate,

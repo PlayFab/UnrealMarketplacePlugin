@@ -548,6 +548,22 @@ public:
         void HelperLoginWithXbox(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithXboxId, FServerServerLoginResult, result, UObject*, customData);
+
+    /**
+     * Signs the user in using an Xbox ID and Sandbox ID, returning a session identifier that can subsequently be used for API
+     * calls which require an authenticated user
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LoginWithXboxId(FServerLoginWithXboxIdRequest request,
+            FDelegateOnSuccessLoginWithXboxId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithXboxId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetPlayerSecret, FServerSetPlayerSecretResult, result, UObject*, customData);
 
     /**
@@ -1805,6 +1821,19 @@ public:
         void HelperGetPublisherData(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetStoreItems, FServerGetStoreItemsResult, result, UObject*, customData);
+
+    /** Retrieves the set of items defined for the specified store, including all prices defined, for the specified player */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* GetStoreItems(FServerGetStoreItemsServerRequest request,
+            FDelegateOnSuccessGetStoreItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetStoreItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTime, FServerGetTimeResult, result, UObject*, customData);
 
     /** Retrieves the current server time */
@@ -1948,6 +1977,7 @@ public:
     FDelegateOnSuccessAuthenticateSessionTicket OnSuccessAuthenticateSessionTicket;
     FDelegateOnSuccessLoginWithServerCustomId OnSuccessLoginWithServerCustomId;
     FDelegateOnSuccessLoginWithXbox OnSuccessLoginWithXbox;
+    FDelegateOnSuccessLoginWithXboxId OnSuccessLoginWithXboxId;
     FDelegateOnSuccessSetPlayerSecret OnSuccessSetPlayerSecret;
     FDelegateOnSuccessGetCharacterData OnSuccessGetCharacterData;
     FDelegateOnSuccessGetCharacterInternalData OnSuccessGetCharacterInternalData;
@@ -2034,6 +2064,7 @@ public:
     FDelegateOnSuccessUpdateSharedGroupData OnSuccessUpdateSharedGroupData;
     FDelegateOnSuccessGetCatalogItems OnSuccessGetCatalogItems;
     FDelegateOnSuccessGetPublisherData OnSuccessGetPublisherData;
+    FDelegateOnSuccessGetStoreItems OnSuccessGetStoreItems;
     FDelegateOnSuccessGetTime OnSuccessGetTime;
     FDelegateOnSuccessGetTitleData OnSuccessGetTitleData;
     FDelegateOnSuccessGetTitleInternalData OnSuccessGetTitleInternalData;

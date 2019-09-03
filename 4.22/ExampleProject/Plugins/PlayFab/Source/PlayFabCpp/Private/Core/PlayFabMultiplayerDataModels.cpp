@@ -1451,8 +1451,39 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FInstrumentationConfiguration::~FInstrumentationConfiguration()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FInstrumentationConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ProcessesToMonitor.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ProcessesToMonitor"));
+        for (const FString& item : ProcessesToMonitor)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FInstrumentationConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("ProcessesToMonitor"), ProcessesToMonitor);
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::~FCreateBuildWithManagedContainerRequest()
 {
+    //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
 
 }
 
@@ -1478,6 +1509,8 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
         writer->WriteArrayEnd();
     }
 
+
+    if (pfInstrumentationConfiguration.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InstrumentationConfiguration")); pfInstrumentationConfiguration->writeJSON(writer); }
 
     if (Metadata.Num() != 0)
     {
@@ -1540,6 +1573,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
     }
 
 
+    const TSharedPtr<FJsonValue> InstrumentationConfigurationValue = obj->TryGetField(TEXT("InstrumentationConfiguration"));
+    if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
+    {
+        pfInstrumentationConfiguration = MakeShareable(new FInstrumentationConfiguration(InstrumentationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
     {
@@ -1586,6 +1625,7 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
 
 PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::~FCreateBuildWithManagedContainerResponse()
 {
+    //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
 
 }
 
@@ -1618,6 +1658,8 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
         writer->WriteArrayEnd();
     }
 
+
+    if (pfInstrumentationConfiguration.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InstrumentationConfiguration")); pfInstrumentationConfiguration->writeJSON(writer); }
 
     if (Metadata.Num() != 0)
     {
@@ -1697,6 +1739,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
         GameCertificateReferences.Add(FGameCertificateReference(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> InstrumentationConfigurationValue = obj->TryGetField(TEXT("InstrumentationConfiguration"));
+    if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
+    {
+        pfInstrumentationConfiguration = MakeShareable(new FInstrumentationConfiguration(InstrumentationConfigurationValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
@@ -2395,6 +2443,7 @@ bool PlayFab::MultiplayerModels::FGetBuildRequest::readFromValue(const TSharedPt
 PlayFab::MultiplayerModels::FGetBuildResponse::~FGetBuildResponse()
 {
     //if (CustomGameContainerImage != nullptr) delete CustomGameContainerImage;
+    //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
 
 }
 
@@ -2433,6 +2482,8 @@ void PlayFab::MultiplayerModels::FGetBuildResponse::writeJSON(JsonWriter& writer
         writer->WriteArrayEnd();
     }
 
+
+    if (pfInstrumentationConfiguration.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InstrumentationConfiguration")); pfInstrumentationConfiguration->writeJSON(writer); }
 
     if (Metadata.Num() != 0)
     {
@@ -2532,6 +2583,12 @@ bool PlayFab::MultiplayerModels::FGetBuildResponse::readFromValue(const TSharedP
         GameCertificateReferences.Add(FGameCertificateReference(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> InstrumentationConfigurationValue = obj->TryGetField(TEXT("InstrumentationConfiguration"));
+    if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
+    {
+        pfInstrumentationConfiguration = MakeShareable(new FInstrumentationConfiguration(InstrumentationConfigurationValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
@@ -4356,6 +4413,79 @@ void PlayFab::MultiplayerModels::FListPartyQosServersResponse::writeJSON(JsonWri
 }
 
 bool PlayFab::MultiplayerModels::FListPartyQosServersResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&QosServersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("QosServers"));
+    for (int32 Idx = 0; Idx < QosServersArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = QosServersArray[Idx];
+        QosServers.Add(FQosServer(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListQosServersForTitleRequest::~FListQosServersForTitleRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListQosServersForTitleRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListQosServersForTitleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListQosServersForTitleResponse::~FListQosServersForTitleResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListQosServersForTitleResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("PageSize")); writer->WriteValue(PageSize);
+
+    if (QosServers.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("QosServers"));
+        for (const FQosServer& item : QosServers)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (SkipToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SkipToken")); writer->WriteValue(SkipToken); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListQosServersForTitleResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

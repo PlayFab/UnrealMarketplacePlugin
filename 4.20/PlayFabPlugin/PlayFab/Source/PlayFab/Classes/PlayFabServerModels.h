@@ -912,6 +912,31 @@ public:
 };
 
 /**
+ * If this is the first time a user has signed in with the Xbox ID and CreateAccount is set to true, a new PlayFab account
+ * will be created and linked to the Xbox Live account. In this case, no email or username will be associated with the
+ * PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error indicating this will be
+ * returned, so that the title can guide the user through creation of a PlayFab account.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLoginWithXboxIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool CreateAccount = false;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+    /** The id of Xbox Live sandbox. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString Sandbox;
+    /** Unique Xbox identifier for a user */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString XboxId;
+};
+
+/**
  * APIs that require signatures require that the player have a configured Player Secret Key that is used to sign all
  * requests. Players that don't have a secret will be blocked from making API calls until it is configured. To create a
  * signature header add a SHA256 hashed string containing UTF8 encoded JSON body as it will be sent to the server, the
@@ -3202,6 +3227,58 @@ public:
     /** a dictionary object of key / value pairs */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
         UPlayFabJsonObject* Data;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetStoreItemsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The base catalog that this store is a part of. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        FString CatalogVersion;
+    /** Additional data about the store. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        UPlayFabJsonObject* MarketingData = nullptr;
+    /** How the store was last updated (Admin or a third party). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        EPfSourceType Source;
+    /** Array of items which can be purchased from this store. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        TArray<UPlayFabJsonObject*> Store;
+    /** The ID of this store. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        FString StoreId;
+};
+
+/**
+ * A store contains an array of references to items defined in one or more catalog versions of the game, along with the
+ * prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in
+ * the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated
+ * properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for
+ * different purposes (in order to simplify showing some, but not all catalog items to users, based upon different
+ * characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the
+ * item are considered valid, and that a compromised client can be made to send a request for an item based upon any of
+ * these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed
+ * to the user.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetStoreItemsServerRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Catalog version to store items from. Use default catalog version if null */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        FString CatalogVersion;
+    /**
+     * Optional identifier for the player to use in requesting the store information - if used, segment overrides will be
+     * applied
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        FString PlayFabId;
+    /** Unqiue identifier for the store which is being requested */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        FString StoreId;
 };
 
 /**

@@ -947,6 +947,35 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FInstrumentationConfiguration : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] The list of processes to be monitored on a VM for this build. Providing processes will turn on performance metrics
+         * collection for this build. Process names should not include extensions. If the game server process is: GameServer.exe;
+         * then, ProcessesToMonitor = [ GameServer ]
+         */
+        TArray<FString> ProcessesToMonitor;
+        FInstrumentationConfiguration() :
+            FPlayFabCppBaseModel(),
+            ProcessesToMonitor()
+            {}
+
+        FInstrumentationConfiguration(const FInstrumentationConfiguration& src) :
+            FPlayFabCppBaseModel(),
+            ProcessesToMonitor(src.ProcessesToMonitor)
+            {}
+
+        FInstrumentationConfiguration(const TSharedPtr<FJsonObject>& obj) : FInstrumentationConfiguration()
+        {
+            readFromValue(obj);
+        }
+
+        ~FInstrumentationConfiguration();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateBuildWithManagedContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The build name.
@@ -959,6 +988,9 @@ namespace MultiplayerModels
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
+        // [optional] The instrumentation configuration for the build.
+        TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
+
         /**
          * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
          * Game Server SDK (GSDK).
@@ -983,6 +1015,7 @@ namespace MultiplayerModels
             pfContainerFlavor(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            pfInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
             Ports(),
@@ -997,6 +1030,7 @@ namespace MultiplayerModels
             pfContainerFlavor(src.pfContainerFlavor),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
+            pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             Ports(src.Ports),
@@ -1034,6 +1068,9 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        // [optional] The instrumentation configuration for this build.
+        TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
+
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to host on a single VM of the build.
@@ -1057,6 +1094,7 @@ namespace MultiplayerModels
             CreationTime(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            pfInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
             Ports(),
@@ -1073,6 +1111,7 @@ namespace MultiplayerModels
             CreationTime(src.CreationTime),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
+            pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             Ports(src.Ports),
@@ -1648,6 +1687,9 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        // [optional] The instrumentation configuration of the build.
+        TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
+
         /**
          * [optional] Metadata of the build. The keys are case insensitive. The build metadata is made available to the server through Game
          * Server SDK (GSDK).
@@ -1680,6 +1722,7 @@ namespace MultiplayerModels
             CustomGameContainerImage(nullptr),
             GameAssetReferences(),
             GameCertificateReferences(),
+            pfInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
             Ports(),
@@ -1699,6 +1742,7 @@ namespace MultiplayerModels
             CustomGameContainerImage(src.CustomGameContainerImage.IsValid() ? MakeShareable(new FContainerImageReference(*src.CustomGameContainerImage)) : nullptr),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
+            pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             Ports(src.Ports),
@@ -3089,6 +3133,62 @@ namespace MultiplayerModels
         }
 
         ~FListPartyQosServersResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListQosServersForTitleRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        FListQosServersForTitleRequest() :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FListQosServersForTitleRequest(const FListQosServersForTitleRequest& src) :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FListQosServersForTitleRequest(const TSharedPtr<FJsonObject>& obj) : FListQosServersForTitleRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListQosServersForTitleRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListQosServersForTitleResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // The page size on the response.
+        int32 PageSize;
+
+        // [optional] The list of QoS servers.
+        TArray<FQosServer> QosServers;
+        // [optional] The skip token for the paged response.
+        FString SkipToken;
+
+        FListQosServersForTitleResponse() :
+            FPlayFabCppResultCommon(),
+            PageSize(0),
+            QosServers(),
+            SkipToken()
+            {}
+
+        FListQosServersForTitleResponse(const FListQosServersForTitleResponse& src) :
+            FPlayFabCppResultCommon(),
+            PageSize(src.PageSize),
+            QosServers(src.QosServers),
+            SkipToken(src.SkipToken)
+            {}
+
+        FListQosServersForTitleResponse(const TSharedPtr<FJsonObject>& obj) : FListQosServersForTitleResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListQosServersForTitleResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

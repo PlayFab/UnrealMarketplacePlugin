@@ -51,6 +51,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListPartyQosServersDelegate, const MultiplayerModels::FListPartyQosServersResponse&);
         DECLARE_DELEGATE_OneParam(FListQosServersDelegate, const MultiplayerModels::FListQosServersResponse&);
+        DECLARE_DELEGATE_OneParam(FListQosServersForTitleDelegate, const MultiplayerModels::FListQosServersForTitleResponse&);
         DECLARE_DELEGATE_OneParam(FListVirtualMachineSummariesDelegate, const MultiplayerModels::FListVirtualMachineSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FRequestMultiplayerServerDelegate, const MultiplayerModels::FRequestMultiplayerServerResponse&);
         DECLARE_DELEGATE_OneParam(FRolloverContainerRegistryCredentialsDelegate, const MultiplayerModels::FRolloverContainerRegistryCredentialsResponse&);
@@ -264,6 +265,17 @@ namespace PlayFab
          */
         bool ListQosServers(MultiplayerModels::FListQosServersRequest& request, const FListQosServersDelegate& SuccessDelegate = FListQosServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Lists quality of service servers.
+         * Returns a list of quality of service servers for a title.
+         */
+
+        bool ListQosServersForTitle(const FListQosServersForTitleDelegate& SuccessDelegate = FListQosServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Lists quality of service servers.
+         * Returns a list of quality of service servers for a title.
+         */
+        bool ListQosServersForTitle(MultiplayerModels::FListQosServersForTitleRequest& request, const FListQosServersForTitleDelegate& SuccessDelegate = FListQosServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Lists virtual machines for a title.
          * Returns a list of virtual machines for a title.
          */
@@ -336,6 +348,7 @@ namespace PlayFab
         void OnListMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListPartyQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPartyQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListQosServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualMachineSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualMachineSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRequestMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRequestMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRolloverContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRolloverContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

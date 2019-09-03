@@ -2586,7 +2586,7 @@ struct PLAYFAB_API FAdminGetStoreItemsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** catalog version to store items from. Use default catalog version if null */
+    /** Catalog version to store items from. Use default catalog version if null */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString CatalogVersion;
     /** Unqiue identifier for the store which is being requested. */

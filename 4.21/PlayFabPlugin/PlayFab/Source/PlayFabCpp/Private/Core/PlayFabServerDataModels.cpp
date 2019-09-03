@@ -9944,6 +9944,297 @@ bool PlayFab::ServerModels::FGetSharedGroupDataResult::readFromValue(const TShar
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FStoreMarketingModel::~FStoreMarketingModel()
+{
+
+}
+
+void PlayFab::ServerModels::FStoreMarketingModel::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Description.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Description")); writer->WriteValue(Description); }
+
+    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+
+    if (Metadata.notNull()) { writer->WriteIdentifierPrefix(TEXT("Metadata")); Metadata.writeJSON(writer); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FStoreMarketingModel::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
+    if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DisplayNameValue = obj->TryGetField(TEXT("DisplayName"));
+    if (DisplayNameValue.IsValid() && !DisplayNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (DisplayNameValue->TryGetString(TmpValue)) { DisplayName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MetadataValue = obj->TryGetField(TEXT("Metadata"));
+    if (MetadataValue.IsValid() && !MetadataValue->IsNull())
+    {
+        Metadata = FJsonKeeper(MetadataValue);
+    }
+
+    return HasSucceeded;
+}
+
+void PlayFab::ServerModels::writeSourceTypeEnumJSON(SourceType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case SourceTypeAdmin: writer->WriteValue(TEXT("Admin")); break;
+    case SourceTypeBackEnd: writer->WriteValue(TEXT("BackEnd")); break;
+    case SourceTypeGameClient: writer->WriteValue(TEXT("GameClient")); break;
+    case SourceTypeGameServer: writer->WriteValue(TEXT("GameServer")); break;
+    case SourceTypePartner: writer->WriteValue(TEXT("Partner")); break;
+    case SourceTypeCustom: writer->WriteValue(TEXT("Custom")); break;
+    case SourceTypeAPI: writer->WriteValue(TEXT("API")); break;
+    }
+}
+
+ServerModels::SourceType PlayFab::ServerModels::readSourceTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readSourceTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+ServerModels::SourceType PlayFab::ServerModels::readSourceTypeFromValue(const FString& value)
+{
+    static TMap<FString, SourceType> _SourceTypeMap;
+    if (_SourceTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _SourceTypeMap.Add(TEXT("Admin"), SourceTypeAdmin);
+        _SourceTypeMap.Add(TEXT("BackEnd"), SourceTypeBackEnd);
+        _SourceTypeMap.Add(TEXT("GameClient"), SourceTypeGameClient);
+        _SourceTypeMap.Add(TEXT("GameServer"), SourceTypeGameServer);
+        _SourceTypeMap.Add(TEXT("Partner"), SourceTypePartner);
+        _SourceTypeMap.Add(TEXT("Custom"), SourceTypeCustom);
+        _SourceTypeMap.Add(TEXT("API"), SourceTypeAPI);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _SourceTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return SourceTypeAdmin; // Basically critical fail
+}
+
+PlayFab::ServerModels::FStoreItem::~FStoreItem()
+{
+
+}
+
+void PlayFab::ServerModels::FStoreItem::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomData.notNull()) { writer->WriteIdentifierPrefix(TEXT("CustomData")); CustomData.writeJSON(writer); }
+
+    if (DisplayPosition.notNull()) { writer->WriteIdentifierPrefix(TEXT("DisplayPosition")); writer->WriteValue(static_cast<int64>(DisplayPosition)); }
+
+    writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId);
+
+    if (RealCurrencyPrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("RealCurrencyPrices"));
+        for (TMap<FString, uint32>::TConstIterator It(RealCurrencyPrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue(static_cast<int64>((*It).Value));
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (VirtualCurrencyPrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("VirtualCurrencyPrices"));
+        for (TMap<FString, uint32>::TConstIterator It(VirtualCurrencyPrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue(static_cast<int64>((*It).Value));
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FStoreItem::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CustomDataValue = obj->TryGetField(TEXT("CustomData"));
+    if (CustomDataValue.IsValid() && !CustomDataValue->IsNull())
+    {
+        CustomData = FJsonKeeper(CustomDataValue);
+    }
+
+    const TSharedPtr<FJsonValue> DisplayPositionValue = obj->TryGetField(TEXT("DisplayPosition"));
+    if (DisplayPositionValue.IsValid() && !DisplayPositionValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (DisplayPositionValue->TryGetNumber(TmpValue)) { DisplayPosition = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
+    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* RealCurrencyPricesObject;
+    if (obj->TryGetObjectField(TEXT("RealCurrencyPrices"), RealCurrencyPricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*RealCurrencyPricesObject)->Values); It; ++It)
+        {
+            uint32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            RealCurrencyPrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* VirtualCurrencyPricesObject;
+    if (obj->TryGetObjectField(TEXT("VirtualCurrencyPrices"), VirtualCurrencyPricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*VirtualCurrencyPricesObject)->Values); It; ++It)
+        {
+            uint32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            VirtualCurrencyPrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetStoreItemsResult::~FGetStoreItemsResult()
+{
+    //if (MarketingData != nullptr) delete MarketingData;
+
+}
+
+void PlayFab::ServerModels::FGetStoreItemsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+
+    if (MarketingData.IsValid()) { writer->WriteIdentifierPrefix(TEXT("MarketingData")); MarketingData->writeJSON(writer); }
+
+    if (Source.notNull()) { writer->WriteIdentifierPrefix(TEXT("Source")); writeSourceTypeEnumJSON(Source, writer); }
+
+    if (Store.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Store"));
+        for (const FStoreItem& item : Store)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (StoreId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StoreId")); writer->WriteValue(StoreId); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetStoreItemsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatalogVersionValue = obj->TryGetField(TEXT("CatalogVersion"));
+    if (CatalogVersionValue.IsValid() && !CatalogVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MarketingDataValue = obj->TryGetField(TEXT("MarketingData"));
+    if (MarketingDataValue.IsValid() && !MarketingDataValue->IsNull())
+    {
+        MarketingData = MakeShareable(new FStoreMarketingModel(MarketingDataValue->AsObject()));
+    }
+
+    Source = readSourceTypeFromValue(obj->TryGetField(TEXT("Source")));
+
+    const TArray<TSharedPtr<FJsonValue>>&StoreArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Store"));
+    for (int32 Idx = 0; Idx < StoreArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = StoreArray[Idx];
+        Store.Add(FStoreItem(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> StoreIdValue = obj->TryGetField(TEXT("StoreId"));
+    if (StoreIdValue.IsValid() && !StoreIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StoreIdValue->TryGetString(TmpValue)) { StoreId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetStoreItemsServerRequest::~FGetStoreItemsServerRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetStoreItemsServerRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+
+    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+
+    writer->WriteIdentifierPrefix(TEXT("StoreId")); writer->WriteValue(StoreId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetStoreItemsServerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatalogVersionValue = obj->TryGetField(TEXT("CatalogVersion"));
+    if (CatalogVersionValue.IsValid() && !CatalogVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StoreIdValue = obj->TryGetField(TEXT("StoreId"));
+    if (StoreIdValue.IsValid() && !StoreIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StoreIdValue->TryGetString(TmpValue)) { StoreId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FGetTimeRequest::~FGetTimeRequest()
 {
 
@@ -11415,6 +11706,61 @@ bool PlayFab::ServerModels::FLoginWithServerCustomIdRequest::readFromValue(const
     {
         FString TmpValue;
         if (ServerCustomIdValue->TryGetString(TmpValue)) { ServerCustomId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLoginWithXboxIdRequest::~FLoginWithXboxIdRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ServerModels::FLoginWithXboxIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+
+    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+
+    writer->WriteIdentifierPrefix(TEXT("Sandbox")); writer->WriteValue(Sandbox);
+
+    writer->WriteIdentifierPrefix(TEXT("XboxId")); writer->WriteValue(XboxId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLoginWithXboxIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> SandboxValue = obj->TryGetField(TEXT("Sandbox"));
+    if (SandboxValue.IsValid() && !SandboxValue->IsNull())
+    {
+        FString TmpValue;
+        if (SandboxValue->TryGetString(TmpValue)) { Sandbox = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> XboxIdValue = obj->TryGetField(TEXT("XboxId"));
+    if (XboxIdValue.IsValid() && !XboxIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (XboxIdValue->TryGetString(TmpValue)) { XboxId = TmpValue; }
     }
 
     return HasSucceeded;

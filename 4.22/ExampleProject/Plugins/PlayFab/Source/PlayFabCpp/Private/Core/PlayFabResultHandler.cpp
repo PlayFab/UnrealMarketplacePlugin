@@ -102,8 +102,22 @@ bool PlayFabRequestHandler::DecodeError(TSharedPtr<FJsonObject> JsonObject, Play
         JsonObject->TryGetStringField(TEXT("error"), OutError.ErrorName);
         JsonObject->TryGetStringField(TEXT("errorMessage"), OutError.ErrorMessage);
 
-        // TODO: handle error details properly
-        //"errorDetails"
+        const TSharedPtr<FJsonObject>* obj;
+        if (JsonObject->TryGetObjectField(TEXT("errorDetails"), obj))
+        {
+            auto vals = (*obj)->Values;
+            for (auto val : vals)
+            {
+                if (val.Value->AsArray().Num() > 0)
+                {
+                    OutError.ErrorDetails.Add(val.Key, val.Value->AsArray()[0]->AsString());
+                }
+                else
+                {
+                    OutError.ErrorDetails.Add(val.Key, val.Value->AsString());
+                }
+            }
+        }
 
         // TODO: handle global error delegate here
 

@@ -461,6 +461,7 @@ namespace PlayFab
         PlayFabErrorQueryRateLimitExceeded = 1452,
         PlayFabErrorEntityAPIKeyCreationDisabledForEntity = 1453,
         PlayFabErrorForbiddenByEntityPolicy = 1454,
+        PlayFabErrorUpdateInventoryRateLimitExceeded = 1455,
         PlayFabErrorStudioCreationRateLimited = 1456,
         PlayFabErrorStudioCreationInProgress = 1457,
         PlayFabErrorDuplicateStudioName = 1458,

@@ -164,6 +164,7 @@ FMultiplayerCreateBuildWithManagedContainerResponse UPlayFabMultiplayerModelDeco
     tempStruct.CreationTime = !(dataObj->HasField("CreationTime")) ? TEXT("") : dataObj->GetStringField("CreationTime");
     tempStruct.GameAssetReferences = !(dataObj->HasField("GameAssetReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameAssetReferences");
     tempStruct.GameCertificateReferences = !(dataObj->HasField("GameCertificateReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameCertificateReferences");
+    tempStruct.InstrumentationConfiguration = !(dataObj->HasField("InstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("InstrumentationConfiguration");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
@@ -234,6 +235,7 @@ FMultiplayerGetBuildResponse UPlayFabMultiplayerModelDecoder::decodeGetBuildResp
     tempStruct.CustomGameContainerImage = !(dataObj->HasField("CustomGameContainerImage")) ? nullptr : dataObj->GetObjectField("CustomGameContainerImage");
     tempStruct.GameAssetReferences = !(dataObj->HasField("GameAssetReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameAssetReferences");
     tempStruct.GameCertificateReferences = !(dataObj->HasField("GameCertificateReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameCertificateReferences");
+    tempStruct.InstrumentationConfiguration = !(dataObj->HasField("InstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("InstrumentationConfiguration");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
@@ -404,6 +406,19 @@ FMultiplayerListQosServersResponse UPlayFabMultiplayerModelDecoder::decodeListQo
 {
     // Temp ustruct
     FMultiplayerListQosServersResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.QosServers = !(dataObj->HasField("QosServers")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("QosServers");
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
+
+    return tempStruct;
+}
+
+FMultiplayerListQosServersForTitleResponse UPlayFabMultiplayerModelDecoder::decodeListQosServersForTitleResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerListQosServersForTitleResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));

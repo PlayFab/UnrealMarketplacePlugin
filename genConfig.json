@@ -1,0 +1,7 @@
+{
+    "default": {
+        "buildFlags": "nonnullable",
+        "templateFolder": "UnrealMarketplacePlugin",
+        "versionKey": "unrealmarketplaceplugin"
+    }
+}

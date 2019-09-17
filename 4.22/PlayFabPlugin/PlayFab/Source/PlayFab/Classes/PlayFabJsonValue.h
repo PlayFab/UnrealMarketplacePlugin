@@ -12,7 +12,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Json.h"
+#include "Dom/JsonValue.h"
 #include "PlayFabJsonValue.generated.h"
 
 class UPlayFabJsonObject;

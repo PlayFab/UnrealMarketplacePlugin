@@ -4,7 +4,7 @@
 
 
 #include "PlayFabJsonHelpers.h"
-#include "Json.h"
+#include "Dom/JsonObject.h"
 
 using namespace PlayFab;
 

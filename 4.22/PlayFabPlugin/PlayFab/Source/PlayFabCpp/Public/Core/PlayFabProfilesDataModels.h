@@ -65,7 +65,7 @@ namespace ProfilesModels
         // Unique ID of the entity.
         FString Id;
 
-        // [optional] Entity type. See https://api.playfab.com/docs/tutorials/entities/entitytypes
+        // [optional] Entity type. See https://docs.microsoft.com/gaming/playfab/features/data/entities/available-built-in-entity-types
         FString Type;
 
         FEntityKey() :

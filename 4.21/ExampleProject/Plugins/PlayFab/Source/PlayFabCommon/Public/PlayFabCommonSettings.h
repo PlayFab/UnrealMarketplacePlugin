@@ -9,7 +9,7 @@
 
 namespace PlayFabCommon
 {
-    class PlayFabCommonSettings
+    class PLAYFABCOMMON_API PlayFabCommonSettings
     {
     public:
         static const FString sdkVersion;

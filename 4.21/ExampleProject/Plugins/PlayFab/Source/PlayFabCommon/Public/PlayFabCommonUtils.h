@@ -8,7 +8,7 @@
 #include "CoreMinimal.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
-#include "Json.h"
+#include "Dom/JsonObject.h"
 
 namespace PlayFabCommon
 {

@@ -488,6 +488,13 @@ namespace PlayFab
         PlayFabErrorVirtualCurrencyBetaRestoreError = 1479,
         PlayFabErrorVirtualCurrencyBetaSaveConflict = 1480,
         PlayFabErrorVirtualCurrencyBetaUpdateError = 1481,
+        PlayFabErrorInsightsManagementDatabaseNotFound = 1482,
+        PlayFabErrorInsightsManagementOperationNotFound = 1483,
+        PlayFabErrorInsightsManagementErrorPendingOperationExists = 1484,
+        PlayFabErrorInsightsManagementSetPerformanceLevelInvalidParameter = 1485,
+        PlayFabErrorInsightsManagementSetStorageRetentionInvalidParameter = 1486,
+        PlayFabErrorInsightsManagementGetStorageUsageInvalidParameter = 1487,
+        PlayFabErrorInsightsManagementGetOperationStatusInvalidParameter = 1488,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -550,6 +557,7 @@ namespace PlayFab
         PlayFabErrorExperimentationExceededVariantNameLength = 7006,
         PlayFabErrorExperimentationExceededMaxVariantLength = 7007,
         PlayFabErrorExperimentInvalidId = 7008,
+        PlayFabErrorMaxActionDepthExceeded = 8000,
         PlayFabErrorSnapshotNotFound = 11000
     };
 

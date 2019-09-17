@@ -4,6 +4,8 @@
 
 
 #include "PlayFabCommonUtils.h"
+#include "Serialization/JsonReader.h"
+#include "Serialization/JsonSerializer.h"
 
 using namespace PlayFabCommon;
 

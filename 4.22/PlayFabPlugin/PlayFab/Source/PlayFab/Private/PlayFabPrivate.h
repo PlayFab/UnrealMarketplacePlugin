@@ -8,13 +8,13 @@
 
 #pragma once
 
-#include "CoreUObject.h"
-#include "Engine.h"
-
 #include "Delegates/Delegate.h"
 #include "Http.h"
 #include "Containers/Map.h"
-#include "Json.h"
+
+#include "Serialization/JsonWriter.h"
+#include "Serialization/JsonReader.h"
+#include "Serialization/JsonSerializer.h"
 
 #include "Modules/ModuleManager.h"
 

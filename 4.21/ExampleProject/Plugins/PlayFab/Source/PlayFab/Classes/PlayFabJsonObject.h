@@ -13,7 +13,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Json.h"
+#include "Dom/JsonObject.h"
+#include "Policies/CondensedJsonPrintPolicy.h"
+#include "Policies/PrettyJsonPrintPolicy.h"
 #include "PlayFabJsonObject.generated.h"
 
 class UPlayFabJsonValue;

@@ -510,6 +510,13 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1479: returnText = "VirtualCurrencyBetaRestoreError"; break;
     case 1480: returnText = "VirtualCurrencyBetaSaveConflict"; break;
     case 1481: returnText = "VirtualCurrencyBetaUpdateError"; break;
+    case 1482: returnText = "InsightsManagementDatabaseNotFound"; break;
+    case 1483: returnText = "InsightsManagementOperationNotFound"; break;
+    case 1484: returnText = "InsightsManagementErrorPendingOperationExists"; break;
+    case 1485: returnText = "InsightsManagementSetPerformanceLevelInvalidParameter"; break;
+    case 1486: returnText = "InsightsManagementSetStorageRetentionInvalidParameter"; break;
+    case 1487: returnText = "InsightsManagementGetStorageUsageInvalidParameter"; break;
+    case 1488: returnText = "InsightsManagementGetOperationStatusInvalidParameter"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -572,6 +579,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7006: returnText = "ExperimentationExceededVariantNameLength"; break;
     case 7007: returnText = "ExperimentationExceededMaxVariantLength"; break;
     case 7008: returnText = "ExperimentInvalidId"; break;
+    case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }
 

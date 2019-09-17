@@ -6,6 +6,7 @@
 #include "PlayFabResultHandler.h"
 #include "PlayFabSettings.h"
 #include "PlayFab.h"
+#include "Serialization/JsonSerializer.h"
 
 using namespace PlayFab;
 

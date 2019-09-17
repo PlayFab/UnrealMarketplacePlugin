@@ -92,7 +92,7 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetDeveloperSecretKey()
     {
-#if defined(ENABLE_PLAYFABSERVER_API) && defined(ENABLE_PLAYFABADMIN_API)
+#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
         return DeveloperSecretKey;
 #endif
 
@@ -103,7 +103,7 @@ public:
     // Get the developer secret key. These keys can be used in development environments.
     const FString& GetDeveloperSecretKey() const
     {
-#if defined(ENABLE_PLAYFABSERVER_API) && defined(ENABLE_PLAYFABADMIN_API)
+#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
         return DeveloperSecretKey;
 #endif
 
@@ -115,7 +115,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetDeveloperSecretKey(FString InKey)
     { 
-#if defined(ENABLE_PLAYFABSERVER_API) && defined(ENABLE_PLAYFABADMIN_API)
+#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
         DeveloperSecretKey = MoveTemp(InKey);
         return;
 #endif

@@ -1903,7 +1903,10 @@ namespace ServerModels
         // [optional] Catalog version for the inventory item, when this instance was created.
         FString CatalogVersion;
 
-        // [optional] A set of custom key-value pairs on the inventory item.
+        /**
+         * [optional] A set of custom key-value pairs on the instance of the inventory item, which is not to be confused with the catalog
+         * item's custom data.
+         */
         TMap<FString, FString> CustomData;
         // [optional] CatalogItem.DisplayName at the time this item was purchased.
         FString DisplayName;
@@ -7595,7 +7598,10 @@ namespace ServerModels
         // [optional] Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
-        // [optional] A set of custom key-value pairs on the inventory item.
+        /**
+         * [optional] A set of custom key-value pairs on the instance of the inventory item, which is not to be confused with the catalog
+         * item's custom data.
+         */
         TMap<FString, FString> CustomData;
         // [optional] CatalogItem.DisplayName at the time this item was purchased.
         FString DisplayName;

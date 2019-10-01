@@ -1280,7 +1280,10 @@ struct PLAYFAB_API FAdminGetDataReportResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The URL where the requested report can be downloaded. */
+    /**
+     * The URL where the requested report can be downloaded. This can be any PlayFab generated reports. The full list of
+     * reports can be found at: https://docs.microsoft.com/en-us/gaming/playfab/features/analytics/reports/quickstart.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString DownloadUrl;
 };

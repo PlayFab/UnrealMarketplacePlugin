@@ -410,7 +410,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildSummaries, FMultiplayerListBuildSummariesResponse, result, UObject*, customData);
 
-    /** Lists summarized details of all multiplayer server builds for a title. */
+    /**
+     * Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client
+     * access is enabled, allows game client to request list of builds with player entity token.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabMultiplayerAPI* ListBuildSummaries(FMultiplayerListBuildSummariesRequest request,
             FDelegateOnSuccessListBuildSummaries onSuccess,
@@ -528,7 +531,7 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRequestMultiplayerServer, FMultiplayerRequestMultiplayerServerResponse, result, UObject*, customData);
 
     /**
-     * Request a multiplayer server session. Accepts tokens for title and if game client accesss is enabled, allows game client
+     * Request a multiplayer server session. Accepts tokens for title and if game client access is enabled, allows game client
      * to request a server with player entity token.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))

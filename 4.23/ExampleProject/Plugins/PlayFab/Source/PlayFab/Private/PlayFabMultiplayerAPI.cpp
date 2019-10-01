@@ -1593,7 +1593,7 @@ void UPlayFabMultiplayerAPI::HelperListAssetSummaries(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Lists summarized details of all multiplayer server builds for a title. */
+/** Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client access is enabled, allows game client to request list of builds with player entity token. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildSummaries(FMultiplayerListBuildSummariesRequest request,
     FDelegateOnSuccessListBuildSummaries onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -2076,7 +2076,7 @@ void UPlayFabMultiplayerAPI::HelperListVirtualMachineSummaries(FPlayFabBaseModel
     this->RemoveFromRoot();
 }
 
-/** Request a multiplayer server session. Accepts tokens for title and if game client accesss is enabled, allows game client to request a server with player entity token. */
+/** Request a multiplayer server session. Accepts tokens for title and if game client access is enabled, allows game client to request a server with player entity token. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestMultiplayerServer(FMultiplayerRequestMultiplayerServerRequest request,
     FDelegateOnSuccessRequestMultiplayerServer onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

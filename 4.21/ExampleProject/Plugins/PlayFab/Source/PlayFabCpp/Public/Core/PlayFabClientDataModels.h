@@ -1033,7 +1033,10 @@ namespace ClientModels
         // [optional] Catalog version for the inventory item, when this instance was created.
         FString CatalogVersion;
 
-        // [optional] A set of custom key-value pairs on the inventory item.
+        /**
+         * [optional] A set of custom key-value pairs on the instance of the inventory item, which is not to be confused with the catalog
+         * item's custom data.
+         */
         TMap<FString, FString> CustomData;
         // [optional] CatalogItem.DisplayName at the time this item was purchased.
         FString DisplayName;

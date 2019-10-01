@@ -774,7 +774,7 @@ namespace MultiplayerModels
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
         /**
          * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
-         * Game Server SDK (GSDK).
+         * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to host on a single VM.
@@ -993,7 +993,7 @@ namespace MultiplayerModels
 
         /**
          * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
-         * Game Server SDK (GSDK).
+         * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to host on a single VM.

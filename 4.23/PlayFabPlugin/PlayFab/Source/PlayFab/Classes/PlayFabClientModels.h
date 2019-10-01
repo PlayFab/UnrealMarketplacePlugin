@@ -2287,7 +2287,11 @@ public:
         FString StatisticName;
 };
 
-/** Note that the Position of the character in the results is for the overall leaderboard. */
+/**
+ * NOTE: The position of the character in the results is relative to the other characters for that specific user. This mean
+ * the values will always be between 0 and one less than the number of characters returned regardless of the size of the
+ * actual leaderboard.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetLeaderboardForUsersCharactersResult : public FPlayFabResultCommon
 {

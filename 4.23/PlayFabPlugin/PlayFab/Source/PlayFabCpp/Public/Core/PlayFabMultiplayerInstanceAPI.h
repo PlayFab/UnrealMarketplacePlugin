@@ -244,7 +244,8 @@ namespace PlayFab
          */
         bool ListAssetSummaries(MultiplayerModels::FListAssetSummariesRequest& request, const FListAssetSummariesDelegate& SuccessDelegate = FListAssetSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Lists summarized details of all multiplayer server builds for a title.
+         * Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client
+         * access is enabled, allows game client to request list of builds with player entity token.
          * Returns a list of summarized details of all multiplayer server builds for a title.
          */
         bool ListBuildSummaries(MultiplayerModels::FListBuildSummariesRequest& request, const FListBuildSummariesDelegate& SuccessDelegate = FListBuildSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -306,7 +307,7 @@ namespace PlayFab
          */
         bool ListVirtualMachineSummaries(MultiplayerModels::FListVirtualMachineSummariesRequest& request, const FListVirtualMachineSummariesDelegate& SuccessDelegate = FListVirtualMachineSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Request a multiplayer server session. Accepts tokens for title and if game client accesss is enabled, allows game client
+         * Request a multiplayer server session. Accepts tokens for title and if game client access is enabled, allows game client
          * to request a server with player entity token.
          * Requests a multiplayer server session from a particular build in any of the given preferred regions.
          */

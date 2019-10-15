@@ -335,6 +335,8 @@ namespace ProfilesModels
         // [optional] The chain of responsibility for this entity. Use Lineage.
         FString EntityChain;
 
+        // [optional] The experiment variants of this profile.
+        TArray<FString> ExperimentVariants;
         // [optional] The files on this profile.
         TMap<FString, FEntityProfileFileMetadata> Files;
         // [optional] The language on this profile.
@@ -368,6 +370,7 @@ namespace ProfilesModels
             DisplayName(),
             Entity(nullptr),
             EntityChain(),
+            ExperimentVariants(),
             Files(),
             Language(),
             LeaderboardMetadata(),
@@ -385,6 +388,7 @@ namespace ProfilesModels
             DisplayName(src.DisplayName),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EntityChain(src.EntityChain),
+            ExperimentVariants(src.ExperimentVariants),
             Files(src.Files),
             Language(src.Language),
             LeaderboardMetadata(src.LeaderboardMetadata),

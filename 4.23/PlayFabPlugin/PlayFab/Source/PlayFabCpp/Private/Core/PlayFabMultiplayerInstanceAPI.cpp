@@ -137,6 +137,36 @@ void UPlayFabMultiplayerInstanceAPI::OnCancelMatchmakingTicketResult(FHttpReques
     }
 }
 
+bool UPlayFabMultiplayerInstanceAPI::CreateBuildAlias(
+    MultiplayerModels::FCreateBuildAliasRequest& request,
+    const FCreateBuildAliasDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/CreateBuildAlias")) : this->settings->GetUrl(TEXT("/MultiplayerServer/CreateBuildAlias")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnCreateBuildAliasResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnCreateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FBuildAliasDetailsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerInstanceAPI::CreateBuildWithCustomContainer(
     MultiplayerModels::FCreateBuildWithCustomContainerRequest& request,
     const FCreateBuildWithCustomContainerDelegate& SuccessDelegate,
@@ -347,6 +377,36 @@ void UPlayFabMultiplayerInstanceAPI::OnDeleteBuildResult(FHttpRequestPtr HttpReq
     }
 }
 
+bool UPlayFabMultiplayerInstanceAPI::DeleteBuildAlias(
+    MultiplayerModels::FDeleteBuildAliasRequest& request,
+    const FDeleteBuildAliasDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/DeleteBuildAlias")) : this->settings->GetUrl(TEXT("/MultiplayerServer/DeleteBuildAlias")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnDeleteBuildAliasResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnDeleteBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerInstanceAPI::DeleteCertificate(
     MultiplayerModels::FDeleteCertificateRequest& request,
     const FDeleteCertificateDelegate& SuccessDelegate,
@@ -494,6 +554,36 @@ bool UPlayFabMultiplayerInstanceAPI::GetBuild(
 void UPlayFabMultiplayerInstanceAPI::OnGetBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MultiplayerModels::FGetBuildResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabMultiplayerInstanceAPI::GetBuildAlias(
+    MultiplayerModels::FGetBuildAliasRequest& request,
+    const FGetBuildAliasDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/GetBuildAlias")) : this->settings->GetUrl(TEXT("/MultiplayerServer/GetBuildAlias")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnGetBuildAliasResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnGetBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FBuildAliasDetailsResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -848,6 +938,44 @@ bool UPlayFabMultiplayerInstanceAPI::ListAssetSummaries(
 void UPlayFabMultiplayerInstanceAPI::OnListAssetSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListAssetSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MultiplayerModels::FListAssetSummariesResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabMultiplayerInstanceAPI::ListBuildAliases(
+    const FListBuildAliasesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{ 
+    MultiplayerModels::FMultiplayerEmptyRequest emptyRequest = MultiplayerModels::FMultiplayerEmptyRequest();
+    return UPlayFabMultiplayerInstanceAPI::ListBuildAliases(emptyRequest, SuccessDelegate, ErrorDelegate);
+}
+
+bool UPlayFabMultiplayerInstanceAPI::ListBuildAliases(
+    MultiplayerModels::FMultiplayerEmptyRequest& request,
+    const FListBuildAliasesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListBuildAliases")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListBuildAliases")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListBuildAliasesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnListBuildAliasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildAliasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FListBuildAliasesForTitleResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -1258,6 +1386,36 @@ bool UPlayFabMultiplayerInstanceAPI::ShutdownMultiplayerServer(
 void UPlayFabMultiplayerInstanceAPI::OnShutdownMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FShutdownMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MultiplayerModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabMultiplayerInstanceAPI::UpdateBuildAlias(
+    MultiplayerModels::FUpdateBuildAliasRequest& request,
+    const FUpdateBuildAliasDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/UpdateBuildAlias")) : this->settings->GetUrl(TEXT("/MultiplayerServer/UpdateBuildAlias")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnUpdateBuildAliasResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnUpdateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FBuildAliasDetailsResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

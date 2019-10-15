@@ -129,6 +129,21 @@ FMultiplayerListMatchmakingTicketsForPlayerResult UPlayFabMultiplayerModelDecode
 // MultiplayerServer
 //////////////////////////////////////////////////////
 
+FMultiplayerBuildAliasDetailsResponse UPlayFabMultiplayerModelDecoder::decodeBuildAliasDetailsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerBuildAliasDetailsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.AliasId = !(dataObj->HasField("AliasId")) ? TEXT("") : dataObj->GetStringField("AliasId");
+    tempStruct.AliasName = !(dataObj->HasField("AliasName")) ? TEXT("") : dataObj->GetStringField("AliasName");
+    tempStruct.BuildSelectionCriteria = !(dataObj->HasField("BuildSelectionCriteria")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("BuildSelectionCriteria");
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
+
+    return tempStruct;
+}
+
 FMultiplayerCreateBuildWithCustomContainerResponse UPlayFabMultiplayerModelDecoder::decodeCreateBuildWithCustomContainerResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -335,6 +350,17 @@ FMultiplayerListAssetSummariesResponse UPlayFabMultiplayerModelDecoder::decodeLi
     tempStruct.AssetSummaries = !(dataObj->HasField("AssetSummaries")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("AssetSummaries");
     tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
     tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
+
+    return tempStruct;
+}
+
+FMultiplayerListBuildAliasesForTitleResponse UPlayFabMultiplayerModelDecoder::decodeListBuildAliasesForTitleResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerListBuildAliasesForTitleResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.BuildAliases = !(dataObj->HasField("BuildAliases")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("BuildAliases");
 
     return tempStruct;
 }

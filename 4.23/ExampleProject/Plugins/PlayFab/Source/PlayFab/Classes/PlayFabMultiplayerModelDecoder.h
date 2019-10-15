@@ -80,6 +80,10 @@ public:
     // MultiplayerServer
     //////////////////////////////////////////////////////
 
+    /** Decode the BuildAliasDetailsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        static FMultiplayerBuildAliasDetailsResponse decodeBuildAliasDetailsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the CreateBuildWithCustomContainerResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerCreateBuildWithCustomContainerResponse decodeCreateBuildWithCustomContainerResponseResponse(UPlayFabJsonObject* response);
@@ -135,6 +139,10 @@ public:
     /** Decode the ListAssetSummariesResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerListAssetSummariesResponse decodeListAssetSummariesResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListBuildAliasesForTitleResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        static FMultiplayerListBuildAliasesForTitleResponse decodeListBuildAliasesForTitleResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the ListBuildSummariesResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")

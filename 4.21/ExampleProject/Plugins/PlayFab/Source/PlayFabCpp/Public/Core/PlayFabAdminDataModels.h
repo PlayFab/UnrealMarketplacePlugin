@@ -4794,6 +4794,8 @@ namespace AdminModels
         // [optional] Player account origination
         Boxed<LoginIdentityProvider> Origination;
 
+        // [optional] List of player variants for experimentation
+        TArray<FString> PlayerExperimentVariants;
         // [optional] PlayFab Player ID
         FString PlayerId;
 
@@ -4830,6 +4832,7 @@ namespace AdminModels
             LinkedAccounts(),
             Locations(),
             Origination(),
+            PlayerExperimentVariants(),
             PlayerId(),
             PlayerStatistics(),
             PublisherId(),
@@ -4854,6 +4857,7 @@ namespace AdminModels
             LinkedAccounts(src.LinkedAccounts),
             Locations(src.Locations),
             Origination(src.Origination),
+            PlayerExperimentVariants(src.PlayerExperimentVariants),
             PlayerId(src.PlayerId),
             PlayerStatistics(src.PlayerStatistics),
             PublisherId(src.PublisherId),

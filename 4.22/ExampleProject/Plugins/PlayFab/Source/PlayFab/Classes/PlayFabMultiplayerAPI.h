@@ -187,6 +187,19 @@ public:
     // MultiplayerServer
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateBuildAlias, FMultiplayerBuildAliasDetailsResponse, result, UObject*, customData);
+
+    /** Creates a multiplayer server build alias. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CreateBuildAlias(FMultiplayerCreateBuildAliasRequest request,
+            FDelegateOnSuccessCreateBuildAlias onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateBuildWithCustomContainer, FMultiplayerCreateBuildWithCustomContainerResponse, result, UObject*, customData);
 
     /** Creates a multiplayer server build with a custom container. */
@@ -252,6 +265,19 @@ public:
         void HelperDeleteBuild(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteBuildAlias, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Deletes a multiplayer server build alias. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* DeleteBuildAlias(FMultiplayerDeleteBuildAliasRequest request,
+            FDelegateOnSuccessDeleteBuildAlias onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteCertificate, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Deletes a multiplayer server game certificate. */
@@ -315,6 +341,19 @@ public:
     // Implements FOnPlayFabMultiplayerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetBuild(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetBuildAlias, FMultiplayerBuildAliasDetailsResponse, result, UObject*, customData);
+
+    /** Gets a multiplayer server build alias. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetBuildAlias(FMultiplayerGetBuildAliasRequest request,
+            FDelegateOnSuccessGetBuildAlias onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetContainerRegistryCredentials, FMultiplayerGetContainerRegistryCredentialsResponse, result, UObject*, customData);
@@ -406,6 +445,22 @@ public:
     // Implements FOnPlayFabMultiplayerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperListAssetSummaries(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildAliases, FMultiplayerListBuildAliasesForTitleResponse, result, UObject*, customData);
+
+    /**
+     * Lists details of all build aliases for a title. Accepts tokens for title and if game client access is enabled, allows
+     * game client to request list of builds with player entity token.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListBuildAliases(FMultiplayerMultiplayerEmptyRequest request,
+            FDelegateOnSuccessListBuildAliases onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListBuildAliases(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildSummaries, FMultiplayerListBuildSummariesResponse, result, UObject*, customData);
@@ -570,6 +625,19 @@ public:
         void HelperShutdownMultiplayerServer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildAlias, FMultiplayerBuildAliasDetailsResponse, result, UObject*, customData);
+
+    /** Creates a multiplayer server build alias. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UpdateBuildAlias(FMultiplayerUpdateBuildAliasRequest request,
+            FDelegateOnSuccessUpdateBuildAlias onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildRegions, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Updates a multiplayer server build's regions. */
@@ -622,16 +690,19 @@ public:
     FDelegateOnSuccessGetQueueStatistics OnSuccessGetQueueStatistics;
     FDelegateOnSuccessJoinMatchmakingTicket OnSuccessJoinMatchmakingTicket;
     FDelegateOnSuccessListMatchmakingTicketsForPlayer OnSuccessListMatchmakingTicketsForPlayer;
+    FDelegateOnSuccessCreateBuildAlias OnSuccessCreateBuildAlias;
     FDelegateOnSuccessCreateBuildWithCustomContainer OnSuccessCreateBuildWithCustomContainer;
     FDelegateOnSuccessCreateBuildWithManagedContainer OnSuccessCreateBuildWithManagedContainer;
     FDelegateOnSuccessCreateRemoteUser OnSuccessCreateRemoteUser;
     FDelegateOnSuccessDeleteAsset OnSuccessDeleteAsset;
     FDelegateOnSuccessDeleteBuild OnSuccessDeleteBuild;
+    FDelegateOnSuccessDeleteBuildAlias OnSuccessDeleteBuildAlias;
     FDelegateOnSuccessDeleteCertificate OnSuccessDeleteCertificate;
     FDelegateOnSuccessDeleteRemoteUser OnSuccessDeleteRemoteUser;
     FDelegateOnSuccessEnableMultiplayerServersForTitle OnSuccessEnableMultiplayerServersForTitle;
     FDelegateOnSuccessGetAssetUploadUrl OnSuccessGetAssetUploadUrl;
     FDelegateOnSuccessGetBuild OnSuccessGetBuild;
+    FDelegateOnSuccessGetBuildAlias OnSuccessGetBuildAlias;
     FDelegateOnSuccessGetContainerRegistryCredentials OnSuccessGetContainerRegistryCredentials;
     FDelegateOnSuccessGetMultiplayerServerDetails OnSuccessGetMultiplayerServerDetails;
     FDelegateOnSuccessGetRemoteLoginEndpoint OnSuccessGetRemoteLoginEndpoint;
@@ -639,6 +710,7 @@ public:
     FDelegateOnSuccessGetTitleMultiplayerServersQuotas OnSuccessGetTitleMultiplayerServersQuotas;
     FDelegateOnSuccessListArchivedMultiplayerServers OnSuccessListArchivedMultiplayerServers;
     FDelegateOnSuccessListAssetSummaries OnSuccessListAssetSummaries;
+    FDelegateOnSuccessListBuildAliases OnSuccessListBuildAliases;
     FDelegateOnSuccessListBuildSummaries OnSuccessListBuildSummaries;
     FDelegateOnSuccessListCertificateSummaries OnSuccessListCertificateSummaries;
     FDelegateOnSuccessListContainerImages OnSuccessListContainerImages;
@@ -651,6 +723,7 @@ public:
     FDelegateOnSuccessRequestMultiplayerServer OnSuccessRequestMultiplayerServer;
     FDelegateOnSuccessRolloverContainerRegistryCredentials OnSuccessRolloverContainerRegistryCredentials;
     FDelegateOnSuccessShutdownMultiplayerServer OnSuccessShutdownMultiplayerServer;
+    FDelegateOnSuccessUpdateBuildAlias OnSuccessUpdateBuildAlias;
     FDelegateOnSuccessUpdateBuildRegions OnSuccessUpdateBuildRegions;
     FDelegateOnSuccessUploadCertificate OnSuccessUploadCertificate;
 

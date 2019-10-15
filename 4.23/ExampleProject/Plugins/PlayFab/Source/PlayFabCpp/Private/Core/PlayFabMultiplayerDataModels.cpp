@@ -319,6 +319,146 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
     return AzureVmSizeStandard_D1_v2; // Basically critical fail
 }
 
+PlayFab::MultiplayerModels::FBuildSelectionCriterion::~FBuildSelectionCriterion()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FBuildSelectionCriterion::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BuildWeightDistribution.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("BuildWeightDistribution"));
+        for (TMap<FString, uint32>::TConstIterator It(BuildWeightDistribution); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue(static_cast<int64>((*It).Value));
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FBuildSelectionCriterion::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* BuildWeightDistributionObject;
+    if (obj->TryGetObjectField(TEXT("BuildWeightDistribution"), BuildWeightDistributionObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*BuildWeightDistributionObject)->Values); It; ++It)
+        {
+            uint32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            BuildWeightDistribution.Add(It.Key(), TmpValue);
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FBuildAliasDetailsResponse::~FBuildAliasDetailsResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FBuildAliasDetailsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AliasId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AliasId")); writer->WriteValue(AliasId); }
+
+    if (AliasName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AliasName")); writer->WriteValue(AliasName); }
+
+    if (BuildSelectionCriteria.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("BuildSelectionCriteria"));
+        for (const FBuildSelectionCriterion& item : BuildSelectionCriteria)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("PageSize")); writer->WriteValue(PageSize);
+
+    if (SkipToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SkipToken")); writer->WriteValue(SkipToken); }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FBuildAliasDetailsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AliasIdValue = obj->TryGetField(TEXT("AliasId"));
+    if (AliasIdValue.IsValid() && !AliasIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasIdValue->TryGetString(TmpValue)) { AliasId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AliasNameValue = obj->TryGetField(TEXT("AliasName"));
+    if (AliasNameValue.IsValid() && !AliasNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasNameValue->TryGetString(TmpValue)) { AliasName = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&BuildSelectionCriteriaArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("BuildSelectionCriteria"));
+    for (int32 Idx = 0; Idx < BuildSelectionCriteriaArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = BuildSelectionCriteriaArray[Idx];
+        BuildSelectionCriteria.Add(FBuildSelectionCriterion(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FBuildAliasParams::~FBuildAliasParams()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FBuildAliasParams::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AliasId")); writer->WriteValue(AliasId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FBuildAliasParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AliasIdValue = obj->TryGetField(TEXT("AliasId"));
+    if (AliasIdValue.IsValid() && !AliasIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasIdValue->TryGetString(TmpValue)) { AliasId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCurrentServerStats::~FCurrentServerStats()
 {
 
@@ -984,6 +1124,51 @@ bool PlayFab::MultiplayerModels::FCoreCapacity::readFromValue(const TSharedPtr<F
     }
 
     VmFamily = readAzureVmFamilyFromValue(obj->TryGetField(TEXT("VmFamily")));
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCreateBuildAliasRequest::~FCreateBuildAliasRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCreateBuildAliasRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AliasName")); writer->WriteValue(AliasName);
+
+    if (BuildSelectionCriteria.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("BuildSelectionCriteria"));
+        for (const FBuildSelectionCriterion& item : BuildSelectionCriteria)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateBuildAliasRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AliasNameValue = obj->TryGetField(TEXT("AliasName"));
+    if (AliasNameValue.IsValid() && !AliasNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasNameValue->TryGetString(TmpValue)) { AliasName = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&BuildSelectionCriteriaArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("BuildSelectionCriteria"));
+    for (int32 Idx = 0; Idx < BuildSelectionCriteriaArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = BuildSelectionCriteriaArray[Idx];
+        BuildSelectionCriteria.Add(FBuildSelectionCriterion(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -2137,6 +2322,34 @@ bool PlayFab::MultiplayerModels::FDeleteAssetRequest::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FDeleteBuildAliasRequest::~FDeleteBuildAliasRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FDeleteBuildAliasRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AliasId")); writer->WriteValue(AliasId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FDeleteBuildAliasRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AliasIdValue = obj->TryGetField(TEXT("AliasId"));
+    if (AliasIdValue.IsValid() && !AliasIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasIdValue->TryGetString(TmpValue)) { AliasId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FDeleteBuildRequest::~FDeleteBuildRequest()
 {
 
@@ -2407,6 +2620,34 @@ bool PlayFab::MultiplayerModels::FGetAssetUploadUrlResponse::readFromValue(const
     {
         FString TmpValue;
         if (FileNameValue->TryGetString(TmpValue)) { FileName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetBuildAliasRequest::~FGetBuildAliasRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetBuildAliasRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AliasId")); writer->WriteValue(AliasId);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetBuildAliasRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AliasIdValue = obj->TryGetField(TEXT("AliasId"));
+    if (AliasIdValue.IsValid() && !AliasIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasIdValue->TryGetString(TmpValue)) { AliasId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -3736,6 +3977,42 @@ bool PlayFab::MultiplayerModels::FListAssetSummariesResponse::readFromValue(cons
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::~FListBuildAliasesForTitleResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BuildAliases.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("BuildAliases"));
+        for (const FBuildAliasDetailsResponse& item : BuildAliases)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&BuildAliasesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("BuildAliases"));
+    for (int32 Idx = 0; Idx < BuildAliasesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = BuildAliasesArray[Idx];
+        BuildAliases.Add(FBuildAliasDetailsResponse(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FListBuildSummariesRequest::~FListBuildSummariesRequest()
 {
 
@@ -4742,8 +5019,28 @@ bool PlayFab::MultiplayerModels::FListVirtualMachineSummariesResponse::readFromV
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::~FMultiplayerEmptyRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::~FRequestMultiplayerServerRequest()
 {
+    //if (BuildAliasParams != nullptr) delete BuildAliasParams;
 
 }
 
@@ -4751,7 +5048,9 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("BuildId")); writer->WriteValue(BuildId);
+    if (pfBuildAliasParams.IsValid()) { writer->WriteIdentifierPrefix(TEXT("BuildAliasParams")); pfBuildAliasParams->writeJSON(writer); }
+
+    if (BuildId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("BuildId")); writer->WriteValue(BuildId); }
 
     if (InitialPlayers.Num() != 0)
     {
@@ -4778,6 +5077,12 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::writeJSON(Jso
 bool PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildAliasParamsValue = obj->TryGetField(TEXT("BuildAliasParams"));
+    if (BuildAliasParamsValue.IsValid() && !BuildAliasParamsValue->IsNull())
+    {
+        pfBuildAliasParams = MakeShareable(new FBuildAliasParams(BuildAliasParamsValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
     if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
@@ -5037,6 +5342,60 @@ bool PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::readFromValu
         FString TmpValue;
         if (SessionIdValue->TryGetString(TmpValue)) { SessionId = TmpValue; }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FUpdateBuildAliasRequest::~FUpdateBuildAliasRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FUpdateBuildAliasRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AliasId")); writer->WriteValue(AliasId);
+
+    if (AliasName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AliasName")); writer->WriteValue(AliasName); }
+
+    if (BuildSelectionCriteria.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("BuildSelectionCriteria"));
+        for (const FBuildSelectionCriterion& item : BuildSelectionCriteria)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FUpdateBuildAliasRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AliasIdValue = obj->TryGetField(TEXT("AliasId"));
+    if (AliasIdValue.IsValid() && !AliasIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasIdValue->TryGetString(TmpValue)) { AliasId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AliasNameValue = obj->TryGetField(TEXT("AliasName"));
+    if (AliasNameValue.IsValid() && !AliasNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (AliasNameValue->TryGetString(TmpValue)) { AliasName = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&BuildSelectionCriteriaArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("BuildSelectionCriteria"));
+    for (int32 Idx = 0; Idx < BuildSelectionCriteriaArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = BuildSelectionCriteriaArray[Idx];
+        BuildSelectionCriteria.Add(FBuildSelectionCriterion(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }

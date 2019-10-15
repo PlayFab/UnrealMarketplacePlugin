@@ -175,6 +175,102 @@ namespace MultiplayerModels
     PLAYFABCPP_API AzureVmSize readAzureVmSizeFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API AzureVmSize readAzureVmSizeFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FBuildSelectionCriterion : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Dictionary of build ids and their respective weights for distribution of allocation requests.
+        TMap<FString, uint32> BuildWeightDistribution;
+        FBuildSelectionCriterion() :
+            FPlayFabCppBaseModel(),
+            BuildWeightDistribution()
+            {}
+
+        FBuildSelectionCriterion(const FBuildSelectionCriterion& src) :
+            FPlayFabCppBaseModel(),
+            BuildWeightDistribution(src.BuildWeightDistribution)
+            {}
+
+        FBuildSelectionCriterion(const TSharedPtr<FJsonObject>& obj) : FBuildSelectionCriterion()
+        {
+            readFromValue(obj);
+        }
+
+        ~FBuildSelectionCriterion();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FBuildAliasDetailsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The guid string alias Id of the alias to be created or updated.
+        FString AliasId;
+
+        // [optional] The alias name.
+        FString AliasName;
+
+        // [optional] Array of build selection criteria.
+        TArray<FBuildSelectionCriterion> BuildSelectionCriteria;
+        // The page size on the response.
+        int32 PageSize;
+
+        // [optional] The skip token for the paged response.
+        FString SkipToken;
+
+        FBuildAliasDetailsResponse() :
+            FPlayFabCppResultCommon(),
+            AliasId(),
+            AliasName(),
+            BuildSelectionCriteria(),
+            PageSize(0),
+            SkipToken()
+            {}
+
+        FBuildAliasDetailsResponse(const FBuildAliasDetailsResponse& src) :
+            FPlayFabCppResultCommon(),
+            AliasId(src.AliasId),
+            AliasName(src.AliasName),
+            BuildSelectionCriteria(src.BuildSelectionCriteria),
+            PageSize(src.PageSize),
+            SkipToken(src.SkipToken)
+            {}
+
+        FBuildAliasDetailsResponse(const TSharedPtr<FJsonObject>& obj) : FBuildAliasDetailsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FBuildAliasDetailsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FBuildAliasParams : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The guid string alias ID to use for the request.
+        FString AliasId;
+
+        FBuildAliasParams() :
+            FPlayFabCppBaseModel(),
+            AliasId()
+            {}
+
+        FBuildAliasParams(const FBuildAliasParams& src) :
+            FPlayFabCppBaseModel(),
+            AliasId(src.AliasId)
+            {}
+
+        FBuildAliasParams(const TSharedPtr<FJsonObject>& obj) : FBuildAliasParams()
+        {
+            readFromValue(obj);
+        }
+
+        ~FBuildAliasParams();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCurrentServerStats : public PlayFab::FPlayFabCppBaseModel
     {
         // The number of active multiplayer servers.
@@ -665,6 +761,36 @@ namespace MultiplayerModels
         }
 
         ~FCoreCapacity();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateBuildAliasRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The alias name.
+        FString AliasName;
+
+        // [optional] Array of build selection criteria.
+        TArray<FBuildSelectionCriterion> BuildSelectionCriteria;
+        FCreateBuildAliasRequest() :
+            FPlayFabCppRequestCommon(),
+            AliasName(),
+            BuildSelectionCriteria()
+            {}
+
+        FCreateBuildAliasRequest(const FCreateBuildAliasRequest& src) :
+            FPlayFabCppRequestCommon(),
+            AliasName(src.AliasName),
+            BuildSelectionCriteria(src.BuildSelectionCriteria)
+            {}
+
+        FCreateBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FCreateBuildAliasRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateBuildAliasRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1402,6 +1528,32 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeleteBuildAliasRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The guid string alias ID of the alias to perform the action on.
+        FString AliasId;
+
+        FDeleteBuildAliasRequest() :
+            FPlayFabCppRequestCommon(),
+            AliasId()
+            {}
+
+        FDeleteBuildAliasRequest(const FDeleteBuildAliasRequest& src) :
+            FPlayFabCppRequestCommon(),
+            AliasId(src.AliasId)
+            {}
+
+        FDeleteBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteBuildAliasRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteBuildAliasRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteBuildRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the build to delete.
@@ -1626,6 +1778,32 @@ namespace MultiplayerModels
         }
 
         ~FGetAssetUploadUrlResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetBuildAliasRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The guid string alias ID of the alias to perform the action on.
+        FString AliasId;
+
+        FGetBuildAliasRequest() :
+            FPlayFabCppRequestCommon(),
+            AliasId()
+            {}
+
+        FGetBuildAliasRequest(const FGetBuildAliasRequest& src) :
+            FPlayFabCppRequestCommon(),
+            AliasId(src.AliasId)
+            {}
+
+        FGetBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FGetBuildAliasRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetBuildAliasRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2610,6 +2788,31 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FListBuildAliasesForTitleResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of build aliases for the title
+        TArray<FBuildAliasDetailsResponse> BuildAliases;
+        FListBuildAliasesForTitleResponse() :
+            FPlayFabCppResultCommon(),
+            BuildAliases()
+            {}
+
+        FListBuildAliasesForTitleResponse(const FListBuildAliasesForTitleResponse& src) :
+            FPlayFabCppResultCommon(),
+            BuildAliases(src.BuildAliases)
+            {}
+
+        FListBuildAliasesForTitleResponse(const TSharedPtr<FJsonObject>& obj) : FListBuildAliasesForTitleResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListBuildAliasesForTitleResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FListBuildSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The page size for the request.
@@ -3362,9 +3565,33 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FMultiplayerEmptyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        FMultiplayerEmptyRequest() :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FMultiplayerEmptyRequest(const FMultiplayerEmptyRequest& src) :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FMultiplayerEmptyRequest(const TSharedPtr<FJsonObject>& obj) : FMultiplayerEmptyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FMultiplayerEmptyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRequestMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The guid string build ID of the multiplayer server to request.
+        // [optional] The identifiers of the build alias to use for the request.
+        TSharedPtr<FBuildAliasParams> pfBuildAliasParams;
+
+        // [optional] The guid string build ID of the multiplayer server to request.
         FString BuildId;
 
         /**
@@ -3388,6 +3615,7 @@ namespace MultiplayerModels
 
         FRequestMultiplayerServerRequest() :
             FPlayFabCppRequestCommon(),
+            pfBuildAliasParams(nullptr),
             BuildId(),
             InitialPlayers(),
             PreferredRegions(),
@@ -3397,6 +3625,7 @@ namespace MultiplayerModels
 
         FRequestMultiplayerServerRequest(const FRequestMultiplayerServerRequest& src) :
             FPlayFabCppRequestCommon(),
+            pfBuildAliasParams(src.pfBuildAliasParams.IsValid() ? MakeShareable(new FBuildAliasParams(*src.pfBuildAliasParams)) : nullptr),
             BuildId(src.BuildId),
             InitialPlayers(src.InitialPlayers),
             PreferredRegions(src.PreferredRegions),
@@ -3572,6 +3801,41 @@ namespace MultiplayerModels
         }
 
         ~FShutdownMultiplayerServerRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateBuildAliasRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The guid string alias Id of the alias to be updated.
+        FString AliasId;
+
+        // [optional] The alias name.
+        FString AliasName;
+
+        // [optional] Array of build selection criteria.
+        TArray<FBuildSelectionCriterion> BuildSelectionCriteria;
+        FUpdateBuildAliasRequest() :
+            FPlayFabCppRequestCommon(),
+            AliasId(),
+            AliasName(),
+            BuildSelectionCriteria()
+            {}
+
+        FUpdateBuildAliasRequest(const FUpdateBuildAliasRequest& src) :
+            FPlayFabCppRequestCommon(),
+            AliasId(src.AliasId),
+            AliasName(src.AliasName),
+            BuildSelectionCriteria(src.BuildSelectionCriteria)
+            {}
+
+        FUpdateBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBuildAliasRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateBuildAliasRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

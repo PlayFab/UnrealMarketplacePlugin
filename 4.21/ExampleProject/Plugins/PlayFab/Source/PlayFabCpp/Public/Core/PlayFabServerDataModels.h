@@ -5630,6 +5630,8 @@ namespace ServerModels
         // [optional] Player account origination
         Boxed<LoginIdentityProvider> Origination;
 
+        // [optional] List of player variants for experimentation
+        TArray<FString> PlayerExperimentVariants;
         // [optional] PlayFab Player ID
         FString PlayerId;
 
@@ -5666,6 +5668,7 @@ namespace ServerModels
             LinkedAccounts(),
             Locations(),
             Origination(),
+            PlayerExperimentVariants(),
             PlayerId(),
             PlayerStatistics(),
             PublisherId(),
@@ -5690,6 +5693,7 @@ namespace ServerModels
             LinkedAccounts(src.LinkedAccounts),
             Locations(src.Locations),
             Origination(src.Origination),
+            PlayerExperimentVariants(src.PlayerExperimentVariants),
             PlayerId(src.PlayerId),
             PlayerStatistics(src.PlayerStatistics),
             PublisherId(src.PublisherId),

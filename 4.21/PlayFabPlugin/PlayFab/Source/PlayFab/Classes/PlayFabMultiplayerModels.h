@@ -345,6 +345,42 @@ public:
 // MultiplayerServer
 //////////////////////////////////////////////////////
 
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerBuildAliasDetailsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string alias Id of the alias to be created or updated. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AliasId;
+    /** The alias name. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AliasName;
+    /** Array of build selection criteria. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
+};
+
+/** Creates a multiplayer server build alias and returns the created alias. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateBuildAliasRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The alias name. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AliasName;
+    /** Array of build selection criteria. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
+};
+
 /** Creates a multiplayer server build with a custom container and returns information about the build creation request. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerCreateBuildWithCustomContainerRequest : public FPlayFabRequestCommon
@@ -596,6 +632,17 @@ public:
         FString BuildId;
 };
 
+/** Deletes a multiplayer server build alias. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerDeleteBuildAliasRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string alias ID of the alias to perform the action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AliasId;
+};
+
 /** Deletes a multiplayer server game certificate. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerDeleteCertificateRequest : public FPlayFabRequestCommon
@@ -749,6 +796,17 @@ public:
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;
+};
+
+/** Returns the details about a multiplayer server build alias. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetBuildAliasRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string alias ID of the alias to perform the action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AliasId;
 };
 
 /**
@@ -968,6 +1026,24 @@ public:
     /** The skip token for the paged response. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SkipToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListBuildAliasesForTitleResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of build aliases for the title */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> BuildAliases;
+};
+
+/** Returns a list of summarized details of all multiplayer server builds for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerMultiplayerEmptyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
 };
 
 /** Returns a list of summarized details of all multiplayer server builds for a title. */
@@ -1198,6 +1274,9 @@ struct PLAYFAB_API FMultiplayerRequestMultiplayerServerRequest : public FPlayFab
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The identifiers of the build alias to use for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* BuildAliasParams = nullptr;
     /** The guid string build ID of the multiplayer server to request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
@@ -1307,6 +1386,23 @@ public:
     /** A guid string session ID of the multiplayer server to shut down. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SessionId;
+};
+
+/** Creates a multiplayer server build alias and returns the created alias. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerUpdateBuildAliasRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string alias Id of the alias to be updated. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AliasId;
+    /** The alias name. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AliasName;
+    /** Array of build selection criteria. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
 };
 
 /** Updates a multiplayer server build's regions. */

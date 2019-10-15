@@ -463,6 +463,15 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
 
     if (EntityChain.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EntityChain")); writer->WriteValue(EntityChain); }
 
+    if (ExperimentVariants.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ExperimentVariants"));
+        for (const FString& item : ExperimentVariants)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     if (Files.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("Files"));
@@ -551,6 +560,8 @@ bool PlayFab::ProfilesModels::FEntityProfileBody::readFromValue(const TSharedPtr
         FString TmpValue;
         if (EntityChainValue->TryGetString(TmpValue)) { EntityChain = TmpValue; }
     }
+
+    obj->TryGetStringArrayField(TEXT("ExperimentVariants"), ExperimentVariants);
 
     const TSharedPtr<FJsonObject>* FilesObject;
     if (obj->TryGetObjectField(TEXT("Files"), FilesObject))

@@ -75,7 +75,7 @@ FString UPlayFabEventsAPI::PercentEncode(const FString& Text)
 ///////////////////////////////////////////////////////
 // PlayStream Events
 //////////////////////////////////////////////////////
-/** Write batches of entity based events to PlayStream. */
+/** Write batches of entity based events to PlayStream. The namespace of the Event must start with 'com.playfab.events.' */
 UPlayFabEventsAPI* UPlayFabEventsAPI::WriteEvents(FEventsWriteEventsRequest request,
     FDelegateOnSuccessWriteEvents onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -127,7 +127,7 @@ void UPlayFabEventsAPI::HelperWriteEvents(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
-/** Write batches of entity based events to as Telemetry events (bypass PlayStream). */
+/** Write batches of entity based events to as Telemetry events (bypass PlayStream). The namespace must be 'custom' or start with 'custom.' */
 UPlayFabEventsAPI* UPlayFabEventsAPI::WriteTelemetryEvents(FEventsWriteEventsRequest request,
     FDelegateOnSuccessWriteTelemetryEvents onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

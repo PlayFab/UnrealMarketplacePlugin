@@ -591,6 +591,63 @@ void UPlayFabMultiplayerAPI::HelperListMatchmakingTicketsForPlayer(FPlayFabBaseM
 ///////////////////////////////////////////////////////
 // MultiplayerServer
 //////////////////////////////////////////////////////
+/** Creates a multiplayer server build alias. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildAlias(FMultiplayerCreateBuildAliasRequest request,
+    FDelegateOnSuccessCreateBuildAlias onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateBuildAlias = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCreateBuildAlias);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/CreateBuildAlias";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AliasName.IsEmpty() || request.AliasName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AliasName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AliasName"), request.AliasName);
+    }
+    if (request.BuildSelectionCriteria.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildSelectionCriteria"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("BuildSelectionCriteria"), request.BuildSelectionCriteria);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperCreateBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateBuildAlias.IsBound())
+    {
+        FMultiplayerBuildAliasDetailsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeBuildAliasDetailsResponseResponse(response.responseData);
+        OnSuccessCreateBuildAlias.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Creates a multiplayer server build with a custom container. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(FMultiplayerCreateBuildWithCustomContainerRequest request,
     FDelegateOnSuccessCreateBuildWithCustomContainer onSuccess,
@@ -940,6 +997,59 @@ void UPlayFabMultiplayerAPI::HelperDeleteBuild(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
+/** Deletes a multiplayer server build alias. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteBuildAlias(FMultiplayerDeleteBuildAliasRequest request,
+    FDelegateOnSuccessDeleteBuildAlias onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteBuildAlias = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteBuildAlias);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/DeleteBuildAlias";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AliasId.IsEmpty() || request.AliasId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AliasId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AliasId"), request.AliasId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperDeleteBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteBuildAlias.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteBuildAlias.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Deletes a multiplayer server game certificate. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteCertificate(FMultiplayerDeleteCertificateRequest request,
     FDelegateOnSuccessDeleteCertificate onSuccess,
@@ -1208,6 +1318,59 @@ void UPlayFabMultiplayerAPI::HelperGetBuild(FPlayFabBaseModel response, UObject*
     {
         FMultiplayerGetBuildResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetBuildResponseResponse(response.responseData);
         OnSuccessGetBuild.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets a multiplayer server build alias. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetBuildAlias(FMultiplayerGetBuildAliasRequest request,
+    FDelegateOnSuccessGetBuildAlias onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetBuildAlias = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetBuildAlias);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/GetBuildAlias";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AliasId.IsEmpty() || request.AliasId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AliasId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AliasId"), request.AliasId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperGetBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetBuildAlias.IsBound())
+    {
+        FMultiplayerBuildAliasDetailsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeBuildAliasDetailsResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetBuildAlias.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1589,6 +1752,53 @@ void UPlayFabMultiplayerAPI::HelperListAssetSummaries(FPlayFabBaseModel response
     {
         FMultiplayerListAssetSummariesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListAssetSummariesResponseResponse(response.responseData);
         OnSuccessListAssetSummaries.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Lists details of all build aliases for a title. Accepts tokens for title and if game client access is enabled, allows game client to request list of builds with player entity token. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildAliases(FMultiplayerMultiplayerEmptyRequest request,
+    FDelegateOnSuccessListBuildAliases onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListBuildAliases = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListBuildAliases);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/ListBuildAliases";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperListBuildAliases(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListBuildAliases.IsBound())
+    {
+        FMultiplayerListBuildAliasesForTitleResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListBuildAliasesForTitleResponseResponse(response.responseData);
+        OnSuccessListBuildAliases.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2100,6 +2310,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestMultiplayerServer(FMultip
 
 
     // Serialize all the request properties to json
+    if (request.BuildAliasParams != nullptr) OutRestJsonObj->SetObjectField(TEXT("BuildAliasParams"), request.BuildAliasParams);
     if (request.BuildId.IsEmpty() || request.BuildId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
     } else {
@@ -2260,6 +2471,69 @@ void UPlayFabMultiplayerAPI::HelperShutdownMultiplayerServer(FPlayFabBaseModel r
         FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessShutdownMultiplayerServer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Creates a multiplayer server build alias. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildAlias(FMultiplayerUpdateBuildAliasRequest request,
+    FDelegateOnSuccessUpdateBuildAlias onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateBuildAlias = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUpdateBuildAlias);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/UpdateBuildAlias";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AliasId.IsEmpty() || request.AliasId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AliasId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AliasId"), request.AliasId);
+    }
+    if (request.AliasName.IsEmpty() || request.AliasName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AliasName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AliasName"), request.AliasName);
+    }
+    if (request.BuildSelectionCriteria.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildSelectionCriteria"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("BuildSelectionCriteria"), request.BuildSelectionCriteria);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperUpdateBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateBuildAlias.IsBound())
+    {
+        FMultiplayerBuildAliasDetailsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeBuildAliasDetailsResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateBuildAlias.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

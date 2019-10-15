@@ -8173,6 +8173,15 @@ void PlayFab::ServerModels::FPlayerProfile::writeJSON(JsonWriter& writer) const
 
     if (Origination.notNull()) { writer->WriteIdentifierPrefix(TEXT("Origination")); writeLoginIdentityProviderEnumJSON(Origination, writer); }
 
+    if (PlayerExperimentVariants.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("PlayerExperimentVariants"));
+        for (const FString& item : PlayerExperimentVariants)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
     if (PlayerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerId")); writer->WriteValue(PlayerId); }
 
     if (PlayerStatistics.Num() != 0)
@@ -8311,6 +8320,8 @@ bool PlayFab::ServerModels::FPlayerProfile::readFromValue(const TSharedPtr<FJson
     }
 
     Origination = readLoginIdentityProviderFromValue(obj->TryGetField(TEXT("Origination")));
+
+    obj->TryGetStringArrayField(TEXT("PlayerExperimentVariants"), PlayerExperimentVariants);
 
     const TSharedPtr<FJsonValue> PlayerIdValue = obj->TryGetField(TEXT("PlayerId"));
     if (PlayerIdValue.IsValid() && !PlayerIdValue->IsNull())

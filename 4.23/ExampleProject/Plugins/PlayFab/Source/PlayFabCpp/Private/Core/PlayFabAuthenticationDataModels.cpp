@@ -20,9 +20,21 @@ void PlayFab::AuthenticationModels::FEntityKey::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityKey::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -57,17 +69,41 @@ void PlayFab::AuthenticationModels::FEntityLineage::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (GroupId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupId")); writer->WriteValue(GroupId); }
+    if (GroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupId"));
+        writer->WriteValue(GroupId);
+    }
 
-    if (MasterPlayerAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MasterPlayerAccountId")); writer->WriteValue(MasterPlayerAccountId); }
+    if (MasterPlayerAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MasterPlayerAccountId"));
+        writer->WriteValue(MasterPlayerAccountId);
+    }
 
-    if (NamespaceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NamespaceId")); writer->WriteValue(NamespaceId); }
+    if (NamespaceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NamespaceId"));
+        writer->WriteValue(NamespaceId);
+    }
 
-    if (TitleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId); }
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    if (TitlePlayerAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitlePlayerAccountId")); writer->WriteValue(TitlePlayerAccountId); }
+    if (TitlePlayerAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitlePlayerAccountId"));
+        writer->WriteValue(TitlePlayerAccountId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -131,7 +167,11 @@ void PlayFab::AuthenticationModels::FGetEntityTokenRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -159,11 +199,23 @@ void PlayFab::AuthenticationModels::FGetEntityTokenResponse::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    if (EntityToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EntityToken")); writer->WriteValue(EntityToken); }
+    if (EntityToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityToken"));
+        writer->WriteValue(EntityToken);
+    }
 
-    if (TokenExpiration.notNull()) { writer->WriteIdentifierPrefix(TEXT("TokenExpiration")); writeDatetime(TokenExpiration, writer); }
+    if (TokenExpiration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TokenExpiration"));
+        writeDatetime(TokenExpiration, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -272,7 +324,15 @@ void PlayFab::AuthenticationModels::FValidateEntityTokenRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("EntityToken")); writer->WriteValue(EntityToken);
+    if (!EntityToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateEntityTokenRequest::EntityToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityToken"));
+        writer->WriteValue(EntityToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -302,11 +362,23 @@ void PlayFab::AuthenticationModels::FValidateEntityTokenResponse::writeJSON(Json
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    if (IdentityProvider.notNull()) { writer->WriteIdentifierPrefix(TEXT("IdentityProvider")); writeLoginIdentityProviderEnumJSON(IdentityProvider, writer); }
+    if (IdentityProvider.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentityProvider"));
+        writeLoginIdentityProviderEnumJSON(IdentityProvider, writer);
+    }
 
-    if (Lineage.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Lineage")); Lineage->writeJSON(writer); }
+    if (Lineage.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Lineage"));
+        Lineage->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }

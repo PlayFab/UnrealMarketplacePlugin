@@ -130,6 +130,9 @@ struct PLAYFAB_API FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse : 
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Optional id of title to get players from, required if calling using a master_player_account. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        FString TitleId;
     /** Dictionary of master player ids mapped to title player entity keys and id pairs */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* TitlePlayerAccounts = nullptr;

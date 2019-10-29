@@ -20,9 +20,21 @@ void PlayFab::EventsModels::FEntityKey::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityKey::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -58,19 +70,55 @@ void PlayFab::EventsModels::FEventContents::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("EventNamespace")); writer->WriteValue(EventNamespace);
+    if (!EventNamespace.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EventContents::EventNamespace, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventNamespace"));
+        writer->WriteValue(EventNamespace);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name);
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EventContents::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
 
-    if (OriginalId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OriginalId")); writer->WriteValue(OriginalId); }
+    if (OriginalId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OriginalId"));
+        writer->WriteValue(OriginalId);
+    }
 
-    if (OriginalTimestamp.notNull()) { writer->WriteIdentifierPrefix(TEXT("OriginalTimestamp")); writeDatetime(OriginalTimestamp, writer); }
+    if (OriginalTimestamp.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OriginalTimestamp"));
+        writeDatetime(OriginalTimestamp, writer);
+    }
 
-    if (Payload.notNull()) { writer->WriteIdentifierPrefix(TEXT("Payload")); Payload.writeJSON(writer); }
+    if (Payload.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Payload"));
+        Payload.writeJSON(writer);
+    }
 
-    if (PayloadJSON.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PayloadJSON")); writer->WriteValue(PayloadJSON); }
+    if (PayloadJSON.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PayloadJSON"));
+        writer->WriteValue(PayloadJSON);
+    }
 
     writer->WriteObjectEnd();
 }

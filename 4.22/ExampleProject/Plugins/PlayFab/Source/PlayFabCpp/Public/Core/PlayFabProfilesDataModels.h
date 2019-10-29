@@ -606,15 +606,20 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FGetTitlePlayersFromMasterPlayerAccountIdsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Optional id of title to get players from, required if calling using a master_player_account.
+        FString TitleId;
+
         // [optional] Dictionary of master player ids mapped to title player entity keys and id pairs
         TMap<FString, FEntityKey> TitlePlayerAccounts;
         FGetTitlePlayersFromMasterPlayerAccountIdsResponse() :
             FPlayFabCppResultCommon(),
+            TitleId(),
             TitlePlayerAccounts()
             {}
 
         FGetTitlePlayersFromMasterPlayerAccountIdsResponse(const FGetTitlePlayersFromMasterPlayerAccountIdsResponse& src) :
             FPlayFabCppResultCommon(),
+            TitleId(src.TitleId),
             TitlePlayerAccounts(src.TitlePlayerAccounts)
             {}
 

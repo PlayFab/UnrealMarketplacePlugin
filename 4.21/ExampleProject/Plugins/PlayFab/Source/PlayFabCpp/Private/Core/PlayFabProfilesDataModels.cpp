@@ -56,11 +56,23 @@ void PlayFab::ProfilesModels::FEntityDataObject::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (DataObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DataObject")); DataObject.writeJSON(writer); }
+    if (DataObject.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataObject"));
+        DataObject.writeJSON(writer);
+    }
 
-    if (EscapedDataObject.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EscapedDataObject")); writer->WriteValue(EscapedDataObject); }
+    if (EscapedDataObject.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EscapedDataObject"));
+        writer->WriteValue(EscapedDataObject);
+    }
 
-    if (ObjectName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ObjectName")); writer->WriteValue(ObjectName); }
+    if (ObjectName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ObjectName"));
+        writer->WriteValue(ObjectName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -101,9 +113,21 @@ void PlayFab::ProfilesModels::FEntityKey::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityKey::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -138,17 +162,41 @@ void PlayFab::ProfilesModels::FEntityLineage::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (GroupId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupId")); writer->WriteValue(GroupId); }
+    if (GroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupId"));
+        writer->WriteValue(GroupId);
+    }
 
-    if (MasterPlayerAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MasterPlayerAccountId")); writer->WriteValue(MasterPlayerAccountId); }
+    if (MasterPlayerAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MasterPlayerAccountId"));
+        writer->WriteValue(MasterPlayerAccountId);
+    }
 
-    if (NamespaceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NamespaceId")); writer->WriteValue(NamespaceId); }
+    if (NamespaceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NamespaceId"));
+        writer->WriteValue(NamespaceId);
+    }
 
-    if (TitleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId); }
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    if (TitlePlayerAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitlePlayerAccountId")); writer->WriteValue(TitlePlayerAccountId); }
+    if (TitlePlayerAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitlePlayerAccountId"));
+        writer->WriteValue(TitlePlayerAccountId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -211,17 +259,43 @@ void PlayFab::ProfilesModels::FEntityPermissionStatement::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Action")); writer->WriteValue(Action);
+    if (!Action.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityPermissionStatement::Action, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Action"));
+        writer->WriteValue(Action);
+    }
 
-    if (Comment.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Comment")); writer->WriteValue(Comment); }
+    if (Comment.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comment"));
+        writer->WriteValue(Comment);
+    }
 
-    if (Condition.notNull()) { writer->WriteIdentifierPrefix(TEXT("Condition")); Condition.writeJSON(writer); }
+    if (Condition.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Condition"));
+        Condition.writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Effect")); writeEffectTypeEnumJSON(Effect, writer);
+    writer->WriteIdentifierPrefix(TEXT("Effect"));
+    writeEffectTypeEnumJSON(Effect, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Principal")); Principal.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Principal"));
+    Principal.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Resource")); writer->WriteValue(Resource);
+    if (!Resource.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityPermissionStatement::Resource, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Resource"));
+        writer->WriteValue(Resource);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -277,13 +351,23 @@ void PlayFab::ProfilesModels::FEntityProfileFileMetadata::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (Checksum.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Checksum")); writer->WriteValue(Checksum); }
+    if (Checksum.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Checksum"));
+        writer->WriteValue(Checksum);
+    }
 
-    if (FileName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FileName")); writer->WriteValue(FileName); }
+    if (FileName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FileName"));
+        writer->WriteValue(FileName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("LastModified")); writeDatetime(LastModified, writer);
+    writer->WriteIdentifierPrefix(TEXT("LastModified"));
+    writeDatetime(LastModified, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Size")); writer->WriteValue(Size);
+    writer->WriteIdentifierPrefix(TEXT("Size"));
+    writer->WriteValue(Size);
 
     writer->WriteObjectEnd();
 }
@@ -330,11 +414,20 @@ void PlayFab::ProfilesModels::FEntityStatisticChildValue::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (ChildName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ChildName")); writer->WriteValue(ChildName); }
+    if (ChildName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChildName"));
+        writer->WriteValue(ChildName);
+    }
 
-    if (Metadata.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Metadata")); writer->WriteValue(Metadata); }
+    if (Metadata.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Metadata"));
+        writer->WriteValue(Metadata);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value);
+    writer->WriteIdentifierPrefix(TEXT("Value"));
+    writer->WriteValue(Value);
 
     writer->WriteObjectEnd();
 }
@@ -387,13 +480,26 @@ void PlayFab::ProfilesModels::FEntityStatisticValue::writeJSON(JsonWriter& write
         writer->WriteObjectEnd();
     }
 
-    if (Metadata.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Metadata")); writer->WriteValue(Metadata); }
+    if (Metadata.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Metadata"));
+        writer->WriteValue(Metadata);
+    }
 
-    if (Name.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name); }
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
 
-    if (Value.notNull()) { writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value); }
+    if (Value.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        writer->WriteValue(Value);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version);
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(Version);
 
     writer->WriteObjectEnd();
 }
@@ -453,15 +559,32 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (AvatarUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AvatarUrl")); writer->WriteValue(AvatarUrl); }
+    if (AvatarUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AvatarUrl"));
+        writer->WriteValue(AvatarUrl);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writeDatetime(Created, writer);
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    if (EntityChain.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EntityChain")); writer->WriteValue(EntityChain); }
+    if (EntityChain.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityChain"));
+        writer->WriteValue(EntityChain);
+    }
 
     if (ExperimentVariants.Num() != 0)
     {
@@ -483,11 +606,23 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
         writer->WriteObjectEnd();
     }
 
-    if (Language.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Language")); writer->WriteValue(Language); }
+    if (Language.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Language"));
+        writer->WriteValue(Language);
+    }
 
-    if (LeaderboardMetadata.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("LeaderboardMetadata")); writer->WriteValue(LeaderboardMetadata); }
+    if (LeaderboardMetadata.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LeaderboardMetadata"));
+        writer->WriteValue(LeaderboardMetadata);
+    }
 
-    if (Lineage.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Lineage")); Lineage->writeJSON(writer); }
+    if (Lineage.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Lineage"));
+        Lineage->writeJSON(writer);
+    }
 
     if (Objects.Num() != 0)
     {
@@ -520,7 +655,8 @@ void PlayFab::ProfilesModels::FEntityProfileBody::writeJSON(JsonWriter& writer) 
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("VersionNumber")); writer->WriteValue(VersionNumber);
+    writer->WriteIdentifierPrefix(TEXT("VersionNumber"));
+    writer->WriteValue(VersionNumber);
 
     writer->WriteObjectEnd();
 }
@@ -638,9 +774,17 @@ void PlayFab::ProfilesModels::FGetEntityProfileRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (DataAsObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DataAsObject")); writer->WriteValue(DataAsObject); }
+    if (DataAsObject.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataAsObject"));
+        writer->WriteValue(DataAsObject);
+    }
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -675,7 +819,11 @@ void PlayFab::ProfilesModels::FGetEntityProfileResponse::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (Profile.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Profile")); Profile->writeJSON(writer); }
+    if (Profile.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Profile"));
+        Profile->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -702,7 +850,11 @@ void PlayFab::ProfilesModels::FGetEntityProfilesRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (DataAsObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DataAsObject")); writer->WriteValue(DataAsObject); }
+    if (DataAsObject.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataAsObject"));
+        writer->WriteValue(DataAsObject);
+    }
 
     writer->WriteArrayStart(TEXT("Entities"));
     for (const FEntityKey& item : Entities)
@@ -841,7 +993,11 @@ void PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest:
     writer->WriteArrayEnd();
 
 
-    if (TitleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId); }
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -871,6 +1027,12 @@ void PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse
 {
     writer->WriteObjectStart();
 
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
     if (TitlePlayerAccounts.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("TitlePlayerAccounts"));
@@ -888,6 +1050,13 @@ void PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse
 bool PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonObject>* TitlePlayerAccountsObject;
     if (obj->TryGetObjectField(TEXT("TitlePlayerAccounts"), TitlePlayerAccountsObject))
@@ -950,7 +1119,8 @@ void PlayFab::ProfilesModels::FSetEntityProfilePolicyRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
     if (Statements.Num() != 0)
     {
@@ -1086,11 +1256,23 @@ void PlayFab::ProfilesModels::FSetProfileLanguageRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    if (ExpectedVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ExpectedVersion")); writer->WriteValue(ExpectedVersion); }
+    if (ExpectedVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedVersion"));
+        writer->WriteValue(ExpectedVersion);
+    }
 
-    if (Language.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Language")); writer->WriteValue(Language); }
+    if (Language.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Language"));
+        writer->WriteValue(Language);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1131,9 +1313,17 @@ void PlayFab::ProfilesModels::FSetProfileLanguageResponse::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (OperationResult.notNull()) { writer->WriteIdentifierPrefix(TEXT("OperationResult")); writeOperationTypesEnumJSON(OperationResult, writer); }
+    if (OperationResult.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationResult"));
+        writeOperationTypesEnumJSON(OperationResult, writer);
+    }
 
-    if (VersionNumber.notNull()) { writer->WriteIdentifierPrefix(TEXT("VersionNumber")); writer->WriteValue(VersionNumber); }
+    if (VersionNumber.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VersionNumber"));
+        writer->WriteValue(VersionNumber);
+    }
 
     writer->WriteObjectEnd();
 }

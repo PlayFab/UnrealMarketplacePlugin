@@ -887,6 +887,9 @@ public:
     /** Settings specific to this user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* SettingsForUser = nullptr;
+    /** The experimentation treatments for this user at the time of login. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* TreatmentAssignment = nullptr;
 };
 
 /**

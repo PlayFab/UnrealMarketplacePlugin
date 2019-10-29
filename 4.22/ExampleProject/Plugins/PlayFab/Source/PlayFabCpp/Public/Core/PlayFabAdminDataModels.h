@@ -3817,6 +3817,9 @@ namespace AdminModels
         // Whether to show the display name. Defaults to false
         bool ShowDisplayName;
 
+        // Whether to show player's experiment variants. Defaults to false
+        bool ShowExperimentVariants;
+
         // Whether to show the last login time. Defaults to false
         bool ShowLastLogin;
 
@@ -3855,6 +3858,7 @@ namespace AdminModels
             ShowContactEmailAddresses(false),
             ShowCreated(false),
             ShowDisplayName(false),
+            ShowExperimentVariants(false),
             ShowLastLogin(false),
             ShowLinkedAccounts(false),
             ShowLocations(false),
@@ -3875,6 +3879,7 @@ namespace AdminModels
             ShowContactEmailAddresses(src.ShowContactEmailAddresses),
             ShowCreated(src.ShowCreated),
             ShowDisplayName(src.ShowDisplayName),
+            ShowExperimentVariants(src.ShowExperimentVariants),
             ShowLastLogin(src.ShowLastLogin),
             ShowLinkedAccounts(src.ShowLinkedAccounts),
             ShowLocations(src.ShowLocations),
@@ -4335,6 +4340,8 @@ namespace AdminModels
         // [optional] Player display name
         FString DisplayName;
 
+        // [optional] List of experiment variants for the player.
+        TArray<FString> ExperimentVariants;
         // [optional] UTC time when the player most recently logged in to the title
         Boxed<FDateTime> LastLogin;
 
@@ -4378,6 +4385,7 @@ namespace AdminModels
             ContactEmailAddresses(),
             Created(),
             DisplayName(),
+            ExperimentVariants(),
             LastLogin(),
             LinkedAccounts(),
             Locations(),
@@ -4401,6 +4409,7 @@ namespace AdminModels
             ContactEmailAddresses(src.ContactEmailAddresses),
             Created(src.Created),
             DisplayName(src.DisplayName),
+            ExperimentVariants(src.ExperimentVariants),
             LastLogin(src.LastLogin),
             LinkedAccounts(src.LinkedAccounts),
             Locations(src.Locations),

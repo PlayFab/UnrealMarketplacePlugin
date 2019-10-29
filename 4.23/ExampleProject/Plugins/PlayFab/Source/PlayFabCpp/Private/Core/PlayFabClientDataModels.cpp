@@ -29,9 +29,25 @@ void PlayFab::ClientModels::FAcceptTradeRequest::writeJSON(JsonWriter& writer) c
     }
 
 
-    writer->WriteIdentifierPrefix(TEXT("OfferingPlayerId")); writer->WriteValue(OfferingPlayerId);
+    if (!OfferingPlayerId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AcceptTradeRequest::OfferingPlayerId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("OfferingPlayerId"));
+        writer->WriteValue(OfferingPlayerId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TradeId")); writer->WriteValue(TradeId);
+    if (!TradeId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AcceptTradeRequest::TradeId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TradeId"));
+        writer->WriteValue(TradeId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -123,7 +139,11 @@ void PlayFab::ClientModels::FTradeInfo::writeJSON(JsonWriter& writer) const
     }
 
 
-    if (AcceptedPlayerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AcceptedPlayerId")); writer->WriteValue(AcceptedPlayerId); }
+    if (AcceptedPlayerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AcceptedPlayerId"));
+        writer->WriteValue(AcceptedPlayerId);
+    }
 
     if (AllowedPlayerIds.Num() != 0)
     {
@@ -134,11 +154,23 @@ void PlayFab::ClientModels::FTradeInfo::writeJSON(JsonWriter& writer) const
     }
 
 
-    if (CancelledAt.notNull()) { writer->WriteIdentifierPrefix(TEXT("CancelledAt")); writeDatetime(CancelledAt, writer); }
+    if (CancelledAt.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CancelledAt"));
+        writeDatetime(CancelledAt, writer);
+    }
 
-    if (FilledAt.notNull()) { writer->WriteIdentifierPrefix(TEXT("FilledAt")); writeDatetime(FilledAt, writer); }
+    if (FilledAt.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FilledAt"));
+        writeDatetime(FilledAt, writer);
+    }
 
-    if (InvalidatedAt.notNull()) { writer->WriteIdentifierPrefix(TEXT("InvalidatedAt")); writeDatetime(InvalidatedAt, writer); }
+    if (InvalidatedAt.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InvalidatedAt"));
+        writeDatetime(InvalidatedAt, writer);
+    }
 
     if (OfferedCatalogItemIds.Num() != 0)
     {
@@ -158,9 +190,17 @@ void PlayFab::ClientModels::FTradeInfo::writeJSON(JsonWriter& writer) const
     }
 
 
-    if (OfferingPlayerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OfferingPlayerId")); writer->WriteValue(OfferingPlayerId); }
+    if (OfferingPlayerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OfferingPlayerId"));
+        writer->WriteValue(OfferingPlayerId);
+    }
 
-    if (OpenedAt.notNull()) { writer->WriteIdentifierPrefix(TEXT("OpenedAt")); writeDatetime(OpenedAt, writer); }
+    if (OpenedAt.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OpenedAt"));
+        writeDatetime(OpenedAt, writer);
+    }
 
     if (RequestedCatalogItemIds.Num() != 0)
     {
@@ -171,9 +211,17 @@ void PlayFab::ClientModels::FTradeInfo::writeJSON(JsonWriter& writer) const
     }
 
 
-    if (Status.notNull()) { writer->WriteIdentifierPrefix(TEXT("Status")); writeTradeStatusEnumJSON(Status, writer); }
+    if (Status.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Status"));
+        writeTradeStatusEnumJSON(Status, writer);
+    }
 
-    if (TradeId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TradeId")); writer->WriteValue(TradeId); }
+    if (TradeId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TradeId"));
+        writer->WriteValue(TradeId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -248,7 +296,11 @@ void PlayFab::ClientModels::FAcceptTradeResponse::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (Trade.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Trade")); Trade->writeJSON(writer); }
+    if (Trade.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Trade"));
+        Trade->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -275,11 +327,20 @@ void PlayFab::ClientModels::FAdCampaignAttributionModel::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("AttributedAt")); writeDatetime(AttributedAt, writer);
+    writer->WriteIdentifierPrefix(TEXT("AttributedAt"));
+    writeDatetime(AttributedAt, writer);
 
-    if (CampaignId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CampaignId")); writer->WriteValue(CampaignId); }
+    if (CampaignId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CampaignId"));
+        writer->WriteValue(CampaignId);
+    }
 
-    if (Platform.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Platform")); writer->WriteValue(Platform); }
+    if (Platform.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Platform"));
+        writer->WriteValue(Platform);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -319,13 +380,29 @@ void PlayFab::ClientModels::FAddFriendRequest::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (FriendEmail.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendEmail")); writer->WriteValue(FriendEmail); }
+    if (FriendEmail.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FriendEmail"));
+        writer->WriteValue(FriendEmail);
+    }
 
-    if (FriendPlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId")); writer->WriteValue(FriendPlayFabId); }
+    if (FriendPlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId"));
+        writer->WriteValue(FriendPlayFabId);
+    }
 
-    if (FriendTitleDisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendTitleDisplayName")); writer->WriteValue(FriendTitleDisplayName); }
+    if (FriendTitleDisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FriendTitleDisplayName"));
+        writer->WriteValue(FriendTitleDisplayName);
+    }
 
-    if (FriendUsername.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendUsername")); writer->WriteValue(FriendUsername); }
+    if (FriendUsername.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FriendUsername"));
+        writer->WriteValue(FriendUsername);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -374,7 +451,8 @@ void PlayFab::ClientModels::FAddFriendResult::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Created")); writer->WriteValue(Created);
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writer->WriteValue(Created);
 
     writer->WriteObjectEnd();
 }
@@ -402,9 +480,25 @@ void PlayFab::ClientModels::FGenericServiceId::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ServiceName")); writer->WriteValue(ServiceName);
+    if (!ServiceName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GenericServiceId::ServiceName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServiceName"));
+        writer->WriteValue(ServiceName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("UserId")); writer->WriteValue(UserId);
+    if (!UserId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GenericServiceId::UserId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserId"));
+        writer->WriteValue(UserId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -439,7 +533,8 @@ void PlayFab::ClientModels::FAddGenericIDRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("GenericId")); GenericId.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("GenericId"));
+    GenericId.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -485,7 +580,15 @@ void PlayFab::ClientModels::FAddOrUpdateContactEmailRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("EmailAddress")); writer->WriteValue(EmailAddress);
+    if (!EmailAddress.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AddOrUpdateContactEmailRequest::EmailAddress, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("EmailAddress"));
+        writer->WriteValue(EmailAddress);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -538,7 +641,15 @@ void PlayFab::ClientModels::FAddSharedGroupMembersRequest::writeJSON(JsonWriter&
     writer->WriteArrayEnd();
 
 
-    writer->WriteIdentifierPrefix(TEXT("SharedGroupId")); writer->WriteValue(SharedGroupId);
+    if (!SharedGroupId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AddSharedGroupMembersRequest::SharedGroupId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SharedGroupId"));
+        writer->WriteValue(SharedGroupId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -587,11 +698,35 @@ void PlayFab::ClientModels::FAddUsernamePasswordRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Email")); writer->WriteValue(Email);
+    if (!Email.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AddUsernamePasswordRequest::Email, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Email"));
+        writer->WriteValue(Email);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Password")); writer->WriteValue(Password);
+    if (!Password.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AddUsernamePasswordRequest::Password, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Password"));
+        writer->WriteValue(Password);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username);
+    if (!Username.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AddUsernamePasswordRequest::Username, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -633,7 +768,11 @@ void PlayFab::ClientModels::FAddUsernamePasswordResult::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (Username.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username); }
+    if (Username.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -661,9 +800,18 @@ void PlayFab::ClientModels::FAddUserVirtualCurrencyRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount")); writer->WriteValue(Amount);
+    writer->WriteIdentifierPrefix(TEXT("Amount"));
+    writer->WriteValue(Amount);
 
-    writer->WriteIdentifierPrefix(TEXT("VirtualCurrency")); writer->WriteValue(VirtualCurrency);
+    if (!VirtualCurrency.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AddUserVirtualCurrencyRequest::VirtualCurrency, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("VirtualCurrency"));
+        writer->WriteValue(VirtualCurrency);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -698,11 +846,27 @@ void PlayFab::ClientModels::FAndroidDevicePushNotificationRegistrationRequest::w
 {
     writer->WriteObjectStart();
 
-    if (ConfirmationMessage.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ConfirmationMessage")); writer->WriteValue(ConfirmationMessage); }
+    if (ConfirmationMessage.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConfirmationMessage"));
+        writer->WriteValue(ConfirmationMessage);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("DeviceToken")); writer->WriteValue(DeviceToken);
+    if (!DeviceToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AndroidDevicePushNotificationRegistrationRequest::DeviceToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceToken"));
+        writer->WriteValue(DeviceToken);
+    }
 
-    if (SendPushNotificationConfirmation.notNull()) { writer->WriteIdentifierPrefix(TEXT("SendPushNotificationConfirmation")); writer->WriteValue(SendPushNotificationConfirmation); }
+    if (SendPushNotificationConfirmation.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SendPushNotificationConfirmation"));
+        writer->WriteValue(SendPushNotificationConfirmation);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -763,9 +927,17 @@ void PlayFab::ClientModels::FAttributeInstallRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (Adid.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Adid")); writer->WriteValue(Adid); }
+    if (Adid.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Adid"));
+        writer->WriteValue(Adid);
+    }
 
-    if (Idfa.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Idfa")); writer->WriteValue(Idfa); }
+    if (Idfa.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Idfa"));
+        writer->WriteValue(Idfa);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -819,7 +991,15 @@ void PlayFab::ClientModels::FCancelTradeRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("TradeId")); writer->WriteValue(TradeId);
+    if (!TradeId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CancelTradeRequest::TradeId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TradeId"));
+        writer->WriteValue(TradeId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -848,7 +1028,11 @@ void PlayFab::ClientModels::FCancelTradeResponse::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (Trade.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Trade")); Trade->writeJSON(writer); }
+    if (Trade.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Trade"));
+        Trade->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -875,15 +1059,35 @@ void PlayFab::ClientModels::FCartItem::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Description.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Description")); writer->WriteValue(Description); }
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (ItemClass.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemClass")); writer->WriteValue(ItemClass); }
+    if (ItemClass.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemClass"));
+        writer->WriteValue(ItemClass);
+    }
 
-    if (ItemId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId); }
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
 
-    if (ItemInstanceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemInstanceId")); writer->WriteValue(ItemInstanceId); }
+    if (ItemInstanceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemInstanceId"));
+        writer->WriteValue(ItemInstanceId);
+    }
 
     if (RealCurrencyPrices.Num() != 0)
     {
@@ -1064,11 +1268,23 @@ void PlayFab::ClientModels::FCatalogItemConsumableInfo::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (UsageCount.notNull()) { writer->WriteIdentifierPrefix(TEXT("UsageCount")); writer->WriteValue(static_cast<int64>(UsageCount)); }
+    if (UsageCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UsageCount"));
+        writer->WriteValue(static_cast<int64>(UsageCount));
+    }
 
-    if (UsagePeriod.notNull()) { writer->WriteIdentifierPrefix(TEXT("UsagePeriod")); writer->WriteValue(static_cast<int64>(UsagePeriod)); }
+    if (UsagePeriod.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UsagePeriod"));
+        writer->WriteValue(static_cast<int64>(UsagePeriod));
+    }
 
-    if (UsagePeriodGroup.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("UsagePeriodGroup")); writer->WriteValue(UsagePeriodGroup); }
+    if (UsagePeriodGroup.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UsagePeriodGroup"));
+        writer->WriteValue(UsagePeriodGroup);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1119,7 +1335,11 @@ void PlayFab::ClientModels::FCatalogItemContainerInfo::writeJSON(JsonWriter& wri
     }
 
 
-    if (KeyItemId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("KeyItemId")); writer->WriteValue(KeyItemId); }
+    if (KeyItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyItemId"));
+        writer->WriteValue(KeyItemId);
+    }
 
     if (ResultTableContents.Num() != 0)
     {
@@ -1184,35 +1404,84 @@ void PlayFab::ClientModels::FCatalogItem::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Bundle.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Bundle")); Bundle->writeJSON(writer); }
+    if (Bundle.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Bundle"));
+        Bundle->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("CanBecomeCharacter")); writer->WriteValue(CanBecomeCharacter);
+    writer->WriteIdentifierPrefix(TEXT("CanBecomeCharacter"));
+    writer->WriteValue(CanBecomeCharacter);
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    if (Consumable.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Consumable")); Consumable->writeJSON(writer); }
+    if (Consumable.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Consumable"));
+        Consumable->writeJSON(writer);
+    }
 
-    if (Container.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Container")); Container->writeJSON(writer); }
+    if (Container.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Container"));
+        Container->writeJSON(writer);
+    }
 
-    if (CustomData.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CustomData")); writer->WriteValue(CustomData); }
+    if (CustomData.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomData"));
+        writer->WriteValue(CustomData);
+    }
 
-    if (Description.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Description")); writer->WriteValue(Description); }
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("InitialLimitedEditionCount")); writer->WriteValue(InitialLimitedEditionCount);
+    writer->WriteIdentifierPrefix(TEXT("InitialLimitedEditionCount"));
+    writer->WriteValue(InitialLimitedEditionCount);
 
-    writer->WriteIdentifierPrefix(TEXT("IsLimitedEdition")); writer->WriteValue(IsLimitedEdition);
+    writer->WriteIdentifierPrefix(TEXT("IsLimitedEdition"));
+    writer->WriteValue(IsLimitedEdition);
 
-    writer->WriteIdentifierPrefix(TEXT("IsStackable")); writer->WriteValue(IsStackable);
+    writer->WriteIdentifierPrefix(TEXT("IsStackable"));
+    writer->WriteValue(IsStackable);
 
-    writer->WriteIdentifierPrefix(TEXT("IsTradable")); writer->WriteValue(IsTradable);
+    writer->WriteIdentifierPrefix(TEXT("IsTradable"));
+    writer->WriteValue(IsTradable);
 
-    if (ItemClass.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemClass")); writer->WriteValue(ItemClass); }
+    if (ItemClass.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemClass"));
+        writer->WriteValue(ItemClass);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId);
+    if (!ItemId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CatalogItem::ItemId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
 
-    if (ItemImageUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemImageUrl")); writer->WriteValue(ItemImageUrl); }
+    if (ItemImageUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemImageUrl"));
+        writer->WriteValue(ItemImageUrl);
+    }
 
     if (RealCurrencyPrices.Num() != 0)
     {
@@ -1388,7 +1657,11 @@ void PlayFab::ClientModels::FItemInstance::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Annotation.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Annotation")); writer->WriteValue(Annotation); }
+    if (Annotation.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Annotation"));
+        writer->WriteValue(Annotation);
+    }
 
     if (BundleContents.Num() != 0)
     {
@@ -1399,9 +1672,17 @@ void PlayFab::ClientModels::FItemInstance::writeJSON(JsonWriter& writer) const
     }
 
 
-    if (BundleParent.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("BundleParent")); writer->WriteValue(BundleParent); }
+    if (BundleParent.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BundleParent"));
+        writer->WriteValue(BundleParent);
+    }
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
     if (CustomData.Num() != 0)
     {
@@ -1414,25 +1695,62 @@ void PlayFab::ClientModels::FItemInstance::writeJSON(JsonWriter& writer) const
         writer->WriteObjectEnd();
     }
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (Expiration.notNull()) { writer->WriteIdentifierPrefix(TEXT("Expiration")); writeDatetime(Expiration, writer); }
+    if (Expiration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Expiration"));
+        writeDatetime(Expiration, writer);
+    }
 
-    if (ItemClass.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemClass")); writer->WriteValue(ItemClass); }
+    if (ItemClass.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemClass"));
+        writer->WriteValue(ItemClass);
+    }
 
-    if (ItemId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId); }
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
 
-    if (ItemInstanceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemInstanceId")); writer->WriteValue(ItemInstanceId); }
+    if (ItemInstanceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemInstanceId"));
+        writer->WriteValue(ItemInstanceId);
+    }
 
-    if (PurchaseDate.notNull()) { writer->WriteIdentifierPrefix(TEXT("PurchaseDate")); writeDatetime(PurchaseDate, writer); }
+    if (PurchaseDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PurchaseDate"));
+        writeDatetime(PurchaseDate, writer);
+    }
 
-    if (RemainingUses.notNull()) { writer->WriteIdentifierPrefix(TEXT("RemainingUses")); writer->WriteValue(RemainingUses); }
+    if (RemainingUses.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RemainingUses"));
+        writer->WriteValue(RemainingUses);
+    }
 
-    if (UnitCurrency.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("UnitCurrency")); writer->WriteValue(UnitCurrency); }
+    if (UnitCurrency.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UnitCurrency"));
+        writer->WriteValue(UnitCurrency);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("UnitPrice")); writer->WriteValue(static_cast<int64>(UnitPrice));
+    writer->WriteIdentifierPrefix(TEXT("UnitPrice"));
+    writer->WriteValue(static_cast<int64>(UnitPrice));
 
-    if (UsesIncrementedBy.notNull()) { writer->WriteIdentifierPrefix(TEXT("UsesIncrementedBy")); writer->WriteValue(UsesIncrementedBy); }
+    if (UsesIncrementedBy.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UsesIncrementedBy"));
+        writer->WriteValue(UsesIncrementedBy);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1551,7 +1869,11 @@ void PlayFab::ClientModels::FCharacterInventory::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
     if (Inventory.Num() != 0)
     {
@@ -1596,19 +1918,41 @@ void PlayFab::ClientModels::FCharacterLeaderboardEntry::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (CharacterName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterName")); writer->WriteValue(CharacterName); }
+    if (CharacterName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterName"));
+        writer->WriteValue(CharacterName);
+    }
 
-    if (CharacterType.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterType")); writer->WriteValue(CharacterType); }
+    if (CharacterType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterType"));
+        writer->WriteValue(CharacterType);
+    }
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Position")); writer->WriteValue(Position);
+    writer->WriteIdentifierPrefix(TEXT("Position"));
+    writer->WriteValue(Position);
 
-    writer->WriteIdentifierPrefix(TEXT("StatValue")); writer->WriteValue(StatValue);
+    writer->WriteIdentifierPrefix(TEXT("StatValue"));
+    writer->WriteValue(StatValue);
 
     writer->WriteObjectEnd();
 }
@@ -1678,11 +2022,23 @@ void PlayFab::ClientModels::FCharacterResult::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (CharacterName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterName")); writer->WriteValue(CharacterName); }
+    if (CharacterName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterName"));
+        writer->WriteValue(CharacterName);
+    }
 
-    if (CharacterType.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterType")); writer->WriteValue(CharacterType); }
+    if (CharacterType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterType"));
+        writer->WriteValue(CharacterType);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1854,7 +2210,15 @@ void PlayFab::ClientModels::FConfirmPurchaseRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId);
+    if (!OrderId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ConfirmPurchaseRequest::OrderId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1891,9 +2255,14 @@ void PlayFab::ClientModels::FConfirmPurchaseResult::writeJSON(JsonWriter& writer
     }
 
 
-    if (OrderId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId); }
+    if (OrderId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PurchaseDate")); writeDatetime(PurchaseDate, writer);
+    writer->WriteIdentifierPrefix(TEXT("PurchaseDate"));
+    writeDatetime(PurchaseDate, writer);
 
     writer->WriteObjectEnd();
 }
@@ -1934,11 +2303,24 @@ void PlayFab::ClientModels::FConsumeItemRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ConsumeCount")); writer->WriteValue(ConsumeCount);
+    writer->WriteIdentifierPrefix(TEXT("ConsumeCount"));
+    writer->WriteValue(ConsumeCount);
 
-    writer->WriteIdentifierPrefix(TEXT("ItemInstanceId")); writer->WriteValue(ItemInstanceId);
+    if (!ItemInstanceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ConsumeItemRequest::ItemInstanceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemInstanceId"));
+        writer->WriteValue(ItemInstanceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1980,9 +2362,14 @@ void PlayFab::ClientModels::FConsumeItemResult::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (ItemInstanceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ItemInstanceId")); writer->WriteValue(ItemInstanceId); }
+    if (ItemInstanceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemInstanceId"));
+        writer->WriteValue(ItemInstanceId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("RemainingUses")); writer->WriteValue(RemainingUses);
+    writer->WriteIdentifierPrefix(TEXT("RemainingUses"));
+    writer->WriteValue(RemainingUses);
 
     writer->WriteObjectEnd();
 }
@@ -2017,9 +2404,14 @@ void PlayFab::ClientModels::FConsumePSNEntitlementsRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ServiceLabel")); writer->WriteValue(ServiceLabel);
+    writer->WriteIdentifierPrefix(TEXT("ServiceLabel"));
+    writer->WriteValue(ServiceLabel);
 
     writer->WriteObjectEnd();
 }
@@ -2090,9 +2482,21 @@ void PlayFab::ClientModels::FConsumeXboxEntitlementsRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken);
+    if (!XboxToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ConsumeXboxEntitlementsRequest::XboxToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -2201,11 +2605,23 @@ void PlayFab::ClientModels::FContactEmailInfoModel::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (EmailAddress.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EmailAddress")); writer->WriteValue(EmailAddress); }
+    if (EmailAddress.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EmailAddress"));
+        writer->WriteValue(EmailAddress);
+    }
 
-    if (Name.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name); }
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
 
-    if (VerificationStatus.notNull()) { writer->WriteIdentifierPrefix(TEXT("VerificationStatus")); writeEmailVerificationStatusEnumJSON(VerificationStatus, writer); }
+    if (VerificationStatus.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VerificationStatus"));
+        writeEmailVerificationStatusEnumJSON(VerificationStatus, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -2818,7 +3234,11 @@ void PlayFab::ClientModels::FCreateSharedGroupRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (SharedGroupId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SharedGroupId")); writer->WriteValue(SharedGroupId); }
+    if (SharedGroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SharedGroupId"));
+        writer->WriteValue(SharedGroupId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -2846,7 +3266,11 @@ void PlayFab::ClientModels::FCreateSharedGroupResult::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (SharedGroupId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SharedGroupId")); writer->WriteValue(SharedGroupId); }
+    if (SharedGroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SharedGroupId"));
+        writer->WriteValue(SharedGroupId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -3277,15 +3701,35 @@ void PlayFab::ClientModels::FCurrentGamesRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (BuildVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("BuildVersion")); writer->WriteValue(BuildVersion); }
+    if (BuildVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildVersion"));
+        writer->WriteValue(BuildVersion);
+    }
 
-    if (GameMode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GameMode")); writer->WriteValue(GameMode); }
+    if (GameMode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameMode"));
+        writer->WriteValue(GameMode);
+    }
 
-    if (pfRegion.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeRegionEnumJSON(pfRegion, writer); }
+    if (pfRegion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writeRegionEnumJSON(pfRegion, writer);
+    }
 
-    if (StatisticName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName); }
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    if (TagFilter.IsValid()) { writer->WriteIdentifierPrefix(TEXT("TagFilter")); TagFilter->writeJSON(writer); }
+    if (TagFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TagFilter"));
+        TagFilter->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -3371,19 +3815,47 @@ void PlayFab::ClientModels::FGameInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (BuildVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("BuildVersion")); writer->WriteValue(BuildVersion); }
+    if (BuildVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildVersion"));
+        writer->WriteValue(BuildVersion);
+    }
 
-    if (GameMode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GameMode")); writer->WriteValue(GameMode); }
+    if (GameMode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameMode"));
+        writer->WriteValue(GameMode);
+    }
 
-    if (GameServerData.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GameServerData")); writer->WriteValue(GameServerData); }
+    if (GameServerData.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameServerData"));
+        writer->WriteValue(GameServerData);
+    }
 
-    if (GameServerStateEnum.notNull()) { writer->WriteIdentifierPrefix(TEXT("GameServerStateEnum")); writeGameInstanceStateEnumJSON(GameServerStateEnum, writer); }
+    if (GameServerStateEnum.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameServerStateEnum"));
+        writeGameInstanceStateEnumJSON(GameServerStateEnum, writer);
+    }
 
-    if (LastHeartbeat.notNull()) { writer->WriteIdentifierPrefix(TEXT("LastHeartbeat")); writeDatetime(LastHeartbeat, writer); }
+    if (LastHeartbeat.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastHeartbeat"));
+        writeDatetime(LastHeartbeat, writer);
+    }
 
-    if (LobbyID.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("LobbyID")); writer->WriteValue(LobbyID); }
+    if (LobbyID.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyID"));
+        writer->WriteValue(LobbyID);
+    }
 
-    if (MaxPlayers.notNull()) { writer->WriteIdentifierPrefix(TEXT("MaxPlayers")); writer->WriteValue(MaxPlayers); }
+    if (MaxPlayers.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxPlayers"));
+        writer->WriteValue(MaxPlayers);
+    }
 
     if (PlayerUserIds.Num() != 0)
     {
@@ -3394,19 +3866,44 @@ void PlayFab::ClientModels::FGameInfo::writeJSON(JsonWriter& writer) const
     }
 
 
-    if (pfRegion.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeRegionEnumJSON(pfRegion, writer); }
+    if (pfRegion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writeRegionEnumJSON(pfRegion, writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("RunTime")); writer->WriteValue(static_cast<int64>(RunTime));
+    writer->WriteIdentifierPrefix(TEXT("RunTime"));
+    writer->WriteValue(static_cast<int64>(RunTime));
 
-    if (ServerIPV4Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address")); writer->WriteValue(ServerIPV4Address); }
+    if (ServerIPV4Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address"));
+        writer->WriteValue(ServerIPV4Address);
+    }
 
-    if (ServerIPV6Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address")); writer->WriteValue(ServerIPV6Address); }
+    if (ServerIPV6Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address"));
+        writer->WriteValue(ServerIPV6Address);
+    }
 
-    if (ServerPort.notNull()) { writer->WriteIdentifierPrefix(TEXT("ServerPort")); writer->WriteValue(ServerPort); }
+    if (ServerPort.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPort"));
+        writer->WriteValue(ServerPort);
+    }
 
-    if (ServerPublicDNSName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerPublicDNSName")); writer->WriteValue(ServerPublicDNSName); }
+    if (ServerPublicDNSName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPublicDNSName"));
+        writer->WriteValue(ServerPublicDNSName);
+    }
 
-    if (StatisticName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName); }
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
     if (Tags.Num() != 0)
     {
@@ -3535,7 +4032,8 @@ void PlayFab::ClientModels::FCurrentGamesResult::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("GameCount")); writer->WriteValue(GameCount);
+    writer->WriteIdentifierPrefix(TEXT("GameCount"));
+    writer->WriteValue(GameCount);
 
     if (Games.Num() != 0)
     {
@@ -3546,7 +4044,8 @@ void PlayFab::ClientModels::FCurrentGamesResult::writeJSON(JsonWriter& writer) c
     }
 
 
-    writer->WriteIdentifierPrefix(TEXT("PlayerCount")); writer->WriteValue(PlayerCount);
+    writer->WriteIdentifierPrefix(TEXT("PlayerCount"));
+    writer->WriteValue(PlayerCount);
 
     writer->WriteObjectEnd();
 }
@@ -3666,9 +4165,21 @@ void PlayFab::ClientModels::FEntityKey::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityKey::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -3704,11 +4215,23 @@ void PlayFab::ClientModels::FEntityTokenResponse::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    if (EntityToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EntityToken")); writer->WriteValue(EntityToken); }
+    if (EntityToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityToken"));
+        writer->WriteValue(EntityToken);
+    }
 
-    if (TokenExpiration.notNull()) { writer->WriteIdentifierPrefix(TEXT("TokenExpiration")); writeDatetime(TokenExpiration, writer); }
+    if (TokenExpiration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TokenExpiration"));
+        writeDatetime(TokenExpiration, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -3747,15 +4270,39 @@ void PlayFab::ClientModels::FExecuteCloudScriptRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("FunctionName")); writer->WriteValue(FunctionName);
+    if (!FunctionName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ExecuteCloudScriptRequest::FunctionName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionName"));
+        writer->WriteValue(FunctionName);
+    }
 
-    if (FunctionParameter.notNull()) { writer->WriteIdentifierPrefix(TEXT("FunctionParameter")); FunctionParameter.writeJSON(writer); }
+    if (FunctionParameter.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionParameter"));
+        FunctionParameter.writeJSON(writer);
+    }
 
-    if (GeneratePlayStreamEvent.notNull()) { writer->WriteIdentifierPrefix(TEXT("GeneratePlayStreamEvent")); writer->WriteValue(GeneratePlayStreamEvent); }
+    if (GeneratePlayStreamEvent.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GeneratePlayStreamEvent"));
+        writer->WriteValue(GeneratePlayStreamEvent);
+    }
 
-    if (RevisionSelection.notNull()) { writer->WriteIdentifierPrefix(TEXT("RevisionSelection")); writeCloudScriptRevisionOptionEnumJSON(RevisionSelection, writer); }
+    if (RevisionSelection.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RevisionSelection"));
+        writeCloudScriptRevisionOptionEnumJSON(RevisionSelection, writer);
+    }
 
-    if (SpecificRevision.notNull()) { writer->WriteIdentifierPrefix(TEXT("SpecificRevision")); writer->WriteValue(SpecificRevision); }
+    if (SpecificRevision.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SpecificRevision"));
+        writer->WriteValue(SpecificRevision);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -3805,11 +4352,23 @@ void PlayFab::ClientModels::FScriptExecutionError::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (Error.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Error")); writer->WriteValue(Error); }
+    if (Error.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Error"));
+        writer->WriteValue(Error);
+    }
 
-    if (Message.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Message")); writer->WriteValue(Message); }
+    if (Message.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Message"));
+        writer->WriteValue(Message);
+    }
 
-    if (StackTrace.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StackTrace")); writer->WriteValue(StackTrace); }
+    if (StackTrace.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StackTrace"));
+        writer->WriteValue(StackTrace);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -3851,11 +4410,23 @@ void PlayFab::ClientModels::FLogStatement::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Data.notNull()) { writer->WriteIdentifierPrefix(TEXT("Data")); Data.writeJSON(writer); }
+    if (Data.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Data"));
+        Data.writeJSON(writer);
+    }
 
-    if (Level.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Level")); writer->WriteValue(Level); }
+    if (Level.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Level"));
+        writer->WriteValue(Level);
+    }
 
-    if (Message.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Message")); writer->WriteValue(Message); }
+    if (Message.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Message"));
+        writer->WriteValue(Message);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -3897,19 +4468,38 @@ void PlayFab::ClientModels::FExecuteCloudScriptResult::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("APIRequestsIssued")); writer->WriteValue(APIRequestsIssued);
+    writer->WriteIdentifierPrefix(TEXT("APIRequestsIssued"));
+    writer->WriteValue(APIRequestsIssued);
 
-    if (Error.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Error")); Error->writeJSON(writer); }
+    if (Error.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Error"));
+        Error->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ExecutionTimeSeconds")); writer->WriteValue(ExecutionTimeSeconds);
+    writer->WriteIdentifierPrefix(TEXT("ExecutionTimeSeconds"));
+    writer->WriteValue(ExecutionTimeSeconds);
 
-    if (FunctionName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FunctionName")); writer->WriteValue(FunctionName); }
+    if (FunctionName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionName"));
+        writer->WriteValue(FunctionName);
+    }
 
-    if (FunctionResult.notNull()) { writer->WriteIdentifierPrefix(TEXT("FunctionResult")); FunctionResult.writeJSON(writer); }
+    if (FunctionResult.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionResult"));
+        FunctionResult.writeJSON(writer);
+    }
 
-    if (FunctionResultTooLarge.notNull()) { writer->WriteIdentifierPrefix(TEXT("FunctionResultTooLarge")); writer->WriteValue(FunctionResultTooLarge); }
+    if (FunctionResultTooLarge.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionResultTooLarge"));
+        writer->WriteValue(FunctionResultTooLarge);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("HttpRequestsIssued")); writer->WriteValue(HttpRequestsIssued);
+    writer->WriteIdentifierPrefix(TEXT("HttpRequestsIssued"));
+    writer->WriteValue(HttpRequestsIssued);
 
     if (Logs.Num() != 0)
     {
@@ -3920,13 +4510,20 @@ void PlayFab::ClientModels::FExecuteCloudScriptResult::writeJSON(JsonWriter& wri
     }
 
 
-    if (LogsTooLarge.notNull()) { writer->WriteIdentifierPrefix(TEXT("LogsTooLarge")); writer->WriteValue(LogsTooLarge); }
+    if (LogsTooLarge.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LogsTooLarge"));
+        writer->WriteValue(LogsTooLarge);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("MemoryConsumedBytes")); writer->WriteValue(static_cast<int64>(MemoryConsumedBytes));
+    writer->WriteIdentifierPrefix(TEXT("MemoryConsumedBytes"));
+    writer->WriteValue(static_cast<int64>(MemoryConsumedBytes));
 
-    writer->WriteIdentifierPrefix(TEXT("ProcessorTimeSeconds")); writer->WriteValue(ProcessorTimeSeconds);
+    writer->WriteIdentifierPrefix(TEXT("ProcessorTimeSeconds"));
+    writer->WriteValue(ProcessorTimeSeconds);
 
-    writer->WriteIdentifierPrefix(TEXT("Revision")); writer->WriteValue(Revision);
+    writer->WriteIdentifierPrefix(TEXT("Revision"));
+    writer->WriteValue(Revision);
 
     writer->WriteObjectEnd();
 }
@@ -4030,9 +4627,17 @@ void PlayFab::ClientModels::FFacebookInstantGamesPlayFabIdPair::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    if (FacebookInstantGamesId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesId")); writer->WriteValue(FacebookInstantGamesId); }
+    if (FacebookInstantGamesId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesId"));
+        writer->WriteValue(FacebookInstantGamesId);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4067,9 +4672,17 @@ void PlayFab::ClientModels::FFacebookPlayFabIdPair::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (FacebookId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FacebookId")); writer->WriteValue(FacebookId); }
+    if (FacebookId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookId"));
+        writer->WriteValue(FacebookId);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4104,9 +4717,17 @@ void PlayFab::ClientModels::FUserFacebookInfo::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (FacebookId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FacebookId")); writer->WriteValue(FacebookId); }
+    if (FacebookId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookId"));
+        writer->WriteValue(FacebookId);
+    }
 
-    if (FullName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FullName")); writer->WriteValue(FullName); }
+    if (FullName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FullName"));
+        writer->WriteValue(FullName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4141,7 +4762,11 @@ void PlayFab::ClientModels::FUserGameCenterInfo::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (GameCenterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GameCenterId")); writer->WriteValue(GameCenterId); }
+    if (GameCenterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameCenterId"));
+        writer->WriteValue(GameCenterId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4239,13 +4864,29 @@ void PlayFab::ClientModels::FLinkedPlatformAccountModel::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (Email.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Email")); writer->WriteValue(Email); }
+    if (Email.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Email"));
+        writer->WriteValue(Email);
+    }
 
-    if (Platform.notNull()) { writer->WriteIdentifierPrefix(TEXT("Platform")); writeLoginIdentityProviderEnumJSON(Platform, writer); }
+    if (Platform.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Platform"));
+        writeLoginIdentityProviderEnumJSON(Platform, writer);
+    }
 
-    if (PlatformUserId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlatformUserId")); writer->WriteValue(PlatformUserId); }
+    if (PlatformUserId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlatformUserId"));
+        writer->WriteValue(PlatformUserId);
+    }
 
-    if (Username.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username); }
+    if (Username.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4289,15 +4930,35 @@ void PlayFab::ClientModels::FLocationModel::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (City.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("City")); writer->WriteValue(City); }
+    if (City.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("City"));
+        writer->WriteValue(City);
+    }
 
-    if (pfContinentCode.notNull()) { writer->WriteIdentifierPrefix(TEXT("ContinentCode")); writeContinentCodeEnumJSON(pfContinentCode, writer); }
+    if (pfContinentCode.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContinentCode"));
+        writeContinentCodeEnumJSON(pfContinentCode, writer);
+    }
 
-    if (pfCountryCode.notNull()) { writer->WriteIdentifierPrefix(TEXT("CountryCode")); writeCountryCodeEnumJSON(pfCountryCode, writer); }
+    if (pfCountryCode.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CountryCode"));
+        writeCountryCodeEnumJSON(pfCountryCode, writer);
+    }
 
-    if (Latitude.notNull()) { writer->WriteIdentifierPrefix(TEXT("Latitude")); writer->WriteValue(Latitude); }
+    if (Latitude.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Latitude"));
+        writer->WriteValue(Latitude);
+    }
 
-    if (Longitude.notNull()) { writer->WriteIdentifierPrefix(TEXT("Longitude")); writer->WriteValue(Longitude); }
+    if (Longitude.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Longitude"));
+        writer->WriteValue(Longitude);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4391,19 +5052,38 @@ void PlayFab::ClientModels::FSubscriptionModel::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Expiration")); writeDatetime(Expiration, writer);
+    writer->WriteIdentifierPrefix(TEXT("Expiration"));
+    writeDatetime(Expiration, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("InitialSubscriptionTime")); writeDatetime(InitialSubscriptionTime, writer);
+    writer->WriteIdentifierPrefix(TEXT("InitialSubscriptionTime"));
+    writeDatetime(InitialSubscriptionTime, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("IsActive")); writer->WriteValue(IsActive);
+    writer->WriteIdentifierPrefix(TEXT("IsActive"));
+    writer->WriteValue(IsActive);
 
-    if (Status.notNull()) { writer->WriteIdentifierPrefix(TEXT("Status")); writeSubscriptionProviderStatusEnumJSON(Status, writer); }
+    if (Status.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Status"));
+        writeSubscriptionProviderStatusEnumJSON(Status, writer);
+    }
 
-    if (SubscriptionId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SubscriptionId")); writer->WriteValue(SubscriptionId); }
+    if (SubscriptionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SubscriptionId"));
+        writer->WriteValue(SubscriptionId);
+    }
 
-    if (SubscriptionItemId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SubscriptionItemId")); writer->WriteValue(SubscriptionItemId); }
+    if (SubscriptionItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SubscriptionItemId"));
+        writer->WriteValue(SubscriptionItemId);
+    }
 
-    if (SubscriptionProvider.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SubscriptionProvider")); writer->WriteValue(SubscriptionProvider); }
+    if (SubscriptionProvider.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SubscriptionProvider"));
+        writer->WriteValue(SubscriptionProvider);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4464,15 +5144,29 @@ void PlayFab::ClientModels::FMembershipModel::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("IsActive")); writer->WriteValue(IsActive);
+    writer->WriteIdentifierPrefix(TEXT("IsActive"));
+    writer->WriteValue(IsActive);
 
-    writer->WriteIdentifierPrefix(TEXT("MembershipExpiration")); writeDatetime(MembershipExpiration, writer);
+    writer->WriteIdentifierPrefix(TEXT("MembershipExpiration"));
+    writeDatetime(MembershipExpiration, writer);
 
-    if (MembershipId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MembershipId")); writer->WriteValue(MembershipId); }
+    if (MembershipId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MembershipId"));
+        writer->WriteValue(MembershipId);
+    }
 
-    if (OverrideExpiration.notNull()) { writer->WriteIdentifierPrefix(TEXT("OverrideExpiration")); writeDatetime(OverrideExpiration, writer); }
+    if (OverrideExpiration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OverrideExpiration"));
+        writeDatetime(OverrideExpiration, writer);
+    }
 
-    if (OverrideIsSet.notNull()) { writer->WriteIdentifierPrefix(TEXT("OverrideIsSet")); writer->WriteValue(OverrideIsSet); }
+    if (OverrideIsSet.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OverrideIsSet"));
+        writer->WriteValue(OverrideIsSet);
+    }
 
     if (Subscriptions.Num() != 0)
     {
@@ -4577,9 +5271,17 @@ void PlayFab::ClientModels::FPushNotificationRegistrationModel::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    if (NotificationEndpointARN.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NotificationEndpointARN")); writer->WriteValue(NotificationEndpointARN); }
+    if (NotificationEndpointARN.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NotificationEndpointARN"));
+        writer->WriteValue(NotificationEndpointARN);
+    }
 
-    if (Platform.notNull()) { writer->WriteIdentifierPrefix(TEXT("Platform")); writePushNotificationPlatformEnumJSON(Platform, writer); }
+    if (Platform.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Platform"));
+        writePushNotificationPlatformEnumJSON(Platform, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4609,11 +5311,17 @@ void PlayFab::ClientModels::FStatisticModel::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Name.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name); }
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value);
+    writer->WriteIdentifierPrefix(TEXT("Value"));
+    writer->WriteValue(Value);
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version);
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(Version);
 
     writer->WriteObjectEnd();
 }
@@ -4655,7 +5363,11 @@ void PlayFab::ClientModels::FTagModel::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (TagValue.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TagValue")); writer->WriteValue(TagValue); }
+    if (TagValue.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TagValue"));
+        writer->WriteValue(TagValue);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4683,11 +5395,20 @@ void PlayFab::ClientModels::FValueToDateModel::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (Currency.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Currency")); writer->WriteValue(Currency); }
+    if (Currency.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Currency"));
+        writer->WriteValue(Currency);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TotalValue")); writer->WriteValue(static_cast<int64>(TotalValue));
+    writer->WriteIdentifierPrefix(TEXT("TotalValue"));
+    writer->WriteValue(static_cast<int64>(TotalValue));
 
-    if (TotalValueAsDecimal.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TotalValueAsDecimal")); writer->WriteValue(TotalValueAsDecimal); }
+    if (TotalValueAsDecimal.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TotalValueAsDecimal"));
+        writer->WriteValue(TotalValueAsDecimal);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -4738,9 +5459,17 @@ void PlayFab::ClientModels::FPlayerProfileModel::writeJSON(JsonWriter& writer) c
     }
 
 
-    if (AvatarUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AvatarUrl")); writer->WriteValue(AvatarUrl); }
+    if (AvatarUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AvatarUrl"));
+        writer->WriteValue(AvatarUrl);
+    }
 
-    if (BannedUntil.notNull()) { writer->WriteIdentifierPrefix(TEXT("BannedUntil")); writeDatetime(BannedUntil, writer); }
+    if (BannedUntil.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("BannedUntil"));
+        writeDatetime(BannedUntil, writer);
+    }
 
     if (ContactEmailAddresses.Num() != 0)
     {
@@ -4751,11 +5480,32 @@ void PlayFab::ClientModels::FPlayerProfileModel::writeJSON(JsonWriter& writer) c
     }
 
 
-    if (Created.notNull()) { writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer); }
+    if (Created.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Created"));
+        writeDatetime(Created, writer);
+    }
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (LastLogin.notNull()) { writer->WriteIdentifierPrefix(TEXT("LastLogin")); writeDatetime(LastLogin, writer); }
+    if (ExperimentVariants.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ExperimentVariants"));
+        for (const FString& item : ExperimentVariants)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (LastLogin.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastLogin"));
+        writeDatetime(LastLogin, writer);
+    }
 
     if (LinkedAccounts.Num() != 0)
     {
@@ -4784,11 +5534,23 @@ void PlayFab::ClientModels::FPlayerProfileModel::writeJSON(JsonWriter& writer) c
     }
 
 
-    if (Origination.notNull()) { writer->WriteIdentifierPrefix(TEXT("Origination")); writeLoginIdentityProviderEnumJSON(Origination, writer); }
+    if (Origination.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Origination"));
+        writeLoginIdentityProviderEnumJSON(Origination, writer);
+    }
 
-    if (PlayerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerId")); writer->WriteValue(PlayerId); }
+    if (PlayerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerId"));
+        writer->WriteValue(PlayerId);
+    }
 
-    if (PublisherId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PublisherId")); writer->WriteValue(PublisherId); }
+    if (PublisherId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublisherId"));
+        writer->WriteValue(PublisherId);
+    }
 
     if (PushNotificationRegistrations.Num() != 0)
     {
@@ -4817,9 +5579,17 @@ void PlayFab::ClientModels::FPlayerProfileModel::writeJSON(JsonWriter& writer) c
     }
 
 
-    if (TitleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId); }
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    if (TotalValueToDateInUSD.notNull()) { writer->WriteIdentifierPrefix(TEXT("TotalValueToDateInUSD")); writer->WriteValue(static_cast<int64>(TotalValueToDateInUSD)); }
+    if (TotalValueToDateInUSD.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TotalValueToDateInUSD"));
+        writer->WriteValue(static_cast<int64>(TotalValueToDateInUSD));
+    }
 
     if (ValuesToDate.Num() != 0)
     {
@@ -4876,6 +5646,8 @@ bool PlayFab::ClientModels::FPlayerProfileModel::readFromValue(const TSharedPtr<
         FString TmpValue;
         if (DisplayNameValue->TryGetString(TmpValue)) { DisplayName = TmpValue; }
     }
+
+    obj->TryGetStringArrayField(TEXT("ExperimentVariants"), ExperimentVariants);
 
     const TSharedPtr<FJsonValue> LastLoginValue = obj->TryGetField(TEXT("LastLogin"));
     if (LastLoginValue.IsValid())
@@ -4980,9 +5752,17 @@ void PlayFab::ClientModels::FUserPsnInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (PsnAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PsnAccountId")); writer->WriteValue(PsnAccountId); }
+    if (PsnAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PsnAccountId"));
+        writer->WriteValue(PsnAccountId);
+    }
 
-    if (PsnOnlineId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PsnOnlineId")); writer->WriteValue(PsnOnlineId); }
+    if (PsnOnlineId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PsnOnlineId"));
+        writer->WriteValue(PsnOnlineId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5059,15 +5839,35 @@ void PlayFab::ClientModels::FUserSteamInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (SteamActivationStatus.notNull()) { writer->WriteIdentifierPrefix(TEXT("SteamActivationStatus")); writeTitleActivationStatusEnumJSON(SteamActivationStatus, writer); }
+    if (SteamActivationStatus.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamActivationStatus"));
+        writeTitleActivationStatusEnumJSON(SteamActivationStatus, writer);
+    }
 
-    if (SteamCountry.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamCountry")); writer->WriteValue(SteamCountry); }
+    if (SteamCountry.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamCountry"));
+        writer->WriteValue(SteamCountry);
+    }
 
-    if (SteamCurrency.notNull()) { writer->WriteIdentifierPrefix(TEXT("SteamCurrency")); writeCurrencyEnumJSON(SteamCurrency, writer); }
+    if (SteamCurrency.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamCurrency"));
+        writeCurrencyEnumJSON(SteamCurrency, writer);
+    }
 
-    if (SteamId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamId")); writer->WriteValue(SteamId); }
+    if (SteamId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamId"));
+        writer->WriteValue(SteamId);
+    }
 
-    if (SteamName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamName")); writer->WriteValue(SteamName); }
+    if (SteamName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamName"));
+        writer->WriteValue(SteamName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5113,7 +5913,11 @@ void PlayFab::ClientModels::FUserXboxInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (XboxUserId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("XboxUserId")); writer->WriteValue(XboxUserId); }
+    if (XboxUserId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxUserId"));
+        writer->WriteValue(XboxUserId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5147,17 +5951,41 @@ void PlayFab::ClientModels::FFriendInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (FacebookInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("FacebookInfo")); FacebookInfo->writeJSON(writer); }
+    if (FacebookInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInfo"));
+        FacebookInfo->writeJSON(writer);
+    }
 
-    if (FriendPlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId")); writer->WriteValue(FriendPlayFabId); }
+    if (FriendPlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId"));
+        writer->WriteValue(FriendPlayFabId);
+    }
 
-    if (GameCenterInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("GameCenterInfo")); GameCenterInfo->writeJSON(writer); }
+    if (GameCenterInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameCenterInfo"));
+        GameCenterInfo->writeJSON(writer);
+    }
 
-    if (Profile.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Profile")); Profile->writeJSON(writer); }
+    if (Profile.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Profile"));
+        Profile->writeJSON(writer);
+    }
 
-    if (PSNInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("PSNInfo")); PSNInfo->writeJSON(writer); }
+    if (PSNInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PSNInfo"));
+        PSNInfo->writeJSON(writer);
+    }
 
-    if (SteamInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("SteamInfo")); SteamInfo->writeJSON(writer); }
+    if (SteamInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamInfo"));
+        SteamInfo->writeJSON(writer);
+    }
 
     if (Tags.Num() != 0)
     {
@@ -5168,11 +5996,23 @@ void PlayFab::ClientModels::FFriendInfo::writeJSON(JsonWriter& writer) const
     }
 
 
-    if (TitleDisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleDisplayName")); writer->WriteValue(TitleDisplayName); }
+    if (TitleDisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleDisplayName"));
+        writer->WriteValue(TitleDisplayName);
+    }
 
-    if (Username.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username); }
+    if (Username.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
-    if (XboxInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("XboxInfo")); XboxInfo->writeJSON(writer); }
+    if (XboxInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxInfo"));
+        XboxInfo->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5252,9 +6092,17 @@ void PlayFab::ClientModels::FGameCenterPlayFabIdPair::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (GameCenterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GameCenterId")); writer->WriteValue(GameCenterId); }
+    if (GameCenterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameCenterId"));
+        writer->WriteValue(GameCenterId);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5289,9 +6137,21 @@ void PlayFab::ClientModels::FGameServerRegionsRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("BuildVersion")); writer->WriteValue(BuildVersion);
+    if (!BuildVersion.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GameServerRegionsRequest::BuildVersion, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildVersion"));
+        writer->WriteValue(BuildVersion);
+    }
 
-    if (TitleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId); }
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5326,13 +6186,26 @@ void PlayFab::ClientModels::FRegionInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Available")); writer->WriteValue(Available);
+    writer->WriteIdentifierPrefix(TEXT("Available"));
+    writer->WriteValue(Available);
 
-    if (Name.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name); }
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
 
-    if (PingUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PingUrl")); writer->WriteValue(PingUrl); }
+    if (PingUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PingUrl"));
+        writer->WriteValue(PingUrl);
+    }
 
-    if (pfRegion.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeRegionEnumJSON(pfRegion, writer); }
+    if (pfRegion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writeRegionEnumJSON(pfRegion, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5413,9 +6286,17 @@ void PlayFab::ClientModels::FGenericPlayFabIdPair::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (GenericId.IsValid()) { writer->WriteIdentifierPrefix(TEXT("GenericId")); GenericId->writeJSON(writer); }
+    if (GenericId.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GenericId"));
+        GenericId->writeJSON(writer);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5449,13 +6330,29 @@ void PlayFab::ClientModels::FGetAccountInfoRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (Email.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Email")); writer->WriteValue(Email); }
+    if (Email.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Email"));
+        writer->WriteValue(Email);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (TitleDisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TitleDisplayName")); writer->WriteValue(TitleDisplayName); }
+    if (TitleDisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleDisplayName"));
+        writer->WriteValue(TitleDisplayName);
+    }
 
-    if (Username.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username); }
+    if (Username.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5504,7 +6401,11 @@ void PlayFab::ClientModels::FUserAndroidDeviceInfo::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (AndroidDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId")); writer->WriteValue(AndroidDeviceId); }
+    if (AndroidDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId"));
+        writer->WriteValue(AndroidDeviceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5532,7 +6433,11 @@ void PlayFab::ClientModels::FUserCustomIdInfo::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (CustomId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CustomId")); writer->WriteValue(CustomId); }
+    if (CustomId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomId"));
+        writer->WriteValue(CustomId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5560,7 +6465,11 @@ void PlayFab::ClientModels::FUserFacebookInstantGamesIdInfo::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (FacebookInstantGamesId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesId")); writer->WriteValue(FacebookInstantGamesId); }
+    if (FacebookInstantGamesId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesId"));
+        writer->WriteValue(FacebookInstantGamesId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5588,15 +6497,35 @@ void PlayFab::ClientModels::FUserGoogleInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (GoogleEmail.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleEmail")); writer->WriteValue(GoogleEmail); }
+    if (GoogleEmail.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GoogleEmail"));
+        writer->WriteValue(GoogleEmail);
+    }
 
-    if (GoogleGender.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleGender")); writer->WriteValue(GoogleGender); }
+    if (GoogleGender.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GoogleGender"));
+        writer->WriteValue(GoogleGender);
+    }
 
-    if (GoogleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleId")); writer->WriteValue(GoogleId); }
+    if (GoogleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GoogleId"));
+        writer->WriteValue(GoogleId);
+    }
 
-    if (GoogleLocale.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleLocale")); writer->WriteValue(GoogleLocale); }
+    if (GoogleLocale.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GoogleLocale"));
+        writer->WriteValue(GoogleLocale);
+    }
 
-    if (GoogleName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleName")); writer->WriteValue(GoogleName); }
+    if (GoogleName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GoogleName"));
+        writer->WriteValue(GoogleName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5652,7 +6581,11 @@ void PlayFab::ClientModels::FUserIosDeviceInfo::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (IosDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("IosDeviceId")); writer->WriteValue(IosDeviceId); }
+    if (IosDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IosDeviceId"));
+        writer->WriteValue(IosDeviceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5680,9 +6613,17 @@ void PlayFab::ClientModels::FUserKongregateInfo::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (KongregateId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("KongregateId")); writer->WriteValue(KongregateId); }
+    if (KongregateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KongregateId"));
+        writer->WriteValue(KongregateId);
+    }
 
-    if (KongregateName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("KongregateName")); writer->WriteValue(KongregateName); }
+    if (KongregateName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KongregateName"));
+        writer->WriteValue(KongregateName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5717,7 +6658,11 @@ void PlayFab::ClientModels::FUserNintendoSwitchDeviceIdInfo::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (NintendoSwitchDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId")); writer->WriteValue(NintendoSwitchDeviceId); }
+    if (NintendoSwitchDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
+        writer->WriteValue(NintendoSwitchDeviceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5745,11 +6690,23 @@ void PlayFab::ClientModels::FUserOpenIdInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (ConnectionId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId); }
+    if (ConnectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionId"));
+        writer->WriteValue(ConnectionId);
+    }
 
-    if (Issuer.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Issuer")); writer->WriteValue(Issuer); }
+    if (Issuer.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Issuer"));
+        writer->WriteValue(Issuer);
+    }
 
-    if (Subject.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Subject")); writer->WriteValue(Subject); }
+    if (Subject.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Subject"));
+        writer->WriteValue(Subject);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5791,7 +6748,11 @@ void PlayFab::ClientModels::FUserPrivateAccountInfo::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (Email.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Email")); writer->WriteValue(Email); }
+    if (Email.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Email"));
+        writer->WriteValue(Email);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5896,21 +6857,50 @@ void PlayFab::ClientModels::FUserTitleInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (AvatarUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AvatarUrl")); writer->WriteValue(AvatarUrl); }
+    if (AvatarUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AvatarUrl"));
+        writer->WriteValue(AvatarUrl);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writeDatetime(Created, writer);
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (FirstLogin.notNull()) { writer->WriteIdentifierPrefix(TEXT("FirstLogin")); writeDatetime(FirstLogin, writer); }
+    if (FirstLogin.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FirstLogin"));
+        writeDatetime(FirstLogin, writer);
+    }
 
-    if (isBanned.notNull()) { writer->WriteIdentifierPrefix(TEXT("isBanned")); writer->WriteValue(isBanned); }
+    if (isBanned.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("isBanned"));
+        writer->WriteValue(isBanned);
+    }
 
-    if (LastLogin.notNull()) { writer->WriteIdentifierPrefix(TEXT("LastLogin")); writeDatetime(LastLogin, writer); }
+    if (LastLogin.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastLogin"));
+        writeDatetime(LastLogin, writer);
+    }
 
-    if (Origination.notNull()) { writer->WriteIdentifierPrefix(TEXT("Origination")); writeUserOriginationEnumJSON(Origination, writer); }
+    if (Origination.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Origination"));
+        writeUserOriginationEnumJSON(Origination, writer);
+    }
 
-    if (TitlePlayerAccount.IsValid()) { writer->WriteIdentifierPrefix(TEXT("TitlePlayerAccount")); TitlePlayerAccount->writeJSON(writer); }
+    if (TitlePlayerAccount.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitlePlayerAccount"));
+        TitlePlayerAccount->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -5975,9 +6965,17 @@ void PlayFab::ClientModels::FUserTwitchInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (TwitchId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TwitchId")); writer->WriteValue(TwitchId); }
+    if (TwitchId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TwitchId"));
+        writer->WriteValue(TwitchId);
+    }
 
-    if (TwitchUserName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TwitchUserName")); writer->WriteValue(TwitchUserName); }
+    if (TwitchUserName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TwitchUserName"));
+        writer->WriteValue(TwitchUserName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6012,9 +7010,17 @@ void PlayFab::ClientModels::FUserWindowsHelloInfo::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (WindowsHelloDeviceName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("WindowsHelloDeviceName")); writer->WriteValue(WindowsHelloDeviceName); }
+    if (WindowsHelloDeviceName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("WindowsHelloDeviceName"));
+        writer->WriteValue(WindowsHelloDeviceName);
+    }
 
-    if (WindowsHelloPublicKeyHash.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("WindowsHelloPublicKeyHash")); writer->WriteValue(WindowsHelloPublicKeyHash); }
+    if (WindowsHelloPublicKeyHash.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("WindowsHelloPublicKeyHash"));
+        writer->WriteValue(WindowsHelloPublicKeyHash);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6065,25 +7071,62 @@ void PlayFab::ClientModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    if (AndroidDeviceInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("AndroidDeviceInfo")); AndroidDeviceInfo->writeJSON(writer); }
+    if (AndroidDeviceInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDeviceInfo"));
+        AndroidDeviceInfo->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writeDatetime(Created, writer);
 
-    if (CustomIdInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("CustomIdInfo")); CustomIdInfo->writeJSON(writer); }
+    if (CustomIdInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomIdInfo"));
+        CustomIdInfo->writeJSON(writer);
+    }
 
-    if (FacebookInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("FacebookInfo")); FacebookInfo->writeJSON(writer); }
+    if (FacebookInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInfo"));
+        FacebookInfo->writeJSON(writer);
+    }
 
-    if (FacebookInstantGamesIdInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesIdInfo")); FacebookInstantGamesIdInfo->writeJSON(writer); }
+    if (FacebookInstantGamesIdInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesIdInfo"));
+        FacebookInstantGamesIdInfo->writeJSON(writer);
+    }
 
-    if (GameCenterInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("GameCenterInfo")); GameCenterInfo->writeJSON(writer); }
+    if (GameCenterInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameCenterInfo"));
+        GameCenterInfo->writeJSON(writer);
+    }
 
-    if (GoogleInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("GoogleInfo")); GoogleInfo->writeJSON(writer); }
+    if (GoogleInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GoogleInfo"));
+        GoogleInfo->writeJSON(writer);
+    }
 
-    if (IosDeviceInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("IosDeviceInfo")); IosDeviceInfo->writeJSON(writer); }
+    if (IosDeviceInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IosDeviceInfo"));
+        IosDeviceInfo->writeJSON(writer);
+    }
 
-    if (KongregateInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("KongregateInfo")); KongregateInfo->writeJSON(writer); }
+    if (KongregateInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("KongregateInfo"));
+        KongregateInfo->writeJSON(writer);
+    }
 
-    if (NintendoSwitchDeviceIdInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceIdInfo")); NintendoSwitchDeviceIdInfo->writeJSON(writer); }
+    if (NintendoSwitchDeviceIdInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceIdInfo"));
+        NintendoSwitchDeviceIdInfo->writeJSON(writer);
+    }
 
     if (OpenIdInfo.Num() != 0)
     {
@@ -6094,23 +7137,59 @@ void PlayFab::ClientModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
     }
 
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (PrivateInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("PrivateInfo")); PrivateInfo->writeJSON(writer); }
+    if (PrivateInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PrivateInfo"));
+        PrivateInfo->writeJSON(writer);
+    }
 
-    if (PsnInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("PsnInfo")); PsnInfo->writeJSON(writer); }
+    if (PsnInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PsnInfo"));
+        PsnInfo->writeJSON(writer);
+    }
 
-    if (SteamInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("SteamInfo")); SteamInfo->writeJSON(writer); }
+    if (SteamInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamInfo"));
+        SteamInfo->writeJSON(writer);
+    }
 
-    if (TitleInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("TitleInfo")); TitleInfo->writeJSON(writer); }
+    if (TitleInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleInfo"));
+        TitleInfo->writeJSON(writer);
+    }
 
-    if (TwitchInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("TwitchInfo")); TwitchInfo->writeJSON(writer); }
+    if (TwitchInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TwitchInfo"));
+        TwitchInfo->writeJSON(writer);
+    }
 
-    if (Username.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username); }
+    if (Username.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
-    if (WindowsHelloInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("WindowsHelloInfo")); WindowsHelloInfo->writeJSON(writer); }
+    if (WindowsHelloInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("WindowsHelloInfo"));
+        WindowsHelloInfo->writeJSON(writer);
+    }
 
-    if (XboxInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("XboxInfo")); XboxInfo->writeJSON(writer); }
+    if (XboxInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxInfo"));
+        XboxInfo->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6255,7 +7334,11 @@ void PlayFab::ClientModels::FGetAccountInfoResult::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (AccountInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("AccountInfo")); AccountInfo->writeJSON(writer); }
+    if (AccountInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccountInfo"));
+        AccountInfo->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6282,7 +7365,11 @@ void PlayFab::ClientModels::FGetCatalogItemsRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6346,9 +7433,21 @@ void PlayFab::ClientModels::FGetCharacterDataRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId);
+    if (!CharacterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetCharacterDataRequest::CharacterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (IfChangedFromDataVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("IfChangedFromDataVersion")); writer->WriteValue(static_cast<int64>(IfChangedFromDataVersion)); }
+    if (IfChangedFromDataVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IfChangedFromDataVersion"));
+        writer->WriteValue(static_cast<int64>(IfChangedFromDataVersion));
+    }
 
     if (Keys.Num() != 0)
     {
@@ -6359,7 +7458,11 @@ void PlayFab::ClientModels::FGetCharacterDataRequest::writeJSON(JsonWriter& writ
     }
 
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6439,11 +7542,20 @@ void PlayFab::ClientModels::FUserDataRecord::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("LastUpdated")); writeDatetime(LastUpdated, writer);
+    writer->WriteIdentifierPrefix(TEXT("LastUpdated"));
+    writeDatetime(LastUpdated, writer);
 
-    if (Permission.notNull()) { writer->WriteIdentifierPrefix(TEXT("Permission")); writeUserDataPermissionEnumJSON(Permission, writer); }
+    if (Permission.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Permission"));
+        writeUserDataPermissionEnumJSON(Permission, writer);
+    }
 
-    if (Value.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value); }
+    if (Value.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        writer->WriteValue(Value);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6478,7 +7590,11 @@ void PlayFab::ClientModels::FGetCharacterDataResult::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
     if (Data.Num() != 0)
     {
@@ -6491,7 +7607,8 @@ void PlayFab::ClientModels::FGetCharacterDataResult::writeJSON(JsonWriter& write
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("DataVersion")); writer->WriteValue(static_cast<int64>(DataVersion));
+    writer->WriteIdentifierPrefix(TEXT("DataVersion"));
+    writer->WriteValue(static_cast<int64>(DataVersion));
 
     writer->WriteObjectEnd();
 }
@@ -6535,9 +7652,21 @@ void PlayFab::ClientModels::FGetCharacterInventoryRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId);
+    if (!CharacterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetCharacterInventoryRequest::CharacterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6572,11 +7701,14 @@ void PlayFab::ClientModels::FVirtualCurrencyRechargeTime::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("RechargeMax")); writer->WriteValue(RechargeMax);
+    writer->WriteIdentifierPrefix(TEXT("RechargeMax"));
+    writer->WriteValue(RechargeMax);
 
-    writer->WriteIdentifierPrefix(TEXT("RechargeTime")); writeDatetime(RechargeTime, writer);
+    writer->WriteIdentifierPrefix(TEXT("RechargeTime"));
+    writeDatetime(RechargeTime, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("SecondsToRecharge")); writer->WriteValue(SecondsToRecharge);
+    writer->WriteIdentifierPrefix(TEXT("SecondsToRecharge"));
+    writer->WriteValue(SecondsToRecharge);
 
     writer->WriteObjectEnd();
 }
@@ -6616,7 +7748,11 @@ void PlayFab::ClientModels::FGetCharacterInventoryResult::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
     if (Inventory.Num() != 0)
     {
@@ -6702,13 +7838,30 @@ void PlayFab::ClientModels::FGetCharacterLeaderboardRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (CharacterType.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterType")); writer->WriteValue(CharacterType); }
+    if (CharacterType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterType"));
+        writer->WriteValue(CharacterType);
+    }
 
-    if (MaxResultsCount.notNull()) { writer->WriteIdentifierPrefix(TEXT("MaxResultsCount")); writer->WriteValue(MaxResultsCount); }
+    if (MaxResultsCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+        writer->WriteValue(MaxResultsCount);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StartPosition")); writer->WriteValue(StartPosition);
+    writer->WriteIdentifierPrefix(TEXT("StartPosition"));
+    writer->WriteValue(StartPosition);
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetCharacterLeaderboardRequest::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6793,7 +7946,15 @@ void PlayFab::ClientModels::FGetCharacterStatisticsRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId);
+    if (!CharacterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetCharacterStatisticsRequest::CharacterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6861,11 +8022,27 @@ void PlayFab::ClientModels::FGetContentDownloadUrlRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (HttpMethod.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("HttpMethod")); writer->WriteValue(HttpMethod); }
+    if (HttpMethod.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("HttpMethod"));
+        writer->WriteValue(HttpMethod);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Key")); writer->WriteValue(Key);
+    if (!Key.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetContentDownloadUrlRequest::Key, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Key"));
+        writer->WriteValue(Key);
+    }
 
-    if (ThruCDN.notNull()) { writer->WriteIdentifierPrefix(TEXT("ThruCDN")); writer->WriteValue(ThruCDN); }
+    if (ThruCDN.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ThruCDN"));
+        writer->WriteValue(ThruCDN);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6907,7 +8084,11 @@ void PlayFab::ClientModels::FGetContentDownloadUrlResult::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (URL.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("URL")); writer->WriteValue(URL); }
+    if (URL.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("URL"));
+        writer->WriteValue(URL);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -6935,37 +8116,56 @@ void PlayFab::ClientModels::FPlayerProfileViewConstraints::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ShowAvatarUrl")); writer->WriteValue(ShowAvatarUrl);
+    writer->WriteIdentifierPrefix(TEXT("ShowAvatarUrl"));
+    writer->WriteValue(ShowAvatarUrl);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowBannedUntil")); writer->WriteValue(ShowBannedUntil);
+    writer->WriteIdentifierPrefix(TEXT("ShowBannedUntil"));
+    writer->WriteValue(ShowBannedUntil);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowCampaignAttributions")); writer->WriteValue(ShowCampaignAttributions);
+    writer->WriteIdentifierPrefix(TEXT("ShowCampaignAttributions"));
+    writer->WriteValue(ShowCampaignAttributions);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowContactEmailAddresses")); writer->WriteValue(ShowContactEmailAddresses);
+    writer->WriteIdentifierPrefix(TEXT("ShowContactEmailAddresses"));
+    writer->WriteValue(ShowContactEmailAddresses);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowCreated")); writer->WriteValue(ShowCreated);
+    writer->WriteIdentifierPrefix(TEXT("ShowCreated"));
+    writer->WriteValue(ShowCreated);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowDisplayName")); writer->WriteValue(ShowDisplayName);
+    writer->WriteIdentifierPrefix(TEXT("ShowDisplayName"));
+    writer->WriteValue(ShowDisplayName);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowLastLogin")); writer->WriteValue(ShowLastLogin);
+    writer->WriteIdentifierPrefix(TEXT("ShowExperimentVariants"));
+    writer->WriteValue(ShowExperimentVariants);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowLinkedAccounts")); writer->WriteValue(ShowLinkedAccounts);
+    writer->WriteIdentifierPrefix(TEXT("ShowLastLogin"));
+    writer->WriteValue(ShowLastLogin);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowLocations")); writer->WriteValue(ShowLocations);
+    writer->WriteIdentifierPrefix(TEXT("ShowLinkedAccounts"));
+    writer->WriteValue(ShowLinkedAccounts);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowMemberships")); writer->WriteValue(ShowMemberships);
+    writer->WriteIdentifierPrefix(TEXT("ShowLocations"));
+    writer->WriteValue(ShowLocations);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowOrigination")); writer->WriteValue(ShowOrigination);
+    writer->WriteIdentifierPrefix(TEXT("ShowMemberships"));
+    writer->WriteValue(ShowMemberships);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowPushNotificationRegistrations")); writer->WriteValue(ShowPushNotificationRegistrations);
+    writer->WriteIdentifierPrefix(TEXT("ShowOrigination"));
+    writer->WriteValue(ShowOrigination);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowStatistics")); writer->WriteValue(ShowStatistics);
+    writer->WriteIdentifierPrefix(TEXT("ShowPushNotificationRegistrations"));
+    writer->WriteValue(ShowPushNotificationRegistrations);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowTags")); writer->WriteValue(ShowTags);
+    writer->WriteIdentifierPrefix(TEXT("ShowStatistics"));
+    writer->WriteValue(ShowStatistics);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowTotalValueToDateInUsd")); writer->WriteValue(ShowTotalValueToDateInUsd);
+    writer->WriteIdentifierPrefix(TEXT("ShowTags"));
+    writer->WriteValue(ShowTags);
 
-    writer->WriteIdentifierPrefix(TEXT("ShowValuesToDate")); writer->WriteValue(ShowValuesToDate);
+    writer->WriteIdentifierPrefix(TEXT("ShowTotalValueToDateInUsd"));
+    writer->WriteValue(ShowTotalValueToDateInUsd);
+
+    writer->WriteIdentifierPrefix(TEXT("ShowValuesToDate"));
+    writer->WriteValue(ShowValuesToDate);
 
     writer->WriteObjectEnd();
 }
@@ -7014,6 +8214,13 @@ bool PlayFab::ClientModels::FPlayerProfileViewConstraints::readFromValue(const T
     {
         bool TmpValue;
         if (ShowDisplayNameValue->TryGetBool(TmpValue)) { ShowDisplayName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ShowExperimentVariantsValue = obj->TryGetField(TEXT("ShowExperimentVariants"));
+    if (ShowExperimentVariantsValue.IsValid() && !ShowExperimentVariantsValue->IsNull())
+    {
+        bool TmpValue;
+        if (ShowExperimentVariantsValue->TryGetBool(TmpValue)) { ShowExperimentVariants = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ShowLastLoginValue = obj->TryGetField(TEXT("ShowLastLogin"));
@@ -7099,23 +8306,63 @@ void PlayFab::ClientModels::FGetFriendLeaderboardAroundPlayerRequest::writeJSON(
 {
     writer->WriteObjectStart();
 
-    if (IncludeFacebookFriends.notNull()) { writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends")); writer->WriteValue(IncludeFacebookFriends); }
+    if (IncludeFacebookFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
+        writer->WriteValue(IncludeFacebookFriends);
+    }
 
-    if (IncludeSteamFriends.notNull()) { writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends")); writer->WriteValue(IncludeSteamFriends); }
+    if (IncludeSteamFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends"));
+        writer->WriteValue(IncludeSteamFriends);
+    }
 
-    if (MaxResultsCount.notNull()) { writer->WriteIdentifierPrefix(TEXT("MaxResultsCount")); writer->WriteValue(MaxResultsCount); }
+    if (MaxResultsCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+        writer->WriteValue(MaxResultsCount);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (ProfileConstraints.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ProfileConstraints")); ProfileConstraints->writeJSON(writer); }
+    if (ProfileConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
+        ProfileConstraints->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetFriendLeaderboardAroundPlayerRequest::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    if (UseSpecificVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion")); writer->WriteValue(UseSpecificVersion); }
+    if (UseSpecificVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion"));
+        writer->WriteValue(UseSpecificVersion);
+    }
 
-    if (Version.notNull()) { writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version); }
+    if (Version.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Version"));
+        writer->WriteValue(Version);
+    }
 
-    if (XboxToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken); }
+    if (XboxToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7199,15 +8446,29 @@ void PlayFab::ClientModels::FPlayerLeaderboardEntry::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Position")); writer->WriteValue(Position);
+    writer->WriteIdentifierPrefix(TEXT("Position"));
+    writer->WriteValue(Position);
 
-    if (Profile.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Profile")); Profile->writeJSON(writer); }
+    if (Profile.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Profile"));
+        Profile->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StatValue")); writer->WriteValue(StatValue);
+    writer->WriteIdentifierPrefix(TEXT("StatValue"));
+    writer->WriteValue(StatValue);
 
     writer->WriteObjectEnd();
 }
@@ -7271,9 +8532,14 @@ void PlayFab::ClientModels::FGetFriendLeaderboardAroundPlayerResult::writeJSON(J
     }
 
 
-    if (NextReset.notNull()) { writer->WriteIdentifierPrefix(TEXT("NextReset")); writeDatetime(NextReset, writer); }
+    if (NextReset.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NextReset"));
+        writeDatetime(NextReset, writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version);
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(Version);
 
     writer->WriteObjectEnd();
 }
@@ -7315,23 +8581,60 @@ void PlayFab::ClientModels::FGetFriendLeaderboardRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (IncludeFacebookFriends.notNull()) { writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends")); writer->WriteValue(IncludeFacebookFriends); }
+    if (IncludeFacebookFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
+        writer->WriteValue(IncludeFacebookFriends);
+    }
 
-    if (IncludeSteamFriends.notNull()) { writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends")); writer->WriteValue(IncludeSteamFriends); }
+    if (IncludeSteamFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends"));
+        writer->WriteValue(IncludeSteamFriends);
+    }
 
-    if (MaxResultsCount.notNull()) { writer->WriteIdentifierPrefix(TEXT("MaxResultsCount")); writer->WriteValue(MaxResultsCount); }
+    if (MaxResultsCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+        writer->WriteValue(MaxResultsCount);
+    }
 
-    if (ProfileConstraints.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ProfileConstraints")); ProfileConstraints->writeJSON(writer); }
+    if (ProfileConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
+        ProfileConstraints->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StartPosition")); writer->WriteValue(StartPosition);
+    writer->WriteIdentifierPrefix(TEXT("StartPosition"));
+    writer->WriteValue(StartPosition);
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetFriendLeaderboardRequest::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    if (UseSpecificVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion")); writer->WriteValue(UseSpecificVersion); }
+    if (UseSpecificVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion"));
+        writer->WriteValue(UseSpecificVersion);
+    }
 
-    if (Version.notNull()) { writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version); }
+    if (Version.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Version"));
+        writer->WriteValue(Version);
+    }
 
-    if (XboxToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken); }
+    if (XboxToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7415,13 +8718,29 @@ void PlayFab::ClientModels::FGetFriendsListRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (IncludeFacebookFriends.notNull()) { writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends")); writer->WriteValue(IncludeFacebookFriends); }
+    if (IncludeFacebookFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
+        writer->WriteValue(IncludeFacebookFriends);
+    }
 
-    if (IncludeSteamFriends.notNull()) { writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends")); writer->WriteValue(IncludeSteamFriends); }
+    if (IncludeSteamFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends"));
+        writer->WriteValue(IncludeSteamFriends);
+    }
 
-    if (ProfileConstraints.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ProfileConstraints")); ProfileConstraints->writeJSON(writer); }
+    if (ProfileConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
+        ProfileConstraints->writeJSON(writer);
+    }
 
-    if (XboxToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken); }
+    if (XboxToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7505,13 +8824,37 @@ void PlayFab::ClientModels::FGetLeaderboardAroundCharacterRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId);
+    if (!CharacterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetLeaderboardAroundCharacterRequest::CharacterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (CharacterType.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterType")); writer->WriteValue(CharacterType); }
+    if (CharacterType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterType"));
+        writer->WriteValue(CharacterType);
+    }
 
-    if (MaxResultsCount.notNull()) { writer->WriteIdentifierPrefix(TEXT("MaxResultsCount")); writer->WriteValue(MaxResultsCount); }
+    if (MaxResultsCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+        writer->WriteValue(MaxResultsCount);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetLeaderboardAroundCharacterRequest::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7597,17 +8940,45 @@ void PlayFab::ClientModels::FGetLeaderboardAroundPlayerRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    if (MaxResultsCount.notNull()) { writer->WriteIdentifierPrefix(TEXT("MaxResultsCount")); writer->WriteValue(MaxResultsCount); }
+    if (MaxResultsCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+        writer->WriteValue(MaxResultsCount);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (ProfileConstraints.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ProfileConstraints")); ProfileConstraints->writeJSON(writer); }
+    if (ProfileConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
+        ProfileConstraints->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetLeaderboardAroundPlayerRequest::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    if (UseSpecificVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion")); writer->WriteValue(UseSpecificVersion); }
+    if (UseSpecificVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion"));
+        writer->WriteValue(UseSpecificVersion);
+    }
 
-    if (Version.notNull()) { writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version); }
+    if (Version.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Version"));
+        writer->WriteValue(Version);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7678,9 +9049,14 @@ void PlayFab::ClientModels::FGetLeaderboardAroundPlayerResult::writeJSON(JsonWri
     }
 
 
-    if (NextReset.notNull()) { writer->WriteIdentifierPrefix(TEXT("NextReset")); writeDatetime(NextReset, writer); }
+    if (NextReset.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NextReset"));
+        writeDatetime(NextReset, writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version);
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(Version);
 
     writer->WriteObjectEnd();
 }
@@ -7721,9 +9097,18 @@ void PlayFab::ClientModels::FGetLeaderboardForUsersCharactersRequest::writeJSON(
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("MaxResultsCount")); writer->WriteValue(MaxResultsCount);
+    writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+    writer->WriteValue(MaxResultsCount);
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetLeaderboardForUsersCharactersRequest::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7795,17 +9180,42 @@ void PlayFab::ClientModels::FGetLeaderboardRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (MaxResultsCount.notNull()) { writer->WriteIdentifierPrefix(TEXT("MaxResultsCount")); writer->WriteValue(MaxResultsCount); }
+    if (MaxResultsCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+        writer->WriteValue(MaxResultsCount);
+    }
 
-    if (ProfileConstraints.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ProfileConstraints")); ProfileConstraints->writeJSON(writer); }
+    if (ProfileConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
+        ProfileConstraints->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StartPosition")); writer->WriteValue(StartPosition);
+    writer->WriteIdentifierPrefix(TEXT("StartPosition"));
+    writer->WriteValue(StartPosition);
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetLeaderboardRequest::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    if (UseSpecificVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion")); writer->WriteValue(UseSpecificVersion); }
+    if (UseSpecificVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UseSpecificVersion"));
+        writer->WriteValue(UseSpecificVersion);
+    }
 
-    if (Version.notNull()) { writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version); }
+    if (Version.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Version"));
+        writer->WriteValue(Version);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7876,9 +9286,14 @@ void PlayFab::ClientModels::FGetLeaderboardResult::writeJSON(JsonWriter& writer)
     }
 
 
-    if (NextReset.notNull()) { writer->WriteIdentifierPrefix(TEXT("NextReset")); writeDatetime(NextReset, writer); }
+    if (NextReset.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NextReset"));
+        writeDatetime(NextReset, writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(Version);
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(Version);
 
     writer->WriteObjectEnd();
 }
@@ -7919,7 +9334,15 @@ void PlayFab::ClientModels::FGetPaymentTokenRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("TokenProvider")); writer->WriteValue(TokenProvider);
+    if (!TokenProvider.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPaymentTokenRequest::TokenProvider, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TokenProvider"));
+        writer->WriteValue(TokenProvider);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7947,9 +9370,17 @@ void PlayFab::ClientModels::FGetPaymentTokenResult::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (OrderId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId); }
+    if (OrderId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
-    if (ProviderToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ProviderToken")); writer->WriteValue(ProviderToken); }
+    if (ProviderToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProviderToken"));
+        writer->WriteValue(ProviderToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -7984,7 +9415,15 @@ void PlayFab::ClientModels::FGetPhotonAuthenticationTokenRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("PhotonApplicationId")); writer->WriteValue(PhotonApplicationId);
+    if (!PhotonApplicationId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPhotonAuthenticationTokenRequest::PhotonApplicationId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PhotonApplicationId"));
+        writer->WriteValue(PhotonApplicationId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8012,7 +9451,11 @@ void PlayFab::ClientModels::FGetPhotonAuthenticationTokenResult::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
-    if (PhotonCustomAuthenticationToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PhotonCustomAuthenticationToken")); writer->WriteValue(PhotonCustomAuthenticationToken); }
+    if (PhotonCustomAuthenticationToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PhotonCustomAuthenticationToken"));
+        writer->WriteValue(PhotonCustomAuthenticationToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8041,25 +9484,35 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoRequestParams::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("GetCharacterInventories")); writer->WriteValue(GetCharacterInventories);
+    writer->WriteIdentifierPrefix(TEXT("GetCharacterInventories"));
+    writer->WriteValue(GetCharacterInventories);
 
-    writer->WriteIdentifierPrefix(TEXT("GetCharacterList")); writer->WriteValue(GetCharacterList);
+    writer->WriteIdentifierPrefix(TEXT("GetCharacterList"));
+    writer->WriteValue(GetCharacterList);
 
-    writer->WriteIdentifierPrefix(TEXT("GetPlayerProfile")); writer->WriteValue(GetPlayerProfile);
+    writer->WriteIdentifierPrefix(TEXT("GetPlayerProfile"));
+    writer->WriteValue(GetPlayerProfile);
 
-    writer->WriteIdentifierPrefix(TEXT("GetPlayerStatistics")); writer->WriteValue(GetPlayerStatistics);
+    writer->WriteIdentifierPrefix(TEXT("GetPlayerStatistics"));
+    writer->WriteValue(GetPlayerStatistics);
 
-    writer->WriteIdentifierPrefix(TEXT("GetTitleData")); writer->WriteValue(GetTitleData);
+    writer->WriteIdentifierPrefix(TEXT("GetTitleData"));
+    writer->WriteValue(GetTitleData);
 
-    writer->WriteIdentifierPrefix(TEXT("GetUserAccountInfo")); writer->WriteValue(GetUserAccountInfo);
+    writer->WriteIdentifierPrefix(TEXT("GetUserAccountInfo"));
+    writer->WriteValue(GetUserAccountInfo);
 
-    writer->WriteIdentifierPrefix(TEXT("GetUserData")); writer->WriteValue(GetUserData);
+    writer->WriteIdentifierPrefix(TEXT("GetUserData"));
+    writer->WriteValue(GetUserData);
 
-    writer->WriteIdentifierPrefix(TEXT("GetUserInventory")); writer->WriteValue(GetUserInventory);
+    writer->WriteIdentifierPrefix(TEXT("GetUserInventory"));
+    writer->WriteValue(GetUserInventory);
 
-    writer->WriteIdentifierPrefix(TEXT("GetUserReadOnlyData")); writer->WriteValue(GetUserReadOnlyData);
+    writer->WriteIdentifierPrefix(TEXT("GetUserReadOnlyData"));
+    writer->WriteValue(GetUserReadOnlyData);
 
-    writer->WriteIdentifierPrefix(TEXT("GetUserVirtualCurrency")); writer->WriteValue(GetUserVirtualCurrency);
+    writer->WriteIdentifierPrefix(TEXT("GetUserVirtualCurrency"));
+    writer->WriteValue(GetUserVirtualCurrency);
 
     if (PlayerStatisticNames.Num() != 0)
     {
@@ -8070,7 +9523,11 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoRequestParams::writeJSON(JsonW
     }
 
 
-    if (ProfileConstraints.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ProfileConstraints")); ProfileConstraints->writeJSON(writer); }
+    if (ProfileConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
+        ProfileConstraints->writeJSON(writer);
+    }
 
     if (TitleDataKeys.Num() != 0)
     {
@@ -8202,9 +9659,14 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+    InfoRequestParameters.writeJSON(writer);
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8238,11 +9700,17 @@ void PlayFab::ClientModels::FStatisticValue::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (StatisticName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName); }
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value);
+    writer->WriteIdentifierPrefix(TEXT("Value"));
+    writer->WriteValue(Value);
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(static_cast<int64>(Version));
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(static_cast<int64>(Version));
 
     writer->WriteObjectEnd();
 }
@@ -8286,7 +9754,11 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoResultPayload::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
-    if (AccountInfo.IsValid()) { writer->WriteIdentifierPrefix(TEXT("AccountInfo")); AccountInfo->writeJSON(writer); }
+    if (AccountInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccountInfo"));
+        AccountInfo->writeJSON(writer);
+    }
 
     if (CharacterInventories.Num() != 0)
     {
@@ -8306,7 +9778,11 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoResultPayload::writeJSON(JsonW
     }
 
 
-    if (PlayerProfile.IsValid()) { writer->WriteIdentifierPrefix(TEXT("PlayerProfile")); PlayerProfile->writeJSON(writer); }
+    if (PlayerProfile.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerProfile"));
+        PlayerProfile->writeJSON(writer);
+    }
 
     if (PlayerStatistics.Num() != 0)
     {
@@ -8339,7 +9815,8 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoResultPayload::writeJSON(JsonW
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("UserDataVersion")); writer->WriteValue(static_cast<int64>(UserDataVersion));
+    writer->WriteIdentifierPrefix(TEXT("UserDataVersion"));
+    writer->WriteValue(static_cast<int64>(UserDataVersion));
 
     if (UserInventory.Num() != 0)
     {
@@ -8361,7 +9838,8 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoResultPayload::writeJSON(JsonW
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("UserReadOnlyDataVersion")); writer->WriteValue(static_cast<int64>(UserReadOnlyDataVersion));
+    writer->WriteIdentifierPrefix(TEXT("UserReadOnlyDataVersion"));
+    writer->WriteValue(static_cast<int64>(UserReadOnlyDataVersion));
 
     if (UserVirtualCurrency.Num() != 0)
     {
@@ -8509,9 +9987,17 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoResult::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (InfoResultPayload.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoResultPayload")); InfoResultPayload->writeJSON(writer); }
+    if (InfoResultPayload.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoResultPayload"));
+        InfoResultPayload->writeJSON(writer);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8546,9 +10032,17 @@ void PlayFab::ClientModels::FGetPlayerProfileRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (ProfileConstraints.IsValid()) { writer->WriteIdentifierPrefix(TEXT("ProfileConstraints")); ProfileConstraints->writeJSON(writer); }
+    if (ProfileConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileConstraints"));
+        ProfileConstraints->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8583,7 +10077,11 @@ void PlayFab::ClientModels::FGetPlayerProfileResult::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (PlayerProfile.IsValid()) { writer->WriteIdentifierPrefix(TEXT("PlayerProfile")); PlayerProfile->writeJSON(writer); }
+    if (PlayerProfile.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerProfile"));
+        PlayerProfile->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8629,11 +10127,27 @@ void PlayFab::ClientModels::FGetSegmentResult::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (ABTestParent.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ABTestParent")); writer->WriteValue(ABTestParent); }
+    if (ABTestParent.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ABTestParent"));
+        writer->WriteValue(ABTestParent);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetSegmentResult::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Name.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Name")); writer->WriteValue(Name); }
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8711,9 +10225,18 @@ void PlayFab::ClientModels::FStatisticNameVersion::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: StatisticNameVersion::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(static_cast<int64>(Version));
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(static_cast<int64>(Version));
 
     writer->WriteObjectEnd();
 }
@@ -8831,7 +10354,11 @@ void PlayFab::ClientModels::FGetPlayerStatisticVersionsRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    if (StatisticName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName); }
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8859,17 +10386,35 @@ void PlayFab::ClientModels::FPlayerStatisticVersion::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ActivationTime")); writeDatetime(ActivationTime, writer);
+    writer->WriteIdentifierPrefix(TEXT("ActivationTime"));
+    writeDatetime(ActivationTime, writer);
 
-    if (DeactivationTime.notNull()) { writer->WriteIdentifierPrefix(TEXT("DeactivationTime")); writeDatetime(DeactivationTime, writer); }
+    if (DeactivationTime.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeactivationTime"));
+        writeDatetime(DeactivationTime, writer);
+    }
 
-    if (ScheduledActivationTime.notNull()) { writer->WriteIdentifierPrefix(TEXT("ScheduledActivationTime")); writeDatetime(ScheduledActivationTime, writer); }
+    if (ScheduledActivationTime.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ScheduledActivationTime"));
+        writeDatetime(ScheduledActivationTime, writer);
+    }
 
-    if (ScheduledDeactivationTime.notNull()) { writer->WriteIdentifierPrefix(TEXT("ScheduledDeactivationTime")); writeDatetime(ScheduledDeactivationTime, writer); }
+    if (ScheduledDeactivationTime.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ScheduledDeactivationTime"));
+        writeDatetime(ScheduledDeactivationTime, writer);
+    }
 
-    if (StatisticName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName); }
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(static_cast<int64>(Version));
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(static_cast<int64>(Version));
 
     writer->WriteObjectEnd();
 }
@@ -8960,9 +10505,21 @@ void PlayFab::ClientModels::FGetPlayerTagsRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (Namespace.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Namespace")); writer->WriteValue(Namespace); }
+    if (Namespace.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Namespace"));
+        writer->WriteValue(Namespace);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId);
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPlayerTagsRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -8997,7 +10554,15 @@ void PlayFab::ClientModels::FGetPlayerTagsResult::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId);
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPlayerTagsResult::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteArrayStart(TEXT("Tags"));
     for (const FString& item : Tags)
@@ -9033,7 +10598,11 @@ void PlayFab::ClientModels::FGetPlayerTradesRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (StatusFilter.notNull()) { writer->WriteIdentifierPrefix(TEXT("StatusFilter")); writeTradeStatusEnumJSON(StatusFilter, writer); }
+    if (StatusFilter.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatusFilter"));
+        writeTradeStatusEnumJSON(StatusFilter, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -9394,9 +10963,17 @@ void PlayFab::ClientModels::FGooglePlayFabIdPair::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (GoogleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GoogleId")); writer->WriteValue(GoogleId); }
+    if (GoogleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GoogleId"));
+        writer->WriteValue(GoogleId);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -9494,9 +11071,17 @@ void PlayFab::ClientModels::FKongregatePlayFabIdPair::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (KongregateId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("KongregateId")); writer->WriteValue(KongregateId); }
+    if (KongregateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KongregateId"));
+        writer->WriteValue(KongregateId);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -9594,9 +11179,17 @@ void PlayFab::ClientModels::FNintendoSwitchPlayFabIdPair::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (NintendoSwitchDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId")); writer->WriteValue(NintendoSwitchDeviceId); }
+    if (NintendoSwitchDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
+        writer->WriteValue(NintendoSwitchDeviceId);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -9667,7 +11260,11 @@ void PlayFab::ClientModels::FGetPlayFabIDsFromPSNAccountIDsRequest::writeJSON(Js
 {
     writer->WriteObjectStart();
 
-    if (IssuerId.notNull()) { writer->WriteIdentifierPrefix(TEXT("IssuerId")); writer->WriteValue(IssuerId); }
+    if (IssuerId.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
 
     writer->WriteArrayStart(TEXT("PSNAccountIDs"));
     for (const FString& item : PSNAccountIDs)
@@ -9703,9 +11300,17 @@ void PlayFab::ClientModels::FPSNAccountPlayFabIdPair::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (PSNAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PSNAccountId")); writer->WriteValue(PSNAccountId); }
+    if (PSNAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PSNAccountId"));
+        writer->WriteValue(PSNAccountId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -9806,9 +11411,17 @@ void PlayFab::ClientModels::FSteamPlayFabIdPair::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (SteamStringId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamStringId")); writer->WriteValue(SteamStringId); }
+    if (SteamStringId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamStringId"));
+        writer->WriteValue(SteamStringId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -9906,9 +11519,17 @@ void PlayFab::ClientModels::FTwitchPlayFabIdPair::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (TwitchId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TwitchId")); writer->WriteValue(TwitchId); }
+    if (TwitchId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TwitchId"));
+        writer->WriteValue(TwitchId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -9979,7 +11600,11 @@ void PlayFab::ClientModels::FGetPlayFabIDsFromXboxLiveIDsRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
-    if (Sandbox.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Sandbox")); writer->WriteValue(Sandbox); }
+    if (Sandbox.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Sandbox"));
+        writer->WriteValue(Sandbox);
+    }
 
     writer->WriteArrayStart(TEXT("XboxLiveAccountIDs"));
     for (const FString& item : XboxLiveAccountIDs)
@@ -10015,9 +11640,17 @@ void PlayFab::ClientModels::FXboxLiveAccountPlayFabIdPair::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (XboxLiveAccountId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("XboxLiveAccountId")); writer->WriteValue(XboxLiveAccountId); }
+    if (XboxLiveAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxLiveAccountId"));
+        writer->WriteValue(XboxLiveAccountId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10154,7 +11787,15 @@ void PlayFab::ClientModels::FGetPurchaseRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId);
+    if (!OrderId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPurchaseRequest::OrderId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10182,15 +11823,32 @@ void PlayFab::ClientModels::FGetPurchaseResult::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (OrderId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId); }
+    if (OrderId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
-    if (PaymentProvider.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PaymentProvider")); writer->WriteValue(PaymentProvider); }
+    if (PaymentProvider.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PaymentProvider"));
+        writer->WriteValue(PaymentProvider);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PurchaseDate")); writeDatetime(PurchaseDate, writer);
+    writer->WriteIdentifierPrefix(TEXT("PurchaseDate"));
+    writeDatetime(PurchaseDate, writer);
 
-    if (TransactionId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TransactionId")); writer->WriteValue(TransactionId); }
+    if (TransactionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TransactionId"));
+        writer->WriteValue(TransactionId);
+    }
 
-    if (TransactionStatus.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("TransactionStatus")); writer->WriteValue(TransactionStatus); }
+    if (TransactionStatus.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TransactionStatus"));
+        writer->WriteValue(TransactionStatus);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10244,7 +11902,11 @@ void PlayFab::ClientModels::FGetSharedGroupDataRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (GetMembers.notNull()) { writer->WriteIdentifierPrefix(TEXT("GetMembers")); writer->WriteValue(GetMembers); }
+    if (GetMembers.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GetMembers"));
+        writer->WriteValue(GetMembers);
+    }
 
     if (Keys.Num() != 0)
     {
@@ -10255,7 +11917,15 @@ void PlayFab::ClientModels::FGetSharedGroupDataRequest::writeJSON(JsonWriter& wr
     }
 
 
-    writer->WriteIdentifierPrefix(TEXT("SharedGroupId")); writer->WriteValue(SharedGroupId);
+    if (!SharedGroupId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetSharedGroupDataRequest::SharedGroupId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SharedGroupId"));
+        writer->WriteValue(SharedGroupId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10292,13 +11962,26 @@ void PlayFab::ClientModels::FSharedGroupDataRecord::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("LastUpdated")); writeDatetime(LastUpdated, writer);
+    writer->WriteIdentifierPrefix(TEXT("LastUpdated"));
+    writeDatetime(LastUpdated, writer);
 
-    if (LastUpdatedBy.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("LastUpdatedBy")); writer->WriteValue(LastUpdatedBy); }
+    if (LastUpdatedBy.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastUpdatedBy"));
+        writer->WriteValue(LastUpdatedBy);
+    }
 
-    if (Permission.notNull()) { writer->WriteIdentifierPrefix(TEXT("Permission")); writeUserDataPermissionEnumJSON(Permission, writer); }
+    if (Permission.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Permission"));
+        writeUserDataPermissionEnumJSON(Permission, writer);
+    }
 
-    if (Value.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value); }
+    if (Value.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        writer->WriteValue(Value);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10390,9 +12073,21 @@ void PlayFab::ClientModels::FGetStoreItemsRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StoreId")); writer->WriteValue(StoreId);
+    if (!StoreId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetStoreItemsRequest::StoreId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StoreId"));
+        writer->WriteValue(StoreId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10427,11 +12122,23 @@ void PlayFab::ClientModels::FStoreMarketingModel::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (Description.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Description")); writer->WriteValue(Description); }
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (Metadata.notNull()) { writer->WriteIdentifierPrefix(TEXT("Metadata")); Metadata.writeJSON(writer); }
+    if (Metadata.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Metadata"));
+        Metadata.writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10518,11 +12225,27 @@ void PlayFab::ClientModels::FStoreItem::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (CustomData.notNull()) { writer->WriteIdentifierPrefix(TEXT("CustomData")); CustomData.writeJSON(writer); }
+    if (CustomData.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomData"));
+        CustomData.writeJSON(writer);
+    }
 
-    if (DisplayPosition.notNull()) { writer->WriteIdentifierPrefix(TEXT("DisplayPosition")); writer->WriteValue(static_cast<int64>(DisplayPosition)); }
+    if (DisplayPosition.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayPosition"));
+        writer->WriteValue(static_cast<int64>(DisplayPosition));
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId);
+    if (!ItemId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: StoreItem::ItemId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
 
     if (RealCurrencyPrices.Num() != 0)
     {
@@ -10606,11 +12329,23 @@ void PlayFab::ClientModels::FGetStoreItemsResult::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    if (MarketingData.IsValid()) { writer->WriteIdentifierPrefix(TEXT("MarketingData")); MarketingData->writeJSON(writer); }
+    if (MarketingData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MarketingData"));
+        MarketingData->writeJSON(writer);
+    }
 
-    if (Source.notNull()) { writer->WriteIdentifierPrefix(TEXT("Source")); writeSourceTypeEnumJSON(Source, writer); }
+    if (Source.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Source"));
+        writeSourceTypeEnumJSON(Source, writer);
+    }
 
     if (Store.Num() != 0)
     {
@@ -10621,7 +12356,11 @@ void PlayFab::ClientModels::FGetStoreItemsResult::writeJSON(JsonWriter& writer) 
     }
 
 
-    if (StoreId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StoreId")); writer->WriteValue(StoreId); }
+    if (StoreId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StoreId"));
+        writer->WriteValue(StoreId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10691,7 +12430,8 @@ void PlayFab::ClientModels::FGetTimeResult::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Time")); writeDatetime(Time, writer);
+    writer->WriteIdentifierPrefix(TEXT("Time"));
+    writeDatetime(Time, writer);
 
     writer->WriteObjectEnd();
 }
@@ -10786,7 +12526,11 @@ void PlayFab::ClientModels::FGetTitleNewsRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (Count.notNull()) { writer->WriteIdentifierPrefix(TEXT("Count")); writer->WriteValue(Count); }
+    if (Count.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Count"));
+        writer->WriteValue(Count);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10814,13 +12558,26 @@ void PlayFab::ClientModels::FTitleNewsItem::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Body.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Body")); writer->WriteValue(Body); }
+    if (Body.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Body"));
+        writer->WriteValue(Body);
+    }
 
-    if (NewsId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NewsId")); writer->WriteValue(NewsId); }
+    if (NewsId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewsId"));
+        writer->WriteValue(NewsId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Timestamp")); writeDatetime(Timestamp, writer);
+    writer->WriteIdentifierPrefix(TEXT("Timestamp"));
+    writeDatetime(Timestamp, writer);
 
-    if (Title.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Title")); writer->WriteValue(Title); }
+    if (Title.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Title"));
+        writer->WriteValue(Title);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10903,9 +12660,25 @@ void PlayFab::ClientModels::FGetTitlePublicKeyRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetTitlePublicKeyRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleSharedSecret")); writer->WriteValue(TitleSharedSecret);
+    if (!TitleSharedSecret.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetTitlePublicKeyRequest::TitleSharedSecret, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleSharedSecret"));
+        writer->WriteValue(TitleSharedSecret);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10940,7 +12713,11 @@ void PlayFab::ClientModels::FGetTitlePublicKeyResult::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (RSAPublicKey.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RSAPublicKey")); writer->WriteValue(RSAPublicKey); }
+    if (RSAPublicKey.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RSAPublicKey"));
+        writer->WriteValue(RSAPublicKey);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -10968,9 +12745,25 @@ void PlayFab::ClientModels::FGetTradeStatusRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("OfferingPlayerId")); writer->WriteValue(OfferingPlayerId);
+    if (!OfferingPlayerId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetTradeStatusRequest::OfferingPlayerId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("OfferingPlayerId"));
+        writer->WriteValue(OfferingPlayerId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TradeId")); writer->WriteValue(TradeId);
+    if (!TradeId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetTradeStatusRequest::TradeId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TradeId"));
+        writer->WriteValue(TradeId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11006,7 +12799,11 @@ void PlayFab::ClientModels::FGetTradeStatusResponse::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (Trade.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Trade")); Trade->writeJSON(writer); }
+    if (Trade.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Trade"));
+        Trade->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11033,7 +12830,11 @@ void PlayFab::ClientModels::FGetUserDataRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (IfChangedFromDataVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("IfChangedFromDataVersion")); writer->WriteValue(static_cast<int64>(IfChangedFromDataVersion)); }
+    if (IfChangedFromDataVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IfChangedFromDataVersion"));
+        writer->WriteValue(static_cast<int64>(IfChangedFromDataVersion));
+    }
 
     if (Keys.Num() != 0)
     {
@@ -11044,7 +12845,11 @@ void PlayFab::ClientModels::FGetUserDataRequest::writeJSON(JsonWriter& writer) c
     }
 
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11092,7 +12897,8 @@ void PlayFab::ClientModels::FGetUserDataResult::writeJSON(JsonWriter& writer) co
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("DataVersion")); writer->WriteValue(static_cast<int64>(DataVersion));
+    writer->WriteIdentifierPrefix(TEXT("DataVersion"));
+    writer->WriteValue(static_cast<int64>(DataVersion));
 
     writer->WriteObjectEnd();
 }
@@ -11225,9 +13031,25 @@ void PlayFab::ClientModels::FGetWindowsHelloChallengeRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("PublicKeyHint")); writer->WriteValue(PublicKeyHint);
+    if (!PublicKeyHint.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetWindowsHelloChallengeRequest::PublicKeyHint, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublicKeyHint"));
+        writer->WriteValue(PublicKeyHint);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetWindowsHelloChallengeRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11262,7 +13084,11 @@ void PlayFab::ClientModels::FGetWindowsHelloChallengeResponse::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
-    if (Challenge.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Challenge")); writer->WriteValue(Challenge); }
+    if (Challenge.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Challenge"));
+        writer->WriteValue(Challenge);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11290,11 +13116,31 @@ void PlayFab::ClientModels::FGrantCharacterToUserRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterName")); writer->WriteValue(CharacterName);
+    if (!CharacterName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GrantCharacterToUserRequest::CharacterName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterName"));
+        writer->WriteValue(CharacterName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId);
+    if (!ItemId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GrantCharacterToUserRequest::ItemId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11336,11 +13182,20 @@ void PlayFab::ClientModels::FGrantCharacterToUserResult::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (CharacterType.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterType")); writer->WriteValue(CharacterType); }
+    if (CharacterType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterType"));
+        writer->WriteValue(CharacterType);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Result")); writer->WriteValue(Result);
+    writer->WriteIdentifierPrefix(TEXT("Result"));
+    writer->WriteValue(Result);
 
     writer->WriteObjectEnd();
 }
@@ -11382,11 +13237,24 @@ void PlayFab::ClientModels::FItemPurchaseRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (Annotation.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Annotation")); writer->WriteValue(Annotation); }
+    if (Annotation.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Annotation"));
+        writer->WriteValue(Annotation);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId);
+    if (!ItemId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ItemPurchaseRequest::ItemId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Quantity")); writer->WriteValue(static_cast<int64>(Quantity));
+    writer->WriteIdentifierPrefix(TEXT("Quantity"));
+    writer->WriteValue(static_cast<int64>(Quantity));
 
     if (UpgradeFromItems.Num() != 0)
     {
@@ -11439,13 +13307,33 @@ void PlayFab::ClientModels::FLinkAndroidDeviceIDRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (AndroidDevice.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AndroidDevice")); writer->WriteValue(AndroidDevice); }
+    if (AndroidDevice.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDevice"));
+        writer->WriteValue(AndroidDevice);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId")); writer->WriteValue(AndroidDeviceId);
+    if (!AndroidDeviceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkAndroidDeviceIDRequest::AndroidDeviceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId"));
+        writer->WriteValue(AndroidDeviceId);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    if (OS.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OS")); writer->WriteValue(OS); }
+    if (OS.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OS"));
+        writer->WriteValue(OS);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11513,9 +13401,21 @@ void PlayFab::ClientModels::FLinkCustomIDRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("CustomId")); writer->WriteValue(CustomId);
+    if (!CustomId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkCustomIDRequest::CustomId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomId"));
+        writer->WriteValue(CustomId);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11569,9 +13469,21 @@ void PlayFab::ClientModels::FLinkFacebookAccountRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("AccessToken")); writer->WriteValue(AccessToken);
+    if (!AccessToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkFacebookAccountRequest::AccessToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11625,9 +13537,21 @@ void PlayFab::ClientModels::FLinkFacebookInstantGamesIdRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesSignature")); writer->WriteValue(FacebookInstantGamesSignature);
+    if (!FacebookInstantGamesSignature.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkFacebookInstantGamesIdRequest::FacebookInstantGamesSignature, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesSignature"));
+        writer->WriteValue(FacebookInstantGamesSignature);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11681,17 +13605,45 @@ void PlayFab::ClientModels::FLinkGameCenterAccountRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("GameCenterId")); writer->WriteValue(GameCenterId);
+    if (!GameCenterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkGameCenterAccountRequest::GameCenterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameCenterId"));
+        writer->WriteValue(GameCenterId);
+    }
 
-    if (PublicKeyUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PublicKeyUrl")); writer->WriteValue(PublicKeyUrl); }
+    if (PublicKeyUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublicKeyUrl"));
+        writer->WriteValue(PublicKeyUrl);
+    }
 
-    if (Salt.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Salt")); writer->WriteValue(Salt); }
+    if (Salt.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Salt"));
+        writer->WriteValue(Salt);
+    }
 
-    if (Signature.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Signature")); writer->WriteValue(Signature); }
+    if (Signature.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Signature"));
+        writer->WriteValue(Signature);
+    }
 
-    if (Timestamp.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Timestamp")); writer->WriteValue(Timestamp); }
+    if (Timestamp.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Timestamp"));
+        writer->WriteValue(Timestamp);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11773,9 +13725,17 @@ void PlayFab::ClientModels::FLinkGoogleAccountRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    if (ServerAuthCode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerAuthCode")); writer->WriteValue(ServerAuthCode); }
+    if (ServerAuthCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerAuthCode"));
+        writer->WriteValue(ServerAuthCode);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11829,13 +13789,33 @@ void PlayFab::ClientModels::FLinkIOSDeviceIDRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("DeviceId")); writer->WriteValue(DeviceId);
+    if (!DeviceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkIOSDeviceIDRequest::DeviceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceId"));
+        writer->WriteValue(DeviceId);
+    }
 
-    if (DeviceModel.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DeviceModel")); writer->WriteValue(DeviceModel); }
+    if (DeviceModel.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceModel"));
+        writer->WriteValue(DeviceModel);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    if (OS.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OS")); writer->WriteValue(OS); }
+    if (OS.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OS"));
+        writer->WriteValue(OS);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11903,11 +13883,31 @@ void PlayFab::ClientModels::FLinkKongregateAccountRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("AuthTicket")); writer->WriteValue(AuthTicket);
+    if (!AuthTicket.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkKongregateAccountRequest::AuthTicket, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthTicket"));
+        writer->WriteValue(AuthTicket);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("KongregateId")); writer->WriteValue(KongregateId);
+    if (!KongregateId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkKongregateAccountRequest::KongregateId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("KongregateId"));
+        writer->WriteValue(KongregateId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -11968,9 +13968,21 @@ void PlayFab::ClientModels::FLinkNintendoSwitchDeviceIdRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId")); writer->WriteValue(NintendoSwitchDeviceId);
+    if (!NintendoSwitchDeviceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoSwitchDeviceIdRequest::NintendoSwitchDeviceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
+        writer->WriteValue(NintendoSwitchDeviceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12024,11 +14036,31 @@ void PlayFab::ClientModels::FLinkOpenIdConnectRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId);
+    if (!ConnectionId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkOpenIdConnectRequest::ConnectionId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionId"));
+        writer->WriteValue(ConnectionId);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("IdToken")); writer->WriteValue(IdToken);
+    if (!IdToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkOpenIdConnectRequest::IdToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdToken"));
+        writer->WriteValue(IdToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12070,13 +14102,37 @@ void PlayFab::ClientModels::FLinkPSNAccountRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("AuthCode")); writer->WriteValue(AuthCode);
+    if (!AuthCode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkPSNAccountRequest::AuthCode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthCode"));
+        writer->WriteValue(AuthCode);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    if (IssuerId.notNull()) { writer->WriteIdentifierPrefix(TEXT("IssuerId")); writer->WriteValue(IssuerId); }
+    if (IssuerId.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("RedirectUri")); writer->WriteValue(RedirectUri);
+    if (!RedirectUri.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkPSNAccountRequest::RedirectUri, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RedirectUri"));
+        writer->WriteValue(RedirectUri);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12144,9 +14200,21 @@ void PlayFab::ClientModels::FLinkSteamAccountRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("SteamTicket")); writer->WriteValue(SteamTicket);
+    if (!SteamTicket.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkSteamAccountRequest::SteamTicket, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamTicket"));
+        writer->WriteValue(SteamTicket);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12200,9 +14268,21 @@ void PlayFab::ClientModels::FLinkTwitchAccountRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("AccessToken")); writer->WriteValue(AccessToken);
+    if (!AccessToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkTwitchAccountRequest::AccessToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12256,13 +14336,37 @@ void PlayFab::ClientModels::FLinkWindowsHelloAccountRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (DeviceName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DeviceName")); writer->WriteValue(DeviceName); }
+    if (DeviceName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceName"));
+        writer->WriteValue(DeviceName);
+    }
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PublicKey")); writer->WriteValue(PublicKey);
+    if (!PublicKey.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkWindowsHelloAccountRequest::PublicKey, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublicKey"));
+        writer->WriteValue(PublicKey);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("UserName")); writer->WriteValue(UserName);
+    if (!UserName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkWindowsHelloAccountRequest::UserName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserName"));
+        writer->WriteValue(UserName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12330,9 +14434,21 @@ void PlayFab::ClientModels::FLinkXboxAccountRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (ForceLink.notNull()) { writer->WriteIdentifierPrefix(TEXT("ForceLink")); writer->WriteValue(ForceLink); }
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken);
+    if (!XboxToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkXboxAccountRequest::XboxToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12386,7 +14502,11 @@ void PlayFab::ClientModels::FListUsersCharactersRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12450,11 +14570,14 @@ void PlayFab::ClientModels::FUserSettings::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("GatherDeviceInfo")); writer->WriteValue(GatherDeviceInfo);
+    writer->WriteIdentifierPrefix(TEXT("GatherDeviceInfo"));
+    writer->WriteValue(GatherDeviceInfo);
 
-    writer->WriteIdentifierPrefix(TEXT("GatherFocusInfo")); writer->WriteValue(GatherFocusInfo);
+    writer->WriteIdentifierPrefix(TEXT("GatherFocusInfo"));
+    writer->WriteValue(GatherFocusInfo);
 
-    writer->WriteIdentifierPrefix(TEXT("NeedsAttribution")); writer->WriteValue(NeedsAttribution);
+    writer->WriteIdentifierPrefix(TEXT("NeedsAttribution"));
+    writer->WriteValue(NeedsAttribution);
 
     writer->WriteObjectEnd();
 }
@@ -12487,11 +14610,112 @@ bool PlayFab::ClientModels::FUserSettings::readFromValue(const TSharedPtr<FJsonO
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FVariable::~FVariable()
+{
+
+}
+
+void PlayFab::ClientModels::FVariable::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: Variable::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (!Value.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: Variable::Value, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        writer->WriteValue(Value);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FVariable::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        FString TmpValue;
+        if (ValueValue->TryGetString(TmpValue)) { Value = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FTreatmentAssignment::~FTreatmentAssignment()
+{
+
+}
+
+void PlayFab::ClientModels::FTreatmentAssignment::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Variables.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Variables"));
+        for (const FVariable& item : Variables)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Variants.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Variants"));
+        for (const FString& item : Variants)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FTreatmentAssignment::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&VariablesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Variables"));
+    for (int32 Idx = 0; Idx < VariablesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = VariablesArray[Idx];
+        Variables.Add(FVariable(CurrentItem->AsObject()));
+    }
+
+
+    obj->TryGetStringArrayField(TEXT("Variants"), Variants);
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FLoginResult::~FLoginResult()
 {
     //if (EntityToken != nullptr) delete EntityToken;
     //if (InfoResultPayload != nullptr) delete InfoResultPayload;
     //if (SettingsForUser != nullptr) delete SettingsForUser;
+    //if (TreatmentAssignment != nullptr) delete TreatmentAssignment;
 
 }
 
@@ -12499,19 +14723,50 @@ void PlayFab::ClientModels::FLoginResult::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (EntityToken.IsValid()) { writer->WriteIdentifierPrefix(TEXT("EntityToken")); EntityToken->writeJSON(writer); }
+    if (EntityToken.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityToken"));
+        EntityToken->writeJSON(writer);
+    }
 
-    if (InfoResultPayload.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoResultPayload")); InfoResultPayload->writeJSON(writer); }
+    if (InfoResultPayload.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoResultPayload"));
+        InfoResultPayload->writeJSON(writer);
+    }
 
-    if (LastLoginTime.notNull()) { writer->WriteIdentifierPrefix(TEXT("LastLoginTime")); writeDatetime(LastLoginTime, writer); }
+    if (LastLoginTime.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastLoginTime"));
+        writeDatetime(LastLoginTime, writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("NewlyCreated")); writer->WriteValue(NewlyCreated);
+    writer->WriteIdentifierPrefix(TEXT("NewlyCreated"));
+    writer->WriteValue(NewlyCreated);
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (SessionTicket.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SessionTicket")); writer->WriteValue(SessionTicket); }
+    if (SessionTicket.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SessionTicket"));
+        writer->WriteValue(SessionTicket);
+    }
 
-    if (SettingsForUser.IsValid()) { writer->WriteIdentifierPrefix(TEXT("SettingsForUser")); SettingsForUser->writeJSON(writer); }
+    if (SettingsForUser.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SettingsForUser"));
+        SettingsForUser->writeJSON(writer);
+    }
+
+    if (pfTreatmentAssignment.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TreatmentAssignment"));
+        pfTreatmentAssignment->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12564,6 +14819,12 @@ bool PlayFab::ClientModels::FLoginResult::readFromValue(const TSharedPtr<FJsonOb
         SettingsForUser = MakeShareable(new FUserSettings(SettingsForUserValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> TreatmentAssignmentValue = obj->TryGetField(TEXT("TreatmentAssignment"));
+    if (TreatmentAssignmentValue.IsValid() && !TreatmentAssignmentValue->IsNull())
+    {
+        pfTreatmentAssignment = MakeShareable(new FTreatmentAssignment(TreatmentAssignmentValue->AsObject()));
+    }
+
     return HasSucceeded;
 }
 
@@ -12577,21 +14838,57 @@ void PlayFab::ClientModels::FLoginWithAndroidDeviceIDRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
-    if (AndroidDevice.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AndroidDevice")); writer->WriteValue(AndroidDevice); }
+    if (AndroidDevice.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDevice"));
+        writer->WriteValue(AndroidDevice);
+    }
 
-    if (AndroidDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId")); writer->WriteValue(AndroidDeviceId); }
+    if (AndroidDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId"));
+        writer->WriteValue(AndroidDeviceId);
+    }
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (OS.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OS")); writer->WriteValue(OS); }
+    if (OS.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OS"));
+        writer->WriteValue(OS);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithAndroidDeviceIDRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12668,17 +14965,45 @@ void PlayFab::ClientModels::FLoginWithCustomIDRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (CustomId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CustomId")); writer->WriteValue(CustomId); }
+    if (CustomId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomId"));
+        writer->WriteValue(CustomId);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithCustomIDRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12741,13 +15066,41 @@ void PlayFab::ClientModels::FLoginWithEmailAddressRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Email")); writer->WriteValue(Email);
+    if (!Email.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithEmailAddressRequest::Email, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Email"));
+        writer->WriteValue(Email);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Password")); writer->WriteValue(Password);
+    if (!Password.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithEmailAddressRequest::Password, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Password"));
+        writer->WriteValue(Password);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithEmailAddressRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12796,17 +15149,49 @@ void PlayFab::ClientModels::FLoginWithFacebookInstantGamesIdRequest::writeJSON(J
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesSignature")); writer->WriteValue(FacebookInstantGamesSignature);
+    if (!FacebookInstantGamesSignature.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithFacebookInstantGamesIdRequest::FacebookInstantGamesSignature, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesSignature"));
+        writer->WriteValue(FacebookInstantGamesSignature);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithFacebookInstantGamesIdRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12869,17 +15254,49 @@ void PlayFab::ClientModels::FLoginWithFacebookRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("AccessToken")); writer->WriteValue(AccessToken);
+    if (!AccessToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithFacebookRequest::AccessToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithFacebookRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -12942,25 +15359,69 @@ void PlayFab::ClientModels::FLoginWithGameCenterRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerId")); writer->WriteValue(PlayerId); }
+    if (PlayerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerId"));
+        writer->WriteValue(PlayerId);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    if (PublicKeyUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PublicKeyUrl")); writer->WriteValue(PublicKeyUrl); }
+    if (PublicKeyUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublicKeyUrl"));
+        writer->WriteValue(PublicKeyUrl);
+    }
 
-    if (Salt.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Salt")); writer->WriteValue(Salt); }
+    if (Salt.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Salt"));
+        writer->WriteValue(Salt);
+    }
 
-    if (Signature.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Signature")); writer->WriteValue(Signature); }
+    if (Signature.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Signature"));
+        writer->WriteValue(Signature);
+    }
 
-    if (Timestamp.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Timestamp")); writer->WriteValue(Timestamp); }
+    if (Timestamp.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Timestamp"));
+        writer->WriteValue(Timestamp);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithGameCenterRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13051,17 +15512,45 @@ void PlayFab::ClientModels::FLoginWithGoogleAccountRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    if (ServerAuthCode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerAuthCode")); writer->WriteValue(ServerAuthCode); }
+    if (ServerAuthCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerAuthCode"));
+        writer->WriteValue(ServerAuthCode);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithGoogleAccountRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13124,21 +15613,57 @@ void PlayFab::ClientModels::FLoginWithIOSDeviceIDRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (DeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DeviceId")); writer->WriteValue(DeviceId); }
+    if (DeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceId"));
+        writer->WriteValue(DeviceId);
+    }
 
-    if (DeviceModel.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DeviceModel")); writer->WriteValue(DeviceModel); }
+    if (DeviceModel.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceModel"));
+        writer->WriteValue(DeviceModel);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (OS.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OS")); writer->WriteValue(OS); }
+    if (OS.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OS"));
+        writer->WriteValue(OS);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithIOSDeviceIDRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13215,19 +15740,51 @@ void PlayFab::ClientModels::FLoginWithKongregateRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (AuthTicket.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AuthTicket")); writer->WriteValue(AuthTicket); }
+    if (AuthTicket.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthTicket"));
+        writer->WriteValue(AuthTicket);
+    }
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (KongregateId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("KongregateId")); writer->WriteValue(KongregateId); }
+    if (KongregateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KongregateId"));
+        writer->WriteValue(KongregateId);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithKongregateRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13297,17 +15854,45 @@ void PlayFab::ClientModels::FLoginWithNintendoSwitchDeviceIdRequest::writeJSON(J
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (NintendoSwitchDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId")); writer->WriteValue(NintendoSwitchDeviceId); }
+    if (NintendoSwitchDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
+        writer->WriteValue(NintendoSwitchDeviceId);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoSwitchDeviceIdRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13370,19 +15955,59 @@ void PlayFab::ClientModels::FLoginWithOpenIdConnectRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId);
+    if (!ConnectionId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithOpenIdConnectRequest::ConnectionId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionId"));
+        writer->WriteValue(ConnectionId);
+    }
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("IdToken")); writer->WriteValue(IdToken);
+    if (!IdToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithOpenIdConnectRequest::IdToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdToken"));
+        writer->WriteValue(IdToken);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithOpenIdConnectRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13452,13 +16077,41 @@ void PlayFab::ClientModels::FLoginWithPlayFabRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Password")); writer->WriteValue(Password);
+    if (!Password.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithPlayFabRequest::Password, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Password"));
+        writer->WriteValue(Password);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithPlayFabRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username);
+    if (!Username.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithPlayFabRequest::Username, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13507,21 +16160,57 @@ void PlayFab::ClientModels::FLoginWithPSNRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (AuthCode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AuthCode")); writer->WriteValue(AuthCode); }
+    if (AuthCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthCode"));
+        writer->WriteValue(AuthCode);
+    }
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (IssuerId.notNull()) { writer->WriteIdentifierPrefix(TEXT("IssuerId")); writer->WriteValue(IssuerId); }
+    if (IssuerId.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    if (RedirectUri.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RedirectUri")); writer->WriteValue(RedirectUri); }
+    if (RedirectUri.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RedirectUri"));
+        writer->WriteValue(RedirectUri);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithPSNRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13598,17 +16287,45 @@ void PlayFab::ClientModels::FLoginWithSteamRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    if (SteamTicket.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SteamTicket")); writer->WriteValue(SteamTicket); }
+    if (SteamTicket.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamTicket"));
+        writer->WriteValue(SteamTicket);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithSteamRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13671,17 +16388,45 @@ void PlayFab::ClientModels::FLoginWithTwitchRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (AccessToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AccessToken")); writer->WriteValue(AccessToken); }
+    if (AccessToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithTwitchRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13744,13 +16489,41 @@ void PlayFab::ClientModels::FLoginWithWindowsHelloRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ChallengeSignature")); writer->WriteValue(ChallengeSignature);
+    if (!ChallengeSignature.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithWindowsHelloRequest::ChallengeSignature, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChallengeSignature"));
+        writer->WriteValue(ChallengeSignature);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PublicKeyHint")); writer->WriteValue(PublicKeyHint);
+    if (!PublicKeyHint.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithWindowsHelloRequest::PublicKeyHint, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublicKeyHint"));
+        writer->WriteValue(PublicKeyHint);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithWindowsHelloRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13799,17 +16572,45 @@ void PlayFab::ClientModels::FLoginWithXboxRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (CreateAccount.notNull()) { writer->WriteIdentifierPrefix(TEXT("CreateAccount")); writer->WriteValue(CreateAccount); }
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithXboxRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    if (XboxToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken); }
+    if (XboxToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13872,21 +16673,53 @@ void PlayFab::ClientModels::FMatchmakeRequest::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (BuildVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("BuildVersion")); writer->WriteValue(BuildVersion); }
+    if (BuildVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildVersion"));
+        writer->WriteValue(BuildVersion);
+    }
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (GameMode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GameMode")); writer->WriteValue(GameMode); }
+    if (GameMode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameMode"));
+        writer->WriteValue(GameMode);
+    }
 
-    if (LobbyId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("LobbyId")); writer->WriteValue(LobbyId); }
+    if (LobbyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyId"));
+        writer->WriteValue(LobbyId);
+    }
 
-    if (pfRegion.notNull()) { writer->WriteIdentifierPrefix(TEXT("Region")); writeRegionEnumJSON(pfRegion, writer); }
+    if (pfRegion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writeRegionEnumJSON(pfRegion, writer);
+    }
 
-    if (StartNewIfNoneFound.notNull()) { writer->WriteIdentifierPrefix(TEXT("StartNewIfNoneFound")); writer->WriteValue(StartNewIfNoneFound); }
+    if (StartNewIfNoneFound.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("StartNewIfNoneFound"));
+        writer->WriteValue(StartNewIfNoneFound);
+    }
 
-    if (StatisticName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName); }
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    if (TagFilter.IsValid()) { writer->WriteIdentifierPrefix(TEXT("TagFilter")); TagFilter->writeJSON(writer); }
+    if (TagFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TagFilter"));
+        TagFilter->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13999,23 +16832,59 @@ void PlayFab::ClientModels::FMatchmakeResult::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    if (Expires.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Expires")); writer->WriteValue(Expires); }
+    if (Expires.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Expires"));
+        writer->WriteValue(Expires);
+    }
 
-    if (LobbyID.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("LobbyID")); writer->WriteValue(LobbyID); }
+    if (LobbyID.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyID"));
+        writer->WriteValue(LobbyID);
+    }
 
-    if (PollWaitTimeMS.notNull()) { writer->WriteIdentifierPrefix(TEXT("PollWaitTimeMS")); writer->WriteValue(PollWaitTimeMS); }
+    if (PollWaitTimeMS.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PollWaitTimeMS"));
+        writer->WriteValue(PollWaitTimeMS);
+    }
 
-    if (ServerIPV4Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address")); writer->WriteValue(ServerIPV4Address); }
+    if (ServerIPV4Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address"));
+        writer->WriteValue(ServerIPV4Address);
+    }
 
-    if (ServerIPV6Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address")); writer->WriteValue(ServerIPV6Address); }
+    if (ServerIPV6Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address"));
+        writer->WriteValue(ServerIPV6Address);
+    }
 
-    if (ServerPort.notNull()) { writer->WriteIdentifierPrefix(TEXT("ServerPort")); writer->WriteValue(ServerPort); }
+    if (ServerPort.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPort"));
+        writer->WriteValue(ServerPort);
+    }
 
-    if (ServerPublicDNSName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerPublicDNSName")); writer->WriteValue(ServerPublicDNSName); }
+    if (ServerPublicDNSName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPublicDNSName"));
+        writer->WriteValue(ServerPublicDNSName);
+    }
 
-    if (Status.notNull()) { writer->WriteIdentifierPrefix(TEXT("Status")); writeMatchmakeStatusEnumJSON(Status, writer); }
+    if (Status.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Status"));
+        writeMatchmakeStatusEnumJSON(Status, writer);
+    }
 
-    if (Ticket.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Ticket")); writer->WriteValue(Ticket); }
+    if (Ticket.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Ticket"));
+        writer->WriteValue(Ticket);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14094,13 +16963,23 @@ void PlayFab::ClientModels::FModifyUserVirtualCurrencyResult::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Balance")); writer->WriteValue(Balance);
+    writer->WriteIdentifierPrefix(TEXT("Balance"));
+    writer->WriteValue(Balance);
 
-    writer->WriteIdentifierPrefix(TEXT("BalanceChange")); writer->WriteValue(BalanceChange);
+    writer->WriteIdentifierPrefix(TEXT("BalanceChange"));
+    writer->WriteValue(BalanceChange);
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (VirtualCurrency.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("VirtualCurrency")); writer->WriteValue(VirtualCurrency); }
+    if (VirtualCurrency.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("VirtualCurrency"));
+        writer->WriteValue(VirtualCurrency);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14202,7 +17081,11 @@ void PlayFab::ClientModels::FOpenTradeResponse::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (Trade.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Trade")); Trade->writeJSON(writer); }
+    if (Trade.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Trade"));
+        Trade->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14229,13 +17112,41 @@ void PlayFab::ClientModels::FPayForPurchaseRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Currency")); writer->WriteValue(Currency);
+    if (!Currency.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PayForPurchaseRequest::Currency, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Currency"));
+        writer->WriteValue(Currency);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId);
+    if (!OrderId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PayForPurchaseRequest::OrderId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProviderName")); writer->WriteValue(ProviderName);
+    if (!ProviderName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PayForPurchaseRequest::ProviderName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProviderName"));
+        writer->WriteValue(ProviderName);
+    }
 
-    if (ProviderTransactionId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ProviderTransactionId")); writer->WriteValue(ProviderTransactionId); }
+    if (ProviderTransactionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProviderTransactionId"));
+        writer->WriteValue(ProviderTransactionId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14356,21 +17267,47 @@ void PlayFab::ClientModels::FPayForPurchaseResult::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("CreditApplied")); writer->WriteValue(static_cast<int64>(CreditApplied));
+    writer->WriteIdentifierPrefix(TEXT("CreditApplied"));
+    writer->WriteValue(static_cast<int64>(CreditApplied));
 
-    if (OrderId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId); }
+    if (OrderId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
-    if (ProviderData.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ProviderData")); writer->WriteValue(ProviderData); }
+    if (ProviderData.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProviderData"));
+        writer->WriteValue(ProviderData);
+    }
 
-    if (ProviderToken.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ProviderToken")); writer->WriteValue(ProviderToken); }
+    if (ProviderToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProviderToken"));
+        writer->WriteValue(ProviderToken);
+    }
 
-    if (PurchaseConfirmationPageURL.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PurchaseConfirmationPageURL")); writer->WriteValue(PurchaseConfirmationPageURL); }
+    if (PurchaseConfirmationPageURL.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PurchaseConfirmationPageURL"));
+        writer->WriteValue(PurchaseConfirmationPageURL);
+    }
 
-    if (PurchaseCurrency.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PurchaseCurrency")); writer->WriteValue(PurchaseCurrency); }
+    if (PurchaseCurrency.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PurchaseCurrency"));
+        writer->WriteValue(PurchaseCurrency);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PurchasePrice")); writer->WriteValue(static_cast<int64>(PurchasePrice));
+    writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
+    writer->WriteValue(static_cast<int64>(PurchasePrice));
 
-    if (Status.notNull()) { writer->WriteIdentifierPrefix(TEXT("Status")); writeTransactionStatusEnumJSON(Status, writer); }
+    if (Status.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Status"));
+        writeTransactionStatusEnumJSON(Status, writer);
+    }
 
     if (VCAmount.Num() != 0)
     {
@@ -14484,13 +17421,23 @@ void PlayFab::ClientModels::FPaymentOption::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Currency.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Currency")); writer->WriteValue(Currency); }
+    if (Currency.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Currency"));
+        writer->WriteValue(Currency);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Price")); writer->WriteValue(static_cast<int64>(Price));
+    writer->WriteIdentifierPrefix(TEXT("Price"));
+    writer->WriteValue(static_cast<int64>(Price));
 
-    if (ProviderName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ProviderName")); writer->WriteValue(ProviderName); }
+    if (ProviderName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProviderName"));
+        writer->WriteValue(ProviderName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("StoreCredit")); writer->WriteValue(static_cast<int64>(StoreCredit));
+    writer->WriteIdentifierPrefix(TEXT("StoreCredit"));
+    writer->WriteValue(static_cast<int64>(StoreCredit));
 
     writer->WriteObjectEnd();
 }
@@ -14539,17 +17486,46 @@ void PlayFab::ClientModels::FPurchaseItemRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ItemId")); writer->WriteValue(ItemId);
+    if (!ItemId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PurchaseItemRequest::ItemId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Price")); writer->WriteValue(Price);
+    writer->WriteIdentifierPrefix(TEXT("Price"));
+    writer->WriteValue(Price);
 
-    if (StoreId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StoreId")); writer->WriteValue(StoreId); }
+    if (StoreId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StoreId"));
+        writer->WriteValue(StoreId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("VirtualCurrency")); writer->WriteValue(VirtualCurrency);
+    if (!VirtualCurrency.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PurchaseItemRequest::VirtualCurrency, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("VirtualCurrency"));
+        writer->WriteValue(VirtualCurrency);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14657,11 +17633,23 @@ void PlayFab::ClientModels::FPurchaseReceiptFulfillment::writeJSON(JsonWriter& w
     }
 
 
-    if (RecordedPriceSource.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RecordedPriceSource")); writer->WriteValue(RecordedPriceSource); }
+    if (RecordedPriceSource.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RecordedPriceSource"));
+        writer->WriteValue(RecordedPriceSource);
+    }
 
-    if (RecordedTransactionCurrency.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RecordedTransactionCurrency")); writer->WriteValue(RecordedTransactionCurrency); }
+    if (RecordedTransactionCurrency.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RecordedTransactionCurrency"));
+        writer->WriteValue(RecordedTransactionCurrency);
+    }
 
-    if (RecordedTransactionTotal.notNull()) { writer->WriteIdentifierPrefix(TEXT("RecordedTransactionTotal")); writer->WriteValue(static_cast<int64>(RecordedTransactionTotal)); }
+    if (RecordedTransactionTotal.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RecordedTransactionTotal"));
+        writer->WriteValue(static_cast<int64>(RecordedTransactionTotal));
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14711,11 +17699,27 @@ void PlayFab::ClientModels::FRedeemCouponRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("CouponCode")); writer->WriteValue(CouponCode);
+    if (!CouponCode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RedeemCouponRequest::CouponCode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CouponCode"));
+        writer->WriteValue(CouponCode);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14793,11 +17797,31 @@ void PlayFab::ClientModels::FRefreshPSNAuthTokenRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("AuthCode")); writer->WriteValue(AuthCode);
+    if (!AuthCode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RefreshPSNAuthTokenRequest::AuthCode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthCode"));
+        writer->WriteValue(AuthCode);
+    }
 
-    if (IssuerId.notNull()) { writer->WriteIdentifierPrefix(TEXT("IssuerId")); writer->WriteValue(IssuerId); }
+    if (IssuerId.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("RedirectUri")); writer->WriteValue(RedirectUri);
+    if (!RedirectUri.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RefreshPSNAuthTokenRequest::RedirectUri, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RedirectUri"));
+        writer->WriteValue(RedirectUri);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14839,11 +17863,27 @@ void PlayFab::ClientModels::FRegisterForIOSPushNotificationRequest::writeJSON(Js
 {
     writer->WriteObjectStart();
 
-    if (ConfirmationMessage.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ConfirmationMessage")); writer->WriteValue(ConfirmationMessage); }
+    if (ConfirmationMessage.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConfirmationMessage"));
+        writer->WriteValue(ConfirmationMessage);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("DeviceToken")); writer->WriteValue(DeviceToken);
+    if (!DeviceToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterForIOSPushNotificationRequest::DeviceToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceToken"));
+        writer->WriteValue(DeviceToken);
+    }
 
-    if (SendPushNotificationConfirmation.notNull()) { writer->WriteIdentifierPrefix(TEXT("SendPushNotificationConfirmation")); writer->WriteValue(SendPushNotificationConfirmation); }
+    if (SendPushNotificationConfirmation.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SendPushNotificationConfirmation"));
+        writer->WriteValue(SendPushNotificationConfirmation);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -14905,23 +17945,63 @@ void PlayFab::ClientModels::FRegisterPlayFabUserRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
-    if (Email.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Email")); writer->WriteValue(Email); }
+    if (Email.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Email"));
+        writer->WriteValue(Email);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (Password.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Password")); writer->WriteValue(Password); }
+    if (Password.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Password"));
+        writer->WriteValue(Password);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    if (RequireBothUsernameAndEmail.notNull()) { writer->WriteIdentifierPrefix(TEXT("RequireBothUsernameAndEmail")); writer->WriteValue(RequireBothUsernameAndEmail); }
+    if (RequireBothUsernameAndEmail.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RequireBothUsernameAndEmail"));
+        writer->WriteValue(RequireBothUsernameAndEmail);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterPlayFabUserRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    if (Username.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username); }
+    if (Username.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15006,15 +18086,35 @@ void PlayFab::ClientModels::FRegisterPlayFabUserResult::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (EntityToken.IsValid()) { writer->WriteIdentifierPrefix(TEXT("EntityToken")); EntityToken->writeJSON(writer); }
+    if (EntityToken.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityToken"));
+        EntityToken->writeJSON(writer);
+    }
 
-    if (PlayFabId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayFabId")); writer->WriteValue(PlayFabId); }
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
 
-    if (SessionTicket.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("SessionTicket")); writer->WriteValue(SessionTicket); }
+    if (SessionTicket.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SessionTicket"));
+        writer->WriteValue(SessionTicket);
+    }
 
-    if (SettingsForUser.IsValid()) { writer->WriteIdentifierPrefix(TEXT("SettingsForUser")); SettingsForUser->writeJSON(writer); }
+    if (SettingsForUser.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SettingsForUser"));
+        SettingsForUser->writeJSON(writer);
+    }
 
-    if (Username.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Username")); writer->WriteValue(Username); }
+    if (Username.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Username"));
+        writer->WriteValue(Username);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15069,19 +18169,51 @@ void PlayFab::ClientModels::FRegisterWithWindowsHelloRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
-    if (DeviceName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DeviceName")); writer->WriteValue(DeviceName); }
+    if (DeviceName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceName"));
+        writer->WriteValue(DeviceName);
+    }
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (InfoRequestParameters.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters")); InfoRequestParameters->writeJSON(writer); }
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
-    if (PublicKey.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PublicKey")); writer->WriteValue(PublicKey); }
+    if (PublicKey.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublicKey"));
+        writer->WriteValue(PublicKey);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterWithWindowsHelloRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
-    if (UserName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("UserName")); writer->WriteValue(UserName); }
+    if (UserName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserName"));
+        writer->WriteValue(UserName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15188,7 +18320,15 @@ void PlayFab::ClientModels::FRemoveFriendRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId")); writer->WriteValue(FriendPlayFabId);
+    if (!FriendPlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RemoveFriendRequest::FriendPlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId"));
+        writer->WriteValue(FriendPlayFabId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15235,7 +18375,8 @@ void PlayFab::ClientModels::FRemoveGenericIDRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("GenericId")); GenericId.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("GenericId"));
+    GenericId.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -15287,7 +18428,15 @@ void PlayFab::ClientModels::FRemoveSharedGroupMembersRequest::writeJSON(JsonWrit
     writer->WriteArrayEnd();
 
 
-    writer->WriteIdentifierPrefix(TEXT("SharedGroupId")); writer->WriteValue(SharedGroupId);
+    if (!SharedGroupId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RemoveSharedGroupMembersRequest::SharedGroupId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SharedGroupId"));
+        writer->WriteValue(SharedGroupId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15336,9 +18485,21 @@ void PlayFab::ClientModels::FReportPlayerClientRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (Comment.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Comment")); writer->WriteValue(Comment); }
+    if (Comment.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comment"));
+        writer->WriteValue(Comment);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ReporteeId")); writer->WriteValue(ReporteeId);
+    if (!ReporteeId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ReportPlayerClientRequest::ReporteeId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReporteeId"));
+        writer->WriteValue(ReporteeId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15373,7 +18534,8 @@ void PlayFab::ClientModels::FReportPlayerClientResult::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("SubmissionsRemaining")); writer->WriteValue(SubmissionsRemaining);
+    writer->WriteIdentifierPrefix(TEXT("SubmissionsRemaining"));
+    writer->WriteValue(SubmissionsRemaining);
 
     writer->WriteObjectEnd();
 }
@@ -15401,9 +18563,21 @@ void PlayFab::ClientModels::FRestoreIOSPurchasesRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ReceiptData")); writer->WriteValue(ReceiptData);
+    if (!ReceiptData.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RestoreIOSPurchasesRequest::ReceiptData, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReceiptData"));
+        writer->WriteValue(ReceiptData);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15474,11 +18648,31 @@ void PlayFab::ClientModels::FSendAccountRecoveryEmailRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Email")); writer->WriteValue(Email);
+    if (!Email.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SendAccountRecoveryEmailRequest::Email, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Email"));
+        writer->WriteValue(Email);
+    }
 
-    if (EmailTemplateId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EmailTemplateId")); writer->WriteValue(EmailTemplateId); }
+    if (EmailTemplateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EmailTemplateId"));
+        writer->WriteValue(EmailTemplateId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("TitleId")); writer->WriteValue(TitleId);
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SendAccountRecoveryEmailRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15539,7 +18733,15 @@ void PlayFab::ClientModels::FSetFriendTagsRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId")); writer->WriteValue(FriendPlayFabId);
+    if (!FriendPlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SetFriendTagsRequest::FriendPlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FriendPlayFabId"));
+        writer->WriteValue(FriendPlayFabId);
+    }
 
     writer->WriteArrayStart(TEXT("Tags"));
     for (const FString& item : Tags)
@@ -15594,9 +18796,17 @@ void PlayFab::ClientModels::FSetPlayerSecretRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (EncryptedRequest.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EncryptedRequest")); writer->WriteValue(EncryptedRequest); }
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
 
-    if (PlayerSecret.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("PlayerSecret")); writer->WriteValue(PlayerSecret); }
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15650,17 +18860,46 @@ void PlayFab::ClientModels::FStartGameRequest::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("BuildVersion")); writer->WriteValue(BuildVersion);
+    if (!BuildVersion.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: StartGameRequest::BuildVersion, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildVersion"));
+        writer->WriteValue(BuildVersion);
+    }
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    if (CustomCommandLineData.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CustomCommandLineData")); writer->WriteValue(CustomCommandLineData); }
+    if (CustomCommandLineData.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomCommandLineData"));
+        writer->WriteValue(CustomCommandLineData);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("GameMode")); writer->WriteValue(GameMode);
+    if (!GameMode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: StartGameRequest::GameMode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameMode"));
+        writer->WriteValue(GameMode);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Region")); writeRegionEnumJSON(pfRegion, writer);
+    writer->WriteIdentifierPrefix(TEXT("Region"));
+    writeRegionEnumJSON(pfRegion, writer);
 
-    if (StatisticName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName); }
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15718,21 +18957,53 @@ void PlayFab::ClientModels::FStartGameResult::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    if (Expires.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Expires")); writer->WriteValue(Expires); }
+    if (Expires.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Expires"));
+        writer->WriteValue(Expires);
+    }
 
-    if (LobbyID.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("LobbyID")); writer->WriteValue(LobbyID); }
+    if (LobbyID.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyID"));
+        writer->WriteValue(LobbyID);
+    }
 
-    if (Password.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Password")); writer->WriteValue(Password); }
+    if (Password.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Password"));
+        writer->WriteValue(Password);
+    }
 
-    if (ServerIPV4Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address")); writer->WriteValue(ServerIPV4Address); }
+    if (ServerIPV4Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address"));
+        writer->WriteValue(ServerIPV4Address);
+    }
 
-    if (ServerIPV6Address.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address")); writer->WriteValue(ServerIPV6Address); }
+    if (ServerIPV6Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address"));
+        writer->WriteValue(ServerIPV6Address);
+    }
 
-    if (ServerPort.notNull()) { writer->WriteIdentifierPrefix(TEXT("ServerPort")); writer->WriteValue(ServerPort); }
+    if (ServerPort.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPort"));
+        writer->WriteValue(ServerPort);
+    }
 
-    if (ServerPublicDNSName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ServerPublicDNSName")); writer->WriteValue(ServerPublicDNSName); }
+    if (ServerPublicDNSName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPublicDNSName"));
+        writer->WriteValue(ServerPublicDNSName);
+    }
 
-    if (Ticket.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Ticket")); writer->WriteValue(Ticket); }
+    if (Ticket.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Ticket"));
+        writer->WriteValue(Ticket);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15809,7 +19080,11 @@ void PlayFab::ClientModels::FStartPurchaseRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
     writer->WriteArrayStart(TEXT("Items"));
     for (const FItemPurchaseRequest& item : Items)
@@ -15817,7 +19092,11 @@ void PlayFab::ClientModels::FStartPurchaseRequest::writeJSON(JsonWriter& writer)
     writer->WriteArrayEnd();
 
 
-    if (StoreId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StoreId")); writer->WriteValue(StoreId); }
+    if (StoreId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StoreId"));
+        writer->WriteValue(StoreId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15869,7 +19148,11 @@ void PlayFab::ClientModels::FStartPurchaseResult::writeJSON(JsonWriter& writer) 
     }
 
 
-    if (OrderId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OrderId")); writer->WriteValue(OrderId); }
+    if (OrderId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderId"));
+        writer->WriteValue(OrderId);
+    }
 
     if (PaymentOptions.Num() != 0)
     {
@@ -15943,11 +19226,24 @@ void PlayFab::ClientModels::FStatisticUpdate::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("StatisticName")); writer->WriteValue(StatisticName);
+    if (!StatisticName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: StatisticUpdate::StatisticName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Value")); writer->WriteValue(Value);
+    writer->WriteIdentifierPrefix(TEXT("Value"));
+    writer->WriteValue(Value);
 
-    if (Version.notNull()) { writer->WriteIdentifierPrefix(TEXT("Version")); writer->WriteValue(static_cast<int64>(Version)); }
+    if (Version.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Version"));
+        writer->WriteValue(static_cast<int64>(Version));
+    }
 
     writer->WriteObjectEnd();
 }
@@ -15989,9 +19285,18 @@ void PlayFab::ClientModels::FSubtractUserVirtualCurrencyRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount")); writer->WriteValue(Amount);
+    writer->WriteIdentifierPrefix(TEXT("Amount"));
+    writer->WriteValue(Amount);
 
-    writer->WriteIdentifierPrefix(TEXT("VirtualCurrency")); writer->WriteValue(VirtualCurrency);
+    if (!VirtualCurrency.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SubtractUserVirtualCurrencyRequest::VirtualCurrency, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("VirtualCurrency"));
+        writer->WriteValue(VirtualCurrency);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16026,7 +19331,15 @@ void PlayFab::ClientModels::FUninkOpenIdConnectRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ConnectionId")); writer->WriteValue(ConnectionId);
+    if (!ConnectionId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UninkOpenIdConnectRequest::ConnectionId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionId"));
+        writer->WriteValue(ConnectionId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16054,7 +19367,11 @@ void PlayFab::ClientModels::FUnlinkAndroidDeviceIDRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (AndroidDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId")); writer->WriteValue(AndroidDeviceId); }
+    if (AndroidDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId"));
+        writer->WriteValue(AndroidDeviceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16101,7 +19418,11 @@ void PlayFab::ClientModels::FUnlinkCustomIDRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (CustomId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CustomId")); writer->WriteValue(CustomId); }
+    if (CustomId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomId"));
+        writer->WriteValue(CustomId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16186,7 +19507,11 @@ void PlayFab::ClientModels::FUnlinkFacebookInstantGamesIdRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
-    if (FacebookInstantGamesId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesId")); writer->WriteValue(FacebookInstantGamesId); }
+    if (FacebookInstantGamesId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesId"));
+        writer->WriteValue(FacebookInstantGamesId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16309,7 +19634,11 @@ void PlayFab::ClientModels::FUnlinkIOSDeviceIDRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (DeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DeviceId")); writer->WriteValue(DeviceId); }
+    if (DeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceId"));
+        writer->WriteValue(DeviceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16394,7 +19723,11 @@ void PlayFab::ClientModels::FUnlinkNintendoSwitchDeviceIdRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
-    if (NintendoSwitchDeviceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId")); writer->WriteValue(NintendoSwitchDeviceId); }
+    if (NintendoSwitchDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
+        writer->WriteValue(NintendoSwitchDeviceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16555,7 +19888,15 @@ void PlayFab::ClientModels::FUnlinkWindowsHelloAccountRequest::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("PublicKeyHint")); writer->WriteValue(PublicKeyHint);
+    if (!PublicKeyHint.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkWindowsHelloAccountRequest::PublicKeyHint, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PublicKeyHint"));
+        writer->WriteValue(PublicKeyHint);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16602,7 +19943,15 @@ void PlayFab::ClientModels::FUnlinkXboxAccountRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("XboxToken")); writer->WriteValue(XboxToken);
+    if (!XboxToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkXboxAccountRequest::XboxToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16649,13 +19998,33 @@ void PlayFab::ClientModels::FUnlockContainerInstanceRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ContainerItemInstanceId")); writer->WriteValue(ContainerItemInstanceId);
+    if (!ContainerItemInstanceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlockContainerInstanceRequest::ContainerItemInstanceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContainerItemInstanceId"));
+        writer->WriteValue(ContainerItemInstanceId);
+    }
 
-    if (KeyItemInstanceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("KeyItemInstanceId")); writer->WriteValue(KeyItemInstanceId); }
+    if (KeyItemInstanceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyItemInstanceId"));
+        writer->WriteValue(KeyItemInstanceId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16704,11 +20073,27 @@ void PlayFab::ClientModels::FUnlockContainerItemRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    if (CharacterId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId); }
+    if (CharacterId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ContainerItemId")); writer->WriteValue(ContainerItemId);
+    if (!ContainerItemId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlockContainerItemRequest::ContainerItemId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContainerItemId"));
+        writer->WriteValue(ContainerItemId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16759,9 +20144,17 @@ void PlayFab::ClientModels::FUnlockContainerItemResult::writeJSON(JsonWriter& wr
     }
 
 
-    if (UnlockedItemInstanceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("UnlockedItemInstanceId")); writer->WriteValue(UnlockedItemInstanceId); }
+    if (UnlockedItemInstanceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UnlockedItemInstanceId"));
+        writer->WriteValue(UnlockedItemInstanceId);
+    }
 
-    if (UnlockedWithItemInstanceId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("UnlockedWithItemInstanceId")); writer->WriteValue(UnlockedWithItemInstanceId); }
+    if (UnlockedWithItemInstanceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UnlockedWithItemInstanceId"));
+        writer->WriteValue(UnlockedWithItemInstanceId);
+    }
 
     if (VirtualCurrency.Num() != 0)
     {
@@ -16825,7 +20218,15 @@ void PlayFab::ClientModels::FUpdateAvatarUrlRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ImageUrl")); writer->WriteValue(ImageUrl);
+    if (!ImageUrl.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateAvatarUrlRequest::ImageUrl, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ImageUrl"));
+        writer->WriteValue(ImageUrl);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16853,7 +20254,15 @@ void PlayFab::ClientModels::FUpdateCharacterDataRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId);
+    if (!CharacterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateCharacterDataRequest::CharacterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
     if (Data.Num() != 0)
     {
@@ -16875,7 +20284,11 @@ void PlayFab::ClientModels::FUpdateCharacterDataRequest::writeJSON(JsonWriter& w
     }
 
 
-    if (Permission.notNull()) { writer->WriteIdentifierPrefix(TEXT("Permission")); writeUserDataPermissionEnumJSON(Permission, writer); }
+    if (Permission.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Permission"));
+        writeUserDataPermissionEnumJSON(Permission, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -16916,7 +20329,8 @@ void PlayFab::ClientModels::FUpdateCharacterDataResult::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("DataVersion")); writer->WriteValue(static_cast<int64>(DataVersion));
+    writer->WriteIdentifierPrefix(TEXT("DataVersion"));
+    writer->WriteValue(static_cast<int64>(DataVersion));
 
     writer->WriteObjectEnd();
 }
@@ -16944,7 +20358,15 @@ void PlayFab::ClientModels::FUpdateCharacterStatisticsRequest::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId);
+    if (!CharacterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateCharacterStatisticsRequest::CharacterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
     if (CharacterStatistics.Num() != 0)
     {
@@ -17084,9 +20506,21 @@ void PlayFab::ClientModels::FUpdateSharedGroupDataRequest::writeJSON(JsonWriter&
     }
 
 
-    if (Permission.notNull()) { writer->WriteIdentifierPrefix(TEXT("Permission")); writeUserDataPermissionEnumJSON(Permission, writer); }
+    if (Permission.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Permission"));
+        writeUserDataPermissionEnumJSON(Permission, writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("SharedGroupId")); writer->WriteValue(SharedGroupId);
+    if (!SharedGroupId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateSharedGroupDataRequest::SharedGroupId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SharedGroupId"));
+        writer->WriteValue(SharedGroupId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17166,7 +20600,11 @@ void PlayFab::ClientModels::FUpdateUserDataRequest::writeJSON(JsonWriter& writer
     }
 
 
-    if (Permission.notNull()) { writer->WriteIdentifierPrefix(TEXT("Permission")); writeUserDataPermissionEnumJSON(Permission, writer); }
+    if (Permission.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Permission"));
+        writeUserDataPermissionEnumJSON(Permission, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17200,7 +20638,8 @@ void PlayFab::ClientModels::FUpdateUserDataResult::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("DataVersion")); writer->WriteValue(static_cast<int64>(DataVersion));
+    writer->WriteIdentifierPrefix(TEXT("DataVersion"));
+    writer->WriteValue(static_cast<int64>(DataVersion));
 
     writer->WriteObjectEnd();
 }
@@ -17228,7 +20667,15 @@ void PlayFab::ClientModels::FUpdateUserTitleDisplayNameRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName);
+    if (!DisplayName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateUserTitleDisplayNameRequest::DisplayName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17256,7 +20703,11 @@ void PlayFab::ClientModels::FUpdateUserTitleDisplayNameResult::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
-    if (DisplayName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DisplayName")); writer->WriteValue(DisplayName); }
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17284,15 +20735,40 @@ void PlayFab::ClientModels::FValidateAmazonReceiptRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("CurrencyCode")); writer->WriteValue(CurrencyCode);
+    if (CurrencyCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CurrencyCode"));
+        writer->WriteValue(CurrencyCode);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PurchasePrice")); writer->WriteValue(PurchasePrice);
+    writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
+    writer->WriteValue(PurchasePrice);
 
-    writer->WriteIdentifierPrefix(TEXT("ReceiptId")); writer->WriteValue(ReceiptId);
+    if (!ReceiptId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateAmazonReceiptRequest::ReceiptId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReceiptId"));
+        writer->WriteValue(ReceiptId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("UserId")); writer->WriteValue(UserId);
+    if (!UserId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateAmazonReceiptRequest::UserId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserId"));
+        writer->WriteValue(UserId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17384,15 +20860,43 @@ void PlayFab::ClientModels::FValidateGooglePlayPurchaseRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    if (CurrencyCode.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CurrencyCode")); writer->WriteValue(CurrencyCode); }
+    if (CurrencyCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CurrencyCode"));
+        writer->WriteValue(CurrencyCode);
+    }
 
-    if (PurchasePrice.notNull()) { writer->WriteIdentifierPrefix(TEXT("PurchasePrice")); writer->WriteValue(static_cast<int64>(PurchasePrice)); }
+    if (PurchasePrice.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
+        writer->WriteValue(static_cast<int64>(PurchasePrice));
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ReceiptJson")); writer->WriteValue(ReceiptJson);
+    if (!ReceiptJson.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateGooglePlayPurchaseRequest::ReceiptJson, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReceiptJson"));
+        writer->WriteValue(ReceiptJson);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Signature")); writer->WriteValue(Signature);
+    if (!Signature.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateGooglePlayPurchaseRequest::Signature, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Signature"));
+        writer->WriteValue(Signature);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17484,13 +20988,30 @@ void PlayFab::ClientModels::FValidateIOSReceiptRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("CurrencyCode")); writer->WriteValue(CurrencyCode);
+    if (CurrencyCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CurrencyCode"));
+        writer->WriteValue(CurrencyCode);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PurchasePrice")); writer->WriteValue(PurchasePrice);
+    writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
+    writer->WriteValue(PurchasePrice);
 
-    writer->WriteIdentifierPrefix(TEXT("ReceiptData")); writer->WriteValue(ReceiptData);
+    if (!ReceiptData.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateIOSReceiptRequest::ReceiptData, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReceiptData"));
+        writer->WriteValue(ReceiptData);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17575,13 +21096,34 @@ void PlayFab::ClientModels::FValidateWindowsReceiptRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    if (CatalogVersion.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("CatalogVersion")); writer->WriteValue(CatalogVersion); }
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("CurrencyCode")); writer->WriteValue(CurrencyCode);
+    if (!CurrencyCode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateWindowsReceiptRequest::CurrencyCode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CurrencyCode"));
+        writer->WriteValue(CurrencyCode);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("PurchasePrice")); writer->WriteValue(static_cast<int64>(PurchasePrice));
+    writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
+    writer->WriteValue(static_cast<int64>(PurchasePrice));
 
-    writer->WriteIdentifierPrefix(TEXT("Receipt")); writer->WriteValue(Receipt);
+    if (!Receipt.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateWindowsReceiptRequest::Receipt, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Receipt"));
+        writer->WriteValue(Receipt);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17677,11 +21219,31 @@ void PlayFab::ClientModels::FWriteClientCharacterEventRequest::writeJSON(JsonWri
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("CharacterId")); writer->WriteValue(CharacterId);
+    if (!CharacterId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: WriteClientCharacterEventRequest::CharacterId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CharacterId"));
+        writer->WriteValue(CharacterId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("EventName")); writer->WriteValue(EventName);
+    if (!EventName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: WriteClientCharacterEventRequest::EventName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventName"));
+        writer->WriteValue(EventName);
+    }
 
-    if (Timestamp.notNull()) { writer->WriteIdentifierPrefix(TEXT("Timestamp")); writeDatetime(Timestamp, writer); }
+    if (Timestamp.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Timestamp"));
+        writeDatetime(Timestamp, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17741,9 +21303,21 @@ void PlayFab::ClientModels::FWriteClientPlayerEventRequest::writeJSON(JsonWriter
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("EventName")); writer->WriteValue(EventName);
+    if (!EventName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: WriteClientPlayerEventRequest::EventName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventName"));
+        writer->WriteValue(EventName);
+    }
 
-    if (Timestamp.notNull()) { writer->WriteIdentifierPrefix(TEXT("Timestamp")); writeDatetime(Timestamp, writer); }
+    if (Timestamp.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Timestamp"));
+        writeDatetime(Timestamp, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17785,7 +21359,11 @@ void PlayFab::ClientModels::FWriteEventResponse::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (EventId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EventId")); writer->WriteValue(EventId); }
+    if (EventId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventId"));
+        writer->WriteValue(EventId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -17824,9 +21402,21 @@ void PlayFab::ClientModels::FWriteTitleEventRequest::writeJSON(JsonWriter& write
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("EventName")); writer->WriteValue(EventName);
+    if (!EventName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: WriteTitleEventRequest::EventName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventName"));
+        writer->WriteValue(EventName);
+    }
 
-    if (Timestamp.notNull()) { writer->WriteIdentifierPrefix(TEXT("Timestamp")); writeDatetime(Timestamp, writer); }
+    if (Timestamp.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Timestamp"));
+        writeDatetime(Timestamp, writer);
+    }
 
     writer->WriteObjectEnd();
 }

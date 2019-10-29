@@ -20,9 +20,21 @@ void PlayFab::GroupsModels::FEntityKey::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityKey::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -57,9 +69,11 @@ void PlayFab::GroupsModels::FAcceptGroupApplicationRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -93,9 +107,14 @@ void PlayFab::GroupsModels::FAcceptGroupInvitationRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -128,7 +147,8 @@ void PlayFab::GroupsModels::FAddMembersRequest::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteArrayStart(TEXT("Members"));
     for (const FEntityKey& item : Members)
@@ -136,7 +156,11 @@ void PlayFab::GroupsModels::FAddMembersRequest::writeJSON(JsonWriter& writer) co
     writer->WriteArrayEnd();
 
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -179,11 +203,20 @@ void PlayFab::GroupsModels::FApplyToGroupRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (AutoAcceptOutstandingInvite.notNull()) { writer->WriteIdentifierPrefix(TEXT("AutoAcceptOutstandingInvite")); writer->WriteValue(AutoAcceptOutstandingInvite); }
+    if (AutoAcceptOutstandingInvite.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AutoAcceptOutstandingInvite"));
+        writer->WriteValue(AutoAcceptOutstandingInvite);
+    }
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -224,7 +257,11 @@ void PlayFab::GroupsModels::FEntityWithLineage::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (Key.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Key")); Key->writeJSON(writer); }
+    if (Key.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Key"));
+        Key->writeJSON(writer);
+    }
 
     if (Lineage.Num() != 0)
     {
@@ -273,11 +310,20 @@ void PlayFab::GroupsModels::FApplyToGroupResponse::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Expires")); writeDatetime(Expires, writer);
+    writer->WriteIdentifierPrefix(TEXT("Expires"));
+    writeDatetime(Expires, writer);
 
-    if (Group.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Group")); Group->writeJSON(writer); }
+    if (Group.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Group"));
+        Group->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -315,9 +361,11 @@ void PlayFab::GroupsModels::FBlockEntityRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -350,9 +398,14 @@ void PlayFab::GroupsModels::FChangeMemberRoleRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (DestinationRoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DestinationRoleId")); writer->WriteValue(DestinationRoleId); }
+    if (DestinationRoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DestinationRoleId"));
+        writer->WriteValue(DestinationRoleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteArrayStart(TEXT("Members"));
     for (const FEntityKey& item : Members)
@@ -360,7 +413,15 @@ void PlayFab::GroupsModels::FChangeMemberRoleRequest::writeJSON(JsonWriter& writ
     writer->WriteArrayEnd();
 
 
-    writer->WriteIdentifierPrefix(TEXT("OriginRoleId")); writer->WriteValue(OriginRoleId);
+    if (!OriginRoleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ChangeMemberRoleRequest::OriginRoleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("OriginRoleId"));
+        writer->WriteValue(OriginRoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -410,9 +471,21 @@ void PlayFab::GroupsModels::FCreateGroupRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("GroupName")); writer->WriteValue(GroupName);
+    if (!GroupName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateGroupRequest::GroupName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupName"));
+        writer->WriteValue(GroupName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -446,17 +519,32 @@ void PlayFab::GroupsModels::FCreateGroupResponse::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (AdminRoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AdminRoleId")); writer->WriteValue(AdminRoleId); }
+    if (AdminRoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AdminRoleId"));
+        writer->WriteValue(AdminRoleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writeDatetime(Created, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    if (GroupName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupName")); writer->WriteValue(GroupName); }
+    if (GroupName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupName"));
+        writer->WriteValue(GroupName);
+    }
 
-    if (MemberRoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MemberRoleId")); writer->WriteValue(MemberRoleId); }
+    if (MemberRoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MemberRoleId"));
+        writer->WriteValue(MemberRoleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     if (Roles.Num() != 0)
     {
@@ -536,11 +624,28 @@ void PlayFab::GroupsModels::FCreateGroupRoleRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId);
+    if (!RoleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateGroupRoleRequest::RoleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("RoleName")); writer->WriteValue(RoleName);
+    if (!RoleName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateGroupRoleRequest::RoleName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleName"));
+        writer->WriteValue(RoleName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -581,11 +686,20 @@ void PlayFab::GroupsModels::FCreateGroupRoleResponse::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
-    if (RoleName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleName")); writer->WriteValue(RoleName); }
+    if (RoleName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleName"));
+        writer->WriteValue(RoleName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -627,7 +741,8 @@ void PlayFab::GroupsModels::FDeleteGroupRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -654,9 +769,14 @@ void PlayFab::GroupsModels::FDeleteRoleRequest::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -718,9 +838,17 @@ void PlayFab::GroupsModels::FEntityMemberRole::writeJSON(JsonWriter& writer) con
     }
 
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
-    if (RoleName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleName")); writer->WriteValue(RoleName); }
+    if (RoleName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleName"));
+        writer->WriteValue(RoleName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -764,9 +892,17 @@ void PlayFab::GroupsModels::FGetGroupRequest::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    if (Group.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Group")); Group->writeJSON(writer); }
+    if (Group.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Group"));
+        Group->writeJSON(writer);
+    }
 
-    if (GroupName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupName")); writer->WriteValue(GroupName); }
+    if (GroupName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupName"));
+        writer->WriteValue(GroupName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -800,17 +936,32 @@ void PlayFab::GroupsModels::FGetGroupResponse::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (AdminRoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AdminRoleId")); writer->WriteValue(AdminRoleId); }
+    if (AdminRoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AdminRoleId"));
+        writer->WriteValue(AdminRoleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Created")); writeDatetime(Created, writer);
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writeDatetime(Created, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    if (GroupName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupName")); writer->WriteValue(GroupName); }
+    if (GroupName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupName"));
+        writer->WriteValue(GroupName);
+    }
 
-    if (MemberRoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MemberRoleId")); writer->WriteValue(MemberRoleId); }
+    if (MemberRoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MemberRoleId"));
+        writer->WriteValue(MemberRoleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     if (Roles.Num() != 0)
     {
@@ -892,11 +1043,20 @@ void PlayFab::GroupsModels::FGroupApplication::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Expires")); writeDatetime(Expires, writer);
+    writer->WriteIdentifierPrefix(TEXT("Expires"));
+    writeDatetime(Expires, writer);
 
-    if (Group.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Group")); Group->writeJSON(writer); }
+    if (Group.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Group"));
+        Group->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -935,9 +1095,14 @@ void PlayFab::GroupsModels::FGroupBlock::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -973,15 +1138,32 @@ void PlayFab::GroupsModels::FGroupInvitation::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Expires")); writeDatetime(Expires, writer);
+    writer->WriteIdentifierPrefix(TEXT("Expires"));
+    writeDatetime(Expires, writer);
 
-    if (Group.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Group")); Group->writeJSON(writer); }
+    if (Group.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Group"));
+        Group->writeJSON(writer);
+    }
 
-    if (InvitedByEntity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InvitedByEntity")); InvitedByEntity->writeJSON(writer); }
+    if (InvitedByEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InvitedByEntity"));
+        InvitedByEntity->writeJSON(writer);
+    }
 
-    if (InvitedEntity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InvitedEntity")); InvitedEntity->writeJSON(writer); }
+    if (InvitedEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InvitedEntity"));
+        InvitedEntity->writeJSON(writer);
+    }
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1032,9 +1214,17 @@ void PlayFab::GroupsModels::FGroupRole::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
-    if (RoleName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleName")); writer->WriteValue(RoleName); }
+    if (RoleName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleName"));
+        writer->WriteValue(RoleName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1070,11 +1260,20 @@ void PlayFab::GroupsModels::FGroupWithRoles::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Group.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Group")); Group->writeJSON(writer); }
+    if (Group.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Group"));
+        Group->writeJSON(writer);
+    }
 
-    if (GroupName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupName")); writer->WriteValue(GroupName); }
+    if (GroupName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupName"));
+        writer->WriteValue(GroupName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     if (Roles.Num() != 0)
     {
@@ -1132,13 +1331,23 @@ void PlayFab::GroupsModels::FInviteToGroupRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    if (AutoAcceptOutstandingApplication.notNull()) { writer->WriteIdentifierPrefix(TEXT("AutoAcceptOutstandingApplication")); writer->WriteValue(AutoAcceptOutstandingApplication); }
+    if (AutoAcceptOutstandingApplication.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AutoAcceptOutstandingApplication"));
+        writer->WriteValue(AutoAcceptOutstandingApplication);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1188,15 +1397,32 @@ void PlayFab::GroupsModels::FInviteToGroupResponse::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Expires")); writeDatetime(Expires, writer);
+    writer->WriteIdentifierPrefix(TEXT("Expires"));
+    writeDatetime(Expires, writer);
 
-    if (Group.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Group")); Group->writeJSON(writer); }
+    if (Group.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Group"));
+        Group->writeJSON(writer);
+    }
 
-    if (InvitedByEntity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InvitedByEntity")); InvitedByEntity->writeJSON(writer); }
+    if (InvitedByEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InvitedByEntity"));
+        InvitedByEntity->writeJSON(writer);
+    }
 
-    if (InvitedEntity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("InvitedEntity")); InvitedEntity->writeJSON(writer); }
+    if (InvitedEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InvitedEntity"));
+        InvitedEntity->writeJSON(writer);
+    }
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1247,11 +1473,17 @@ void PlayFab::GroupsModels::FIsMemberRequest::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1291,7 +1523,8 @@ void PlayFab::GroupsModels::FIsMemberResponse::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("IsMember")); writer->WriteValue(IsMember);
+    writer->WriteIdentifierPrefix(TEXT("IsMember"));
+    writer->WriteValue(IsMember);
 
     writer->WriteObjectEnd();
 }
@@ -1319,7 +1552,8 @@ void PlayFab::GroupsModels::FListGroupApplicationsRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -1382,7 +1616,8 @@ void PlayFab::GroupsModels::FListGroupBlocksRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -1445,7 +1680,8 @@ void PlayFab::GroupsModels::FListGroupInvitationsRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -1508,7 +1744,8 @@ void PlayFab::GroupsModels::FListGroupMembersRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -1572,7 +1809,11 @@ void PlayFab::GroupsModels::FListMembershipOpportunitiesRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1653,7 +1894,11 @@ void PlayFab::GroupsModels::FListMembershipRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1756,9 +2001,11 @@ void PlayFab::GroupsModels::FRemoveGroupApplicationRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -1791,9 +2038,11 @@ void PlayFab::GroupsModels::FRemoveGroupInvitationRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -1826,7 +2075,8 @@ void PlayFab::GroupsModels::FRemoveMembersRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteArrayStart(TEXT("Members"));
     for (const FEntityKey& item : Members)
@@ -1834,7 +2084,11 @@ void PlayFab::GroupsModels::FRemoveMembersRequest::writeJSON(JsonWriter& writer)
     writer->WriteArrayEnd();
 
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1876,9 +2130,11 @@ void PlayFab::GroupsModels::FUnblockEntityRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -1911,15 +2167,32 @@ void PlayFab::GroupsModels::FUpdateGroupRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (AdminRoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("AdminRoleId")); writer->WriteValue(AdminRoleId); }
+    if (AdminRoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AdminRoleId"));
+        writer->WriteValue(AdminRoleId);
+    }
 
-    if (ExpectedProfileVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ExpectedProfileVersion")); writer->WriteValue(ExpectedProfileVersion); }
+    if (ExpectedProfileVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedProfileVersion"));
+        writer->WriteValue(ExpectedProfileVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    if (GroupName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("GroupName")); writer->WriteValue(GroupName); }
+    if (GroupName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GroupName"));
+        writer->WriteValue(GroupName);
+    }
 
-    if (MemberRoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("MemberRoleId")); writer->WriteValue(MemberRoleId); }
+    if (MemberRoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MemberRoleId"));
+        writer->WriteValue(MemberRoleId);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1974,11 +2247,20 @@ void PlayFab::GroupsModels::FUpdateGroupResponse::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
-    if (OperationReason.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OperationReason")); writer->WriteValue(OperationReason); }
+    if (OperationReason.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationReason"));
+        writer->WriteValue(OperationReason);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
-    if (SetResult.notNull()) { writer->WriteIdentifierPrefix(TEXT("SetResult")); writeOperationTypesEnumJSON(SetResult, writer); }
+    if (SetResult.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SetResult"));
+        writeOperationTypesEnumJSON(SetResult, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -2015,13 +2297,30 @@ void PlayFab::GroupsModels::FUpdateGroupRoleRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (ExpectedProfileVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ExpectedProfileVersion")); writer->WriteValue(ExpectedProfileVersion); }
+    if (ExpectedProfileVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedProfileVersion"));
+        writer->WriteValue(ExpectedProfileVersion);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("Group")); Group.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Group"));
+    Group.writeJSON(writer);
 
-    if (RoleId.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("RoleId")); writer->WriteValue(RoleId); }
+    if (RoleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleId"));
+        writer->WriteValue(RoleId);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("RoleName")); writer->WriteValue(RoleName);
+    if (!RoleName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateGroupRoleRequest::RoleName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoleName"));
+        writer->WriteValue(RoleName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -2069,11 +2368,20 @@ void PlayFab::GroupsModels::FUpdateGroupRoleResponse::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
-    if (OperationReason.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OperationReason")); writer->WriteValue(OperationReason); }
+    if (OperationReason.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationReason"));
+        writer->WriteValue(OperationReason);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
-    if (SetResult.notNull()) { writer->WriteIdentifierPrefix(TEXT("SetResult")); writeOperationTypesEnumJSON(SetResult, writer); }
+    if (SetResult.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SetResult"));
+        writeOperationTypesEnumJSON(SetResult, writer);
+    }
 
     writer->WriteObjectEnd();
 }

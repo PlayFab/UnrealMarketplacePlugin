@@ -20,9 +20,21 @@ void PlayFab::DataModels::FEntityKey::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityKey::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -57,7 +69,8 @@ void PlayFab::DataModels::FAbortFileUploadsRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
     writer->WriteArrayStart(TEXT("FileNames"));
     for (const FString& item : FileNames)
@@ -65,7 +78,11 @@ void PlayFab::DataModels::FAbortFileUploadsRequest::writeJSON(JsonWriter& writer
     writer->WriteArrayEnd();
 
 
-    if (ProfileVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion); }
+    if (ProfileVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+        writer->WriteValue(ProfileVersion);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -102,9 +119,14 @@ void PlayFab::DataModels::FAbortFileUploadsResponse::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     writer->WriteObjectEnd();
 }
@@ -138,7 +160,8 @@ void PlayFab::DataModels::FDeleteFilesRequest::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
     writer->WriteArrayStart(TEXT("FileNames"));
     for (const FString& item : FileNames)
@@ -146,7 +169,11 @@ void PlayFab::DataModels::FDeleteFilesRequest::writeJSON(JsonWriter& writer) con
     writer->WriteArrayEnd();
 
 
-    if (ProfileVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion); }
+    if (ProfileVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+        writer->WriteValue(ProfileVersion);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -183,9 +210,14 @@ void PlayFab::DataModels::FDeleteFilesResponse::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     writer->WriteObjectEnd();
 }
@@ -219,7 +251,8 @@ void PlayFab::DataModels::FFinalizeFileUploadsRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
     writer->WriteArrayStart(TEXT("FileNames"));
     for (const FString& item : FileNames)
@@ -254,15 +287,29 @@ void PlayFab::DataModels::FGetFileMetadata::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Checksum.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Checksum")); writer->WriteValue(Checksum); }
+    if (Checksum.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Checksum"));
+        writer->WriteValue(Checksum);
+    }
 
-    if (DownloadUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("DownloadUrl")); writer->WriteValue(DownloadUrl); }
+    if (DownloadUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DownloadUrl"));
+        writer->WriteValue(DownloadUrl);
+    }
 
-    if (FileName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FileName")); writer->WriteValue(FileName); }
+    if (FileName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FileName"));
+        writer->WriteValue(FileName);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("LastModified")); writeDatetime(LastModified, writer);
+    writer->WriteIdentifierPrefix(TEXT("LastModified"));
+    writeDatetime(LastModified, writer);
 
-    writer->WriteIdentifierPrefix(TEXT("Size")); writer->WriteValue(Size);
+    writer->WriteIdentifierPrefix(TEXT("Size"));
+    writer->WriteValue(Size);
 
     writer->WriteObjectEnd();
 }
@@ -317,7 +364,11 @@ void PlayFab::DataModels::FFinalizeFileUploadsResponse::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     if (Metadata.Num() != 0)
     {
@@ -330,7 +381,8 @@ void PlayFab::DataModels::FFinalizeFileUploadsResponse::writeJSON(JsonWriter& wr
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     writer->WriteObjectEnd();
 }
@@ -373,7 +425,8 @@ void PlayFab::DataModels::FGetFilesRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
     writer->WriteObjectEnd();
 }
@@ -401,7 +454,11 @@ void PlayFab::DataModels::FGetFilesResponse::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     if (Metadata.Num() != 0)
     {
@@ -414,7 +471,8 @@ void PlayFab::DataModels::FGetFilesResponse::writeJSON(JsonWriter& writer) const
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     writer->WriteObjectEnd();
 }
@@ -457,9 +515,14 @@ void PlayFab::DataModels::FGetObjectsRequest::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    if (EscapeObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("EscapeObject")); writer->WriteValue(EscapeObject); }
+    if (EscapeObject.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EscapeObject"));
+        writer->WriteValue(EscapeObject);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -493,11 +556,23 @@ void PlayFab::DataModels::FObjectResult::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (DataObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DataObject")); DataObject.writeJSON(writer); }
+    if (DataObject.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataObject"));
+        DataObject.writeJSON(writer);
+    }
 
-    if (EscapedDataObject.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EscapedDataObject")); writer->WriteValue(EscapedDataObject); }
+    if (EscapedDataObject.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EscapedDataObject"));
+        writer->WriteValue(EscapedDataObject);
+    }
 
-    if (ObjectName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ObjectName")); writer->WriteValue(ObjectName); }
+    if (ObjectName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ObjectName"));
+        writer->WriteValue(ObjectName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -539,7 +614,11 @@ void PlayFab::DataModels::FGetObjectsResponse::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     if (Objects.Num() != 0)
     {
@@ -552,7 +631,8 @@ void PlayFab::DataModels::FGetObjectsResponse::writeJSON(JsonWriter& writer) con
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     writer->WriteObjectEnd();
 }
@@ -595,9 +675,17 @@ void PlayFab::DataModels::FInitiateFileUploadMetadata::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (FileName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FileName")); writer->WriteValue(FileName); }
+    if (FileName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FileName"));
+        writer->WriteValue(FileName);
+    }
 
-    if (UploadUrl.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("UploadUrl")); writer->WriteValue(UploadUrl); }
+    if (UploadUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UploadUrl"));
+        writer->WriteValue(UploadUrl);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -632,7 +720,8 @@ void PlayFab::DataModels::FInitiateFileUploadsRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
     writer->WriteArrayStart(TEXT("FileNames"));
     for (const FString& item : FileNames)
@@ -640,7 +729,11 @@ void PlayFab::DataModels::FInitiateFileUploadsRequest::writeJSON(JsonWriter& wri
     writer->WriteArrayEnd();
 
 
-    if (ProfileVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion); }
+    if (ProfileVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+        writer->WriteValue(ProfileVersion);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -677,9 +770,14 @@ void PlayFab::DataModels::FInitiateFileUploadsResponse::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     if (UploadDetails.Num() != 0)
     {
@@ -770,13 +868,33 @@ void PlayFab::DataModels::FSetObject::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (DataObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DataObject")); DataObject.writeJSON(writer); }
+    if (DataObject.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DataObject"));
+        DataObject.writeJSON(writer);
+    }
 
-    if (DeleteObject.notNull()) { writer->WriteIdentifierPrefix(TEXT("DeleteObject")); writer->WriteValue(DeleteObject); }
+    if (DeleteObject.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeleteObject"));
+        writer->WriteValue(DeleteObject);
+    }
 
-    if (EscapedDataObject.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("EscapedDataObject")); writer->WriteValue(EscapedDataObject); }
+    if (EscapedDataObject.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EscapedDataObject"));
+        writer->WriteValue(EscapedDataObject);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ObjectName")); writer->WriteValue(ObjectName);
+    if (!ObjectName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SetObject::ObjectName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ObjectName"));
+        writer->WriteValue(ObjectName);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -824,11 +942,23 @@ void PlayFab::DataModels::FSetObjectInfo::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (ObjectName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("ObjectName")); writer->WriteValue(ObjectName); }
+    if (ObjectName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ObjectName"));
+        writer->WriteValue(ObjectName);
+    }
 
-    if (OperationReason.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("OperationReason")); writer->WriteValue(OperationReason); }
+    if (OperationReason.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationReason"));
+        writer->WriteValue(OperationReason);
+    }
 
-    if (SetResult.notNull()) { writer->WriteIdentifierPrefix(TEXT("SetResult")); writeOperationTypesEnumJSON(SetResult, writer); }
+    if (SetResult.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SetResult"));
+        writeOperationTypesEnumJSON(SetResult, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -865,9 +995,14 @@ void PlayFab::DataModels::FSetObjectsRequest::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Entity")); Entity.writeJSON(writer);
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
 
-    if (ExpectedProfileVersion.notNull()) { writer->WriteIdentifierPrefix(TEXT("ExpectedProfileVersion")); writer->WriteValue(ExpectedProfileVersion); }
+    if (ExpectedProfileVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedProfileVersion"));
+        writer->WriteValue(ExpectedProfileVersion);
+    }
 
     writer->WriteArrayStart(TEXT("Objects"));
     for (const FSetObject& item : Objects)
@@ -915,7 +1050,8 @@ void PlayFab::DataModels::FSetObjectsResponse::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("ProfileVersion")); writer->WriteValue(ProfileVersion);
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
 
     if (SetResults.Num() != 0)
     {

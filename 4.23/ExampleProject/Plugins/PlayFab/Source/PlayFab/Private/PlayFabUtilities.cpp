@@ -517,6 +517,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1486: returnText = "InsightsManagementSetStorageRetentionInvalidParameter"; break;
     case 1487: returnText = "InsightsManagementGetStorageUsageInvalidParameter"; break;
     case 1488: returnText = "InsightsManagementGetOperationStatusInvalidParameter"; break;
+    case 1489: returnText = "DuplicatePurchaseTransactionId"; break;
+    case 1490: returnText = "EvaluationModePlayerCountExceeded"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -553,6 +555,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 4010: returnText = "CatalogConfigInvalid"; break;
     case 4011: returnText = "CatalogUnauthorized"; break;
     case 4012: returnText = "CatalogItemTypeInvalid"; break;
+    case 4013: returnText = "CatalogBadRequest"; break;
+    case 4014: returnText = "CatalogTooManyRequests"; break;
     case 5000: returnText = "ExportInvalidStatusUpdate"; break;
     case 5001: returnText = "ExportInvalidPrefix"; break;
     case 5002: returnText = "ExportBlobContainerDoesNotExist"; break;
@@ -579,6 +583,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7006: returnText = "ExperimentationExceededVariantNameLength"; break;
     case 7007: returnText = "ExperimentationExceededMaxVariantLength"; break;
     case 7008: returnText = "ExperimentInvalidId"; break;
+    case 7009: returnText = "ExperimentationNoScorecard"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }

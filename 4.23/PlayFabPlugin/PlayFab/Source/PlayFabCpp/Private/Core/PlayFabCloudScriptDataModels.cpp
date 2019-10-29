@@ -58,9 +58,21 @@ void PlayFab::CloudScriptModels::FEntityKey::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Id")); writer->WriteValue(Id);
+    if (!Id.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: EntityKey::Id, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
 
-    if (Type.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Type")); writer->WriteValue(Type); }
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -95,11 +107,23 @@ void PlayFab::CloudScriptModels::FScriptExecutionError::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    if (Error.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Error")); writer->WriteValue(Error); }
+    if (Error.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Error"));
+        writer->WriteValue(Error);
+    }
 
-    if (Message.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Message")); writer->WriteValue(Message); }
+    if (Message.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Message"));
+        writer->WriteValue(Message);
+    }
 
-    if (StackTrace.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("StackTrace")); writer->WriteValue(StackTrace); }
+    if (StackTrace.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StackTrace"));
+        writer->WriteValue(StackTrace);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -141,11 +165,23 @@ void PlayFab::CloudScriptModels::FLogStatement::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (Data.notNull()) { writer->WriteIdentifierPrefix(TEXT("Data")); Data.writeJSON(writer); }
+    if (Data.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Data"));
+        Data.writeJSON(writer);
+    }
 
-    if (Level.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Level")); writer->WriteValue(Level); }
+    if (Level.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Level"));
+        writer->WriteValue(Level);
+    }
 
-    if (Message.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("Message")); writer->WriteValue(Message); }
+    if (Message.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Message"));
+        writer->WriteValue(Message);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -187,19 +223,38 @@ void PlayFab::CloudScriptModels::FExecuteCloudScriptResult::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("APIRequestsIssued")); writer->WriteValue(APIRequestsIssued);
+    writer->WriteIdentifierPrefix(TEXT("APIRequestsIssued"));
+    writer->WriteValue(APIRequestsIssued);
 
-    if (Error.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Error")); Error->writeJSON(writer); }
+    if (Error.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Error"));
+        Error->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ExecutionTimeSeconds")); writer->WriteValue(ExecutionTimeSeconds);
+    writer->WriteIdentifierPrefix(TEXT("ExecutionTimeSeconds"));
+    writer->WriteValue(ExecutionTimeSeconds);
 
-    if (FunctionName.IsEmpty() == false) { writer->WriteIdentifierPrefix(TEXT("FunctionName")); writer->WriteValue(FunctionName); }
+    if (FunctionName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionName"));
+        writer->WriteValue(FunctionName);
+    }
 
-    if (FunctionResult.notNull()) { writer->WriteIdentifierPrefix(TEXT("FunctionResult")); FunctionResult.writeJSON(writer); }
+    if (FunctionResult.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionResult"));
+        FunctionResult.writeJSON(writer);
+    }
 
-    if (FunctionResultTooLarge.notNull()) { writer->WriteIdentifierPrefix(TEXT("FunctionResultTooLarge")); writer->WriteValue(FunctionResultTooLarge); }
+    if (FunctionResultTooLarge.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionResultTooLarge"));
+        writer->WriteValue(FunctionResultTooLarge);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("HttpRequestsIssued")); writer->WriteValue(HttpRequestsIssued);
+    writer->WriteIdentifierPrefix(TEXT("HttpRequestsIssued"));
+    writer->WriteValue(HttpRequestsIssued);
 
     if (Logs.Num() != 0)
     {
@@ -210,13 +265,20 @@ void PlayFab::CloudScriptModels::FExecuteCloudScriptResult::writeJSON(JsonWriter
     }
 
 
-    if (LogsTooLarge.notNull()) { writer->WriteIdentifierPrefix(TEXT("LogsTooLarge")); writer->WriteValue(LogsTooLarge); }
+    if (LogsTooLarge.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LogsTooLarge"));
+        writer->WriteValue(LogsTooLarge);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("MemoryConsumedBytes")); writer->WriteValue(static_cast<int64>(MemoryConsumedBytes));
+    writer->WriteIdentifierPrefix(TEXT("MemoryConsumedBytes"));
+    writer->WriteValue(static_cast<int64>(MemoryConsumedBytes));
 
-    writer->WriteIdentifierPrefix(TEXT("ProcessorTimeSeconds")); writer->WriteValue(ProcessorTimeSeconds);
+    writer->WriteIdentifierPrefix(TEXT("ProcessorTimeSeconds"));
+    writer->WriteValue(ProcessorTimeSeconds);
 
-    writer->WriteIdentifierPrefix(TEXT("Revision")); writer->WriteValue(Revision);
+    writer->WriteIdentifierPrefix(TEXT("Revision"));
+    writer->WriteValue(Revision);
 
     writer->WriteObjectEnd();
 }
@@ -321,17 +383,45 @@ void PlayFab::CloudScriptModels::FExecuteEntityCloudScriptRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
-    if (Entity.IsValid()) { writer->WriteIdentifierPrefix(TEXT("Entity")); Entity->writeJSON(writer); }
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("FunctionName")); writer->WriteValue(FunctionName);
+    if (!FunctionName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ExecuteEntityCloudScriptRequest::FunctionName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionName"));
+        writer->WriteValue(FunctionName);
+    }
 
-    if (FunctionParameter.notNull()) { writer->WriteIdentifierPrefix(TEXT("FunctionParameter")); FunctionParameter.writeJSON(writer); }
+    if (FunctionParameter.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionParameter"));
+        FunctionParameter.writeJSON(writer);
+    }
 
-    if (GeneratePlayStreamEvent.notNull()) { writer->WriteIdentifierPrefix(TEXT("GeneratePlayStreamEvent")); writer->WriteValue(GeneratePlayStreamEvent); }
+    if (GeneratePlayStreamEvent.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GeneratePlayStreamEvent"));
+        writer->WriteValue(GeneratePlayStreamEvent);
+    }
 
-    if (RevisionSelection.notNull()) { writer->WriteIdentifierPrefix(TEXT("RevisionSelection")); writeCloudScriptRevisionOptionEnumJSON(RevisionSelection, writer); }
+    if (RevisionSelection.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RevisionSelection"));
+        writeCloudScriptRevisionOptionEnumJSON(RevisionSelection, writer);
+    }
 
-    if (SpecificRevision.notNull()) { writer->WriteIdentifierPrefix(TEXT("SpecificRevision")); writer->WriteValue(SpecificRevision); }
+    if (SpecificRevision.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SpecificRevision"));
+        writer->WriteValue(SpecificRevision);
+    }
 
     writer->WriteObjectEnd();
 }

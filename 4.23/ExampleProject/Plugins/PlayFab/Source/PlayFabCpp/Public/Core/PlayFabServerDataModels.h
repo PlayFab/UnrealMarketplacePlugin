@@ -3641,6 +3641,8 @@ namespace ServerModels
         // [optional] Player display name
         FString DisplayName;
 
+        // [optional] List of experiment variants for the player.
+        TArray<FString> ExperimentVariants;
         // [optional] UTC time when the player most recently logged in to the title
         Boxed<FDateTime> LastLogin;
 
@@ -3684,6 +3686,7 @@ namespace ServerModels
             ContactEmailAddresses(),
             Created(),
             DisplayName(),
+            ExperimentVariants(),
             LastLogin(),
             LinkedAccounts(),
             Locations(),
@@ -3707,6 +3710,7 @@ namespace ServerModels
             ContactEmailAddresses(src.ContactEmailAddresses),
             Created(src.Created),
             DisplayName(src.DisplayName),
+            ExperimentVariants(src.ExperimentVariants),
             LastLogin(src.LastLogin),
             LinkedAccounts(src.LinkedAccounts),
             Locations(src.Locations),
@@ -4448,6 +4452,9 @@ namespace ServerModels
         // Whether to show the display name. Defaults to false
         bool ShowDisplayName;
 
+        // Whether to show player's experiment variants. Defaults to false
+        bool ShowExperimentVariants;
+
         // Whether to show the last login time. Defaults to false
         bool ShowLastLogin;
 
@@ -4486,6 +4493,7 @@ namespace ServerModels
             ShowContactEmailAddresses(false),
             ShowCreated(false),
             ShowDisplayName(false),
+            ShowExperimentVariants(false),
             ShowLastLogin(false),
             ShowLinkedAccounts(false),
             ShowLocations(false),
@@ -4506,6 +4514,7 @@ namespace ServerModels
             ShowContactEmailAddresses(src.ShowContactEmailAddresses),
             ShowCreated(src.ShowCreated),
             ShowDisplayName(src.ShowDisplayName),
+            ShowExperimentVariants(src.ShowExperimentVariants),
             ShowLastLogin(src.ShowLastLogin),
             ShowLinkedAccounts(src.ShowLinkedAccounts),
             ShowLocations(src.ShowLocations),
@@ -9815,6 +9824,66 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FVariable : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Name of the variable.
+        FString Name;
+
+        // Value of the variable.
+        FString Value;
+
+        FVariable() :
+            FPlayFabCppBaseModel(),
+            Name(),
+            Value()
+            {}
+
+        FVariable(const FVariable& src) :
+            FPlayFabCppBaseModel(),
+            Name(src.Name),
+            Value(src.Value)
+            {}
+
+        FVariable(const TSharedPtr<FJsonObject>& obj) : FVariable()
+        {
+            readFromValue(obj);
+        }
+
+        ~FVariable();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTreatmentAssignment : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] List of the experiment variables.
+        TArray<FVariable> Variables;
+        // [optional] List of the experiment variants.
+        TArray<FString> Variants;
+        FTreatmentAssignment() :
+            FPlayFabCppBaseModel(),
+            Variables(),
+            Variants()
+            {}
+
+        FTreatmentAssignment(const FTreatmentAssignment& src) :
+            FPlayFabCppBaseModel(),
+            Variables(src.Variables),
+            Variants(src.Variants)
+            {}
+
+        FTreatmentAssignment(const TSharedPtr<FJsonObject>& obj) : FTreatmentAssignment()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTreatmentAssignment();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FServerLoginResult : public PlayFab::FPlayFabLoginResultCommon
     {
         /**
@@ -9841,6 +9910,9 @@ namespace ServerModels
         // [optional] Settings specific to this user.
         TSharedPtr<FUserSettings> SettingsForUser;
 
+        // [optional] The experimentation treatments for this user at the time of login.
+        TSharedPtr<FTreatmentAssignment> pfTreatmentAssignment;
+
         FServerLoginResult() :
             FPlayFabLoginResultCommon(),
             EntityToken(nullptr),
@@ -9849,7 +9921,8 @@ namespace ServerModels
             NewlyCreated(false),
             PlayFabId(),
             SessionTicket(),
-            SettingsForUser(nullptr)
+            SettingsForUser(nullptr),
+            pfTreatmentAssignment(nullptr)
             {}
 
         FServerLoginResult(const FServerLoginResult& src) :
@@ -9860,7 +9933,8 @@ namespace ServerModels
             NewlyCreated(src.NewlyCreated),
             PlayFabId(src.PlayFabId),
             SessionTicket(src.SessionTicket),
-            SettingsForUser(src.SettingsForUser.IsValid() ? MakeShareable(new FUserSettings(*src.SettingsForUser)) : nullptr)
+            SettingsForUser(src.SettingsForUser.IsValid() ? MakeShareable(new FUserSettings(*src.SettingsForUser)) : nullptr),
+            pfTreatmentAssignment(src.pfTreatmentAssignment.IsValid() ? MakeShareable(new FTreatmentAssignment(*src.pfTreatmentAssignment)) : nullptr)
             {}
 
         FServerLoginResult(const TSharedPtr<FJsonObject>& obj) : FServerLoginResult()

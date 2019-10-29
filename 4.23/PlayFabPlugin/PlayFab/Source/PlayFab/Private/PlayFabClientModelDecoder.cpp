@@ -608,6 +608,7 @@ FClientLoginResult UPlayFabClientModelDecoder::decodeLoginResultResponse(UPlayFa
     tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
     tempStruct.SessionTicket = !(dataObj->HasField("SessionTicket")) ? TEXT("") : dataObj->GetStringField("SessionTicket");
     tempStruct.SettingsForUser = !(dataObj->HasField("SettingsForUser")) ? nullptr : dataObj->GetObjectField("SettingsForUser");
+    tempStruct.TreatmentAssignment = !(dataObj->HasField("TreatmentAssignment")) ? nullptr : dataObj->GetObjectField("TreatmentAssignment");
 
     return tempStruct;
 }

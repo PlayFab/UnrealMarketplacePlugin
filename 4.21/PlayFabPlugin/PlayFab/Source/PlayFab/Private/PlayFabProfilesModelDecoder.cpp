@@ -60,6 +60,7 @@ FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse UPlayFabProfilesModel
     FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.TitleId = !(dataObj->HasField("TitleId")) ? TEXT("") : dataObj->GetStringField("TitleId");
     tempStruct.TitlePlayerAccounts = !(dataObj->HasField("TitlePlayerAccounts")) ? nullptr : dataObj->GetObjectField("TitlePlayerAccounts");
 
     return tempStruct;

@@ -211,7 +211,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateMatchmakingTicket(FMultipl
     // Serialize all the request properties to json
     if (request.Creator != nullptr) OutRestJsonObj->SetObjectField(TEXT("Creator"), request.Creator);
     OutRestJsonObj->SetNumberField(TEXT("GiveUpAfterSeconds"), request.GiveUpAfterSeconds);
-    if (request.MembersToMatchWith.Num() == 0) {
+    if (request.MembersToMatchWith.Num() == 0 || !IsValid(request.MembersToMatchWith[0])) {
         OutRestJsonObj->SetFieldNull(TEXT("MembersToMatchWith"));
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("MembersToMatchWith"), request.MembersToMatchWith);
@@ -269,7 +269,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateServerMatchmakingTicket(FM
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("GiveUpAfterSeconds"), request.GiveUpAfterSeconds);
-    if (request.Members.Num() == 0) {
+    if (request.Members.Num() == 0 || !IsValid(request.MembersToMatchWith[0])) {
         OutRestJsonObj->SetFieldNull(TEXT("Members"));
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("Members"), request.Members);

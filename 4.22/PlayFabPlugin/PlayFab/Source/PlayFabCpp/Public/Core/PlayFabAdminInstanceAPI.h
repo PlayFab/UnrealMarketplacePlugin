@@ -360,7 +360,8 @@ namespace PlayFab
          * Allows for paging through all players in a given segment. This API creates a snapshot of all player profiles that match
          * the segment definition at the time of its creation and lives through the Total Seconds to Live, refreshing its life span
          * on each subsequent use of the Continuation Token. Profiles that change during the course of paging will not be reflected
-         * in the results. AB Test segments are currently not supported by this operation.
+         * in the results. AB Test segments are currently not supported by this operation. NOTE: This API is limited to being
+         * called 30 times in one minute. You will be returned an error if you exceed this threshold.
          * Initial request must contain at least a Segment ID. Subsequent requests must contain the Segment ID as well as the Continuation Token. Failure to send the Continuation Token will result in a new player segment list being generated. Each time the Continuation Token is passed in the length of the Total Seconds to Live is refreshed. If too much time passes between requests to the point that a subsequent request is past the Total Seconds to Live an error will be returned and paging will be terminated. This API is resource intensive and should not be used in scenarios which might generate high request volumes. Only one request to this API at a time should be made per title. Concurrent requests to the API may be rejected with the APIConcurrentRequestLimitExceeded error.
          */
         bool GetPlayersInSegment(AdminModels::FGetPlayersInSegmentRequest& request, const FGetPlayersInSegmentDelegate& SuccessDelegate = FGetPlayersInSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

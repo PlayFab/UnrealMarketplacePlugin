@@ -519,6 +519,10 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1488: returnText = "InsightsManagementGetOperationStatusInvalidParameter"; break;
     case 1489: returnText = "DuplicatePurchaseTransactionId"; break;
     case 1490: returnText = "EvaluationModePlayerCountExceeded"; break;
+    case 1491: returnText = "GetPlayersInSegmentRateLimitExceeded"; break;
+    case 1492: returnText = "CloudScriptFunctionNameSizeExceeded"; break;
+    case 1493: returnText = "InsightsManagementTitleInEvaluationMode"; break;
+    case 1494: returnText = "CloudScriptAzureFunctionsQueueRequestError"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -571,6 +575,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5014: returnText = "ExportCantEditPendingExport"; break;
     case 5015: returnText = "ExportLimitExports"; break;
     case 5016: returnText = "ExportLimitEvents"; break;
+    case 5017: returnText = "ExportInvalidPartitionStatusModification"; break;
     case 6000: returnText = "TitleNotEnabledForParty"; break;
     case 6001: returnText = "PartyVersionNotFound"; break;
     case 6002: returnText = "MultiplayerServerBuildReferencedByMatchmakingQueue"; break;
@@ -584,6 +589,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7007: returnText = "ExperimentationExceededMaxVariantLength"; break;
     case 7008: returnText = "ExperimentInvalidId"; break;
     case 7009: returnText = "ExperimentationNoScorecard"; break;
+    case 7010: returnText = "ExperimentationTreatmentAssignmentFailed"; break;
+    case 7011: returnText = "ExperimentationTreatmentAssignmentDisabled"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }

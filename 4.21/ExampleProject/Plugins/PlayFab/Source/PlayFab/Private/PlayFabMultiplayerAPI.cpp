@@ -1484,6 +1484,63 @@ void UPlayFabMultiplayerAPI::HelperGetMultiplayerServerDetails(FPlayFabBaseModel
     this->RemoveFromRoot();
 }
 
+/** Gets multiplayer server logs after a server has terminated. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerLogs(FMultiplayerGetMultiplayerServerLogsRequest request,
+    FDelegateOnSuccessGetMultiplayerServerLogs onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetMultiplayerServerLogs = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetMultiplayerServerLogs);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/GetMultiplayerServerLogs";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
+    if (request.ServerId.IsEmpty() || request.ServerId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ServerId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ServerId"), request.ServerId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperGetMultiplayerServerLogs(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetMultiplayerServerLogs.IsBound())
+    {
+        FMultiplayerGetMultiplayerServerLogsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetMultiplayerServerLogsResponseResponse(response.responseData);
+        OnSuccessGetMultiplayerServerLogs.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Gets a remote login endpoint to a VM that is hosting a multiplayer server build. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetRemoteLoginEndpoint(FMultiplayerGetRemoteLoginEndpointRequest request,
     FDelegateOnSuccessGetRemoteLoginEndpoint onSuccess,
@@ -2471,6 +2528,64 @@ void UPlayFabMultiplayerAPI::HelperShutdownMultiplayerServer(FPlayFabBaseModel r
         FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessShutdownMultiplayerServer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Untags a container image. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UntagContainerImage(FMultiplayerUntagContainerImageRequest request,
+    FDelegateOnSuccessUntagContainerImage onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUntagContainerImage = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUntagContainerImage);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/UntagContainerImage";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ImageName.IsEmpty() || request.ImageName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ImageName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ImageName"), request.ImageName);
+    }
+    if (request.Tag.IsEmpty() || request.Tag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Tag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Tag"), request.Tag);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperUntagContainerImage(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUntagContainerImage.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUntagContainerImage.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

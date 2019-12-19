@@ -744,6 +744,9 @@ public:
     /** Unique PlayFab assigned ID for a specific character owned by a user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString CharacterId;
+    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
+        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -753,7 +756,7 @@ public:
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString PlayFabId;
-    /** The time (in UTC) associated with this event. The value dafaults to the current time. */
+    /** The time (in UTC) associated with this event. The value defaults to the current time. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString Timestamp;
 };
@@ -771,6 +774,9 @@ public:
     /** Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         UPlayFabJsonObject* Body = nullptr;
+    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
+        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -780,7 +786,7 @@ public:
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString PlayFabId;
-    /** The time (in UTC) associated with this event. The value dafaults to the current time. */
+    /** The time (in UTC) associated with this event. The value defaults to the current time. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString Timestamp;
 };
@@ -798,13 +804,16 @@ public:
     /** Custom event properties. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         UPlayFabJsonObject* Body = nullptr;
+    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
+        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString EventName;
-    /** The time (in UTC) associated with this event. The value dafaults to the current time. */
+    /** The time (in UTC) associated with this event. The value defaults to the current time. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString Timestamp;
 };
@@ -1260,7 +1269,7 @@ struct PLAYFAB_API FServerGrantCharacterToUserRequest : public FPlayFabRequestCo
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Non-unique display name of the character being granted (1-20 characters in length). */
+    /** Non-unique display name of the character being granted (1-40 characters in length). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
         FString CharacterName;
     /** Type of the character being granted; statistics can be sliced based on this value. */

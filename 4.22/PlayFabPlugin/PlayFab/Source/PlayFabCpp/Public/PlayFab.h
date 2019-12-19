@@ -16,12 +16,20 @@ namespace PlayFab
     template<typename T>
     TSharedPtr<T> MakeSharedUObject()
     {    
+#if WITH_EDITOR
         return TSharedPtr<T>(NewObject<T>((UObject*)GetTransientPackage(), NAME_None, RF_Standalone),
         [](T* Instance)
         {
             // Recommended way of destroying UObjects according to https://udn.unrealengine.com/questions/402414/view.html
             Instance->ClearFlags(RF_Standalone);
         });
+#else
+        return TSharedPtr<T>(NewObject<T>((UObject*)GetTransientPackage(), NAME_None, RF_StrongRefOnFrame),
+        [](T* Instance)
+        {
+            Instance->ClearFlags(RF_StrongRefOnFrame);
+        });
+#endif
     }
 
     class UPlayFabAdminAPI;

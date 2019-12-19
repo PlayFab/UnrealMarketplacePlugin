@@ -7532,7 +7532,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGrantCharacterToUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Non-unique display name of the character being granted (1-20 characters in length).
+        // Non-unique display name of the character being granted (1-40 characters in length).
         FString CharacterName;
 
         // Type of the character being granted; statistics can be sliced based on this value.
@@ -9829,7 +9829,7 @@ namespace ServerModels
         // Name of the variable.
         FString Name;
 
-        // Value of the variable.
+        // [optional] Value of the variable.
         FString Value;
 
         FVariable() :
@@ -11255,6 +11255,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> EventCustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11264,13 +11266,14 @@ namespace ServerModels
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
-        // [optional] The time (in UTC) associated with this event. The value dafaults to the current time.
+        // [optional] The time (in UTC) associated with this event. The value defaults to the current time.
         Boxed<FDateTime> Timestamp;
 
         FWriteServerCharacterEventRequest() :
             FPlayFabCppRequestCommon(),
             Body(),
             CharacterId(),
+            EventCustomTags(),
             EventName(),
             PlayFabId(),
             Timestamp()
@@ -11280,6 +11283,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Body(src.Body),
             CharacterId(src.CharacterId),
+            EventCustomTags(src.EventCustomTags),
             EventName(src.EventName),
             PlayFabId(src.PlayFabId),
             Timestamp(src.Timestamp)
@@ -11300,6 +11304,8 @@ namespace ServerModels
     {
         // [optional] Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
+        // [optional] The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> EventCustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11309,12 +11315,13 @@ namespace ServerModels
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
-        // [optional] The time (in UTC) associated with this event. The value dafaults to the current time.
+        // [optional] The time (in UTC) associated with this event. The value defaults to the current time.
         Boxed<FDateTime> Timestamp;
 
         FWriteServerPlayerEventRequest() :
             FPlayFabCppRequestCommon(),
             Body(),
+            EventCustomTags(),
             EventName(),
             PlayFabId(),
             Timestamp()
@@ -11323,6 +11330,7 @@ namespace ServerModels
         FWriteServerPlayerEventRequest(const FWriteServerPlayerEventRequest& src) :
             FPlayFabCppRequestCommon(),
             Body(src.Body),
+            EventCustomTags(src.EventCustomTags),
             EventName(src.EventName),
             PlayFabId(src.PlayFabId),
             Timestamp(src.Timestamp)
@@ -11343,18 +11351,21 @@ namespace ServerModels
     {
         // [optional] Custom event properties. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
+        // [optional] The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> EventCustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
          */
         FString EventName;
 
-        // [optional] The time (in UTC) associated with this event. The value dafaults to the current time.
+        // [optional] The time (in UTC) associated with this event. The value defaults to the current time.
         Boxed<FDateTime> Timestamp;
 
         FWriteTitleEventRequest() :
             FPlayFabCppRequestCommon(),
             Body(),
+            EventCustomTags(),
             EventName(),
             Timestamp()
             {}
@@ -11362,6 +11373,7 @@ namespace ServerModels
         FWriteTitleEventRequest(const FWriteTitleEventRequest& src) :
             FPlayFabCppRequestCommon(),
             Body(src.Body),
+            EventCustomTags(src.EventCustomTags),
             EventName(src.EventName),
             Timestamp(src.Timestamp)
             {}

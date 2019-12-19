@@ -16438,11 +16438,7 @@ void PlayFab::ServerModels::FVariable::writeJSON(JsonWriter& writer) const
         writer->WriteValue(Name);
     }
 
-    if (!Value.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: Variable::Value, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (Value.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Value"));
         writer->WriteValue(Value);
@@ -18661,6 +18657,17 @@ void PlayFab::ServerModels::FWriteServerCharacterEventRequest::writeJSON(JsonWri
         writer->WriteValue(CharacterId);
     }
 
+    if (EventCustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("EventCustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(EventCustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!EventName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: WriteServerCharacterEventRequest::EventName, PlayFab calls may not work if it remains empty."));
@@ -18710,6 +18717,15 @@ bool PlayFab::ServerModels::FWriteServerCharacterEventRequest::readFromValue(con
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* EventCustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("EventCustomTags"), EventCustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*EventCustomTagsObject)->Values); It; ++It)
+        {
+            EventCustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EventNameValue = obj->TryGetField(TEXT("EventName"));
     if (EventNameValue.IsValid() && !EventNameValue->IsNull())
     {
@@ -18748,6 +18764,17 @@ void PlayFab::ServerModels::FWriteServerPlayerEventRequest::writeJSON(JsonWriter
         {
             writer->WriteIdentifierPrefix((*It).Key);
             (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (EventCustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("EventCustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(EventCustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
     }
@@ -18794,6 +18821,15 @@ bool PlayFab::ServerModels::FWriteServerPlayerEventRequest::readFromValue(const 
         }
     }
 
+    const TSharedPtr<FJsonObject>* EventCustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("EventCustomTags"), EventCustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*EventCustomTagsObject)->Values); It; ++It)
+        {
+            EventCustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EventNameValue = obj->TryGetField(TEXT("EventName"));
     if (EventNameValue.IsValid() && !EventNameValue->IsNull())
     {
@@ -18836,6 +18872,17 @@ void PlayFab::ServerModels::FWriteTitleEventRequest::writeJSON(JsonWriter& write
         writer->WriteObjectEnd();
     }
 
+    if (EventCustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("EventCustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(EventCustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!EventName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: WriteTitleEventRequest::EventName, PlayFab calls may not work if it remains empty."));
@@ -18865,6 +18912,15 @@ bool PlayFab::ServerModels::FWriteTitleEventRequest::readFromValue(const TShared
         for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*BodyObject)->Values); It; ++It)
         {
             Body.Add(It.Key(), FJsonKeeper(It.Value()));
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* EventCustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("EventCustomTags"), EventCustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*EventCustomTagsObject)->Values); It; ++It)
+        {
+            EventCustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
 

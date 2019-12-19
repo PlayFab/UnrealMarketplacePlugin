@@ -567,9 +567,108 @@ bool PlayFab::MultiplayerModels::FCurrentServerStats::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FDynamicStandbyThreshold::~FDynamicStandbyThreshold()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FDynamicStandbyThreshold::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Multiplier"));
+    writer->WriteValue(Multiplier);
+
+    writer->WriteIdentifierPrefix(TEXT("TriggerThresholdPercentage"));
+    writer->WriteValue(TriggerThresholdPercentage);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FDynamicStandbyThreshold::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MultiplierValue = obj->TryGetField(TEXT("Multiplier"));
+    if (MultiplierValue.IsValid() && !MultiplierValue->IsNull())
+    {
+        double TmpValue;
+        if (MultiplierValue->TryGetNumber(TmpValue)) { Multiplier = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TriggerThresholdPercentageValue = obj->TryGetField(TEXT("TriggerThresholdPercentage"));
+    if (TriggerThresholdPercentageValue.IsValid() && !TriggerThresholdPercentageValue->IsNull())
+    {
+        double TmpValue;
+        if (TriggerThresholdPercentageValue->TryGetNumber(TmpValue)) { TriggerThresholdPercentage = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FDynamicStandbySettings::~FDynamicStandbySettings()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FDynamicStandbySettings::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DynamicFloorMultiplierThresholds.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("DynamicFloorMultiplierThresholds"));
+        for (const FDynamicStandbyThreshold& item : DynamicFloorMultiplierThresholds)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("IsEnabled"));
+    writer->WriteValue(IsEnabled);
+
+    if (RampDownSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RampDownSeconds"));
+        writer->WriteValue(RampDownSeconds);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FDynamicStandbySettings::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DynamicFloorMultiplierThresholdsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("DynamicFloorMultiplierThresholds"));
+    for (int32 Idx = 0; Idx < DynamicFloorMultiplierThresholdsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DynamicFloorMultiplierThresholdsArray[Idx];
+        DynamicFloorMultiplierThresholds.Add(FDynamicStandbyThreshold(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> IsEnabledValue = obj->TryGetField(TEXT("IsEnabled"));
+    if (IsEnabledValue.IsValid() && !IsEnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsEnabledValue->TryGetBool(TmpValue)) { IsEnabled = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RampDownSecondsValue = obj->TryGetField(TEXT("RampDownSeconds"));
+    if (RampDownSecondsValue.IsValid() && !RampDownSecondsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (RampDownSecondsValue->TryGetNumber(TmpValue)) { RampDownSeconds = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FBuildRegion::~FBuildRegion()
 {
     //if (CurrentServerStats != nullptr) delete CurrentServerStats;
+    //if (DynamicStandbySettings != nullptr) delete DynamicStandbySettings;
 
 }
 
@@ -581,6 +680,12 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
     {
         writer->WriteIdentifierPrefix(TEXT("CurrentServerStats"));
         pfCurrentServerStats->writeJSON(writer);
+    }
+
+    if (pfDynamicStandbySettings.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DynamicStandbySettings"));
+        pfDynamicStandbySettings->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("MaxServers"));
@@ -612,6 +717,12 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
     if (CurrentServerStatsValue.IsValid() && !CurrentServerStatsValue->IsNull())
     {
         pfCurrentServerStats = MakeShareable(new FCurrentServerStats(CurrentServerStatsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> DynamicStandbySettingsValue = obj->TryGetField(TEXT("DynamicStandbySettings"));
+    if (DynamicStandbySettingsValue.IsValid() && !DynamicStandbySettingsValue->IsNull())
+    {
+        pfDynamicStandbySettings = MakeShareable(new FDynamicStandbySettings(DynamicStandbySettingsValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> MaxServersValue = obj->TryGetField(TEXT("MaxServers"));
@@ -647,12 +758,19 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
 
 PlayFab::MultiplayerModels::FBuildRegionParams::~FBuildRegionParams()
 {
+    //if (DynamicStandbySettings != nullptr) delete DynamicStandbySettings;
 
 }
 
 void PlayFab::MultiplayerModels::FBuildRegionParams::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (pfDynamicStandbySettings.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DynamicStandbySettings"));
+        pfDynamicStandbySettings->writeJSON(writer);
+    }
 
     writer->WriteIdentifierPrefix(TEXT("MaxServers"));
     writer->WriteValue(MaxServers);
@@ -676,6 +794,12 @@ void PlayFab::MultiplayerModels::FBuildRegionParams::writeJSON(JsonWriter& write
 bool PlayFab::MultiplayerModels::FBuildRegionParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DynamicStandbySettingsValue = obj->TryGetField(TEXT("DynamicStandbySettings"));
+    if (DynamicStandbySettingsValue.IsValid() && !DynamicStandbySettingsValue->IsNull())
+    {
+        pfDynamicStandbySettings = MakeShareable(new FDynamicStandbySettings(DynamicStandbySettingsValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonValue> MaxServersValue = obj->TryGetField(TEXT("MaxServers"));
     if (MaxServersValue.IsValid() && !MaxServersValue->IsNull())
@@ -4231,6 +4355,91 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::readFromV
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::~FGetMultiplayerServerLogsRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Region.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerLogsRequest::Region, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writer->WriteValue(Region);
+    }
+
+    if (!ServerId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerLogsRequest::ServerId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerId"));
+        writer->WriteValue(ServerId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerIdValue = obj->TryGetField(TEXT("ServerId"));
+    if (ServerIdValue.IsValid() && !ServerIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerIdValue->TryGetString(TmpValue)) { ServerId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetMultiplayerServerLogsResponse::~FGetMultiplayerServerLogsResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (LogDownloadUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LogDownloadUrl"));
+        writer->WriteValue(LogDownloadUrl);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMultiplayerServerLogsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> LogDownloadUrlValue = obj->TryGetField(TEXT("LogDownloadUrl"));
+    if (LogDownloadUrlValue.IsValid() && !LogDownloadUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (LogDownloadUrlValue->TryGetString(TmpValue)) { LogDownloadUrl = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FGetQueueStatisticsRequest::~FGetQueueStatisticsRequest()
 {
 
@@ -6433,6 +6642,51 @@ bool PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::readFromValu
     {
         FString TmpValue;
         if (SessionIdValue->TryGetString(TmpValue)) { SessionId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FUntagContainerImageRequest::~FUntagContainerImageRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FUntagContainerImageRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ImageName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ImageName"));
+        writer->WriteValue(ImageName);
+    }
+
+    if (Tag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Tag"));
+        writer->WriteValue(Tag);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FUntagContainerImageRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ImageNameValue = obj->TryGetField(TEXT("ImageName"));
+    if (ImageNameValue.IsValid() && !ImageNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ImageNameValue->TryGetString(TmpValue)) { ImageName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TagValue = obj->TryGetField(TEXT("Tag"));
+    if (TagValue.IsValid() && !TagValue->IsNull())
+    {
+        FString TmpValue;
+        if (TagValue->TryGetString(TmpValue)) { Tag = TmpValue; }
     }
 
     return HasSucceeded;

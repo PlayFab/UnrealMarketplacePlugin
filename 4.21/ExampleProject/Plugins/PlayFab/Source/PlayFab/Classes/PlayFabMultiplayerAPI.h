@@ -382,6 +382,19 @@ public:
         void HelperGetMultiplayerServerDetails(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMultiplayerServerLogs, FMultiplayerGetMultiplayerServerLogsResponse, result, UObject*, customData);
+
+    /** Gets multiplayer server logs after a server has terminated. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetMultiplayerServerLogs(FMultiplayerGetMultiplayerServerLogsRequest request,
+            FDelegateOnSuccessGetMultiplayerServerLogs onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetMultiplayerServerLogs(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetRemoteLoginEndpoint, FMultiplayerGetRemoteLoginEndpointResponse, result, UObject*, customData);
 
     /** Gets a remote login endpoint to a VM that is hosting a multiplayer server build. */
@@ -625,6 +638,19 @@ public:
         void HelperShutdownMultiplayerServer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUntagContainerImage, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Untags a container image. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UntagContainerImage(FMultiplayerUntagContainerImageRequest request,
+            FDelegateOnSuccessUntagContainerImage onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUntagContainerImage(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildAlias, FMultiplayerBuildAliasDetailsResponse, result, UObject*, customData);
 
     /** Creates a multiplayer server build alias. */
@@ -705,6 +731,7 @@ public:
     FDelegateOnSuccessGetBuildAlias OnSuccessGetBuildAlias;
     FDelegateOnSuccessGetContainerRegistryCredentials OnSuccessGetContainerRegistryCredentials;
     FDelegateOnSuccessGetMultiplayerServerDetails OnSuccessGetMultiplayerServerDetails;
+    FDelegateOnSuccessGetMultiplayerServerLogs OnSuccessGetMultiplayerServerLogs;
     FDelegateOnSuccessGetRemoteLoginEndpoint OnSuccessGetRemoteLoginEndpoint;
     FDelegateOnSuccessGetTitleEnabledForMultiplayerServersStatus OnSuccessGetTitleEnabledForMultiplayerServersStatus;
     FDelegateOnSuccessGetTitleMultiplayerServersQuotas OnSuccessGetTitleMultiplayerServersQuotas;
@@ -723,6 +750,7 @@ public:
     FDelegateOnSuccessRequestMultiplayerServer OnSuccessRequestMultiplayerServer;
     FDelegateOnSuccessRolloverContainerRegistryCredentials OnSuccessRolloverContainerRegistryCredentials;
     FDelegateOnSuccessShutdownMultiplayerServer OnSuccessShutdownMultiplayerServer;
+    FDelegateOnSuccessUntagContainerImage OnSuccessUntagContainerImage;
     FDelegateOnSuccessUpdateBuildAlias OnSuccessUpdateBuildAlias;
     FDelegateOnSuccessUpdateBuildRegions OnSuccessUpdateBuildRegions;
     FDelegateOnSuccessUploadCertificate OnSuccessUploadCertificate;

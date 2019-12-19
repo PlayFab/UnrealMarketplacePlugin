@@ -312,10 +312,82 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDynamicStandbyThreshold : public PlayFab::FPlayFabCppBaseModel
+    {
+        // When the trigger threshold is reached, multiply by this value
+        double Multiplier;
+
+        // The multiplier will be applied when the actual standby divided by target standby floor is less than this value
+        double TriggerThresholdPercentage;
+
+        FDynamicStandbyThreshold() :
+            FPlayFabCppBaseModel(),
+            Multiplier(0),
+            TriggerThresholdPercentage(0)
+            {}
+
+        FDynamicStandbyThreshold(const FDynamicStandbyThreshold& src) :
+            FPlayFabCppBaseModel(),
+            Multiplier(src.Multiplier),
+            TriggerThresholdPercentage(src.TriggerThresholdPercentage)
+            {}
+
+        FDynamicStandbyThreshold(const TSharedPtr<FJsonObject>& obj) : FDynamicStandbyThreshold()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDynamicStandbyThreshold();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDynamicStandbySettings : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] List of auto standing by trigger values and corresponding standing by multiplier. Defaults to 1.5X at 50%, 3X at 25%,
+         * and 4X at 5%
+         */
+        TArray<FDynamicStandbyThreshold> DynamicFloorMultiplierThresholds;
+        // When true, dynamic standby will be enabled
+        bool IsEnabled;
+
+        // [optional] The time it takes to reduce target standing by to configured floor value after an increase. Defaults to 30 minutes
+        Boxed<int32> RampDownSeconds;
+
+        FDynamicStandbySettings() :
+            FPlayFabCppBaseModel(),
+            DynamicFloorMultiplierThresholds(),
+            IsEnabled(false),
+            RampDownSeconds()
+            {}
+
+        FDynamicStandbySettings(const FDynamicStandbySettings& src) :
+            FPlayFabCppBaseModel(),
+            DynamicFloorMultiplierThresholds(src.DynamicFloorMultiplierThresholds),
+            IsEnabled(src.IsEnabled),
+            RampDownSeconds(src.RampDownSeconds)
+            {}
+
+        FDynamicStandbySettings(const TSharedPtr<FJsonObject>& obj) : FDynamicStandbySettings()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDynamicStandbySettings();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FBuildRegion : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The current multiplayer server stats for the region.
         TSharedPtr<FCurrentServerStats> pfCurrentServerStats;
+
+        // [optional] Optional settings to control dynamic adjustment of standby target
+        TSharedPtr<FDynamicStandbySettings> pfDynamicStandbySettings;
 
         // The maximum number of multiplayer servers for the region.
         int32 MaxServers;
@@ -323,7 +395,7 @@ namespace MultiplayerModels
         // [optional] The build region.
         FString Region;
 
-        // The number of standby multiplayer servers for the region.
+        // The target number of standby multiplayer servers for the region.
         int32 StandbyServers;
 
         /**
@@ -335,6 +407,7 @@ namespace MultiplayerModels
         FBuildRegion() :
             FPlayFabCppBaseModel(),
             pfCurrentServerStats(nullptr),
+            pfDynamicStandbySettings(nullptr),
             MaxServers(0),
             Region(),
             StandbyServers(0),
@@ -344,6 +417,7 @@ namespace MultiplayerModels
         FBuildRegion(const FBuildRegion& src) :
             FPlayFabCppBaseModel(),
             pfCurrentServerStats(src.pfCurrentServerStats.IsValid() ? MakeShareable(new FCurrentServerStats(*src.pfCurrentServerStats)) : nullptr),
+            pfDynamicStandbySettings(src.pfDynamicStandbySettings.IsValid() ? MakeShareable(new FDynamicStandbySettings(*src.pfDynamicStandbySettings)) : nullptr),
             MaxServers(src.MaxServers),
             Region(src.Region),
             StandbyServers(src.StandbyServers),
@@ -363,6 +437,9 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FBuildRegionParams : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Optional settings to control dynamic adjustment of standby target. If not specified, dynamic standby is disabled
+        TSharedPtr<FDynamicStandbySettings> pfDynamicStandbySettings;
+
         // The maximum number of multiplayer servers for the region.
         int32 MaxServers;
 
@@ -374,6 +451,7 @@ namespace MultiplayerModels
 
         FBuildRegionParams() :
             FPlayFabCppBaseModel(),
+            pfDynamicStandbySettings(nullptr),
             MaxServers(0),
             Region(),
             StandbyServers(0)
@@ -381,6 +459,7 @@ namespace MultiplayerModels
 
         FBuildRegionParams(const FBuildRegionParams& src) :
             FPlayFabCppBaseModel(),
+            pfDynamicStandbySettings(src.pfDynamicStandbySettings.IsValid() ? MakeShareable(new FDynamicStandbySettings(*src.pfDynamicStandbySettings)) : nullptr),
             MaxServers(src.MaxServers),
             Region(src.Region),
             StandbyServers(src.StandbyServers)
@@ -2381,6 +2460,63 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetMultiplayerServerLogsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The region of the multiplayer server to get logs for.
+        FString Region;
+
+        // The server ID of multiplayer server to get logs for.
+        FString ServerId;
+
+        FGetMultiplayerServerLogsRequest() :
+            FPlayFabCppRequestCommon(),
+            Region(),
+            ServerId()
+            {}
+
+        FGetMultiplayerServerLogsRequest(const FGetMultiplayerServerLogsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            Region(src.Region),
+            ServerId(src.ServerId)
+            {}
+
+        FGetMultiplayerServerLogsRequest(const TSharedPtr<FJsonObject>& obj) : FGetMultiplayerServerLogsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetMultiplayerServerLogsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetMultiplayerServerLogsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] URL for logs download.
+        FString LogDownloadUrl;
+
+        FGetMultiplayerServerLogsResponse() :
+            FPlayFabCppResultCommon(),
+            LogDownloadUrl()
+            {}
+
+        FGetMultiplayerServerLogsResponse(const FGetMultiplayerServerLogsResponse& src) :
+            FPlayFabCppResultCommon(),
+            LogDownloadUrl(src.LogDownloadUrl)
+            {}
+
+        FGetMultiplayerServerLogsResponse(const TSharedPtr<FJsonObject>& obj) : FGetMultiplayerServerLogsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetMultiplayerServerLogsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetQueueStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The name of the queue.
@@ -3801,6 +3937,37 @@ namespace MultiplayerModels
         }
 
         ~FShutdownMultiplayerServerRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUntagContainerImageRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The container image which tag we want to remove.
+        FString ImageName;
+
+        // [optional] The tag we want to remove.
+        FString Tag;
+
+        FUntagContainerImageRequest() :
+            FPlayFabCppRequestCommon(),
+            ImageName(),
+            Tag()
+            {}
+
+        FUntagContainerImageRequest(const FUntagContainerImageRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ImageName(src.ImageName),
+            Tag(src.Tag)
+            {}
+
+        FUntagContainerImageRequest(const TSharedPtr<FJsonObject>& obj) : FUntagContainerImageRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUntagContainerImageRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

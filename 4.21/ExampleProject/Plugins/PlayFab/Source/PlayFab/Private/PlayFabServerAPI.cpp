@@ -1739,6 +1739,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WriteCharacterEvent(FServerWriteServerChar
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
+    if (request.EventCustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventCustomTags"), request.EventCustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -1802,6 +1803,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WritePlayerEvent(FServerWriteServerPlayerE
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
+    if (request.EventCustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventCustomTags"), request.EventCustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -1866,6 +1868,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::WriteTitleEvent(FServerWriteTitleEventRequ
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
+    if (request.EventCustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventCustomTags"), request.EventCustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {

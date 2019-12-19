@@ -893,6 +893,33 @@ public:
         FString VmId;
 };
 
+/**
+ * Gets multiplayer server logs for a specific server id in a region. The logs are available only after a server has
+ * terminated.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMultiplayerServerLogsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The region of the multiplayer server to get logs for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString Region;
+    /** The server ID of multiplayer server to get logs for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ServerId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMultiplayerServerLogsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** URL for logs download. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString LogDownloadUrl;
+};
+
 /** Gets a remote login endpoint to a VM that is hosting a multiplayer server build in a specific region. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerGetRemoteLoginEndpointRequest : public FPlayFabRequestCommon
@@ -1386,6 +1413,23 @@ public:
     /** A guid string session ID of the multiplayer server to shut down. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SessionId;
+};
+
+/**
+ * Removes the specified tag from the image. After this operation, a 'docker pull' will fail for the specified image and
+ * tag combination. Morever, ListContainerImageTags will not return the specified tag.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerUntagContainerImageRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The container image which tag we want to remove. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ImageName;
+    /** The tag we want to remove. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString Tag;
 };
 
 /** Creates a multiplayer server build alias and returns the created alias. */

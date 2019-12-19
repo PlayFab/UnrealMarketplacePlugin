@@ -294,6 +294,17 @@ FMultiplayerGetMultiplayerServerDetailsResponse UPlayFabMultiplayerModelDecoder:
     return tempStruct;
 }
 
+FMultiplayerGetMultiplayerServerLogsResponse UPlayFabMultiplayerModelDecoder::decodeGetMultiplayerServerLogsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetMultiplayerServerLogsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.LogDownloadUrl = !(dataObj->HasField("LogDownloadUrl")) ? TEXT("") : dataObj->GetStringField("LogDownloadUrl");
+
+    return tempStruct;
+}
+
 FMultiplayerGetRemoteLoginEndpointResponse UPlayFabMultiplayerModelDecoder::decodeGetRemoteLoginEndpointResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

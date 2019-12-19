@@ -39,6 +39,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetMatchDelegate, const MultiplayerModels::FGetMatchResult&);
         DECLARE_DELEGATE_OneParam(FGetMatchmakingTicketDelegate, const MultiplayerModels::FGetMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FGetMultiplayerServerDetailsDelegate, const MultiplayerModels::FGetMultiplayerServerDetailsResponse&);
+        DECLARE_DELEGATE_OneParam(FGetMultiplayerServerLogsDelegate, const MultiplayerModels::FGetMultiplayerServerLogsResponse&);
         DECLARE_DELEGATE_OneParam(FGetQueueStatisticsDelegate, const MultiplayerModels::FGetQueueStatisticsResult&);
         DECLARE_DELEGATE_OneParam(FGetRemoteLoginEndpointDelegate, const MultiplayerModels::FGetRemoteLoginEndpointResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitleEnabledForMultiplayerServersStatusDelegate, const MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResponse&);
@@ -60,6 +61,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FRequestMultiplayerServerDelegate, const MultiplayerModels::FRequestMultiplayerServerResponse&);
         DECLARE_DELEGATE_OneParam(FRolloverContainerRegistryCredentialsDelegate, const MultiplayerModels::FRolloverContainerRegistryCredentialsResponse&);
         DECLARE_DELEGATE_OneParam(FShutdownMultiplayerServerDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUntagContainerImageDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionsDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUploadCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
@@ -191,6 +193,11 @@ namespace PlayFab
          * Gets multiplayer server session details for a build in a specific region.
          */
         bool GetMultiplayerServerDetails(MultiplayerModels::FGetMultiplayerServerDetailsRequest& request, const FGetMultiplayerServerDetailsDelegate& SuccessDelegate = FGetMultiplayerServerDetailsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Gets multiplayer server logs after a server has terminated.
+         * Gets multiplayer server logs for a specific server id in a region. The logs are available only after a server has terminated.
+         */
+        bool GetMultiplayerServerLogs(MultiplayerModels::FGetMultiplayerServerLogsRequest& request, const FGetMultiplayerServerLogsDelegate& SuccessDelegate = FGetMultiplayerServerLogsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Get the statistics for a queue.
          * Returns the matchmaking statistics for a queue. These include the number of players matching and the statistics related to the time to match statistics in seconds (average and percentiles). Statistics are refreshed once every 5 minutes. Servers can access all statistics no matter what the ClientStatisticsVisibility is configured to. Clients can access statistics according to the ClientStatisticsVisibility. Client requests are forbidden if all visibility fields are false.
@@ -337,6 +344,11 @@ namespace PlayFab
          */
         bool ShutdownMultiplayerServer(MultiplayerModels::FShutdownMultiplayerServerRequest& request, const FShutdownMultiplayerServerDelegate& SuccessDelegate = FShutdownMultiplayerServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Untags a container image.
+         * Removes the specified tag from the image. After this operation, a 'docker pull' will fail for the specified image and tag combination. Morever, ListContainerImageTags will not return the specified tag.
+         */
+        bool UntagContainerImage(MultiplayerModels::FUntagContainerImageRequest& request, const FUntagContainerImageDelegate& SuccessDelegate = FUntagContainerImageDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Creates a multiplayer server build alias.
          * Creates a multiplayer server build alias and returns the created alias.
          */
@@ -375,6 +387,7 @@ namespace PlayFab
         void OnGetMatchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMultiplayerServerDetailsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerServerDetailsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetMultiplayerServerLogsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerServerLogsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetQueueStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetQueueStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRemoteLoginEndpointResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRemoteLoginEndpointDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleEnabledForMultiplayerServersStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleEnabledForMultiplayerServersStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -396,6 +409,7 @@ namespace PlayFab
         void OnRequestMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRequestMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRolloverContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRolloverContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnShutdownMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FShutdownMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUntagContainerImageResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUntagContainerImageDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildRegionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUploadCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

@@ -72,6 +72,19 @@ public:
         void HelperCancelAllMatchmakingTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCancelAllServerBackfillTicketsForPlayer, FMultiplayerCancelAllServerBackfillTicketsForPlayerResult, result, UObject*, customData);
+
+    /** Cancel all active backfill tickets the player is a member of in a given queue. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CancelAllServerBackfillTicketsForPlayer(FMultiplayerCancelAllServerBackfillTicketsForPlayerRequest request,
+            FDelegateOnSuccessCancelAllServerBackfillTicketsForPlayer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCancelAllServerBackfillTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCancelMatchmakingTicket, FMultiplayerCancelMatchmakingTicketResult, result, UObject*, customData);
 
     /** Cancel a matchmaking ticket. */
@@ -85,6 +98,19 @@ public:
         void HelperCancelMatchmakingTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCancelServerBackfillTicket, FMultiplayerCancelServerBackfillTicketResult, result, UObject*, customData);
+
+    /** Cancel a server backfill ticket. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CancelServerBackfillTicket(FMultiplayerCancelServerBackfillTicketRequest request,
+            FDelegateOnSuccessCancelServerBackfillTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCancelServerBackfillTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateMatchmakingTicket, FMultiplayerCreateMatchmakingTicketResult, result, UObject*, customData);
 
     /** Create a matchmaking ticket as a client. */
@@ -96,6 +122,23 @@ public:
     // Implements FOnPlayFabMultiplayerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperCreateMatchmakingTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateServerBackfillTicket, FMultiplayerCreateServerBackfillTicketResult, result, UObject*, customData);
+
+    /**
+     * Create a backfill matchmaking ticket as a server. A backfill ticket represents an ongoing game. The matchmaking service
+     * automatically starts matching the backfill ticket against other matchmaking tickets. Backfill tickets cannot match with
+     * other backfill tickets.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CreateServerBackfillTicket(FMultiplayerCreateServerBackfillTicketRequest request,
+            FDelegateOnSuccessCreateServerBackfillTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateServerBackfillTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateServerMatchmakingTicket, FMultiplayerCreateMatchmakingTicketResult, result, UObject*, customData);
@@ -153,6 +196,19 @@ public:
         void HelperGetQueueStatistics(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetServerBackfillTicket, FMultiplayerGetServerBackfillTicketResult, result, UObject*, customData);
+
+    /** Get a matchmaking backfill ticket by ticket Id. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetServerBackfillTicket(FMultiplayerGetServerBackfillTicketRequest request,
+            FDelegateOnSuccessGetServerBackfillTicket onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetServerBackfillTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessJoinMatchmakingTicket, FMultiplayerJoinMatchmakingTicketResult, result, UObject*, customData);
 
     /** Join a matchmaking ticket. */
@@ -177,6 +233,19 @@ public:
     // Implements FOnPlayFabMultiplayerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperListMatchmakingTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListServerBackfillTicketsForPlayer, FMultiplayerListServerBackfillTicketsForPlayerResult, result, UObject*, customData);
+
+    /** List all server backfill ticket Ids the user is a member of. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListServerBackfillTicketsForPlayer(FMultiplayerListServerBackfillTicketsForPlayerRequest request,
+            FDelegateOnSuccessListServerBackfillTicketsForPlayer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListServerBackfillTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
     ///////////////////////////////////////////////////////
@@ -708,14 +777,19 @@ public:
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessCancelAllMatchmakingTicketsForPlayer OnSuccessCancelAllMatchmakingTicketsForPlayer;
+    FDelegateOnSuccessCancelAllServerBackfillTicketsForPlayer OnSuccessCancelAllServerBackfillTicketsForPlayer;
     FDelegateOnSuccessCancelMatchmakingTicket OnSuccessCancelMatchmakingTicket;
+    FDelegateOnSuccessCancelServerBackfillTicket OnSuccessCancelServerBackfillTicket;
     FDelegateOnSuccessCreateMatchmakingTicket OnSuccessCreateMatchmakingTicket;
+    FDelegateOnSuccessCreateServerBackfillTicket OnSuccessCreateServerBackfillTicket;
     FDelegateOnSuccessCreateServerMatchmakingTicket OnSuccessCreateServerMatchmakingTicket;
     FDelegateOnSuccessGetMatch OnSuccessGetMatch;
     FDelegateOnSuccessGetMatchmakingTicket OnSuccessGetMatchmakingTicket;
     FDelegateOnSuccessGetQueueStatistics OnSuccessGetQueueStatistics;
+    FDelegateOnSuccessGetServerBackfillTicket OnSuccessGetServerBackfillTicket;
     FDelegateOnSuccessJoinMatchmakingTicket OnSuccessJoinMatchmakingTicket;
     FDelegateOnSuccessListMatchmakingTicketsForPlayer OnSuccessListMatchmakingTicketsForPlayer;
+    FDelegateOnSuccessListServerBackfillTicketsForPlayer OnSuccessListServerBackfillTicketsForPlayer;
     FDelegateOnSuccessCreateBuildAlias OnSuccessCreateBuildAlias;
     FDelegateOnSuccessCreateBuildWithCustomContainer OnSuccessCreateBuildWithCustomContainer;
     FDelegateOnSuccessCreateBuildWithManagedContainer OnSuccessCreateBuildWithManagedContainer;

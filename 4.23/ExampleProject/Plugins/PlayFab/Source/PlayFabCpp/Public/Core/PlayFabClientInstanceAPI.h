@@ -238,7 +238,7 @@ namespace PlayFab
         /**
          * Adds users to the set of those able to update both the shared data, as well as the set of users in the group. Only users
          * in the group can add new members. Shared Groups are designed for sharing data between a very small number of players,
-         * please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups
+         * please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
          */
         bool AddSharedGroupMembers(ClientModels::FAddSharedGroupMembersRequest& request, const FAddSharedGroupMembersDelegate& SuccessDelegate = FAddSharedGroupMembersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -253,7 +253,7 @@ namespace PlayFab
         bool AddUserVirtualCurrency(ClientModels::FAddUserVirtualCurrencyRequest& request, const FAddUserVirtualCurrencyDelegate& SuccessDelegate = FAddUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Registers the Android device to receive push notifications
-         * More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://api.playfab.com/docs/pushCrashCourse/.
+         * More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart.
          */
         bool AndroidDevicePushNotificationRegistration(ClientModels::FAndroidDevicePushNotificationRegistrationRequest& request, const FAndroidDevicePushNotificationRegistrationDelegate& SuccessDelegate = FAndroidDevicePushNotificationRegistrationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -286,7 +286,7 @@ namespace PlayFab
          * Requests the creation of a shared group object, containing key/value pairs which may be updated by all members of the
          * group. Upon creation, the current user will be the only member of the group. Shared Groups are designed for sharing data
          * between a very small number of players, please see our guide:
-         * https://docs.microsoft.com/en-us/gaming/playfab/features/social/groups/using-shared-group-data
+         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
          * If SharedGroupId is specified, the service will attempt to create a group with that identifier, and will return an error if it is already in use. If no SharedGroupId is specified, a random identifier will be assigned.
          */
         bool CreateSharedGroup(ClientModels::FCreateSharedGroupRequest& request, const FCreateSharedGroupDelegate& SuccessDelegate = FCreateSharedGroupDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -326,7 +326,7 @@ namespace PlayFab
          * URL will attempt to download the content. A HEAD query to the returned URL will attempt to retrieve the metadata of the
          * content. Note that a successful result does not guarantee the existence of this content - if it has not been uploaded,
          * the query to retrieve the data will fail. See this post for more information:
-         * https://community.playfab.com/hc/en-us/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also,
+         * https://community.playfab.com/hc/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also,
          * please be aware that the Content service is specifically PlayFab's CDN offering, for which standard CDN rates apply.
          */
         bool GetContentDownloadUrl(ClientModels::FGetContentDownloadUrlRequest& request, const FGetContentDownloadUrlDelegate& SuccessDelegate = FGetContentDownloadUrlDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -368,7 +368,7 @@ namespace PlayFab
         bool GetPaymentToken(ClientModels::FGetPaymentTokenRequest& request, const FGetPaymentTokenDelegate& SuccessDelegate = FGetPaymentTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets a Photon custom authentication token that can be used to securely join the player into a Photon room. See
-         * https://docs.microsoft.com/en-us/gaming/playfab/features/multiplayer/photon/quickstart for more details.
+         * https://docs.microsoft.com/gaming/playfab/features/multiplayer/photon/quickstart for more details.
          */
         bool GetPhotonAuthenticationToken(ClientModels::FGetPhotonAuthenticationTokenRequest& request, const FGetPhotonAuthenticationTokenDelegate& SuccessDelegate = FGetPhotonAuthenticationTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves all of the user's different kinds of info.
@@ -454,7 +454,7 @@ namespace PlayFab
          * Retrieves data stored in a shared group object, as well as the list of members in the group. Non-members of the group
          * may use this to retrieve group data, including membership, but they will not receive data for keys marked as private.
          * Shared Groups are designed for sharing data between a very small number of players, please see our guide:
-         * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
+         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
          */
         bool GetSharedGroupData(ClientModels::FGetSharedGroupDataRequest& request, const FGetSharedGroupDataDelegate& SuccessDelegate = FGetSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -702,7 +702,7 @@ namespace PlayFab
         bool RefreshPSNAuthToken(ClientModels::FRefreshPSNAuthTokenRequest& request, const FRefreshPSNAuthTokenDelegate& SuccessDelegate = FRefreshPSNAuthTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Registers the iOS device to receive push notifications
-         * The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://api.playfab.com/docs/pushCrashCourse/
+         * The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart
          */
         bool RegisterForIOSPushNotification(ClientModels::FRegisterForIOSPushNotificationRequest& request, const FRegisterForIOSPushNotificationDelegate& SuccessDelegate = FRegisterForIOSPushNotificationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -735,7 +735,7 @@ namespace PlayFab
          * Removes users from the set of those able to update the shared data and the set of users in the group. Only users in the
          * group can remove members. If as a result of the call, zero users remain with access, the group and its associated data
          * will be deleted. Shared Groups are designed for sharing data between a very small number of players, please see our
-         * guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups
+         * guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
          */
         bool RemoveSharedGroupMembers(ClientModels::FRemoveSharedGroupMembersRequest& request, const FRemoveSharedGroupMembersDelegate& SuccessDelegate = FRemoveSharedGroupMembersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -889,7 +889,7 @@ namespace PlayFab
          * or added in this call will be readable by users not in the group. By default, data permissions are set to Private.
          * Regardless of the permission setting, only members of the group can update the data. Shared Groups are designed for
          * sharing data between a very small number of players, please see our guide:
-         * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
+         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
          * Note that in the case of multiple calls to write to the same shared group data keys, the last write received by the PlayFab service will determine the value available to subsequent read operations. For scenarios requiring coordination of data updates, it is recommended that titles make use of user data with read permission set to public, or a combination of user data and shared group data.
          */
         bool UpdateSharedGroupData(ClientModels::FUpdateSharedGroupDataRequest& request, const FUpdateSharedGroupDataDelegate& SuccessDelegate = FUpdateSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

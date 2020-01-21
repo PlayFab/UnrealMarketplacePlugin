@@ -57,6 +57,31 @@ public:
 };
 
 /**
+ * Cancels all backfill tickets of which the player is a member in a given queue that are not cancelled or matched. This
+ * API is useful if you lose track of what tickets the player is a member of (if the server crashes for instance) and want
+ * to "reset".
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelAllServerBackfillTicketsForPlayerRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity key of the player whose backfill tickets should be canceled. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The name of the queue from which a player's backfill tickets should be canceled. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelAllServerBackfillTicketsForPlayerResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
  * Only servers and ticket members can cancel a ticket. The ticket can be in five different states when it is cancelled. 1:
  * the ticket is waiting for members to join it, and it has not started matching. If the ticket is cancelled at this stage,
  * it will never match. 2: the ticket is matching. If the ticket is cancelled, it will stop matching. 3: the ticket is
@@ -87,6 +112,34 @@ struct PLAYFAB_API FMultiplayerCancelMatchmakingTicketResult : public FPlayFabRe
 public:
 };
 
+/**
+ * Only servers can cancel a backfill ticket. The ticket can be in three different states when it is cancelled. 1: the
+ * ticket is matching. If the ticket is cancelled, it will stop matching. 2: the ticket is matched. A matched ticket cannot
+ * be cancelled. 3: the ticket is already cancelled and nothing happens. There may be race conditions between the ticket
+ * getting matched and the server making a cancellation request. The server must handle the possibility that the cancel
+ * request fails if a match is found before the cancellation request is processed. We do not allow resubmitting a cancelled
+ * ticket. Create a new ticket instead.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelServerBackfillTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The name of the queue the ticket is in. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCancelServerBackfillTicketResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
 /** The client specifies the creator's attributes and optionally a list of other users to match with. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerCreateMatchmakingTicketRequest : public FPlayFabRequestCommon
@@ -109,6 +162,36 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerCreateMatchmakingTicketResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+/** The server specifies all the members, their teams and their attributes, and the server details if applicable. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateServerBackfillTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** How long to attempt matching this ticket in seconds. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        int32 GiveUpAfterSeconds = 0;
+    /** The users who will be part of this ticket, along with their team assignments. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> Members;
+    /** The Id of a match queue. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** The details of the server the members are connected to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* ServerDetails = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateServerBackfillTicketResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -213,9 +296,6 @@ struct PLAYFAB_API FMultiplayerGetMatchmakingTicketResult : public FPlayFabResul
 public:
     /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
-        ECancellationReason CancellationReason;
-    /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString CancellationReasonString;
     /** The server date and time at which ticket was created. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
@@ -280,6 +360,63 @@ public:
 };
 
 /**
+ * The ticket includes the players, their attributes, their teams, the ticket status, the match Id and the server details
+ * when applicable, etc. Only servers can get the ticket.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetServerBackfillTicketRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
+     * object.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        bool EscapeObject = false;
+    /** The name of the queue to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetServerBackfillTicketResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString CancellationReasonString;
+    /** The server date and time at which ticket was created. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString Created;
+    /** How long to attempt matching this ticket in seconds. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        int32 GiveUpAfterSeconds = 0;
+    /** The Id of a match. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString MatchId;
+    /** A list of Users that are part of this ticket, along with their team assignments. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        TArray<UPlayFabJsonObject*> Members;
+    /** The Id of a match queue. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+    /** The details of the server the members are connected to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* ServerDetails = nullptr;
+    /** The current ticket status. Possible values are: WaitingForMatch, Canceled and Matched. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString Status;
+    /** The Id of the ticket to find a match for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketId;
+};
+
+/**
  * Add the player to a matchmaking ticket and specify all of its matchmaking attributes. Players can join a ticket if and
  * only if their EntityKeys are already listed in the ticket's Members list. The matchmaking service automatically starts
  * matching the ticket against other matchmaking tickets once all players have joined the ticket. It is not possible to
@@ -331,6 +468,30 @@ struct PLAYFAB_API FMultiplayerListMatchmakingTicketsForPlayerResult : public FP
     GENERATED_USTRUCT_BODY()
 public:
     /** The list of ticket Ids the user is a member of. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString TicketIds;
+};
+
+/** List all server backfill ticket Ids the user is a member of. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListServerBackfillTicketsForPlayerRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity key for which to find the ticket Ids. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The name of the queue the tickets are in. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListServerBackfillTicketsForPlayerResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of backfill ticket Ids the user is a member of. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString TicketIds;
 };

@@ -2152,6 +2152,36 @@ void UPlayFabServerAPI::OnGrantItemsToUsersResult(FHttpRequestPtr HttpRequest, F
     }
 }
 
+bool UPlayFabServerAPI::LinkPSNAccount(
+    ServerModels::FLinkPSNAccountRequest& request,
+    const FLinkPSNAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Server/LinkPSNAccount")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabServerAPI::OnLinkPSNAccountResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabServerAPI::OnLinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ServerModels::FLinkPSNAccountResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabServerAPI::LinkServerCustomId(
     ServerModels::FLinkServerCustomIdRequest& request,
     const FLinkServerCustomIdDelegate& SuccessDelegate,
@@ -3281,6 +3311,36 @@ bool UPlayFabServerAPI::SubtractUserVirtualCurrency(
 void UPlayFabServerAPI::OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ServerModels::FModifyUserVirtualCurrencyResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabServerAPI::UnlinkPSNAccount(
+    ServerModels::FUnlinkPSNAccountRequest& request,
+    const FUnlinkPSNAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Server/UnlinkPSNAccount")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabServerAPI::OnUnlinkPSNAccountResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabServerAPI::OnUnlinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ServerModels::FUnlinkPSNAccountResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

@@ -1247,9 +1247,6 @@ public:
     /** Unique PlayFab assigned ID for a specific character owned by a user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
         FString CharacterId;
-    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -1287,9 +1284,6 @@ public:
     /** Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
         UPlayFabJsonObject* Body = nullptr;
-    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -1314,9 +1308,6 @@ public:
     /** Custom event properties. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
         UPlayFabJsonObject* Body = nullptr;
-    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Analytics Models")
-        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -2722,7 +2713,8 @@ public:
 /**
  * More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer
  * documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push
- * Notifications is described in the PlayFab tutorials, here: https://api.playfab.com/docs/pushCrashCourse/.
+ * Notifications is described in the PlayFab tutorials, here:
+ * https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientAndroidDevicePushNotificationRegistrationRequest : public FPlayFabRequestCommon
@@ -2814,7 +2806,7 @@ public:
 
 /**
  * The steps to configure and send Push Notifications is described in the PlayFab tutorials, here:
- * https://api.playfab.com/docs/pushCrashCourse/
+ * https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientRegisterForIOSPushNotificationRequest : public FPlayFabRequestCommon

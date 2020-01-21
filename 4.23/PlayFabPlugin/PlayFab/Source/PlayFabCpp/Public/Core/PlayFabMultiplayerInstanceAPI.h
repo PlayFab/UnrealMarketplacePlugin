@@ -23,12 +23,15 @@ namespace PlayFab
     {
     public:
         DECLARE_DELEGATE_OneParam(FCancelAllMatchmakingTicketsForPlayerDelegate, const MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerResult&);
+        DECLARE_DELEGATE_OneParam(FCancelAllServerBackfillTicketsForPlayerDelegate, const MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerResult&);
         DECLARE_DELEGATE_OneParam(FCancelMatchmakingTicketDelegate, const MultiplayerModels::FCancelMatchmakingTicketResult&);
+        DECLARE_DELEGATE_OneParam(FCancelServerBackfillTicketDelegate, const MultiplayerModels::FCancelServerBackfillTicketResult&);
         DECLARE_DELEGATE_OneParam(FCreateBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
         DECLARE_DELEGATE_OneParam(FCreateBuildWithCustomContainerDelegate, const MultiplayerModels::FCreateBuildWithCustomContainerResponse&);
         DECLARE_DELEGATE_OneParam(FCreateBuildWithManagedContainerDelegate, const MultiplayerModels::FCreateBuildWithManagedContainerResponse&);
         DECLARE_DELEGATE_OneParam(FCreateMatchmakingTicketDelegate, const MultiplayerModels::FCreateMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FCreateRemoteUserDelegate, const MultiplayerModels::FCreateRemoteUserResponse&);
+        DECLARE_DELEGATE_OneParam(FCreateServerBackfillTicketDelegate, const MultiplayerModels::FCreateServerBackfillTicketResult&);
         DECLARE_DELEGATE_OneParam(FCreateServerMatchmakingTicketDelegate, const MultiplayerModels::FCreateMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FDeleteAssetDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteBuildDelegate, const MultiplayerModels::FEmptyResponse&);
@@ -46,6 +49,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetMultiplayerServerLogsDelegate, const MultiplayerModels::FGetMultiplayerServerLogsResponse&);
         DECLARE_DELEGATE_OneParam(FGetQueueStatisticsDelegate, const MultiplayerModels::FGetQueueStatisticsResult&);
         DECLARE_DELEGATE_OneParam(FGetRemoteLoginEndpointDelegate, const MultiplayerModels::FGetRemoteLoginEndpointResponse&);
+        DECLARE_DELEGATE_OneParam(FGetServerBackfillTicketDelegate, const MultiplayerModels::FGetServerBackfillTicketResult&);
         DECLARE_DELEGATE_OneParam(FGetTitleEnabledForMultiplayerServersStatusDelegate, const MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitleMultiplayerServersQuotasDelegate, const MultiplayerModels::FGetTitleMultiplayerServersQuotasResponse&);
         DECLARE_DELEGATE_OneParam(FJoinMatchmakingTicketDelegate, const MultiplayerModels::FJoinMatchmakingTicketResult&);
@@ -61,6 +65,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListPartyQosServersDelegate, const MultiplayerModels::FListPartyQosServersResponse&);
         DECLARE_DELEGATE_OneParam(FListQosServersDelegate, const MultiplayerModels::FListQosServersResponse&);
         DECLARE_DELEGATE_OneParam(FListQosServersForTitleDelegate, const MultiplayerModels::FListQosServersForTitleResponse&);
+        DECLARE_DELEGATE_OneParam(FListServerBackfillTicketsForPlayerDelegate, const MultiplayerModels::FListServerBackfillTicketsForPlayerResult&);
         DECLARE_DELEGATE_OneParam(FListVirtualMachineSummariesDelegate, const MultiplayerModels::FListVirtualMachineSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FRequestMultiplayerServerDelegate, const MultiplayerModels::FRequestMultiplayerServerResponse&);
         DECLARE_DELEGATE_OneParam(FRolloverContainerRegistryCredentialsDelegate, const MultiplayerModels::FRolloverContainerRegistryCredentialsResponse&);
@@ -106,10 +111,20 @@ namespace PlayFab
          */
         bool CancelAllMatchmakingTicketsForPlayer(MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest& request, const FCancelAllMatchmakingTicketsForPlayerDelegate& SuccessDelegate = FCancelAllMatchmakingTicketsForPlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Cancel all active backfill tickets the player is a member of in a given queue.
+         * Cancels all backfill tickets of which the player is a member in a given queue that are not cancelled or matched. This API is useful if you lose track of what tickets the player is a member of (if the server crashes for instance) and want to "reset".
+         */
+        bool CancelAllServerBackfillTicketsForPlayer(MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerRequest& request, const FCancelAllServerBackfillTicketsForPlayerDelegate& SuccessDelegate = FCancelAllServerBackfillTicketsForPlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Cancel a matchmaking ticket.
          * Only servers and ticket members can cancel a ticket. The ticket can be in five different states when it is cancelled. 1: the ticket is waiting for members to join it, and it has not started matching. If the ticket is cancelled at this stage, it will never match. 2: the ticket is matching. If the ticket is cancelled, it will stop matching. 3: the ticket is matched. A matched ticket cannot be cancelled. 4: the ticket is already cancelled and nothing happens. 5: the ticket is waiting for a server. If the ticket is cancelled, server allocation will be stopped. A server may still be allocated due to a race condition, but that will not be reflected in the ticket. There may be race conditions between the ticket getting matched and the client making a cancellation request. The client must handle the possibility that the cancel request fails if a match is found before the cancellation request is processed. We do not allow resubmitting a cancelled ticket because players must consent to enter matchmaking again. Create a new ticket instead.
          */
         bool CancelMatchmakingTicket(MultiplayerModels::FCancelMatchmakingTicketRequest& request, const FCancelMatchmakingTicketDelegate& SuccessDelegate = FCancelMatchmakingTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Cancel a server backfill ticket.
+         * Only servers can cancel a backfill ticket. The ticket can be in three different states when it is cancelled. 1: the ticket is matching. If the ticket is cancelled, it will stop matching. 2: the ticket is matched. A matched ticket cannot be cancelled. 3: the ticket is already cancelled and nothing happens. There may be race conditions between the ticket getting matched and the server making a cancellation request. The server must handle the possibility that the cancel request fails if a match is found before the cancellation request is processed. We do not allow resubmitting a cancelled ticket. Create a new ticket instead.
+         */
+        bool CancelServerBackfillTicket(MultiplayerModels::FCancelServerBackfillTicketRequest& request, const FCancelServerBackfillTicketDelegate& SuccessDelegate = FCancelServerBackfillTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Creates a multiplayer server build alias.
          * Creates a multiplayer server build alias and returns the created alias.
@@ -135,6 +150,13 @@ namespace PlayFab
          * Creates a remote user to log on to a VM for a multiplayer server build in a specific region. Returns user credential information necessary to log on.
          */
         bool CreateRemoteUser(MultiplayerModels::FCreateRemoteUserRequest& request, const FCreateRemoteUserDelegate& SuccessDelegate = FCreateRemoteUserDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Create a backfill matchmaking ticket as a server. A backfill ticket represents an ongoing game. The matchmaking service
+         * automatically starts matching the backfill ticket against other matchmaking tickets. Backfill tickets cannot match with
+         * other backfill tickets.
+         * The server specifies all the members, their teams and their attributes, and the server details if applicable.
+         */
+        bool CreateServerBackfillTicket(MultiplayerModels::FCreateServerBackfillTicketRequest& request, const FCreateServerBackfillTicketDelegate& SuccessDelegate = FCreateServerBackfillTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Create a matchmaking ticket as a server. The matchmaking service automatically starts matching the ticket against other
          * matchmaking tickets.
@@ -233,6 +255,11 @@ namespace PlayFab
          * Gets a remote login endpoint to a VM that is hosting a multiplayer server build in a specific region.
          */
         bool GetRemoteLoginEndpoint(MultiplayerModels::FGetRemoteLoginEndpointRequest& request, const FGetRemoteLoginEndpointDelegate& SuccessDelegate = FGetRemoteLoginEndpointDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Get a matchmaking backfill ticket by ticket Id.
+         * The ticket includes the players, their attributes, their teams, the ticket status, the match Id and the server details when applicable, etc. Only servers can get the ticket.
+         */
+        bool GetServerBackfillTicket(MultiplayerModels::FGetServerBackfillTicketRequest& request, const FGetServerBackfillTicketDelegate& SuccessDelegate = FGetServerBackfillTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets the status of whether a title is enabled for the multiplayer server feature.
          * Gets the status of whether a title is enabled for the multiplayer server feature. The enabled status can be Initializing, Enabled, and Disabled.
@@ -342,6 +369,11 @@ namespace PlayFab
          */
         bool ListQosServersForTitle(MultiplayerModels::FListQosServersForTitleRequest& request, const FListQosServersForTitleDelegate& SuccessDelegate = FListQosServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * List all server backfill ticket Ids the user is a member of.
+         * List all server backfill ticket Ids the user is a member of.
+         */
+        bool ListServerBackfillTicketsForPlayer(MultiplayerModels::FListServerBackfillTicketsForPlayerRequest& request, const FListServerBackfillTicketsForPlayerDelegate& SuccessDelegate = FListServerBackfillTicketsForPlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Lists virtual machines for a title.
          * Returns a list of virtual machines for a title.
          */
@@ -392,12 +424,15 @@ namespace PlayFab
     private:
         // ------------ Generated result handlers
         void OnCancelAllMatchmakingTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCancelAllMatchmakingTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCancelAllServerBackfillTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCancelAllServerBackfillTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCancelMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCancelMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCancelServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCancelServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateBuildWithCustomContainerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithCustomContainerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateBuildWithManagedContainerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithManagedContainerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateServerMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateServerMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteAssetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteAssetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -415,6 +450,7 @@ namespace PlayFab
         void OnGetMultiplayerServerLogsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerServerLogsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetQueueStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetQueueStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRemoteLoginEndpointResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRemoteLoginEndpointDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleEnabledForMultiplayerServersStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleEnabledForMultiplayerServersStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleMultiplayerServersQuotasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleMultiplayerServersQuotasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnJoinMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -430,6 +466,7 @@ namespace PlayFab
         void OnListPartyQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPartyQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQosServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListServerBackfillTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBackfillTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualMachineSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualMachineSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRequestMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRequestMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRolloverContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRolloverContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

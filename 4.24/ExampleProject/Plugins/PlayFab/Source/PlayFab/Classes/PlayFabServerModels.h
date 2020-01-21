@@ -383,6 +383,35 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkPSNAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Authentication code provided by the PlayStation Network. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString AuthCode;
+    /** If another user is already linked to the account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        int32 IssuerId = 0;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+    /** Redirect URI supplied to PSN when requesting an auth code */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString RedirectUri;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkPSNAccountResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLinkServerCustomIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -627,6 +656,23 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkPSNAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkPSNAccountResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlinkServerCustomIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -744,9 +790,6 @@ public:
     /** Unique PlayFab assigned ID for a specific character owned by a user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         FString CharacterId;
-    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
-        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -774,9 +817,6 @@ public:
     /** Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         UPlayFabJsonObject* Body = nullptr;
-    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
-        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -804,9 +844,6 @@ public:
     /** Custom event properties. Each property consists of a name (string) and a value (JSON object). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
         UPlayFabJsonObject* Body = nullptr;
-    /** The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Analytics Models")
-        UPlayFabJsonObject* EventCustomTags;
     /**
      * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
      * commonly follows the subject_verb_object pattern (e.g. player_logged_in).

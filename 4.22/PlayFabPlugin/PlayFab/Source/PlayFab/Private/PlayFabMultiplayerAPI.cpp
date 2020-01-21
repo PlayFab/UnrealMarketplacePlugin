@@ -128,6 +128,59 @@ void UPlayFabMultiplayerAPI::HelperCancelAllMatchmakingTicketsForPlayer(FPlayFab
     this->RemoveFromRoot();
 }
 
+/** Cancel all active backfill tickets the player is a member of in a given queue. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelAllServerBackfillTicketsForPlayer(FMultiplayerCancelAllServerBackfillTicketsForPlayerRequest request,
+    FDelegateOnSuccessCancelAllServerBackfillTicketsForPlayer onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCancelAllServerBackfillTicketsForPlayer = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCancelAllServerBackfillTicketsForPlayer);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Match/CancelAllServerBackfillTicketsForPlayer";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.QueueName.IsEmpty() || request.QueueName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperCancelAllServerBackfillTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCancelAllServerBackfillTicketsForPlayer.IsBound())
+    {
+        FMultiplayerCancelAllServerBackfillTicketsForPlayerResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCancelAllServerBackfillTicketsForPlayerResultResponse(response.responseData);
+        OnSuccessCancelAllServerBackfillTicketsForPlayer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Cancel a matchmaking ticket. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelMatchmakingTicket(FMultiplayerCancelMatchmakingTicketRequest request,
     FDelegateOnSuccessCancelMatchmakingTicket onSuccess,
@@ -181,6 +234,63 @@ void UPlayFabMultiplayerAPI::HelperCancelMatchmakingTicket(FPlayFabBaseModel res
     {
         FMultiplayerCancelMatchmakingTicketResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCancelMatchmakingTicketResultResponse(response.responseData);
         OnSuccessCancelMatchmakingTicket.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Cancel a server backfill ticket. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelServerBackfillTicket(FMultiplayerCancelServerBackfillTicketRequest request,
+    FDelegateOnSuccessCancelServerBackfillTicket onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCancelServerBackfillTicket = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCancelServerBackfillTicket);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Match/CancelServerBackfillTicket";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.QueueName.IsEmpty() || request.QueueName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
+    }
+    if (request.TicketId.IsEmpty() || request.TicketId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("TicketId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("TicketId"), request.TicketId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperCancelServerBackfillTicket(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCancelServerBackfillTicket.IsBound())
+    {
+        FMultiplayerCancelServerBackfillTicketResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCancelServerBackfillTicketResultResponse(response.responseData);
+        OnSuccessCancelServerBackfillTicket.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -240,6 +350,65 @@ void UPlayFabMultiplayerAPI::HelperCreateMatchmakingTicket(FPlayFabBaseModel res
     {
         FMultiplayerCreateMatchmakingTicketResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCreateMatchmakingTicketResultResponse(response.responseData);
         OnSuccessCreateMatchmakingTicket.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Create a backfill matchmaking ticket as a server. A backfill ticket represents an ongoing game. The matchmaking service automatically starts matching the backfill ticket against other matchmaking tickets. Backfill tickets cannot match with other backfill tickets. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateServerBackfillTicket(FMultiplayerCreateServerBackfillTicketRequest request,
+    FDelegateOnSuccessCreateServerBackfillTicket onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateServerBackfillTicket = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCreateServerBackfillTicket);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Match/CreateServerBackfillTicket";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetNumberField(TEXT("GiveUpAfterSeconds"), request.GiveUpAfterSeconds);
+    if (request.Members.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Members"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Members"), request.Members);
+    }
+    if (request.QueueName.IsEmpty() || request.QueueName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
+    }
+    if (request.ServerDetails != nullptr) OutRestJsonObj->SetObjectField(TEXT("ServerDetails"), request.ServerDetails);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperCreateServerBackfillTicket(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateServerBackfillTicket.IsBound())
+    {
+        FMultiplayerCreateServerBackfillTicketResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCreateServerBackfillTicketResultResponse(response.responseData);
+        OnSuccessCreateServerBackfillTicket.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -472,6 +641,64 @@ void UPlayFabMultiplayerAPI::HelperGetQueueStatistics(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
+/** Get a matchmaking backfill ticket by ticket Id. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetServerBackfillTicket(FMultiplayerGetServerBackfillTicketRequest request,
+    FDelegateOnSuccessGetServerBackfillTicket onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetServerBackfillTicket = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetServerBackfillTicket);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Match/GetServerBackfillTicket";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
+    if (request.QueueName.IsEmpty() || request.QueueName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
+    }
+    if (request.TicketId.IsEmpty() || request.TicketId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("TicketId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("TicketId"), request.TicketId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperGetServerBackfillTicket(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetServerBackfillTicket.IsBound())
+    {
+        FMultiplayerGetServerBackfillTicketResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetServerBackfillTicketResultResponse(response.responseData);
+        OnSuccessGetServerBackfillTicket.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Join a matchmaking ticket. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::JoinMatchmakingTicket(FMultiplayerJoinMatchmakingTicketRequest request,
     FDelegateOnSuccessJoinMatchmakingTicket onSuccess,
@@ -579,6 +806,59 @@ void UPlayFabMultiplayerAPI::HelperListMatchmakingTicketsForPlayer(FPlayFabBaseM
     {
         FMultiplayerListMatchmakingTicketsForPlayerResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListMatchmakingTicketsForPlayerResultResponse(response.responseData);
         OnSuccessListMatchmakingTicketsForPlayer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** List all server backfill ticket Ids the user is a member of. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListServerBackfillTicketsForPlayer(FMultiplayerListServerBackfillTicketsForPlayerRequest request,
+    FDelegateOnSuccessListServerBackfillTicketsForPlayer onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListServerBackfillTicketsForPlayer = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListServerBackfillTicketsForPlayer);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Match/ListServerBackfillTicketsForPlayer";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.QueueName.IsEmpty() || request.QueueName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperListServerBackfillTicketsForPlayer(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListServerBackfillTicketsForPlayer.IsBound())
+    {
+        FMultiplayerListServerBackfillTicketsForPlayerResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListServerBackfillTicketsForPlayerResultResponse(response.responseData);
+        OnSuccessListServerBackfillTicketsForPlayer.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

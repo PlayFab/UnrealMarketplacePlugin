@@ -13461,6 +13461,121 @@ bool PlayFab::ServerModels::FGrantItemsToUsersResult::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FLinkPSNAccountRequest::~FLinkPSNAccountRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkPSNAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!AuthCode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkPSNAccountRequest::AuthCode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthCode"));
+        writer->WriteValue(AuthCode);
+    }
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (IssuerId.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkPSNAccountRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (!RedirectUri.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkPSNAccountRequest::RedirectUri, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RedirectUri"));
+        writer->WriteValue(RedirectUri);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkPSNAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AuthCodeValue = obj->TryGetField(TEXT("AuthCode"));
+    if (AuthCodeValue.IsValid() && !AuthCodeValue->IsNull())
+    {
+        FString TmpValue;
+        if (AuthCodeValue->TryGetString(TmpValue)) { AuthCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IssuerIdValue = obj->TryGetField(TEXT("IssuerId"));
+    if (IssuerIdValue.IsValid() && !IssuerIdValue->IsNull())
+    {
+        int32 TmpValue;
+        if (IssuerIdValue->TryGetNumber(TmpValue)) { IssuerId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RedirectUriValue = obj->TryGetField(TEXT("RedirectUri"));
+    if (RedirectUriValue.IsValid() && !RedirectUriValue->IsNull())
+    {
+        FString TmpValue;
+        if (RedirectUriValue->TryGetString(TmpValue)) { RedirectUri = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLinkPSNAccountResult::~FLinkPSNAccountResult()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkPSNAccountResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkPSNAccountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FLinkServerCustomIdRequest::~FLinkServerCustomIdRequest()
 {
 
@@ -17305,6 +17420,61 @@ bool PlayFab::ServerModels::FSubtractUserVirtualCurrencyRequest::readFromValue(c
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FUnlinkPSNAccountRequest::~FUnlinkPSNAccountRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkPSNAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkPSNAccountRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkPSNAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkPSNAccountResult::~FUnlinkPSNAccountResult()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkPSNAccountResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkPSNAccountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FUnlinkServerCustomIdRequest::~FUnlinkServerCustomIdRequest()
 {
 
@@ -18657,17 +18827,6 @@ void PlayFab::ServerModels::FWriteServerCharacterEventRequest::writeJSON(JsonWri
         writer->WriteValue(CharacterId);
     }
 
-    if (EventCustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("EventCustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(EventCustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
     if (!EventName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: WriteServerCharacterEventRequest::EventName, PlayFab calls may not work if it remains empty."));
@@ -18717,15 +18876,6 @@ bool PlayFab::ServerModels::FWriteServerCharacterEventRequest::readFromValue(con
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
     }
 
-    const TSharedPtr<FJsonObject>* EventCustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("EventCustomTags"), EventCustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*EventCustomTagsObject)->Values); It; ++It)
-        {
-            EventCustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
     const TSharedPtr<FJsonValue> EventNameValue = obj->TryGetField(TEXT("EventName"));
     if (EventNameValue.IsValid() && !EventNameValue->IsNull())
     {
@@ -18764,17 +18914,6 @@ void PlayFab::ServerModels::FWriteServerPlayerEventRequest::writeJSON(JsonWriter
         {
             writer->WriteIdentifierPrefix((*It).Key);
             (*It).Value.writeJSON(writer);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (EventCustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("EventCustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(EventCustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
     }
@@ -18821,15 +18960,6 @@ bool PlayFab::ServerModels::FWriteServerPlayerEventRequest::readFromValue(const 
         }
     }
 
-    const TSharedPtr<FJsonObject>* EventCustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("EventCustomTags"), EventCustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*EventCustomTagsObject)->Values); It; ++It)
-        {
-            EventCustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
     const TSharedPtr<FJsonValue> EventNameValue = obj->TryGetField(TEXT("EventName"));
     if (EventNameValue.IsValid() && !EventNameValue->IsNull())
     {
@@ -18872,17 +19002,6 @@ void PlayFab::ServerModels::FWriteTitleEventRequest::writeJSON(JsonWriter& write
         writer->WriteObjectEnd();
     }
 
-    if (EventCustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("EventCustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(EventCustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
     if (!EventName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: WriteTitleEventRequest::EventName, PlayFab calls may not work if it remains empty."));
@@ -18912,15 +19031,6 @@ bool PlayFab::ServerModels::FWriteTitleEventRequest::readFromValue(const TShared
         for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*BodyObject)->Values); It; ++It)
         {
             Body.Add(It.Key(), FJsonKeeper(It.Value()));
-        }
-    }
-
-    const TSharedPtr<FJsonObject>* EventCustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("EventCustomTags"), EventCustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*EventCustomTagsObject)->Values); It; ++It)
-        {
-            EventCustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
 

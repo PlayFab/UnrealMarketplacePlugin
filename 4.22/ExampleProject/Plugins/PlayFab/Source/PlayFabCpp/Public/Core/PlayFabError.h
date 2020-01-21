@@ -502,6 +502,7 @@ namespace PlayFab
         PlayFabErrorInsightsManagementTitleInEvaluationMode = 1493,
         PlayFabErrorCloudScriptAzureFunctionsQueueRequestError = 1494,
         PlayFabErrorEvaluationModeTitleCountExceeded = 1495,
+        PlayFabErrorInsightsManagementTitleNotInFlight = 1496,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

@@ -524,6 +524,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1493: returnText = "InsightsManagementTitleInEvaluationMode"; break;
     case 1494: returnText = "CloudScriptAzureFunctionsQueueRequestError"; break;
     case 1495: returnText = "EvaluationModeTitleCountExceeded"; break;
+    case 1496: returnText = "InsightsManagementTitleNotInFlight"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

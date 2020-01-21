@@ -3082,7 +3082,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteCharacterEvent(FClientWriteClientChar
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
-    if (request.EventCustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventCustomTags"), request.EventCustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -3141,7 +3140,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::WritePlayerEvent(FClientWriteClientPlayerE
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
-    if (request.EventCustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventCustomTags"), request.EventCustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -3201,7 +3199,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteTitleEvent(FClientWriteTitleEventRequ
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
-    if (request.EventCustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("EventCustomTags"), request.EventCustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -3240,7 +3237,7 @@ void UPlayFabClientAPI::HelperWriteTitleEvent(FPlayFabBaseModel response, UObjec
 ///////////////////////////////////////////////////////
 // Authentication
 //////////////////////////////////////////////////////
-/** Gets a Photon custom authentication token that can be used to securely join the player into a Photon room. See https://docs.microsoft.com/en-us/gaming/playfab/features/multiplayer/photon/quickstart for more details. */
+/** Gets a Photon custom authentication token that can be used to securely join the player into a Photon room. See https://docs.microsoft.com/gaming/playfab/features/multiplayer/photon/quickstart for more details. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPhotonAuthenticationToken(FClientGetPhotonAuthenticationTokenRequest request,
     FDelegateOnSuccessGetPhotonAuthenticationToken onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -5404,7 +5401,7 @@ void UPlayFabClientAPI::HelperUpdateCharacterStatistics(FPlayFabBaseModel respon
 ///////////////////////////////////////////////////////
 // Content
 //////////////////////////////////////////////////////
-/** This API retrieves a pre-signed URL for accessing a content file for the title. A subsequent HTTP GET to the returned URL will attempt to download the content. A HEAD query to the returned URL will attempt to retrieve the metadata of the content. Note that a successful result does not guarantee the existence of this content - if it has not been uploaded, the query to retrieve the data will fail. See this post for more information: https://community.playfab.com/hc/en-us/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also, please be aware that the Content service is specifically PlayFab's CDN offering, for which standard CDN rates apply. */
+/** This API retrieves a pre-signed URL for accessing a content file for the title. A subsequent HTTP GET to the returned URL will attempt to download the content. A HEAD query to the returned URL will attempt to retrieve the metadata of the content. Note that a successful result does not guarantee the existence of this content - if it has not been uploaded, the query to retrieve the data will fail. See this post for more information: https://community.playfab.com/hc/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also, please be aware that the Content service is specifically PlayFab's CDN offering, for which standard CDN rates apply. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetContentDownloadUrl(FClientGetContentDownloadUrlRequest request,
     FDelegateOnSuccessGetContentDownloadUrl onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8365,7 +8362,7 @@ void UPlayFabClientAPI::HelperExecuteCloudScript(FPlayFabBaseModel response, UOb
 ///////////////////////////////////////////////////////
 // Shared Group Data
 //////////////////////////////////////////////////////
-/** Adds users to the set of those able to update both the shared data, as well as the set of users in the group. Only users in the group can add new members. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups */
+/** Adds users to the set of those able to update both the shared data, as well as the set of users in the group. Only users in the group can add new members. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data */
 UPlayFabClientAPI* UPlayFabClientAPI::AddSharedGroupMembers(FClientAddSharedGroupMembersRequest request,
     FDelegateOnSuccessAddSharedGroupMembers onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8425,7 +8422,7 @@ void UPlayFabClientAPI::HelperAddSharedGroupMembers(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
-/** Requests the creation of a shared group object, containing key/value pairs which may be updated by all members of the group. Upon creation, the current user will be the only member of the group. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/en-us/gaming/playfab/features/social/groups/using-shared-group-data */
+/** Requests the creation of a shared group object, containing key/value pairs which may be updated by all members of the group. Upon creation, the current user will be the only member of the group. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data */
 UPlayFabClientAPI* UPlayFabClientAPI::CreateSharedGroup(FClientCreateSharedGroupRequest request,
     FDelegateOnSuccessCreateSharedGroup onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8477,7 +8474,7 @@ void UPlayFabClientAPI::HelperCreateSharedGroup(FPlayFabBaseModel response, UObj
     this->RemoveFromRoot();
 }
 
-/** Retrieves data stored in a shared group object, as well as the list of members in the group. Non-members of the group may use this to retrieve group data, including membership, but they will not receive data for keys marked as private. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups */
+/** Retrieves data stored in a shared group object, as well as the list of members in the group. Non-members of the group may use this to retrieve group data, including membership, but they will not receive data for keys marked as private. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data */
 UPlayFabClientAPI* UPlayFabClientAPI::GetSharedGroupData(FClientGetSharedGroupDataRequest request,
     FDelegateOnSuccessGetSharedGroupData onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8538,7 +8535,7 @@ void UPlayFabClientAPI::HelperGetSharedGroupData(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
-/** Removes users from the set of those able to update the shared data and the set of users in the group. Only users in the group can remove members. If as a result of the call, zero users remain with access, the group and its associated data will be deleted. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups */
+/** Removes users from the set of those able to update the shared data and the set of users in the group. Only users in the group can remove members. If as a result of the call, zero users remain with access, the group and its associated data will be deleted. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data */
 UPlayFabClientAPI* UPlayFabClientAPI::RemoveSharedGroupMembers(FClientRemoveSharedGroupMembersRequest request,
     FDelegateOnSuccessRemoveSharedGroupMembers onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8598,7 +8595,7 @@ void UPlayFabClientAPI::HelperRemoveSharedGroupMembers(FPlayFabBaseModel respons
     this->RemoveFromRoot();
 }
 
-/** Adds, updates, and removes data keys for a shared group object. If the permission is set to Public, all fields updated or added in this call will be readable by users not in the group. By default, data permissions are set to Private. Regardless of the permission setting, only members of the group can update the data. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups */
+/** Adds, updates, and removes data keys for a shared group object. If the permission is set to Public, all fields updated or added in this call will be readable by users not in the group. By default, data permissions are set to Private. Regardless of the permission setting, only members of the group can update the data. Shared Groups are designed for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data */
 UPlayFabClientAPI* UPlayFabClientAPI::UpdateSharedGroupData(FClientUpdateSharedGroupDataRequest request,
     FDelegateOnSuccessUpdateSharedGroupData onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

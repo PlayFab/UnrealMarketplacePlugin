@@ -180,6 +180,15 @@ FServerGetUserBansResult UPlayFabServerModelDecoder::decodeGetUserBansResultResp
     return tempStruct;
 }
 
+FServerLinkPSNAccountResult UPlayFabServerModelDecoder::decodeLinkPSNAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerLinkPSNAccountResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerLinkServerCustomIdResult UPlayFabServerModelDecoder::decodeLinkServerCustomIdResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -253,6 +262,15 @@ FServerSendPushNotificationResult UPlayFabServerModelDecoder::decodeSendPushNoti
 {
     // Temp ustruct
     FServerSendPushNotificationResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerUnlinkPSNAccountResult UPlayFabServerModelDecoder::decodeUnlinkPSNAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkPSNAccountResult tempStruct;
 
 
     return tempStruct;

@@ -43,6 +43,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetMatchmakingTicketDelegate, const MultiplayerModels::FGetMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FGetMultiplayerServerDetailsDelegate, const MultiplayerModels::FGetMultiplayerServerDetailsResponse&);
         DECLARE_DELEGATE_OneParam(FGetMultiplayerServerLogsDelegate, const MultiplayerModels::FGetMultiplayerServerLogsResponse&);
+        DECLARE_DELEGATE_OneParam(FGetMultiplayerSessionLogsBySessionIdDelegate, const MultiplayerModels::FGetMultiplayerServerLogsResponse&);
         DECLARE_DELEGATE_OneParam(FGetQueueStatisticsDelegate, const MultiplayerModels::FGetQueueStatisticsResult&);
         DECLARE_DELEGATE_OneParam(FGetRemoteLoginEndpointDelegate, const MultiplayerModels::FGetRemoteLoginEndpointResponse&);
         DECLARE_DELEGATE_OneParam(FGetServerBackfillTicketDelegate, const MultiplayerModels::FGetServerBackfillTicketResult&);
@@ -220,6 +221,11 @@ namespace PlayFab
          * Gets multiplayer server logs for a specific server id in a region. The logs are available only after a server has terminated.
          */
         bool GetMultiplayerServerLogs(MultiplayerModels::FGetMultiplayerServerLogsRequest& request, const FGetMultiplayerServerLogsDelegate& SuccessDelegate = FGetMultiplayerServerLogsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Gets multiplayer server logs after a server has terminated.
+         * Gets multiplayer server logs for a specific server id in a region. The logs are available only after a server has terminated.
+         */
+        bool GetMultiplayerSessionLogsBySessionId(MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest& request, const FGetMultiplayerSessionLogsBySessionIdDelegate& SuccessDelegate = FGetMultiplayerSessionLogsBySessionIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Get the statistics for a queue.
          * Returns the matchmaking statistics for a queue. These include the number of players matching and the statistics related to the time to match statistics in seconds (average and percentiles). Statistics are refreshed once every 5 minutes. Servers can access all statistics no matter what the ClientStatisticsVisibility is configured to. Clients can access statistics according to the ClientStatisticsVisibility. Client requests are forbidden if all visibility fields are false.
@@ -423,6 +429,7 @@ namespace PlayFab
         void OnGetMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMultiplayerServerDetailsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerServerDetailsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMultiplayerServerLogsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerServerLogsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetMultiplayerSessionLogsBySessionIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerSessionLogsBySessionIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetQueueStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetQueueStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRemoteLoginEndpointResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRemoteLoginEndpointDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

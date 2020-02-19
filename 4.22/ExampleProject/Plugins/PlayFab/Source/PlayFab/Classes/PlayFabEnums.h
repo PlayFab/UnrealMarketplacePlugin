@@ -632,6 +632,7 @@ enum class EScheduledTaskType : uint8
     pfenum_CloudScript UMETA(DisplayName = "CloudScript"),
     pfenum_ActionsOnPlayerSegment UMETA(DisplayName = "ActionsOnPlayerSegment"),
     pfenum_CloudScriptAzureFunctions UMETA(DisplayName = "CloudScriptAzureFunctions"),
+    pfenum_InsightsScheduledScaling UMETA(DisplayName = "InsightsScheduledScaling"),
 };
 
 /** SourceType */
@@ -854,6 +855,15 @@ enum class EPlayerConnectionState : uint8
     pfenum_Connecting UMETA(DisplayName = "Connecting"),
     pfenum_Participating UMETA(DisplayName = "Participating"),
     pfenum_Participated UMETA(DisplayName = "Participated"),
+};
+
+/** TriggerType */
+
+UENUM(BlueprintType)
+enum class ETriggerType : uint8
+{
+    pfenum_HTTP UMETA(DisplayName = "HTTP"),
+    pfenum_Queue UMETA(DisplayName = "Queue"),
 };
 
 /** OperationTypes */

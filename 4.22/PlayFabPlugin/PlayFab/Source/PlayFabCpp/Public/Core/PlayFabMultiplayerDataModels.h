@@ -2627,7 +2627,7 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerServerLogsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The region of the multiplayer server to get logs for.
+        // [optional] The region of the multiplayer server to get logs for.
         FString Region;
 
         // The server ID of multiplayer server to get logs for.
@@ -2677,6 +2677,32 @@ namespace MultiplayerModels
         }
 
         ~FGetMultiplayerServerLogsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetMultiplayerSessionLogsBySessionIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The server ID of multiplayer server to get logs for.
+        FString SessionId;
+
+        FGetMultiplayerSessionLogsBySessionIdRequest() :
+            FPlayFabCppRequestCommon(),
+            SessionId()
+            {}
+
+        FGetMultiplayerSessionLogsBySessionIdRequest(const FGetMultiplayerSessionLogsBySessionIdRequest& src) :
+            FPlayFabCppRequestCommon(),
+            SessionId(src.SessionId)
+            {}
+
+        FGetMultiplayerSessionLogsBySessionIdRequest(const TSharedPtr<FJsonObject>& obj) : FGetMultiplayerSessionLogsBySessionIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetMultiplayerSessionLogsBySessionIdRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

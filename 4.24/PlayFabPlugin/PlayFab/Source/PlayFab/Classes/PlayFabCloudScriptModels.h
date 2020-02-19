@@ -116,3 +116,200 @@ public:
         int32 SpecificRevision = 0;
 };
 
+/** Executes an Azure Function with the profile of the entity that is defined in the request. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptExecuteFunctionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The name of the CloudScript function to execute */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionName;
+    /** Object that is passed in to the function as the FunctionArgument field of the FunctionExecutionContext data structure */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* FunctionParameter = nullptr;
+    /**
+     * Generate a 'entity_executed_cloudscript_function' PlayStream event containing the results of the function execution and
+     * other contextual information. This event will show up in the PlayStream debugger console for the player in Game Manager.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        bool GeneratePlayStreamEvent = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptExecuteFunctionResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Error from the CloudScript Azure Function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* Error = nullptr;
+    /** The amount of time the function took to execute */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        int32 ExecutionTimeMilliseconds = 0;
+    /** The name of the function that executed */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionName;
+    /** The object returned from the function, if any */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* FunctionResult = nullptr;
+    /** Flag indicating if the FunctionResult was too large and was subsequently dropped from this event. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        bool FunctionResultTooLarge = false;
+};
+
+/**
+ * A title can have many functions, ListHttpFunctions will return a list of all the currently registered HTTP triggered
+ * functions for a given title.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptListFunctionsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptListFunctionsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of functions that are currently registered for the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        TArray<UPlayFabJsonObject*> Functions;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptListHttpFunctionsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of HTTP triggered functions that are currently registered for the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        TArray<UPlayFabJsonObject*> Functions;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptListQueuedFunctionsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of Queue triggered functions that are currently registered for the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        TArray<UPlayFabJsonObject*> Functions;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptEmptyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptPostFunctionResultForEntityTriggeredActionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The result of the function execution. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* FunctionResult = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptPostFunctionResultForFunctionExecutionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The result of the function execution. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* FunctionResult = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptPostFunctionResultForPlayerTriggeredActionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The result of the function execution. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* FunctionResult = nullptr;
+    /** The player profile the function was invoked with. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* PlayerProfile = nullptr;
+    /** The triggering PlayStream event, if any, that caused the function to be invoked. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* PlayStreamEventEnvelope = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptPostFunctionResultForScheduledTaskRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The result of the function execution */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* FunctionResult = nullptr;
+    /** The id of the scheduled task that invoked the function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* ScheduledTaskId = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptRegisterHttpFunctionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The name of the function to register */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionName;
+    /** Full URL for Azure Function that implements the function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionUrl;
+};
+
+/**
+ * A title can have many functions, RegisterQueuedFunction associates a function name with a queue name and connection
+ * string.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptRegisterQueuedFunctionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A connection string for the storage account that hosts the queue for the Azure Function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString ConnectionString;
+    /** The name of the function to register */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionName;
+    /** The name of the queue for the Azure Function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString QueueName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptUnregisterFunctionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The name of the function to unregister */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionName;
+};
+

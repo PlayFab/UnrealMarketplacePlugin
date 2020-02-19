@@ -2098,6 +2098,32 @@ public:
 };
 
 /**
+ * Task name is unique within a title. Using a task name that's already taken will cause a name conflict error. Too many
+ * create-task requests within a short time will cause a create conflict error.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminCreateInsightsScheduledScalingTaskRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Description the task */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
+        FString Description;
+    /** Whether the schedule is active. Inactive schedule will not trigger task execution. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
+        bool IsActive = false;
+    /** Name of the task. This is a unique identifier for tasks in the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
+        FString Name;
+    /** Task details related to Insights Scaling */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
+        UPlayFabJsonObject* Parameter = nullptr;
+    /** Cron expression for the run schedule of the task. The expression should be in UTC. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
+        FString Schedule;
+};
+
+/**
  * After a task is deleted, for tracking purposes, the task instances belonging to this task will still remain. They will
  * become orphaned and does not belongs to any task. Executions of any in-progress task instances will continue. If the
  * task specified does not exist, the deletion is considered a success.

@@ -1150,6 +1150,19 @@ public:
         void HelperCreateCloudScriptTask(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateInsightsScheduledScalingTask, FAdminCreateTaskResult, result, UObject*, customData);
+
+    /** Create a Insights Scheduled Scaling task, which can scale Insights Performance Units on a schedule */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | ScheduledTask ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* CreateInsightsScheduledScalingTask(FAdminCreateInsightsScheduledScalingTaskRequest request,
+            FDelegateOnSuccessCreateInsightsScheduledScalingTask onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | ScheduledTask ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateInsightsScheduledScalingTask(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteTask, FAdminEmptyResponse, result, UObject*, customData);
 
     /** Delete a task. */
@@ -1686,6 +1699,7 @@ public:
     FDelegateOnSuccessAbortTaskInstance OnSuccessAbortTaskInstance;
     FDelegateOnSuccessCreateActionsOnPlayersInSegmentTask OnSuccessCreateActionsOnPlayersInSegmentTask;
     FDelegateOnSuccessCreateCloudScriptTask OnSuccessCreateCloudScriptTask;
+    FDelegateOnSuccessCreateInsightsScheduledScalingTask OnSuccessCreateInsightsScheduledScalingTask;
     FDelegateOnSuccessDeleteTask OnSuccessDeleteTask;
     FDelegateOnSuccessGetActionsOnPlayersInSegmentTaskInstance OnSuccessGetActionsOnPlayersInSegmentTaskInstance;
     FDelegateOnSuccessGetCloudScriptTaskInstance OnSuccessGetCloudScriptTaskInstance;

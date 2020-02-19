@@ -1081,6 +1081,20 @@ public:
         FString LogDownloadUrl;
 };
 
+/**
+ * Gets multiplayer server logs for a specific server id in a region. The logs are available only after a server has
+ * terminated.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetMultiplayerSessionLogsBySessionIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The server ID of multiplayer server to get logs for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SessionId;
+};
+
 /** Gets a remote login endpoint to a VM that is hosting a multiplayer server build in a specific region. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerGetRemoteLoginEndpointRequest : public FPlayFabRequestCommon

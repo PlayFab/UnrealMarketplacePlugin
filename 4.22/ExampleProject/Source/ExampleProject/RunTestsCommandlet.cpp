@@ -25,8 +25,6 @@ URunTestsCommandlet::URunTestsCommandlet()
 
 int32 URunTestsCommandlet::Main(const FString& Params)
 {
-    GIsRequestingExit = false; // Global used by Unreal to indicate that the commandlet should exit.
-
     if (IsValid(GEngine))
     {
         GIsRunning = true;
@@ -35,7 +33,7 @@ int32 URunTestsCommandlet::Main(const FString& Params)
     {
         UE_LOG(LogPlayFabExampleProject, Error, TEXT("Invalid Engine instance."));
 
-        GIsRequestingExit = true;
+        RequestEngineExit("Invalid PlayFab Test UnrealEngine Instance");
         GIsRunning = false;
     }
 
@@ -44,7 +42,7 @@ int32 URunTestsCommandlet::Main(const FString& Params)
 
     bool bPrintedTestSummary = false;
 
-    while (GIsRunning && !GIsRequestingExit)
+    while (GIsRunning && !IsEngineExitRequested())
     {
         GEngine->UpdateTimeAndHandleMaxTickRate();
         GEngine->Tick(FApp::GetDeltaTime(), false);

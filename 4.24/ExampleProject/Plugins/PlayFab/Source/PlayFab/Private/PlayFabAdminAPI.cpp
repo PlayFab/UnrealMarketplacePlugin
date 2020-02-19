@@ -4555,6 +4555,71 @@ void UPlayFabAdminAPI::HelperCreateCloudScriptTask(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
+/** Create a Insights Scheduled Scaling task, which can scale Insights Performance Units on a schedule */
+UPlayFabAdminAPI* UPlayFabAdminAPI::CreateInsightsScheduledScalingTask(FAdminCreateInsightsScheduledScalingTaskRequest request,
+    FDelegateOnSuccessCreateInsightsScheduledScalingTask onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateInsightsScheduledScalingTask = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreateInsightsScheduledScalingTask);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/CreateInsightsScheduledScalingTask";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.Description.IsEmpty() || request.Description == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Description"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Description"), request.Description);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("IsActive"), request.IsActive);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+    if (request.Parameter != nullptr) OutRestJsonObj->SetObjectField(TEXT("Parameter"), request.Parameter);
+    if (request.Schedule.IsEmpty() || request.Schedule == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Schedule"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Schedule"), request.Schedule);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperCreateInsightsScheduledScalingTask(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateInsightsScheduledScalingTask.IsBound())
+    {
+        FAdminCreateTaskResult ResultStruct = UPlayFabAdminModelDecoder::decodeCreateTaskResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessCreateInsightsScheduledScalingTask.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Delete a task. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteTask(FAdminDeleteTaskRequest request,
     FDelegateOnSuccessDeleteTask onSuccess,

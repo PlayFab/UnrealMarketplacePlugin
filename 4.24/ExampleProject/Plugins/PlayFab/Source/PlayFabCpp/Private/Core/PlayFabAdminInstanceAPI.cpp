@@ -407,6 +407,36 @@ void UPlayFabAdminInstanceAPI::OnCreateCloudScriptTaskResult(FHttpRequestPtr Htt
     }
 }
 
+bool UPlayFabAdminInstanceAPI::CreateInsightsScheduledScalingTask(
+    AdminModels::FCreateInsightsScheduledScalingTaskRequest& request,
+    const FCreateInsightsScheduledScalingTaskDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Admin/CreateInsightsScheduledScalingTask")) : this->settings->GetUrl(TEXT("/Admin/CreateInsightsScheduledScalingTask")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminInstanceAPI::OnCreateInsightsScheduledScalingTaskResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminInstanceAPI::OnCreateInsightsScheduledScalingTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateInsightsScheduledScalingTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FCreateTaskResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAdminInstanceAPI::CreateOpenIdConnection(
     AdminModels::FCreateOpenIdConnectionRequest& request,
     const FCreateOpenIdConnectionDelegate& SuccessDelegate,

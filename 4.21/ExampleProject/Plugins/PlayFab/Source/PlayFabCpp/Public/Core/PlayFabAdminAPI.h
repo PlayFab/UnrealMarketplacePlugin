@@ -29,6 +29,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCheckLimitedEditionItemAvailabilityDelegate, const AdminModels::FCheckLimitedEditionItemAvailabilityResult&);
         DECLARE_DELEGATE_OneParam(FCreateActionsOnPlayersInSegmentTaskDelegate, const AdminModels::FCreateTaskResult&);
         DECLARE_DELEGATE_OneParam(FCreateCloudScriptTaskDelegate, const AdminModels::FCreateTaskResult&);
+        DECLARE_DELEGATE_OneParam(FCreateInsightsScheduledScalingTaskDelegate, const AdminModels::FCreateTaskResult&);
         DECLARE_DELEGATE_OneParam(FCreateOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FCreatePlayerSharedSecretDelegate, const AdminModels::FCreatePlayerSharedSecretResult&);
         DECLARE_DELEGATE_OneParam(FCreatePlayerStatisticDefinitionDelegate, const AdminModels::FCreatePlayerStatisticDefinitionResult&);
@@ -185,6 +186,11 @@ namespace PlayFab
          * Task name is unique within a title. Using a task name that's already taken will cause a name conflict error. Too many create-task requests within a short time will cause a create conflict error.
          */
         bool CreateCloudScriptTask(AdminModels::FCreateCloudScriptTaskRequest& request, const FCreateCloudScriptTaskDelegate& SuccessDelegate = FCreateCloudScriptTaskDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Create a Insights Scheduled Scaling task, which can scale Insights Performance Units on a schedule
+         * Task name is unique within a title. Using a task name that's already taken will cause a name conflict error. Too many create-task requests within a short time will cause a create conflict error.
+         */
+        bool CreateInsightsScheduledScalingTask(AdminModels::FCreateInsightsScheduledScalingTaskRequest& request, const FCreateInsightsScheduledScalingTaskDelegate& SuccessDelegate = FCreateInsightsScheduledScalingTaskDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Registers a relationship between a title and an Open ID Connect provider.
         bool CreateOpenIdConnection(AdminModels::FCreateOpenIdConnectionRequest& request, const FCreateOpenIdConnectionDelegate& SuccessDelegate = FCreateOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -685,6 +691,7 @@ namespace PlayFab
         void OnCheckLimitedEditionItemAvailabilityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCheckLimitedEditionItemAvailabilityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateActionsOnPlayersInSegmentTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateActionsOnPlayersInSegmentTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateCloudScriptTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateCloudScriptTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateInsightsScheduledScalingTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateInsightsScheduledScalingTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreatePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreatePlayerStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

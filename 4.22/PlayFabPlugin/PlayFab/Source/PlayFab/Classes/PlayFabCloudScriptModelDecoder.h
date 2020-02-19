@@ -40,6 +40,26 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         static FCloudScriptExecuteCloudScriptResult decodeExecuteCloudScriptResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ExecuteFunctionResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        static FCloudScriptExecuteFunctionResult decodeExecuteFunctionResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListFunctionsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        static FCloudScriptListFunctionsResult decodeListFunctionsResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListHttpFunctionsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        static FCloudScriptListHttpFunctionsResult decodeListHttpFunctionsResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListQueuedFunctionsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        static FCloudScriptListQueuedFunctionsResult decodeListQueuedFunctionsResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the EmptyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        static FCloudScriptEmptyResult decodeEmptyResultResponse(UPlayFabJsonObject* response);
+
 
 
 };

@@ -4601,11 +4601,7 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
-    if (!Region.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerLogsRequest::Region, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (Region.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Region"));
         writer->WriteValue(Region);
@@ -4672,6 +4668,42 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerLogsResponse::readFromValu
     {
         FString TmpValue;
         if (LogDownloadUrlValue->TryGetString(TmpValue)) { LogDownloadUrl = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::~FGetMultiplayerSessionLogsBySessionIdRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!SessionId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerSessionLogsBySessionIdRequest::SessionId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SessionId"));
+        writer->WriteValue(SessionId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> SessionIdValue = obj->TryGetField(TEXT("SessionId"));
+    if (SessionIdValue.IsValid() && !SessionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SessionIdValue->TryGetString(TmpValue)) { SessionId = TmpValue; }
     }
 
     return HasSucceeded;

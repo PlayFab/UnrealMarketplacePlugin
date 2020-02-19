@@ -1821,6 +1821,59 @@ void UPlayFabMultiplayerAPI::HelperGetMultiplayerServerLogs(FPlayFabBaseModel re
     this->RemoveFromRoot();
 }
 
+/** Gets multiplayer server logs after a server has terminated. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerSessionLogsBySessionId(FMultiplayerGetMultiplayerSessionLogsBySessionIdRequest request,
+    FDelegateOnSuccessGetMultiplayerSessionLogsBySessionId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetMultiplayerSessionLogsBySessionId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetMultiplayerSessionLogsBySessionId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/GetMultiplayerSessionLogsBySessionId";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.SessionId.IsEmpty() || request.SessionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SessionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SessionId"), request.SessionId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperGetMultiplayerSessionLogsBySessionId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetMultiplayerSessionLogsBySessionId.IsBound())
+    {
+        FMultiplayerGetMultiplayerServerLogsResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetMultiplayerServerLogsResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessGetMultiplayerSessionLogsBySessionId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Gets a remote login endpoint to a VM that is hosting a multiplayer server build. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetRemoteLoginEndpoint(FMultiplayerGetRemoteLoginEndpointRequest request,
     FDelegateOnSuccessGetRemoteLoginEndpoint onSuccess,

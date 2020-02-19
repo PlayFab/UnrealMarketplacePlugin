@@ -596,6 +596,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7009: returnText = "ExperimentationNoScorecard"; break;
     case 7010: returnText = "ExperimentationTreatmentAssignmentFailed"; break;
     case 7011: returnText = "ExperimentationTreatmentAssignmentDisabled"; break;
+    case 7012: returnText = "ExperimentationInvalidDuration"; break;
+    case 7013: returnText = "ExperimentationMaxExperimentsReached"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }

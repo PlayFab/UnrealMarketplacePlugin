@@ -108,6 +108,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientLinkAndroidDeviceIDResult decodeLinkAndroidDeviceIDResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the EmptyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientEmptyResult decodeEmptyResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the LinkCustomIDResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientLinkCustomIDResult decodeLinkCustomIDResultResponse(UPlayFabJsonObject* response);
@@ -139,10 +143,6 @@ public:
     /** Decode the LinkNintendoSwitchDeviceIdResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientLinkNintendoSwitchDeviceIdResult decodeLinkNintendoSwitchDeviceIdResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the EmptyResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
-        static FClientEmptyResult decodeEmptyResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the LinkPSNAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
@@ -184,6 +184,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientUnlinkAndroidDeviceIDResult decodeUnlinkAndroidDeviceIDResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the EmptyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the UnlinkCustomIDResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientUnlinkCustomIDResult decodeUnlinkCustomIDResultResponse(UPlayFabJsonObject* response);
@@ -215,10 +219,6 @@ public:
     /** Decode the UnlinkNintendoSwitchDeviceIdResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientUnlinkNintendoSwitchDeviceIdResult decodeUnlinkNintendoSwitchDeviceIdResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the EmptyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
-        static FClientEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the UnlinkPSNAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")

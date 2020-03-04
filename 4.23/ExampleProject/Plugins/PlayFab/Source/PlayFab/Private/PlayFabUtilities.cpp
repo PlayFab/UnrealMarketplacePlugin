@@ -525,6 +525,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1494: returnText = "CloudScriptAzureFunctionsQueueRequestError"; break;
     case 1495: returnText = "EvaluationModeTitleCountExceeded"; break;
     case 1496: returnText = "InsightsManagementTitleNotInFlight"; break;
+    case 1497: returnText = "LimitNotFound"; break;
+    case 1498: returnText = "LimitNotAvailableViaAPI"; break;
+    case 1499: returnText = "InsightsManagementSetStorageRetentionBelowMinimum"; break;
+    case 1500: returnText = "InsightsManagementSetStorageRetentionAboveMaximum"; break;
+    case 1501: returnText = "AppleNotEnabledForTitle"; break;
+    case 1502: returnText = "InsightsManagementNewActiveEventArchiveLimitInvalid"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

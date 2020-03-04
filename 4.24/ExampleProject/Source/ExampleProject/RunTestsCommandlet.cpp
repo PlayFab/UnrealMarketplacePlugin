@@ -25,6 +25,10 @@ URunTestsCommandlet::URunTestsCommandlet()
 
 int32 URunTestsCommandlet::Main(const FString& Params)
 {
+#if ENGINE_MINOR_VERSION < 24
+    GIsRequestingExit = false; // Global used by Unreal to indicate that the commandlet should exit.
+#endif
+
     if (IsValid(GEngine))
     {
         GIsRunning = true;
@@ -33,7 +37,12 @@ int32 URunTestsCommandlet::Main(const FString& Params)
     {
         UE_LOG(LogPlayFabExampleProject, Error, TEXT("Invalid Engine instance."));
 
+#if ENGINE_MINOR_VERSION < 24
+        GIsRequestingExit = true;
+#else
         RequestEngineExit("Invalid PlayFab Test UnrealEngine Instance");
+#endif
+
         GIsRunning = false;
     }
 
@@ -42,7 +51,12 @@ int32 URunTestsCommandlet::Main(const FString& Params)
 
     bool bPrintedTestSummary = false;
 
-    while (GIsRunning && !IsEngineExitRequested())
+    while (GIsRunning && 
+#if ENGINE_MINOR_VERSION < 24
+    !GIsRequestingExit)
+#else
+    !IsEngineExitRequested())
+#endif  
     {
         GEngine->UpdateTimeAndHandleMaxTickRate();
         GEngine->Tick(FApp::GetDeltaTime(), false);

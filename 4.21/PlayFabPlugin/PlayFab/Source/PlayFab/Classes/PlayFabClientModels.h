@@ -476,6 +476,29 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientEmptyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLinkAppleRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** If another user is already linked to a specific Apple account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        bool ForceLink = false;
+    /**
+     * The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
+     * credential payload. Used to validate the request and find the user ID (Apple subject) to link with.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString IdentityToken;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLinkCustomIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -670,13 +693,6 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLinkNintendoSwitchDeviceIdResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientEmptyResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -929,6 +945,20 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientEmptyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientUnlinkAppleRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUnlinkCustomIDRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -1053,13 +1083,6 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUnlinkNintendoSwitchDeviceIdResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientEmptyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1463,6 +1486,31 @@ public:
     /** Specific Operating System version for the user's device. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString OS;
+    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString PlayerSecret;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLoginWithAppleRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        bool CreateAccount = false;
+    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString EncryptedRequest;
+    /**
+     * The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
+     * credential payload.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString IdentityToken;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;

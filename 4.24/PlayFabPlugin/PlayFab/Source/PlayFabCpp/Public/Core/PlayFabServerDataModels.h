@@ -3269,7 +3269,8 @@ namespace ServerModels
         LoginIdentityProviderCustomServer,
         LoginIdentityProviderNintendoSwitch,
         LoginIdentityProviderFacebookInstantGames,
-        LoginIdentityProviderOpenIdConnect
+        LoginIdentityProviderOpenIdConnect,
+        LoginIdentityProviderApple
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -10590,7 +10591,7 @@ namespace ServerModels
         // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
         FString PlayFabId;
 
-        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
+        // [optional] Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         FString XboxToken;
 
         FUnlinkXboxAccountRequest() :

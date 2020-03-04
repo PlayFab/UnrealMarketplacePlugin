@@ -17,6 +17,7 @@
 #include "Core/PlayFabCloudScriptAPI.h"
 #include "Core/PlayFabDataAPI.h"
 #include "Core/PlayFabEventsAPI.h"
+#include "Core/PlayFabExperimentationAPI.h"
 #include "Core/PlayFabGroupsAPI.h"
 #include "Core/PlayFabLocalizationAPI.h"
 #include "Core/PlayFabMultiplayerAPI.h"
@@ -40,6 +41,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabCloudScriptPtr GetCloudScriptAPI() const override { return CloudScriptAPI; };
     PlayFabDataPtr GetDataAPI() const override { return DataAPI; };
     PlayFabEventsPtr GetEventsAPI() const override { return EventsAPI; };
+    PlayFabExperimentationPtr GetExperimentationAPI() const override { return ExperimentationAPI; };
     PlayFabGroupsPtr GetGroupsAPI() const override { return GroupsAPI; };
     PlayFabLocalizationPtr GetLocalizationAPI() const override { return LocalizationAPI; };
     PlayFabMultiplayerPtr GetMultiplayerAPI() const override { return MultiplayerAPI; };
@@ -53,6 +55,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabCloudScriptPtr CloudScriptAPI;
     PlayFabDataPtr DataAPI;
     PlayFabEventsPtr EventsAPI;
+    PlayFabExperimentationPtr ExperimentationAPI;
     PlayFabGroupsPtr GroupsAPI;
     PlayFabLocalizationPtr LocalizationAPI;
     PlayFabMultiplayerPtr MultiplayerAPI;
@@ -80,6 +83,7 @@ void FPlayFabModule::StartupModule()
         CloudScriptAPI = MakeShareable(new PlayFab::UPlayFabCloudScriptAPI());
         DataAPI = MakeShareable(new PlayFab::UPlayFabDataAPI());
         EventsAPI = MakeShareable(new PlayFab::UPlayFabEventsAPI());
+        ExperimentationAPI = MakeShareable(new PlayFab::UPlayFabExperimentationAPI());
         GroupsAPI = MakeShareable(new PlayFab::UPlayFabGroupsAPI());
         LocalizationAPI = MakeShareable(new PlayFab::UPlayFabLocalizationAPI());
         MultiplayerAPI = MakeShareable(new PlayFab::UPlayFabMultiplayerAPI());

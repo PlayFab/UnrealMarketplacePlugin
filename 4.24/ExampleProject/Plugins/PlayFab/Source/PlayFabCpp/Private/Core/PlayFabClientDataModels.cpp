@@ -4809,6 +4809,7 @@ void PlayFab::ClientModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProv
     case LoginIdentityProviderNintendoSwitch: writer->WriteValue(TEXT("NintendoSwitch")); break;
     case LoginIdentityProviderFacebookInstantGames: writer->WriteValue(TEXT("FacebookInstantGames")); break;
     case LoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
+    case LoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
     }
 }
 
@@ -4842,6 +4843,7 @@ ClientModels::LoginIdentityProvider PlayFab::ClientModels::readLoginIdentityProv
         _LoginIdentityProviderMap.Add(TEXT("NintendoSwitch"), LoginIdentityProviderNintendoSwitch);
         _LoginIdentityProviderMap.Add(TEXT("FacebookInstantGames"), LoginIdentityProviderFacebookInstantGames);
         _LoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), LoginIdentityProviderOpenIdConnect);
+        _LoginIdentityProviderMap.Add(TEXT("Apple"), LoginIdentityProviderApple);
 
     }
 
@@ -13392,6 +13394,55 @@ bool PlayFab::ClientModels::FLinkAndroidDeviceIDResult::readFromValue(const TSha
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FLinkAppleRequest::~FLinkAppleRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FLinkAppleRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (!IdentityToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkAppleRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentityToken"));
+        writer->WriteValue(IdentityToken);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FLinkAppleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdentityTokenValue = obj->TryGetField(TEXT("IdentityToken"));
+    if (IdentityTokenValue.IsValid() && !IdentityTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdentityTokenValue->TryGetString(TmpValue)) { IdentityToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FLinkCustomIDRequest::~FLinkCustomIDRequest()
 {
 
@@ -14932,6 +14983,111 @@ bool PlayFab::ClientModels::FLoginWithAndroidDeviceIDRequest::readFromValue(cons
     {
         FString TmpValue;
         if (OSValue->TryGetString(TmpValue)) { OS = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayerSecretValue = obj->TryGetField(TEXT("PlayerSecret"));
+    if (PlayerSecretValue.IsValid() && !PlayerSecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayerSecretValue->TryGetString(TmpValue)) { PlayerSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FLoginWithAppleRequest::~FLoginWithAppleRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ClientModels::FLoginWithAppleRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
+
+    if (!IdentityToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithAppleRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentityToken"));
+        writer->WriteValue(IdentityToken);
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
+
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithAppleRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FLoginWithAppleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
+    if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
+    {
+        FString TmpValue;
+        if (EncryptedRequestValue->TryGetString(TmpValue)) { EncryptedRequest = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdentityTokenValue = obj->TryGetField(TEXT("IdentityToken"));
+    if (IdentityTokenValue.IsValid() && !IdentityTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdentityTokenValue->TryGetString(TmpValue)) { IdentityToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> PlayerSecretValue = obj->TryGetField(TEXT("PlayerSecret"));
@@ -19405,6 +19561,25 @@ bool PlayFab::ClientModels::FUnlinkAndroidDeviceIDResult::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FUnlinkAppleRequest::~FUnlinkAppleRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FUnlinkAppleRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FUnlinkAppleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FUnlinkCustomIDRequest::~FUnlinkCustomIDRequest()
 {
 
@@ -19939,11 +20114,7 @@ void PlayFab::ClientModels::FUnlinkXboxAccountRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (!XboxToken.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkXboxAccountRequest::XboxToken, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (XboxToken.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("XboxToken"));
         writer->WriteValue(XboxToken);

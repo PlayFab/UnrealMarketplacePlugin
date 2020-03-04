@@ -570,6 +570,7 @@ enum class ELoginIdentityProvider : uint8
     pfenum_NintendoSwitch UMETA(DisplayName = "NintendoSwitch"),
     pfenum_FacebookInstantGames UMETA(DisplayName = "FacebookInstantGames"),
     pfenum_OpenIdConnect UMETA(DisplayName = "OpenIdConnect"),
+    pfenum_Apple UMETA(DisplayName = "Apple"),
 };
 
 /** PushNotificationPlatform */
@@ -875,6 +876,40 @@ enum class EOperationTypes : uint8
     pfenum_Updated UMETA(DisplayName = "Updated"),
     pfenum_Deleted UMETA(DisplayName = "Deleted"),
     pfenum_None UMETA(DisplayName = "None"),
+};
+
+/** AnalysisTaskState */
+
+UENUM(BlueprintType)
+enum class EAnalysisTaskState : uint8
+{
+    pfenum_Waiting UMETA(DisplayName = "Waiting"),
+    pfenum_ReadyForSubmission UMETA(DisplayName = "ReadyForSubmission"),
+    pfenum_SubmittingToPipeline UMETA(DisplayName = "SubmittingToPipeline"),
+    pfenum_Running UMETA(DisplayName = "Running"),
+    pfenum_Completed UMETA(DisplayName = "Completed"),
+    pfenum_Failed UMETA(DisplayName = "Failed"),
+    pfenum_Canceled UMETA(DisplayName = "Canceled"),
+};
+
+/** ExperimentState */
+
+UENUM(BlueprintType)
+enum class EExperimentState : uint8
+{
+    pfenum_New UMETA(DisplayName = "New"),
+    pfenum_Started UMETA(DisplayName = "Started"),
+    pfenum_Stopped UMETA(DisplayName = "Stopped"),
+    pfenum_Deleted UMETA(DisplayName = "Deleted"),
+};
+
+/** ExperimentType */
+
+UENUM(BlueprintType)
+enum class EExperimentType : uint8
+{
+    pfenum_Active UMETA(DisplayName = "Active"),
+    pfenum_Snapshot UMETA(DisplayName = "Snapshot"),
 };
 
 /** AzureRegion */

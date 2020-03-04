@@ -9,9 +9,9 @@
 #include "PlayFabCppBaseModel.h"
 #include "PlayFabError.h"
 #include "Core/PlayFabClientAPI.h"
-#include "PlayFabTestContext.h"
-#include "GenericPlatformMisc.h"
+#include "TestFramework/PlayFabTestContext.h"
 
+#include "Runtime/Core/Public/GenericPlatform/GenericPlatformMisc.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 
 DEFINE_LOG_CATEGORY(LogTestResults);
@@ -51,7 +51,7 @@ void ACloudScriptTestResultUploader::UploadToCloudscript(const TArray<class UPla
     }
 
     TSharedPtr<FJsonObject> finalJson = MakeShareable(new FJsonObject());
-    finalJson->SetStringField(TEXT("customId"), ClientAPI->GetBuildIdentifier());
+    finalJson->SetStringField(TEXT("customId"), ClientAPI->GetBuildIdentifier().ToLower());
     finalJson->SetArrayField(TEXT("testReport"), TestReport);
 
     auto functionParameter = PlayFab::FJsonKeeper();

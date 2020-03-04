@@ -116,17 +116,7 @@ public:
     FORCEINLINE float GetDurationInMilliseconds() const { return GetDuration().GetTotalMilliseconds(); }
 
     UFUNCTION()
-    void EndTest(PlayFabApiTestFinishState InFinishState = PlayFabApiTestFinishState::PASSED, FString InMessage = "")
-    {
-        UE_LOG(LogPlayFabCommon, Log, TEXT("Ending Test: %s."), *testName);
-
-        finishState = InFinishState;
-        testResultMsg = InMessage;
-
-        endTime = FDateTime::UtcNow();
-
-        activeState = PlayFabApiTestActiveState::COMPLETE;
-    }
+    void EndTest(PlayFabApiTestFinishState InFinishState = PlayFabApiTestFinishState::PASSED, FString InMessage = "");
 
     /**
      * Generates this Test's summary, and returns it as a FString.

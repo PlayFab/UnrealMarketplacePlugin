@@ -214,6 +214,15 @@ FClientLinkAndroidDeviceIDResult UPlayFabClientModelDecoder::decodeLinkAndroidDe
     return tempStruct;
 }
 
+FClientEmptyResult UPlayFabClientModelDecoder::decodeEmptyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientEmptyResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FClientLinkCustomIDResult UPlayFabClientModelDecoder::decodeLinkCustomIDResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -281,15 +290,6 @@ FClientLinkNintendoSwitchDeviceIdResult UPlayFabClientModelDecoder::decodeLinkNi
 {
     // Temp ustruct
     FClientLinkNintendoSwitchDeviceIdResult tempStruct;
-
-
-    return tempStruct;
-}
-
-FClientEmptyResult UPlayFabClientModelDecoder::decodeEmptyResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientEmptyResult tempStruct;
 
 
     return tempStruct;
@@ -387,6 +387,15 @@ FClientUnlinkAndroidDeviceIDResult UPlayFabClientModelDecoder::decodeUnlinkAndro
     return tempStruct;
 }
 
+FClientEmptyResponse UPlayFabClientModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientEmptyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FClientUnlinkCustomIDResult UPlayFabClientModelDecoder::decodeUnlinkCustomIDResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -454,15 +463,6 @@ FClientUnlinkNintendoSwitchDeviceIdResult UPlayFabClientModelDecoder::decodeUnli
 {
     // Temp ustruct
     FClientUnlinkNintendoSwitchDeviceIdResult tempStruct;
-
-
-    return tempStruct;
-}
-
-FClientEmptyResponse UPlayFabClientModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientEmptyResponse tempStruct;
 
 
     return tempStruct;

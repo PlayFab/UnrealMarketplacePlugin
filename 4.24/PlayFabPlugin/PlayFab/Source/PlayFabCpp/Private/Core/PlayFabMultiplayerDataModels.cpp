@@ -1035,70 +1035,6 @@ bool PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerResult::re
     return HasSucceeded;
 }
 
-PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerRequest::~FCancelAllServerBackfillTicketsForPlayerRequest()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Entity"));
-    Entity.writeJSON(writer);
-
-    if (!QueueName.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: CancelAllServerBackfillTicketsForPlayerRequest::QueueName, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("QueueName"));
-        writer->WriteValue(QueueName);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = FEntityKey(EntityValue->AsObject());
-    }
-
-    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
-    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerResult::~FCancelAllServerBackfillTicketsForPlayerResult()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerResult::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
 void PlayFab::MultiplayerModels::writeCancellationReasonEnumJSON(CancellationReason enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -1203,78 +1139,6 @@ void PlayFab::MultiplayerModels::FCancelMatchmakingTicketResult::writeJSON(JsonW
 }
 
 bool PlayFab::MultiplayerModels::FCancelMatchmakingTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FCancelServerBackfillTicketRequest::~FCancelServerBackfillTicketRequest()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FCancelServerBackfillTicketRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (!QueueName.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: CancelServerBackfillTicketRequest::QueueName, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("QueueName"));
-        writer->WriteValue(QueueName);
-    }
-
-    if (!TicketId.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: CancelServerBackfillTicketRequest::TicketId, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("TicketId"));
-        writer->WriteValue(TicketId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FCancelServerBackfillTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
-    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
-    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FCancelServerBackfillTicketResult::~FCancelServerBackfillTicketResult()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FCancelServerBackfillTicketResult::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FCancelServerBackfillTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -2919,231 +2783,6 @@ bool PlayFab::MultiplayerModels::FCreateRemoteUserResponse::readFromValue(const 
     return HasSucceeded;
 }
 
-PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::~FMatchmakingPlayerWithTeamAssignment()
-{
-    //if (Attributes != nullptr) delete Attributes;
-
-}
-
-void PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Attributes.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Attributes"));
-        Attributes->writeJSON(writer);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("Entity"));
-    Entity.writeJSON(writer);
-
-    if (TeamId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("TeamId"));
-        writer->WriteValue(TeamId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AttributesValue = obj->TryGetField(TEXT("Attributes"));
-    if (AttributesValue.IsValid() && !AttributesValue->IsNull())
-    {
-        Attributes = MakeShareable(new FMatchmakingPlayerAttributes(AttributesValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = FEntityKey(EntityValue->AsObject());
-    }
-
-    const TSharedPtr<FJsonValue> TeamIdValue = obj->TryGetField(TEXT("TeamId"));
-    if (TeamIdValue.IsValid() && !TeamIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TeamIdValue->TryGetString(TmpValue)) { TeamId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FServerDetails::~FServerDetails()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FServerDetails::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (IPV4Address.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IPV4Address"));
-        writer->WriteValue(IPV4Address);
-    }
-
-    if (Ports.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Ports"));
-        for (const FPort& item : Ports)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Region.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Region"));
-        writer->WriteValue(Region);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FServerDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> IPV4AddressValue = obj->TryGetField(TEXT("IPV4Address"));
-    if (IPV4AddressValue.IsValid() && !IPV4AddressValue->IsNull())
-    {
-        FString TmpValue;
-        if (IPV4AddressValue->TryGetString(TmpValue)) { IPV4Address = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
-    for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = PortsArray[Idx];
-        Ports.Add(FPort(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
-    if (RegionValue.IsValid() && !RegionValue->IsNull())
-    {
-        FString TmpValue;
-        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FCreateServerBackfillTicketRequest::~FCreateServerBackfillTicketRequest()
-{
-    //if (ServerDetails != nullptr) delete ServerDetails;
-
-}
-
-void PlayFab::MultiplayerModels::FCreateServerBackfillTicketRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds"));
-    writer->WriteValue(GiveUpAfterSeconds);
-
-    writer->WriteArrayStart(TEXT("Members"));
-    for (const FMatchmakingPlayerWithTeamAssignment& item : Members)
-        item.writeJSON(writer);
-    writer->WriteArrayEnd();
-
-
-    if (!QueueName.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateServerBackfillTicketRequest::QueueName, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("QueueName"));
-        writer->WriteValue(QueueName);
-    }
-
-    if (pfServerDetails.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("ServerDetails"));
-        pfServerDetails->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FCreateServerBackfillTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
-    if (GiveUpAfterSecondsValue.IsValid() && !GiveUpAfterSecondsValue->IsNull())
-    {
-        int32 TmpValue;
-        if (GiveUpAfterSecondsValue->TryGetNumber(TmpValue)) { GiveUpAfterSeconds = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&MembersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Members"));
-    for (int32 Idx = 0; Idx < MembersArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = MembersArray[Idx];
-        Members.Add(FMatchmakingPlayerWithTeamAssignment(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
-    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ServerDetailsValue = obj->TryGetField(TEXT("ServerDetails"));
-    if (ServerDetailsValue.IsValid() && !ServerDetailsValue->IsNull())
-    {
-        pfServerDetails = MakeShareable(new FServerDetails(ServerDetailsValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FCreateServerBackfillTicketResult::~FCreateServerBackfillTicketResult()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FCreateServerBackfillTicketResult::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (!TicketId.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateServerBackfillTicketResult::TicketId, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("TicketId"));
-        writer->WriteValue(TicketId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FCreateServerBackfillTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
-    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
 PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::~FCreateServerMatchmakingTicketRequest()
 {
 
@@ -4075,6 +3714,12 @@ void PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (pfCancellationReason.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CancellationReason"));
+        writeCancellationReasonEnumJSON(pfCancellationReason, writer);
+    }
+
     if (CancellationReasonString.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("CancellationReasonString"));
@@ -4147,6 +3792,8 @@ void PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::writeJSON(JsonWrit
 bool PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    pfCancellationReason = readCancellationReasonFromValue(obj->TryGetField(TEXT("CancellationReason")));
 
     const TSharedPtr<FJsonValue> CancellationReasonStringValue = obj->TryGetField(TEXT("CancellationReasonString"));
     if (CancellationReasonStringValue.IsValid() && !CancellationReasonStringValue->IsNull())
@@ -4288,6 +3935,122 @@ bool PlayFab::MultiplayerModels::FGetMatchRequest::readFromValue(const TSharedPt
     {
         bool TmpValue;
         if (ReturnMemberAttributesValue->TryGetBool(TmpValue)) { ReturnMemberAttributes = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::~FMatchmakingPlayerWithTeamAssignment()
+{
+    //if (Attributes != nullptr) delete Attributes;
+
+}
+
+void PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Attributes.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Attributes"));
+        Attributes->writeJSON(writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
+
+    if (TeamId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TeamId"));
+        writer->WriteValue(TeamId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMatchmakingPlayerWithTeamAssignment::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AttributesValue = obj->TryGetField(TEXT("Attributes"));
+    if (AttributesValue.IsValid() && !AttributesValue->IsNull())
+    {
+        Attributes = MakeShareable(new FMatchmakingPlayerAttributes(AttributesValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = FEntityKey(EntityValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> TeamIdValue = obj->TryGetField(TEXT("TeamId"));
+    if (TeamIdValue.IsValid() && !TeamIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TeamIdValue->TryGetString(TmpValue)) { TeamId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FServerDetails::~FServerDetails()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FServerDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IPV4Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IPV4Address"));
+        writer->WriteValue(IPV4Address);
+    }
+
+    if (Ports.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Ports"));
+        for (const FPort& item : Ports)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Region.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writer->WriteValue(Region);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FServerDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IPV4AddressValue = obj->TryGetField(TEXT("IPV4Address"));
+    if (IPV4AddressValue.IsValid() && !IPV4AddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IPV4AddressValue->TryGetString(TmpValue)) { IPV4Address = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
+    for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PortsArray[Idx];
+        Ports.Add(FPort(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
     }
 
     return HasSucceeded;
@@ -4601,7 +4364,11 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
-    if (Region.IsEmpty() == false)
+    if (!Region.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerLogsRequest::Region, PlayFab calls may not work if it remains empty."));
+    }
+    else
     {
         writer->WriteIdentifierPrefix(TEXT("Region"));
         writer->WriteValue(Region);
@@ -4668,42 +4435,6 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerLogsResponse::readFromValu
     {
         FString TmpValue;
         if (LogDownloadUrlValue->TryGetString(TmpValue)) { LogDownloadUrl = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::~FGetMultiplayerSessionLogsBySessionIdRequest()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (!SessionId.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerSessionLogsBySessionIdRequest::SessionId, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("SessionId"));
-        writer->WriteValue(SessionId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> SessionIdValue = obj->TryGetField(TEXT("SessionId"));
-    if (SessionIdValue.IsValid() && !SessionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (SessionIdValue->TryGetString(TmpValue)) { SessionId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -4956,206 +4687,6 @@ bool PlayFab::MultiplayerModels::FGetRemoteLoginEndpointResponse::readFromValue(
     {
         int32 TmpValue;
         if (PortValue->TryGetNumber(TmpValue)) { Port = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FGetServerBackfillTicketRequest::~FGetServerBackfillTicketRequest()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FGetServerBackfillTicketRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("EscapeObject"));
-    writer->WriteValue(EscapeObject);
-
-    if (!QueueName.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetServerBackfillTicketRequest::QueueName, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("QueueName"));
-        writer->WriteValue(QueueName);
-    }
-
-    if (!TicketId.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetServerBackfillTicketRequest::TicketId, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("TicketId"));
-        writer->WriteValue(TicketId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FGetServerBackfillTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> EscapeObjectValue = obj->TryGetField(TEXT("EscapeObject"));
-    if (EscapeObjectValue.IsValid() && !EscapeObjectValue->IsNull())
-    {
-        bool TmpValue;
-        if (EscapeObjectValue->TryGetBool(TmpValue)) { EscapeObject = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
-    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
-    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FGetServerBackfillTicketResult::~FGetServerBackfillTicketResult()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FGetServerBackfillTicketResult::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CancellationReasonString.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CancellationReasonString"));
-        writer->WriteValue(CancellationReasonString);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("Created"));
-    writeDatetime(Created, writer);
-
-    writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds"));
-    writer->WriteValue(GiveUpAfterSeconds);
-
-    if (MatchId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MatchId"));
-        writer->WriteValue(MatchId);
-    }
-
-    writer->WriteArrayStart(TEXT("Members"));
-    for (const FMatchmakingPlayerWithTeamAssignment& item : Members)
-        item.writeJSON(writer);
-    writer->WriteArrayEnd();
-
-
-    if (!QueueName.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetServerBackfillTicketResult::QueueName, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("QueueName"));
-        writer->WriteValue(QueueName);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("ServerDetails"));
-    pfServerDetails.writeJSON(writer);
-
-    if (!Status.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetServerBackfillTicketResult::Status, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("Status"));
-        writer->WriteValue(Status);
-    }
-
-    if (!TicketId.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetServerBackfillTicketResult::TicketId, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("TicketId"));
-        writer->WriteValue(TicketId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FGetServerBackfillTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CancellationReasonStringValue = obj->TryGetField(TEXT("CancellationReasonString"));
-    if (CancellationReasonStringValue.IsValid() && !CancellationReasonStringValue->IsNull())
-    {
-        FString TmpValue;
-        if (CancellationReasonStringValue->TryGetString(TmpValue)) { CancellationReasonString = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
-    if (CreatedValue.IsValid())
-        Created = readDatetime(CreatedValue);
-
-
-    const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
-    if (GiveUpAfterSecondsValue.IsValid() && !GiveUpAfterSecondsValue->IsNull())
-    {
-        int32 TmpValue;
-        if (GiveUpAfterSecondsValue->TryGetNumber(TmpValue)) { GiveUpAfterSeconds = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MatchIdValue = obj->TryGetField(TEXT("MatchId"));
-    if (MatchIdValue.IsValid() && !MatchIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (MatchIdValue->TryGetString(TmpValue)) { MatchId = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&MembersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Members"));
-    for (int32 Idx = 0; Idx < MembersArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = MembersArray[Idx];
-        Members.Add(FMatchmakingPlayerWithTeamAssignment(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
-    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ServerDetailsValue = obj->TryGetField(TEXT("ServerDetails"));
-    if (ServerDetailsValue.IsValid() && !ServerDetailsValue->IsNull())
-    {
-        pfServerDetails = FServerDetails(ServerDetailsValue->AsObject());
-    }
-
-    const TSharedPtr<FJsonValue> StatusValue = obj->TryGetField(TEXT("Status"));
-    if (StatusValue.IsValid() && !StatusValue->IsNull())
-    {
-        FString TmpValue;
-        if (StatusValue->TryGetString(TmpValue)) { Status = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TicketIdValue = obj->TryGetField(TEXT("TicketId"));
-    if (TicketIdValue.IsValid() && !TicketIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TicketIdValue->TryGetString(TmpValue)) { TicketId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -6501,78 +6032,6 @@ bool PlayFab::MultiplayerModels::FListQosServersResponse::readFromValue(const TS
         FString TmpValue;
         if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
     }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerRequest::~FListServerBackfillTicketsForPlayerRequest()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Entity"));
-    Entity.writeJSON(writer);
-
-    if (!QueueName.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: ListServerBackfillTicketsForPlayerRequest::QueueName, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("QueueName"));
-        writer->WriteValue(QueueName);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = FEntityKey(EntityValue->AsObject());
-    }
-
-    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
-    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerResult::~FListServerBackfillTicketsForPlayerResult()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerResult::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteArrayStart(TEXT("TicketIds"));
-    for (const FString& item : TicketIds)
-        writer->WriteValue(item);
-    writer->WriteArrayEnd();
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("TicketIds"), TicketIds);
 
     return HasSucceeded;
 }

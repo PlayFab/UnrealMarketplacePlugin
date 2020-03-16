@@ -3650,116 +3650,6 @@ bool PlayFab::AdminModels::FCreateCloudScriptTaskRequest::readFromValue(const TS
     return HasSucceeded;
 }
 
-PlayFab::AdminModels::FInsightsScalingTaskParameter::~FInsightsScalingTaskParameter()
-{
-
-}
-
-void PlayFab::AdminModels::FInsightsScalingTaskParameter::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Level"));
-    writer->WriteValue(Level);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::AdminModels::FInsightsScalingTaskParameter::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> LevelValue = obj->TryGetField(TEXT("Level"));
-    if (LevelValue.IsValid() && !LevelValue->IsNull())
-    {
-        int32 TmpValue;
-        if (LevelValue->TryGetNumber(TmpValue)) { Level = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::AdminModels::FCreateInsightsScheduledScalingTaskRequest::~FCreateInsightsScheduledScalingTaskRequest()
-{
-
-}
-
-void PlayFab::AdminModels::FCreateInsightsScheduledScalingTaskRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Description.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Description"));
-        writer->WriteValue(Description);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("IsActive"));
-    writer->WriteValue(IsActive);
-
-    if (!Name.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateInsightsScheduledScalingTaskRequest::Name, PlayFab calls may not work if it remains empty."));
-    }
-    else
-    {
-        writer->WriteIdentifierPrefix(TEXT("Name"));
-        writer->WriteValue(Name);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("Parameter"));
-    Parameter.writeJSON(writer);
-
-    if (Schedule.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Schedule"));
-        writer->WriteValue(Schedule);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::AdminModels::FCreateInsightsScheduledScalingTaskRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
-    if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
-    {
-        FString TmpValue;
-        if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> IsActiveValue = obj->TryGetField(TEXT("IsActive"));
-    if (IsActiveValue.IsValid() && !IsActiveValue->IsNull())
-    {
-        bool TmpValue;
-        if (IsActiveValue->TryGetBool(TmpValue)) { IsActive = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
-    if (NameValue.IsValid() && !NameValue->IsNull())
-    {
-        FString TmpValue;
-        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ParameterValue = obj->TryGetField(TEXT("Parameter"));
-    if (ParameterValue.IsValid() && !ParameterValue->IsNull())
-    {
-        Parameter = FInsightsScalingTaskParameter(ParameterValue->AsObject());
-    }
-
-    const TSharedPtr<FJsonValue> ScheduleValue = obj->TryGetField(TEXT("Schedule"));
-    if (ScheduleValue.IsValid() && !ScheduleValue->IsNull())
-    {
-        FString TmpValue;
-        if (ScheduleValue->TryGetString(TmpValue)) { Schedule = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
 PlayFab::AdminModels::FOpenIdIssuerInformation::~FOpenIdIssuerInformation()
 {
 
@@ -6643,7 +6533,6 @@ void PlayFab::AdminModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProvi
     case LoginIdentityProviderNintendoSwitch: writer->WriteValue(TEXT("NintendoSwitch")); break;
     case LoginIdentityProviderFacebookInstantGames: writer->WriteValue(TEXT("FacebookInstantGames")); break;
     case LoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
-    case LoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
     }
 }
 
@@ -6677,7 +6566,6 @@ AdminModels::LoginIdentityProvider PlayFab::AdminModels::readLoginIdentityProvid
         _LoginIdentityProviderMap.Add(TEXT("NintendoSwitch"), LoginIdentityProviderNintendoSwitch);
         _LoginIdentityProviderMap.Add(TEXT("FacebookInstantGames"), LoginIdentityProviderFacebookInstantGames);
         _LoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), LoginIdentityProviderOpenIdConnect);
-        _LoginIdentityProviderMap.Add(TEXT("Apple"), LoginIdentityProviderApple);
 
     }
 
@@ -9997,7 +9885,6 @@ void PlayFab::AdminModels::writeScheduledTaskTypeEnumJSON(ScheduledTaskType enum
     case ScheduledTaskTypeCloudScript: writer->WriteValue(TEXT("CloudScript")); break;
     case ScheduledTaskTypeActionsOnPlayerSegment: writer->WriteValue(TEXT("ActionsOnPlayerSegment")); break;
     case ScheduledTaskTypeCloudScriptAzureFunctions: writer->WriteValue(TEXT("CloudScriptAzureFunctions")); break;
-    case ScheduledTaskTypeInsightsScheduledScaling: writer->WriteValue(TEXT("InsightsScheduledScaling")); break;
     }
 }
 
@@ -10015,7 +9902,6 @@ AdminModels::ScheduledTaskType PlayFab::AdminModels::readScheduledTaskTypeFromVa
         _ScheduledTaskTypeMap.Add(TEXT("CloudScript"), ScheduledTaskTypeCloudScript);
         _ScheduledTaskTypeMap.Add(TEXT("ActionsOnPlayerSegment"), ScheduledTaskTypeActionsOnPlayerSegment);
         _ScheduledTaskTypeMap.Add(TEXT("CloudScriptAzureFunctions"), ScheduledTaskTypeCloudScriptAzureFunctions);
-        _ScheduledTaskTypeMap.Add(TEXT("InsightsScheduledScaling"), ScheduledTaskTypeInsightsScheduledScaling);
 
     }
 

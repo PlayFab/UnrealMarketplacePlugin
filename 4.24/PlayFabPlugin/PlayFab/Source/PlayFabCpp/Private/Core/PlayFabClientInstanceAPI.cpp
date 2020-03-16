@@ -2262,36 +2262,6 @@ void UPlayFabClientInstanceAPI::OnLinkAndroidDeviceIDResult(FHttpRequestPtr Http
     }
 }
 
-bool UPlayFabClientInstanceAPI::LinkApple(
-    ClientModels::FLinkAppleRequest& request,
-    const FLinkAppleDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkApple")) : this->settings->GetUrl(TEXT("/Client/LinkApple")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkAppleResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabClientInstanceAPI::OnLinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ClientModels::FEmptyResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabClientInstanceAPI::LinkCustomID(
     ClientModels::FLinkCustomIDRequest& request,
     const FLinkCustomIDDelegate& SuccessDelegate,
@@ -2729,52 +2699,6 @@ bool UPlayFabClientInstanceAPI::LoginWithAndroidDeviceID(
 }
 
 void UPlayFabClientInstanceAPI::OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ClientModels::FLoginResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
-        if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
-            outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
-        }
-        if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
-            outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
-        }
-        if (outResult.PlayFabId.Len() > 0) {
-            this->authContext->SetPlayFabId(outResult.PlayFabId);
-            outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
-        }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
-
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
-bool UPlayFabClientInstanceAPI::LoginWithApple(
-    ClientModels::FLoginWithAppleRequest& request,
-    const FLoginWithAppleDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithApple")) : this->settings->GetUrl(TEXT("/Client/LoginWithApple")), request.toJSONString(), TEXT(""), TEXT(""));
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithAppleResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabClientInstanceAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FLoginResult outResult;
     FPlayFabCppError errorResult;
@@ -4243,44 +4167,6 @@ bool UPlayFabClientInstanceAPI::UnlinkAndroidDeviceID(
 void UPlayFabClientInstanceAPI::OnUnlinkAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FUnlinkAndroidDeviceIDResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkApple(
-    const FUnlinkAppleDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkAppleRequest emptyRequest = ClientModels::FUnlinkAppleRequest();
-    return UPlayFabClientInstanceAPI::UnlinkApple(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkApple(
-    ClientModels::FUnlinkAppleRequest& request,
-    const FUnlinkAppleDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkApple")) : this->settings->GetUrl(TEXT("/Client/UnlinkApple")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkAppleResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabClientInstanceAPI::OnUnlinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ClientModels::FEmptyResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

@@ -1,0 +1,2 @@
+Use of this library requires an active PlayFab account.
+See https://playfab.com/terms/ for terms of services.

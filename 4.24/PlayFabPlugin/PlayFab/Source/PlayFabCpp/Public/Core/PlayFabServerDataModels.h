@@ -3269,8 +3269,7 @@ namespace ServerModels
         LoginIdentityProviderCustomServer,
         LoginIdentityProviderNintendoSwitch,
         LoginIdentityProviderFacebookInstantGames,
-        LoginIdentityProviderOpenIdConnect,
-        LoginIdentityProviderApple
+        LoginIdentityProviderOpenIdConnect
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -7953,73 +7952,6 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLinkPSNAccountRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // Authentication code provided by the PlayStation Network.
-        FString AuthCode;
-
-        // [optional] If another user is already linked to the account, unlink the other user and re-link.
-        Boxed<bool> ForceLink;
-
-        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
-        Boxed<int32> IssuerId;
-
-        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
-        FString PlayFabId;
-
-        // Redirect URI supplied to PSN when requesting an auth code
-        FString RedirectUri;
-
-        FLinkPSNAccountRequest() :
-            FPlayFabCppRequestCommon(),
-            AuthCode(),
-            ForceLink(),
-            IssuerId(),
-            PlayFabId(),
-            RedirectUri()
-            {}
-
-        FLinkPSNAccountRequest(const FLinkPSNAccountRequest& src) :
-            FPlayFabCppRequestCommon(),
-            AuthCode(src.AuthCode),
-            ForceLink(src.ForceLink),
-            IssuerId(src.IssuerId),
-            PlayFabId(src.PlayFabId),
-            RedirectUri(src.RedirectUri)
-            {}
-
-        FLinkPSNAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkPSNAccountRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FLinkPSNAccountRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FLinkPSNAccountResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FLinkPSNAccountResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FLinkPSNAccountResult(const FLinkPSNAccountResult& src) :
-            FPlayFabCppResultCommon()
-            {}
-
-        FLinkPSNAccountResult(const TSharedPtr<FJsonObject>& obj) : FLinkPSNAccountResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FLinkPSNAccountResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FLinkServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] If another user is already linked to the custom ID, unlink the other user and re-link.
@@ -10487,53 +10419,6 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlinkPSNAccountRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
-        FString PlayFabId;
-
-        FUnlinkPSNAccountRequest() :
-            FPlayFabCppRequestCommon(),
-            PlayFabId()
-            {}
-
-        FUnlinkPSNAccountRequest(const FUnlinkPSNAccountRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PlayFabId(src.PlayFabId)
-            {}
-
-        FUnlinkPSNAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkPSNAccountRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FUnlinkPSNAccountRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FUnlinkPSNAccountResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FUnlinkPSNAccountResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FUnlinkPSNAccountResult(const FUnlinkPSNAccountResult& src) :
-            FPlayFabCppResultCommon()
-            {}
-
-        FUnlinkPSNAccountResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkPSNAccountResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FUnlinkPSNAccountResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FUnlinkServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Unique PlayFab identifier.
@@ -10591,7 +10476,7 @@ namespace ServerModels
         // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
         FString PlayFabId;
 
-        // [optional] Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
+        // Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         FString XboxToken;
 
         FUnlinkXboxAccountRequest() :
@@ -11370,6 +11255,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> EventCustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11386,6 +11273,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Body(),
             CharacterId(),
+            EventCustomTags(),
             EventName(),
             PlayFabId(),
             Timestamp()
@@ -11395,6 +11283,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Body(src.Body),
             CharacterId(src.CharacterId),
+            EventCustomTags(src.EventCustomTags),
             EventName(src.EventName),
             PlayFabId(src.PlayFabId),
             Timestamp(src.Timestamp)
@@ -11415,6 +11304,8 @@ namespace ServerModels
     {
         // [optional] Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
+        // [optional] The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> EventCustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11430,6 +11321,7 @@ namespace ServerModels
         FWriteServerPlayerEventRequest() :
             FPlayFabCppRequestCommon(),
             Body(),
+            EventCustomTags(),
             EventName(),
             PlayFabId(),
             Timestamp()
@@ -11438,6 +11330,7 @@ namespace ServerModels
         FWriteServerPlayerEventRequest(const FWriteServerPlayerEventRequest& src) :
             FPlayFabCppRequestCommon(),
             Body(src.Body),
+            EventCustomTags(src.EventCustomTags),
             EventName(src.EventName),
             PlayFabId(src.PlayFabId),
             Timestamp(src.Timestamp)
@@ -11458,6 +11351,8 @@ namespace ServerModels
     {
         // [optional] Custom event properties. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
+        // [optional] The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> EventCustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11470,6 +11365,7 @@ namespace ServerModels
         FWriteTitleEventRequest() :
             FPlayFabCppRequestCommon(),
             Body(),
+            EventCustomTags(),
             EventName(),
             Timestamp()
             {}
@@ -11477,6 +11373,7 @@ namespace ServerModels
         FWriteTitleEventRequest(const FWriteTitleEventRequest& src) :
             FPlayFabCppRequestCommon(),
             Body(src.Body),
+            EventCustomTags(src.EventCustomTags),
             EventName(src.EventName),
             Timestamp(src.Timestamp)
             {}

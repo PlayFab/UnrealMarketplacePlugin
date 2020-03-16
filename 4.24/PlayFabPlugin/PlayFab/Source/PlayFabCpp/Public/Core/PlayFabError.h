@@ -502,13 +502,6 @@ namespace PlayFab
         PlayFabErrorInsightsManagementTitleInEvaluationMode = 1493,
         PlayFabErrorCloudScriptAzureFunctionsQueueRequestError = 1494,
         PlayFabErrorEvaluationModeTitleCountExceeded = 1495,
-        PlayFabErrorInsightsManagementTitleNotInFlight = 1496,
-        PlayFabErrorLimitNotFound = 1497,
-        PlayFabErrorLimitNotAvailableViaAPI = 1498,
-        PlayFabErrorInsightsManagementSetStorageRetentionBelowMinimum = 1499,
-        PlayFabErrorInsightsManagementSetStorageRetentionAboveMaximum = 1500,
-        PlayFabErrorAppleNotEnabledForTitle = 1501,
-        PlayFabErrorInsightsManagementNewActiveEventArchiveLimitInvalid = 1502,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -580,8 +573,6 @@ namespace PlayFab
         PlayFabErrorExperimentationNoScorecard = 7009,
         PlayFabErrorExperimentationTreatmentAssignmentFailed = 7010,
         PlayFabErrorExperimentationTreatmentAssignmentDisabled = 7011,
-        PlayFabErrorExperimentationInvalidDuration = 7012,
-        PlayFabErrorExperimentationMaxExperimentsReached = 7013,
         PlayFabErrorMaxActionDepthExceeded = 8000,
         PlayFabErrorSnapshotNotFound = 11000
     };

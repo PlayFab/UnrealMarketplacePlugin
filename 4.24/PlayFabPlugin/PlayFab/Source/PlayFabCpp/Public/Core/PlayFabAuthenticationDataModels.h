@@ -178,8 +178,7 @@ namespace AuthenticationModels
         LoginIdentityProviderCustomServer,
         LoginIdentityProviderNintendoSwitch,
         LoginIdentityProviderFacebookInstantGames,
-        LoginIdentityProviderOpenIdConnect,
-        LoginIdentityProviderApple
+        LoginIdentityProviderOpenIdConnect
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);

@@ -92,7 +92,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGrantItemsToCharacterDelegate, const ServerModels::FGrantItemsToCharacterResult&);
         DECLARE_DELEGATE_OneParam(FGrantItemsToUserDelegate, const ServerModels::FGrantItemsToUserResult&);
         DECLARE_DELEGATE_OneParam(FGrantItemsToUsersDelegate, const ServerModels::FGrantItemsToUsersResult&);
-        DECLARE_DELEGATE_OneParam(FLinkPSNAccountDelegate, const ServerModels::FLinkPSNAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkServerCustomIdDelegate, const ServerModels::FLinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
@@ -131,7 +130,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSetTitleInternalDataDelegate, const ServerModels::FSetTitleDataResult&);
         DECLARE_DELEGATE_OneParam(FSubtractCharacterVirtualCurrencyDelegate, const ServerModels::FModifyCharacterVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const ServerModels::FModifyUserVirtualCurrencyResult&);
-        DECLARE_DELEGATE_OneParam(FUnlinkPSNAccountDelegate, const ServerModels::FUnlinkPSNAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkServerCustomIdDelegate, const ServerModels::FUnlinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkXboxAccountDelegate, const ServerModels::FUnlinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlockContainerInstanceDelegate, const ServerModels::FUnlockContainerItemResult&);
@@ -206,8 +204,7 @@ namespace PlayFab
         /**
          * Adds users to the set of those able to update both the shared data, as well as the set of users in the group. Only users
          * in the group (and the server) can add new members. Shared Groups are designed for sharing data between a very small
-         * number of players, please see our guide:
-         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * number of players, please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool AddSharedGroupMembers(ServerModels::FAddSharedGroupMembersRequest& request, const FAddSharedGroupMembersDelegate& SuccessDelegate = FAddSharedGroupMembersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Increments the user's balance of the specified virtual currency by the stated amount
@@ -230,7 +227,7 @@ namespace PlayFab
          * Requests the creation of a shared group object, containing key/value pairs which may be updated by all members of the
          * group. When created by a server, the group will initially have no members. Shared Groups are designed for sharing data
          * between a very small number of players, please see our guide:
-         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          * If SharedGroupId is specified, the service will attempt to create a group with that identifier, and will return an error if it is already in use. If no SharedGroupId is specified, a random identifier will be assigned.
          */
         bool CreateSharedGroup(ServerModels::FCreateSharedGroupRequest& request, const FCreateSharedGroupDelegate& SuccessDelegate = FCreateSharedGroupDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -249,7 +246,7 @@ namespace PlayFab
         /**
          * Deletes a shared group, freeing up the shared group ID to be reused for a new group. Shared Groups are designed for
          * sharing data between a very small number of players, please see our guide:
-         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool DeleteSharedGroup(ServerModels::FDeleteSharedGroupRequest& request, const FDeleteSharedGroupDelegate& SuccessDelegate = FDeleteSharedGroupDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Inform the matchmaker that a Game Server Instance is removed.
@@ -314,7 +311,7 @@ namespace PlayFab
          * URL will attempt to download the content. A HEAD query to the returned URL will attempt to retrieve the metadata of the
          * content. Note that a successful result does not guarantee the existence of this content - if it has not been uploaded,
          * the query to retrieve the data will fail. See this post for more information:
-         * https://community.playfab.com/hc/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also,
+         * https://community.playfab.com/hc/en-us/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also,
          * please be aware that the Content service is specifically PlayFab's CDN offering, for which standard CDN rates apply.
          */
         bool GetContentDownloadUrl(ServerModels::FGetContentDownloadUrlRequest& request, const FGetContentDownloadUrlDelegate& SuccessDelegate = FGetContentDownloadUrlDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -402,7 +399,7 @@ namespace PlayFab
         /**
          * Retrieves data stored in a shared group object, as well as the list of members in the group. The server can access all
          * public and private group data. Shared Groups are designed for sharing data between a very small number of players,
-         * please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool GetSharedGroupData(ServerModels::FGetSharedGroupDataRequest& request, const FGetSharedGroupDataDelegate& SuccessDelegate = FGetSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -499,8 +496,6 @@ namespace PlayFab
          * This function directly adds inventory items to user inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToUsers(ServerModels::FGrantItemsToUsersRequest& request, const FGrantItemsToUsersDelegate& SuccessDelegate = FGrantItemsToUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Links the PlayStation Network account associated with the provided access code to the user's PlayFab account
-        bool LinkPSNAccount(ServerModels::FLinkPSNAccountRequest& request, const FLinkPSNAccountDelegate& SuccessDelegate = FLinkPSNAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the custom server identifier, generated by the title, to the user's PlayFab account.
         bool LinkServerCustomId(ServerModels::FLinkServerCustomIdRequest& request, const FLinkServerCustomIdDelegate& SuccessDelegate = FLinkServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Xbox Live account associated with the provided access code to the user's PlayFab account
@@ -572,7 +567,7 @@ namespace PlayFab
          * Removes users from the set of those able to update the shared data and the set of users in the group. Only users in the
          * group can remove members. If as a result of the call, zero users remain with access, the group and its associated data
          * will be deleted. Shared Groups are designed for sharing data between a very small number of players, please see our
-         * guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool RemoveSharedGroupMembers(ServerModels::FRemoveSharedGroupMembersRequest& request, const FRemoveSharedGroupMembersDelegate& SuccessDelegate = FRemoveSharedGroupMembersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -665,8 +660,6 @@ namespace PlayFab
          * balance negative with this API.
          */
         bool SubtractUserVirtualCurrency(ServerModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related PSN account from the user's PlayFab account
-        bool UnlinkPSNAccount(ServerModels::FUnlinkPSNAccountRequest& request, const FUnlinkPSNAccountDelegate& SuccessDelegate = FUnlinkPSNAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the custom server identifier from the user's PlayFab account.
         bool UnlinkServerCustomId(ServerModels::FUnlinkServerCustomIdRequest& request, const FUnlinkServerCustomIdDelegate& SuccessDelegate = FUnlinkServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Xbox Live account from the user's PlayFab account
@@ -723,7 +716,7 @@ namespace PlayFab
          * or added in this call will be readable by users not in the group. By default, data permissions are set to Private.
          * Regardless of the permission setting, only members of the group (and the server) can update the data. Shared Groups are
          * designed for sharing data between a very small number of players, please see our guide:
-         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          * Note that in the case of multiple calls to write to the same shared group data keys, the last write received by the PlayFab service will determine the value available to subsequent read operations. For scenarios requiring coordination of data updates, it is recommended that titles make use of user data with read permission set to public, or a combination of user data and shared group data.
          */
         bool UpdateSharedGroupData(ServerModels::FUpdateSharedGroupDataRequest& request, const FUpdateSharedGroupDataDelegate& SuccessDelegate = FUpdateSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -850,7 +843,6 @@ namespace PlayFab
         void OnGrantItemsToCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantItemsToUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantItemsToUsersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUsersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnLinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -889,7 +881,6 @@ namespace PlayFab
         void OnSetTitleInternalDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleInternalDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractCharacterVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractCharacterVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnUnlinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlockContainerInstanceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlockContainerInstanceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

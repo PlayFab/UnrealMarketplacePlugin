@@ -603,58 +603,6 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FCancelAllServerBackfillTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // The entity key of the player whose backfill tickets should be canceled.
-        FEntityKey Entity;
-
-        // The name of the queue from which a player's backfill tickets should be canceled.
-        FString QueueName;
-
-        FCancelAllServerBackfillTicketsForPlayerRequest() :
-            FPlayFabCppRequestCommon(),
-            Entity(),
-            QueueName()
-            {}
-
-        FCancelAllServerBackfillTicketsForPlayerRequest(const FCancelAllServerBackfillTicketsForPlayerRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Entity(src.Entity),
-            QueueName(src.QueueName)
-            {}
-
-        FCancelAllServerBackfillTicketsForPlayerRequest(const TSharedPtr<FJsonObject>& obj) : FCancelAllServerBackfillTicketsForPlayerRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCancelAllServerBackfillTicketsForPlayerRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCancelAllServerBackfillTicketsForPlayerResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FCancelAllServerBackfillTicketsForPlayerResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FCancelAllServerBackfillTicketsForPlayerResult(const FCancelAllServerBackfillTicketsForPlayerResult& src) :
-            FPlayFabCppResultCommon()
-            {}
-
-        FCancelAllServerBackfillTicketsForPlayerResult(const TSharedPtr<FJsonObject>& obj) : FCancelAllServerBackfillTicketsForPlayerResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCancelAllServerBackfillTicketsForPlayerResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     enum CancellationReason
     {
         CancellationReasonRequested,
@@ -713,58 +661,6 @@ namespace MultiplayerModels
         }
 
         ~FCancelMatchmakingTicketResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCancelServerBackfillTicketRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // The name of the queue the ticket is in.
-        FString QueueName;
-
-        // The Id of the ticket to find a match for.
-        FString TicketId;
-
-        FCancelServerBackfillTicketRequest() :
-            FPlayFabCppRequestCommon(),
-            QueueName(),
-            TicketId()
-            {}
-
-        FCancelServerBackfillTicketRequest(const FCancelServerBackfillTicketRequest& src) :
-            FPlayFabCppRequestCommon(),
-            QueueName(src.QueueName),
-            TicketId(src.TicketId)
-            {}
-
-        FCancelServerBackfillTicketRequest(const TSharedPtr<FJsonObject>& obj) : FCancelServerBackfillTicketRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCancelServerBackfillTicketRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCancelServerBackfillTicketResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FCancelServerBackfillTicketResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FCancelServerBackfillTicketResult(const FCancelServerBackfillTicketResult& src) :
-            FPlayFabCppResultCommon()
-            {}
-
-        FCancelServerBackfillTicketResult(const TSharedPtr<FJsonObject>& obj) : FCancelServerBackfillTicketResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCancelServerBackfillTicketResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1650,146 +1546,6 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMatchmakingPlayerWithTeamAssignment : public PlayFab::FPlayFabCppBaseModel
-    {
-        /**
-         * [optional] The user's attributes custom to the title. These attributes will be null unless the request has ReturnMemberAttributes
-         * flag set to true.
-         */
-        TSharedPtr<FMatchmakingPlayerAttributes> Attributes;
-
-        // The entity key of the matchmaking user.
-        FEntityKey Entity;
-
-        // [optional] The Id of the team the User is assigned to.
-        FString TeamId;
-
-        FMatchmakingPlayerWithTeamAssignment() :
-            FPlayFabCppBaseModel(),
-            Attributes(nullptr),
-            Entity(),
-            TeamId()
-            {}
-
-        FMatchmakingPlayerWithTeamAssignment(const FMatchmakingPlayerWithTeamAssignment& src) :
-            FPlayFabCppBaseModel(),
-            Attributes(src.Attributes.IsValid() ? MakeShareable(new FMatchmakingPlayerAttributes(*src.Attributes)) : nullptr),
-            Entity(src.Entity),
-            TeamId(src.TeamId)
-            {}
-
-        FMatchmakingPlayerWithTeamAssignment(const TSharedPtr<FJsonObject>& obj) : FMatchmakingPlayerWithTeamAssignment()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMatchmakingPlayerWithTeamAssignment();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FServerDetails : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The IPv4 address of the virtual machine that is hosting this multiplayer server.
-        FString IPV4Address;
-
-        // [optional] The ports the multiplayer server uses.
-        TArray<FPort> Ports;
-        // [optional] The server's region.
-        FString Region;
-
-        FServerDetails() :
-            FPlayFabCppBaseModel(),
-            IPV4Address(),
-            Ports(),
-            Region()
-            {}
-
-        FServerDetails(const FServerDetails& src) :
-            FPlayFabCppBaseModel(),
-            IPV4Address(src.IPV4Address),
-            Ports(src.Ports),
-            Region(src.Region)
-            {}
-
-        FServerDetails(const TSharedPtr<FJsonObject>& obj) : FServerDetails()
-        {
-            readFromValue(obj);
-        }
-
-        ~FServerDetails();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCreateServerBackfillTicketRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // How long to attempt matching this ticket in seconds.
-        int32 GiveUpAfterSeconds;
-
-        // The users who will be part of this ticket, along with their team assignments.
-        TArray<FMatchmakingPlayerWithTeamAssignment> Members;
-        // The Id of a match queue.
-        FString QueueName;
-
-        // [optional] The details of the server the members are connected to.
-        TSharedPtr<FServerDetails> pfServerDetails;
-
-        FCreateServerBackfillTicketRequest() :
-            FPlayFabCppRequestCommon(),
-            GiveUpAfterSeconds(0),
-            Members(),
-            QueueName(),
-            pfServerDetails(nullptr)
-            {}
-
-        FCreateServerBackfillTicketRequest(const FCreateServerBackfillTicketRequest& src) :
-            FPlayFabCppRequestCommon(),
-            GiveUpAfterSeconds(src.GiveUpAfterSeconds),
-            Members(src.Members),
-            QueueName(src.QueueName),
-            pfServerDetails(src.pfServerDetails.IsValid() ? MakeShareable(new FServerDetails(*src.pfServerDetails)) : nullptr)
-            {}
-
-        FCreateServerBackfillTicketRequest(const TSharedPtr<FJsonObject>& obj) : FCreateServerBackfillTicketRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCreateServerBackfillTicketRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCreateServerBackfillTicketResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // The Id of the ticket to find a match for.
-        FString TicketId;
-
-        FCreateServerBackfillTicketResult() :
-            FPlayFabCppResultCommon(),
-            TicketId()
-            {}
-
-        FCreateServerBackfillTicketResult(const FCreateServerBackfillTicketResult& src) :
-            FPlayFabCppResultCommon(),
-            TicketId(src.TicketId)
-            {}
-
-        FCreateServerBackfillTicketResult(const TSharedPtr<FJsonObject>& obj) : FCreateServerBackfillTicketResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCreateServerBackfillTicketResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FCreateServerMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // How long to attempt matching this ticket in seconds.
@@ -2362,6 +2118,9 @@ namespace MultiplayerModels
     struct PLAYFABCPP_API FGetMatchmakingTicketResult : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
+        Boxed<CancellationReason> pfCancellationReason;
+
+        // [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
         FString CancellationReasonString;
 
         // The server date and time at which ticket was created.
@@ -2394,6 +2153,7 @@ namespace MultiplayerModels
 
         FGetMatchmakingTicketResult() :
             FPlayFabCppResultCommon(),
+            pfCancellationReason(),
             CancellationReasonString(),
             Created(0),
             Creator(),
@@ -2408,6 +2168,7 @@ namespace MultiplayerModels
 
         FGetMatchmakingTicketResult(const FGetMatchmakingTicketResult& src) :
             FPlayFabCppResultCommon(),
+            pfCancellationReason(src.pfCancellationReason),
             CancellationReasonString(src.CancellationReasonString),
             Created(src.Created),
             Creator(src.Creator),
@@ -2470,6 +2231,80 @@ namespace MultiplayerModels
         }
 
         ~FGetMatchRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FMatchmakingPlayerWithTeamAssignment : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] The user's attributes custom to the title. These attributes will be null unless the request has ReturnMemberAttributes
+         * flag set to true.
+         */
+        TSharedPtr<FMatchmakingPlayerAttributes> Attributes;
+
+        // The entity key of the matchmaking user.
+        FEntityKey Entity;
+
+        // [optional] The Id of the team the User is assigned to.
+        FString TeamId;
+
+        FMatchmakingPlayerWithTeamAssignment() :
+            FPlayFabCppBaseModel(),
+            Attributes(nullptr),
+            Entity(),
+            TeamId()
+            {}
+
+        FMatchmakingPlayerWithTeamAssignment(const FMatchmakingPlayerWithTeamAssignment& src) :
+            FPlayFabCppBaseModel(),
+            Attributes(src.Attributes.IsValid() ? MakeShareable(new FMatchmakingPlayerAttributes(*src.Attributes)) : nullptr),
+            Entity(src.Entity),
+            TeamId(src.TeamId)
+            {}
+
+        FMatchmakingPlayerWithTeamAssignment(const TSharedPtr<FJsonObject>& obj) : FMatchmakingPlayerWithTeamAssignment()
+        {
+            readFromValue(obj);
+        }
+
+        ~FMatchmakingPlayerWithTeamAssignment();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FServerDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The IPv4 address of the virtual machine that is hosting this multiplayer server.
+        FString IPV4Address;
+
+        // [optional] The ports the multiplayer server uses.
+        TArray<FPort> Ports;
+        // [optional] The server's region.
+        FString Region;
+
+        FServerDetails() :
+            FPlayFabCppBaseModel(),
+            IPV4Address(),
+            Ports(),
+            Region()
+            {}
+
+        FServerDetails(const FServerDetails& src) :
+            FPlayFabCppBaseModel(),
+            IPV4Address(src.IPV4Address),
+            Ports(src.Ports),
+            Region(src.Region)
+            {}
+
+        FServerDetails(const TSharedPtr<FJsonObject>& obj) : FServerDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FServerDetails();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2627,7 +2462,7 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerServerLogsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The region of the multiplayer server to get logs for.
+        // The region of the multiplayer server to get logs for.
         FString Region;
 
         // The server ID of multiplayer server to get logs for.
@@ -2677,32 +2512,6 @@ namespace MultiplayerModels
         }
 
         ~FGetMultiplayerServerLogsResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetMultiplayerSessionLogsBySessionIdRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // The server ID of multiplayer server to get logs for.
-        FString SessionId;
-
-        FGetMultiplayerSessionLogsBySessionIdRequest() :
-            FPlayFabCppRequestCommon(),
-            SessionId()
-            {}
-
-        FGetMultiplayerSessionLogsBySessionIdRequest(const FGetMultiplayerSessionLogsBySessionIdRequest& src) :
-            FPlayFabCppRequestCommon(),
-            SessionId(src.SessionId)
-            {}
-
-        FGetMultiplayerSessionLogsBySessionIdRequest(const TSharedPtr<FJsonObject>& obj) : FGetMultiplayerSessionLogsBySessionIdRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetMultiplayerSessionLogsBySessionIdRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2868,110 +2677,6 @@ namespace MultiplayerModels
         }
 
         ~FGetRemoteLoginEndpointResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetServerBackfillTicketRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        /**
-         * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
-         * object.
-         */
-        bool EscapeObject;
-
-        // The name of the queue to find a match for.
-        FString QueueName;
-
-        // The Id of the ticket to find a match for.
-        FString TicketId;
-
-        FGetServerBackfillTicketRequest() :
-            FPlayFabCppRequestCommon(),
-            EscapeObject(false),
-            QueueName(),
-            TicketId()
-            {}
-
-        FGetServerBackfillTicketRequest(const FGetServerBackfillTicketRequest& src) :
-            FPlayFabCppRequestCommon(),
-            EscapeObject(src.EscapeObject),
-            QueueName(src.QueueName),
-            TicketId(src.TicketId)
-            {}
-
-        FGetServerBackfillTicketRequest(const TSharedPtr<FJsonObject>& obj) : FGetServerBackfillTicketRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetServerBackfillTicketRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetServerBackfillTicketResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
-        FString CancellationReasonString;
-
-        // The server date and time at which ticket was created.
-        FDateTime Created;
-
-        // How long to attempt matching this ticket in seconds.
-        int32 GiveUpAfterSeconds;
-
-        // [optional] The Id of a match.
-        FString MatchId;
-
-        // A list of Users that are part of this ticket, along with their team assignments.
-        TArray<FMatchmakingPlayerWithTeamAssignment> Members;
-        // The Id of a match queue.
-        FString QueueName;
-
-        // The details of the server the members are connected to.
-        FServerDetails pfServerDetails;
-
-        // The current ticket status. Possible values are: WaitingForMatch, Canceled and Matched.
-        FString Status;
-
-        // The Id of the ticket to find a match for.
-        FString TicketId;
-
-        FGetServerBackfillTicketResult() :
-            FPlayFabCppResultCommon(),
-            CancellationReasonString(),
-            Created(0),
-            GiveUpAfterSeconds(0),
-            MatchId(),
-            Members(),
-            QueueName(),
-            pfServerDetails(),
-            Status(),
-            TicketId()
-            {}
-
-        FGetServerBackfillTicketResult(const FGetServerBackfillTicketResult& src) :
-            FPlayFabCppResultCommon(),
-            CancellationReasonString(src.CancellationReasonString),
-            Created(src.Created),
-            GiveUpAfterSeconds(src.GiveUpAfterSeconds),
-            MatchId(src.MatchId),
-            Members(src.Members),
-            QueueName(src.QueueName),
-            pfServerDetails(src.pfServerDetails),
-            Status(src.Status),
-            TicketId(src.TicketId)
-            {}
-
-        FGetServerBackfillTicketResult(const TSharedPtr<FJsonObject>& obj) : FGetServerBackfillTicketResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetServerBackfillTicketResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -3879,62 +3584,6 @@ namespace MultiplayerModels
         }
 
         ~FListQosServersResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListServerBackfillTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // The entity key for which to find the ticket Ids.
-        FEntityKey Entity;
-
-        // The name of the queue the tickets are in.
-        FString QueueName;
-
-        FListServerBackfillTicketsForPlayerRequest() :
-            FPlayFabCppRequestCommon(),
-            Entity(),
-            QueueName()
-            {}
-
-        FListServerBackfillTicketsForPlayerRequest(const FListServerBackfillTicketsForPlayerRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Entity(src.Entity),
-            QueueName(src.QueueName)
-            {}
-
-        FListServerBackfillTicketsForPlayerRequest(const TSharedPtr<FJsonObject>& obj) : FListServerBackfillTicketsForPlayerRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListServerBackfillTicketsForPlayerRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListServerBackfillTicketsForPlayerResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // The list of backfill ticket Ids the user is a member of.
-        TArray<FString> TicketIds;
-        FListServerBackfillTicketsForPlayerResult() :
-            FPlayFabCppResultCommon(),
-            TicketIds()
-            {}
-
-        FListServerBackfillTicketsForPlayerResult(const FListServerBackfillTicketsForPlayerResult& src) :
-            FPlayFabCppResultCommon(),
-            TicketIds(src.TicketIds)
-            {}
-
-        FListServerBackfillTicketsForPlayerResult(const TSharedPtr<FJsonObject>& obj) : FListServerBackfillTicketsForPlayerResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListServerBackfillTicketsForPlayerResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

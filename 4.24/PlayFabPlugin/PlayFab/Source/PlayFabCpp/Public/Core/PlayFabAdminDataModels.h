@@ -2065,78 +2065,6 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FInsightsScalingTaskParameter : public PlayFab::FPlayFabCppBaseModel
-    {
-        // Insights Performance Level to scale to.
-        int32 Level;
-
-        FInsightsScalingTaskParameter() :
-            FPlayFabCppBaseModel(),
-            Level(0)
-            {}
-
-        FInsightsScalingTaskParameter(const FInsightsScalingTaskParameter& src) :
-            FPlayFabCppBaseModel(),
-            Level(src.Level)
-            {}
-
-        FInsightsScalingTaskParameter(const TSharedPtr<FJsonObject>& obj) : FInsightsScalingTaskParameter()
-        {
-            readFromValue(obj);
-        }
-
-        ~FInsightsScalingTaskParameter();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCreateInsightsScheduledScalingTaskRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] Description the task
-        FString Description;
-
-        // Whether the schedule is active. Inactive schedule will not trigger task execution.
-        bool IsActive;
-
-        // Name of the task. This is a unique identifier for tasks in the title.
-        FString Name;
-
-        // Task details related to Insights Scaling
-        FInsightsScalingTaskParameter Parameter;
-
-        // [optional] Cron expression for the run schedule of the task. The expression should be in UTC.
-        FString Schedule;
-
-        FCreateInsightsScheduledScalingTaskRequest() :
-            FPlayFabCppRequestCommon(),
-            Description(),
-            IsActive(false),
-            Name(),
-            Parameter(),
-            Schedule()
-            {}
-
-        FCreateInsightsScheduledScalingTaskRequest(const FCreateInsightsScheduledScalingTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Description(src.Description),
-            IsActive(src.IsActive),
-            Name(src.Name),
-            Parameter(src.Parameter),
-            Schedule(src.Schedule)
-            {}
-
-        FCreateInsightsScheduledScalingTaskRequest(const TSharedPtr<FJsonObject>& obj) : FCreateInsightsScheduledScalingTaskRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCreateInsightsScheduledScalingTaskRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FOpenIdIssuerInformation : public PlayFab::FPlayFabCppBaseModel
     {
         // Authorization endpoint URL to direct users to for signin.
@@ -4030,8 +3958,7 @@ namespace AdminModels
         LoginIdentityProviderCustomServer,
         LoginIdentityProviderNintendoSwitch,
         LoginIdentityProviderFacebookInstantGames,
-        LoginIdentityProviderOpenIdConnect,
-        LoginIdentityProviderApple
+        LoginIdentityProviderOpenIdConnect
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -5945,8 +5872,7 @@ namespace AdminModels
     {
         ScheduledTaskTypeCloudScript,
         ScheduledTaskTypeActionsOnPlayerSegment,
-        ScheduledTaskTypeCloudScriptAzureFunctions,
-        ScheduledTaskTypeInsightsScheduledScaling
+        ScheduledTaskTypeCloudScriptAzureFunctions
     };
 
     PLAYFABCPP_API void writeScheduledTaskTypeEnumJSON(ScheduledTaskType enumVal, JsonWriter& writer);

@@ -52,7 +52,7 @@ namespace PlayFab
         bool FinalizeFileUploads(DataModels::FFinalizeFileUploadsRequest& request, const FFinalizeFileUploadsDelegate& SuccessDelegate = FFinalizeFileUploadsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves file metadata from an entity's profile.
-         * Returns URLs that may be used to download the files for a profile for a limited length of time. Only returns files that have been successfully uploaded, files that are still pending will either return the old value, if it exists, or nothing.
+         * Returns URLs that may be used to download the files for a profile for a limited length of time. Only returns files that have been successfully uploaded, files that are still pending will either return the old value, if it exists, or nothing. 
          */
         bool GetFiles(DataModels::FGetFilesRequest& request, const FGetFilesDelegate& SuccessDelegate = FGetFilesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

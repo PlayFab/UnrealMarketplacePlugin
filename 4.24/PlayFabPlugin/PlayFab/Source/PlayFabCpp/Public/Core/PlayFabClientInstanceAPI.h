@@ -93,7 +93,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetWindowsHelloChallengeDelegate, const ClientModels::FGetWindowsHelloChallengeResponse&);
         DECLARE_DELEGATE_OneParam(FGrantCharacterToUserDelegate, const ClientModels::FGrantCharacterToUserResult&);
         DECLARE_DELEGATE_OneParam(FLinkAndroidDeviceIDDelegate, const ClientModels::FLinkAndroidDeviceIDResult&);
-        DECLARE_DELEGATE_OneParam(FLinkAppleDelegate, const ClientModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FLinkCustomIDDelegate, const ClientModels::FLinkCustomIDResult&);
         DECLARE_DELEGATE_OneParam(FLinkFacebookAccountDelegate, const ClientModels::FLinkFacebookAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkFacebookInstantGamesIdDelegate, const ClientModels::FLinkFacebookInstantGamesIdResult&);
@@ -109,7 +108,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkWindowsHelloDelegate, const ClientModels::FLinkWindowsHelloAccountResponse&);
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ClientModels::FLinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithAndroidDeviceIDDelegate, const ClientModels::FLoginResult&);
-        DECLARE_DELEGATE_OneParam(FLoginWithAppleDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithCustomIDDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithEmailAddressDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithFacebookDelegate, const ClientModels::FLoginResult&);
@@ -149,7 +147,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FStartPurchaseDelegate, const ClientModels::FStartPurchaseResult&);
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const ClientModels::FModifyUserVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkAndroidDeviceIDDelegate, const ClientModels::FUnlinkAndroidDeviceIDResult&);
-        DECLARE_DELEGATE_OneParam(FUnlinkAppleDelegate, const ClientModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkCustomIDDelegate, const ClientModels::FUnlinkCustomIDResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkFacebookAccountDelegate, const ClientModels::FUnlinkFacebookAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkFacebookInstantGamesIdDelegate, const ClientModels::FUnlinkFacebookInstantGamesIdResult&);
@@ -241,7 +238,7 @@ namespace PlayFab
         /**
          * Adds users to the set of those able to update both the shared data, as well as the set of users in the group. Only users
          * in the group can add new members. Shared Groups are designed for sharing data between a very small number of players,
-         * please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * please see our guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool AddSharedGroupMembers(ClientModels::FAddSharedGroupMembersRequest& request, const FAddSharedGroupMembersDelegate& SuccessDelegate = FAddSharedGroupMembersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -256,7 +253,7 @@ namespace PlayFab
         bool AddUserVirtualCurrency(ClientModels::FAddUserVirtualCurrencyRequest& request, const FAddUserVirtualCurrencyDelegate& SuccessDelegate = FAddUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Registers the Android device to receive push notifications
-         * More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart.
+         * More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://api.playfab.com/docs/pushCrashCourse/.
          */
         bool AndroidDevicePushNotificationRegistration(ClientModels::FAndroidDevicePushNotificationRegistrationRequest& request, const FAndroidDevicePushNotificationRegistrationDelegate& SuccessDelegate = FAndroidDevicePushNotificationRegistrationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -289,7 +286,7 @@ namespace PlayFab
          * Requests the creation of a shared group object, containing key/value pairs which may be updated by all members of the
          * group. Upon creation, the current user will be the only member of the group. Shared Groups are designed for sharing data
          * between a very small number of players, please see our guide:
-         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * https://docs.microsoft.com/en-us/gaming/playfab/features/social/groups/using-shared-group-data
          * If SharedGroupId is specified, the service will attempt to create a group with that identifier, and will return an error if it is already in use. If no SharedGroupId is specified, a random identifier will be assigned.
          */
         bool CreateSharedGroup(ClientModels::FCreateSharedGroupRequest& request, const FCreateSharedGroupDelegate& SuccessDelegate = FCreateSharedGroupDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -329,7 +326,7 @@ namespace PlayFab
          * URL will attempt to download the content. A HEAD query to the returned URL will attempt to retrieve the metadata of the
          * content. Note that a successful result does not guarantee the existence of this content - if it has not been uploaded,
          * the query to retrieve the data will fail. See this post for more information:
-         * https://community.playfab.com/hc/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also,
+         * https://community.playfab.com/hc/en-us/community/posts/205469488-How-to-upload-files-to-PlayFab-s-Content-Service. Also,
          * please be aware that the Content service is specifically PlayFab's CDN offering, for which standard CDN rates apply.
          */
         bool GetContentDownloadUrl(ClientModels::FGetContentDownloadUrlRequest& request, const FGetContentDownloadUrlDelegate& SuccessDelegate = FGetContentDownloadUrlDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -371,7 +368,7 @@ namespace PlayFab
         bool GetPaymentToken(ClientModels::FGetPaymentTokenRequest& request, const FGetPaymentTokenDelegate& SuccessDelegate = FGetPaymentTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets a Photon custom authentication token that can be used to securely join the player into a Photon room. See
-         * https://docs.microsoft.com/gaming/playfab/features/multiplayer/photon/quickstart for more details.
+         * https://docs.microsoft.com/en-us/gaming/playfab/features/multiplayer/photon/quickstart for more details.
          */
         bool GetPhotonAuthenticationToken(ClientModels::FGetPhotonAuthenticationTokenRequest& request, const FGetPhotonAuthenticationTokenDelegate& SuccessDelegate = FGetPhotonAuthenticationTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves all of the user's different kinds of info.
@@ -457,7 +454,7 @@ namespace PlayFab
          * Retrieves data stored in a shared group object, as well as the list of members in the group. Non-members of the group
          * may use this to retrieve group data, including membership, but they will not receive data for keys marked as private.
          * Shared Groups are designed for sharing data between a very small number of players, please see our guide:
-         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool GetSharedGroupData(ClientModels::FGetSharedGroupDataRequest& request, const FGetSharedGroupDataDelegate& SuccessDelegate = FGetSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -528,8 +525,6 @@ namespace PlayFab
         bool GrantCharacterToUser(ClientModels::FGrantCharacterToUserRequest& request, const FGrantCharacterToUserDelegate& SuccessDelegate = FGrantCharacterToUserDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Android device identifier to the user's PlayFab account
         bool LinkAndroidDeviceID(ClientModels::FLinkAndroidDeviceIDRequest& request, const FLinkAndroidDeviceIDDelegate& SuccessDelegate = FLinkAndroidDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Links the Apple account associated with the token to the user's PlayFab account.
-        bool LinkApple(ClientModels::FLinkAppleRequest& request, const FLinkAppleDelegate& SuccessDelegate = FLinkAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the custom identifier, generated by the title, to the user's PlayFab account
         bool LinkCustomID(ClientModels::FLinkCustomIDRequest& request, const FLinkCustomIDDelegate& SuccessDelegate = FLinkCustomIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -579,8 +574,6 @@ namespace PlayFab
          * On Android devices, the recommendation is to use the Settings.Secure.ANDROID_ID as the AndroidDeviceId, as described in this blog post (http://android-developers.blogspot.com/2011/03/identifying-app-installations.html). More information on this identifier can be found in the Android documentation (http://developer.android.com/reference/android/provider/Settings.Secure.html). If this is the first time a user has signed in with the Android device and CreateAccount is set to true, a new PlayFab account will be created and linked to the Android device ID. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Android device, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account. Please note that while multiple devices of this type can be linked to a single user account, only the one most recently used to login (or most recently linked) will be reflected in the user's account information. We will be updating to show all linked devices in a future release.
          */
         bool LoginWithAndroidDeviceID(ClientModels::FLoginWithAndroidDeviceIDRequest& request, const FLoginWithAndroidDeviceIDDelegate& SuccessDelegate = FLoginWithAndroidDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Signs in the user with a Sign in with Apple identity token.
-        bool LoginWithApple(ClientModels::FLoginWithAppleRequest& request, const FLoginWithAppleDelegate& SuccessDelegate = FLoginWithAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Signs the user in using a custom unique identifier generated by the title, returning a session identifier that can
          * subsequently be used for API calls which require an authenticated user
@@ -709,7 +702,7 @@ namespace PlayFab
         bool RefreshPSNAuthToken(ClientModels::FRefreshPSNAuthTokenRequest& request, const FRefreshPSNAuthTokenDelegate& SuccessDelegate = FRefreshPSNAuthTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Registers the iOS device to receive push notifications
-         * The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart
+         * The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://api.playfab.com/docs/pushCrashCourse/
          */
         bool RegisterForIOSPushNotification(ClientModels::FRegisterForIOSPushNotificationRequest& request, const FRegisterForIOSPushNotificationDelegate& SuccessDelegate = FRegisterForIOSPushNotificationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -742,7 +735,7 @@ namespace PlayFab
          * Removes users from the set of those able to update the shared data and the set of users in the group. Only users in the
          * group can remove members. If as a result of the call, zero users remain with access, the group and its associated data
          * will be deleted. Shared Groups are designed for sharing data between a very small number of players, please see our
-         * guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * guide: https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          */
         bool RemoveSharedGroupMembers(ClientModels::FRemoveSharedGroupMembersRequest& request, const FRemoveSharedGroupMembersDelegate& SuccessDelegate = FRemoveSharedGroupMembersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -797,11 +790,6 @@ namespace PlayFab
         bool SubtractUserVirtualCurrency(ClientModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Android device identifier from the user's PlayFab account
         bool UnlinkAndroidDeviceID(ClientModels::FUnlinkAndroidDeviceIDRequest& request, const FUnlinkAndroidDeviceIDDelegate& SuccessDelegate = FUnlinkAndroidDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Apple account from the user's PlayFab account.
-
-        bool UnlinkApple(const FUnlinkAppleDelegate& SuccessDelegate = FUnlinkAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Apple account from the user's PlayFab account.
-        bool UnlinkApple(ClientModels::FUnlinkAppleRequest& request, const FUnlinkAppleDelegate& SuccessDelegate = FUnlinkAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related custom identifier from the user's PlayFab account
         bool UnlinkCustomID(ClientModels::FUnlinkCustomIDRequest& request, const FUnlinkCustomIDDelegate& SuccessDelegate = FUnlinkCustomIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Facebook account from the user's PlayFab account
@@ -901,7 +889,7 @@ namespace PlayFab
          * or added in this call will be readable by users not in the group. By default, data permissions are set to Private.
          * Regardless of the permission setting, only members of the group can update the data. Shared Groups are designed for
          * sharing data between a very small number of players, please see our guide:
-         * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
+         * https://api.playfab.com/docs/tutorials/landing-players/shared-groups
          * Note that in the case of multiple calls to write to the same shared group data keys, the last write received by the PlayFab service will determine the value available to subsequent read operations. For scenarios requiring coordination of data updates, it is recommended that titles make use of user data with read permission set to public, or a combination of user data and shared group data.
          */
         bool UpdateSharedGroupData(ClientModels::FUpdateSharedGroupDataRequest& request, const FUpdateSharedGroupDataDelegate& SuccessDelegate = FUpdateSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -1030,7 +1018,6 @@ namespace PlayFab
         void OnGetWindowsHelloChallengeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetWindowsHelloChallengeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantCharacterToUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantCharacterToUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnLinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkCustomIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkCustomIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkFacebookAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkFacebookAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkFacebookInstantGamesIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkFacebookInstantGamesIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1046,7 +1033,6 @@ namespace PlayFab
         void OnLinkWindowsHelloResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkWindowsHelloDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnLoginWithAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithCustomIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithCustomIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithEmailAddressResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithEmailAddressDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithFacebookResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithFacebookDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1086,7 +1072,6 @@ namespace PlayFab
         void OnStartPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FStartPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnUnlinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkCustomIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkCustomIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkFacebookAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkFacebookAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkFacebookInstantGamesIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkFacebookInstantGamesIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

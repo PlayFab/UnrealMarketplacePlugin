@@ -17,7 +17,7 @@ void UPlayFabUtilities::setPlayFabSettings(FString GameTitleId, FString PlayFabS
 {
     // Set the settings
     IPlayFab::Get().setGameTitleId(GameTitleId);
-    IPlayFab::Get().setApiSecretKey(PlayFabSecretApiKey);
+    IPlayFab::Get().setDeveloperSecretKey(PlayFabSecretApiKey);
     IPlayFab::Get().setPhotonRealtimeAppId(PhotonRealtimeAppId);
     IPlayFab::Get().setPhotonTurnbasedAppId(PhotonTurnbasedAppId);
     IPlayFab::Get().setPhotonChatAppId(PhotonChatAppId);
@@ -530,7 +530,11 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1499: returnText = "InsightsManagementSetStorageRetentionBelowMinimum"; break;
     case 1500: returnText = "InsightsManagementSetStorageRetentionAboveMaximum"; break;
     case 1501: returnText = "AppleNotEnabledForTitle"; break;
-    case 1502: returnText = "InsightsManagementNewActiveEventArchiveLimitInvalid"; break;
+    case 1502: returnText = "InsightsManagementNewActiveEventExportLimitInvalid"; break;
+    case 1503: returnText = "InsightsManagementSetPerformanceRateLimited"; break;
+    case 1504: returnText = "PartyRequestsThrottledFromRateLimiter"; break;
+    case 1505: returnText = "XboxServiceTooManyRequests"; break;
+    case 1506: returnText = "NintendoSwitchNotEnabledForTitle"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -587,6 +591,11 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5018: returnText = "ExportCouldNotCreate"; break;
     case 5019: returnText = "ExportNoBackingDatabaseFound"; break;
     case 5020: returnText = "ExportCouldNotDelete"; break;
+    case 5021: returnText = "ExportCannotDetermineEventQuery"; break;
+    case 5022: returnText = "ExportInvalidQuerySchemaModification"; break;
+    case 5023: returnText = "ExportQuerySchemaMissingRequiredColumns"; break;
+    case 5024: returnText = "ExportCannotParseQuery"; break;
+    case 5025: returnText = "ExportControlCommandsNotAllowed"; break;
     case 6000: returnText = "TitleNotEnabledForParty"; break;
     case 6001: returnText = "PartyVersionNotFound"; break;
     case 6002: returnText = "MultiplayerServerBuildReferencedByMatchmakingQueue"; break;
@@ -605,6 +614,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7012: returnText = "ExperimentationInvalidDuration"; break;
     case 7013: returnText = "ExperimentationMaxExperimentsReached"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
+    case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }
 

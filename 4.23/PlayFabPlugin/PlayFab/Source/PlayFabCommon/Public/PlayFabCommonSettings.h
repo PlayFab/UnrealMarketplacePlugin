@@ -32,7 +32,6 @@ namespace PlayFabCommon
         static const FString AD_TYPE_IDFA;
         static const FString AD_TYPE_ANDROID_ID;
 
-        static FString playFabApiSecretKey; // PlayFab DeveloperSecretKey
         static FString photonRealtimeAppId;
         static FString photonTurnbasedAppId;
         static FString photonChatAppId;

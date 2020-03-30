@@ -347,6 +347,19 @@ public:
         void HelperDeleteBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteBuildRegion, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Removes a multiplayer server build's region. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* DeleteBuildRegion(FMultiplayerDeleteBuildRegionRequest request,
+            FDelegateOnSuccessDeleteBuildRegion onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteBuildRegion(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteCertificate, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Deletes a multiplayer server game certificate. */
@@ -746,6 +759,19 @@ public:
         void HelperUpdateBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildRegion, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Updates a multiplayer server build's region. If the region is not yet created, it will be created */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UpdateBuildRegion(FMultiplayerUpdateBuildRegionRequest request,
+            FDelegateOnSuccessUpdateBuildRegion onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateBuildRegion(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildRegions, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Updates a multiplayer server build's regions. */
@@ -810,6 +836,7 @@ public:
     FDelegateOnSuccessDeleteAsset OnSuccessDeleteAsset;
     FDelegateOnSuccessDeleteBuild OnSuccessDeleteBuild;
     FDelegateOnSuccessDeleteBuildAlias OnSuccessDeleteBuildAlias;
+    FDelegateOnSuccessDeleteBuildRegion OnSuccessDeleteBuildRegion;
     FDelegateOnSuccessDeleteCertificate OnSuccessDeleteCertificate;
     FDelegateOnSuccessDeleteRemoteUser OnSuccessDeleteRemoteUser;
     FDelegateOnSuccessEnableMultiplayerServersForTitle OnSuccessEnableMultiplayerServersForTitle;
@@ -840,6 +867,7 @@ public:
     FDelegateOnSuccessShutdownMultiplayerServer OnSuccessShutdownMultiplayerServer;
     FDelegateOnSuccessUntagContainerImage OnSuccessUntagContainerImage;
     FDelegateOnSuccessUpdateBuildAlias OnSuccessUpdateBuildAlias;
+    FDelegateOnSuccessUpdateBuildRegion OnSuccessUpdateBuildRegion;
     FDelegateOnSuccessUpdateBuildRegions OnSuccessUpdateBuildRegions;
     FDelegateOnSuccessUploadCertificate OnSuccessUploadCertificate;
 

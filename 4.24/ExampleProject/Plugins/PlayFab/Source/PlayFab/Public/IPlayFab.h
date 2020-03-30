@@ -72,13 +72,13 @@ public:
         IPlayFabCommonModuleInterface::Get().SetEntityToken(NewEntityToken);
     }
 
-    inline FString getSecretApiKey() const
+    inline FString getDeveloperSecretKey() const
     {
-        return IPlayFabCommonModuleInterface::Get().GetPlayFabApiSecretKey();
+        return IPlayFabCommonModuleInterface::Get().GetDeveloperSecretKey();
     }
-    inline void setApiSecretKey(const FString& NewSecretApiKey)
+    inline void setDeveloperSecretKey(const FString& NewSecretApiKey)
     {
-        IPlayFabCommonModuleInterface::Get().SetPlayFabApiSecretKey(NewSecretApiKey);
+        IPlayFabCommonModuleInterface::Get().SetDeveloperSecretKey(NewSecretApiKey);
     }
 
     inline FString getVersionString() const

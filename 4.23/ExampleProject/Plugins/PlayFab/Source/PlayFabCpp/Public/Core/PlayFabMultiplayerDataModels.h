@@ -50,7 +50,7 @@ namespace MultiplayerModels
         // The asset's file name.
         FString FileName;
 
-        // The asset's mount path.
+        // [optional] The asset's mount path.
         FString MountPath;
 
         FAssetReferenceParams() :
@@ -400,7 +400,7 @@ namespace MultiplayerModels
 
         /**
          * [optional] The status of multiplayer servers in the build region. Valid values are - Unknown, Initialized, Deploying, Deployed,
-         * Unhealthy.
+         * Unhealthy, Deleting, Deleted.
          */
         FString Status;
 
@@ -870,7 +870,8 @@ namespace MultiplayerModels
     {
         ContainerFlavorManagedWindowsServerCore,
         ContainerFlavorCustomLinux,
-        ContainerFlavorManagedWindowsServerCorePreview
+        ContainerFlavorManagedWindowsServerCorePreview,
+        ContainerFlavorInvalid
     };
 
     PLAYFABCPP_API void writeContainerFlavorEnumJSON(ContainerFlavor enumVal, JsonWriter& writer);
@@ -1204,10 +1205,16 @@ namespace MultiplayerModels
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
+        // [optional] The OS platform used for running the game process.
+        FString OsPlatform;
+
         // [optional] The ports the build is mapped on.
         TArray<FPort> Ports;
         // [optional] The region configuration for the build.
         TArray<FBuildRegion> RegionConfigurations;
+        // [optional] The type of game server being hosted.
+        FString ServerType;
+
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
@@ -1223,8 +1230,10 @@ namespace MultiplayerModels
             GameCertificateReferences(),
             Metadata(),
             MultiplayerServerCountPerVm(0),
+            OsPlatform(),
             Ports(),
             RegionConfigurations(),
+            ServerType(),
             VmSize()
             {}
 
@@ -1240,8 +1249,10 @@ namespace MultiplayerModels
             GameCertificateReferences(src.GameCertificateReferences),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
+            OsPlatform(src.OsPlatform),
             Ports(src.Ports),
             RegionConfigurations(src.RegionConfigurations),
+            ServerType(src.ServerType),
             VmSize(src.VmSize)
             {}
 
@@ -1297,6 +1308,12 @@ namespace MultiplayerModels
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
+        /**
+         * [optional] The directory containing the game executable. This would be the start path of the game assets that contain the main game
+         * server executable. If not provided, a best effort will be made to extract it from the start game command.
+         */
+        FString GameWorkingDirectory;
+
         // [optional] The instrumentation configuration for the build.
         TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
 
@@ -1324,6 +1341,7 @@ namespace MultiplayerModels
             pfContainerFlavor(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
@@ -1339,6 +1357,7 @@ namespace MultiplayerModels
             pfContainerFlavor(src.pfContainerFlavor),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
+            GameWorkingDirectory(src.GameWorkingDirectory),
             pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
@@ -1377,6 +1396,12 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        /**
+         * [optional] The directory containing the game executable. This would be the start path of the game assets that contain the main game
+         * server executable. If not provided, a best effort will be made to extract it from the start game command.
+         */
+        FString GameWorkingDirectory;
+
         // [optional] The instrumentation configuration for this build.
         TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
 
@@ -1385,10 +1410,16 @@ namespace MultiplayerModels
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
+        // [optional] The OS platform used for running the game process.
+        FString OsPlatform;
+
         // [optional] The ports the build is mapped on.
         TArray<FPort> Ports;
         // [optional] The region configuration for the build.
         TArray<FBuildRegion> RegionConfigurations;
+        // [optional] The type of game server being hosted.
+        FString ServerType;
+
         // [optional] The command to run when the multiplayer server has been allocated, including any arguments.
         FString StartMultiplayerServerCommand;
 
@@ -1403,11 +1434,14 @@ namespace MultiplayerModels
             CreationTime(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
+            OsPlatform(),
             Ports(),
             RegionConfigurations(),
+            ServerType(),
             StartMultiplayerServerCommand(),
             VmSize()
             {}
@@ -1420,11 +1454,14 @@ namespace MultiplayerModels
             CreationTime(src.CreationTime),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
+            GameWorkingDirectory(src.GameWorkingDirectory),
             pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
+            OsPlatform(src.OsPlatform),
             Ports(src.Ports),
             RegionConfigurations(src.RegionConfigurations),
+            ServerType(src.ServerType),
             StartMultiplayerServerCommand(src.StartMultiplayerServerCommand),
             VmSize(src.VmSize)
             {}
@@ -1877,6 +1914,37 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeleteBuildRegionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The guid string ID of the build we want to update regions for.
+        FString BuildId;
+
+        // The build region to delete.
+        FString Region;
+
+        FDeleteBuildRegionRequest() :
+            FPlayFabCppRequestCommon(),
+            BuildId(),
+            Region()
+            {}
+
+        FDeleteBuildRegionRequest(const FDeleteBuildRegionRequest& src) :
+            FPlayFabCppRequestCommon(),
+            BuildId(src.BuildId),
+            Region(src.Region)
+            {}
+
+        FDeleteBuildRegionRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteBuildRegionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteBuildRegionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteBuildRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the build to delete.
@@ -2199,10 +2267,16 @@ namespace MultiplayerModels
         // The number of multiplayer servers to hosted on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
+        // [optional] The OS platform used for running the game process.
+        FString OsPlatform;
+
         // [optional] The ports the build is mapped on.
         TArray<FPort> Ports;
         // [optional] The region configuration for the build.
         TArray<FBuildRegion> RegionConfigurations;
+        // [optional] The type of game server being hosted.
+        FString ServerType;
+
         /**
          * [optional] The command to run when the multiplayer server has been allocated, including any arguments. This only applies to managed
          * builds. If the build is a custom build, this field will be null.
@@ -2226,8 +2300,10 @@ namespace MultiplayerModels
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
+            OsPlatform(),
             Ports(),
             RegionConfigurations(),
+            ServerType(),
             StartMultiplayerServerCommand(),
             VmSize()
             {}
@@ -2246,8 +2322,10 @@ namespace MultiplayerModels
             pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
+            OsPlatform(src.OsPlatform),
             Ports(src.Ports),
             RegionConfigurations(src.RegionConfigurations),
+            ServerType(src.ServerType),
             StartMultiplayerServerCommand(src.StartMultiplayerServerCommand),
             VmSize(src.VmSize)
             {}
@@ -2627,21 +2705,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerServerLogsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The region of the multiplayer server to get logs for.
-        FString Region;
-
         // The server ID of multiplayer server to get logs for.
         FString ServerId;
 
         FGetMultiplayerServerLogsRequest() :
             FPlayFabCppRequestCommon(),
-            Region(),
             ServerId()
             {}
 
         FGetMultiplayerServerLogsRequest(const FGetMultiplayerServerLogsRequest& src) :
             FPlayFabCppRequestCommon(),
-            Region(src.Region),
             ServerId(src.ServerId)
             {}
 
@@ -4073,6 +4146,16 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum OsPlatform
+    {
+        OsPlatformWindows,
+        OsPlatformLinux
+    };
+
+    PLAYFABCPP_API void writeOsPlatformEnumJSON(OsPlatform enumVal, JsonWriter& writer);
+    PLAYFABCPP_API OsPlatform readOsPlatformFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API OsPlatform readOsPlatformFromValue(const FString& value);
+
     struct PLAYFABCPP_API FRequestMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The identifiers of the build alias to use for the request.
@@ -4257,6 +4340,16 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum ServerType
+    {
+        ServerTypeContainer,
+        ServerTypeProcess
+    };
+
+    PLAYFABCPP_API void writeServerTypeEnumJSON(ServerType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API ServerType readServerTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API ServerType readServerTypeFromValue(const FString& value);
+
     struct PLAYFABCPP_API FShutdownMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server to delete.
@@ -4354,6 +4447,37 @@ namespace MultiplayerModels
         }
 
         ~FUpdateBuildAliasRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateBuildRegionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The guid string ID of the build we want to update regions for.
+        FString BuildId;
+
+        // The updated region configuration that should be applied to the specified build.
+        FBuildRegionParams BuildRegion;
+
+        FUpdateBuildRegionRequest() :
+            FPlayFabCppRequestCommon(),
+            BuildId(),
+            BuildRegion()
+            {}
+
+        FUpdateBuildRegionRequest(const FUpdateBuildRegionRequest& src) :
+            FPlayFabCppRequestCommon(),
+            BuildId(src.BuildId),
+            BuildRegion(src.BuildRegion)
+            {}
+
+        FUpdateBuildRegionRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBuildRegionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateBuildRegionRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

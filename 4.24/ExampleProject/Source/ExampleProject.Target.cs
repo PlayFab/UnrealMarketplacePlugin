@@ -11,5 +11,6 @@ public class ExampleProjectTarget : TargetRules
     {
         Type = TargetType.Game;
         ExtraModuleNames.AddRange(new string[] { "ExampleProject" });
+        DefaultBuildSettings = BuildSettingsVersion.V2;
     }
 }

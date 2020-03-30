@@ -571,6 +571,7 @@ enum class ELoginIdentityProvider : uint8
     pfenum_FacebookInstantGames UMETA(DisplayName = "FacebookInstantGames"),
     pfenum_OpenIdConnect UMETA(DisplayName = "OpenIdConnect"),
     pfenum_Apple UMETA(DisplayName = "Apple"),
+    pfenum_NintendoSwitchAccount UMETA(DisplayName = "NintendoSwitchAccount"),
 };
 
 /** PushNotificationPlatform */
@@ -773,6 +774,8 @@ enum class EUserOrigination : uint8
     pfenum_NintendoSwitchDeviceId UMETA(DisplayName = "NintendoSwitchDeviceId"),
     pfenum_FacebookInstantGamesId UMETA(DisplayName = "FacebookInstantGamesId"),
     pfenum_OpenIdConnect UMETA(DisplayName = "OpenIdConnect"),
+    pfenum_Apple UMETA(DisplayName = "Apple"),
+    pfenum_NintendoSwitchAccount UMETA(DisplayName = "NintendoSwitchAccount"),
 };
 
 /** CloudScriptRevisionOption */
@@ -996,6 +999,16 @@ enum class EContainerFlavor : uint8
     pfenum_ManagedWindowsServerCore UMETA(DisplayName = "ManagedWindowsServerCore"),
     pfenum_CustomLinux UMETA(DisplayName = "CustomLinux"),
     pfenum_ManagedWindowsServerCorePreview UMETA(DisplayName = "ManagedWindowsServerCorePreview"),
+    pfenum_Invalid UMETA(DisplayName = "Invalid"),
+};
+
+/** OsPlatform */
+
+UENUM(BlueprintType)
+enum class EOsPlatform : uint8
+{
+    pfenum_Windows UMETA(DisplayName = "Windows"),
+    pfenum_Linux UMETA(DisplayName = "Linux"),
 };
 
 /** ProtocolType */
@@ -1005,6 +1018,15 @@ enum class EProtocolType : uint8
 {
     pfenum_TCP UMETA(DisplayName = "TCP"),
     pfenum_UDP UMETA(DisplayName = "UDP"),
+};
+
+/** ServerType */
+
+UENUM(BlueprintType)
+enum class EServerType : uint8
+{
+    pfenum_Container UMETA(DisplayName = "Container"),
+    pfenum_Process UMETA(DisplayName = "Process"),
 };
 
 /** TitleMultiplayerServerEnabledStatus */

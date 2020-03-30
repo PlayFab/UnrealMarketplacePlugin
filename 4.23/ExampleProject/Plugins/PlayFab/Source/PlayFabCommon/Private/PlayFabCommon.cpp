@@ -58,9 +58,6 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
     void SetAdvertisingIdValue(const FString& advertisingIdValue) override { PlayFabCommon::PlayFabCommonSettings::advertisingIdValue = advertisingIdValue; }
     void SetDisableAdvertising(bool disableAdvertising) override { PlayFabCommon::PlayFabCommonSettings::disableAdvertising = disableAdvertising; }
 
-    FString GetPlayFabApiSecretKey() const override { return PlayFabCommon::PlayFabCommonSettings::playFabApiSecretKey; }
-    void SetPlayFabApiSecretKey(const FString & playFabApiSecretKey) override { PlayFabCommon::PlayFabCommonSettings::playFabApiSecretKey = playFabApiSecretKey; }
-
     FString GetPhotonRealtimeAppId() const override { return PlayFabCommon::PlayFabCommonSettings::photonRealtimeAppId; }
     void SetPhotonRealtimeAppId(const FString & photonRealtimeAppId) override { PlayFabCommon::PlayFabCommonSettings::photonRealtimeAppId = photonRealtimeAppId; }
 

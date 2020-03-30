@@ -52,7 +52,7 @@ void UPlayFabBlueprintTests::ClassSetUp()
         TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(titleDataJson);
         FJsonSerializer::Deserialize(Reader, JsonObject);
         playFabSettings->setGameTitleId(JsonObject->GetStringField(TEXT("titleId")));
-        playFabSettings->setApiSecretKey(JsonObject->GetStringField(TEXT("developerSecretKey")));
+        playFabSettings->setDeveloperSecretKey(JsonObject->GetStringField(TEXT("developerSecretKey")));
         UserEmail = JsonObject->GetStringField(TEXT("userEmail"));
     }
     else
@@ -62,7 +62,7 @@ void UPlayFabBlueprintTests::ClassSetUp()
 
         // Populate this section with real information, if you're not using the testTitleData.json file (or are using a device)
         playFabSettings->setGameTitleId(TEXT("")); // Without a titleId, your game will do terrible things (usually crash)
-        playFabSettings->setApiSecretKey(TEXT("")); // Non-client api calls will all crash without a secret key
+        playFabSettings->setDeveloperSecretKey(TEXT("")); // Non-client api calls will all crash without a secret key
         UserEmail = "yourEmail"; // This is the email for the user
     }
 }

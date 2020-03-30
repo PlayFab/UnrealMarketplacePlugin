@@ -508,7 +508,11 @@ namespace PlayFab
         PlayFabErrorInsightsManagementSetStorageRetentionBelowMinimum = 1499,
         PlayFabErrorInsightsManagementSetStorageRetentionAboveMaximum = 1500,
         PlayFabErrorAppleNotEnabledForTitle = 1501,
-        PlayFabErrorInsightsManagementNewActiveEventArchiveLimitInvalid = 1502,
+        PlayFabErrorInsightsManagementNewActiveEventExportLimitInvalid = 1502,
+        PlayFabErrorInsightsManagementSetPerformanceRateLimited = 1503,
+        PlayFabErrorPartyRequestsThrottledFromRateLimiter = 1504,
+        PlayFabErrorXboxServiceTooManyRequests = 1505,
+        PlayFabErrorNintendoSwitchNotEnabledForTitle = 1506,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -565,6 +569,11 @@ namespace PlayFab
         PlayFabErrorExportCouldNotCreate = 5018,
         PlayFabErrorExportNoBackingDatabaseFound = 5019,
         PlayFabErrorExportCouldNotDelete = 5020,
+        PlayFabErrorExportCannotDetermineEventQuery = 5021,
+        PlayFabErrorExportInvalidQuerySchemaModification = 5022,
+        PlayFabErrorExportQuerySchemaMissingRequiredColumns = 5023,
+        PlayFabErrorExportCannotParseQuery = 5024,
+        PlayFabErrorExportControlCommandsNotAllowed = 5025,
         PlayFabErrorTitleNotEnabledForParty = 6000,
         PlayFabErrorPartyVersionNotFound = 6001,
         PlayFabErrorMultiplayerServerBuildReferencedByMatchmakingQueue = 6002,
@@ -583,6 +592,7 @@ namespace PlayFab
         PlayFabErrorExperimentationInvalidDuration = 7012,
         PlayFabErrorExperimentationMaxExperimentsReached = 7013,
         PlayFabErrorMaxActionDepthExceeded = 8000,
+        PlayFabErrorTitleNotOnUpdatedPricingPlan = 9000,
         PlayFabErrorSnapshotNotFound = 11000
     };
 

@@ -2514,7 +2514,8 @@ public:
 /**
  * If any additional services are queried for the user's friends, those friends who also have a PlayFab account registered
  * for the title will be returned in the results. For Facebook, user has to have logged into the title's Facebook app
- * recently, and only friends who also plays this game will be included.
+ * recently, and only friends who also plays this game will be included. For Xbox Live, user has to have logged into the
+ * Xbox Live recently, and only friends who also play this game will be included.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetFriendsListResult : public FPlayFabResultCommon
@@ -3153,7 +3154,8 @@ public:
 /**
  * Note: When calling 'GetLeaderboardAround...' APIs, the position of the user defaults to 0 when the user does not have
  * the corresponding statistic.If Facebook friends are included, make sure the access token from previous LoginWithFacebook
- * call is still valid and not expired.
+ * call is still valid and not expired. If Xbox Live friends are included, make sure the access token from the previous
+ * LoginWithXbox call is still valid and not expired.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetFriendLeaderboardAroundPlayerResult : public FPlayFabResultCommon

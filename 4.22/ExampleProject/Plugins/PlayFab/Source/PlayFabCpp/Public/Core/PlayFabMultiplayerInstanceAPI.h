@@ -36,6 +36,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteAssetDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteBuildDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteBuildAliasDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FDeleteBuildRegionDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteRemoteUserDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FEnableMultiplayerServersForTitleDelegate, const MultiplayerModels::FEnableMultiplayerServersForTitleResponse&);
@@ -73,6 +74,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FShutdownMultiplayerServerDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUntagContainerImageDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
+        DECLARE_DELEGATE_OneParam(FUpdateBuildRegionDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionsDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUploadCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
 
@@ -179,6 +181,11 @@ namespace PlayFab
          * Deletes a multiplayer server build alias.
          */
         bool DeleteBuildAlias(MultiplayerModels::FDeleteBuildAliasRequest& request, const FDeleteBuildAliasDelegate& SuccessDelegate = FDeleteBuildAliasDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Removes a multiplayer server build's region.
+         * Removes a multiplayer server build's region.
+         */
+        bool DeleteBuildRegion(MultiplayerModels::FDeleteBuildRegionRequest& request, const FDeleteBuildRegionDelegate& SuccessDelegate = FDeleteBuildRegionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Deletes a multiplayer server game certificate.
          * Deletes a multiplayer server game certificate.
@@ -417,6 +424,11 @@ namespace PlayFab
          */
         bool UpdateBuildAlias(MultiplayerModels::FUpdateBuildAliasRequest& request, const FUpdateBuildAliasDelegate& SuccessDelegate = FUpdateBuildAliasDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Updates a multiplayer server build's region. If the region is not yet created, it will be created
+         * Updates a multiplayer server build's region.
+         */
+        bool UpdateBuildRegion(MultiplayerModels::FUpdateBuildRegionRequest& request, const FUpdateBuildRegionDelegate& SuccessDelegate = FUpdateBuildRegionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Updates a multiplayer server build's regions.
          * Updates a multiplayer server build's regions.
          */
@@ -443,6 +455,7 @@ namespace PlayFab
         void OnDeleteAssetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteAssetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteBuildRegionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildRegionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEnableMultiplayerServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEnableMultiplayerServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -480,6 +493,7 @@ namespace PlayFab
         void OnShutdownMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FShutdownMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUntagContainerImageResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUntagContainerImageDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateBuildRegionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildRegionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUploadCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 

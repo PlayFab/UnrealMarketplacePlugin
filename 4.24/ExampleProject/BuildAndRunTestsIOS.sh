@@ -5,7 +5,7 @@ archivePath=$1
 projectPath=$2
 
 #verify inputs
-if [ "$#" -ne 2 ]; then 
+if [ "$#" -ne 2 ]; then
     echo $usage
     exit 1
 fi
@@ -24,7 +24,7 @@ buildResult=$?
 rm -f $projectPath/Content/TestTitleData/testTitleData.json
 
 #exit if the build failed
-if [ $buildResult -ne 0 ]; then 
+if [ $buildResult -ne 0 ]; then
     echo "BUILD FAILED!"
     exit 1
 fi

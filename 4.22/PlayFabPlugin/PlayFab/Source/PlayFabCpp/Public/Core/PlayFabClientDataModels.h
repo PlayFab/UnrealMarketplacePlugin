@@ -2785,7 +2785,8 @@ namespace ClientModels
         LoginIdentityProviderNintendoSwitch,
         LoginIdentityProviderFacebookInstantGames,
         LoginIdentityProviderOpenIdConnect,
-        LoginIdentityProviderApple
+        LoginIdentityProviderApple,
+        LoginIdentityProviderNintendoSwitchAccount
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -3684,6 +3685,32 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUserAppleIdInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Apple subject ID
+        FString AppleSubjectId;
+
+        FUserAppleIdInfo() :
+            FPlayFabCppBaseModel(),
+            AppleSubjectId()
+            {}
+
+        FUserAppleIdInfo(const FUserAppleIdInfo& src) :
+            FPlayFabCppBaseModel(),
+            AppleSubjectId(src.AppleSubjectId)
+            {}
+
+        FUserAppleIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserAppleIdInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserAppleIdInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUserCustomIdInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Custom ID
@@ -3839,6 +3866,32 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUserNintendoSwitchAccountIdInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Nintendo Switch account subject ID
+        FString NintendoSwitchAccountSubjectId;
+
+        FUserNintendoSwitchAccountIdInfo() :
+            FPlayFabCppBaseModel(),
+            NintendoSwitchAccountSubjectId()
+            {}
+
+        FUserNintendoSwitchAccountIdInfo(const FUserNintendoSwitchAccountIdInfo& src) :
+            FPlayFabCppBaseModel(),
+            NintendoSwitchAccountSubjectId(src.NintendoSwitchAccountSubjectId)
+            {}
+
+        FUserNintendoSwitchAccountIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserNintendoSwitchAccountIdInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserNintendoSwitchAccountIdInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUserNintendoSwitchDeviceIdInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Nintendo Switch Device ID
@@ -3950,7 +4003,9 @@ namespace ClientModels
         UserOriginationServerCustomId,
         UserOriginationNintendoSwitchDeviceId,
         UserOriginationFacebookInstantGamesId,
-        UserOriginationOpenIdConnect
+        UserOriginationOpenIdConnect,
+        UserOriginationApple,
+        UserOriginationNintendoSwitchAccount
     };
 
     PLAYFABCPP_API void writeUserOriginationEnumJSON(UserOrigination enumVal, JsonWriter& writer);
@@ -4091,6 +4146,9 @@ namespace ClientModels
         // [optional] User Android device information, if an Android device has been linked
         TSharedPtr<FUserAndroidDeviceInfo> AndroidDeviceInfo;
 
+        // [optional] Sign in with Apple account information, if an Apple account has been linked
+        TSharedPtr<FUserAppleIdInfo> AppleAccountInfo;
+
         // Timestamp indicating when the user account was created
         FDateTime Created;
 
@@ -4116,6 +4174,9 @@ namespace ClientModels
         TSharedPtr<FUserKongregateInfo> KongregateInfo;
 
         // [optional] Nintendo Switch account information, if a Nintendo Switch account has been linked
+        TSharedPtr<FUserNintendoSwitchAccountIdInfo> NintendoSwitchAccountInfo;
+
+        // [optional] Nintendo Switch device information, if a Nintendo Switch device has been linked
         TSharedPtr<FUserNintendoSwitchDeviceIdInfo> NintendoSwitchDeviceIdInfo;
 
         // [optional] OpenID Connect information, if any OpenID Connect accounts have been linked
@@ -4150,6 +4211,7 @@ namespace ClientModels
         FUserAccountInfo() :
             FPlayFabCppBaseModel(),
             AndroidDeviceInfo(nullptr),
+            AppleAccountInfo(nullptr),
             Created(0),
             CustomIdInfo(nullptr),
             FacebookInfo(nullptr),
@@ -4158,6 +4220,7 @@ namespace ClientModels
             GoogleInfo(nullptr),
             IosDeviceInfo(nullptr),
             KongregateInfo(nullptr),
+            NintendoSwitchAccountInfo(nullptr),
             NintendoSwitchDeviceIdInfo(nullptr),
             OpenIdInfo(),
             PlayFabId(),
@@ -4174,6 +4237,7 @@ namespace ClientModels
         FUserAccountInfo(const FUserAccountInfo& src) :
             FPlayFabCppBaseModel(),
             AndroidDeviceInfo(src.AndroidDeviceInfo.IsValid() ? MakeShareable(new FUserAndroidDeviceInfo(*src.AndroidDeviceInfo)) : nullptr),
+            AppleAccountInfo(src.AppleAccountInfo.IsValid() ? MakeShareable(new FUserAppleIdInfo(*src.AppleAccountInfo)) : nullptr),
             Created(src.Created),
             CustomIdInfo(src.CustomIdInfo.IsValid() ? MakeShareable(new FUserCustomIdInfo(*src.CustomIdInfo)) : nullptr),
             FacebookInfo(src.FacebookInfo.IsValid() ? MakeShareable(new FUserFacebookInfo(*src.FacebookInfo)) : nullptr),
@@ -4182,6 +4246,7 @@ namespace ClientModels
             GoogleInfo(src.GoogleInfo.IsValid() ? MakeShareable(new FUserGoogleInfo(*src.GoogleInfo)) : nullptr),
             IosDeviceInfo(src.IosDeviceInfo.IsValid() ? MakeShareable(new FUserIosDeviceInfo(*src.IosDeviceInfo)) : nullptr),
             KongregateInfo(src.KongregateInfo.IsValid() ? MakeShareable(new FUserKongregateInfo(*src.KongregateInfo)) : nullptr),
+            NintendoSwitchAccountInfo(src.NintendoSwitchAccountInfo.IsValid() ? MakeShareable(new FUserNintendoSwitchAccountIdInfo(*src.NintendoSwitchAccountInfo)) : nullptr),
             NintendoSwitchDeviceIdInfo(src.NintendoSwitchDeviceIdInfo.IsValid() ? MakeShareable(new FUserNintendoSwitchDeviceIdInfo(*src.NintendoSwitchDeviceIdInfo)) : nullptr),
             OpenIdInfo(src.OpenIdInfo),
             PlayFabId(src.PlayFabId),

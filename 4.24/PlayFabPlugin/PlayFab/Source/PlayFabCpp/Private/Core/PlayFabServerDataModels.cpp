@@ -726,6 +726,38 @@ bool PlayFab::ServerModels::FUserAndroidDeviceInfo::readFromValue(const TSharedP
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FUserAppleIdInfo::~FUserAppleIdInfo()
+{
+
+}
+
+void PlayFab::ServerModels::FUserAppleIdInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AppleSubjectId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AppleSubjectId"));
+        writer->WriteValue(AppleSubjectId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUserAppleIdInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AppleSubjectIdValue = obj->TryGetField(TEXT("AppleSubjectId"));
+    if (AppleSubjectIdValue.IsValid() && !AppleSubjectIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AppleSubjectIdValue->TryGetString(TmpValue)) { AppleSubjectId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FUserCustomIdInfo::~FUserCustomIdInfo()
 {
 
@@ -1023,6 +1055,38 @@ bool PlayFab::ServerModels::FUserKongregateInfo::readFromValue(const TSharedPtr<
     {
         FString TmpValue;
         if (KongregateNameValue->TryGetString(TmpValue)) { KongregateName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUserNintendoSwitchAccountIdInfo::~FUserNintendoSwitchAccountIdInfo()
+{
+
+}
+
+void PlayFab::ServerModels::FUserNintendoSwitchAccountIdInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (NintendoSwitchAccountSubjectId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchAccountSubjectId"));
+        writer->WriteValue(NintendoSwitchAccountSubjectId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUserNintendoSwitchAccountIdInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NintendoSwitchAccountSubjectIdValue = obj->TryGetField(TEXT("NintendoSwitchAccountSubjectId"));
+    if (NintendoSwitchAccountSubjectIdValue.IsValid() && !NintendoSwitchAccountSubjectIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (NintendoSwitchAccountSubjectIdValue->TryGetString(TmpValue)) { NintendoSwitchAccountSubjectId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -1694,6 +1758,8 @@ void PlayFab::ServerModels::writeUserOriginationEnumJSON(UserOrigination enumVal
     case UserOriginationNintendoSwitchDeviceId: writer->WriteValue(TEXT("NintendoSwitchDeviceId")); break;
     case UserOriginationFacebookInstantGamesId: writer->WriteValue(TEXT("FacebookInstantGamesId")); break;
     case UserOriginationOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
+    case UserOriginationApple: writer->WriteValue(TEXT("Apple")); break;
+    case UserOriginationNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
     }
 }
 
@@ -1730,6 +1796,8 @@ ServerModels::UserOrigination PlayFab::ServerModels::readUserOriginationFromValu
         _UserOriginationMap.Add(TEXT("NintendoSwitchDeviceId"), UserOriginationNintendoSwitchDeviceId);
         _UserOriginationMap.Add(TEXT("FacebookInstantGamesId"), UserOriginationFacebookInstantGamesId);
         _UserOriginationMap.Add(TEXT("OpenIdConnect"), UserOriginationOpenIdConnect);
+        _UserOriginationMap.Add(TEXT("Apple"), UserOriginationApple);
+        _UserOriginationMap.Add(TEXT("NintendoSwitchAccount"), UserOriginationNintendoSwitchAccount);
 
     }
 
@@ -2026,6 +2094,7 @@ bool PlayFab::ServerModels::FUserXboxInfo::readFromValue(const TSharedPtr<FJsonO
 PlayFab::ServerModels::FUserAccountInfo::~FUserAccountInfo()
 {
     //if (AndroidDeviceInfo != nullptr) delete AndroidDeviceInfo;
+    //if (AppleAccountInfo != nullptr) delete AppleAccountInfo;
     //if (CustomIdInfo != nullptr) delete CustomIdInfo;
     //if (FacebookInfo != nullptr) delete FacebookInfo;
     //if (FacebookInstantGamesIdInfo != nullptr) delete FacebookInstantGamesIdInfo;
@@ -2033,6 +2102,7 @@ PlayFab::ServerModels::FUserAccountInfo::~FUserAccountInfo()
     //if (GoogleInfo != nullptr) delete GoogleInfo;
     //if (IosDeviceInfo != nullptr) delete IosDeviceInfo;
     //if (KongregateInfo != nullptr) delete KongregateInfo;
+    //if (NintendoSwitchAccountInfo != nullptr) delete NintendoSwitchAccountInfo;
     //if (NintendoSwitchDeviceIdInfo != nullptr) delete NintendoSwitchDeviceIdInfo;
     //if (PrivateInfo != nullptr) delete PrivateInfo;
     //if (PsnInfo != nullptr) delete PsnInfo;
@@ -2052,6 +2122,12 @@ void PlayFab::ServerModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
     {
         writer->WriteIdentifierPrefix(TEXT("AndroidDeviceInfo"));
         AndroidDeviceInfo->writeJSON(writer);
+    }
+
+    if (AppleAccountInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AppleAccountInfo"));
+        AppleAccountInfo->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("Created"));
@@ -2097,6 +2173,12 @@ void PlayFab::ServerModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
     {
         writer->WriteIdentifierPrefix(TEXT("KongregateInfo"));
         KongregateInfo->writeJSON(writer);
+    }
+
+    if (NintendoSwitchAccountInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchAccountInfo"));
+        NintendoSwitchAccountInfo->writeJSON(writer);
     }
 
     if (NintendoSwitchDeviceIdInfo.IsValid())
@@ -2181,6 +2263,12 @@ bool PlayFab::ServerModels::FUserAccountInfo::readFromValue(const TSharedPtr<FJs
         AndroidDeviceInfo = MakeShareable(new FUserAndroidDeviceInfo(AndroidDeviceInfoValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> AppleAccountInfoValue = obj->TryGetField(TEXT("AppleAccountInfo"));
+    if (AppleAccountInfoValue.IsValid() && !AppleAccountInfoValue->IsNull())
+    {
+        AppleAccountInfo = MakeShareable(new FUserAppleIdInfo(AppleAccountInfoValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
     if (CreatedValue.IsValid())
         Created = readDatetime(CreatedValue);
@@ -2226,6 +2314,12 @@ bool PlayFab::ServerModels::FUserAccountInfo::readFromValue(const TSharedPtr<FJs
     if (KongregateInfoValue.IsValid() && !KongregateInfoValue->IsNull())
     {
         KongregateInfo = MakeShareable(new FUserKongregateInfo(KongregateInfoValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> NintendoSwitchAccountInfoValue = obj->TryGetField(TEXT("NintendoSwitchAccountInfo"));
+    if (NintendoSwitchAccountInfoValue.IsValid() && !NintendoSwitchAccountInfoValue->IsNull())
+    {
+        NintendoSwitchAccountInfo = MakeShareable(new FUserNintendoSwitchAccountIdInfo(NintendoSwitchAccountInfoValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> NintendoSwitchDeviceIdInfoValue = obj->TryGetField(TEXT("NintendoSwitchDeviceIdInfo"));
@@ -5499,6 +5593,7 @@ void PlayFab::ServerModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProv
     case LoginIdentityProviderFacebookInstantGames: writer->WriteValue(TEXT("FacebookInstantGames")); break;
     case LoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
     case LoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
+    case LoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
     }
 }
 
@@ -5533,6 +5628,7 @@ ServerModels::LoginIdentityProvider PlayFab::ServerModels::readLoginIdentityProv
         _LoginIdentityProviderMap.Add(TEXT("FacebookInstantGames"), LoginIdentityProviderFacebookInstantGames);
         _LoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), LoginIdentityProviderOpenIdConnect);
         _LoginIdentityProviderMap.Add(TEXT("Apple"), LoginIdentityProviderApple);
+        _LoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), LoginIdentityProviderNintendoSwitchAccount);
 
     }
 

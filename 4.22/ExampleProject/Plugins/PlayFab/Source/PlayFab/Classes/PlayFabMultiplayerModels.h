@@ -621,12 +621,18 @@ public:
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
+    /** The OS platform used for running the game process. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString OsPlatform;
     /** The ports the build is mapped on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> Ports;
     /** The region configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The type of game server being hosted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ServerType;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;
@@ -650,6 +656,12 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /**
+     * The directory containing the game executable. This would be the start path of the game assets that contain the main game
+     * server executable. If not provided, a best effort will be made to extract it from the start game command.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString GameWorkingDirectory;
     /** The instrumentation configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
@@ -699,6 +711,12 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /**
+     * The directory containing the game executable. This would be the start path of the game assets that contain the main game
+     * server executable. If not provided, a best effort will be made to extract it from the start game command.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString GameWorkingDirectory;
     /** The instrumentation configuration for this build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
@@ -708,12 +726,18 @@ public:
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
+    /** The OS platform used for running the game process. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString OsPlatform;
     /** The ports the build is mapped on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> Ports;
     /** The region configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The type of game server being hosted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ServerType;
     /** The command to run when the multiplayer server has been allocated, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
@@ -802,6 +826,20 @@ public:
     /** The guid string alias ID of the alias to perform the action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString AliasId;
+};
+
+/** Removes a multiplayer server build's region. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerDeleteBuildRegionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string ID of the build we want to update regions for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildId;
+    /** The build region to delete. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString Region;
 };
 
 /** Deletes a multiplayer server game certificate. */
@@ -942,12 +980,18 @@ public:
     /** The number of multiplayer servers to hosted on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
+    /** The OS platform used for running the game process. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString OsPlatform;
     /** The ports the build is mapped on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> Ports;
     /** The region configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The type of game server being hosted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ServerType;
     /**
      * The command to run when the multiplayer server has been allocated, including any arguments. This only applies to managed
      * builds. If the build is a custom build, this field will be null.
@@ -1063,9 +1107,6 @@ struct PLAYFAB_API FMultiplayerGetMultiplayerServerLogsRequest : public FPlayFab
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The region of the multiplayer server to get logs for. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString Region;
     /** The server ID of multiplayer server to get logs for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ServerId;
@@ -1622,6 +1663,20 @@ public:
     /** Array of build selection criteria. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
+};
+
+/** Updates a multiplayer server build's region. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerUpdateBuildRegionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string ID of the build we want to update regions for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildId;
+    /** The updated region configuration that should be applied to the specified build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* BuildRegion = nullptr;
 };
 
 /** Updates a multiplayer server build's regions. */

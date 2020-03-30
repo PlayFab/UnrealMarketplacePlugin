@@ -67,9 +67,6 @@ public:
     virtual void SetAdvertisingIdValue(const FString& advertisingIdValue) = 0;
     virtual void SetDisableAdvertising(bool disableAdvertising) = 0;
 
-    virtual FString GetPlayFabApiSecretKey() const = 0;
-    virtual void SetPlayFabApiSecretKey(const FString& playFabApiSecretKey) = 0;
-
     virtual FString GetPhotonRealtimeAppId() const = 0;
     virtual void SetPhotonRealtimeAppId(const FString & photonRealtimeAppId) = 0;
 

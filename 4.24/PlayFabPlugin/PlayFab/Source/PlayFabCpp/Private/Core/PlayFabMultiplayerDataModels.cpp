@@ -75,11 +75,7 @@ void PlayFab::MultiplayerModels::FAssetReferenceParams::writeJSON(JsonWriter& wr
         writer->WriteValue(FileName);
     }
 
-    if (!MountPath.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: AssetReferenceParams::MountPath, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (MountPath.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("MountPath"));
         writer->WriteValue(MountPath);
@@ -1432,6 +1428,7 @@ void PlayFab::MultiplayerModels::writeContainerFlavorEnumJSON(ContainerFlavor en
     case ContainerFlavorManagedWindowsServerCore: writer->WriteValue(TEXT("ManagedWindowsServerCore")); break;
     case ContainerFlavorCustomLinux: writer->WriteValue(TEXT("CustomLinux")); break;
     case ContainerFlavorManagedWindowsServerCorePreview: writer->WriteValue(TEXT("ManagedWindowsServerCorePreview")); break;
+    case ContainerFlavorInvalid: writer->WriteValue(TEXT("Invalid")); break;
     }
 }
 
@@ -1449,6 +1446,7 @@ MultiplayerModels::ContainerFlavor PlayFab::MultiplayerModels::readContainerFlav
         _ContainerFlavorMap.Add(TEXT("ManagedWindowsServerCore"), ContainerFlavorManagedWindowsServerCore);
         _ContainerFlavorMap.Add(TEXT("CustomLinux"), ContainerFlavorCustomLinux);
         _ContainerFlavorMap.Add(TEXT("ManagedWindowsServerCorePreview"), ContainerFlavorManagedWindowsServerCorePreview);
+        _ContainerFlavorMap.Add(TEXT("Invalid"), ContainerFlavorInvalid);
 
     }
 
@@ -2057,6 +2055,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::writeJ
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
     writer->WriteValue(MultiplayerServerCountPerVm);
 
+    if (OsPlatform.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OsPlatform"));
+        writer->WriteValue(OsPlatform);
+    }
+
     if (Ports.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Ports"));
@@ -2074,6 +2078,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::writeJ
         writer->WriteArrayEnd();
     }
 
+
+    if (ServerType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerType"));
+        writer->WriteValue(ServerType);
+    }
 
     if (VmSize.notNull())
     {
@@ -2154,6 +2164,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
         if (MultiplayerServerCountPerVmValue->TryGetNumber(TmpValue)) { MultiplayerServerCountPerVm = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> OsPlatformValue = obj->TryGetField(TEXT("OsPlatform"));
+    if (OsPlatformValue.IsValid() && !OsPlatformValue->IsNull())
+    {
+        FString TmpValue;
+        if (OsPlatformValue->TryGetString(TmpValue)) { OsPlatform = TmpValue; }
+    }
+
     const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
     for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
     {
@@ -2169,6 +2186,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
         RegionConfigurations.Add(FBuildRegion(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> ServerTypeValue = obj->TryGetField(TEXT("ServerType"));
+    if (ServerTypeValue.IsValid() && !ServerTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerTypeValue->TryGetString(TmpValue)) { ServerType = TmpValue; }
+    }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
@@ -2245,6 +2269,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
         writer->WriteArrayEnd();
     }
 
+
+    if (GameWorkingDirectory.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
+        writer->WriteValue(GameWorkingDirectory);
+    }
 
     if (pfInstrumentationConfiguration.IsValid())
     {
@@ -2325,6 +2355,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
         GameCertificateReferences.Add(FGameCertificateReferenceParams(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> GameWorkingDirectoryValue = obj->TryGetField(TEXT("GameWorkingDirectory"));
+    if (GameWorkingDirectoryValue.IsValid() && !GameWorkingDirectoryValue->IsNull())
+    {
+        FString TmpValue;
+        if (GameWorkingDirectoryValue->TryGetString(TmpValue)) { GameWorkingDirectory = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> InstrumentationConfigurationValue = obj->TryGetField(TEXT("InstrumentationConfiguration"));
     if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
@@ -2428,6 +2465,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
     }
 
 
+    if (GameWorkingDirectory.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
+        writer->WriteValue(GameWorkingDirectory);
+    }
+
     if (pfInstrumentationConfiguration.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("InstrumentationConfiguration"));
@@ -2448,6 +2491,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
     writer->WriteValue(MultiplayerServerCountPerVm);
 
+    if (OsPlatform.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OsPlatform"));
+        writer->WriteValue(OsPlatform);
+    }
+
     if (Ports.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Ports"));
@@ -2465,6 +2514,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
         writer->WriteArrayEnd();
     }
 
+
+    if (ServerType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerType"));
+        writer->WriteValue(ServerType);
+    }
 
     if (StartMultiplayerServerCommand.IsEmpty() == false)
     {
@@ -2522,6 +2577,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
     }
 
 
+    const TSharedPtr<FJsonValue> GameWorkingDirectoryValue = obj->TryGetField(TEXT("GameWorkingDirectory"));
+    if (GameWorkingDirectoryValue.IsValid() && !GameWorkingDirectoryValue->IsNull())
+    {
+        FString TmpValue;
+        if (GameWorkingDirectoryValue->TryGetString(TmpValue)) { GameWorkingDirectory = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> InstrumentationConfigurationValue = obj->TryGetField(TEXT("InstrumentationConfiguration"));
     if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
     {
@@ -2544,6 +2606,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
         if (MultiplayerServerCountPerVmValue->TryGetNumber(TmpValue)) { MultiplayerServerCountPerVm = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> OsPlatformValue = obj->TryGetField(TEXT("OsPlatform"));
+    if (OsPlatformValue.IsValid() && !OsPlatformValue->IsNull())
+    {
+        FString TmpValue;
+        if (OsPlatformValue->TryGetString(TmpValue)) { OsPlatform = TmpValue; }
+    }
+
     const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
     for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
     {
@@ -2559,6 +2628,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
         RegionConfigurations.Add(FBuildRegion(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> ServerTypeValue = obj->TryGetField(TEXT("ServerType"));
+    if (ServerTypeValue.IsValid() && !ServerTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerTypeValue->TryGetString(TmpValue)) { ServerType = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> StartMultiplayerServerCommandValue = obj->TryGetField(TEXT("StartMultiplayerServerCommand"));
     if (StartMultiplayerServerCommandValue.IsValid() && !StartMultiplayerServerCommandValue->IsNull())
@@ -3276,6 +3352,59 @@ bool PlayFab::MultiplayerModels::FDeleteBuildAliasRequest::readFromValue(const T
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FDeleteBuildRegionRequest::~FDeleteBuildRegionRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FDeleteBuildRegionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!BuildId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteBuildRegionRequest::BuildId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildId"));
+        writer->WriteValue(BuildId);
+    }
+
+    if (!Region.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteBuildRegionRequest::Region, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writer->WriteValue(Region);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FDeleteBuildRegionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
+    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FDeleteBuildRequest::~FDeleteBuildRequest()
 {
 
@@ -3782,6 +3911,12 @@ void PlayFab::MultiplayerModels::FGetBuildResponse::writeJSON(JsonWriter& writer
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
     writer->WriteValue(MultiplayerServerCountPerVm);
 
+    if (OsPlatform.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OsPlatform"));
+        writer->WriteValue(OsPlatform);
+    }
+
     if (Ports.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Ports"));
@@ -3799,6 +3934,12 @@ void PlayFab::MultiplayerModels::FGetBuildResponse::writeJSON(JsonWriter& writer
         writer->WriteArrayEnd();
     }
 
+
+    if (ServerType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerType"));
+        writer->WriteValue(ServerType);
+    }
 
     if (StartMultiplayerServerCommand.IsEmpty() == false)
     {
@@ -3898,6 +4039,13 @@ bool PlayFab::MultiplayerModels::FGetBuildResponse::readFromValue(const TSharedP
         if (MultiplayerServerCountPerVmValue->TryGetNumber(TmpValue)) { MultiplayerServerCountPerVm = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> OsPlatformValue = obj->TryGetField(TEXT("OsPlatform"));
+    if (OsPlatformValue.IsValid() && !OsPlatformValue->IsNull())
+    {
+        FString TmpValue;
+        if (OsPlatformValue->TryGetString(TmpValue)) { OsPlatform = TmpValue; }
+    }
+
     const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
     for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
     {
@@ -3913,6 +4061,13 @@ bool PlayFab::MultiplayerModels::FGetBuildResponse::readFromValue(const TSharedP
         RegionConfigurations.Add(FBuildRegion(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> ServerTypeValue = obj->TryGetField(TEXT("ServerType"));
+    if (ServerTypeValue.IsValid() && !ServerTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerTypeValue->TryGetString(TmpValue)) { ServerType = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> StartMultiplayerServerCommandValue = obj->TryGetField(TEXT("StartMultiplayerServerCommand"));
     if (StartMultiplayerServerCommandValue.IsValid() && !StartMultiplayerServerCommandValue->IsNull())
@@ -4601,12 +4756,6 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
-    if (Region.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Region"));
-        writer->WriteValue(Region);
-    }
-
     if (!ServerId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerLogsRequest::ServerId, PlayFab calls may not work if it remains empty."));
@@ -4623,13 +4772,6 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::writeJSON(Jso
 bool PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
-    if (RegionValue.IsValid() && !RegionValue->IsNull())
-    {
-        FString TmpValue;
-        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> ServerIdValue = obj->TryGetField(TEXT("ServerId"));
     if (ServerIdValue.IsValid() && !ServerIdValue->IsNull())
@@ -6792,6 +6934,42 @@ bool PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::readFromValue(const T
     return HasSucceeded;
 }
 
+void PlayFab::MultiplayerModels::writeOsPlatformEnumJSON(OsPlatform enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case OsPlatformWindows: writer->WriteValue(TEXT("Windows")); break;
+    case OsPlatformLinux: writer->WriteValue(TEXT("Linux")); break;
+    }
+}
+
+MultiplayerModels::OsPlatform PlayFab::MultiplayerModels::readOsPlatformFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readOsPlatformFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::OsPlatform PlayFab::MultiplayerModels::readOsPlatformFromValue(const FString& value)
+{
+    static TMap<FString, OsPlatform> _OsPlatformMap;
+    if (_OsPlatformMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _OsPlatformMap.Add(TEXT("Windows"), OsPlatformWindows);
+        _OsPlatformMap.Add(TEXT("Linux"), OsPlatformLinux);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _OsPlatformMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return OsPlatformWindows; // Basically critical fail
+}
+
 PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::~FRequestMultiplayerServerRequest()
 {
     //if (BuildAliasParams != nullptr) delete BuildAliasParams;
@@ -7118,6 +7296,42 @@ bool PlayFab::MultiplayerModels::FRolloverContainerRegistryCredentialsResponse::
     return HasSucceeded;
 }
 
+void PlayFab::MultiplayerModels::writeServerTypeEnumJSON(ServerType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case ServerTypeContainer: writer->WriteValue(TEXT("Container")); break;
+    case ServerTypeProcess: writer->WriteValue(TEXT("Process")); break;
+    }
+}
+
+MultiplayerModels::ServerType PlayFab::MultiplayerModels::readServerTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readServerTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::ServerType PlayFab::MultiplayerModels::readServerTypeFromValue(const FString& value)
+{
+    static TMap<FString, ServerType> _ServerTypeMap;
+    if (_ServerTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _ServerTypeMap.Add(TEXT("Container"), ServerTypeContainer);
+        _ServerTypeMap.Add(TEXT("Process"), ServerTypeProcess);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _ServerTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return ServerTypeContainer; // Basically critical fail
+}
+
 PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::~FShutdownMultiplayerServerRequest()
 {
 
@@ -7295,6 +7509,51 @@ bool PlayFab::MultiplayerModels::FUpdateBuildAliasRequest::readFromValue(const T
         BuildSelectionCriteria.Add(FBuildSelectionCriterion(CurrentItem->AsObject()));
     }
 
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FUpdateBuildRegionRequest::~FUpdateBuildRegionRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FUpdateBuildRegionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!BuildId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateBuildRegionRequest::BuildId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildId"));
+        writer->WriteValue(BuildId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("BuildRegion"));
+    BuildRegion.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FUpdateBuildRegionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
+    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> BuildRegionValue = obj->TryGetField(TEXT("BuildRegion"));
+    if (BuildRegionValue.IsValid() && !BuildRegionValue->IsNull())
+    {
+        BuildRegion = FBuildRegionParams(BuildRegionValue->AsObject());
+    }
 
     return HasSucceeded;
 }

@@ -1056,6 +1056,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("GameCertificateReferences"), request.GameCertificateReferences);
     }
+    if (request.GameWorkingDirectory.IsEmpty() || request.GameWorkingDirectory == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("GameWorkingDirectory"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("GameWorkingDirectory"), request.GameWorkingDirectory);
+    }
     if (request.InstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("InstrumentationConfiguration"), request.InstrumentationConfiguration);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
@@ -1326,6 +1331,64 @@ void UPlayFabMultiplayerAPI::HelperDeleteBuildAlias(FPlayFabBaseModel response, 
         FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessDeleteBuildAlias.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Removes a multiplayer server build's region. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteBuildRegion(FMultiplayerDeleteBuildRegionRequest request,
+    FDelegateOnSuccessDeleteBuildRegion onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteBuildRegion = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteBuildRegion);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/DeleteBuildRegion";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.BuildId.IsEmpty() || request.BuildId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
+    }
+    if (request.Region.IsEmpty() || request.Region == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Region"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperDeleteBuildRegion(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteBuildRegion.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteBuildRegion.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1788,11 +1851,6 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerLogs(FMultip
 
 
     // Serialize all the request properties to json
-    if (request.Region.IsEmpty() || request.Region == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("Region"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
-    }
     if (request.ServerId.IsEmpty() || request.ServerId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ServerId"));
     } else {
@@ -2986,6 +3044,60 @@ void UPlayFabMultiplayerAPI::HelperUpdateBuildAlias(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
+/** Updates a multiplayer server build's region. If the region is not yet created, it will be created */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildRegion(FMultiplayerUpdateBuildRegionRequest request,
+    FDelegateOnSuccessUpdateBuildRegion onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateBuildRegion = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUpdateBuildRegion);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/UpdateBuildRegion";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.BuildId.IsEmpty() || request.BuildId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
+    }
+    if (request.BuildRegion != nullptr) OutRestJsonObj->SetObjectField(TEXT("BuildRegion"), request.BuildRegion);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperUpdateBuildRegion(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateBuildRegion.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateBuildRegion.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Updates a multiplayer server build's regions. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildRegions(FMultiplayerUpdateBuildRegionsRequest request,
     FDelegateOnSuccessUpdateBuildRegions onSuccess,
@@ -3184,7 +3296,7 @@ void UPlayFabMultiplayerAPI::Activate()
     else if (useSessionTicket)
         HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
     else if (useSecretKey)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getSecretApiKey());
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getDeveloperSecretKey());
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

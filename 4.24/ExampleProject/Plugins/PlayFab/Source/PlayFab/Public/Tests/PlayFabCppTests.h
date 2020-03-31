@@ -53,6 +53,7 @@ class PLAYFAB_API UPlayFabCppTests : public UPlayFabTestCase
 public:
     virtual void GetTests(TArray<UPlayFabTestContext*>& InOutTests) override
     {
+
         InOutTests.ADD_TEST(Invalid Login (CPP), InvalidLogin);
         InOutTests.ADD_TEST(Login Or Register (CPP), LoginOrRegister);
         InOutTests.ADD_TEST(Login With Advertising ID (CPP), LoginWithAdvertisingID);
@@ -87,6 +88,7 @@ private:
      * @param InCustomData Additional data about this Error.
      */
     void OnSharedError(const PlayFab::FPlayFabCppError& InError) const;
+    
 
     UFUNCTION()
     void InvalidLogin();

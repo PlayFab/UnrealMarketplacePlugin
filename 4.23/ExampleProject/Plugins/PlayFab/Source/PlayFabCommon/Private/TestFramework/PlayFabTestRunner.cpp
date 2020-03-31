@@ -21,6 +21,9 @@ UPlayFabTestRunner::UPlayFabTestRunner(const FObjectInitializer& ObjectInitializ
 
 FString IPlayFabTestRunner::GenerateTestSummary()
 {
+    auto& SuiteTests = GetSuiteTests();
+    auto& OutputSummary = GetCachedSummary();
+
     OutputSummary.Empty(SUMMARY_INIT_BUFFER_SIZE); // Set the capacity to handle everything we're about to put into it
 
     FDateTime now = FDateTime::UtcNow();
@@ -61,20 +64,23 @@ void IPlayFabTestRunner::AddTestCase(UPlayFabTestCase* InTestCase)
     if (SuiteState != PlayFabApiTestActiveState::PENDING)
         return;
 
+    auto& SuiteTests = GetSuiteTests();
     InTestCase->GetTests(SuiteTests);
 }
 
-void IPlayFabTestRunner::ManageTestCase(UPlayFabTestCase* InNewTestCase, UPlayFabTestCase* InCurrentTestCase)
+void IPlayFabTestRunner::ManageTestCase(UPlayFabTestCase* nextTestCase)
 {
-    if (InNewTestCase != InCurrentTestCase)
-    {
-        if (IsValid(InNewTestCase))
-            InNewTestCase->ClassTearDown();
+    UPlayFabTestCase* prevTestCase = GetActiveTest();
 
-        if (IsValid(InCurrentTestCase))
+    if (prevTestCase != nextTestCase)
+    {
+        if (IsValid(prevTestCase))
+            prevTestCase->ClassTearDown();
+
+        if (IsValid(nextTestCase))
         {
-            SuiteTestCase = InCurrentTestCase;
-            SuiteTestCase->ClassSetUp();
+            SetActiveTest(nextTestCase);
+            nextTestCase->ClassSetUp();
         }
     }
 }
@@ -84,13 +90,14 @@ void IPlayFabTestRunner::Run(const float InDeltaTime)
     if (SuiteState != PlayFabApiTestActiveState::PENDING)
         return;
 
+    auto& SuiteTests = GetSuiteTests();
     const auto Index = CurrentTestIndex;
     if (Index < SuiteTests.Num())
     {
         auto CurrentTestData = SuiteTests[Index];
         UPlayFabTestCase* CurrentTestCase = CurrentTestData->GetTestCase();
 
-        ManageTestCase(SuiteTestCase, CurrentTestCase);
+        ManageTestCase(CurrentTestCase);
 
         if (CurrentTestData->activeState == PlayFabApiTestActiveState::PENDING
             && CurrentTestData->activeState != PlayFabApiTestActiveState::ACTIVE)
@@ -135,8 +142,9 @@ void IPlayFabTestRunner::Run(const float InDeltaTime)
     }
     else
     {
-        ManageTestCase(nullptr, SuiteTestCase); // Cleanup
+        ManageTestCase(nullptr); // Cleanup
 
         SuiteState = PlayFabApiTestActiveState::COMPLETE;
+        GEngine->ForceGarbageCollection(true);
     }
 }

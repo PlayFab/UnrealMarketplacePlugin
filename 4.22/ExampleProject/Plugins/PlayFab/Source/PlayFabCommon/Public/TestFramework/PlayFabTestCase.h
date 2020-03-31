@@ -26,17 +26,27 @@ class PLAYFABCOMMON_API UPlayFabTestCase : public UObject
 protected:
     // A bunch of constants: load these from testTitleData.json
     // TODO: Should be moved out of UPlayFabTestCase.
-    UPROPERTY() FString TEST_TITLE_DATA_LOC = FPaths::ProjectContentDir() + TEXT("/TestTitleData/testTitleData.json");;
-    UPROPERTY() FString TEST_DATA_KEY = "testCounter";
-    UPROPERTY() FString TEST_STAT_NAME = "str";
-    UPROPERTY() FString PlayFabId;
-    UPROPERTY() FString entityId;
-    UPROPERTY() FString entityType;
-    UPROPERTY() FDateTime testMessageTime;
+    UPROPERTY()
+    FString TEST_TITLE_DATA_LOC = FPaths::ProjectContentDir() + TEXT("/TestTitleData/testTitleData.json");;
+    UPROPERTY()
+    FString TEST_DATA_KEY = "testCounter";
+    UPROPERTY()
+    FString TEST_STAT_NAME = "str";
+    UPROPERTY()
+    FString PlayFabId;
+    UPROPERTY()
+    FString entityId;
+    UPROPERTY()
+    FString entityType;
+    UPROPERTY()
+    FDateTime testMessageTime;
 
-    UPROPERTY() FString TitleId;
-    UPROPERTY() FString DevSecretKey;
-    UPROPERTY() FString UserEmail;
+    UPROPERTY()
+    FString TitleId;
+    UPROPERTY()
+    FString DevSecretKey;
+    UPROPERTY()
+    FString UserEmail;
 
 public:
     // Default Constructor.

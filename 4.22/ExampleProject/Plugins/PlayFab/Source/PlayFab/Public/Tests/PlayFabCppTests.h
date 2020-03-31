@@ -50,14 +50,9 @@ class PLAYFAB_API UPlayFabCppTests : public UPlayFabTestCase
 {
     GENERATED_BODY()
 
-    // Used to end tests.
-    class UPlayFabTestContext* CurrentTestContext = nullptr;
-
 public:
-
     virtual void GetTests(TArray<UPlayFabTestContext*>& InOutTests) override
     {
-
         InOutTests.ADD_TEST(Invalid Login (CPP), InvalidLogin);
         InOutTests.ADD_TEST(Login Or Register (CPP), LoginOrRegister);
         InOutTests.ADD_TEST(Login With Advertising ID (CPP), LoginWithAdvertisingID);
@@ -75,13 +70,16 @@ public:
         InOutTests.ADD_TEST(Object API (CPP), ObjectAPI);
     }
     
+    virtual void ClassSetUp() override;
+    virtual void SetUp(UPlayFabTestContext* testContext) override;
+
+private:
+    // Used to end tests.
+    class UPlayFabTestContext* CurrentTestContext = nullptr;
     PlayFabClientPtr ClientAPI;
     PlayFabServerPtr ServerAPI;
     PlayFabAuthenticationPtr AuthenticationAPI;
     PlayFabDataPtr DataAPI;
-
-    virtual void ClassSetUp() override;
-    virtual void SetUp(UPlayFabTestContext* testContext) override;
 
     /**
      * Shared Error callback.
@@ -89,7 +87,6 @@ public:
      * @param InCustomData Additional data about this Error.
      */
     void OnSharedError(const PlayFab::FPlayFabCppError& InError) const;
-    
 
     UFUNCTION()
     void InvalidLogin();
@@ -132,12 +129,14 @@ public:
     void AccountInfo();
     void AccountInfo_Success(const PlayFab::ClientModels::FGetAccountInfoResult& result);
 
+    UPROPERTY()
     FString CLOUD_FUNCTION_HELLO_WORLD = TEXT("helloWorld");
 
     UFUNCTION()
     void CloudScript();
     void CloudScript_Success(const PlayFab::ClientModels::FExecuteCloudScriptResult& result);
 
+    UPROPERTY()
     FString CLOUD_FUNCTION_THROW_ERROR = TEXT("throwError");
 
     UFUNCTION()

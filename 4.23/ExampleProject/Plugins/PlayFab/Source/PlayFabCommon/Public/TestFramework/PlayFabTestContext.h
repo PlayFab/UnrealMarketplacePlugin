@@ -11,6 +11,8 @@
 
 #include "PlayFabTestContext.generated.h"
 
+class UPlayFabTestCase;
+
 // Represent a running Test, with every information about it's execution.
 UCLASS(Blueprintable, BlueprintType)
 class PLAYFABCOMMON_API UPlayFabTestContext : public UObject
@@ -48,50 +50,24 @@ public:
     UPROPERTY()
     FDateTime endTime;
 
-    UPROPERTY() UPlayFabTestCase* TestCase;
+    UPROPERTY()
+    UPlayFabTestCase* TestCase;
 
-    UFUNCTION() UPlayFabTestCase* GetTestCase() const { return TestCase; }
-
+    FORCEINLINE UPlayFabTestCase* GetTestCase() const { return TestCase; }
 
     /**
      * Initializes this Test.
      * @param InName This Test's name.
      * @param InTestFunc This Test's function.
      */
-    UFUNCTION()
-    void Setup(FString InName, UPlayFabTestCase* InTestCase, FString InTestFuncName)
-    {
-        testName = InName;
-        activeState = PlayFabApiTestActiveState::PENDING;
-        finishState = PlayFabApiTestFinishState::TIMEDOUT;
-        testResultMsg = "";
-        startTime = 0;
-        endTime = 0;
+    void Setup(const FString& InName, UPlayFabTestCase* InTestCase, const FString& InTestFuncName);
 
-        TestCase = InTestCase;
-
-        UPlayFabTestContext::FApiTestCase TestDelegate;
-        TestDelegate.BindUFunction(TestCase, *InTestFuncName);
-
-        UE_LOG(LogTemp, Log, TEXT("Binding %s: %s"), *InName, *InTestFuncName);
-
-        testFunc = TestDelegate;
-    };
-
-    UFUNCTION()
-    static UPlayFabTestContext* CreateTestContext(FString InName, UPlayFabTestCase* InTestCase, FString InTestFuncName)
-    {
-        auto OutTestContext = NewObject<UPlayFabTestContext>();
-        OutTestContext->Setup(InName, InTestCase, InTestFuncName);
-
-        return OutTestContext;
-    }
+    static UPlayFabTestContext* CreateTestContext(const FString& InName, UPlayFabTestCase* InTestCase, const FString& InTestFuncName);
 
     /**
      * Returns the time this Test took to complete, as a Timespan.
      * @returns The time this Test tool to complete, as a Timespan.
      */
-    UFUNCTION(BlueprintPure)
     FORCEINLINE FTimespan GetDuration() const
     {
         FDateTime now = FDateTime::UtcNow();
@@ -105,49 +81,20 @@ public:
      * Returns the time this Test took to complete, in seconds.
      * @returns The time this Test tool to complete, in seconds.
      */
-    UFUNCTION(BlueprintPure)
     FORCEINLINE float GetDurationInSeconds() const { return GetDuration().GetTotalSeconds(); }
 
     /**
      * Returns the time this Test took to complete, in milliseconds.
      * @returns The time this Test took to complete, in milliseconds.
      */
-    UFUNCTION(BlueprintPure)
     FORCEINLINE float GetDurationInMilliseconds() const { return GetDuration().GetTotalMilliseconds(); }
 
-    UFUNCTION()
-    void EndTest(PlayFabApiTestFinishState InFinishState = PlayFabApiTestFinishState::PASSED, FString InMessage = "");
+    void EndTest(PlayFabApiTestFinishState InFinishState = PlayFabApiTestFinishState::PASSED, const FString& InMessage = "");
 
     /**
      * Generates this Test's summary, and returns it as a FString.
      * @param InNow The current time
      * @returns This Test's Summary
      */
-    UFUNCTION()
-    FString GenerateTestSummary(FDateTime InNow)
-    {
-        FString temp;
-        temp = FString::FromInt(GetDurationInMilliseconds());
-        while (temp.Len() < 12)
-            temp = " " + temp;
-        temp += " ms, ";
-        switch (finishState)
-        {
-        case PlayFabApiTestFinishState::PASSED: temp += "pass: ";
-            break;
-        case PlayFabApiTestFinishState::FAILED: temp += "FAILED: ";
-            break;
-        case PlayFabApiTestFinishState::SKIPPED: temp += "SKIPPED: ";
-            break;
-        case PlayFabApiTestFinishState::TIMEDOUT: temp += "TIMED OUT: ";
-            break;
-        }
-        temp += testName;
-        if (testResultMsg.Len() > 0)
-        {
-            temp += " - ";
-            temp += testResultMsg;
-        }
-        return temp;
-    }
+    FString GenerateTestSummary(FDateTime InNow);
 };

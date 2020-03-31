@@ -18,7 +18,7 @@ void UPlayFabCppTests::ClassSetUp()
 
     FString jsonInput;
     FString filename = TEST_TITLE_DATA_LOC;
-    
+
     if (!FPaths::FileExists(filename))
     {
         // Prefer to load path from environment variable, if present
@@ -194,7 +194,7 @@ void UPlayFabCppTests::GetUserDataAPI_Success(const PlayFab::ClientModels::FGetU
             // If I know what value I'm expecting, and I did not get it, log an error
             UE_LOG(LogPlayFabTests, Error, TEXT("GetUserData: Update value did not match new value %d!=%d"), UserDataAPI_ExpectedValue, actualValue);
 
-            CurrentTestContext->EndTest(PlayFabApiTestFinishState::FAILED, FString::Format(TEXT("Update value did not match new value {0}!={1}"), {UserDataAPI_ExpectedValue, actualValue})); // Error
+            CurrentTestContext->EndTest(PlayFabApiTestFinishState::FAILED, FString::Format(TEXT("Update value did not match new value {0}!={1}"), { UserDataAPI_ExpectedValue, actualValue })); // Error
         }
         else
         {

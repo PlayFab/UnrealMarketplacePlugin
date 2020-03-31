@@ -13,11 +13,6 @@
 #include "PlayFabDataApi.h"
 #include "PlayFabServerApi.h"
 
-// Sets default values
-UPlayFabBlueprintTests::UPlayFabBlueprintTests()
-{
-}
-
 void UPlayFabBlueprintTests::ClassSetUp()
 {
     // README:
@@ -91,13 +86,13 @@ void UPlayFabBlueprintTests::InvalidLogin(UPlayFabTestContext* testContext)
 
 void UPlayFabBlueprintTests::InvalidLoginSuccess(FClientLoginResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     testContext->EndTest(PlayFabApiTestFinishState::FAILED, "Expected login to fail");
 }
 
 void UPlayFabBlueprintTests::InvalidLoginFail(FPlayFabError error, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     if (error.ErrorMessage.Find("password") != -1)
         testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
     else
@@ -125,7 +120,7 @@ void UPlayFabBlueprintTests::InvalidRegistration(UPlayFabTestContext* testContex
 
 void UPlayFabBlueprintTests::InvalidRegistrationSuccess(FClientRegisterPlayFabUserResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     testContext->EndTest(PlayFabApiTestFinishState::FAILED, "Expected registration to fail");
 }
 
@@ -138,7 +133,7 @@ void UPlayFabBlueprintTests::InvalidRegistrationFail(FPlayFabError error, UObjec
     foundEmailMsg = (error.ErrorDetails.Find(expectedEmailMsg) != -1);
     foundPasswordMsg = (error.ErrorDetails.Find(expectedPasswordMsg) != -1);
 
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     if (foundEmailMsg && foundPasswordMsg)
         testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
     else
@@ -171,7 +166,7 @@ void UPlayFabBlueprintTests::LoginOrRegister(UPlayFabTestContext* testContext)
 void UPlayFabBlueprintTests::OnLoginOrRegister(FClientLoginResult result, UObject* customData)
 {
     PlayFabId = result.PlayFabId;
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
 }
 
@@ -201,7 +196,7 @@ void UPlayFabBlueprintTests::OnLoginWithAdvertisingId(FClientLoginResult result,
 {
     IPlayFab* playFabSettings = &(IPlayFab::Get());
     // TODO: Need to wait for the NEXT api call to complete, and then test playFabSettings->AdvertisingIdType (Oh right... need to actually change AdvertisingIdType too...
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
 }
 
@@ -262,7 +257,7 @@ void UPlayFabBlueprintTests::OnUserDataApiUpdate(FClientUpdateUserDataResult res
 
 void UPlayFabBlueprintTests::OnUserDataApiGet2(FClientGetUserDataResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
 
     FDateTime now = FDateTime::UtcNow();
     FDateTime minTime = now - FTimespan(0, 5, 0);
@@ -377,7 +372,7 @@ void UPlayFabBlueprintTests::OnPlayerStatisticsApiGet2(FClientGetPlayerStatistic
             && result.Statistics[i]->GetStringField(TEXT("StatisticName")) == TEST_STAT_NAME)
             actualStatValue = result.Statistics[i]->GetNumberField(TEXT("Value"));
 
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     if (testMessageInt != actualStatValue)
         testContext->EndTest(PlayFabApiTestFinishState::FAILED, "User statistic not updated as expected, E:" + FString::FromInt(testMessageInt) + " != A:" + FString::FromInt(actualStatValue));
     else
@@ -413,7 +408,7 @@ void UPlayFabBlueprintTests::LeaderBoard(UPlayFabTestContext* testContext)
 
 void UPlayFabBlueprintTests::OnLeaderBoard(FClientGetLeaderboardResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     if (result.Leaderboard.Num() > 0)
         testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
     else
@@ -445,7 +440,7 @@ void UPlayFabBlueprintTests::AccountInfo(UPlayFabTestContext* testContext)
 
 void UPlayFabBlueprintTests::OnAccountInfo(FClientGetAccountInfoResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
 
     if (!result.AccountInfo->HasField("TitleInfo"))
     {
@@ -500,7 +495,7 @@ void UPlayFabBlueprintTests::CloudScript(UPlayFabTestContext* testContext)
 
 void UPlayFabBlueprintTests::OnHelloWorldCloudScript(FClientExecuteCloudScriptResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
 
     if (!result.FunctionResult->HasField("messageValue"))
     {
@@ -544,7 +539,7 @@ void UPlayFabBlueprintTests::CloudScriptError(UPlayFabTestContext* testContext)
 
 void UPlayFabBlueprintTests::OnCloudScriptError(FClientExecuteCloudScriptResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
 
     if (result.FunctionResult != nullptr)
     {
@@ -591,7 +586,7 @@ void UPlayFabBlueprintTests::WriteEvent(UPlayFabTestContext* testContext)
 
 void UPlayFabBlueprintTests::OnWritePlayerEvent(FClientWriteEventResponse result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
 }
 
@@ -623,7 +618,7 @@ void UPlayFabBlueprintTests::OnGetEntityToken(FAuthenticationGetEntityTokenRespo
     entityId = result.Entity->GetStringField("Id");
     entityType = result.Entity->GetStringField("Type");
 
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
 }
 
@@ -700,7 +695,7 @@ void UPlayFabBlueprintTests::OnSetObjectApi(FDataSetObjectsResponse result, UObj
 
 void UPlayFabBlueprintTests::OnGetObjectApi2(FDataGetObjectsResponse result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
 
     int actualValue = -1000; // Fail if the data isn't present
     if (result.Objects->HasField(TEST_DATA_KEY))
@@ -736,8 +731,7 @@ void UPlayFabBlueprintTests::ServerTitleData(UPlayFabTestContext* testContext)
 
 void UPlayFabBlueprintTests::OnServerTitleData(FServerGetTitleDataResult result, UObject* customData)
 {
-    UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
     // There is no guarantee about content in titleData, so as long as this request succeeds, test passes
     testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
 }
-

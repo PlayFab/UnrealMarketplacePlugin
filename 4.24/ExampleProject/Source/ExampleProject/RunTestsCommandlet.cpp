@@ -23,6 +23,26 @@ URunTestsCommandlet::URunTestsCommandlet()
     ShowErrorCount = true;
 }
 
+TArray<UPlayFabTestContext*>& URunTestsCommandlet::GetSuiteTests()
+{
+    return suiteTests;
+}
+
+UPlayFabTestCase* URunTestsCommandlet::GetActiveTest()
+{
+    return activeTestCase;
+}
+
+void URunTestsCommandlet::SetActiveTest(UPlayFabTestCase* newTestCase)
+{
+    activeTestCase = newTestCase;
+}
+
+FString& URunTestsCommandlet::GetCachedSummary()
+{
+    return outputSummary;
+}
+
 int32 URunTestsCommandlet::Main(const FString& Params)
 {
 #if ENGINE_MINOR_VERSION < 24
@@ -46,8 +66,11 @@ int32 URunTestsCommandlet::Main(const FString& Params)
         GIsRunning = false;
     }
 
-    AddTestCase(NewObject<UPlayFabCppTests>());
-    AddTestCase(NewObject<UPlayFabBlueprintTests>());
+    pCppTests = NewObject<UPlayFabCppTests>();
+    pBpTests = NewObject<UPlayFabBlueprintTests>();
+
+    AddTestCase(pCppTests);
+    AddTestCase(pBpTests);
 
     bool bPrintedTestSummary = false;
 
@@ -76,7 +99,7 @@ int32 URunTestsCommandlet::Main(const FString& Params)
                 UE_LOG(LogPlayFabExampleProject, Log, TEXT("Test Summary:\n%s"), *GenerateTestSummary());
                 bPrintedTestSummary = true;
                 pUploader = NewObject<ACloudScriptTestResultUploader>();
-                pUploader->UploadToCloudscript(SuiteTests);
+                pUploader->UploadToCloudscript(GetSuiteTests());
             }
         }
 

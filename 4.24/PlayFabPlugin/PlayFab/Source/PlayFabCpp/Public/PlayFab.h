@@ -41,6 +41,7 @@ namespace PlayFab
     class UPlayFabDataAPI;
     class UPlayFabEventsAPI;
     class UPlayFabExperimentationAPI;
+    class UPlayFabInsightsAPI;
     class UPlayFabGroupsAPI;
     class UPlayFabLocalizationAPI;
     class UPlayFabMultiplayerAPI;
@@ -56,6 +57,7 @@ typedef TSharedPtr<class PlayFab::UPlayFabCloudScriptAPI> PlayFabCloudScriptPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabDataAPI> PlayFabDataPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabEventsAPI> PlayFabEventsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabExperimentationAPI> PlayFabExperimentationPtr;
+typedef TSharedPtr<class PlayFab::UPlayFabInsightsAPI> PlayFabInsightsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabGroupsAPI> PlayFabGroupsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabLocalizationAPI> PlayFabLocalizationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabMultiplayerAPI> PlayFabMultiplayerPtr;
@@ -104,6 +106,7 @@ public:
     virtual PlayFabDataPtr GetDataAPI() const = 0;
     virtual PlayFabEventsPtr GetEventsAPI() const = 0;
     virtual PlayFabExperimentationPtr GetExperimentationAPI() const = 0;
+    virtual PlayFabInsightsPtr GetInsightsAPI() const = 0;
     virtual PlayFabGroupsPtr GetGroupsAPI() const = 0;
     virtual PlayFabLocalizationPtr GetLocalizationAPI() const = 0;
     virtual PlayFabMultiplayerPtr GetMultiplayerAPI() const = 0;

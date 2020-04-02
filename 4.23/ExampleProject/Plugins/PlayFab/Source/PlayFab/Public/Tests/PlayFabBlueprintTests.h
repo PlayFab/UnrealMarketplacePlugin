@@ -23,12 +23,13 @@ class PLAYFAB_API UPlayFabBlueprintTests : public UPlayFabTestCase
     GENERATED_BODY()
 
 public:
-    ///////////////////// Actor stuff /////////////////////
-    UPlayFabBlueprintTests(); // Sets default values for this actor's properties
-
     int testMessageInt;
+    UPROPERTY()
+    FString UserEmail;
 
     // #### PlayFab TestSuite Interface ####
+
+    virtual void SetTestTitleData(const UTestTitleDataLoader& testTitleData) override;
 
     virtual void ClassSetUp() override;
 
@@ -58,7 +59,7 @@ public:
     UFUNCTION()
     void OnSharedError(FPlayFabError error, UObject* customData)
     {
-        UPlayFabTestContext* testContext = dynamic_cast<UPlayFabTestContext*>(customData);
+        auto testContext = static_cast<UPlayFabTestContext*>(customData);
         testContext->EndTest(PlayFabApiTestFinishState::FAILED, "Unexpected error: " + error.ErrorMessage + "\n" + error.ErrorDetails);
     }
     

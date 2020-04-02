@@ -25,6 +25,10 @@ namespace PlayFab
     }
 }
 
+class UPlayFabCppTests;
+class UPlayFabBlueprintTests;
+class UTestTitleDataLoader;
+
 UCLASS()
 class URunTestsCommandlet : public UCommandlet, public IPlayFabTestRunner
 {
@@ -32,7 +36,26 @@ class URunTestsCommandlet : public UCommandlet, public IPlayFabTestRunner
 
 private:
     UPROPERTY()
+    TArray<UPlayFabTestContext*> suiteTests;
+    UPROPERTY()
+    UPlayFabTestCase* activeTestCase;
+    UPROPERTY()
+    UTestTitleDataLoader* ttdLoader;
+    UPROPERTY()
+    FString outputSummary;
+    UPROPERTY()
     ACloudScriptTestResultUploader* pUploader;
+    UPROPERTY()
+    UPlayFabCppTests* pCppTests;
+    UPROPERTY()
+    UPlayFabBlueprintTests* pBpTests;
+
+protected:
+    virtual TArray<UPlayFabTestContext*>& GetSuiteTests();
+    virtual UPlayFabTestCase* GetActiveTest();
+    virtual UTestTitleDataLoader& GetCachedTitleData();
+    virtual void SetActiveTest(UPlayFabTestCase* newTestCase);
+    virtual FString& GetCachedSummary();
 
 public:
     // Default CTor

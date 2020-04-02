@@ -10,6 +10,7 @@
 #include "PlayFabTestCase.generated.h"
 
 class UPlayFabTestContext;
+class UTestTitleDataLoader;
 
 /**
  * A macro to quickly add a test to a TArray<UPlayFabTestContext*>.
@@ -26,17 +27,18 @@ class PLAYFABCOMMON_API UPlayFabTestCase : public UObject
 protected:
     // A bunch of constants: load these from testTitleData.json
     // TODO: Should be moved out of UPlayFabTestCase.
-    UPROPERTY() FString TEST_TITLE_DATA_LOC = FPaths::ProjectContentDir() + TEXT("/TestTitleData/testTitleData.json");;
-    UPROPERTY() FString TEST_DATA_KEY = "testCounter";
-    UPROPERTY() FString TEST_STAT_NAME = "str";
-    UPROPERTY() FString PlayFabId;
-    UPROPERTY() FString entityId;
-    UPROPERTY() FString entityType;
-    UPROPERTY() FDateTime testMessageTime;
-
-    UPROPERTY() FString TitleId;
-    UPROPERTY() FString DevSecretKey;
-    UPROPERTY() FString UserEmail;
+    UPROPERTY()
+    FString TEST_DATA_KEY = "testCounter";
+    UPROPERTY()
+    FString TEST_STAT_NAME = "str";
+    UPROPERTY()
+    FString PlayFabId;
+    UPROPERTY()
+    FString entityId;
+    UPROPERTY()
+    FString entityType;
+    UPROPERTY()
+    FDateTime testMessageTime;
 
 public:
     // Default Constructor.
@@ -46,39 +48,44 @@ public:
      * Before testing, this function is called to gather the list of tests to run for each TestCase.
      * It is not considered part of any test. A failure or exception in this method will halt the test framework.
      */
-    virtual void GetTests(TArray<UPlayFabTestContext*>& InTestList) { }
+    virtual void GetTests(TArray<UPlayFabTestContext*>& InTestList) {}
+
+    /**
+     * Before testing, if these tests require TesTitleData, they'll be given by this method
+     */
+    virtual void SetTestTitleData(const UTestTitleDataLoader& testTitleData) {}
 
     /**
      * During testing, this is the first function that will be called for each TestCase.
      * This is run exactly once for this type.
      */
-    virtual void ClassSetUp() { }
+    virtual void ClassSetUp() {}
 
     /**
      * During testing, this will be called once before every test function.
      * This is run once for each test.
      * This is considered part of the active test. A failure or exception in this method will be considered a failure for the active test.
      */
-    virtual void SetUp(UPlayFabTestContext* /* testContext */) { }
+    virtual void SetUp(UPlayFabTestContext* /* testContext */) {}
 
     /**
      * During testing, this will be called every tick that a test is asynchronous.
      * This is run every tick until testContext.EndTest() is called, or until the test times out.
      * This is considered part of the active test. A failure or exception in this method will be considered a failure for the active test.
      */
-    virtual void Tick(UPlayFabTestContext* /* testContext */) { }
+    virtual void Tick(UPlayFabTestContext* /* testContext */) {}
 
     /**
      * During testing, this will be called once after every test function.
      * This is run once for each test.
      * This is considered part of the active test. A failure or exception in this method will be considered a failure for the active test.
      */
-    virtual void TearDown(UPlayFabTestContext* /* testContext */) { }
+    virtual void TearDown(UPlayFabTestContext* /* testContext */) {}
 
     /**
      * During testing, this is the last function that will be called for each TestCase.
      * This is run exactly once for this type.
      * It is not considered part of any test. A failure or exception in this method will halt the test framework.
      */
-    virtual void ClassTearDown() { }
+    virtual void ClassTearDown() {}
 };

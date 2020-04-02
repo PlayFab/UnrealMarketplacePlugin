@@ -11,62 +11,40 @@
 #include "Core/PlayFabServerAPI.h"
 #include "Core/PlayFabDataAPI.h"
 #include "Core/PlayFabAuthenticationAPI.h"
+#include "TestFramework/PlayFabTestRunner.h"
+
+void UPlayFabCppTests::SetTestTitleData(const UTestTitleDataLoader& testTitleData)
+{
+    UserEmail = testTitleData.userEmail;
+}
 
 void UPlayFabCppTests::ClassSetUp()
 {
-    bool success = true;
-
-    FString jsonInput;
-    FString filename = TEST_TITLE_DATA_LOC;
-    
-    if (!FPaths::FileExists(filename))
-    {
-        // Prefer to load path from environment variable, if present
-#if PLATFORM_WINDOWS
-        char* envPath = nullptr;
-        size_t envPathStrLen;
-        errno_t err = _dupenv_s(&envPath, &envPathStrLen, "PF_TEST_TITLE_DATA_JSON");
-        if (err == 0 && envPath != nullptr)
-            filename = FString(ANSI_TO_TCHAR(envPath));
-
-        if (envPath != nullptr)
-            free(envPath);
-#endif
-    }
-
-    success &= FFileHelper::LoadFileToString(jsonInput, *filename);
-
-    TSharedPtr<FJsonObject> jsonParsed = nullptr;
-    if (success)
-    {
-        TSharedRef<TJsonReader<>> jsonReader = TJsonReaderFactory<>::Create(jsonInput);
-        success &= FJsonSerializer::Deserialize(jsonReader, jsonParsed);
-    }
-
-    if (success) success &= jsonParsed->TryGetStringField("titleId", TitleId);
-    if (success) success &= jsonParsed->TryGetStringField("developerSecretKey", DevSecretKey);
-    if (success) success &= jsonParsed->TryGetStringField("userEmail", UserEmail);
-
-    if (!success)
-        return;
+    IPlayFab* playFabSettings = &(IPlayFab::Get());
+    playFabSettings->setAdvertisingIdType(TEXT(""));
+    playFabSettings->setAdvertisingIdValue(TEXT(""));
 
     ClientAPI = IPlayFabModuleInterface::Get().GetClientAPI();
     ServerAPI = IPlayFabModuleInterface::Get().GetServerAPI();
     DataAPI = IPlayFabModuleInterface::Get().GetDataAPI();
     AuthenticationAPI = IPlayFabModuleInterface::Get().GetAuthenticationAPI();
-
-    checkf(ClientAPI.IsValid(), TEXT("The ClientAPI reports itself as invalid."));
-    checkf(ServerAPI.IsValid(), TEXT("The ServerAPI reports itself as invalid."));
-    checkf(DataAPI.IsValid(), TEXT("The DataAPI reports itself as invalid."));
-    checkf(AuthenticationAPI.IsValid(), TEXT("The AuthenticationAPI reports itself as invalid."));
-
-    ServerAPI->SetTitleId(TitleId);
-    ServerAPI->SetDevSecretKey(DevSecretKey);
 }
 
 void UPlayFabCppTests::SetUp(UPlayFabTestContext* testContext)
 {
     CurrentTestContext = testContext;
+
+    if (ServerAPI == nullptr || !ServerAPI.IsValid())
+    {
+        testContext->EndTest(PlayFabApiTestFinishState::SKIPPED, "Could not load the PlayFab API");
+    }
+
+    IPlayFab* playFabSettings = &(IPlayFab::Get());
+    FString titleId = playFabSettings->getGameTitleId();
+    if (titleId.Len() == 0)
+    {
+        testContext->EndTest(PlayFabApiTestFinishState::SKIPPED, "Could not load testTitleData.json");
+    }
 }
 
 void UPlayFabCppTests::OnSharedError(const PlayFab::FPlayFabCppError& InError) const
@@ -194,7 +172,7 @@ void UPlayFabCppTests::GetUserDataAPI_Success(const PlayFab::ClientModels::FGetU
             // If I know what value I'm expecting, and I did not get it, log an error
             UE_LOG(LogPlayFabTests, Error, TEXT("GetUserData: Update value did not match new value %d!=%d"), UserDataAPI_ExpectedValue, actualValue);
 
-            CurrentTestContext->EndTest(PlayFabApiTestFinishState::FAILED, FString::Format(TEXT("Update value did not match new value {0}!={1}"), {UserDataAPI_ExpectedValue, actualValue})); // Error
+            CurrentTestContext->EndTest(PlayFabApiTestFinishState::FAILED, FString::Format(TEXT("Update value did not match new value {0}!={1}"), { UserDataAPI_ExpectedValue, actualValue })); // Error
         }
         else
         {

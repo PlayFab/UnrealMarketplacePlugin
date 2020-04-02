@@ -596,6 +596,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5023: returnText = "ExportQuerySchemaMissingRequiredColumns"; break;
     case 5024: returnText = "ExportCannotParseQuery"; break;
     case 5025: returnText = "ExportControlCommandsNotAllowed"; break;
+    case 5026: returnText = "ExportQueryMissingTableReference"; break;
     case 6000: returnText = "TitleNotEnabledForParty"; break;
     case 6001: returnText = "PartyVersionNotFound"; break;
     case 6002: returnText = "MultiplayerServerBuildReferencedByMatchmakingQueue"; break;
@@ -613,6 +614,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7011: returnText = "ExperimentationTreatmentAssignmentDisabled"; break;
     case 7012: returnText = "ExperimentationInvalidDuration"; break;
     case 7013: returnText = "ExperimentationMaxExperimentsReached"; break;
+    case 7014: returnText = "ExperimentationExperimentSchedulingInProgress"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 11000: returnText = "SnapshotNotFound"; break;

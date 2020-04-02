@@ -10,11 +10,37 @@
 
 #include "Runtime/Engine/Classes/Engine/World.h"
 
-// Sets default values
 APfTestActor::APfTestActor()
 {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
+}
+
+TArray<UPlayFabTestContext*>& APfTestActor::GetSuiteTests()
+{
+    return suiteTests;
+}
+
+UPlayFabTestCase* APfTestActor::GetActiveTest()
+{
+    return activeTestCase;
+}
+
+UTestTitleDataLoader& APfTestActor::GetCachedTitleData()
+{
+    if (ttdLoader == nullptr)
+        ttdLoader = NewObject<UTestTitleDataLoader>();
+    return *ttdLoader;
+}
+
+void APfTestActor::SetActiveTest(UPlayFabTestCase* newTestCase)
+{
+    activeTestCase = newTestCase;
+}
+
+FString& APfTestActor::GetCachedSummary()
+{
+    return outputSummary;
 }
 
 // Called when the game starts or when spawned
@@ -22,8 +48,12 @@ void APfTestActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    AddTestCase(NewObject<UPlayFabCppTests>());
-    AddTestCase(NewObject<UPlayFabBlueprintTests>());
+    pCppTests = NewObject<UPlayFabCppTests>();
+    pBpTests = NewObject<UPlayFabBlueprintTests>();
+
+    AddTestCase(pCppTests);
+    AddTestCase(pBpTests);
+
     _submitCloudScript = false;
 }
 
@@ -44,7 +74,7 @@ void APfTestActor::Tick(float DeltaTime)
     {
         auto pUploader = SpawnUploader(GetWorld());
         _submitCloudScript = true;
-        pUploader->UploadToCloudscript(SuiteTests);
+        pUploader->UploadToCloudscript(GetSuiteTests());
     }
 }
 

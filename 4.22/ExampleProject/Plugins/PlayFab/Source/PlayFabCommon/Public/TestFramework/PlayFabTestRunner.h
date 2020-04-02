@@ -20,6 +20,31 @@ class PLAYFABCOMMON_API UPlayFabTestRunner : public UInterface
     GENERATED_UINTERFACE_BODY()
 };
 
+UCLASS()
+class PLAYFABCOMMON_API UTestTitleDataLoader : public UObject
+{
+    GENERATED_BODY()
+
+private:
+    bool LoadFromCode();
+    bool LoadFromFile();
+    void ApplyToSettings();
+    bool LoadTestTitleData();
+
+public:
+    UTestTitleDataLoader();
+
+    bool isValid;
+    UPROPERTY()
+    FString titleId;
+    UPROPERTY()
+    FString developerSecretKey;
+    UPROPERTY()
+    FString userEmail;
+};
+
+class UPlayFabTestCase;
+
 class PLAYFABCOMMON_API IPlayFabTestRunner
 {
     GENERATED_IINTERFACE_BODY()
@@ -27,15 +52,15 @@ class PLAYFABCOMMON_API IPlayFabTestRunner
 protected:
     // Current State of the test runner.
     PlayFabApiTestActiveState SuiteState;
-    // All the tests to be run.
-    TArray<class UPlayFabTestContext*> SuiteTests;
+
+    virtual TArray<UPlayFabTestContext*>& GetSuiteTests() = 0;
+    virtual UPlayFabTestCase* GetActiveTest() = 0;
+    virtual UTestTitleDataLoader& GetCachedTitleData() = 0;
+    virtual void SetActiveTest(UPlayFabTestCase* newTestCase) = 0;
+    virtual FString& GetCachedSummary() = 0;
+
     // Index of the test currently run.
     int CurrentTestIndex;
-    // Current test case run.
-    class UPlayFabTestCase* SuiteTestCase;
-    // Last generated OutputSummary.
-    FString OutputSummary;
-
     // Total number of tests
     int numberOfTests;
     // Number of failed tests
@@ -51,14 +76,11 @@ public:
     virtual FString GenerateTestSummary();
 
     // Adds a Test case to be run.
-    UFUNCTION(BlueprintCallable)
-    virtual void AddTestCase(class UPlayFabTestCase* InTestCase);
+    void AddTestCase(UPlayFabTestCase* InTestCase);
 
     // Manage the switch between different test cases.
-    UFUNCTION()
-    virtual void ManageTestCase(class UPlayFabTestCase* InNewTestCase, class UPlayFabTestCase* InCurrentTestCase);
+    void ManageTestCase(UPlayFabTestCase* nextTestCase);
 
     // Run the Tests.
-    UFUNCTION(BlueprintCallable)
-    virtual void Run(const float InDeltaTime);
+    void Run(const float InDeltaTime);
 };

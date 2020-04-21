@@ -557,6 +557,36 @@ void UPlayFabMultiplayerInstanceAPI::OnDeleteCertificateResult(FHttpRequestPtr H
     }
 }
 
+bool UPlayFabMultiplayerInstanceAPI::DeleteContainerImageRepository(
+    MultiplayerModels::FDeleteContainerImageRequest& request,
+    const FDeleteContainerImageRepositoryDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/DeleteContainerImageRepository")) : this->settings->GetUrl(TEXT("/MultiplayerServer/DeleteContainerImageRepository")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnDeleteContainerImageRepositoryResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnDeleteContainerImageRepositoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContainerImageRepositoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerInstanceAPI::DeleteRemoteUser(
     MultiplayerModels::FDeleteRemoteUserRequest& request,
     const FDeleteRemoteUserDelegate& SuccessDelegate,

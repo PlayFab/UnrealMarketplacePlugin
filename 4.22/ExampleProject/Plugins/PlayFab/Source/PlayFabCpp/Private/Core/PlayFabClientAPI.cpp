@@ -586,6 +586,36 @@ void UPlayFabClientAPI::OnGetAccountInfoResult(FHttpRequestPtr HttpRequest, FHtt
     }
 }
 
+bool UPlayFabClientAPI::GetAdPlacements(
+    ClientModels::FGetAdPlacementsRequest& request,
+    const FGetAdPlacementsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetClientSessionTicket().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/GetAdPlacements")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetAdPlacementsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnGetAdPlacementsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAdPlacementsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FGetAdPlacementsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::GetAllUsersCharacters(
     ClientModels::FListUsersCharactersRequest& request,
     const FGetAllUsersCharactersDelegate& SuccessDelegate,
@@ -2462,6 +2492,36 @@ void UPlayFabClientAPI::OnLinkKongregateResult(FHttpRequestPtr HttpRequest, FHtt
     }
 }
 
+bool UPlayFabClientAPI::LinkNintendoSwitchAccount(
+    ClientModels::FLinkNintendoSwitchAccountRequest& request,
+    const FLinkNintendoSwitchAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetClientSessionTicket().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/LinkNintendoSwitchAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkNintendoSwitchAccountResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnLinkNintendoSwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoSwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FEmptyResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::LinkNintendoSwitchDeviceId(
     ClientModels::FLinkNintendoSwitchDeviceIdRequest& request,
     const FLinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
@@ -3065,6 +3125,48 @@ bool UPlayFabClientAPI::LoginWithKongregate(
 }
 
 void UPlayFabClientAPI::OnLoginWithKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FLoginResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
+        if (outResult.SessionTicket.Len() > 0) {
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
+        }
+        if (outResult.EntityToken.IsValid()) {
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
+        }
+        if (outResult.PlayFabId.Len() > 0) {
+            outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
+        }
+        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientAPI::LoginWithNintendoSwitchAccount(
+    ClientModels::FLoginWithNintendoSwitchAccountRequest& request,
+    const FLoginWithNintendoSwitchAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if (PlayFabSettings::GetTitleId().Len() > 0)
+        request.TitleId = PlayFabSettings::GetTitleId();
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/LoginWithNintendoSwitchAccount")), request.toJSONString(), TEXT(""), TEXT(""));
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLoginWithNintendoSwitchAccountResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnLoginWithNintendoSwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithNintendoSwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FLoginResult outResult;
     FPlayFabCppError errorResult;
@@ -3840,6 +3942,36 @@ void UPlayFabClientAPI::OnRemoveSharedGroupMembersResult(FHttpRequestPtr HttpReq
     }
 }
 
+bool UPlayFabClientAPI::ReportAdActivity(
+    ClientModels::FReportAdActivityRequest& request,
+    const FReportAdActivityDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetClientSessionTicket().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/ReportAdActivity")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnReportAdActivityResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnReportAdActivityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FReportAdActivityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FReportAdActivityResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::ReportDeviceInfo(
     ClientModels::FDeviceInfoRequest& request,
     const FReportDeviceInfoDelegate& SuccessDelegate,
@@ -3919,6 +4051,36 @@ bool UPlayFabClientAPI::RestoreIOSPurchases(
 void UPlayFabClientAPI::OnRestoreIOSPurchasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRestoreIOSPurchasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FRestoreIOSPurchasesResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientAPI::RewardAdActivity(
+    ClientModels::FRewardAdActivityRequest& request,
+    const FRewardAdActivityDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetClientSessionTicket().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/RewardAdActivity")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRewardAdActivityResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnRewardAdActivityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRewardAdActivityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FRewardAdActivityResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -4416,6 +4578,44 @@ void UPlayFabClientAPI::OnUnlinkKongregateResult(FHttpRequestPtr HttpRequest, FH
     }
 }
 
+bool UPlayFabClientAPI::UnlinkNintendoSwitchAccount(
+    const FUnlinkNintendoSwitchAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    ClientModels::FUnlinkNintendoSwitchAccountRequest emptyRequest = ClientModels::FUnlinkNintendoSwitchAccountRequest();
+    return UPlayFabClientAPI::UnlinkNintendoSwitchAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
+}
+
+bool UPlayFabClientAPI::UnlinkNintendoSwitchAccount(
+    ClientModels::FUnlinkNintendoSwitchAccountRequest& request,
+    const FUnlinkNintendoSwitchAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetClientSessionTicket().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/UnlinkNintendoSwitchAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkNintendoSwitchAccountResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnUnlinkNintendoSwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoSwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::UnlinkNintendoSwitchDeviceId(
     ClientModels::FUnlinkNintendoSwitchDeviceIdRequest& request,
     const FUnlinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
@@ -4447,7 +4647,7 @@ void UPlayFabClientAPI::OnUnlinkNintendoSwitchDeviceIdResult(FHttpRequestPtr Htt
 }
 
 bool UPlayFabClientAPI::UnlinkOpenIdConnect(
-    ClientModels::FUninkOpenIdConnectRequest& request,
+    ClientModels::FUnlinkOpenIdConnectRequest& request,
     const FUnlinkOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {

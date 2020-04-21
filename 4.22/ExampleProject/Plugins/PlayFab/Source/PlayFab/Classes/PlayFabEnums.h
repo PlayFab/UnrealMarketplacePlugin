@@ -778,6 +778,17 @@ enum class EUserOrigination : uint8
     pfenum_NintendoSwitchAccount UMETA(DisplayName = "NintendoSwitchAccount"),
 };
 
+/** AdActivity */
+
+UENUM(BlueprintType)
+enum class EAdActivity : uint8
+{
+    pfenum_Opened UMETA(DisplayName = "Opened"),
+    pfenum_Closed UMETA(DisplayName = "Closed"),
+    pfenum_Start UMETA(DisplayName = "Start"),
+    pfenum_End UMETA(DisplayName = "End"),
+};
+
 /** CloudScriptRevisionOption */
 
 UENUM(BlueprintType)

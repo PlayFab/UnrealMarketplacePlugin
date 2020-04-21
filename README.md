@@ -13,7 +13,6 @@ The Unreal Marketplace plugin includes:
 
 This sdk contains a settings option to set developerSecretKey.  For the security of your title, this must be blank for client builds.
 
-
 ## 2. Prerequisites:
 
 * Users should be very familiar with the topics covered in our [getting started guide](https://api.playfab.com/docs/general-getting-started).
@@ -101,6 +100,13 @@ http://idkudk.blogspot.com/2015/02/how-to-get-plugins-to-package-correctly.html
 General troubleshooting:
 
 For a complete list of available APIs, check out the [online documentation](http://api.playfab.com/Documentation/).
+
+## 5 Limitations
+
+This sdk is meant for use with a network connection. It relies heavily on HttpModule which is known in Unreal Engine to not be threadsafe. https://udn.unrealengine.com/questions/526017/view.html "HTTP requests are only supported to be created/destroyed on the main thread."
+
+If you want to step around this Unreal Engine limitation, you may clone Epic's Unreal Engine source code and enable FORCE_THREADSAFE_SHAREDPTRS in SharedPointerInternals.h https://udn.unrealengine.com/questions/252125/view.html and load your project with that built version of Unreal.
+
 
 #### Contact Us
 We love to hear from our developer community!

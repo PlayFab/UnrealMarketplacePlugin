@@ -854,6 +854,20 @@ public:
 };
 
 /**
+ * Removes the specified container image repository. After this operation, a 'docker pull' will fail for all the tags of
+ * the specified image. Morever, ListContainerImages will not return the specified image.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerDeleteContainerImageRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The container image repository we want to delete. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ImageName;
+};
+
+/**
  * Deletes a remote user to log on to a VM for a multiplayer server build in a specific region. Returns user credential
  * information necessary to log on.
  */

@@ -425,6 +425,19 @@ public:
         void HelperLinkKongregate(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkNintendoSwitchAccount, FClientEmptyResult, result, UObject*, customData);
+
+    /** Links the Nintendo Switch account associated with the token to the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LinkNintendoSwitchAccount(FClientLinkNintendoSwitchAccountRequest request,
+            FDelegateOnSuccessLinkNintendoSwitchAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkNintendoSwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkNintendoSwitchDeviceId, FClientLinkNintendoSwitchDeviceIdResult, result, UObject*, customData);
 
     /** Links the NintendoSwitchDeviceId to the user's PlayFab account */
@@ -698,6 +711,19 @@ public:
         void HelperUnlinkKongregate(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkNintendoSwitchAccount, FClientEmptyResponse, result, UObject*, customData);
+
+    /** Unlinks the related Nintendo Switch account from the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* UnlinkNintendoSwitchAccount(FClientUnlinkNintendoSwitchAccountRequest request,
+            FDelegateOnSuccessUnlinkNintendoSwitchAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkNintendoSwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkNintendoSwitchDeviceId, FClientUnlinkNintendoSwitchDeviceIdResult, result, UObject*, customData);
 
     /** Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account */
@@ -718,7 +744,7 @@ public:
      * between a title and an Open ID Connect provider.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* UnlinkOpenIdConnect(FClientUninkOpenIdConnectRequest request,
+        static UPlayFabClientAPI* UnlinkOpenIdConnect(FClientUnlinkOpenIdConnectRequest request,
             FDelegateOnSuccessUnlinkOpenIdConnect onSuccess,
             FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 
@@ -833,6 +859,45 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperAttributeInstall(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetAdPlacements, FClientGetAdPlacementsResult, result, UObject*, customData);
+
+    /** Returns a list of ad placements and a reward for each */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* GetAdPlacements(FClientGetAdPlacementsRequest request,
+            FDelegateOnSuccessGetAdPlacements onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetAdPlacements(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessReportAdActivity, FClientReportAdActivityResult, result, UObject*, customData);
+
+    /** Report player's ad activity */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* ReportAdActivity(FClientReportAdActivityRequest request,
+            FDelegateOnSuccessReportAdActivity onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperReportAdActivity(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRewardAdActivity, FClientRewardAdActivityResult, result, UObject*, customData);
+
+    /** Reward player's ad activity */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* RewardAdActivity(FClientRewardAdActivityRequest request,
+            FDelegateOnSuccessRewardAdActivity onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRewardAdActivity(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
     ///////////////////////////////////////////////////////
@@ -1091,6 +1156,19 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLoginWithKongregate(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithNintendoSwitchAccount, FClientLoginResult, result, UObject*, customData);
+
+    /** Signs in the user with a Nintendo Switch Account identity token. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LoginWithNintendoSwitchAccount(FClientLoginWithNintendoSwitchAccountRequest request,
+            FDelegateOnSuccessLoginWithNintendoSwitchAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithNintendoSwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithNintendoSwitchDeviceId, FClientLoginResult, result, UObject*, customData);
@@ -2456,6 +2534,7 @@ public:
     FDelegateOnSuccessLinkGoogleAccount OnSuccessLinkGoogleAccount;
     FDelegateOnSuccessLinkIOSDeviceID OnSuccessLinkIOSDeviceID;
     FDelegateOnSuccessLinkKongregate OnSuccessLinkKongregate;
+    FDelegateOnSuccessLinkNintendoSwitchAccount OnSuccessLinkNintendoSwitchAccount;
     FDelegateOnSuccessLinkNintendoSwitchDeviceId OnSuccessLinkNintendoSwitchDeviceId;
     FDelegateOnSuccessLinkOpenIdConnect OnSuccessLinkOpenIdConnect;
     FDelegateOnSuccessLinkPSNAccount OnSuccessLinkPSNAccount;
@@ -2476,6 +2555,7 @@ public:
     FDelegateOnSuccessUnlinkGoogleAccount OnSuccessUnlinkGoogleAccount;
     FDelegateOnSuccessUnlinkIOSDeviceID OnSuccessUnlinkIOSDeviceID;
     FDelegateOnSuccessUnlinkKongregate OnSuccessUnlinkKongregate;
+    FDelegateOnSuccessUnlinkNintendoSwitchAccount OnSuccessUnlinkNintendoSwitchAccount;
     FDelegateOnSuccessUnlinkNintendoSwitchDeviceId OnSuccessUnlinkNintendoSwitchDeviceId;
     FDelegateOnSuccessUnlinkOpenIdConnect OnSuccessUnlinkOpenIdConnect;
     FDelegateOnSuccessUnlinkPSNAccount OnSuccessUnlinkPSNAccount;
@@ -2486,6 +2566,9 @@ public:
     FDelegateOnSuccessUpdateAvatarUrl OnSuccessUpdateAvatarUrl;
     FDelegateOnSuccessUpdateUserTitleDisplayName OnSuccessUpdateUserTitleDisplayName;
     FDelegateOnSuccessAttributeInstall OnSuccessAttributeInstall;
+    FDelegateOnSuccessGetAdPlacements OnSuccessGetAdPlacements;
+    FDelegateOnSuccessReportAdActivity OnSuccessReportAdActivity;
+    FDelegateOnSuccessRewardAdActivity OnSuccessRewardAdActivity;
     FDelegateOnSuccessReportDeviceInfo OnSuccessReportDeviceInfo;
     FDelegateOnSuccessWriteCharacterEvent OnSuccessWriteCharacterEvent;
     FDelegateOnSuccessWritePlayerEvent OnSuccessWritePlayerEvent;
@@ -2503,6 +2586,7 @@ public:
     FDelegateOnSuccessLoginWithGoogleAccount OnSuccessLoginWithGoogleAccount;
     FDelegateOnSuccessLoginWithIOSDeviceID OnSuccessLoginWithIOSDeviceID;
     FDelegateOnSuccessLoginWithKongregate OnSuccessLoginWithKongregate;
+    FDelegateOnSuccessLoginWithNintendoSwitchAccount OnSuccessLoginWithNintendoSwitchAccount;
     FDelegateOnSuccessLoginWithNintendoSwitchDeviceId OnSuccessLoginWithNintendoSwitchDeviceId;
     FDelegateOnSuccessLoginWithOpenIdConnect OnSuccessLoginWithOpenIdConnect;
     FDelegateOnSuccessLoginWithPlayFab OnSuccessLoginWithPlayFab;

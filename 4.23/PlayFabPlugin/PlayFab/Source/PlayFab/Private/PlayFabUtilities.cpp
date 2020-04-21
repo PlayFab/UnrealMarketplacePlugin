@@ -535,6 +535,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1504: returnText = "PartyRequestsThrottledFromRateLimiter"; break;
     case 1505: returnText = "XboxServiceTooManyRequests"; break;
     case 1506: returnText = "NintendoSwitchNotEnabledForTitle"; break;
+    case 1507: returnText = "RequestMultiplayerServersThrottledFromRateLimiter"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

@@ -373,6 +373,19 @@ public:
         void HelperDeleteCertificate(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteContainerImageRepository, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Deletes a container image repository. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* DeleteContainerImageRepository(FMultiplayerDeleteContainerImageRequest request,
+            FDelegateOnSuccessDeleteContainerImageRepository onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteContainerImageRepository(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteRemoteUser, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Deletes a remote user to log on to a VM for a multiplayer server build. */
@@ -838,6 +851,7 @@ public:
     FDelegateOnSuccessDeleteBuildAlias OnSuccessDeleteBuildAlias;
     FDelegateOnSuccessDeleteBuildRegion OnSuccessDeleteBuildRegion;
     FDelegateOnSuccessDeleteCertificate OnSuccessDeleteCertificate;
+    FDelegateOnSuccessDeleteContainerImageRepository OnSuccessDeleteContainerImageRepository;
     FDelegateOnSuccessDeleteRemoteUser OnSuccessDeleteRemoteUser;
     FDelegateOnSuccessEnableMultiplayerServersForTitle OnSuccessEnableMultiplayerServersForTitle;
     FDelegateOnSuccessGetAssetUploadUrl OnSuccessGetAssetUploadUrl;

@@ -38,6 +38,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteBuildAliasDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteBuildRegionDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FDeleteContainerImageRepositoryDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteRemoteUserDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FEnableMultiplayerServersForTitleDelegate, const MultiplayerModels::FEnableMultiplayerServersForTitleResponse&);
         DECLARE_DELEGATE_OneParam(FGetAssetUploadUrlDelegate, const MultiplayerModels::FGetAssetUploadUrlResponse&);
@@ -191,6 +192,11 @@ namespace PlayFab
          * Deletes a multiplayer server game certificate.
          */
         bool DeleteCertificate(MultiplayerModels::FDeleteCertificateRequest& request, const FDeleteCertificateDelegate& SuccessDelegate = FDeleteCertificateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Deletes a container image repository.
+         * Removes the specified container image repository. After this operation, a 'docker pull' will fail for all the tags of the specified image. Morever, ListContainerImages will not return the specified image.
+         */
+        bool DeleteContainerImageRepository(MultiplayerModels::FDeleteContainerImageRequest& request, const FDeleteContainerImageRepositoryDelegate& SuccessDelegate = FDeleteContainerImageRepositoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Deletes a remote user to log on to a VM for a multiplayer server build.
          * Deletes a remote user to log on to a VM for a multiplayer server build in a specific region. Returns user credential information necessary to log on.
@@ -457,6 +463,7 @@ namespace PlayFab
         void OnDeleteBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteBuildRegionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildRegionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteContainerImageRepositoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContainerImageRepositoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEnableMultiplayerServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEnableMultiplayerServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAssetUploadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetUploadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

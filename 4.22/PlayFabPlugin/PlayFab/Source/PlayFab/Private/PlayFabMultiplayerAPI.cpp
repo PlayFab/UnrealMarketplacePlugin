@@ -1446,6 +1446,59 @@ void UPlayFabMultiplayerAPI::HelperDeleteCertificate(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
+/** Deletes a container image repository. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteContainerImageRepository(FMultiplayerDeleteContainerImageRequest request,
+    FDelegateOnSuccessDeleteContainerImageRepository onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteContainerImageRepository = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteContainerImageRepository);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/DeleteContainerImageRepository";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ImageName.IsEmpty() || request.ImageName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ImageName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ImageName"), request.ImageName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperDeleteContainerImageRepository(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteContainerImageRepository.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteContainerImageRepository.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Deletes a remote user to log on to a VM for a multiplayer server build. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteRemoteUser(FMultiplayerDeleteRemoteUserRequest request,
     FDelegateOnSuccessDeleteRemoteUser onSuccess,

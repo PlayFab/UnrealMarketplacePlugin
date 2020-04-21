@@ -1997,6 +1997,32 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeleteContainerImageRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The container image repository we want to delete.
+        FString ImageName;
+
+        FDeleteContainerImageRequest() :
+            FPlayFabCppRequestCommon(),
+            ImageName()
+            {}
+
+        FDeleteContainerImageRequest(const FDeleteContainerImageRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ImageName(src.ImageName)
+            {}
+
+        FDeleteContainerImageRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteContainerImageRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteContainerImageRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteRemoteUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server where the remote user is to delete.

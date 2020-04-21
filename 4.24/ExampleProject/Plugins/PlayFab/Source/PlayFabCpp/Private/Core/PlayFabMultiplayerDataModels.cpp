@@ -3477,6 +3477,38 @@ bool PlayFab::MultiplayerModels::FDeleteCertificateRequest::readFromValue(const 
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FDeleteContainerImageRequest::~FDeleteContainerImageRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FDeleteContainerImageRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ImageName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ImageName"));
+        writer->WriteValue(ImageName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FDeleteContainerImageRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ImageNameValue = obj->TryGetField(TEXT("ImageName"));
+    if (ImageNameValue.IsValid() && !ImageNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ImageNameValue->TryGetString(TmpValue)) { ImageName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FDeleteRemoteUserRequest::~FDeleteRemoteUserRequest()
 {
 

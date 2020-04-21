@@ -539,6 +539,43 @@ FClientAttributeInstallResult UPlayFabClientModelDecoder::decodeAttributeInstall
     return tempStruct;
 }
 
+FClientGetAdPlacementsResult UPlayFabClientModelDecoder::decodeGetAdPlacementsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetAdPlacementsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.AdPlacements = !(dataObj->HasField("AdPlacements")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("AdPlacements");
+
+    return tempStruct;
+}
+
+FClientReportAdActivityResult UPlayFabClientModelDecoder::decodeReportAdActivityResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientReportAdActivityResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FClientRewardAdActivityResult UPlayFabClientModelDecoder::decodeRewardAdActivityResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientRewardAdActivityResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.AdActivityEventId = !(dataObj->HasField("AdActivityEventId")) ? TEXT("") : dataObj->GetStringField("AdActivityEventId");
+    tempStruct.DebugResults = !(dataObj->HasField("DebugResults")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("DebugResults"), TEXT(","));
+    tempStruct.PlacementId = !(dataObj->HasField("PlacementId")) ? TEXT("") : dataObj->GetStringField("PlacementId");
+    tempStruct.PlacementName = !(dataObj->HasField("PlacementName")) ? TEXT("") : dataObj->GetStringField("PlacementName");
+    tempStruct.PlacementViewsRemaining = !(dataObj->HasField("PlacementViewsRemaining")) ? 0 : int(dataObj->GetNumberField("PlacementViewsRemaining"));
+    tempStruct.PlacementViewsResetMinutes = !(dataObj->HasField("PlacementViewsResetMinutes")) ? 0 : int(dataObj->GetNumberField("PlacementViewsResetMinutes"));
+    tempStruct.RewardResults = !(dataObj->HasField("RewardResults")) ? nullptr : dataObj->GetObjectField("RewardResults");
+
+    return tempStruct;
+}
+
 
 
 ///////////////////////////////////////////////////////

@@ -174,6 +174,18 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum AdActivity
+    {
+        AdActivityOpened,
+        AdActivityClosed,
+        AdActivityStart,
+        AdActivityEnd
+    };
+
+    PLAYFABCPP_API void writeAdActivityEnumJSON(AdActivity enumVal, JsonWriter& writer);
+    PLAYFABCPP_API AdActivity readAdActivityFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API AdActivity readAdActivityFromValue(const FString& value);
+
     struct PLAYFABCPP_API FAdCampaignAttributionModel : public PlayFab::FPlayFabCppBaseModel
     {
         // UTC time stamp of attribution
@@ -541,6 +553,141 @@ namespace ClientModels
         }
 
         ~FAddUserVirtualCurrencyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAdPlacementDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Placement unique ID
+        FString PlacementId;
+
+        // [optional] Placement name
+        FString PlacementName;
+
+        // [optional] If placement has viewing limits indicates how many views are left
+        Boxed<int32> PlacementViewsRemaining;
+
+        // [optional] If placement has viewing limits indicates when they will next reset
+        Boxed<double> PlacementViewsResetMinutes;
+
+        // [optional] Optional URL to a reward asset
+        FString RewardAssetUrl;
+
+        // [optional] Reward description
+        FString RewardDescription;
+
+        // [optional] Reward unique ID
+        FString RewardId;
+
+        // [optional] Reward name
+        FString RewardName;
+
+        FAdPlacementDetails() :
+            FPlayFabCppBaseModel(),
+            PlacementId(),
+            PlacementName(),
+            PlacementViewsRemaining(),
+            PlacementViewsResetMinutes(),
+            RewardAssetUrl(),
+            RewardDescription(),
+            RewardId(),
+            RewardName()
+            {}
+
+        FAdPlacementDetails(const FAdPlacementDetails& src) :
+            FPlayFabCppBaseModel(),
+            PlacementId(src.PlacementId),
+            PlacementName(src.PlacementName),
+            PlacementViewsRemaining(src.PlacementViewsRemaining),
+            PlacementViewsResetMinutes(src.PlacementViewsResetMinutes),
+            RewardAssetUrl(src.RewardAssetUrl),
+            RewardDescription(src.RewardDescription),
+            RewardId(src.RewardId),
+            RewardName(src.RewardName)
+            {}
+
+        FAdPlacementDetails(const TSharedPtr<FJsonObject>& obj) : FAdPlacementDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAdPlacementDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAdRewardItemGranted : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Catalog ID
+        FString CatalogId;
+
+        // [optional] Catalog item display name
+        FString DisplayName;
+
+        // [optional] Inventory instance ID
+        FString InstanceId;
+
+        // [optional] Item ID
+        FString ItemId;
+
+        FAdRewardItemGranted() :
+            FPlayFabCppBaseModel(),
+            CatalogId(),
+            DisplayName(),
+            InstanceId(),
+            ItemId()
+            {}
+
+        FAdRewardItemGranted(const FAdRewardItemGranted& src) :
+            FPlayFabCppBaseModel(),
+            CatalogId(src.CatalogId),
+            DisplayName(src.DisplayName),
+            InstanceId(src.InstanceId),
+            ItemId(src.ItemId)
+            {}
+
+        FAdRewardItemGranted(const TSharedPtr<FJsonObject>& obj) : FAdRewardItemGranted()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAdRewardItemGranted();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAdRewardResults : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Array of the items granted to the player
+        TArray<FAdRewardItemGranted> GrantedItems;
+        // [optional] Dictionary of virtual currencies that were granted to the player
+        TMap<FString, int32> GrantedVirtualCurrencies;
+        // [optional] Dictionary of statistics that were modified for the player
+        TMap<FString, int32> IncrementedStatistics;
+        FAdRewardResults() :
+            FPlayFabCppBaseModel(),
+            GrantedItems(),
+            GrantedVirtualCurrencies(),
+            IncrementedStatistics()
+            {}
+
+        FAdRewardResults(const FAdRewardResults& src) :
+            FPlayFabCppBaseModel(),
+            GrantedItems(src.GrantedItems),
+            GrantedVirtualCurrencies(src.GrantedVirtualCurrencies),
+            IncrementedStatistics(src.IncrementedStatistics)
+            {}
+
+        FAdRewardResults(const TSharedPtr<FJsonObject>& obj) : FAdRewardResults()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAdRewardResults();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -4292,6 +4439,93 @@ namespace ClientModels
         }
 
         ~FGetAccountInfoResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FNameIdentifier : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Id Identifier, if present
+        FString Id;
+
+        // [optional] Name Identifier, if present
+        FString Name;
+
+        FNameIdentifier() :
+            FPlayFabCppBaseModel(),
+            Id(),
+            Name()
+            {}
+
+        FNameIdentifier(const FNameIdentifier& src) :
+            FPlayFabCppBaseModel(),
+            Id(src.Id),
+            Name(src.Name)
+            {}
+
+        FNameIdentifier(const TSharedPtr<FJsonObject>& obj) : FNameIdentifier()
+        {
+            readFromValue(obj);
+        }
+
+        ~FNameIdentifier();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetAdPlacementsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The current AppId to use
+        FString AppId;
+
+        // [optional] Using the name or unique identifier, filter the result for get a specific placement.
+        TSharedPtr<FNameIdentifier> Identifier;
+
+        FGetAdPlacementsRequest() :
+            FPlayFabCppRequestCommon(),
+            AppId(),
+            Identifier(nullptr)
+            {}
+
+        FGetAdPlacementsRequest(const FGetAdPlacementsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            AppId(src.AppId),
+            Identifier(src.Identifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.Identifier)) : nullptr)
+            {}
+
+        FGetAdPlacementsRequest(const TSharedPtr<FJsonObject>& obj) : FGetAdPlacementsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetAdPlacementsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetAdPlacementsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Array of results
+        TArray<FAdPlacementDetails> AdPlacements;
+        FGetAdPlacementsResult() :
+            FPlayFabCppResultCommon(),
+            AdPlacements()
+            {}
+
+        FGetAdPlacementsResult(const FGetAdPlacementsResult& src) :
+            FPlayFabCppResultCommon(),
+            AdPlacements(src.AdPlacements)
+            {}
+
+        FGetAdPlacementsResult(const TSharedPtr<FJsonObject>& obj) : FGetAdPlacementsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetAdPlacementsResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -8596,6 +8830,45 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkNintendoSwitchAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] ID of the Nintendo Switch environment. If null, defaults to the production environment.
+        FString EnvironmentId;
+
+        // [optional] If another user is already linked to a specific Nintendo Switch account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        /**
+         * The JSON Web token (JWT) returned by Nintendo after login. Used to validate the request and find the user ID (Nintendo
+         * Switch subject) to link with.
+         */
+        FString IdentityToken;
+
+        FLinkNintendoSwitchAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            EnvironmentId(),
+            ForceLink(),
+            IdentityToken()
+            {}
+
+        FLinkNintendoSwitchAccountRequest(const FLinkNintendoSwitchAccountRequest& src) :
+            FPlayFabCppRequestCommon(),
+            EnvironmentId(src.EnvironmentId),
+            ForceLink(src.ForceLink),
+            IdentityToken(src.IdentityToken)
+            {}
+
+        FLinkNintendoSwitchAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkNintendoSwitchAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkNintendoSwitchAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkNintendoSwitchDeviceIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] If another user is already linked to the Nintendo Switch Device ID, unlink the other user and re-link.
@@ -9760,6 +10033,65 @@ namespace ClientModels
         }
 
         ~FLoginWithKongregateRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithNintendoSwitchAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        FString EncryptedRequest;
+
+        // [optional] ID of the Nintendo Switch environment. If null, defaults to the production environment.
+        FString EnvironmentId;
+
+        // The JSON Web token (JWT) returned by Nintendo after login.
+        FString IdentityToken;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        FString PlayerSecret;
+
+        /**
+         * Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+         * title has been selected.
+         */
+        FString TitleId;
+
+        FLoginWithNintendoSwitchAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(),
+            EncryptedRequest(),
+            EnvironmentId(),
+            IdentityToken(),
+            InfoRequestParameters(nullptr),
+            PlayerSecret(),
+            TitleId()
+            {}
+
+        FLoginWithNintendoSwitchAccountRequest(const FLoginWithNintendoSwitchAccountRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(src.CreateAccount),
+            EncryptedRequest(src.EncryptedRequest),
+            EnvironmentId(src.EnvironmentId),
+            IdentityToken(src.IdentityToken),
+            InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
+            PlayerSecret(src.PlayerSecret),
+            TitleId(src.TitleId)
+            {}
+
+        FLoginWithNintendoSwitchAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithNintendoSwitchAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithNintendoSwitchAccountRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -11266,6 +11598,63 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FReportAdActivityRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Type of activity, may be Opened, Closed, Start or End
+        AdActivity Activity;
+
+        // Unique ID of the placement to report for
+        FString PlacementId;
+
+        // Unique ID of the reward the player was offered
+        FString RewardId;
+
+        FReportAdActivityRequest() :
+            FPlayFabCppRequestCommon(),
+            Activity(),
+            PlacementId(),
+            RewardId()
+            {}
+
+        FReportAdActivityRequest(const FReportAdActivityRequest& src) :
+            FPlayFabCppRequestCommon(),
+            Activity(src.Activity),
+            PlacementId(src.PlacementId),
+            RewardId(src.RewardId)
+            {}
+
+        FReportAdActivityRequest(const TSharedPtr<FJsonObject>& obj) : FReportAdActivityRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FReportAdActivityRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FReportAdActivityResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FReportAdActivityResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FReportAdActivityResult(const FReportAdActivityResult& src) :
+            FPlayFabCppResultCommon()
+            {}
+
+        FReportAdActivityResult(const TSharedPtr<FJsonObject>& obj) : FReportAdActivityResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FReportAdActivityResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FReportPlayerClientRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Optional additional comment by reporting player.
@@ -11374,6 +11763,92 @@ namespace ClientModels
         }
 
         ~FRestoreIOSPurchasesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRewardAdActivityRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Placement unique ID
+        FString PlacementId;
+
+        // Reward unique ID
+        FString RewardId;
+
+        FRewardAdActivityRequest() :
+            FPlayFabCppRequestCommon(),
+            PlacementId(),
+            RewardId()
+            {}
+
+        FRewardAdActivityRequest(const FRewardAdActivityRequest& src) :
+            FPlayFabCppRequestCommon(),
+            PlacementId(src.PlacementId),
+            RewardId(src.RewardId)
+            {}
+
+        FRewardAdActivityRequest(const TSharedPtr<FJsonObject>& obj) : FRewardAdActivityRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRewardAdActivityRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRewardAdActivityResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] PlayStream Event ID that was generated by this reward (all subsequent events are associated with this event identifier)
+        FString AdActivityEventId;
+
+        // [optional] Debug results from the grants
+        TArray<FString> DebugResults;
+        // [optional] Id of the placement the reward was for
+        FString PlacementId;
+
+        // [optional] Name of the placement the reward was for
+        FString PlacementName;
+
+        // [optional] If placement has viewing limits indicates how many views are left
+        Boxed<int32> PlacementViewsRemaining;
+
+        // [optional] If placement has viewing limits indicates when they will next reset
+        Boxed<double> PlacementViewsResetMinutes;
+
+        // [optional] Reward results
+        TSharedPtr<FAdRewardResults> RewardResults;
+
+        FRewardAdActivityResult() :
+            FPlayFabCppResultCommon(),
+            AdActivityEventId(),
+            DebugResults(),
+            PlacementId(),
+            PlacementName(),
+            PlacementViewsRemaining(),
+            PlacementViewsResetMinutes(),
+            RewardResults(nullptr)
+            {}
+
+        FRewardAdActivityResult(const FRewardAdActivityResult& src) :
+            FPlayFabCppResultCommon(),
+            AdActivityEventId(src.AdActivityEventId),
+            DebugResults(src.DebugResults),
+            PlacementId(src.PlacementId),
+            PlacementName(src.PlacementName),
+            PlacementViewsRemaining(src.PlacementViewsRemaining),
+            PlacementViewsResetMinutes(src.PlacementViewsResetMinutes),
+            RewardResults(src.RewardResults.IsValid() ? MakeShareable(new FAdRewardResults(*src.RewardResults)) : nullptr)
+            {}
+
+        FRewardAdActivityResult(const TSharedPtr<FJsonObject>& obj) : FRewardAdActivityResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRewardAdActivityResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -11797,32 +12272,6 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUninkOpenIdConnectRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters.
-        FString ConnectionId;
-
-        FUninkOpenIdConnectRequest() :
-            FPlayFabCppRequestCommon(),
-            ConnectionId()
-            {}
-
-        FUninkOpenIdConnectRequest(const FUninkOpenIdConnectRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ConnectionId(src.ConnectionId)
-            {}
-
-        FUninkOpenIdConnectRequest(const TSharedPtr<FJsonObject>& obj) : FUninkOpenIdConnectRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FUninkOpenIdConnectRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FUnlinkAndroidDeviceIDRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
@@ -12209,6 +12658,27 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUnlinkNintendoSwitchAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        FUnlinkNintendoSwitchAccountRequest() :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FUnlinkNintendoSwitchAccountRequest(const FUnlinkNintendoSwitchAccountRequest& src) :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FUnlinkNintendoSwitchAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkNintendoSwitchAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkNintendoSwitchAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUnlinkNintendoSwitchDeviceIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Nintendo Switch Device identifier for the user. If not specified, the most recently signed in device ID will be used.
@@ -12251,6 +12721,32 @@ namespace ClientModels
         }
 
         ~FUnlinkNintendoSwitchDeviceIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkOpenIdConnectRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // A name that identifies which configured OpenID Connect provider relationship to use. Maximum 100 characters.
+        FString ConnectionId;
+
+        FUnlinkOpenIdConnectRequest() :
+            FPlayFabCppRequestCommon(),
+            ConnectionId()
+            {}
+
+        FUnlinkOpenIdConnectRequest(const FUnlinkOpenIdConnectRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ConnectionId(src.ConnectionId)
+            {}
+
+        FUnlinkOpenIdConnectRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkOpenIdConnectRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkOpenIdConnectRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

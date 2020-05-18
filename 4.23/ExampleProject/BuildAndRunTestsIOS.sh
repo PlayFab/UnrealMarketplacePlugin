@@ -1,11 +1,13 @@
 #!/bin/bash
-usage="./BuildAndRunTestsIOS.sh <target ipa directory path> <path to project>"
+set -e
+usage="./BuildAndRunTestsIOS.sh <target ipa directory path> <path to project> <path to Unreal Engine install>"
 
 archivePath=$1
 projectPath=$2
+uePath=$3
 
 #verify inputs
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
     echo $usage
     exit 1
 fi
@@ -14,10 +16,10 @@ fi
 rm -fdr $archivePath/IOS
 
 #inject the testTitleData into the project prior to build
-cp $PF_TEST_TITLE_DATA_JSON $projectPath/Content/TestTitleData
+cp "$PF_TEST_TITLE_DATA_JSON" "$projectPath/Content/TestTitleData"
 
 #build the archive
-. ./BuildIOS.sh $archivePath $projectPath
+. ./BuildIOS.sh "$archivePath" "$projectPath" "$uePath"
 buildResult=$?
 
 #remove the testTitleData from the project now that the build is finished

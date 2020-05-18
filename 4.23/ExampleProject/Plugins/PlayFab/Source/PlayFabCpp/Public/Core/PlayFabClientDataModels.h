@@ -12838,12 +12838,20 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FUnlinkTwitchAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        /**
+         * [optional] Valid token issued by Twitch. Used to specify which twitch account to unlink from the profile. By default it uses the
+         * one that is present on the profile.
+         */
+        FString AccessToken;
+
         FUnlinkTwitchAccountRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            AccessToken()
             {}
 
         FUnlinkTwitchAccountRequest(const FUnlinkTwitchAccountRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            AccessToken(src.AccessToken)
             {}
 
         FUnlinkTwitchAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkTwitchAccountRequest()

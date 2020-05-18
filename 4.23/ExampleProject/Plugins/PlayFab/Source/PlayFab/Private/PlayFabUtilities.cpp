@@ -536,6 +536,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1505: returnText = "XboxServiceTooManyRequests"; break;
     case 1506: returnText = "NintendoSwitchNotEnabledForTitle"; break;
     case 1507: returnText = "RequestMultiplayerServersThrottledFromRateLimiter"; break;
+    case 1508: returnText = "TitleDataInstanceNotFound"; break;
+    case 1509: returnText = "DuplicateTitleDataOverrideInstanceName"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -616,6 +618,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7012: returnText = "ExperimentationInvalidDuration"; break;
     case 7013: returnText = "ExperimentationMaxExperimentsReached"; break;
     case 7014: returnText = "ExperimentationExperimentSchedulingInProgress"; break;
+    case 7015: returnText = "ExperimentationExistingCodelessScheduled"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 11000: returnText = "SnapshotNotFound"; break;

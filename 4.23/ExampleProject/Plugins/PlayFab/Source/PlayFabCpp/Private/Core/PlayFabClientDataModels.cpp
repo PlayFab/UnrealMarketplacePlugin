@@ -20996,12 +20996,25 @@ void PlayFab::ClientModels::FUnlinkTwitchAccountRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (AccessToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkTwitchAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccessTokenValue = obj->TryGetField(TEXT("AccessToken"));
+    if (AccessTokenValue.IsValid() && !AccessTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
 
     return HasSucceeded;
 }

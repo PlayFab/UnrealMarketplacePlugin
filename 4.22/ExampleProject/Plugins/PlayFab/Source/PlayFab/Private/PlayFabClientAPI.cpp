@@ -2915,6 +2915,11 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkTwitch(FClientUnlinkTwitchAccountReq
 
 
     // Serialize all the request properties to json
+    if (request.AccessToken.IsEmpty() || request.AccessToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AccessToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

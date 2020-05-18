@@ -176,6 +176,12 @@ void PlayFab::ExperimentationModels::FVariant::writeJSON(JsonWriter& writer) con
         writer->WriteValue(Name);
     }
 
+    if (TitleDataOverrideId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleDataOverrideId"));
+        writer->WriteValue(TitleDataOverrideId);
+    }
+
     writer->WriteIdentifierPrefix(TEXT("TrafficPercentage"));
     writer->WriteValue(static_cast<int64>(TrafficPercentage));
 
@@ -221,6 +227,13 @@ bool PlayFab::ExperimentationModels::FVariant::readFromValue(const TSharedPtr<FJ
     {
         FString TmpValue;
         if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleDataOverrideIdValue = obj->TryGetField(TEXT("TitleDataOverrideId"));
+    if (TitleDataOverrideIdValue.IsValid() && !TitleDataOverrideIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleDataOverrideIdValue->TryGetString(TmpValue)) { TitleDataOverrideId = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> TrafficPercentageValue = obj->TryGetField(TEXT("TrafficPercentage"));

@@ -882,9 +882,6 @@ namespace PlayFab
         // Unlinks the related Steam account from the user's PlayFab account
         bool UnlinkSteamAccount(ClientModels::FUnlinkSteamAccountRequest& request, const FUnlinkSteamAccountDelegate& SuccessDelegate = FUnlinkSteamAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Twitch account from the user's PlayFab account.
-
-        bool UnlinkTwitch(const FUnlinkTwitchDelegate& SuccessDelegate = FUnlinkTwitchDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Twitch account from the user's PlayFab account.
         bool UnlinkTwitch(ClientModels::FUnlinkTwitchAccountRequest& request, const FUnlinkTwitchDelegate& SuccessDelegate = FUnlinkTwitchDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Unlink Windows Hello authentication from the current PlayFab Account

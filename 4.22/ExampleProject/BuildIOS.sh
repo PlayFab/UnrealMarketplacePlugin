@@ -1,18 +1,17 @@
 #!/bin/bash
+set -e
 echo ========== BUILDING iOS ==========
 
-Usage="./BuildAndRunTestsIOS.sh <target ipa directory path> <path to project>"
+Usage="./BuildIOS.sh <target ipa directory path> <path to project> <path to Unreal Engine install>"
 
 archivePath=$1
 projectPath=$2
+uePath=$3
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
     echo $usage
     exit 1
 fi
- 
-# Unreal Path, to change depending on your workspace setup.
-uePath="/Users/Shared/Epic Games"
 
 # Unreal Version, to change on every unreal version
 ueVersion="4.22"

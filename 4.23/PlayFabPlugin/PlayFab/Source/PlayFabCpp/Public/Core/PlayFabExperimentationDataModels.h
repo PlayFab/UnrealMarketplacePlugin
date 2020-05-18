@@ -84,6 +84,9 @@ namespace ExperimentationModels
         // Name of the variant.
         FString Name;
 
+        // [optional] Id of the TitleDataOverrideGroup to use with this variant.
+        FString TitleDataOverrideId;
+
         // Percentage of target audience traffic that will see this variant.
         uint32 TrafficPercentage;
 
@@ -95,6 +98,7 @@ namespace ExperimentationModels
             Id(),
             IsControl(false),
             Name(),
+            TitleDataOverrideId(),
             TrafficPercentage(0),
             Variables()
             {}
@@ -105,6 +109,7 @@ namespace ExperimentationModels
             Id(src.Id),
             IsControl(src.IsControl),
             Name(src.Name),
+            TitleDataOverrideId(src.TitleDataOverrideId),
             TrafficPercentage(src.TrafficPercentage),
             Variables(src.Variables)
             {}

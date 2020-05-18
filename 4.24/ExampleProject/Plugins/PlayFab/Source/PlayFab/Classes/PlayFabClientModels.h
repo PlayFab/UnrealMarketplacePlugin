@@ -1157,6 +1157,12 @@ struct PLAYFAB_API FClientUnlinkTwitchAccountRequest : public FPlayFabRequestCom
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /**
+     * Valid token issued by Twitch. Used to specify which twitch account to unlink from the profile. By default it uses the
+     * one that is present on the profile.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString AccessToken;
 };
 
 USTRUCT(BlueprintType)

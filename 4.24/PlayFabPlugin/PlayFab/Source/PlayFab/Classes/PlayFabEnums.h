@@ -968,15 +968,23 @@ enum class EAzureVmFamily : uint8
 UENUM(BlueprintType)
 enum class EAzureVmSize : uint8
 {
+    pfenum_Standard_A1 UMETA(DisplayName = "Standard_A1"),
+    pfenum_Standard_A2 UMETA(DisplayName = "Standard_A2"),
+    pfenum_Standard_A3 UMETA(DisplayName = "Standard_A3"),
+    pfenum_Standard_A4 UMETA(DisplayName = "Standard_A4"),
+    pfenum_Standard_A1_v2 UMETA(DisplayName = "Standard_A1_v2"),
+    pfenum_Standard_A2_v2 UMETA(DisplayName = "Standard_A2_v2"),
+    pfenum_Standard_A4_v2 UMETA(DisplayName = "Standard_A4_v2"),
+    pfenum_Standard_A8_v2 UMETA(DisplayName = "Standard_A8_v2"),
     pfenum_Standard_D1_v2 UMETA(DisplayName = "Standard_D1_v2"),
     pfenum_Standard_D2_v2 UMETA(DisplayName = "Standard_D2_v2"),
     pfenum_Standard_D3_v2 UMETA(DisplayName = "Standard_D3_v2"),
     pfenum_Standard_D4_v2 UMETA(DisplayName = "Standard_D4_v2"),
     pfenum_Standard_D5_v2 UMETA(DisplayName = "Standard_D5_v2"),
-    pfenum_Standard_A1_v2 UMETA(DisplayName = "Standard_A1_v2"),
-    pfenum_Standard_A2_v2 UMETA(DisplayName = "Standard_A2_v2"),
-    pfenum_Standard_A4_v2 UMETA(DisplayName = "Standard_A4_v2"),
-    pfenum_Standard_A8_v2 UMETA(DisplayName = "Standard_A8_v2"),
+    pfenum_Standard_D2_v3 UMETA(DisplayName = "Standard_D2_v3"),
+    pfenum_Standard_D4_v3 UMETA(DisplayName = "Standard_D4_v3"),
+    pfenum_Standard_D8_v3 UMETA(DisplayName = "Standard_D8_v3"),
+    pfenum_Standard_D16_v3 UMETA(DisplayName = "Standard_D16_v3"),
     pfenum_Standard_F1 UMETA(DisplayName = "Standard_F1"),
     pfenum_Standard_F2 UMETA(DisplayName = "Standard_F2"),
     pfenum_Standard_F4 UMETA(DisplayName = "Standard_F4"),
@@ -986,10 +994,6 @@ enum class EAzureVmSize : uint8
     pfenum_Standard_F4s_v2 UMETA(DisplayName = "Standard_F4s_v2"),
     pfenum_Standard_F8s_v2 UMETA(DisplayName = "Standard_F8s_v2"),
     pfenum_Standard_F16s_v2 UMETA(DisplayName = "Standard_F16s_v2"),
-    pfenum_Standard_A1 UMETA(DisplayName = "Standard_A1"),
-    pfenum_Standard_A2 UMETA(DisplayName = "Standard_A2"),
-    pfenum_Standard_A3 UMETA(DisplayName = "Standard_A3"),
-    pfenum_Standard_A4 UMETA(DisplayName = "Standard_A4"),
 };
 
 /** CancellationReason */

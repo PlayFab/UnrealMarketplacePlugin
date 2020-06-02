@@ -61,7 +61,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessWriteEvents, FEventsWriteEventsResponse, result, UObject*, customData);
 
-    /** Write batches of entity based events to PlayStream. The namespace of the Event must start with 'com.playfab.events.' */
+    /** Write batches of entity based events to PlayStream. The namespace of the Event must be 'custom' or start with 'custom.'. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabEventsAPI* WriteEvents(FEventsWriteEventsRequest request,
             FDelegateOnSuccessWriteEvents onSuccess,

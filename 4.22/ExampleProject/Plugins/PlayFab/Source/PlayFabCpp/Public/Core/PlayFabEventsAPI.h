@@ -30,7 +30,7 @@ namespace PlayFab
         void SetDevSecretKey(const FString& developerSecretKey);
 
         // ------------ Generated API calls
-        // Write batches of entity based events to PlayStream. The namespace of the Event must start with 'com.playfab.events.'
+        // Write batches of entity based events to PlayStream. The namespace of the Event must be 'custom' or start with 'custom.'.
         bool WriteEvents(EventsModels::FWriteEventsRequest& request, const FWriteEventsDelegate& SuccessDelegate = FWriteEventsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Write batches of entity based events to as Telemetry events (bypass PlayStream). The namespace must be 'custom' or start

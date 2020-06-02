@@ -2599,7 +2599,6 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListPartyQosServers(FMultiplayer
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/MultiplayerServer/ListPartyQosServers";
-    manager->useEntityToken = true;
 
 
     // Serialize all the request properties to json

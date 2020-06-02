@@ -14548,20 +14548,14 @@ bool PlayFab::ClientModels::FLinkKongregateAccountResult::readFromValue(const TS
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FLinkNintendoSwitchAccountRequest::~FLinkNintendoSwitchAccountRequest()
+PlayFab::ClientModels::FLinkNintendoAccountRequest::~FLinkNintendoAccountRequest()
 {
 
 }
 
-void PlayFab::ClientModels::FLinkNintendoSwitchAccountRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FLinkNintendoAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
-
-    if (EnvironmentId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("EnvironmentId"));
-        writer->WriteValue(EnvironmentId);
-    }
 
     if (ForceLink.notNull())
     {
@@ -14571,7 +14565,7 @@ void PlayFab::ClientModels::FLinkNintendoSwitchAccountRequest::writeJSON(JsonWri
 
     if (!IdentityToken.IsEmpty() == false)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoSwitchAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
     }
     else
     {
@@ -14582,16 +14576,9 @@ void PlayFab::ClientModels::FLinkNintendoSwitchAccountRequest::writeJSON(JsonWri
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FLinkNintendoSwitchAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FLinkNintendoAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> EnvironmentIdValue = obj->TryGetField(TEXT("EnvironmentId"));
-    if (EnvironmentIdValue.IsValid() && !EnvironmentIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (EnvironmentIdValue->TryGetString(TmpValue)) { EnvironmentId = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -16596,13 +16583,13 @@ bool PlayFab::ClientModels::FLoginWithKongregateRequest::readFromValue(const TSh
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FLoginWithNintendoSwitchAccountRequest::~FLoginWithNintendoSwitchAccountRequest()
+PlayFab::ClientModels::FLoginWithNintendoAccountRequest::~FLoginWithNintendoAccountRequest()
 {
     //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
 
 }
 
-void PlayFab::ClientModels::FLoginWithNintendoSwitchAccountRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FLoginWithNintendoAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
@@ -16618,15 +16605,9 @@ void PlayFab::ClientModels::FLoginWithNintendoSwitchAccountRequest::writeJSON(Js
         writer->WriteValue(EncryptedRequest);
     }
 
-    if (EnvironmentId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("EnvironmentId"));
-        writer->WriteValue(EnvironmentId);
-    }
-
     if (!IdentityToken.IsEmpty() == false)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoSwitchAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
     }
     else
     {
@@ -16648,7 +16629,7 @@ void PlayFab::ClientModels::FLoginWithNintendoSwitchAccountRequest::writeJSON(Js
 
     if (!TitleId.IsEmpty() == false)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoSwitchAccountRequest::TitleId, PlayFab calls may not work if it remains empty."));
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoAccountRequest::TitleId, PlayFab calls may not work if it remains empty."));
     }
     else
     {
@@ -16659,7 +16640,7 @@ void PlayFab::ClientModels::FLoginWithNintendoSwitchAccountRequest::writeJSON(Js
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FLoginWithNintendoSwitchAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FLoginWithNintendoAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -16675,13 +16656,6 @@ bool PlayFab::ClientModels::FLoginWithNintendoSwitchAccountRequest::readFromValu
     {
         FString TmpValue;
         if (EncryptedRequestValue->TryGetString(TmpValue)) { EncryptedRequest = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> EnvironmentIdValue = obj->TryGetField(TEXT("EnvironmentId"));
-    if (EnvironmentIdValue.IsValid() && !EnvironmentIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (EnvironmentIdValue->TryGetString(TmpValue)) { EnvironmentId = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> IdentityTokenValue = obj->TryGetField(TEXT("IdentityToken"));
@@ -20805,19 +20779,19 @@ bool PlayFab::ClientModels::FUnlinkKongregateAccountResult::readFromValue(const 
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FUnlinkNintendoSwitchAccountRequest::~FUnlinkNintendoSwitchAccountRequest()
+PlayFab::ClientModels::FUnlinkNintendoAccountRequest::~FUnlinkNintendoAccountRequest()
 {
 
 }
 
-void PlayFab::ClientModels::FUnlinkNintendoSwitchAccountRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FUnlinkNintendoAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FUnlinkNintendoSwitchAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FUnlinkNintendoAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

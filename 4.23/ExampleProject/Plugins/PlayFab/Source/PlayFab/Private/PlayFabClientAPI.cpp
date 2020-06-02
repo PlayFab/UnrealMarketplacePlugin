@@ -1540,9 +1540,9 @@ void UPlayFabClientAPI::HelperLinkKongregate(FPlayFabBaseModel response, UObject
     this->RemoveFromRoot();
 }
 
-/** Links the Nintendo Switch account associated with the token to the user's PlayFab account. */
-UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoSwitchAccount(FClientLinkNintendoSwitchAccountRequest request,
-    FDelegateOnSuccessLinkNintendoSwitchAccount onSuccess,
+/** Links the Nintendo account associated with the token to the user's PlayFab account. (Open ID) */
+UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoAccount(FClientLinkNintendoAccountRequest request,
+    FDelegateOnSuccessLinkNintendoAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
     UObject* customData)
 {
@@ -1553,22 +1553,17 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoSwitchAccount(FClientLinkNinte
     manager->mCustomData = customData;
 
     // Assign delegates
-    manager->OnSuccessLinkNintendoSwitchAccount = onSuccess;
+    manager->OnSuccessLinkNintendoAccount = onSuccess;
     manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkNintendoSwitchAccount);
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkNintendoAccount);
 
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Client/LinkNintendoSwitchAccount";
+    manager->PlayFabRequestURL = "/Client/LinkNintendoAccount";
     manager->useSessionTicket = true;
 
 
     // Serialize all the request properties to json
-    if (request.EnvironmentId.IsEmpty() || request.EnvironmentId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("EnvironmentId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("EnvironmentId"), request.EnvironmentId);
-    }
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
@@ -1583,18 +1578,18 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoSwitchAccount(FClientLinkNinte
 }
 
 // Implements FOnPlayFabClientRequestCompleted
-void UPlayFabClientAPI::HelperLinkNintendoSwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+void UPlayFabClientAPI::HelperLinkNintendoAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
 {
     FPlayFabError error = response.responseError;
     if (error.hasError && OnFailure.IsBound())
     {
         OnFailure.Execute(error, customData);
     }
-    else if (!error.hasError && OnSuccessLinkNintendoSwitchAccount.IsBound())
+    else if (!error.hasError && OnSuccessLinkNintendoAccount.IsBound())
     {
         FClientEmptyResult ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResultResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
-        OnSuccessLinkNintendoSwitchAccount.Execute(ResultStruct, mCustomData);
+        OnSuccessLinkNintendoAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2644,9 +2639,9 @@ void UPlayFabClientAPI::HelperUnlinkKongregate(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
-/** Unlinks the related Nintendo Switch account from the user's PlayFab account. */
-UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoSwitchAccount(FClientUnlinkNintendoSwitchAccountRequest request,
-    FDelegateOnSuccessUnlinkNintendoSwitchAccount onSuccess,
+/** Unlinks the related Nintendo account from the user's PlayFab account. (Open ID) */
+UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoAccount(FClientUnlinkNintendoAccountRequest request,
+    FDelegateOnSuccessUnlinkNintendoAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
     UObject* customData)
 {
@@ -2657,13 +2652,13 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoSwitchAccount(FClientUnlinkN
     manager->mCustomData = customData;
 
     // Assign delegates
-    manager->OnSuccessUnlinkNintendoSwitchAccount = onSuccess;
+    manager->OnSuccessUnlinkNintendoAccount = onSuccess;
     manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkNintendoSwitchAccount);
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkNintendoAccount);
 
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Client/UnlinkNintendoSwitchAccount";
+    manager->PlayFabRequestURL = "/Client/UnlinkNintendoAccount";
     manager->useSessionTicket = true;
 
 
@@ -2676,18 +2671,18 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoSwitchAccount(FClientUnlinkN
 }
 
 // Implements FOnPlayFabClientRequestCompleted
-void UPlayFabClientAPI::HelperUnlinkNintendoSwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+void UPlayFabClientAPI::HelperUnlinkNintendoAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
 {
     FPlayFabError error = response.responseError;
     if (error.hasError && OnFailure.IsBound())
     {
         OnFailure.Execute(error, customData);
     }
-    else if (!error.hasError && OnSuccessUnlinkNintendoSwitchAccount.IsBound())
+    else if (!error.hasError && OnSuccessUnlinkNintendoAccount.IsBound())
     {
         FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
-        OnSuccessUnlinkNintendoSwitchAccount.Execute(ResultStruct, mCustomData);
+        OnSuccessUnlinkNintendoAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4493,9 +4488,9 @@ void UPlayFabClientAPI::HelperLoginWithKongregate(FPlayFabBaseModel response, UO
     this->RemoveFromRoot();
 }
 
-/** Signs in the user with a Nintendo Switch Account identity token. */
-UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchAccount(FClientLoginWithNintendoSwitchAccountRequest request,
-    FDelegateOnSuccessLoginWithNintendoSwitchAccount onSuccess,
+/** Signs in the user with a Nintendo account identity token. (Open ID) */
+UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoAccount(FClientLoginWithNintendoAccountRequest request,
+    FDelegateOnSuccessLoginWithNintendoAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
     UObject* customData)
 {
@@ -4506,13 +4501,13 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchAccount(FClientLogi
     manager->mCustomData = customData;
 
     // Assign delegates
-    manager->OnSuccessLoginWithNintendoSwitchAccount = onSuccess;
+    manager->OnSuccessLoginWithNintendoAccount = onSuccess;
     manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithNintendoSwitchAccount);
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithNintendoAccount);
 
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Client/LoginWithNintendoSwitchAccount";
+    manager->PlayFabRequestURL = "/Client/LoginWithNintendoAccount";
     manager->returnsSessionTicket = true;
 
 
@@ -4522,11 +4517,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchAccount(FClientLogi
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
-    }
-    if (request.EnvironmentId.IsEmpty() || request.EnvironmentId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("EnvironmentId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("EnvironmentId"), request.EnvironmentId);
     }
     if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
@@ -4548,20 +4538,20 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchAccount(FClientLogi
 }
 
 // Implements FOnPlayFabClientRequestCompleted
-void UPlayFabClientAPI::HelperLoginWithNintendoSwitchAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+void UPlayFabClientAPI::HelperLoginWithNintendoAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
 {
     FPlayFabError error = response.responseError;
     if (error.hasError && OnFailure.IsBound())
     {
         OnFailure.Execute(error, customData);
     }
-    else if (!error.hasError && OnSuccessLoginWithNintendoSwitchAccount.IsBound())
+    else if (!error.hasError && OnSuccessLoginWithNintendoAccount.IsBound())
     {
         FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         // CallAuthenticationContext was set in OnProcessRequestComplete
         ResultStruct.AuthenticationContext = CallAuthenticationContext;
-        OnSuccessLoginWithNintendoSwitchAccount.Execute(ResultStruct, mCustomData);
+        OnSuccessLoginWithNintendoAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

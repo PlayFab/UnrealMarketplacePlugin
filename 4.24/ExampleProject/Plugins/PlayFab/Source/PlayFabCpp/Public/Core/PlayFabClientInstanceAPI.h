@@ -102,7 +102,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkGoogleAccountDelegate, const ClientModels::FLinkGoogleAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkIOSDeviceIDDelegate, const ClientModels::FLinkIOSDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FLinkKongregateDelegate, const ClientModels::FLinkKongregateAccountResult&);
-        DECLARE_DELEGATE_OneParam(FLinkNintendoSwitchAccountDelegate, const ClientModels::FEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FLinkNintendoAccountDelegate, const ClientModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FLinkNintendoSwitchDeviceIdDelegate, const ClientModels::FLinkNintendoSwitchDeviceIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkOpenIdConnectDelegate, const ClientModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FLinkPSNAccountDelegate, const ClientModels::FLinkPSNAccountResult&);
@@ -120,7 +120,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLoginWithGoogleAccountDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithIOSDeviceIDDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithKongregateDelegate, const ClientModels::FLoginResult&);
-        DECLARE_DELEGATE_OneParam(FLoginWithNintendoSwitchAccountDelegate, const ClientModels::FLoginResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithNintendoAccountDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithNintendoSwitchDeviceIdDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithOpenIdConnectDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithPlayFabDelegate, const ClientModels::FLoginResult&);
@@ -162,7 +162,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUnlinkGoogleAccountDelegate, const ClientModels::FUnlinkGoogleAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkIOSDeviceIDDelegate, const ClientModels::FUnlinkIOSDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkKongregateDelegate, const ClientModels::FUnlinkKongregateAccountResult&);
-        DECLARE_DELEGATE_OneParam(FUnlinkNintendoSwitchAccountDelegate, const ClientModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUnlinkNintendoAccountDelegate, const ClientModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkNintendoSwitchDeviceIdDelegate, const ClientModels::FUnlinkNintendoSwitchDeviceIdResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkOpenIdConnectDelegate, const ClientModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkPSNAccountDelegate, const ClientModels::FUnlinkPSNAccountResult&);
@@ -456,7 +456,7 @@ namespace PlayFab
         bool GetPlayFabIDsFromXboxLiveIDs(ClientModels::FGetPlayFabIDsFromXboxLiveIDsRequest& request, const FGetPlayFabIDsFromXboxLiveIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromXboxLiveIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the key-value store of custom publisher settings
-         * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a publisher can use this API. For more information email devrel@playfab.com. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
+         * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a publisher can use this API. For more information email helloplayfab@microsoft.com. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
          */
         bool GetPublisherData(ClientModels::FGetPublisherDataRequest& request, const FGetPublisherDataDelegate& SuccessDelegate = FGetPublisherDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -561,8 +561,8 @@ namespace PlayFab
         bool LinkIOSDeviceID(ClientModels::FLinkIOSDeviceIDRequest& request, const FLinkIOSDeviceIDDelegate& SuccessDelegate = FLinkIOSDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Kongregate identifier to the user's PlayFab account
         bool LinkKongregate(ClientModels::FLinkKongregateAccountRequest& request, const FLinkKongregateDelegate& SuccessDelegate = FLinkKongregateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Links the Nintendo Switch account associated with the token to the user's PlayFab account.
-        bool LinkNintendoSwitchAccount(ClientModels::FLinkNintendoSwitchAccountRequest& request, const FLinkNintendoSwitchAccountDelegate& SuccessDelegate = FLinkNintendoSwitchAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Links the Nintendo account associated with the token to the user's PlayFab account. (Open ID)
+        bool LinkNintendoAccount(ClientModels::FLinkNintendoAccountRequest& request, const FLinkNintendoAccountDelegate& SuccessDelegate = FLinkNintendoAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the NintendoSwitchDeviceId to the user's PlayFab account
         bool LinkNintendoSwitchDeviceId(ClientModels::FLinkNintendoSwitchDeviceIdRequest& request, const FLinkNintendoSwitchDeviceIdDelegate& SuccessDelegate = FLinkNintendoSwitchDeviceIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -641,8 +641,8 @@ namespace PlayFab
          * More details regarding Kongregate and their game authentication system can be found at http://developers.kongregate.com/docs/virtual-goods/authentication. Developers must provide the Kongregate user ID and auth token that are generated using the Kongregate client library. PlayFab will combine these identifiers with the title's unique Kongregate app ID to log the player into the Kongregate system. If CreateAccount is set to true and there is not already a user matched to this Kongregate ID, then PlayFab will create a new account for this user and link the ID. In this case, no email or username will be associated with the PlayFab account. If there is already a different PlayFab user linked with this account, then an error will be returned.
          */
         bool LoginWithKongregate(ClientModels::FLoginWithKongregateRequest& request, const FLoginWithKongregateDelegate& SuccessDelegate = FLoginWithKongregateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Signs in the user with a Nintendo Switch Account identity token.
-        bool LoginWithNintendoSwitchAccount(ClientModels::FLoginWithNintendoSwitchAccountRequest& request, const FLoginWithNintendoSwitchAccountDelegate& SuccessDelegate = FLoginWithNintendoSwitchAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Signs in the user with a Nintendo account identity token. (Open ID)
+        bool LoginWithNintendoAccount(ClientModels::FLoginWithNintendoAccountRequest& request, const FLoginWithNintendoAccountDelegate& SuccessDelegate = FLoginWithNintendoAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Signs the user in using a Nintendo Switch Device ID, returning a session identifier that can subsequently be used for
          * API calls which require an authenticated user
@@ -859,11 +859,11 @@ namespace PlayFab
         bool UnlinkKongregate(const FUnlinkKongregateDelegate& SuccessDelegate = FUnlinkKongregateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Kongregate identifier from the user's PlayFab account
         bool UnlinkKongregate(ClientModels::FUnlinkKongregateAccountRequest& request, const FUnlinkKongregateDelegate& SuccessDelegate = FUnlinkKongregateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Nintendo Switch account from the user's PlayFab account.
+        // Unlinks the related Nintendo account from the user's PlayFab account. (Open ID)
 
-        bool UnlinkNintendoSwitchAccount(const FUnlinkNintendoSwitchAccountDelegate& SuccessDelegate = FUnlinkNintendoSwitchAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Nintendo Switch account from the user's PlayFab account.
-        bool UnlinkNintendoSwitchAccount(ClientModels::FUnlinkNintendoSwitchAccountRequest& request, const FUnlinkNintendoSwitchAccountDelegate& SuccessDelegate = FUnlinkNintendoSwitchAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        bool UnlinkNintendoAccount(const FUnlinkNintendoAccountDelegate& SuccessDelegate = FUnlinkNintendoAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the related Nintendo account from the user's PlayFab account. (Open ID)
+        bool UnlinkNintendoAccount(ClientModels::FUnlinkNintendoAccountRequest& request, const FUnlinkNintendoAccountDelegate& SuccessDelegate = FUnlinkNintendoAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account
         bool UnlinkNintendoSwitchDeviceId(ClientModels::FUnlinkNintendoSwitchDeviceIdRequest& request, const FUnlinkNintendoSwitchDeviceIdDelegate& SuccessDelegate = FUnlinkNintendoSwitchDeviceIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -1066,7 +1066,7 @@ namespace PlayFab
         void OnLinkGoogleAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkGoogleAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnLinkNintendoSwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoSwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkNintendoAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkOpenIdConnectResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkOpenIdConnectDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1084,7 +1084,7 @@ namespace PlayFab
         void OnLoginWithGoogleAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithGoogleAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnLoginWithNintendoSwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithNintendoSwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithNintendoAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithNintendoAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithOpenIdConnectResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithOpenIdConnectDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithPlayFabResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithPlayFabDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1126,7 +1126,7 @@ namespace PlayFab
         void OnUnlinkGoogleAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkGoogleAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnUnlinkNintendoSwitchAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoSwitchAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkNintendoAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkOpenIdConnectResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkOpenIdConnectDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

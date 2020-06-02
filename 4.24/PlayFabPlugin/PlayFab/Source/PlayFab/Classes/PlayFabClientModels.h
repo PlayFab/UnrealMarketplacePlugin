@@ -679,13 +679,10 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkNintendoSwitchAccountRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientLinkNintendoAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** ID of the Nintendo Switch environment. If null, defaults to the production environment. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        FString EnvironmentId;
     /** If another user is already linked to a specific Nintendo Switch account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
@@ -1091,7 +1088,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkNintendoSwitchAccountRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientUnlinkNintendoAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1911,7 +1908,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithNintendoSwitchAccountRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientLoginWithNintendoAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1921,9 +1918,6 @@ public:
     /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString EncryptedRequest;
-    /** ID of the Nintendo Switch environment. If null, defaults to the production environment. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
-        FString EnvironmentId;
     /** The JSON Web token (JWT) returned by Nintendo after login. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString IdentityToken;
@@ -4358,8 +4352,8 @@ public:
 /**
  * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data
  * is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles
- * assigned to a publisher can use this API. For more information email devrel@playfab.com. Note that there may up to a
- * minute delay in between updating title data and this API call returning the newest value.
+ * assigned to a publisher can use this API. For more information email helloplayfab@microsoft.com. Note that there may up
+ * to a minute delay in between updating title data and this API call returning the newest value.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPublisherDataRequest : public FPlayFabRequestCommon

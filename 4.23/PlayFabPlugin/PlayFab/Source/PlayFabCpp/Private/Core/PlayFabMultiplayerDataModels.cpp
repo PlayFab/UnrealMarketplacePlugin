@@ -233,8 +233,10 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyA: writer->WriteValue(TEXT("A")); break;
     case AzureVmFamilyAv2: writer->WriteValue(TEXT("Av2")); break;
     case AzureVmFamilyDv2: writer->WriteValue(TEXT("Dv2")); break;
+    case AzureVmFamilyDv3: writer->WriteValue(TEXT("Dv3")); break;
     case AzureVmFamilyF: writer->WriteValue(TEXT("F")); break;
     case AzureVmFamilyFsv2: writer->WriteValue(TEXT("Fsv2")); break;
+    case AzureVmFamilyDasv4: writer->WriteValue(TEXT("Dasv4")); break;
     }
 }
 
@@ -252,8 +254,10 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("A"), AzureVmFamilyA);
         _AzureVmFamilyMap.Add(TEXT("Av2"), AzureVmFamilyAv2);
         _AzureVmFamilyMap.Add(TEXT("Dv2"), AzureVmFamilyDv2);
+        _AzureVmFamilyMap.Add(TEXT("Dv3"), AzureVmFamilyDv3);
         _AzureVmFamilyMap.Add(TEXT("F"), AzureVmFamilyF);
         _AzureVmFamilyMap.Add(TEXT("Fsv2"), AzureVmFamilyFsv2);
+        _AzureVmFamilyMap.Add(TEXT("Dasv4"), AzureVmFamilyDasv4);
 
     }
 
@@ -298,6 +302,10 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_F4s_v2: writer->WriteValue(TEXT("Standard_F4s_v2")); break;
     case AzureVmSizeStandard_F8s_v2: writer->WriteValue(TEXT("Standard_F8s_v2")); break;
     case AzureVmSizeStandard_F16s_v2: writer->WriteValue(TEXT("Standard_F16s_v2")); break;
+    case AzureVmSizeStandard_D2as_v4: writer->WriteValue(TEXT("Standard_D2as_v4")); break;
+    case AzureVmSizeStandard_D4as_v4: writer->WriteValue(TEXT("Standard_D4as_v4")); break;
+    case AzureVmSizeStandard_D8as_v4: writer->WriteValue(TEXT("Standard_D8as_v4")); break;
+    case AzureVmSizeStandard_D16as_v4: writer->WriteValue(TEXT("Standard_D16as_v4")); break;
     }
 }
 
@@ -338,6 +346,10 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_F4s_v2"), AzureVmSizeStandard_F4s_v2);
         _AzureVmSizeMap.Add(TEXT("Standard_F8s_v2"), AzureVmSizeStandard_F8s_v2);
         _AzureVmSizeMap.Add(TEXT("Standard_F16s_v2"), AzureVmSizeStandard_F16s_v2);
+        _AzureVmSizeMap.Add(TEXT("Standard_D2as_v4"), AzureVmSizeStandard_D2as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D4as_v4"), AzureVmSizeStandard_D4as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D8as_v4"), AzureVmSizeStandard_D8as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D16as_v4"), AzureVmSizeStandard_D16as_v4);
 
     }
 

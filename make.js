@@ -1,6 +1,6 @@
 var path = require("path");
-var cppMakeJsPath = require("./makeCpp.js");
-var bpMakeJsPath = require("./makebp.js");
+var cppMakeJsPath = require("./template/makeCpp.js");
+var bpMakeJsPath = require("./template/makebp.js");
 
 // Making resharper less noisy - These are defined in Generate.js
 if (typeof (generateApiSummaryLines) === "undefined") generateApiSummaryLines = function () { };
@@ -73,17 +73,17 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
         };
 
         // Copy the resources, content and the .uplugin file
-        templatizeTree(locals, path.resolve(sourceDir, "source"), path.resolve(apiOutputDir, "PlayFabPlugin"));
+        templatizeTree(locals, path.resolve(sourceDir, "template/source"), path.resolve(apiOutputDir, "PlayFabPlugin"));
 
         // Create the Example project folder
-        templatizeTree(locals, path.resolve(sourceDir, "examplesource"), apiOutputDir);
+        templatizeTree(locals, path.resolve(sourceDir, "template/examplesource"), apiOutputDir);
 
         locals.addTest = true;
 
         // Copy the PlayFabPlugin folder just created into the ExampleProject
         // TODO: It causes very confusing problems to copy from an output subdir to another output subdir. Let's fix this
         templatizeTree(locals, path.resolve(apiOutputDir, "PlayFabPlugin"), path.resolve(apiOutputDir, "ExampleProject/Plugins"));
-        templatizeTree(locals, path.resolve(sourceDir, "source"), path.resolve(apiOutputDir, "ExampleProject/Plugins"));
+        templatizeTree(locals, path.resolve(sourceDir, "template/source"), path.resolve(apiOutputDir, "ExampleProject/Plugins"));
     }
 }
 

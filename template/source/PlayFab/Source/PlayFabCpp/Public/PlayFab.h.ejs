@@ -1,0 +1,76 @@
+<%- copyright %>
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Modules/ModuleManager.h"
+
+DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabCpp, Log, All);
+
+// forward declaration of classes
+namespace PlayFab
+{
+    template<typename T>
+    TSharedPtr<T> MakeSharedUObject()
+    {    
+#if WITH_EDITOR
+        return TSharedPtr<T>(NewObject<T>((UObject*)GetTransientPackage(), NAME_None, RF_Standalone),
+        [](T* Instance)
+        {
+            // Recommended way of destroying UObjects according to https://udn.unrealengine.com/questions/402414/view.html
+            Instance->ClearFlags(RF_Standalone);
+        });
+#else
+        return TSharedPtr<T>(NewObject<T>((UObject*)GetTransientPackage(), NAME_None, RF_StrongRefOnFrame),
+        [](T* Instance)
+        {
+            Instance->ClearFlags(RF_StrongRefOnFrame);
+        });
+#endif
+    }
+
+<% for(var i = 0; i < apis.length; i++) { var api = apis[i];
+%>    class UPlayFab<%- api.name %>API;
+<% } %>}
+
+<% for(var i = 0; i < apis.length; i++) { var api = apis[i];
+%>typedef TSharedPtr<class PlayFab::UPlayFab<%- api.name %>API> PlayFab<%- api.name %>Ptr;
+<% } %>
+/**
+* The public interface to this module.  In most cases, this interface is only public to sibling modules
+* within this plugin.
+*/
+class IPlayFabModuleInterface : public IModuleInterface
+{
+public:
+
+    /**
+    * Singleton-like access to this module's interface.  This is just for convenience!
+    * Beware of calling this during the shutdown phase, though.  Your module might have been unloaded already.
+    *
+    * @return Returns singleton instance, loading the module on demand if needed
+    */
+    static inline IPlayFabModuleInterface& Get()
+    {
+        if (IsAvailable())
+        {
+            return FModuleManager::GetModuleChecked< IPlayFabModuleInterface >("PlayFabCpp");
+        }
+        return FModuleManager::LoadModuleChecked< IPlayFabModuleInterface >("PlayFabCpp");
+    }
+
+    /**
+    * Checks to see if this module is loaded and ready.  It is only valid to call Get() if IsAvailable() returns true.
+    *
+    * @return True if the module is loaded and ready to use
+    */
+    static inline bool IsAvailable()
+    {
+        return FModuleManager::Get().IsModuleLoaded("PlayFabCpp");
+    }
+
+    virtual FString GetTitleId() const = 0;
+    <% for(var i = 0; i < apis.length; i++) { var api = apis[i];
+%>    virtual PlayFab<%- api.name %>Ptr Get<%- api.name %>API() const = 0;
+<% } %>
+};

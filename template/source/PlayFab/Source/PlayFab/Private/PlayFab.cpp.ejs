@@ -1,0 +1,38 @@
+<%- copyright %>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Automatically generated cpp file for the UE4 PlayFab plugin.
+// This cpp file is the main cpp file for the plugin. We set up globals here.
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "CoreMinimal.h"
+#include "PlayFabPrivate.h"
+#include "PlayFabJsonValue.h"
+#include "PlayFabJsonObject.h"
+
+<% for(var a in apis) { %>
+#include "PlayFab<%- apis[a].name %>API.h" <% } %>
+
+class FPlayFab : public IPlayFab
+{
+    /** IModuleInterface implementation */
+    virtual void StartupModule() override
+    {
+        //Force classes to be compiled on shipping build
+        UPlayFabJsonObject::StaticClass();
+        UPlayFabJsonValue::StaticClass();
+<% for(var a in apis) { %>
+        UPlayFab<%- apis[a].name %>API::StaticClass();<% } %>
+    }
+
+    virtual void ShutdownModule() override
+    {
+
+    }
+
+};
+
+IMPLEMENT_MODULE(FPlayFab, PlayFab)
+
+DEFINE_LOG_CATEGORY(LogPlayFab);
+DEFINE_LOG_CATEGORY(LogPlayFabTests);

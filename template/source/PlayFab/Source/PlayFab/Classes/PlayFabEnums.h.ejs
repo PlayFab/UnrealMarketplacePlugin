@@ -1,0 +1,65 @@
+<%- copyright %>
+
+#pragma once
+
+#include "UObject/Package.h"
+#include "CoreMinimal.h"
+#include <Runtime/Launch/Resources/Version.h>
+#include "PlayFabJsonObject.h"
+#include "PlayFabEnums.generated.h"
+
+// PlayFab enums start with "pfenum_" in order to avoid code-name conflicts - For JSON, remove that prefix, and send only the expected portion (the display name is not fetchable when compiled)
+  static const FString prefix = TEXT("pfenum_");
+
+template <typename EnumType>
+static FORCEINLINE bool GetEnumValueFromString(const FString& enumTypeName, const FString& input, EnumType& output)
+{
+    UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *enumTypeName, true);
+    if (!enumPtr)
+    {
+        output = EnumType(0);
+        return false;
+    }
+
+    FString fullInput;
+    if (!input.StartsWith(*prefix))
+        fullInput = prefix + input;
+    else
+        fullInput = input;
+#if ENGINE_MINOR_VERSION < 16
+    output = (EnumType)enumPtr->FindEnumIndex(FName(*fullInput));
+#else
+    output = (EnumType)enumPtr->GetIndexByName(FName(*fullInput));
+#endif
+    return true;
+}
+
+template<typename EnumType>
+static FORCEINLINE bool GetEnumValueToString(const FString& enumTypeName, const EnumType& input, FString& output)
+{
+    const UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *enumTypeName, true);
+    if (!enumPtr)
+    {
+        output = FString("0");
+        return false;
+    }
+
+#if ENGINE_MINOR_VERSION < 16
+    output = enumPtr->GetEnumName((int32)input);
+#else
+    output = enumPtr->GetNameStringByIndex((int32)input);
+#endif
+    if (output.StartsWith(*prefix))
+        output.RemoveAt(0, 7, false);
+    return true;
+}
+
+<% for(var i in enumTypes) { var enumType = enumTypes[i]; %>
+<%- generateBpApiSummary("", enumType, "name") %>
+UENUM(BlueprintType)
+enum class E<%- getDataTypeSafeName(enumType, "name") %> : uint8
+{
+<% for(var j in enumType.enumvalues) {
+%>    pfenum_<%- enumType.enumvalues[j].name %> UMETA(DisplayName = "<%- enumType.enumvalues[j].name %>"),
+<% } %>};
+<% } %>

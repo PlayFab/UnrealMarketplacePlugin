@@ -1,0 +1,75 @@
+<%- copyright %>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Automatically generated cpp file for the play fab models
+//
+// API: <%- api.name %>
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "PlayFab<%- api.name %>ModelDecoder.h"
+#include "PlayFabPrivate.h"
+
+//////////////////////////////////////////////////////////////////////////
+// Generated PlayFab <%- api.name %> API Functions
+//////////////////////////////////////////////////////////////////////////
+<%
+
+// This loop goes through the subgroups of the api and orders the functions in groups.
+// It makes it a little easier to navigate.
+
+// Array to hold already printed models. That way we dont duplicate
+var modelsArray = [];
+for(var subgroup in api.subgroups)
+{
+%>
+
+///////////////////////////////////////////////////////
+// <%- api.subgroups[subgroup].name %>
+//////////////////////////////////////////////////////
+
+<%
+
+    // This loop goes through all the api calls.
+    // It checks to see if the subgroup is the correct subgroup we are currently on.
+    // If so it creates the function definition with the summary text.
+    // This allows us to see the summary in UE4 when we hover over a node.
+
+    for(var i in api.calls)
+    {
+        var apiCall = api.calls[i];
+        if(apiCall.subgroup == api.subgroups[subgroup].name)
+        {
+            // This loop goes through the datatypes and creates code for the decode functions
+
+            for(var i in api.datatypes)
+            {
+                var datatype = api.datatypes[i];
+                if ((datatype.name != apiCall.request && datatype.name != apiCall.result) // Skip my request and my result
+                    || datatype.name.endsWith("Request") // Requests are done separately
+                    || modelsArray.indexOf(datatype.name) > -1) // Check if datatype has been made already
+                {
+                    continue;
+                }
+
+                // Add datatype name to array
+                modelsArray.push(datatype.name);
+
+                // Create the start of the functions
+                %>F<%- api.name %><%- getDataTypeSafeName(datatype, "name") %> UPlayFab<%- api.name %>ModelDecoder::decode<%- getDataTypeSafeName(datatype, "name") %>Response(UPlayFabJsonObject* response)
+<%                %>{
+<%                %>    // Temp ustruct
+<%                %>    F<%- api.name %><%- getDataTypeSafeName(datatype, "name") %> tempStruct;
+<% if (datatype.properties.length > 0) {
+                  %>    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+<% } %>
+<%                // Now loop through all the properties to create the variables for the struct
+                for(var z in datatype.properties)
+                {
+
+                    var property = datatype.properties[z];
+%><%- getPropertyDeserialization("    ", property, datatype) %>
+<% } %>
+<%            %>    return tempStruct;
+<%            %>}
+
+<% } } } } %>

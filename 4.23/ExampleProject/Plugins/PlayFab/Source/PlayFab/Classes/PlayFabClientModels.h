@@ -4458,6 +4458,9 @@ public:
     /** Specific keys to search for in the title data (leave null to get all keys) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
         FString Keys;
+    /** Name of the override. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
+        FString OverrideLabel;
 };
 
 USTRUCT(BlueprintType)

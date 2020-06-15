@@ -1,0 +1,50 @@
+<%- copyright %>
+
+#include "PlayFab.h"
+
+#include "PlayFabSettings.h"
+#include "PlayFabCommon.h"
+
+// Api's
+<% for(var i = 0; i < apis.length; i++) { var api = apis[i];
+%>#include "Core/PlayFab<%- api.name %>API.h"
+<% } %>
+DEFINE_LOG_CATEGORY(LogPlayFabCpp);
+
+class FPlayFabModule : public IPlayFabModuleInterface
+{
+    /** IModuleInterface implementation */
+    virtual void StartupModule() override;
+    virtual void ShutdownModule() override;
+
+    FString GetTitleId() const override { return PlayFab::PlayFabSettings::GetTitleId(); };
+    
+<% for(var i = 0; i < apis.length; i++) { var api = apis[i];
+%>    PlayFab<%- api.name %>Ptr Get<%- api.name %>API() const override { return <%- api.name %>API; };
+<% } %>
+<% for(var i = 0; i < apis.length; i++) { var api = apis[i];
+%>    PlayFab<%- api.name %>Ptr <%- api.name %>API;
+<% } %>
+
+};
+
+void FPlayFabModule::StartupModule()
+{
+    PlayFab::PlayFabSettings::sdkVersion = IPlayFabCommonModuleInterface::Get().GetSdkVersion();
+    PlayFab::PlayFabSettings::buildIdentifier = IPlayFabCommonModuleInterface::Get().GetBuildIdentifier();
+    PlayFab::PlayFabSettings::versionString = IPlayFabCommonModuleInterface::Get().GetVersionString();
+
+    PlayFab::PlayFabSettings::AD_TYPE_IDFA = IPlayFabCommonModuleInterface::Get().GetAD_TYPE_IDFA();
+    PlayFab::PlayFabSettings::AD_TYPE_ANDROID_ID = IPlayFabCommonModuleInterface::Get().GetAD_TYPE_ANDROID_ID();
+
+    // create the API
+	<% for(var a in apis) { %>
+        <%- apis[a].name %>API = MakeShareable(new PlayFab::UPlayFab<%- apis[a].name %>API());<% } %>
+}
+
+void FPlayFabModule::ShutdownModule()
+{
+    
+}
+
+IMPLEMENT_MODULE(FPlayFabModule, PlayFabCpp)

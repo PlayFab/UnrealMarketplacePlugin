@@ -208,6 +208,7 @@ FMultiplayerCreateBuildWithCustomContainerResponse UPlayFabMultiplayerModelDecod
     FMultiplayerCreateBuildWithCustomContainerResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.AreAssetsReadonly = !(dataObj->HasField("AreAssetsReadonly")) ? false : dataObj->GetBoolField("AreAssetsReadonly");
     tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
     tempStruct.BuildName = !(dataObj->HasField("BuildName")) ? TEXT("") : dataObj->GetStringField("BuildName");
     GetEnumValueFromString<EContainerFlavor>(TEXT("EContainerFlavor"), dataObj->GetStringField("ContainerFlavor"), tempStruct.ContainerFlavor);
@@ -222,6 +223,7 @@ FMultiplayerCreateBuildWithCustomContainerResponse UPlayFabMultiplayerModelDecod
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
     tempStruct.RegionConfigurations = !(dataObj->HasField("RegionConfigurations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("RegionConfigurations");
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
+    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
 
     return tempStruct;
@@ -233,6 +235,7 @@ FMultiplayerCreateBuildWithManagedContainerResponse UPlayFabMultiplayerModelDeco
     FMultiplayerCreateBuildWithManagedContainerResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.AreAssetsReadonly = !(dataObj->HasField("AreAssetsReadonly")) ? false : dataObj->GetBoolField("AreAssetsReadonly");
     tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
     tempStruct.BuildName = !(dataObj->HasField("BuildName")) ? TEXT("") : dataObj->GetStringField("BuildName");
     GetEnumValueFromString<EContainerFlavor>(TEXT("EContainerFlavor"), dataObj->GetStringField("ContainerFlavor"), tempStruct.ContainerFlavor);
@@ -248,6 +251,7 @@ FMultiplayerCreateBuildWithManagedContainerResponse UPlayFabMultiplayerModelDeco
     tempStruct.RegionConfigurations = !(dataObj->HasField("RegionConfigurations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("RegionConfigurations");
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
+    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
 
     return tempStruct;
@@ -304,6 +308,7 @@ FMultiplayerGetBuildResponse UPlayFabMultiplayerModelDecoder::decodeGetBuildResp
     FMultiplayerGetBuildResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.AreAssetsReadonly = !(dataObj->HasField("AreAssetsReadonly")) ? false : dataObj->GetBoolField("AreAssetsReadonly");
     tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
     tempStruct.BuildName = !(dataObj->HasField("BuildName")) ? TEXT("") : dataObj->GetStringField("BuildName");
     tempStruct.BuildStatus = !(dataObj->HasField("BuildStatus")) ? TEXT("") : dataObj->GetStringField("BuildStatus");
@@ -321,6 +326,7 @@ FMultiplayerGetBuildResponse UPlayFabMultiplayerModelDecoder::decodeGetBuildResp
     tempStruct.RegionConfigurations = !(dataObj->HasField("RegionConfigurations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("RegionConfigurations");
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
+    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
 
     return tempStruct;

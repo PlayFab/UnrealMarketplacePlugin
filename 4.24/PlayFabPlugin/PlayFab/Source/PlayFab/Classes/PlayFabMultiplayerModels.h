@@ -548,6 +548,12 @@ struct PLAYFAB_API FMultiplayerCreateBuildWithCustomContainerRequest : public FP
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /**
+     * When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+     * will have the same assets mounted in the container.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool AreAssetsReadonly = false;
     /** The build name. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildName;
@@ -581,6 +587,12 @@ public:
     /** The region configurations for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /**
+     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+     * disc.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;
@@ -591,6 +603,12 @@ struct PLAYFAB_API FMultiplayerCreateBuildWithCustomContainerResponse : public F
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /**
+     * When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+     * will have the same assets mounted in the container.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool AreAssetsReadonly = false;
     /** The guid string build ID. Must be unique for every build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
@@ -633,6 +651,12 @@ public:
     /** The type of game server being hosted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ServerType;
+    /**
+     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+     * disc.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;
@@ -644,6 +668,12 @@ struct PLAYFAB_API FMultiplayerCreateBuildWithManagedContainerRequest : public F
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /**
+     * When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+     * will have the same assets mounted in the container.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool AreAssetsReadonly = false;
     /** The build name. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildName;
@@ -683,6 +713,12 @@ public:
     /** The command to run when the multiplayer server is started, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
+    /**
+     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+     * disc.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;
@@ -693,6 +729,12 @@ struct PLAYFAB_API FMultiplayerCreateBuildWithManagedContainerResponse : public 
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /**
+     * When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+     * will have the same assets mounted in the container.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool AreAssetsReadonly = false;
     /** The guid string build ID. Must be unique for every build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
@@ -741,6 +783,12 @@ public:
     /** The command to run when the multiplayer server has been allocated, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
+    /**
+     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+     * disc.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;
@@ -952,6 +1000,12 @@ struct PLAYFAB_API FMultiplayerGetBuildResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /**
+     * When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+     * will have the same assets mounted in the container.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool AreAssetsReadonly = false;
     /** The guid string build ID of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
@@ -1012,6 +1066,12 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
+    /**
+     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+     * disc.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;

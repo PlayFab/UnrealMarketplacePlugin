@@ -10412,6 +10412,12 @@ void PlayFab::AdminModels::FGetTitleDataRequest::writeJSON(JsonWriter& writer) c
     }
 
 
+    if (OverrideLabel.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OverrideLabel"));
+        writer->WriteValue(OverrideLabel);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -10420,6 +10426,13 @@ bool PlayFab::AdminModels::FGetTitleDataRequest::readFromValue(const TSharedPtr<
     bool HasSucceeded = true;
 
     obj->TryGetStringArrayField(TEXT("Keys"), Keys);
+
+    const TSharedPtr<FJsonValue> OverrideLabelValue = obj->TryGetField(TEXT("OverrideLabel"));
+    if (OverrideLabelValue.IsValid() && !OverrideLabelValue->IsNull())
+    {
+        FString TmpValue;
+        if (OverrideLabelValue->TryGetString(TmpValue)) { OverrideLabel = TmpValue; }
+    }
 
     return HasSucceeded;
 }

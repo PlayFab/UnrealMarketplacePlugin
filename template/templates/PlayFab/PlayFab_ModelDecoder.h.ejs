@@ -1,0 +1,84 @@
+<%- copyright %>
+
+#pragma once
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Automatically generated model file for the UE4 PlayFab plugin.
+// This model file contains the request and response USTRUCTS
+//
+// API: <%- api.name %>
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "CoreMinimal.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+#include "PlayFabEnums.h"
+#include "PlayFab<%- api.name %>Models.h"
+#include "PlayFab<%- api.name %>ModelDecoder.generated.h"
+
+class UPlayFabJsonObject;
+
+UCLASS()
+class PLAYFAB_API UPlayFab<%- api.name %>ModelDecoder : public UBlueprintFunctionLibrary
+{
+    GENERATED_BODY()
+
+public:
+
+    //////////////////////////////////////////////////////////////////////////
+    // Generated PlayFab <%- api.name %> API Functions
+    //////////////////////////////////////////////////////////////////////////
+<%
+
+    // This loop goes through the subgroups of the api and orders the functions in groups.
+    // It makes it a little easier to navigate.
+
+    // Array to hold already printed models. That way we dont duplicate
+    var modelsArray = [];
+    for(var subgroup in api.subgroups)
+    {
+%>
+
+    ///////////////////////////////////////////////////////
+    // <%- api.subgroups[subgroup].name %>
+    //////////////////////////////////////////////////////
+
+<%
+
+    // This loop goes through all the api calls.
+    // It checks to see if the subgroup is the correct subgroup we are currently on.
+    // If so it creates the function definition with the summary text.
+    // This allows us to see the summary in UE4 when we hover over a node.
+
+        for(var i in api.calls)
+        {
+            var apiCall = api.calls[i];
+            if(apiCall.subgroup == api.subgroups[subgroup].name)
+            {
+
+                // Loop through the datatypes and create a decode function for each type
+
+                for(var i in api.datatypes)
+                {
+                    var datatype = api.datatypes[i];
+                    if ((datatype.name != apiCall.request && datatype.name != apiCall.result) // Skip my request and my result
+                        || datatype.name.endsWith("Request") // Requests are done separately
+                        || modelsArray.indexOf(datatype.name) > -1) // Check if datatype has been made already
+                    {
+                        continue;
+                    }
+
+                    // Add datatype name to array
+                    modelsArray.push(datatype.name);
+
+                %>    /** Decode the <%- getDataTypeSafeName(datatype, "name") %> response object*/
+<%                %>    UFUNCTION(BlueprintCallable, Category = "PlayFab | <%- api.name %> | <%- api.subgroups[subgroup].name %> Models")
+<%                %>        static F<%- api.name %><%- getDataTypeSafeName(datatype, "name") %> decode<%- getDataTypeSafeName(datatype, "name") %>Response(UPlayFabJsonObject* response);
+
+<%
+                }
+            }
+        }
+    }
+%>
+
+};

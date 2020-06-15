@@ -536,8 +536,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1505: returnText = "XboxServiceTooManyRequests"; break;
     case 1506: returnText = "NintendoSwitchNotEnabledForTitle"; break;
     case 1507: returnText = "RequestMultiplayerServersThrottledFromRateLimiter"; break;
-    case 1508: returnText = "TitleDataInstanceNotFound"; break;
-    case 1509: returnText = "DuplicateTitleDataOverrideInstanceName"; break;
+    case 1508: returnText = "TitleDataOverrideNotFound"; break;
+    case 1509: returnText = "DuplicateKeys"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

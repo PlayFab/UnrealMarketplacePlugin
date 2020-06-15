@@ -1076,6 +1076,12 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCreateBuildWithCustomContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        /**
+         * [optional] When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+         * will have the same assets mounted in the container.
+         */
+        Boxed<bool> AreAssetsReadonly;
+
         // The build name.
         FString BuildName;
 
@@ -1104,11 +1110,18 @@ namespace MultiplayerModels
         TArray<FPort> Ports;
         // The region configurations for the build.
         TArray<FBuildRegionParams> RegionConfigurations;
+        /**
+         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+         * disc.
+         */
+        Boxed<bool> UseStreamingForAssetDownloads;
+
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithCustomContainerRequest() :
             FPlayFabCppRequestCommon(),
+            AreAssetsReadonly(),
             BuildName(),
             pfContainerFlavor(),
             pfContainerImageReference(nullptr),
@@ -1119,11 +1132,13 @@ namespace MultiplayerModels
             MultiplayerServerCountPerVm(0),
             Ports(),
             RegionConfigurations(),
+            UseStreamingForAssetDownloads(),
             VmSize()
             {}
 
         FCreateBuildWithCustomContainerRequest(const FCreateBuildWithCustomContainerRequest& src) :
             FPlayFabCppRequestCommon(),
+            AreAssetsReadonly(src.AreAssetsReadonly),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
             pfContainerImageReference(src.pfContainerImageReference.IsValid() ? MakeShareable(new FContainerImageReference(*src.pfContainerImageReference)) : nullptr),
@@ -1134,6 +1149,7 @@ namespace MultiplayerModels
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             Ports(src.Ports),
             RegionConfigurations(src.RegionConfigurations),
+            UseStreamingForAssetDownloads(src.UseStreamingForAssetDownloads),
             VmSize(src.VmSize)
             {}
 
@@ -1188,6 +1204,12 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCreateBuildWithCustomContainerResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        /**
+         * [optional] When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+         * will have the same assets mounted in the container.
+         */
+        Boxed<bool> AreAssetsReadonly;
+
         // [optional] The guid string build ID. Must be unique for every build.
         FString BuildId;
 
@@ -1225,11 +1247,18 @@ namespace MultiplayerModels
         // [optional] The type of game server being hosted.
         FString ServerType;
 
+        /**
+         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+         * disc.
+         */
+        Boxed<bool> UseStreamingForAssetDownloads;
+
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithCustomContainerResponse() :
             FPlayFabCppResultCommon(),
+            AreAssetsReadonly(),
             BuildId(),
             BuildName(),
             pfContainerFlavor(),
@@ -1244,11 +1273,13 @@ namespace MultiplayerModels
             Ports(),
             RegionConfigurations(),
             ServerType(),
+            UseStreamingForAssetDownloads(),
             VmSize()
             {}
 
         FCreateBuildWithCustomContainerResponse(const FCreateBuildWithCustomContainerResponse& src) :
             FPlayFabCppResultCommon(),
+            AreAssetsReadonly(src.AreAssetsReadonly),
             BuildId(src.BuildId),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
@@ -1263,6 +1294,7 @@ namespace MultiplayerModels
             Ports(src.Ports),
             RegionConfigurations(src.RegionConfigurations),
             ServerType(src.ServerType),
+            UseStreamingForAssetDownloads(src.UseStreamingForAssetDownloads),
             VmSize(src.VmSize)
             {}
 
@@ -1308,6 +1340,12 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCreateBuildWithManagedContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        /**
+         * [optional] When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+         * will have the same assets mounted in the container.
+         */
+        Boxed<bool> AreAssetsReadonly;
+
         // The build name.
         FString BuildName;
 
@@ -1342,11 +1380,18 @@ namespace MultiplayerModels
         // The command to run when the multiplayer server is started, including any arguments.
         FString StartMultiplayerServerCommand;
 
+        /**
+         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+         * disc.
+         */
+        Boxed<bool> UseStreamingForAssetDownloads;
+
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithManagedContainerRequest() :
             FPlayFabCppRequestCommon(),
+            AreAssetsReadonly(),
             BuildName(),
             pfContainerFlavor(),
             GameAssetReferences(),
@@ -1358,11 +1403,13 @@ namespace MultiplayerModels
             Ports(),
             RegionConfigurations(),
             StartMultiplayerServerCommand(),
+            UseStreamingForAssetDownloads(),
             VmSize()
             {}
 
         FCreateBuildWithManagedContainerRequest(const FCreateBuildWithManagedContainerRequest& src) :
             FPlayFabCppRequestCommon(),
+            AreAssetsReadonly(src.AreAssetsReadonly),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
             GameAssetReferences(src.GameAssetReferences),
@@ -1374,6 +1421,7 @@ namespace MultiplayerModels
             Ports(src.Ports),
             RegionConfigurations(src.RegionConfigurations),
             StartMultiplayerServerCommand(src.StartMultiplayerServerCommand),
+            UseStreamingForAssetDownloads(src.UseStreamingForAssetDownloads),
             VmSize(src.VmSize)
             {}
 
@@ -1390,6 +1438,12 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCreateBuildWithManagedContainerResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        /**
+         * [optional] When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+         * will have the same assets mounted in the container.
+         */
+        Boxed<bool> AreAssetsReadonly;
+
         // [optional] The guid string build ID. Must be unique for every build.
         FString BuildId;
 
@@ -1433,11 +1487,18 @@ namespace MultiplayerModels
         // [optional] The command to run when the multiplayer server has been allocated, including any arguments.
         FString StartMultiplayerServerCommand;
 
+        /**
+         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+         * disc.
+         */
+        Boxed<bool> UseStreamingForAssetDownloads;
+
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
         FCreateBuildWithManagedContainerResponse() :
             FPlayFabCppResultCommon(),
+            AreAssetsReadonly(),
             BuildId(),
             BuildName(),
             pfContainerFlavor(),
@@ -1453,11 +1514,13 @@ namespace MultiplayerModels
             RegionConfigurations(),
             ServerType(),
             StartMultiplayerServerCommand(),
+            UseStreamingForAssetDownloads(),
             VmSize()
             {}
 
         FCreateBuildWithManagedContainerResponse(const FCreateBuildWithManagedContainerResponse& src) :
             FPlayFabCppResultCommon(),
+            AreAssetsReadonly(src.AreAssetsReadonly),
             BuildId(src.BuildId),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
@@ -1473,6 +1536,7 @@ namespace MultiplayerModels
             RegionConfigurations(src.RegionConfigurations),
             ServerType(src.ServerType),
             StartMultiplayerServerCommand(src.StartMultiplayerServerCommand),
+            UseStreamingForAssetDownloads(src.UseStreamingForAssetDownloads),
             VmSize(src.VmSize)
             {}
 
@@ -2264,6 +2328,12 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetBuildResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        /**
+         * [optional] When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+         * will have the same assets mounted in the container.
+         */
+        Boxed<bool> AreAssetsReadonly;
+
         // [optional] The guid string build ID of the build.
         FString BuildId;
 
@@ -2319,11 +2389,18 @@ namespace MultiplayerModels
          */
         FString StartMultiplayerServerCommand;
 
+        /**
+         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+         * disc.
+         */
+        Boxed<bool> UseStreamingForAssetDownloads;
+
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
         FGetBuildResponse() :
             FPlayFabCppResultCommon(),
+            AreAssetsReadonly(),
             BuildId(),
             BuildName(),
             BuildStatus(),
@@ -2341,11 +2418,13 @@ namespace MultiplayerModels
             RegionConfigurations(),
             ServerType(),
             StartMultiplayerServerCommand(),
+            UseStreamingForAssetDownloads(),
             VmSize()
             {}
 
         FGetBuildResponse(const FGetBuildResponse& src) :
             FPlayFabCppResultCommon(),
+            AreAssetsReadonly(src.AreAssetsReadonly),
             BuildId(src.BuildId),
             BuildName(src.BuildName),
             BuildStatus(src.BuildStatus),
@@ -2363,6 +2442,7 @@ namespace MultiplayerModels
             RegionConfigurations(src.RegionConfigurations),
             ServerType(src.ServerType),
             StartMultiplayerServerCommand(src.StartMultiplayerServerCommand),
+            UseStreamingForAssetDownloads(src.UseStreamingForAssetDownloads),
             VmSize(src.VmSize)
             {}
 

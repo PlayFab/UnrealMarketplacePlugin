@@ -9421,6 +9421,11 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitleData(FClientGetTitleDataRequest re
         FString(request.Keys).ParseIntoArray(KeysArray, TEXT(","), false);
         OutRestJsonObj->SetStringArrayField(TEXT("Keys"), KeysArray);
     }
+    if (request.OverrideLabel.IsEmpty() || request.OverrideLabel == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OverrideLabel"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OverrideLabel"), request.OverrideLabel);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

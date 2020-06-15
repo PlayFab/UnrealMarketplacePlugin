@@ -6178,14 +6178,19 @@ namespace AdminModels
     {
         // [optional] Specific keys to search for in the title data (leave null to get all keys)
         TArray<FString> Keys;
+        // [optional] Name of the override.
+        FString OverrideLabel;
+
         FGetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
-            Keys()
+            Keys(),
+            OverrideLabel()
             {}
 
         FGetTitleDataRequest(const FGetTitleDataRequest& src) :
             FPlayFabCppRequestCommon(),
-            Keys(src.Keys)
+            Keys(src.Keys),
+            OverrideLabel(src.OverrideLabel)
             {}
 
         FGetTitleDataRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitleDataRequest()

@@ -952,6 +952,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
 
 
     // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("AreAssetsReadonly"), request.AreAssetsReadonly);
     if (request.BuildName.IsEmpty() || request.BuildName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildName"));
     } else {
@@ -988,6 +989,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("RegionConfigurations"), request.RegionConfigurations);
     }
+    OutRestJsonObj->SetBoolField(TEXT("UseStreamingForAssetDownloads"), request.UseStreamingForAssetDownloads);
     FString temp_VmSize;
     if (GetEnumValueToString<EAzureVmSize>(TEXT("EAzureVmSize"), request.VmSize, temp_VmSize))
         OutRestJsonObj->SetStringField(TEXT("VmSize"), temp_VmSize);
@@ -1038,6 +1040,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
 
 
     // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("AreAssetsReadonly"), request.AreAssetsReadonly);
     if (request.BuildName.IsEmpty() || request.BuildName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("BuildName"));
     } else {
@@ -1079,6 +1082,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     } else {
         OutRestJsonObj->SetStringField(TEXT("StartMultiplayerServerCommand"), request.StartMultiplayerServerCommand);
     }
+    OutRestJsonObj->SetBoolField(TEXT("UseStreamingForAssetDownloads"), request.UseStreamingForAssetDownloads);
     FString temp_VmSize;
     if (GetEnumValueToString<EAzureVmSize>(TEXT("EAzureVmSize"), request.VmSize, temp_VmSize))
         OutRestJsonObj->SetStringField(TEXT("VmSize"), temp_VmSize);

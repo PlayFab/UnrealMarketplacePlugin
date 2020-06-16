@@ -3,5 +3,10 @@
         "buildFlags": "nonnullable",
         "templateFolder": "UnrealMarketplacePlugin",
         "versionKey": "unrealmarketplaceplugin"
+    },
+    "switch": {
+        "buildFlags": "nonnullable",
+        "templateFolder": "UnrealSwitchTemplate",
+        "versionKey": "unrealmarketplaceplugin"
     }
 }

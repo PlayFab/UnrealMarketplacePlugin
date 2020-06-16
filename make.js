@@ -13,31 +13,33 @@ var copyright =
 //////////////////////////////////////////////////////
 `;
 
-exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
-    class TargetVersion {
-        constructor(inMajor, inMinor, inPatch) {
-            this.major = inMajor;
-            this.minor = inMinor;
-            this.patch = inPatch;
-        }
-        get targetVersionShort() {
-            return `${this.major}.${this.minor}`;
-        }
-
-        get targetVersionLong() {
-            return `${this.major}.${this.minor}.${this.patch}`;
-        }
+class TargetVersion {
+    constructor(inMajor, inMinor, inPatch) {
+        this.major = inMajor;
+        this.minor = inMinor;
+        this.patch = inPatch;
+    }
+    get targetVersionShort() {
+        return `${this.major}.${this.minor}`;
     }
 
-    // The list of current supported UE versions - Intended to be the latest 3 supported by Epic
-    // Although we can target later updates to the versions,
-    // we should set the hotfix version to 0 so that any further updates will not need a prompt when opening with PlayFab
-    const ueTargetVersions = [
-        new TargetVersion(4, 22, 0),
-        new TargetVersion(4, 23, 0),
-        new TargetVersion(4, 24, 0),
-        new TargetVersion(4, 25, 0)
-    ];
+    get targetVersionLong() {
+        return `${this.major}.${this.minor}.${this.patch}`;
+    }
+}
+
+// The list of current supported UE versions - Intended to be the latest 3 supported by Epic
+// Although we can target later updates to the versions,
+// we should set the hotfix version to 0 so that any further updates will not need a prompt when opening with PlayFab
+const ueTargetVersions = [
+    new TargetVersion(4, 22, 0),
+    new TargetVersion(4, 23, 0),
+    new TargetVersion(4, 24, 0),
+    new TargetVersion(4, 25, 0)
+];
+exports.ueTargetVersions = ueTargetVersions;
+
+exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
 
     var ueWhitelistPlatforms = '[ "Win64", "Win32", "Mac", "IOS", "Android", "PS4", "XboxOne", "Switch" ]';
 
@@ -45,7 +47,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
         var ueTargetVersion = ueTargetVersions[v];
         var apiOutputDir = path.resolve(baseApiOutputDir, ueTargetVersion.targetVersionShort); // Break multiple versions into separate top level folders
 
-        console.log("Generating Unreal Plugin to " + apiOutputDir);
+        console.log("\nGenerating Unreal Plugin from:\n  - " + sourceDir + "\nto:\n  - " + apiOutputDir);
 
         // Create the Source folder in the plugin with all the modules
         bpMakeJsPath.makeBpCombinedAPI(apis, copyright, sourceDir, apiOutputDir, ueTargetVersion.targetVersionShort, sdkGlobals.sdkVersion, sdkGlobals.buildIdentifier);

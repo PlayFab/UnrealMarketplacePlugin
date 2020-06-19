@@ -17,39 +17,55 @@ void ACloudScriptTestResultUploader::UploadToCloudscript(const TArray<class UPla
 {
     PlayFabClientPtr ClientAPI = IPlayFabModuleInterface::Get().GetClientAPI();
 
+    float totalTime = 0;
+    int totalFailures = 0, totalSkipped = 0, totalTimedout = 0;
+    FString buildIdLc = ClientAPI->GetBuildIdentifier().ToLower();
+
     TArray<TSharedPtr<FJsonValue>> TestReport;
     for (auto SuiteTest : SuiteTests)
     {
+        totalTime += SuiteTest->GetDurationInSeconds();
+
         FString finishStateStr;
         switch (SuiteTest->finishState)
         {
-        case PlayFabApiTestFinishState::PASSED: finishStateStr = TEXT("PASSED");
+        case PlayFabApiTestFinishState::PASSED:
+            finishStateStr = TEXT("PASSED");
             break;
-        case PlayFabApiTestFinishState::FAILED: finishStateStr = TEXT("FAILED");
+        case PlayFabApiTestFinishState::FAILED:
+            finishStateStr = TEXT("FAILED");
+            totalFailures += 1;
             break;
-        case PlayFabApiTestFinishState::SKIPPED: finishStateStr = TEXT("SKIPPED");
+        case PlayFabApiTestFinishState::SKIPPED:
+            finishStateStr = TEXT("SKIPPED");
+            totalSkipped += 1;
             break;
-        case PlayFabApiTestFinishState::TIMEDOUT: finishStateStr = TEXT("TIMEDOUT");
+        case PlayFabApiTestFinishState::TIMEDOUT:
+            finishStateStr = TEXT("TIMEDOUT");
+            totalTimedout += 1;
             break;
         default: finishStateStr = TEXT("");
             break;
         }
 
         TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
-        JsonObject->SetStringField(TEXT("classname"), IPlayFab::Get().getBuildIdentifier());
-        JsonObject->SetStringField(TEXT("name"), SuiteTest->testName); // This test's name.
-        JsonObject->SetNumberField(TEXT("time"), SuiteTest->GetDurationInSeconds()); // End time is invalid here... so cheating a bit.
+        JsonObject->SetStringField(TEXT("failureText"), finishStateStr);
+        JsonObject->SetStringField(TEXT("finishState"), finishStateStr);
+        JsonObject->SetStringField(TEXT("classname"), buildIdLc);
         JsonObject->SetStringField(TEXT("message"), SuiteTest->testResultMsg);
-        JsonObject->SetStringField(TEXT("failureText"), finishStateStr); // Those two should match.
-        JsonObject->SetStringField(TEXT("finishState"), finishStateStr); //
-        JsonObject->SetObjectField(TEXT("stacktrace"), nullptr);
+        JsonObject->SetStringField(TEXT("name"), SuiteTest->testName); // This test's name.
+        JsonObject->SetNumberField(TEXT("time"), SuiteTest->GetDurationInSeconds());
 
         TestReport.Add(MakeShareable(new FJsonValueObject(JsonObject)));
     }
 
     TSharedPtr<FJsonObject> finalJson = MakeShareable(new FJsonObject());
-    finalJson->SetStringField(TEXT("customId"), ClientAPI->GetBuildIdentifier().ToLower());
-    finalJson->SetArrayField(TEXT("testReport"), TestReport);
+    finalJson->SetStringField(TEXT("name"), buildIdLc);
+    finalJson->SetNumberField(TEXT("time"), totalTime);
+    finalJson->SetNumberField(TEXT("errors"), totalTimedout);
+    finalJson->SetNumberField(TEXT("failures"), totalFailures);
+    finalJson->SetNumberField(TEXT("skipped"), totalSkipped);
+    finalJson->SetArrayField(TEXT("testResults"), TestReport);
 
     auto functionParameter = PlayFab::FJsonKeeper();
     functionParameter.readFromValue(MakeShareable(new FJsonValueObject(finalJson)));
@@ -59,7 +75,7 @@ void ACloudScriptTestResultUploader::UploadToCloudscript(const TArray<class UPla
     request.FunctionParameter = functionParameter;
     request.GeneratePlayStreamEvent = true;
 
-    UE_LOG(LogTestResults, Log, TEXT("Request: \n%s"), *request.toJSONString());
+    UE_LOG(LogTestResults, Log, TEXT("Cloud Save Request: \n%s"), *request.toJSONString());
 
     ClientAPI->ExecuteCloudScript(
         request,

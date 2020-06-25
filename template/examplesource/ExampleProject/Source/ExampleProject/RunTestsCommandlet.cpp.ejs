@@ -72,7 +72,7 @@ int32 URunTestsCommandlet::Main(const FString& Params)
     bool bPrintedTestSummary = false;
     pUploader = NewObject<ACloudScriptTestResultUploader>();
 
-    while (pUploader->isComplete)
+    while (!pUploader->isComplete)
     {
         GEngine->UpdateTimeAndHandleMaxTickRate();
         GEngine->Tick(FApp::GetDeltaTime(), false);

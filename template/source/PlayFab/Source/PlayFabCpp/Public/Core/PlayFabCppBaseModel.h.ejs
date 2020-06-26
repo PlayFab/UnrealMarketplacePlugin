@@ -11,7 +11,7 @@
 
 namespace PlayFab
 {
-    typedef TSharedRef< TJsonWriter<TCHAR, TPrettyJsonPrintPolicy<TCHAR> > > JsonWriter;
+    typedef TSharedRef< TJsonWriter<TCHAR, TCondensedJsonPrintPolicy<TCHAR> > > JsonWriter;
     typedef TSharedRef< TJsonReader<TCHAR> > JsonReader;
 
     template <typename BoxedType>

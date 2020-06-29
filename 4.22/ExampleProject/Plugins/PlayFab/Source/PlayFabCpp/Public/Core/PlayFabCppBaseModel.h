@@ -11,7 +11,7 @@
 #include "Serialization/JsonWriter.h"
 #include "Serialization/JsonReader.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
-#include "Policies/CondensedJsonPrintPolicy.h"
+#include <Policies/CondensedJsonPrintPolicy.h>
 
 namespace PlayFab
 {

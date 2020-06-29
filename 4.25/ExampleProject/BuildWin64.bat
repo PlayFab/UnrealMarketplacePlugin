@@ -17,6 +17,6 @@ set archivePath=Build\%targetPlatform%
 
 
 rem # The actual build command. To adapt depending on the needs.
-call "%uatPath%" BuildCookRun -rocket -installed -nop4 -nocompile -project="%~dp0ExampleProject.uproject" -cook -stage -archive -archivedirectory="%~dp0%archivePath%" -package -clientconfig=Development -Platform=%targetPlatform% -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile -SkipBuildPatchPrereq
+call "%uatPath%" BuildCookRun -rocket -installed -nop4 -nocompile -project="%~dp0ExampleProject.uproject" -cook -stage -archive -archivedirectory="%~dp0%archivePath%" -package -clientconfig=Development -Platform=%targetPlatform% -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
 
 

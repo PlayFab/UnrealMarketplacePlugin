@@ -63,14 +63,7 @@ int32 URunTestsCommandlet::Main(const FString& Params)
     else
     {
         UE_LOG(LogPlayFabExampleProject, Error, TEXT("Invalid Engine instance."));
-
-#if ENGINE_MINOR_VERSION < 24
-        GIsRequestingExit = true;
-#else
-        RequestEngineExit("Invalid PlayFab Test UnrealEngine Instance");
-#endif
-
-        GIsRunning = false;
+        return 1;
     }
 
     pCppTests = NewObject<UPlayFabCppTests>();
@@ -80,13 +73,9 @@ int32 URunTestsCommandlet::Main(const FString& Params)
     AddTestCase(pBpTests);
 
     bool bPrintedTestSummary = false;
+    pUploader = NewObject<ACloudScriptTestResultUploader>();
 
-    while (GIsRunning && 
-#if ENGINE_MINOR_VERSION < 24
-    !GIsRequestingExit)
-#else
-    !IsEngineExitRequested())
-#endif  
+    while (!pUploader->isComplete)
     {
         GEngine->UpdateTimeAndHandleMaxTickRate();
         GEngine->Tick(FApp::GetDeltaTime(), false);
@@ -98,22 +87,18 @@ int32 URunTestsCommandlet::Main(const FString& Params)
         FTicker::GetCoreTicker().Tick(DeltaTime);
 
         Run(DeltaTime);
-        const bool bIsComplete = SuiteState == PlayFabApiTestActiveState::COMPLETE;
-        if (bIsComplete)
+        if (SuiteState == PlayFabApiTestActiveState::COMPLETE)
         {
             if (!bPrintedTestSummary)
             {
                 UE_LOG(LogPlayFabExampleProject, Log, TEXT("Test Summary:\n%s"), *GenerateTestSummary());
                 bPrintedTestSummary = true;
-                pUploader = NewObject<ACloudScriptTestResultUploader>();
                 pUploader->UploadToCloudscript(GetSuiteTests());
             }
         }
 
         FPlatformProcess::Sleep(0);
     }
-
-    GIsRunning = false;
 
     return failedTests == 0 ? 0 : 1;
 }

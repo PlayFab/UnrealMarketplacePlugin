@@ -2882,9 +2882,9 @@ void UPlayFabClientAPI::OnLinkKongregateResult(FHttpRequestPtr HttpRequest, FHtt
     }
 }
 
-bool UPlayFabClientAPI::LinkNintendoAccount(
-    ClientModels::FLinkNintendoAccountRequest& request,
-    const FLinkNintendoAccountDelegate& SuccessDelegate,
+bool UPlayFabClientAPI::LinkNintendoServiceAccount(
+    ClientModels::FLinkNintendoServiceAccountRequest& request,
+    const FLinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
@@ -2898,12 +2898,12 @@ bool UPlayFabClientAPI::LinkNintendoAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/LinkNintendoAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkNintendoAccountResult, SuccessDelegate, ErrorDelegate);
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/LinkNintendoServiceAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
 
-void UPlayFabClientAPI::OnLinkNintendoAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+void UPlayFabClientAPI::OnLinkNintendoServiceAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoServiceAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FEmptyResult outResult;
     FPlayFabCppError errorResult;
@@ -3582,21 +3582,21 @@ void UPlayFabClientAPI::OnLoginWithKongregateResult(FHttpRequestPtr HttpRequest,
     }
 }
 
-bool UPlayFabClientAPI::LoginWithNintendoAccount(
-    ClientModels::FLoginWithNintendoAccountRequest& request,
-    const FLoginWithNintendoAccountDelegate& SuccessDelegate,
+bool UPlayFabClientAPI::LoginWithNintendoServiceAccount(
+    ClientModels::FLoginWithNintendoServiceAccountRequest& request,
+    const FLoginWithNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (PlayFabSettings::GetTitleId().Len() > 0)
         request.TitleId = PlayFabSettings::GetTitleId();
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/LoginWithNintendoAccount")), request.toJSONString(), TEXT(""), TEXT(""));
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLoginWithNintendoAccountResult, SuccessDelegate, ErrorDelegate);
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/LoginWithNintendoServiceAccount")), request.toJSONString(), TEXT(""), TEXT(""));
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLoginWithNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
 
-void UPlayFabClientAPI::OnLoginWithNintendoAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithNintendoAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+void UPlayFabClientAPI::OnLoginWithNintendoServiceAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithNintendoServiceAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FLoginResult outResult;
     FPlayFabCppError errorResult;
@@ -5158,17 +5158,17 @@ void UPlayFabClientAPI::OnUnlinkKongregateResult(FHttpRequestPtr HttpRequest, FH
     }
 }
 
-bool UPlayFabClientAPI::UnlinkNintendoAccount(
-    const FUnlinkNintendoAccountDelegate& SuccessDelegate,
+bool UPlayFabClientAPI::UnlinkNintendoServiceAccount(
+    const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    ClientModels::FUnlinkNintendoAccountRequest emptyRequest = ClientModels::FUnlinkNintendoAccountRequest();
-    return UPlayFabClientAPI::UnlinkNintendoAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
+    ClientModels::FUnlinkNintendoServiceAccountRequest emptyRequest = ClientModels::FUnlinkNintendoServiceAccountRequest();
+    return UPlayFabClientAPI::UnlinkNintendoServiceAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
-bool UPlayFabClientAPI::UnlinkNintendoAccount(
-    ClientModels::FUnlinkNintendoAccountRequest& request,
-    const FUnlinkNintendoAccountDelegate& SuccessDelegate,
+bool UPlayFabClientAPI::UnlinkNintendoServiceAccount(
+    ClientModels::FUnlinkNintendoServiceAccountRequest& request,
+    const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
@@ -5182,12 +5182,12 @@ bool UPlayFabClientAPI::UnlinkNintendoAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/UnlinkNintendoAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkNintendoAccountResult, SuccessDelegate, ErrorDelegate);
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Client/UnlinkNintendoServiceAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
 
-void UPlayFabClientAPI::OnUnlinkNintendoAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+void UPlayFabClientAPI::OnUnlinkNintendoServiceAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoServiceAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FEmptyResponse outResult;
     FPlayFabCppError errorResult;
@@ -5425,6 +5425,14 @@ void UPlayFabClientAPI::OnUnlinkWindowsHelloResult(FHttpRequestPtr HttpRequest, 
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
+}
+
+bool UPlayFabClientAPI::UnlinkXboxAccount(
+    const FUnlinkXboxAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    ClientModels::FUnlinkXboxAccountRequest emptyRequest = ClientModels::FUnlinkXboxAccountRequest();
+    return UPlayFabClientAPI::UnlinkXboxAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabClientAPI::UnlinkXboxAccount(

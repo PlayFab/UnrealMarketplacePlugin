@@ -700,9 +700,6 @@ public:
     /** Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString PlayFabId;
-    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
-        FString XboxToken;
 };
 
 USTRUCT(BlueprintType)

@@ -17677,12 +17677,6 @@ void PlayFab::ServerModels::FUnlinkXboxAccountRequest::writeJSON(JsonWriter& wri
         writer->WriteValue(PlayFabId);
     }
 
-    if (XboxToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
-        writer->WriteValue(XboxToken);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -17695,13 +17689,6 @@ bool PlayFab::ServerModels::FUnlinkXboxAccountRequest::readFromValue(const TShar
     {
         FString TmpValue;
         if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> XboxTokenValue = obj->TryGetField(TEXT("XboxToken"));
-    if (XboxTokenValue.IsValid() && !XboxTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (XboxTokenValue->TryGetString(TmpValue)) { XboxToken = TmpValue; }
     }
 
     return HasSucceeded;

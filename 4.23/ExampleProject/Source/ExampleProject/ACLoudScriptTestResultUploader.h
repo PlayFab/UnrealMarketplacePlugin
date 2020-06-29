@@ -13,7 +13,7 @@
 
 #include "ACloudScriptTestResultUploader.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogTestResults, Log, All); 
+DECLARE_LOG_CATEGORY_EXTERN(LogTestResults, Log, All);
 
 UCLASS()
 class ACloudScriptTestResultUploader : public AActor
@@ -22,11 +22,10 @@ class ACloudScriptTestResultUploader : public AActor
 public:
     void UploadToCloudscript(const TArray<class UPlayFabTestContext*>& SuiteTests);
 
+    bool isComplete{ false };
+
 private:
     void SuccessfulUpload(const PlayFab::ClientModels::FExecuteCloudScriptResult& result);
 
     void UploadErrored(const PlayFab::FPlayFabCppError& error);
-
-    bool ShouldQuitOnCompletion() const;
 };
-

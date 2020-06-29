@@ -14561,12 +14561,12 @@ bool PlayFab::ClientModels::FLinkKongregateAccountResult::readFromValue(const TS
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FLinkNintendoAccountRequest::~FLinkNintendoAccountRequest()
+PlayFab::ClientModels::FLinkNintendoServiceAccountRequest::~FLinkNintendoServiceAccountRequest()
 {
 
 }
 
-void PlayFab::ClientModels::FLinkNintendoAccountRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FLinkNintendoServiceAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
@@ -14578,7 +14578,7 @@ void PlayFab::ClientModels::FLinkNintendoAccountRequest::writeJSON(JsonWriter& w
 
     if (!IdentityToken.IsEmpty() == false)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoServiceAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
     }
     else
     {
@@ -14589,7 +14589,7 @@ void PlayFab::ClientModels::FLinkNintendoAccountRequest::writeJSON(JsonWriter& w
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FLinkNintendoAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FLinkNintendoServiceAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -16596,13 +16596,13 @@ bool PlayFab::ClientModels::FLoginWithKongregateRequest::readFromValue(const TSh
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FLoginWithNintendoAccountRequest::~FLoginWithNintendoAccountRequest()
+PlayFab::ClientModels::FLoginWithNintendoServiceAccountRequest::~FLoginWithNintendoServiceAccountRequest()
 {
     //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
 
 }
 
-void PlayFab::ClientModels::FLoginWithNintendoAccountRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FLoginWithNintendoServiceAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
@@ -16620,7 +16620,7 @@ void PlayFab::ClientModels::FLoginWithNintendoAccountRequest::writeJSON(JsonWrit
 
     if (!IdentityToken.IsEmpty() == false)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoServiceAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
     }
     else
     {
@@ -16642,7 +16642,7 @@ void PlayFab::ClientModels::FLoginWithNintendoAccountRequest::writeJSON(JsonWrit
 
     if (!TitleId.IsEmpty() == false)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoAccountRequest::TitleId, PlayFab calls may not work if it remains empty."));
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithNintendoServiceAccountRequest::TitleId, PlayFab calls may not work if it remains empty."));
     }
     else
     {
@@ -16653,7 +16653,7 @@ void PlayFab::ClientModels::FLoginWithNintendoAccountRequest::writeJSON(JsonWrit
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FLoginWithNintendoAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FLoginWithNintendoServiceAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -20792,19 +20792,19 @@ bool PlayFab::ClientModels::FUnlinkKongregateAccountResult::readFromValue(const 
     return HasSucceeded;
 }
 
-PlayFab::ClientModels::FUnlinkNintendoAccountRequest::~FUnlinkNintendoAccountRequest()
+PlayFab::ClientModels::FUnlinkNintendoServiceAccountRequest::~FUnlinkNintendoServiceAccountRequest()
 {
 
 }
 
-void PlayFab::ClientModels::FUnlinkNintendoAccountRequest::writeJSON(JsonWriter& writer) const
+void PlayFab::ClientModels::FUnlinkNintendoServiceAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::ClientModels::FUnlinkNintendoAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::ClientModels::FUnlinkNintendoServiceAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -21089,25 +21089,12 @@ void PlayFab::ClientModels::FUnlinkXboxAccountRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (XboxToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
-        writer->WriteValue(XboxToken);
-    }
-
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkXboxAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> XboxTokenValue = obj->TryGetField(TEXT("XboxToken"));
-    if (XboxTokenValue.IsValid() && !XboxTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (XboxTokenValue->TryGetString(TmpValue)) { XboxToken = TmpValue; }
-    }
 
     return HasSucceeded;
 }

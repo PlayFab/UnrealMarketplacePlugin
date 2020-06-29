@@ -1684,11 +1684,6 @@ UPlayFabServerAPI* UPlayFabServerAPI::UnlinkXboxAccount(FServerUnlinkXboxAccount
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
     }
-    if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("XboxToken"), request.XboxToken);
-    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

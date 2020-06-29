@@ -11,10 +11,11 @@
 #include "Serialization/JsonWriter.h"
 #include "Serialization/JsonReader.h"
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include <Policies/CondensedJsonPrintPolicy.h>
 
 namespace PlayFab
 {
-    typedef TSharedRef< TJsonWriter<TCHAR, TPrettyJsonPrintPolicy<TCHAR> > > JsonWriter;
+    typedef TSharedRef< TJsonWriter<TCHAR, TCondensedJsonPrintPolicy<TCHAR> > > JsonWriter;
     typedef TSharedRef< TJsonReader<TCHAR> > JsonReader;
 
     template <typename BoxedType>

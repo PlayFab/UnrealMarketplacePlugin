@@ -11,14 +11,9 @@ using namespace PlayFab;
 FString FPlayFabCppBaseModel::toJSONString() const
 {
     FString JsonOutString;
-    JsonWriter Json = TJsonWriterFactory<TCHAR, TPrettyJsonPrintPolicy<TCHAR> >::Create(&JsonOutString);
+    JsonWriter Json = TJsonWriterFactory<TCHAR, TCondensedJsonPrintPolicy<TCHAR> >::Create(&JsonOutString);
     writeJSON(Json);
-
-    if (Json->Close())
-    {
-        // write log here
-    }
-
+    Json->Close();
     return JsonOutString;
 }
 

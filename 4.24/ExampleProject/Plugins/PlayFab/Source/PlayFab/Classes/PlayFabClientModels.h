@@ -679,7 +679,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLinkNintendoAccountRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientLinkNintendoServiceAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1088,7 +1088,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkNintendoAccountRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientUnlinkNintendoServiceAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1192,9 +1192,6 @@ struct PLAYFAB_API FClientUnlinkXboxAccountRequest : public FPlayFabRequestCommo
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
-        FString XboxToken;
 };
 
 USTRUCT(BlueprintType)
@@ -1908,7 +1905,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientLoginWithNintendoAccountRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientLoginWithNintendoServiceAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

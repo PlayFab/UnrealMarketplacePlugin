@@ -10661,19 +10661,14 @@ namespace ServerModels
         // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
         FString PlayFabId;
 
-        // [optional] Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
-        FString XboxToken;
-
         FUnlinkXboxAccountRequest() :
             FPlayFabCppRequestCommon(),
-            PlayFabId(),
-            XboxToken()
+            PlayFabId()
             {}
 
         FUnlinkXboxAccountRequest(const FUnlinkXboxAccountRequest& src) :
             FPlayFabCppRequestCommon(),
-            PlayFabId(src.PlayFabId),
-            XboxToken(src.XboxToken)
+            PlayFabId(src.PlayFabId)
             {}
 
         FUnlinkXboxAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkXboxAccountRequest()

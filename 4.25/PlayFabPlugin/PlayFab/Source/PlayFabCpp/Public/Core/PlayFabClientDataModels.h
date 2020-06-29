@@ -8835,7 +8835,7 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLinkNintendoAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    struct PLAYFABCPP_API FLinkNintendoServiceAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] If another user is already linked to a specific Nintendo Switch account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
@@ -8846,24 +8846,24 @@ namespace ClientModels
          */
         FString IdentityToken;
 
-        FLinkNintendoAccountRequest() :
+        FLinkNintendoServiceAccountRequest() :
             FPlayFabCppRequestCommon(),
             ForceLink(),
             IdentityToken()
             {}
 
-        FLinkNintendoAccountRequest(const FLinkNintendoAccountRequest& src) :
+        FLinkNintendoServiceAccountRequest(const FLinkNintendoServiceAccountRequest& src) :
             FPlayFabCppRequestCommon(),
             ForceLink(src.ForceLink),
             IdentityToken(src.IdentityToken)
             {}
 
-        FLinkNintendoAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkNintendoAccountRequest()
+        FLinkNintendoServiceAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkNintendoServiceAccountRequest()
         {
             readFromValue(obj);
         }
 
-        ~FLinkNintendoAccountRequest();
+        ~FLinkNintendoServiceAccountRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -10038,7 +10038,7 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FLoginWithNintendoAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    struct PLAYFABCPP_API FLoginWithNintendoServiceAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
@@ -10061,7 +10061,7 @@ namespace ClientModels
          */
         FString TitleId;
 
-        FLoginWithNintendoAccountRequest() :
+        FLoginWithNintendoServiceAccountRequest() :
             FPlayFabCppRequestCommon(),
             CreateAccount(),
             EncryptedRequest(),
@@ -10071,7 +10071,7 @@ namespace ClientModels
             TitleId()
             {}
 
-        FLoginWithNintendoAccountRequest(const FLoginWithNintendoAccountRequest& src) :
+        FLoginWithNintendoServiceAccountRequest(const FLoginWithNintendoServiceAccountRequest& src) :
             FPlayFabCppRequestCommon(),
             CreateAccount(src.CreateAccount),
             EncryptedRequest(src.EncryptedRequest),
@@ -10081,12 +10081,12 @@ namespace ClientModels
             TitleId(src.TitleId)
             {}
 
-        FLoginWithNintendoAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithNintendoAccountRequest()
+        FLoginWithNintendoServiceAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithNintendoServiceAccountRequest()
         {
             readFromValue(obj);
         }
 
-        ~FLoginWithNintendoAccountRequest();
+        ~FLoginWithNintendoServiceAccountRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -12653,22 +12653,22 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUnlinkNintendoAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    struct PLAYFABCPP_API FUnlinkNintendoServiceAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        FUnlinkNintendoAccountRequest() :
+        FUnlinkNintendoServiceAccountRequest() :
             FPlayFabCppRequestCommon()
             {}
 
-        FUnlinkNintendoAccountRequest(const FUnlinkNintendoAccountRequest& src) :
+        FUnlinkNintendoServiceAccountRequest(const FUnlinkNintendoServiceAccountRequest& src) :
             FPlayFabCppRequestCommon()
             {}
 
-        FUnlinkNintendoAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkNintendoAccountRequest()
+        FUnlinkNintendoServiceAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkNintendoServiceAccountRequest()
         {
             readFromValue(obj);
         }
 
-        ~FUnlinkNintendoAccountRequest();
+        ~FUnlinkNintendoServiceAccountRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -12930,17 +12930,12 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FUnlinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
-        FString XboxToken;
-
         FUnlinkXboxAccountRequest() :
-            FPlayFabCppRequestCommon(),
-            XboxToken()
+            FPlayFabCppRequestCommon()
             {}
 
         FUnlinkXboxAccountRequest(const FUnlinkXboxAccountRequest& src) :
-            FPlayFabCppRequestCommon(),
-            XboxToken(src.XboxToken)
+            FPlayFabCppRequestCommon()
             {}
 
         FUnlinkXboxAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkXboxAccountRequest()

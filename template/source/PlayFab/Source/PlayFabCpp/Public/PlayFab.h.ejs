@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
+#include "UObject/StrongObjectPtr.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabCpp, Log, All);
 
@@ -12,21 +13,9 @@ namespace PlayFab
 {
     template<typename T>
     TSharedPtr<T> MakeSharedUObject()
-    {    
-#if WITH_EDITOR
-        return TSharedPtr<T>(NewObject<T>((UObject*)GetTransientPackage(), NAME_None, RF_Standalone),
-        [](T* Instance)
-        {
-            // Recommended way of destroying UObjects according to https://udn.unrealengine.com/questions/402414/view.html
-            Instance->ClearFlags(RF_Standalone);
-        });
-#else
-        return TSharedPtr<T>(NewObject<T>((UObject*)GetTransientPackage(), NAME_None, RF_StrongRefOnFrame),
-        [](T* Instance)
-        {
-            Instance->ClearFlags(RF_StrongRefOnFrame);
-        });
-#endif
+    {
+        TSharedRef< TStrongObjectPtr<T> > SharedRefToStrongObjPtr = MakeShared< TStrongObjectPtr<T> >(NewObject<T>());
+        return TSharedPtr<T>(SharedRefToStrongObjPtr, SharedRefToStrongObjPtr->Get());
     }
 
 <% for(var i = 0; i < apis.length; i++) { var api = apis[i];

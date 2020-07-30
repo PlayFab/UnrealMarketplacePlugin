@@ -147,6 +147,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddOrUpdateContactEmail(FClientAddOrUpdate
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EmailAddress.IsEmpty() || request.EmailAddress == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EmailAddress"));
     } else {
@@ -199,6 +200,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddUsernamePassword(FClientAddUsernamePass
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Email.IsEmpty() || request.Email == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Email"));
     } else {
@@ -328,6 +330,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerCombinedInfo(FClientGetPlayerComb
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -381,6 +384,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerProfile(FClientGetPlayerProfileRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -1052,6 +1056,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkAndroidDeviceID(FClientLinkAndroidDevi
     } else {
         OutRestJsonObj->SetStringField(TEXT("AndroidDeviceId"), request.AndroidDeviceId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.OS.IsEmpty() || request.OS == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OS"));
@@ -1105,6 +1110,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkApple(FClientLinkAppleRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
@@ -1163,6 +1169,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkCustomID(FClientLinkCustomIDRequest re
     } else {
         OutRestJsonObj->SetStringField(TEXT("CustomId"), request.CustomId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
 
     // Add Request to manager
@@ -1216,6 +1223,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkFacebookAccount(FClientLinkFacebookAcc
     } else {
         OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
 
     // Add Request to manager
@@ -1264,6 +1272,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkFacebookInstantGamesId(FClientLinkFace
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FacebookInstantGamesSignature.IsEmpty() || request.FacebookInstantGamesSignature == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FacebookInstantGamesSignature"));
     } else {
@@ -1317,6 +1326,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkGameCenterAccount(FClientLinkGameCente
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.GameCenterId.IsEmpty() || request.GameCenterId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GameCenterId"));
@@ -1390,6 +1400,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkGoogleAccount(FClientLinkGoogleAccount
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.ServerAuthCode.IsEmpty() || request.ServerAuthCode == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ServerAuthCode"));
@@ -1443,6 +1454,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkIOSDeviceID(FClientLinkIOSDeviceIDRequ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DeviceId.IsEmpty() || request.DeviceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DeviceId"));
     } else {
@@ -1511,6 +1523,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkKongregate(FClientLinkKongregateAccoun
     } else {
         OutRestJsonObj->SetStringField(TEXT("AuthTicket"), request.AuthTicket);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.KongregateId.IsEmpty() || request.KongregateId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("KongregateId"));
@@ -1564,6 +1577,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoServiceAccount(FClientLinkNint
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
@@ -1618,6 +1632,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkNintendoSwitchDeviceId(FClientLinkNint
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.NintendoSwitchDeviceId.IsEmpty() || request.NintendoSwitchDeviceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("NintendoSwitchDeviceId"));
@@ -1676,6 +1691,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkOpenIdConnect(FClientLinkOpenIdConnect
     } else {
         OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.IdToken.IsEmpty() || request.IdToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdToken"));
@@ -1735,6 +1751,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkPSNAccount(FClientLinkPSNAccountReques
     } else {
         OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
     if (request.RedirectUri.IsEmpty() || request.RedirectUri == "") {
@@ -1789,6 +1806,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkSteamAccount(FClientLinkSteamAccountRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.SteamTicket.IsEmpty() || request.SteamTicket == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SteamTicket"));
@@ -1847,6 +1865,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkTwitch(FClientLinkTwitchAccountRequest
     } else {
         OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
 
     // Add Request to manager
@@ -1895,6 +1914,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkWindowsHello(FClientLinkWindowsHelloAc
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DeviceName.IsEmpty() || request.DeviceName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DeviceName"));
     } else {
@@ -1958,6 +1978,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkXboxAccount(FClientLinkXboxAccountRequ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
     if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
@@ -2011,6 +2032,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RemoveContactEmail(FClientRemoveContactEma
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2111,6 +2133,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ReportPlayer(FClientReportPlayerClientRequ
     } else {
         OutRestJsonObj->SetStringField(TEXT("Comment"), request.Comment);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ReporteeId.IsEmpty() || request.ReporteeId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReporteeId"));
     } else {
@@ -2162,6 +2185,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SendAccountRecoveryEmail(FClientSendAccoun
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Email.IsEmpty() || request.Email == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Email"));
     } else {
@@ -2225,6 +2249,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkAndroidDeviceID(FClientUnlinkAndroid
     } else {
         OutRestJsonObj->SetStringField(TEXT("AndroidDeviceId"), request.AndroidDeviceId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2272,6 +2297,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkApple(FClientUnlinkAppleRequest requ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2324,6 +2350,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkCustomID(FClientUnlinkCustomIDReques
     } else {
         OutRestJsonObj->SetStringField(TEXT("CustomId"), request.CustomId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2371,6 +2398,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkFacebookAccount(FClientUnlinkFaceboo
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2418,6 +2446,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkFacebookInstantGamesId(FClientUnlink
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FacebookInstantGamesId.IsEmpty() || request.FacebookInstantGamesId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FacebookInstantGamesId"));
     } else {
@@ -2470,6 +2499,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkGameCenterAccount(FClientUnlinkGameC
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2517,6 +2547,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkGoogleAccount(FClientUnlinkGoogleAcc
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2564,6 +2595,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkIOSDeviceID(FClientUnlinkIOSDeviceID
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DeviceId.IsEmpty() || request.DeviceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DeviceId"));
     } else {
@@ -2616,6 +2648,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkKongregate(FClientUnlinkKongregateAc
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2663,6 +2696,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoServiceAccount(FClientUnlink
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2711,6 +2745,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkNintendoSwitchDeviceId(FClientUnlink
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.NintendoSwitchDeviceId.IsEmpty() || request.NintendoSwitchDeviceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("NintendoSwitchDeviceId"));
     } else {
@@ -2768,6 +2803,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkOpenIdConnect(FClientUnlinkOpenIdCon
     } else {
         OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2816,6 +2852,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkPSNAccount(FClientUnlinkPSNAccountRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2863,6 +2900,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkSteamAccount(FClientUnlinkSteamAccou
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2915,6 +2953,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkTwitch(FClientUnlinkTwitchAccountReq
     } else {
         OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2962,6 +3001,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkWindowsHello(FClientUnlinkWindowsHel
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PublicKeyHint"));
     } else {
@@ -3014,6 +3054,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlinkXboxAccount(FClientUnlinkXboxAccount
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3114,6 +3155,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserTitleDisplayName(FClientUpdateUs
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DisplayName.IsEmpty() || request.DisplayName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DisplayName"));
     } else {
@@ -3283,6 +3325,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ReportAdActivity(FClientReportAdActivityRe
     FString temp_Activity;
     if (GetEnumValueToString<EAdActivity>(TEXT("EAdActivity"), request.Activity, temp_Activity))
         OutRestJsonObj->SetStringField(TEXT("Activity"), temp_Activity);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlacementId.IsEmpty() || request.PlacementId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlacementId"));
     } else {
@@ -3340,6 +3383,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RewardAdActivity(FClientRewardAdActivityRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlacementId.IsEmpty() || request.PlacementId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlacementId"));
     } else {
@@ -3456,6 +3500,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteCharacterEvent(FClientWriteClientChar
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -3514,6 +3559,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WritePlayerEvent(FClientWriteClientPlayerE
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -3573,6 +3619,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::WriteTitleEvent(FClientWriteTitleEventRequ
 
     // Serialize all the request properties to json
     if (request.Body != nullptr) OutRestJsonObj->SetObjectField(TEXT("Body"), request.Body);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EventName.IsEmpty() || request.EventName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EventName"));
     } else {
@@ -3802,6 +3849,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithAndroidDeviceID(FClientLoginWithA
         OutRestJsonObj->SetStringField(TEXT("AndroidDeviceId"), request.AndroidDeviceId);
     }
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -3867,6 +3915,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithApple(FClientLoginWithAppleReques
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -3940,6 +3989,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithCustomID(FClientLoginWithCustomID
     } else {
         OutRestJsonObj->SetStringField(TEXT("CustomId"), request.CustomId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4002,6 +4052,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithEmailAddress(FClientLoginWithEmai
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Email.IsEmpty() || request.Email == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Email"));
     } else {
@@ -4070,6 +4121,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebook(FClientLoginWithFacebook
         OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
     }
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4133,6 +4185,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebookInstantGamesId(FClientLog
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4201,6 +4254,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGameCenter(FClientLoginWithGameCe
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4289,6 +4343,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGoogleAccount(FClientLoginWithGoo
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4357,6 +4412,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithIOSDeviceID(FClientLoginWithIOSDe
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DeviceId.IsEmpty() || request.DeviceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DeviceId"));
     } else {
@@ -4440,6 +4496,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithKongregate(FClientLoginWithKongre
         OutRestJsonObj->SetStringField(TEXT("AuthTicket"), request.AuthTicket);
     }
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4508,6 +4565,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoServiceAccount(FClientLog
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4576,6 +4634,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchDeviceId(FClientLog
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4649,6 +4708,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithOpenIdConnect(FClientLoginWithOpe
         OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
     }
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4716,6 +4776,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPlayFab(FClientLoginWithPlayFabRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
     if (request.Password.IsEmpty() || request.Password == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Password"));
@@ -4784,6 +4845,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPSN(FClientLoginWithPSNRequest re
         OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
     }
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4853,6 +4915,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithSteam(FClientLoginWithSteamReques
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4926,6 +4989,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithTwitch(FClientLoginWithTwitchRequ
         OutRestJsonObj->SetStringField(TEXT("AccessToken"), request.AccessToken);
     }
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -4993,6 +5057,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithWindowsHello(FClientLoginWithWind
     } else {
         OutRestJsonObj->SetStringField(TEXT("ChallengeSignature"), request.ChallengeSignature);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
     if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PublicKeyHint"));
@@ -5051,6 +5116,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithXbox(FClientLoginWithXboxRequest 
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
     } else {
@@ -5118,6 +5184,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterPlayFabUser(FClientRegisterPlayFab
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DisplayName.IsEmpty() || request.DisplayName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DisplayName"));
     } else {
@@ -5198,6 +5265,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterWithWindowsHello(FClientRegisterWi
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DeviceName.IsEmpty() || request.DeviceName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DeviceName"));
     } else {
@@ -5474,6 +5542,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateCharacterData(FClientUpdateCharacter
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -5826,6 +5895,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GrantCharacterToUser(FClientGrantCharacter
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterName"), request.CharacterName);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ItemId.IsEmpty() || request.ItemId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ItemId"));
     } else {
@@ -5884,6 +5954,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateCharacterStatistics(FClientUpdateCha
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
     if (request.CharacterStatistics != nullptr) OutRestJsonObj->SetObjectField(TEXT("CharacterStatistics"), request.CharacterStatistics);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -6064,6 +6135,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendsList(FClientGetFriendsListReques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     if (request.ProfileConstraints != nullptr) OutRestJsonObj->SetObjectField(TEXT("ProfileConstraints"), request.ProfileConstraints);
@@ -6364,6 +6436,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::Matchmake(FClientMatchmakeRequest request,
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.GameMode.IsEmpty() || request.GameMode == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GameMode"));
     } else {
@@ -6446,6 +6519,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::StartGame(FClientStartGameRequest request,
     } else {
         OutRestJsonObj->SetStringField(TEXT("CustomCommandLineData"), request.CustomCommandLineData);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.GameMode.IsEmpty() || request.GameMode == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GameMode"));
     } else {
@@ -6573,6 +6647,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumePSNEntitlements(FClientConsumePSNEn
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("ServiceLabel"), request.ServiceLabel);
 
     // Add Request to manager
@@ -6626,6 +6701,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumeXboxEntitlements(FClientConsumeXbox
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
     } else {
@@ -6800,6 +6876,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RestoreIOSPurchases(FClientRestoreIOSPurch
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ReceiptData.IsEmpty() || request.ReceiptData == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceiptData"));
     } else {
@@ -6862,6 +6939,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateAmazonIAPReceipt(FClientValidateAm
     } else {
         OutRestJsonObj->SetStringField(TEXT("CurrencyCode"), request.CurrencyCode);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PurchasePrice"), request.PurchasePrice);
     if (request.ReceiptId.IsEmpty() || request.ReceiptId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceiptId"));
@@ -6930,6 +7008,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateGooglePlayPurchase(FClientValidate
     } else {
         OutRestJsonObj->SetStringField(TEXT("CurrencyCode"), request.CurrencyCode);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PurchasePrice"), request.PurchasePrice);
     if (request.ReceiptJson.IsEmpty() || request.ReceiptJson == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceiptJson"));
@@ -6998,6 +7077,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateIOSReceipt(FClientValidateIOSRecei
     } else {
         OutRestJsonObj->SetStringField(TEXT("CurrencyCode"), request.CurrencyCode);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PurchasePrice"), request.PurchasePrice);
     if (request.ReceiptData.IsEmpty() || request.ReceiptData == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceiptData"));
@@ -7061,6 +7141,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ValidateWindowsStoreReceipt(FClientValidat
     } else {
         OutRestJsonObj->SetStringField(TEXT("CurrencyCode"), request.CurrencyCode);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PurchasePrice"), request.PurchasePrice);
     if (request.Receipt.IsEmpty() || request.Receipt == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Receipt"));
@@ -7118,6 +7199,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboard(FClientGetFriendLeade
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
@@ -7182,6 +7264,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboardAroundPlayer(FClientGe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
@@ -7250,6 +7333,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboard(FClientGetLeaderboardReques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.ProfileConstraints != nullptr) OutRestJsonObj->SetObjectField(TEXT("ProfileConstraints"), request.ProfileConstraints);
     OutRestJsonObj->SetNumberField(TEXT("StartPosition"), request.StartPosition);
@@ -7308,6 +7392,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardAroundPlayer(FClientGetLeade
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
@@ -7369,6 +7454,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerStatistics(FClientGetPlayerStatis
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     // Check to see if string is empty
     if (request.StatisticNames.IsEmpty() || request.StatisticNames == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticNames"));
@@ -7429,6 +7515,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerStatisticVersions(FClientGetPlaye
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticName"));
     } else {
@@ -7728,6 +7815,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdatePlayerStatistics(FClientUpdatePlayer
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Statistics.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Statistics"));
     } else {
@@ -7780,6 +7868,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserData(FClientUpdateUserDataReques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -7839,6 +7928,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateUserPublisherData(FClientUpdateUserD
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -7904,6 +7994,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::AddUserVirtualCurrency(FClientAddUserVirtu
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.VirtualCurrency.IsEmpty() || request.VirtualCurrency == "") {
         OutRestJsonObj->SetFieldNull(TEXT("VirtualCurrency"));
     } else {
@@ -7956,6 +8047,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConfirmPurchase(FClientConfirmPurchaseRequ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.OrderId.IsEmpty() || request.OrderId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OrderId"));
     } else {
@@ -8014,6 +8106,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ConsumeItem(FClientConsumeItemRequest requ
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
     OutRestJsonObj->SetNumberField(TEXT("ConsumeCount"), request.ConsumeCount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ItemInstanceId.IsEmpty() || request.ItemInstanceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ItemInstanceId"));
     } else {
@@ -8076,6 +8169,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterInventory(FClientGetCharacterI
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -8227,6 +8321,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetUserInventory(FClientGetUserInventoryRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -8279,6 +8374,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::PayForPurchase(FClientPayForPurchaseReques
     } else {
         OutRestJsonObj->SetStringField(TEXT("Currency"), request.Currency);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.OrderId.IsEmpty() || request.OrderId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OrderId"));
     } else {
@@ -8351,6 +8447,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::PurchaseItem(FClientPurchaseItemRequest re
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ItemId.IsEmpty() || request.ItemId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ItemId"));
     } else {
@@ -8429,6 +8526,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RedeemCoupon(FClientRedeemCouponRequest re
     } else {
         OutRestJsonObj->SetStringField(TEXT("CouponCode"), request.CouponCode);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -8481,6 +8579,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::StartPurchase(FClientStartPurchaseRequest 
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Items.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Items"));
     } else {
@@ -8539,6 +8638,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SubtractUserVirtualCurrency(FClientSubtrac
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.VirtualCurrency.IsEmpty() || request.VirtualCurrency == "") {
         OutRestJsonObj->SetFieldNull(TEXT("VirtualCurrency"));
     } else {
@@ -8607,6 +8707,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerInstance(FClientUnlockConta
     } else {
         OutRestJsonObj->SetStringField(TEXT("ContainerItemInstanceId"), request.ContainerItemInstanceId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.KeyItemInstanceId.IsEmpty() || request.KeyItemInstanceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("KeyItemInstanceId"));
     } else {
@@ -8674,6 +8775,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerItem(FClientUnlockContainer
     } else {
         OutRestJsonObj->SetStringField(TEXT("ContainerItemId"), request.ContainerItemId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -8773,6 +8875,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerTags(FClientGetPlayerTagsRequest 
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Namespace.IsEmpty() || request.Namespace == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Namespace"));
     } else {
@@ -8834,6 +8937,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::ExecuteCloudScript(FClientExecuteCloudScri
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
     } else {
@@ -9129,6 +9233,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::UpdateSharedGroupData(FClientUpdateSharedG
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {

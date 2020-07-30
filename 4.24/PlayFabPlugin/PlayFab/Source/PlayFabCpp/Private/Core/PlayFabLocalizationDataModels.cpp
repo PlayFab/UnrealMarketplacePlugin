@@ -20,12 +20,32 @@ void PlayFab::LocalizationModels::FGetLanguageListRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::LocalizationModels::FGetLanguageListRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }

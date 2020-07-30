@@ -99,6 +99,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::AbortFileUploads(FDataAbortFileUploadsRequest 
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     // Check to see if string is empty
     if (request.FileNames.IsEmpty() || request.FileNames == "") {
@@ -156,6 +157,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::DeleteFiles(FDataDeleteFilesRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     // Check to see if string is empty
     if (request.FileNames.IsEmpty() || request.FileNames == "") {
@@ -213,6 +215,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::FinalizeFileUploads(FDataFinalizeFileUploadsRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     // Check to see if string is empty
     if (request.FileNames.IsEmpty() || request.FileNames == "") {
@@ -269,6 +272,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::GetFiles(FDataGetFilesRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
     // Add Request to manager
@@ -317,6 +321,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::InitiateFileUploads(FDataInitiateFileUploadsRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     // Check to see if string is empty
     if (request.FileNames.IsEmpty() || request.FileNames == "") {
@@ -378,6 +383,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::GetObjects(FDataGetObjectsRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
 
@@ -427,6 +433,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::SetObjects(FDataSetObjectsRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     OutRestJsonObj->SetNumberField(TEXT("ExpectedProfileVersion"), request.ExpectedProfileVersion);
     if (request.Objects.Num() == 0) {

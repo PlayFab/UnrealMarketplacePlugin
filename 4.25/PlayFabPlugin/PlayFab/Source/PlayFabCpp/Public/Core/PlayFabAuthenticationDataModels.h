@@ -98,16 +98,20 @@ namespace AuthenticationModels
 
     struct PLAYFABCPP_API FGetEntityTokenRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FGetEntityTokenRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr)
             {}
 
         FGetEntityTokenRequest(const FGetEntityTokenRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -189,16 +193,20 @@ namespace AuthenticationModels
 
     struct PLAYFABCPP_API FValidateEntityTokenRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Client EntityToken
         FString EntityToken;
 
         FValidateEntityTokenRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             EntityToken()
             {}
 
         FValidateEntityTokenRequest(const FValidateEntityTokenRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             EntityToken(src.EntityToken)
             {}
 

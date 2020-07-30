@@ -53,24 +53,12 @@ namespace PlayFab
          */
         bool ExecuteFunction(CloudScriptModels::FExecuteFunctionRequest& request, const FExecuteFunctionDelegate& SuccessDelegate = FExecuteFunctionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Lists all currently registered Azure Functions for a given title.
-
-        bool ListFunctions(const FListFunctionsDelegate& SuccessDelegate = FListFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Lists all currently registered Azure Functions for a given title.
         bool ListFunctions(CloudScriptModels::FListFunctionsRequest& request, const FListFunctionsDelegate& SuccessDelegate = FListFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists all currently registered HTTP triggered Azure Functions for a given title.
          * A title can have many functions, ListHttpFunctions will return a list of all the currently registered HTTP triggered functions for a given title.
          */
-
-        bool ListHttpFunctions(const FListHttpFunctionsDelegate& SuccessDelegate = FListHttpFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Lists all currently registered HTTP triggered Azure Functions for a given title.
-         * A title can have many functions, ListHttpFunctions will return a list of all the currently registered HTTP triggered functions for a given title.
-         */
         bool ListHttpFunctions(CloudScriptModels::FListFunctionsRequest& request, const FListHttpFunctionsDelegate& SuccessDelegate = FListHttpFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Lists all currently registered Queue triggered Azure Functions for a given title.
-
-        bool ListQueuedFunctions(const FListQueuedFunctionsDelegate& SuccessDelegate = FListQueuedFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Lists all currently registered Queue triggered Azure Functions for a given title.
         bool ListQueuedFunctions(CloudScriptModels::FListFunctionsRequest& request, const FListQueuedFunctionsDelegate& SuccessDelegate = FListQueuedFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Generate an entity PlayStream event for the provided function result.

@@ -16,12 +16,16 @@ namespace LocalizationModels
 
     struct PLAYFABCPP_API FGetLanguageListRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetLanguageListRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FGetLanguageListRequest(const FGetLanguageListRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FGetLanguageListRequest(const TSharedPtr<FJsonObject>& obj) : FGetLanguageListRequest()

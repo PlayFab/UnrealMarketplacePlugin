@@ -20,12 +20,32 @@ void PlayFab::InsightsModels::FInsightsEmptyRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::InsightsModels::FInsightsEmptyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -411,6 +431,17 @@ void PlayFab::InsightsModels::FInsightsGetOperationStatusRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (OperationId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("OperationId"));
@@ -423,6 +454,15 @@ void PlayFab::InsightsModels::FInsightsGetOperationStatusRequest::writeJSON(Json
 bool PlayFab::InsightsModels::FInsightsGetOperationStatusRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> OperationIdValue = obj->TryGetField(TEXT("OperationId"));
     if (OperationIdValue.IsValid() && !OperationIdValue->IsNull())
@@ -443,6 +483,17 @@ void PlayFab::InsightsModels::FInsightsGetPendingOperationsRequest::writeJSON(Js
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (OperationType.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("OperationType"));
@@ -455,6 +506,15 @@ void PlayFab::InsightsModels::FInsightsGetPendingOperationsRequest::writeJSON(Js
 bool PlayFab::InsightsModels::FInsightsGetPendingOperationsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> OperationTypeValue = obj->TryGetField(TEXT("OperationType"));
     if (OperationTypeValue.IsValid() && !OperationTypeValue->IsNull())
@@ -569,6 +629,17 @@ void PlayFab::InsightsModels::FInsightsSetPerformanceRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("PerformanceLevel"));
     writer->WriteValue(PerformanceLevel);
 
@@ -578,6 +649,15 @@ void PlayFab::InsightsModels::FInsightsSetPerformanceRequest::writeJSON(JsonWrit
 bool PlayFab::InsightsModels::FInsightsSetPerformanceRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PerformanceLevelValue = obj->TryGetField(TEXT("PerformanceLevel"));
     if (PerformanceLevelValue.IsValid() && !PerformanceLevelValue->IsNull())
@@ -598,6 +678,17 @@ void PlayFab::InsightsModels::FInsightsSetStorageRetentionRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("RetentionDays"));
     writer->WriteValue(RetentionDays);
 
@@ -607,6 +698,15 @@ void PlayFab::InsightsModels::FInsightsSetStorageRetentionRequest::writeJSON(Jso
 bool PlayFab::InsightsModels::FInsightsSetStorageRetentionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> RetentionDaysValue = obj->TryGetField(TEXT("RetentionDays"));
     if (RetentionDaysValue.IsValid() && !RetentionDaysValue->IsNull())

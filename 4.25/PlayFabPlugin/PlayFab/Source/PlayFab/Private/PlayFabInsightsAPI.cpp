@@ -99,6 +99,7 @@ UPlayFabInsightsAPI* UPlayFabInsightsAPI::GetDetails(FInsightsInsightsEmptyReque
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -146,6 +147,7 @@ UPlayFabInsightsAPI* UPlayFabInsightsAPI::GetLimits(FInsightsInsightsEmptyReques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -193,6 +195,7 @@ UPlayFabInsightsAPI* UPlayFabInsightsAPI::GetOperationStatus(FInsightsInsightsGe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.OperationId.IsEmpty() || request.OperationId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OperationId"));
     } else {
@@ -245,6 +248,7 @@ UPlayFabInsightsAPI* UPlayFabInsightsAPI::GetPendingOperations(FInsightsInsights
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.OperationType.IsEmpty() || request.OperationType == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OperationType"));
     } else {
@@ -297,6 +301,7 @@ UPlayFabInsightsAPI* UPlayFabInsightsAPI::SetPerformance(FInsightsInsightsSetPer
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PerformanceLevel"), request.PerformanceLevel);
 
     // Add Request to manager
@@ -345,6 +350,7 @@ UPlayFabInsightsAPI* UPlayFabInsightsAPI::SetStorageRetention(FInsightsInsightsS
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("RetentionDays"), request.RetentionDays);
 
     // Add Request to manager

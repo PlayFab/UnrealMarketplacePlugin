@@ -107,14 +107,6 @@ void UPlayFabCloudScriptAPI::OnExecuteFunctionResult(FHttpRequestPtr HttpRequest
 }
 
 bool UPlayFabCloudScriptAPI::ListFunctions(
-    const FListFunctionsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    CloudScriptModels::FListFunctionsRequest emptyRequest = CloudScriptModels::FListFunctionsRequest();
-    return UPlayFabCloudScriptAPI::ListFunctions(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabCloudScriptAPI::ListFunctions(
     CloudScriptModels::FListFunctionsRequest& request,
     const FListFunctionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -145,14 +137,6 @@ void UPlayFabCloudScriptAPI::OnListFunctionsResult(FHttpRequestPtr HttpRequest, 
 }
 
 bool UPlayFabCloudScriptAPI::ListHttpFunctions(
-    const FListHttpFunctionsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    CloudScriptModels::FListFunctionsRequest emptyRequest = CloudScriptModels::FListFunctionsRequest();
-    return UPlayFabCloudScriptAPI::ListHttpFunctions(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabCloudScriptAPI::ListHttpFunctions(
     CloudScriptModels::FListFunctionsRequest& request,
     const FListHttpFunctionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -180,14 +164,6 @@ void UPlayFabCloudScriptAPI::OnListHttpFunctionsResult(FHttpRequestPtr HttpReque
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabCloudScriptAPI::ListQueuedFunctions(
-    const FListQueuedFunctionsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    CloudScriptModels::FListFunctionsRequest emptyRequest = CloudScriptModels::FListFunctionsRequest();
-    return UPlayFabCloudScriptAPI::ListQueuedFunctions(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabCloudScriptAPI::ListQueuedFunctions(

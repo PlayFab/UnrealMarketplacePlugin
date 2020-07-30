@@ -1122,6 +1122,17 @@ void PlayFab::CloudScriptModels::FExecuteEntityCloudScriptRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -1168,6 +1179,15 @@ void PlayFab::CloudScriptModels::FExecuteEntityCloudScriptRequest::writeJSON(Jso
 bool PlayFab::CloudScriptModels::FExecuteEntityCloudScriptRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1217,6 +1237,17 @@ void PlayFab::CloudScriptModels::FExecuteFunctionRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -1251,6 +1282,15 @@ void PlayFab::CloudScriptModels::FExecuteFunctionRequest::writeJSON(JsonWriter& 
 bool PlayFab::CloudScriptModels::FExecuteFunctionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1671,12 +1711,32 @@ void PlayFab::CloudScriptModels::FListFunctionsRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::CloudScriptModels::FListFunctionsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -2820,6 +2880,17 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForEntityTriggeredActionRequ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -2832,6 +2903,15 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForEntityTriggeredActionRequ
 bool PlayFab::CloudScriptModels::FPostFunctionResultForEntityTriggeredActionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -2857,6 +2937,17 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForFunctionExecutionRequest:
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -2869,6 +2960,15 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForFunctionExecutionRequest:
 bool PlayFab::CloudScriptModels::FPostFunctionResultForFunctionExecutionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -2896,6 +2996,17 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -2920,6 +3031,15 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequ
 bool PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -2957,6 +3077,17 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::wri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -2972,6 +3103,15 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::wri
 bool PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -3003,6 +3143,17 @@ void PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!FunctionName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterHttpFunctionRequest::FunctionName, PlayFab calls may not work if it remains empty."));
@@ -3029,6 +3180,15 @@ void PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::writeJSON(JsonWri
 bool PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> FunctionNameValue = obj->TryGetField(TEXT("FunctionName"));
     if (FunctionNameValue.IsValid() && !FunctionNameValue->IsNull())
@@ -3066,6 +3226,17 @@ void PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::writeJSON(JsonW
         writer->WriteValue(ConnectionString);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!FunctionName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterQueuedFunctionRequest::FunctionName, PlayFab calls may not work if it remains empty."));
@@ -3098,6 +3269,15 @@ bool PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::readFromValue(c
     {
         FString TmpValue;
         if (ConnectionStringValue->TryGetString(TmpValue)) { ConnectionString = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> FunctionNameValue = obj->TryGetField(TEXT("FunctionName"));
@@ -3162,6 +3342,17 @@ void PlayFab::CloudScriptModels::FUnregisterFunctionRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!FunctionName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: UnregisterFunctionRequest::FunctionName, PlayFab calls may not work if it remains empty."));
@@ -3178,6 +3369,15 @@ void PlayFab::CloudScriptModels::FUnregisterFunctionRequest::writeJSON(JsonWrite
 bool PlayFab::CloudScriptModels::FUnregisterFunctionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> FunctionNameValue = obj->TryGetField(TEXT("FunctionName"));
     if (FunctionNameValue.IsValid() && !FunctionNameValue->IsNull())

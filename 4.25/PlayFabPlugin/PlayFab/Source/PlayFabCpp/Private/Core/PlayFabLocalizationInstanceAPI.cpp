@@ -78,14 +78,6 @@ TSharedPtr<UPlayFabAuthenticationContext> UPlayFabLocalizationInstanceAPI::GetOr
 }
 
 bool UPlayFabLocalizationInstanceAPI::GetLanguageList(
-    const FGetLanguageListDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    LocalizationModels::FGetLanguageListRequest emptyRequest = LocalizationModels::FGetLanguageListRequest();
-    return UPlayFabLocalizationInstanceAPI::GetLanguageList(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabLocalizationInstanceAPI::GetLanguageList(
     LocalizationModels::FGetLanguageListRequest& request,
     const FGetLanguageListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)

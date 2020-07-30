@@ -29,6 +29,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
         DECLARE_DELEGATE_OneParam(FCreateBuildWithCustomContainerDelegate, const MultiplayerModels::FCreateBuildWithCustomContainerResponse&);
         DECLARE_DELEGATE_OneParam(FCreateBuildWithManagedContainerDelegate, const MultiplayerModels::FCreateBuildWithManagedContainerResponse&);
+        DECLARE_DELEGATE_OneParam(FCreateBuildWithProcessBasedServerDelegate, const MultiplayerModels::FCreateBuildWithProcessBasedServerResponse&);
         DECLARE_DELEGATE_OneParam(FCreateMatchmakingTicketDelegate, const MultiplayerModels::FCreateMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FCreateRemoteUserDelegate, const MultiplayerModels::FCreateRemoteUserResponse&);
         DECLARE_DELEGATE_OneParam(FCreateServerBackfillTicketDelegate, const MultiplayerModels::FCreateServerBackfillTicketResult&);
@@ -145,6 +146,11 @@ namespace PlayFab
          */
         bool CreateBuildWithManagedContainer(MultiplayerModels::FCreateBuildWithManagedContainerRequest& request, const FCreateBuildWithManagedContainerDelegate& SuccessDelegate = FCreateBuildWithManagedContainerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Creates a multiplayer server build with the server running as a process.
+         * Creates a multiplayer server build with the game server running as a process and returns information about the build creation request.
+         */
+        bool CreateBuildWithProcessBasedServer(MultiplayerModels::FCreateBuildWithProcessBasedServerRequest& request, const FCreateBuildWithProcessBasedServerDelegate& SuccessDelegate = FCreateBuildWithProcessBasedServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Create a matchmaking ticket as a client.
          * The client specifies the creator's attributes and optionally a list of other users to match with.
          */
@@ -206,12 +212,6 @@ namespace PlayFab
          * Enables the multiplayer server feature for a title.
          * Enables the multiplayer server feature for a title and returns the enabled status. The enabled status can be Initializing, Enabled, and Disabled. It can up to 20 minutes or more for the title to be enabled for the feature. On average, it can take up to 20 minutes for the title to be enabled for the feature.
          */
-
-        bool EnableMultiplayerServersForTitle(const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate = FEnableMultiplayerServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Enables the multiplayer server feature for a title.
-         * Enables the multiplayer server feature for a title and returns the enabled status. The enabled status can be Initializing, Enabled, and Disabled. It can up to 20 minutes or more for the title to be enabled for the feature. On average, it can take up to 20 minutes for the title to be enabled for the feature.
-         */
         bool EnableMultiplayerServersForTitle(MultiplayerModels::FEnableMultiplayerServersForTitleRequest& request, const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate = FEnableMultiplayerServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets the URL to upload assets to.
@@ -228,12 +228,6 @@ namespace PlayFab
          * Returns the details about a multiplayer server build alias.
          */
         bool GetBuildAlias(MultiplayerModels::FGetBuildAliasRequest& request, const FGetBuildAliasDelegate& SuccessDelegate = FGetBuildAliasDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Gets the credentials to the container registry.
-         * Gets credentials to the container registry where game developers can upload custom container images to before creating a new build.
-         */
-
-        bool GetContainerRegistryCredentials(const FGetContainerRegistryCredentialsDelegate& SuccessDelegate = FGetContainerRegistryCredentialsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets the credentials to the container registry.
          * Gets credentials to the container registry where game developers can upload custom container images to before creating a new build.
@@ -283,19 +277,7 @@ namespace PlayFab
          * Gets the status of whether a title is enabled for the multiplayer server feature.
          * Gets the status of whether a title is enabled for the multiplayer server feature. The enabled status can be Initializing, Enabled, and Disabled.
          */
-
-        bool GetTitleEnabledForMultiplayerServersStatus(const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate = FGetTitleEnabledForMultiplayerServersStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Gets the status of whether a title is enabled for the multiplayer server feature.
-         * Gets the status of whether a title is enabled for the multiplayer server feature. The enabled status can be Initializing, Enabled, and Disabled.
-         */
         bool GetTitleEnabledForMultiplayerServersStatus(MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequest& request, const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate = FGetTitleEnabledForMultiplayerServersStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Gets the quotas for a title in relation to multiplayer servers.
-         * Gets the quotas for a title in relation to multiplayer servers.
-         */
-
-        bool GetTitleMultiplayerServersQuotas(const FGetTitleMultiplayerServersQuotasDelegate& SuccessDelegate = FGetTitleMultiplayerServersQuotasDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets the quotas for a title in relation to multiplayer servers.
          * Gets the quotas for a title in relation to multiplayer servers.
@@ -316,13 +298,6 @@ namespace PlayFab
          * Returns a list of multiplayer server game asset summaries for a title.
          */
         bool ListAssetSummaries(MultiplayerModels::FListAssetSummariesRequest& request, const FListAssetSummariesDelegate& SuccessDelegate = FListAssetSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Lists details of all build aliases for a title. Accepts tokens for title and if game client access is enabled, allows
-         * game client to request list of builds with player entity token.
-         * Returns a list of summarized details of all multiplayer server builds for a title.
-         */
-
-        bool ListBuildAliases(const FListBuildAliasesDelegate& SuccessDelegate = FListBuildAliasesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists details of all build aliases for a title. Accepts tokens for title and if game client access is enabled, allows
          * game client to request list of builds with player entity token.
@@ -369,19 +344,7 @@ namespace PlayFab
          * Lists quality of service servers.
          * Returns a list of quality of service servers.
          */
-
-        bool ListQosServers(const FListQosServersDelegate& SuccessDelegate = FListQosServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Lists quality of service servers.
-         * Returns a list of quality of service servers.
-         */
         bool ListQosServers(MultiplayerModels::FListQosServersRequest& request, const FListQosServersDelegate& SuccessDelegate = FListQosServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Lists quality of service servers.
-         * Returns a list of quality of service servers for a title.
-         */
-
-        bool ListQosServersForTitle(const FListQosServersForTitleDelegate& SuccessDelegate = FListQosServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists quality of service servers.
          * Returns a list of quality of service servers for a title.
@@ -403,12 +366,6 @@ namespace PlayFab
          * Requests a multiplayer server session from a particular build in any of the given preferred regions.
          */
         bool RequestMultiplayerServer(MultiplayerModels::FRequestMultiplayerServerRequest& request, const FRequestMultiplayerServerDelegate& SuccessDelegate = FRequestMultiplayerServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Rolls over the credentials to the container registry.
-         * Gets new credentials to the container registry where game developers can upload custom container images to before creating a new build.
-         */
-
-        bool RolloverContainerRegistryCredentials(const FRolloverContainerRegistryCredentialsDelegate& SuccessDelegate = FRolloverContainerRegistryCredentialsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Rolls over the credentials to the container registry.
          * Gets new credentials to the container registry where game developers can upload custom container images to before creating a new build.
@@ -454,6 +411,7 @@ namespace PlayFab
         void OnCreateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateBuildWithCustomContainerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithCustomContainerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateBuildWithManagedContainerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithManagedContainerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateBuildWithProcessBasedServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithProcessBasedServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

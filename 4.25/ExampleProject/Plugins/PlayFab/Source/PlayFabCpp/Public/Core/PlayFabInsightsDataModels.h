@@ -16,12 +16,16 @@ namespace InsightsModels
 
     struct PLAYFABCPP_API FInsightsEmptyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FInsightsEmptyRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FInsightsEmptyRequest(const FInsightsEmptyRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FInsightsEmptyRequest(const TSharedPtr<FJsonObject>& obj) : FInsightsEmptyRequest()
@@ -254,16 +258,20 @@ namespace InsightsModels
 
     struct PLAYFABCPP_API FInsightsGetOperationStatusRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Id of the Insights operation.
         FString OperationId;
 
         FInsightsGetOperationStatusRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             OperationId()
             {}
 
         FInsightsGetOperationStatusRequest(const FInsightsGetOperationStatusRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             OperationId(src.OperationId)
             {}
 
@@ -280,16 +288,20 @@ namespace InsightsModels
 
     struct PLAYFABCPP_API FInsightsGetPendingOperationsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The type of pending operations requested, or blank for all operation types.
         FString OperationType;
 
         FInsightsGetPendingOperationsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             OperationType()
             {}
 
         FInsightsGetPendingOperationsRequest(const FInsightsGetPendingOperationsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             OperationType(src.OperationType)
             {}
 
@@ -367,16 +379,20 @@ namespace InsightsModels
 
     struct PLAYFABCPP_API FInsightsSetPerformanceRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The Insights performance level to apply to the title.
         int32 PerformanceLevel;
 
         FInsightsSetPerformanceRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PerformanceLevel(0)
             {}
 
         FInsightsSetPerformanceRequest(const FInsightsSetPerformanceRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PerformanceLevel(src.PerformanceLevel)
             {}
 
@@ -393,16 +409,20 @@ namespace InsightsModels
 
     struct PLAYFABCPP_API FInsightsSetStorageRetentionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The Insights data storage retention value (in days) to apply to the title.
         int32 RetentionDays;
 
         FInsightsSetStorageRetentionRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             RetentionDays(0)
             {}
 
         FInsightsSetStorageRetentionRequest(const FInsightsSetStorageRetentionRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             RetentionDays(src.RetentionDays)
             {}
 

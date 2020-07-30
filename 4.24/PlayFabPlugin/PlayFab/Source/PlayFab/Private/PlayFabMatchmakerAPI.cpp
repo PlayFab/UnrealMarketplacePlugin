@@ -151,6 +151,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::PlayerJoined(FMatchmakerPlayerJoin
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
     } else {
@@ -208,6 +209,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::PlayerLeft(FMatchmakerPlayerLeftRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
     } else {
@@ -275,6 +277,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::StartGame(FMatchmakerStartGameRequ
     } else {
         OutRestJsonObj->SetStringField(TEXT("CustomCommandLineData"), request.CustomCommandLineData);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExternalMatchmakerEventEndpoint.IsEmpty() || request.ExternalMatchmakerEventEndpoint == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExternalMatchmakerEventEndpoint"));
     } else {
@@ -335,6 +338,7 @@ UPlayFabMatchmakerAPI* UPlayFabMatchmakerAPI::UserInfo(FMatchmakerUserInfoReques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("MinCatalogVersion"), request.MinCatalogVersion);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));

@@ -39,6 +39,9 @@ struct PLAYFAB_API FProfilesGetGlobalPolicyRequest : public FPlayFabRequestCommo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -63,6 +66,9 @@ struct PLAYFAB_API FProfilesGetEntityProfileRequest : public FPlayFabRequestComm
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
      * JSON string.
@@ -93,6 +99,9 @@ struct PLAYFAB_API FProfilesGetEntityProfilesRequest : public FPlayFabRequestCom
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
      * JSON string.
@@ -120,6 +129,9 @@ struct PLAYFAB_API FProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest : p
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** Master player account ids. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         FString MasterPlayerAccountIds;
@@ -147,6 +159,9 @@ struct PLAYFAB_API FProfilesSetGlobalPolicyRequest : public FPlayFabRequestCommo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The permissions that govern access to all entities under this title or namespace. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         TArray<UPlayFabJsonObject*> Permissions;
@@ -168,6 +183,9 @@ struct PLAYFAB_API FProfilesSetProfileLanguageRequest : public FPlayFabRequestCo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -201,6 +219,9 @@ struct PLAYFAB_API FProfilesSetEntityProfilePolicyRequest : public FPlayFabReque
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* Entity = nullptr;

@@ -295,6 +295,19 @@ public:
         void HelperCreateBuildWithManagedContainer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateBuildWithProcessBasedServer, FMultiplayerCreateBuildWithProcessBasedServerResponse, result, UObject*, customData);
+
+    /** Creates a multiplayer server build with the server running as a process. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CreateBuildWithProcessBasedServer(FMultiplayerCreateBuildWithProcessBasedServerRequest request,
+            FDelegateOnSuccessCreateBuildWithProcessBasedServer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateBuildWithProcessBasedServer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateRemoteUser, FMultiplayerCreateRemoteUserResponse, result, UObject*, customData);
 
     /** Creates a remote user to log on to a VM for a multiplayer server build. */
@@ -845,6 +858,7 @@ public:
     FDelegateOnSuccessCreateBuildAlias OnSuccessCreateBuildAlias;
     FDelegateOnSuccessCreateBuildWithCustomContainer OnSuccessCreateBuildWithCustomContainer;
     FDelegateOnSuccessCreateBuildWithManagedContainer OnSuccessCreateBuildWithManagedContainer;
+    FDelegateOnSuccessCreateBuildWithProcessBasedServer OnSuccessCreateBuildWithProcessBasedServer;
     FDelegateOnSuccessCreateRemoteUser OnSuccessCreateRemoteUser;
     FDelegateOnSuccessDeleteAsset OnSuccessDeleteAsset;
     FDelegateOnSuccessDeleteBuild OnSuccessDeleteBuild;

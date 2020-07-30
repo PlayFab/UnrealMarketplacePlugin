@@ -35,6 +35,9 @@ struct PLAYFAB_API FLocalizationGetLanguageListRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Localization | Localization Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)

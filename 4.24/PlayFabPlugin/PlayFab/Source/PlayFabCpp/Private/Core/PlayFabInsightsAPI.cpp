@@ -37,14 +37,6 @@ void UPlayFabInsightsAPI::SetDevSecretKey(const FString& developerSecretKey)
 }
 
 bool UPlayFabInsightsAPI::GetDetails(
-    const FGetDetailsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    InsightsModels::FInsightsEmptyRequest emptyRequest = InsightsModels::FInsightsEmptyRequest();
-    return UPlayFabInsightsAPI::GetDetails(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabInsightsAPI::GetDetails(
     InsightsModels::FInsightsEmptyRequest& request,
     const FGetDetailsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -72,14 +64,6 @@ void UPlayFabInsightsAPI::OnGetDetailsResult(FHttpRequestPtr HttpRequest, FHttpR
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabInsightsAPI::GetLimits(
-    const FGetLimitsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    InsightsModels::FInsightsEmptyRequest emptyRequest = InsightsModels::FInsightsEmptyRequest();
-    return UPlayFabInsightsAPI::GetLimits(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabInsightsAPI::GetLimits(

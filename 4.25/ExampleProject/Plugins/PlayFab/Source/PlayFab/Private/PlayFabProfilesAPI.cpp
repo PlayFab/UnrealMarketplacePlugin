@@ -99,6 +99,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetGlobalPolicy(FProfilesGetGlobalPoli
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -146,6 +147,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfile(FProfilesGetEntityProfileRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("DataAsObject"), request.DataAsObject);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
@@ -195,6 +197,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetProfiles(FProfilesGetEntityProfiles
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("DataAsObject"), request.DataAsObject);
     if (request.Entities.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Entities"));
@@ -248,6 +251,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetTitlePlayersFromMasterPlayerAccount
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     // Check to see if string is empty
     if (request.MasterPlayerAccountIds.IsEmpty() || request.MasterPlayerAccountIds == "") {
         OutRestJsonObj->SetFieldNull(TEXT("MasterPlayerAccountIds"));
@@ -304,6 +308,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetGlobalPolicy(FProfilesSetGlobalPoli
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Permissions.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Permissions"));
     } else {
@@ -356,6 +361,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetProfileLanguage(FProfilesSetProfile
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     OutRestJsonObj->SetNumberField(TEXT("ExpectedVersion"), request.ExpectedVersion);
     if (request.Language.IsEmpty() || request.Language == "") {
@@ -410,6 +416,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetProfilePolicy(FProfilesSetEntityPro
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Statements.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Statements"));

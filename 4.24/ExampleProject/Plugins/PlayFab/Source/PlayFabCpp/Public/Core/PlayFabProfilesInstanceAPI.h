@@ -64,12 +64,6 @@ namespace PlayFab
          * Gets the global title access policy
          * Retrieves the title access policy that is used before the profile's policy is inspected during a request. If never customized this will return the default starter policy built by PlayFab.
          */
-
-        bool GetGlobalPolicy(const FGetGlobalPolicyDelegate& SuccessDelegate = FGetGlobalPolicyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Gets the global title access policy
-         * Retrieves the title access policy that is used before the profile's policy is inspected during a request. If never customized this will return the default starter policy built by PlayFab.
-         */
         bool GetGlobalPolicy(ProfilesModels::FGetGlobalPolicyRequest& request, const FGetGlobalPolicyDelegate& SuccessDelegate = FGetGlobalPolicyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the entity's profile.

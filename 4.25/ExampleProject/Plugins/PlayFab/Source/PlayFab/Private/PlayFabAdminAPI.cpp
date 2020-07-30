@@ -104,6 +104,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::BanUsers(FAdminBanUsersRequest request,
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("Bans"), request.Bans);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -466,6 +467,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerProfile(FAdminGetPlayerProfileReque
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -638,6 +640,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ResetPassword(FAdminResetPasswordRequest req
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Password.IsEmpty() || request.Password == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Password"));
     } else {
@@ -802,6 +805,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SendAccountRecoveryEmail(FAdminSendAccountRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Email.IsEmpty() || request.Email == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Email"));
     } else {
@@ -911,6 +915,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserTitleDisplayName(FAdminUpdateUserT
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DisplayName.IsEmpty() || request.DisplayName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DisplayName"));
     } else {
@@ -1594,6 +1599,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ResetCharacterStatistics(FAdminResetCharacte
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -1838,6 +1844,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddServerBuild(FAdminAddServerBuildRequest r
     } else {
         OutRestJsonObj->SetStringField(TEXT("Comment"), request.Comment);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExecutablePath.IsEmpty() || request.ExecutablePath == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExecutablePath"));
     } else {
@@ -2066,6 +2073,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ModifyServerBuild(FAdminModifyServerBuildReq
     } else {
         OutRestJsonObj->SetStringField(TEXT("Comment"), request.Comment);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExecutablePath.IsEmpty() || request.ExecutablePath == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExecutablePath"));
     } else {
@@ -2349,6 +2357,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreatePlayerStatisticDefinition(FAdminCreate
     FString temp_AggregationMethod;
     if (GetEnumValueToString<EStatisticAggregationMethod>(TEXT("EStatisticAggregationMethod"), request.AggregationMethod, temp_AggregationMethod))
         OutRestJsonObj->SetStringField(TEXT("AggregationMethod"), temp_AggregationMethod);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticName"));
     } else {
@@ -2506,6 +2515,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerStatisticVersions(FAdminGetPlayerSt
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticName"));
     } else {
@@ -2929,6 +2939,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::IncrementPlayerStatisticVersion(FAdminIncrem
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticName"));
     } else {
@@ -3043,6 +3054,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::ResetUserStatistics(FAdminResetUserStatistic
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -3218,6 +3230,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserData(FAdminUpdateUserDataRequest r
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -3282,6 +3295,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserInternalData(FAdminUpdateUserInter
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -3344,6 +3358,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserPublisherData(FAdminUpdateUserData
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -3409,6 +3424,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserPublisherInternalData(FAdminUpdate
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -3471,6 +3487,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserPublisherReadOnlyData(FAdminUpdate
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -3536,6 +3553,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateUserReadOnlyData(FAdminUpdateUserDataR
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Data != nullptr) OutRestJsonObj->SetObjectField(TEXT("Data"), request.Data);
     // Check to see if string is empty
     if (request.KeysToRemove.IsEmpty() || request.KeysToRemove == "") {
@@ -3606,6 +3624,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddUserVirtualCurrency(FAdminAddUserVirtualC
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -3720,6 +3739,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserInventory(FAdminGetUserInventoryReque
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -3777,6 +3797,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GrantItemsToUsers(FAdminGrantItemsToUsersReq
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ItemGrants.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("ItemGrants"));
     } else {
@@ -3835,6 +3856,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::IncrementLimitedEditionItemAvailability(FAdm
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ItemId.IsEmpty() || request.ItemId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ItemId"));
     } else {
@@ -4002,6 +4024,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SubtractUserVirtualCurrency(FAdminSubtractUs
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -4064,6 +4087,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddPlayerTag(FAdminAddPlayerTagRequest reque
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -4168,6 +4192,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerSegments(FAdminGetPlayersSegmentsRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -4225,6 +4250,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayersInSegment(FAdminGetPlayersInSegmen
     } else {
         OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("MaxBatchSize"), request.MaxBatchSize);
     OutRestJsonObj->SetNumberField(TEXT("SecondsToLive"), request.SecondsToLive);
     if (request.SegmentId.IsEmpty() || request.SegmentId == "") {
@@ -4279,6 +4305,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayerTags(FAdminGetPlayerTagsRequest req
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Namespace.IsEmpty() || request.Namespace == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Namespace"));
     } else {
@@ -4336,6 +4363,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RemovePlayerTag(FAdminRemovePlayerTagRequest
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {
@@ -4397,6 +4425,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AbortTaskInstance(FAdminAbortTaskInstanceReq
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.TaskInstanceId.IsEmpty() || request.TaskInstanceId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("TaskInstanceId"));
     } else {
@@ -4450,6 +4479,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreateActionsOnPlayersInSegmentTask(FAdminCr
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Description.IsEmpty() || request.Description == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Description"));
     } else {
@@ -4514,6 +4544,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreateCloudScriptTask(FAdminCreateCloudScrip
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Description.IsEmpty() || request.Description == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Description"));
     } else {
@@ -4579,6 +4610,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreateInsightsScheduledScalingTask(FAdminCre
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Description.IsEmpty() || request.Description == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Description"));
     } else {
@@ -4906,6 +4938,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::RunTask(FAdminRunTaskRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Identifier != nullptr) OutRestJsonObj->SetObjectField(TEXT("Identifier"), request.Identifier);
 
     // Add Request to manager
@@ -4954,6 +4987,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateTask(FAdminUpdateTaskRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Description.IsEmpty() || request.Description == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Description"));
     } else {
@@ -5123,6 +5157,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetPublishedRevision(FAdminSetPublishedRevis
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("Revision"), request.Revision);
     OutRestJsonObj->SetNumberField(TEXT("Version"), request.Version);
 
@@ -5172,6 +5207,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateCloudScript(FAdminUpdateCloudScriptReq
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DeveloperPlayFabId.IsEmpty() || request.DeveloperPlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DeveloperPlayFabId"));
     } else {
@@ -5300,6 +5336,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddLocalizedNews(FAdminAddLocalizedNewsReque
     } else {
         OutRestJsonObj->SetStringField(TEXT("Body"), request.Body);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Language.IsEmpty() || request.Language == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Language"));
     } else {
@@ -5367,6 +5404,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::AddNews(FAdminAddNewsRequest request,
     } else {
         OutRestJsonObj->SetStringField(TEXT("Body"), request.Body);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Timestamp.IsEmpty() || request.Timestamp == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Timestamp"));
     } else {
@@ -5482,6 +5520,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteStore(FAdminDeleteStoreRequest request
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.StoreId.IsEmpty() || request.StoreId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StoreId"));
     } else {
@@ -5981,6 +6020,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetCatalogItems(FAdminUpdateCatalogItemsRequ
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("SetAsDefaultCatalog"), request.SetAsDefaultCatalog);
 
     // Add Request to manager
@@ -6034,6 +6074,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetStoreItems(FAdminUpdateStoreItemsRequest 
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.MarketingData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MarketingData"), request.MarketingData);
     if (request.Store.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Store"));
@@ -6283,6 +6324,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateCatalogItems(FAdminUpdateCatalogItemsR
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("SetAsDefaultCatalog"), request.SetAsDefaultCatalog);
 
     // Add Request to manager
@@ -6337,6 +6379,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateRandomResultTables(FAdminUpdateRandomR
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Tables.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Tables"));
     } else {
@@ -6394,6 +6437,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateStoreItems(FAdminUpdateStoreItemsReque
     } else {
         OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.MarketingData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MarketingData"), request.MarketingData);
     if (request.Store.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Store"));

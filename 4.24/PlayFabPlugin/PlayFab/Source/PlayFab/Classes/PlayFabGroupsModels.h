@@ -39,6 +39,9 @@ struct PLAYFAB_API FGroupsAcceptGroupApplicationRequest : public FPlayFabRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Optional. Type of the entity to accept as. If specified, must be the same entity as the claimant or an entity that is a
      * child of the claimant entity. Defaults to the claimant entity.
@@ -67,6 +70,9 @@ struct PLAYFAB_API FGroupsAcceptGroupInvitationRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -85,6 +91,9 @@ struct PLAYFAB_API FGroupsAddMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -114,6 +123,9 @@ public:
     /** Optional, default true. Automatically accept an outstanding invitation if one exists instead of creating an application */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         bool AutoAcceptOutstandingInvite = false;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -149,6 +161,9 @@ struct PLAYFAB_API FGroupsBlockEntityRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -167,6 +182,9 @@ struct PLAYFAB_API FGroupsChangeMemberRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * The ID of the role that the entities will become a member of. This must be an existing role. Role IDs must be between 1
      * and 64 characters long.
@@ -196,6 +214,9 @@ struct PLAYFAB_API FGroupsCreateGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -229,7 +250,7 @@ public:
         int32 ProfileVersion = 0;
     /** The list of roles and names that belong to the group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
-        UPlayFabJsonObject* Roles;
+        UPlayFabJsonObject* Roles = nullptr;
 };
 
 /**
@@ -242,6 +263,9 @@ struct PLAYFAB_API FGroupsCreateGroupRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -285,6 +309,9 @@ struct PLAYFAB_API FGroupsDeleteGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** ID of the group or role to remove */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -296,6 +323,9 @@ struct PLAYFAB_API FGroupsDeleteRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -310,6 +340,9 @@ struct PLAYFAB_API FGroupsGetGroupRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -343,7 +376,7 @@ public:
         int32 ProfileVersion = 0;
     /** The list of roles and names that belong to the group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
-        UPlayFabJsonObject* Roles;
+        UPlayFabJsonObject* Roles = nullptr;
 };
 
 /**
@@ -361,6 +394,9 @@ public:
     /** Optional, default true. Automatically accept an application if one exists instead of creating an invitation */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         bool AutoAcceptOutstandingApplication = false;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -408,6 +444,9 @@ struct PLAYFAB_API FGroupsIsMemberRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -441,6 +480,9 @@ struct PLAYFAB_API FGroupsListGroupApplicationsRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -462,6 +504,9 @@ struct PLAYFAB_API FGroupsListGroupBlocksRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -486,6 +531,9 @@ struct PLAYFAB_API FGroupsListGroupInvitationsRequest : public FPlayFabRequestCo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -511,6 +559,9 @@ struct PLAYFAB_API FGroupsListGroupMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** ID of the group to list the members and roles for */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -536,6 +587,9 @@ struct PLAYFAB_API FGroupsListMembershipRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -561,6 +615,9 @@ struct PLAYFAB_API FGroupsListMembershipOpportunitiesRequest : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -589,6 +646,9 @@ struct PLAYFAB_API FGroupsRemoveGroupApplicationRequest : public FPlayFabRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -608,6 +668,9 @@ struct PLAYFAB_API FGroupsRemoveGroupInvitationRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -625,6 +688,9 @@ struct PLAYFAB_API FGroupsRemoveMembersRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The identifier of the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Group = nullptr;
@@ -642,6 +708,9 @@ struct PLAYFAB_API FGroupsUnblockEntityRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -662,6 +731,9 @@ public:
     /** Optional: the ID of an existing role to set as the new administrator role for the group */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         FString AdminRoleId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Optional field used for concurrency control. By specifying the previously returned value of ProfileVersion from the
      * GetGroup API, you can ensure that the group data update will only be performed if the group has not been updated by any
@@ -702,6 +774,9 @@ struct PLAYFAB_API FGroupsUpdateGroupRoleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Optional field used for concurrency control. By specifying the previously returned value of ProfileVersion from the
      * GetGroup API, you can ensure that the group data update will only be performed if the group has not been updated by any

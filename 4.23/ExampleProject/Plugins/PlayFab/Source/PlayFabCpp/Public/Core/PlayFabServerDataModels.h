@@ -97,6 +97,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // PlayFab unique identifier of the user whose virtual currency balance is to be incremented.
         FString PlayFabId;
 
@@ -107,6 +109,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Amount(0),
             CharacterId(),
+            CustomTags(),
             PlayFabId(),
             VirtualCurrency()
             {}
@@ -115,6 +118,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Amount(src.Amount),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             VirtualCurrency(src.VirtualCurrency)
             {}
@@ -240,6 +244,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FAddPlayerTagRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -248,12 +254,14 @@ namespace ServerModels
 
         FAddPlayerTagRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId(),
             TagName()
             {}
 
         FAddPlayerTagRequest(const FAddPlayerTagRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             TagName(src.TagName)
             {}
@@ -349,6 +357,8 @@ namespace ServerModels
          */
         int32 Amount;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // PlayFab unique identifier of the user whose virtual currency balance is to be increased.
         FString PlayFabId;
 
@@ -358,6 +368,7 @@ namespace ServerModels
         FAddUserVirtualCurrencyRequest() :
             FPlayFabCppRequestCommon(),
             Amount(0),
+            CustomTags(),
             PlayFabId(),
             VirtualCurrency()
             {}
@@ -365,6 +376,7 @@ namespace ServerModels
         FAddUserVirtualCurrencyRequest(const FAddUserVirtualCurrencyRequest& src) :
             FPlayFabCppRequestCommon(),
             Amount(src.Amount),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             VirtualCurrency(src.VirtualCurrency)
             {}
@@ -1656,14 +1668,18 @@ namespace ServerModels
     {
         // List of ban requests to be applied. Maximum 100.
         TArray<FBanRequest> Bans;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FBanUsersRequest() :
             FPlayFabCppRequestCommon(),
-            Bans()
+            Bans(),
+            CustomTags()
             {}
 
         FBanUsersRequest(const FBanUsersRequest& src) :
             FPlayFabCppRequestCommon(),
-            Bans(src.Bans)
+            Bans(src.Bans),
+            CustomTags(src.CustomTags)
             {}
 
         FBanUsersRequest(const TSharedPtr<FJsonObject>& obj) : FBanUsersRequest()
@@ -2192,6 +2208,8 @@ namespace ServerModels
         // Number of uses to consume from the item.
         int32 ConsumeCount;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique instance identifier of the item to be consumed.
         FString ItemInstanceId;
 
@@ -2202,6 +2220,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CharacterId(),
             ConsumeCount(0),
+            CustomTags(),
             ItemInstanceId(),
             PlayFabId()
             {}
@@ -2210,6 +2229,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             ConsumeCount(src.ConsumeCount),
+            CustomTags(src.CustomTags),
             ItemInstanceId(src.ItemInstanceId),
             PlayFabId(src.PlayFabId)
             {}
@@ -2668,6 +2688,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -2680,6 +2702,7 @@ namespace ServerModels
         FDeleteCharacterFromUserRequest() :
             FPlayFabCppRequestCommon(),
             CharacterId(),
+            CustomTags(),
             PlayFabId(),
             SaveCharacterInventory(false)
             {}
@@ -2687,6 +2710,7 @@ namespace ServerModels
         FDeleteCharacterFromUserRequest(const FDeleteCharacterFromUserRequest& src) :
             FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             SaveCharacterInventory(src.SaveCharacterInventory)
             {}
@@ -2845,16 +2869,20 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FDeregisterGameRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique identifier for the Game Server Instance that is being deregistered.
         FString LobbyId;
 
         FDeregisterGameRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             LobbyId()
             {}
 
         FDeregisterGameRequest(const FDeregisterGameRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             LobbyId(src.LobbyId)
             {}
 
@@ -3195,6 +3223,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FExecuteCloudScriptServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the CloudScript function to execute
         FString FunctionName;
 
@@ -3222,6 +3252,7 @@ namespace ServerModels
 
         FExecuteCloudScriptServerRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             FunctionName(),
             FunctionParameter(),
             GeneratePlayStreamEvent(),
@@ -3232,6 +3263,7 @@ namespace ServerModels
 
         FExecuteCloudScriptServerRequest(const FExecuteCloudScriptServerRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             FunctionName(src.FunctionName),
             FunctionParameter(src.FunctionParameter),
             GeneratePlayStreamEvent(src.GeneratePlayStreamEvent),
@@ -4190,6 +4222,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -4197,6 +4231,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CatalogVersion(),
             CharacterId(),
+            CustomTags(),
             PlayFabId()
             {}
 
@@ -4204,6 +4239,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -4606,6 +4642,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetFriendLeaderboardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
         Boxed<bool> IncludeFacebookFriends;
 
@@ -4642,6 +4680,7 @@ namespace ServerModels
 
         FGetFriendLeaderboardRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             IncludeFacebookFriends(),
             IncludeSteamFriends(),
             MaxResultsCount(0),
@@ -4656,6 +4695,7 @@ namespace ServerModels
 
         FGetFriendLeaderboardRequest(const FGetFriendLeaderboardRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             IncludeFacebookFriends(src.IncludeFacebookFriends),
             IncludeSteamFriends(src.IncludeSteamFriends),
             MaxResultsCount(src.MaxResultsCount),
@@ -4681,6 +4721,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetFriendsListRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
         Boxed<bool> IncludeFacebookFriends;
 
@@ -4702,6 +4744,7 @@ namespace ServerModels
 
         FGetFriendsListRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             IncludeFacebookFriends(),
             IncludeSteamFriends(),
             PlayFabId(),
@@ -4711,6 +4754,7 @@ namespace ServerModels
 
         FGetFriendsListRequest(const FGetFriendsListRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             IncludeFacebookFriends(src.IncludeFacebookFriends),
             IncludeSteamFriends(src.IncludeSteamFriends),
             PlayFabId(src.PlayFabId),
@@ -4827,6 +4871,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetLeaderboardAroundUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
 
@@ -4851,6 +4897,7 @@ namespace ServerModels
 
         FGetLeaderboardAroundUserRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             MaxResultsCount(0),
             PlayFabId(),
             ProfileConstraints(nullptr),
@@ -4861,6 +4908,7 @@ namespace ServerModels
 
         FGetLeaderboardAroundUserRequest(const FGetLeaderboardAroundUserRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             MaxResultsCount(src.MaxResultsCount),
             PlayFabId(src.PlayFabId),
             ProfileConstraints(src.ProfileConstraints.IsValid() ? MakeShareable(new FPlayerProfileViewConstraints(*src.ProfileConstraints)) : nullptr),
@@ -5024,6 +5072,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetLeaderboardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
 
@@ -5048,6 +5098,7 @@ namespace ServerModels
 
         FGetLeaderboardRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             MaxResultsCount(0),
             ProfileConstraints(nullptr),
             StartPosition(0),
@@ -5058,6 +5109,7 @@ namespace ServerModels
 
         FGetLeaderboardRequest(const FGetLeaderboardRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             MaxResultsCount(src.MaxResultsCount),
             ProfileConstraints(src.ProfileConstraints.IsValid() ? MakeShareable(new FPlayerProfileViewConstraints(*src.ProfileConstraints)) : nullptr),
             StartPosition(src.StartPosition),
@@ -5209,6 +5261,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayerCombinedInfoRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Flags for which pieces of info to return for the user.
         FGetPlayerCombinedInfoRequestParams InfoRequestParameters;
 
@@ -5217,12 +5271,14 @@ namespace ServerModels
 
         FGetPlayerCombinedInfoRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             InfoRequestParameters(),
             PlayFabId()
             {}
 
         FGetPlayerCombinedInfoRequest(const FGetPlayerCombinedInfoRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             InfoRequestParameters(src.InfoRequestParameters),
             PlayFabId(src.PlayFabId)
             {}
@@ -5387,6 +5443,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayerProfileRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -5399,12 +5457,14 @@ namespace ServerModels
 
         FGetPlayerProfileRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId(),
             ProfileConstraints(nullptr)
             {}
 
         FGetPlayerProfileRequest(const FGetPlayerProfileRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             ProfileConstraints(src.ProfileConstraints.IsValid() ? MakeShareable(new FPlayerProfileViewConstraints(*src.ProfileConstraints)) : nullptr)
             {}
@@ -5479,6 +5539,8 @@ namespace ServerModels
         // [optional] Continuation token if retrieving subsequent pages of results.
         FString ContinuationToken;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Maximum number of profiles to load. Default is 1,000. Maximum is 10,000.
         Boxed<uint32> MaxBatchSize;
 
@@ -5494,6 +5556,7 @@ namespace ServerModels
         FGetPlayersInSegmentRequest() :
             FPlayFabCppRequestCommon(),
             ContinuationToken(),
+            CustomTags(),
             MaxBatchSize(),
             SecondsToLive(),
             SegmentId()
@@ -5502,6 +5565,7 @@ namespace ServerModels
         FGetPlayersInSegmentRequest(const FGetPlayersInSegmentRequest& src) :
             FPlayFabCppRequestCommon(),
             ContinuationToken(src.ContinuationToken),
+            CustomTags(src.CustomTags),
             MaxBatchSize(src.MaxBatchSize),
             SecondsToLive(src.SecondsToLive),
             SegmentId(src.SegmentId)
@@ -5829,16 +5893,20 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayersSegmentsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FGetPlayersSegmentsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId()
             {}
 
         FGetPlayersSegmentsRequest(const FGetPlayersSegmentsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -5886,6 +5954,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayerStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // user for whom statistics are being requested
         FString PlayFabId;
 
@@ -5898,6 +5968,7 @@ namespace ServerModels
         TArray<FStatisticNameVersion> StatisticNameVersions;
         FGetPlayerStatisticsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId(),
             StatisticNames(),
             StatisticNameVersions()
@@ -5905,6 +5976,7 @@ namespace ServerModels
 
         FGetPlayerStatisticsRequest(const FGetPlayerStatisticsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             StatisticNames(src.StatisticNames),
             StatisticNameVersions(src.StatisticNameVersions)
@@ -5953,16 +6025,20 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayerStatisticVersionsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] unique name of the statistic
         FString StatisticName;
 
         FGetPlayerStatisticVersionsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             StatisticName()
             {}
 
         FGetPlayerStatisticVersionsRequest(const FGetPlayerStatisticVersionsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             StatisticName(src.StatisticName)
             {}
 
@@ -6055,6 +6131,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayerTagsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Optional namespace to filter results by
         FString Namespace;
 
@@ -6063,12 +6141,14 @@ namespace ServerModels
 
         FGetPlayerTagsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Namespace(),
             PlayFabId()
             {}
 
         FGetPlayerTagsRequest(const FGetPlayerTagsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Namespace(src.Namespace),
             PlayFabId(src.PlayFabId)
             {}
@@ -7130,6 +7210,8 @@ namespace ServerModels
         // [optional] Catalog version to store items from. Use default catalog version if null
         FString CatalogVersion;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Optional identifier for the player to use in requesting the store information - if used, segment overrides will be
          * applied
@@ -7142,6 +7224,7 @@ namespace ServerModels
         FGetStoreItemsServerRequest() :
             FPlayFabCppRequestCommon(),
             CatalogVersion(),
+            CustomTags(),
             PlayFabId(),
             StoreId()
             {}
@@ -7149,6 +7232,7 @@ namespace ServerModels
         FGetStoreItemsServerRequest(const FGetStoreItemsServerRequest& src) :
             FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             StoreId(src.StoreId)
             {}
@@ -7215,7 +7299,10 @@ namespace ServerModels
     {
         // [optional] Specific keys to search for in the title data (leave null to get all keys)
         TArray<FString> Keys;
-        // [optional] Name of the override.
+        /**
+         * [optional] Name of the override. This value is ignored when used by the game client; otherwise, the overrides are applied
+         * automatically to the title data.
+         */
         FString OverrideLabel;
 
         FGetTitleDataRequest() :
@@ -7539,16 +7626,20 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetUserInventoryRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FGetUserInventoryRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId()
             {}
 
         FGetUserInventoryRequest(const FGetUserInventoryRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -7609,6 +7700,8 @@ namespace ServerModels
         // Type of the character being granted; statistics can be sliced based on this value.
         FString CharacterType;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -7616,6 +7709,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CharacterName(),
             CharacterType(),
+            CustomTags(),
             PlayFabId()
             {}
 
@@ -7623,6 +7717,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CharacterName(src.CharacterName),
             CharacterType(src.CharacterType),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -7789,6 +7884,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Array of itemIds to grant to the user.
         TArray<FString> ItemIds;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -7799,6 +7896,7 @@ namespace ServerModels
             Annotation(),
             CatalogVersion(),
             CharacterId(),
+            CustomTags(),
             ItemIds(),
             PlayFabId()
             {}
@@ -7808,6 +7906,7 @@ namespace ServerModels
             Annotation(src.Annotation),
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             ItemIds(src.ItemIds),
             PlayFabId(src.PlayFabId)
             {}
@@ -7856,6 +7955,8 @@ namespace ServerModels
         // [optional] Catalog version from which items are to be granted.
         FString CatalogVersion;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Array of itemIds to grant to the user.
         TArray<FString> ItemIds;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -7865,6 +7966,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Annotation(),
             CatalogVersion(),
+            CustomTags(),
             ItemIds(),
             PlayFabId()
             {}
@@ -7873,6 +7975,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Annotation(src.Annotation),
             CatalogVersion(src.CatalogVersion),
+            CustomTags(src.CustomTags),
             ItemIds(src.ItemIds),
             PlayFabId(src.PlayFabId)
             {}
@@ -7973,17 +8076,21 @@ namespace ServerModels
         // [optional] Catalog version from which items are to be granted.
         FString CatalogVersion;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Array of items to grant and the users to whom the items are to be granted.
         TArray<FItemGrant> ItemGrants;
         FGrantItemsToUsersRequest() :
             FPlayFabCppRequestCommon(),
             CatalogVersion(),
+            CustomTags(),
             ItemGrants()
             {}
 
         FGrantItemsToUsersRequest(const FGrantItemsToUsersRequest& src) :
             FPlayFabCppRequestCommon(),
             CatalogVersion(src.CatalogVersion),
+            CustomTags(src.CustomTags),
             ItemGrants(src.ItemGrants)
             {}
 
@@ -8028,6 +8135,8 @@ namespace ServerModels
         // Authentication code provided by the PlayStation Network.
         FString AuthCode;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
@@ -8043,6 +8152,7 @@ namespace ServerModels
         FLinkPSNAccountRequest() :
             FPlayFabCppRequestCommon(),
             AuthCode(),
+            CustomTags(),
             ForceLink(),
             IssuerId(),
             PlayFabId(),
@@ -8052,6 +8162,7 @@ namespace ServerModels
         FLinkPSNAccountRequest(const FLinkPSNAccountRequest& src) :
             FPlayFabCppRequestCommon(),
             AuthCode(src.AuthCode),
+            CustomTags(src.CustomTags),
             ForceLink(src.ForceLink),
             IssuerId(src.IssuerId),
             PlayFabId(src.PlayFabId),
@@ -8092,6 +8203,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FLinkServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] If another user is already linked to the custom ID, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
@@ -8103,6 +8216,7 @@ namespace ServerModels
 
         FLinkServerCustomIdRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ForceLink(),
             PlayFabId(),
             ServerCustomId()
@@ -8110,6 +8224,7 @@ namespace ServerModels
 
         FLinkServerCustomIdRequest(const FLinkServerCustomIdRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ForceLink(src.ForceLink),
             PlayFabId(src.PlayFabId),
             ServerCustomId(src.ServerCustomId)
@@ -8149,6 +8264,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FLinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
@@ -8160,6 +8277,7 @@ namespace ServerModels
 
         FLinkXboxAccountRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ForceLink(),
             PlayFabId(),
             XboxToken()
@@ -8167,6 +8285,7 @@ namespace ServerModels
 
         FLinkXboxAccountRequest(const FLinkXboxAccountRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ForceLink(src.ForceLink),
             PlayFabId(src.PlayFabId),
             XboxToken(src.XboxToken)
@@ -8291,6 +8410,8 @@ namespace ServerModels
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
@@ -8303,6 +8424,7 @@ namespace ServerModels
         FLoginWithServerCustomIdRequest() :
             FPlayFabCppRequestCommon(),
             CreateAccount(),
+            CustomTags(),
             InfoRequestParameters(nullptr),
             PlayerSecret(),
             ServerCustomId()
@@ -8311,6 +8433,7 @@ namespace ServerModels
         FLoginWithServerCustomIdRequest(const FLoginWithServerCustomIdRequest& src) :
             FPlayFabCppRequestCommon(),
             CreateAccount(src.CreateAccount),
+            CustomTags(src.CustomTags),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
             PlayerSecret(src.PlayerSecret),
             ServerCustomId(src.ServerCustomId)
@@ -8332,6 +8455,8 @@ namespace ServerModels
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
@@ -8344,6 +8469,7 @@ namespace ServerModels
         FLoginWithXboxIdRequest() :
             FPlayFabCppRequestCommon(),
             CreateAccount(),
+            CustomTags(),
             InfoRequestParameters(nullptr),
             Sandbox(),
             XboxId()
@@ -8352,6 +8478,7 @@ namespace ServerModels
         FLoginWithXboxIdRequest(const FLoginWithXboxIdRequest& src) :
             FPlayFabCppRequestCommon(),
             CreateAccount(src.CreateAccount),
+            CustomTags(src.CustomTags),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
             Sandbox(src.Sandbox),
             XboxId(src.XboxId)
@@ -8373,6 +8500,8 @@ namespace ServerModels
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
@@ -8382,6 +8511,7 @@ namespace ServerModels
         FLoginWithXboxRequest() :
             FPlayFabCppRequestCommon(),
             CreateAccount(),
+            CustomTags(),
             InfoRequestParameters(nullptr),
             XboxToken()
             {}
@@ -8389,6 +8519,7 @@ namespace ServerModels
         FLoginWithXboxRequest(const FLoginWithXboxRequest& src) :
             FPlayFabCppRequestCommon(),
             CreateAccount(src.CreateAccount),
+            CustomTags(src.CustomTags),
             InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
             XboxToken(src.XboxToken)
             {}
@@ -8437,6 +8568,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FModifyItemUsesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique instance identifier of the item to be modified.
         FString ItemInstanceId;
 
@@ -8448,6 +8581,7 @@ namespace ServerModels
 
         FModifyItemUsesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ItemInstanceId(),
             PlayFabId(),
             UsesToAdd(0)
@@ -8455,6 +8589,7 @@ namespace ServerModels
 
         FModifyItemUsesRequest(const FModifyItemUsesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ItemInstanceId(src.ItemInstanceId),
             PlayFabId(src.PlayFabId),
             UsesToAdd(src.UsesToAdd)
@@ -8724,6 +8859,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FNotifyMatchmakerPlayerLeftRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique identifier of the Game Instance the user is leaving.
         FString LobbyId;
 
@@ -8732,12 +8869,14 @@ namespace ServerModels
 
         FNotifyMatchmakerPlayerLeftRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             LobbyId(),
             PlayFabId()
             {}
 
         FNotifyMatchmakerPlayerLeftRequest(const FNotifyMatchmakerPlayerLeftRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             LobbyId(src.LobbyId),
             PlayFabId(src.PlayFabId)
             {}
@@ -8853,6 +8992,8 @@ namespace ServerModels
         // Generated coupon code to redeem.
         FString CouponCode;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -8861,6 +9002,7 @@ namespace ServerModels
             CatalogVersion(),
             CharacterId(),
             CouponCode(),
+            CustomTags(),
             PlayFabId()
             {}
 
@@ -8869,6 +9011,7 @@ namespace ServerModels
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
             CouponCode(src.CouponCode),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -8910,6 +9053,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FRedeemMatchmakerTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique identifier of the Game Server Instance that is asking for validation of the authorization ticket.
         FString LobbyId;
 
@@ -8918,12 +9063,14 @@ namespace ServerModels
 
         FRedeemMatchmakerTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             LobbyId(),
             Ticket()
             {}
 
         FRedeemMatchmakerTicketRequest(const FRedeemMatchmakerTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             LobbyId(src.LobbyId),
             Ticket(src.Ticket)
             {}
@@ -9042,6 +9189,8 @@ namespace ServerModels
         // Unique identifier of the build running on the Game Server Instance.
         FString Build;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Game Mode the Game Server instance is running. Note that this must be defined in the Game Modes tab in the PlayFab Game
          * Manager, along with the Build ID (the same Game Mode can be defined for multiple Build IDs).
@@ -9074,6 +9223,7 @@ namespace ServerModels
         FRegisterGameRequest() :
             FPlayFabCppRequestCommon(),
             Build(),
+            CustomTags(),
             GameMode(),
             LobbyId(),
             pfRegion(),
@@ -9087,6 +9237,7 @@ namespace ServerModels
         FRegisterGameRequest(const FRegisterGameRequest& src) :
             FPlayFabCppRequestCommon(),
             Build(src.Build),
+            CustomTags(src.CustomTags),
             GameMode(src.GameMode),
             LobbyId(src.LobbyId),
             pfRegion(src.pfRegion),
@@ -9201,6 +9352,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FRemovePlayerTagRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -9209,12 +9362,14 @@ namespace ServerModels
 
         FRemovePlayerTagRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId(),
             TagName()
             {}
 
         FRemovePlayerTagRequest(const FRemovePlayerTagRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             TagName(src.TagName)
             {}
@@ -9307,6 +9462,8 @@ namespace ServerModels
         // [optional] Optional additional comment by reporting player.
         FString Comment;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab identifier of the reported player.
         FString ReporteeId;
 
@@ -9316,6 +9473,7 @@ namespace ServerModels
         FReportPlayerServerRequest() :
             FPlayFabCppRequestCommon(),
             Comment(),
+            CustomTags(),
             ReporteeId(),
             ReporterId()
             {}
@@ -9323,6 +9481,7 @@ namespace ServerModels
         FReportPlayerServerRequest(const FReportPlayerServerRequest& src) :
             FPlayFabCppRequestCommon(),
             Comment(src.Comment),
+            CustomTags(src.CustomTags),
             ReporteeId(src.ReporteeId),
             ReporterId(src.ReporterId)
             {}
@@ -9712,6 +9871,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSendCustomAccountRecoveryEmailRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] User email address attached to their account
         FString Email;
 
@@ -9723,6 +9884,7 @@ namespace ServerModels
 
         FSendCustomAccountRecoveryEmailRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Email(),
             EmailTemplateId(),
             Username()
@@ -9730,6 +9892,7 @@ namespace ServerModels
 
         FSendCustomAccountRecoveryEmailRequest(const FSendCustomAccountRecoveryEmailRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Email(src.Email),
             EmailTemplateId(src.EmailTemplateId),
             Username(src.Username)
@@ -9769,6 +9932,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSendEmailFromTemplateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The email template id of the email template to send.
         FString EmailTemplateId;
 
@@ -9777,12 +9942,14 @@ namespace ServerModels
 
         FSendEmailFromTemplateRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             EmailTemplateId(),
             PlayFabId()
             {}
 
         FSendEmailFromTemplateRequest(const FSendEmailFromTemplateRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             EmailTemplateId(src.EmailTemplateId),
             PlayFabId(src.PlayFabId)
             {}
@@ -9821,6 +9988,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSendPushNotificationFromTemplateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Id of the push notification template.
         FString PushNotificationTemplateId;
 
@@ -9829,12 +9998,14 @@ namespace ServerModels
 
         FSendPushNotificationFromTemplateRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PushNotificationTemplateId(),
             Recipient()
             {}
 
         FSendPushNotificationFromTemplateRequest(const FSendPushNotificationFromTemplateRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PushNotificationTemplateId(src.PushNotificationTemplateId),
             Recipient(src.Recipient)
             {}
@@ -9857,6 +10028,8 @@ namespace ServerModels
          * to custom plugin logic, fields, or functionality not natively supported by PlayFab.
          */
         TArray<FAdvancedPushPlatformMsg> AdvancedPlatformDelivery;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Text of message to send.
         FString Message;
 
@@ -9877,6 +10050,7 @@ namespace ServerModels
         FSendPushNotificationRequest() :
             FPlayFabCppRequestCommon(),
             AdvancedPlatformDelivery(),
+            CustomTags(),
             Message(),
             Package(nullptr),
             Recipient(),
@@ -9887,6 +10061,7 @@ namespace ServerModels
         FSendPushNotificationRequest(const FSendPushNotificationRequest& src) :
             FPlayFabCppRequestCommon(),
             AdvancedPlatformDelivery(src.AdvancedPlatformDelivery),
+            CustomTags(src.CustomTags),
             Message(src.Message),
             Package(src.Package.IsValid() ? MakeShareable(new FPushNotificationPackage(*src.Package)) : nullptr),
             Recipient(src.Recipient),
@@ -10488,6 +10663,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -10498,6 +10675,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Amount(0),
             CharacterId(),
+            CustomTags(),
             PlayFabId(),
             VirtualCurrency()
             {}
@@ -10506,6 +10684,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Amount(src.Amount),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             VirtualCurrency(src.VirtualCurrency)
             {}
@@ -10526,6 +10705,8 @@ namespace ServerModels
         // Amount to be subtracted from the user balance of the specified virtual currency.
         int32 Amount;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // PlayFab unique identifier of the user whose virtual currency balance is to be decreased.
         FString PlayFabId;
 
@@ -10535,6 +10716,7 @@ namespace ServerModels
         FSubtractUserVirtualCurrencyRequest() :
             FPlayFabCppRequestCommon(),
             Amount(0),
+            CustomTags(),
             PlayFabId(),
             VirtualCurrency()
             {}
@@ -10542,6 +10724,7 @@ namespace ServerModels
         FSubtractUserVirtualCurrencyRequest(const FSubtractUserVirtualCurrencyRequest& src) :
             FPlayFabCppRequestCommon(),
             Amount(src.Amount),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             VirtualCurrency(src.VirtualCurrency)
             {}
@@ -10559,16 +10742,20 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUnlinkPSNAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
         FUnlinkPSNAccountRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId()
             {}
 
         FUnlinkPSNAccountRequest(const FUnlinkPSNAccountRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -10606,6 +10793,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUnlinkServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab identifier.
         FString PlayFabId;
 
@@ -10614,12 +10803,14 @@ namespace ServerModels
 
         FUnlinkServerCustomIdRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId(),
             ServerCustomId()
             {}
 
         FUnlinkServerCustomIdRequest(const FUnlinkServerCustomIdRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId),
             ServerCustomId(src.ServerCustomId)
             {}
@@ -10658,16 +10849,20 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUnlinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
         FString PlayFabId;
 
         FUnlinkXboxAccountRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PlayFabId()
             {}
 
         FUnlinkXboxAccountRequest(const FUnlinkXboxAccountRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -10717,6 +10912,8 @@ namespace ServerModels
         // ItemInstanceId of the container to unlock.
         FString ContainerItemInstanceId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] ItemInstanceId of the key that will be consumed by unlocking this container. If the container requires a key, this
          * parameter is required.
@@ -10731,6 +10928,7 @@ namespace ServerModels
             CatalogVersion(),
             CharacterId(),
             ContainerItemInstanceId(),
+            CustomTags(),
             KeyItemInstanceId(),
             PlayFabId()
             {}
@@ -10740,6 +10938,7 @@ namespace ServerModels
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
             ContainerItemInstanceId(src.ContainerItemInstanceId),
+            CustomTags(src.CustomTags),
             KeyItemInstanceId(src.KeyItemInstanceId),
             PlayFabId(src.PlayFabId)
             {}
@@ -10769,6 +10968,8 @@ namespace ServerModels
         // Catalog ItemId of the container type to unlock.
         FString ContainerItemId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -10777,6 +10978,7 @@ namespace ServerModels
             CatalogVersion(),
             CharacterId(),
             ContainerItemId(),
+            CustomTags(),
             PlayFabId()
             {}
 
@@ -10785,6 +10987,7 @@ namespace ServerModels
             CatalogVersion(src.CatalogVersion),
             CharacterId(src.CharacterId),
             ContainerItemId(src.ContainerItemId),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -10980,6 +11183,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
          * not begin with a '!' character or be null.
@@ -10999,6 +11204,7 @@ namespace ServerModels
         FUpdateCharacterDataRequest() :
             FPlayFabCppRequestCommon(),
             CharacterId(),
+            CustomTags(),
             Data(),
             KeysToRemove(),
             Permission(),
@@ -11008,6 +11214,7 @@ namespace ServerModels
         FUpdateCharacterDataRequest(const FUpdateCharacterDataRequest& src) :
             FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
             Permission(src.Permission),
@@ -11061,6 +11268,8 @@ namespace ServerModels
 
         // [optional] Statistics to be updated with the provided values.
         TMap<FString, int32> CharacterStatistics;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -11068,6 +11277,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CharacterId(),
             CharacterStatistics(),
+            CustomTags(),
             PlayFabId()
             {}
 
@@ -11075,6 +11285,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
             CharacterStatistics(src.CharacterStatistics),
+            CustomTags(src.CustomTags),
             PlayFabId(src.PlayFabId)
             {}
 
@@ -11112,6 +11323,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUpdatePlayerStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Indicates whether the statistics provided should be set, regardless of the aggregation method set on the statistic.
          * Default is false.
@@ -11125,6 +11338,7 @@ namespace ServerModels
         TArray<FStatisticUpdate> Statistics;
         FUpdatePlayerStatisticsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ForceUpdate(),
             PlayFabId(),
             Statistics()
@@ -11132,6 +11346,7 @@ namespace ServerModels
 
         FUpdatePlayerStatisticsRequest(const FUpdatePlayerStatisticsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ForceUpdate(src.ForceUpdate),
             PlayFabId(src.PlayFabId),
             Statistics(src.Statistics)
@@ -11171,6 +11386,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUpdateSharedGroupDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
          * not begin with a '!' character or be null.
@@ -11189,6 +11406,7 @@ namespace ServerModels
 
         FUpdateSharedGroupDataRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Data(),
             KeysToRemove(),
             Permission(),
@@ -11197,6 +11415,7 @@ namespace ServerModels
 
         FUpdateSharedGroupDataRequest(const FUpdateSharedGroupDataRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
             Permission(src.Permission),
@@ -11237,6 +11456,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUpdateUserDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
          * not begin with a '!' character or be null.
@@ -11255,6 +11476,7 @@ namespace ServerModels
 
         FUpdateUserDataRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Data(),
             KeysToRemove(),
             Permission(),
@@ -11263,6 +11485,7 @@ namespace ServerModels
 
         FUpdateUserDataRequest(const FUpdateUserDataRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
             Permission(src.Permission),
@@ -11311,6 +11534,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUpdateUserInternalDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
          * not begin with a '!' character or be null.
@@ -11326,6 +11551,7 @@ namespace ServerModels
 
         FUpdateUserInternalDataRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Data(),
             KeysToRemove(),
             PlayFabId()
@@ -11333,6 +11559,7 @@ namespace ServerModels
 
         FUpdateUserInternalDataRequest(const FUpdateUserInternalDataRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Data(src.Data),
             KeysToRemove(src.KeysToRemove),
             PlayFabId(src.PlayFabId)
@@ -11354,6 +11581,8 @@ namespace ServerModels
         // [optional] Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
          * not begin with a '!' character or be null.
@@ -11373,6 +11602,7 @@ namespace ServerModels
         FUpdateUserInventoryItemDataRequest() :
             FPlayFabCppRequestCommon(),
             CharacterId(),
+            CustomTags(),
             Data(),
             ItemInstanceId(),
             KeysToRemove(),
@@ -11382,6 +11612,7 @@ namespace ServerModels
         FUpdateUserInventoryItemDataRequest(const FUpdateUserInventoryItemDataRequest& src) :
             FPlayFabCppRequestCommon(),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             Data(src.Data),
             ItemInstanceId(src.ItemInstanceId),
             KeysToRemove(src.KeysToRemove),
@@ -11435,6 +11666,8 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11451,6 +11684,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Body(),
             CharacterId(),
+            CustomTags(),
             EventName(),
             PlayFabId(),
             Timestamp()
@@ -11460,6 +11694,7 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             Body(src.Body),
             CharacterId(src.CharacterId),
+            CustomTags(src.CustomTags),
             EventName(src.EventName),
             PlayFabId(src.PlayFabId),
             Timestamp(src.Timestamp)
@@ -11480,6 +11715,8 @@ namespace ServerModels
     {
         // [optional] Custom data properties associated with the event. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11495,6 +11732,7 @@ namespace ServerModels
         FWriteServerPlayerEventRequest() :
             FPlayFabCppRequestCommon(),
             Body(),
+            CustomTags(),
             EventName(),
             PlayFabId(),
             Timestamp()
@@ -11503,6 +11741,7 @@ namespace ServerModels
         FWriteServerPlayerEventRequest(const FWriteServerPlayerEventRequest& src) :
             FPlayFabCppRequestCommon(),
             Body(src.Body),
+            CustomTags(src.CustomTags),
             EventName(src.EventName),
             PlayFabId(src.PlayFabId),
             Timestamp(src.Timestamp)
@@ -11523,6 +11762,8 @@ namespace ServerModels
     {
         // [optional] Custom event properties. Each property consists of a name (string) and a value (JSON object).
         TMap<FString, FJsonKeeper> Body;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * The name of the event, within the namespace scoped to the title. The naming convention is up to the caller, but it
          * commonly follows the subject_verb_object pattern (e.g. player_logged_in).
@@ -11535,6 +11776,7 @@ namespace ServerModels
         FWriteTitleEventRequest() :
             FPlayFabCppRequestCommon(),
             Body(),
+            CustomTags(),
             EventName(),
             Timestamp()
             {}
@@ -11542,6 +11784,7 @@ namespace ServerModels
         FWriteTitleEventRequest(const FWriteTitleEventRequest& src) :
             FPlayFabCppRequestCommon(),
             Body(src.Body),
+            CustomTags(src.CustomTags),
             EventName(src.EventName),
             Timestamp(src.Timestamp)
             {}

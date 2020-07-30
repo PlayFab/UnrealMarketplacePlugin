@@ -599,6 +599,8 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FExecuteEntityCloudScriptRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -626,6 +628,7 @@ namespace CloudScriptModels
 
         FExecuteEntityCloudScriptRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             FunctionName(),
             FunctionParameter(),
@@ -636,6 +639,7 @@ namespace CloudScriptModels
 
         FExecuteEntityCloudScriptRequest(const FExecuteEntityCloudScriptRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             FunctionName(src.FunctionName),
             FunctionParameter(src.FunctionParameter),
@@ -657,6 +661,8 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FExecuteFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -674,6 +680,7 @@ namespace CloudScriptModels
 
         FExecuteFunctionRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             FunctionName(),
             FunctionParameter(),
@@ -682,6 +689,7 @@ namespace CloudScriptModels
 
         FExecuteFunctionRequest(const FExecuteFunctionRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             FunctionName(src.FunctionName),
             FunctionParameter(src.FunctionParameter),
@@ -923,12 +931,16 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FListFunctionsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FListFunctionsRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FListFunctionsRequest(const FListFunctionsRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FListFunctionsRequest(const TSharedPtr<FJsonObject>& obj) : FListFunctionsRequest()
@@ -1567,6 +1579,8 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FPostFunctionResultForEntityTriggeredActionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -1575,12 +1589,14 @@ namespace CloudScriptModels
 
         FPostFunctionResultForEntityTriggeredActionRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             FunctionResult()
             {}
 
         FPostFunctionResultForEntityTriggeredActionRequest(const FPostFunctionResultForEntityTriggeredActionRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             FunctionResult(src.FunctionResult)
             {}
@@ -1598,6 +1614,8 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FPostFunctionResultForFunctionExecutionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -1606,12 +1624,14 @@ namespace CloudScriptModels
 
         FPostFunctionResultForFunctionExecutionRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             FunctionResult()
             {}
 
         FPostFunctionResultForFunctionExecutionRequest(const FPostFunctionResultForFunctionExecutionRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             FunctionResult(src.FunctionResult)
             {}
@@ -1629,6 +1649,8 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FPostFunctionResultForPlayerTriggeredActionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -1643,6 +1665,7 @@ namespace CloudScriptModels
 
         FPostFunctionResultForPlayerTriggeredActionRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             FunctionResult(),
             PlayerProfile(),
@@ -1651,6 +1674,7 @@ namespace CloudScriptModels
 
         FPostFunctionResultForPlayerTriggeredActionRequest(const FPostFunctionResultForPlayerTriggeredActionRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             FunctionResult(src.FunctionResult),
             PlayerProfile(src.PlayerProfile),
@@ -1670,6 +1694,8 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FPostFunctionResultForScheduledTaskRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -1681,6 +1707,7 @@ namespace CloudScriptModels
 
         FPostFunctionResultForScheduledTaskRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             FunctionResult(),
             ScheduledTaskId()
@@ -1688,6 +1715,7 @@ namespace CloudScriptModels
 
         FPostFunctionResultForScheduledTaskRequest(const FPostFunctionResultForScheduledTaskRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             FunctionResult(src.FunctionResult),
             ScheduledTaskId(src.ScheduledTaskId)
@@ -1706,6 +1734,8 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FRegisterHttpFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the function to register
         FString FunctionName;
 
@@ -1714,12 +1744,14 @@ namespace CloudScriptModels
 
         FRegisterHttpFunctionRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             FunctionName(),
             FunctionUrl()
             {}
 
         FRegisterHttpFunctionRequest(const FRegisterHttpFunctionRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             FunctionName(src.FunctionName),
             FunctionUrl(src.FunctionUrl)
             {}
@@ -1740,6 +1772,8 @@ namespace CloudScriptModels
         // A connection string for the storage account that hosts the queue for the Azure Function.
         FString ConnectionString;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the function to register
         FString FunctionName;
 
@@ -1749,6 +1783,7 @@ namespace CloudScriptModels
         FRegisterQueuedFunctionRequest() :
             FPlayFabCppRequestCommon(),
             ConnectionString(),
+            CustomTags(),
             FunctionName(),
             QueueName()
             {}
@@ -1756,6 +1791,7 @@ namespace CloudScriptModels
         FRegisterQueuedFunctionRequest(const FRegisterQueuedFunctionRequest& src) :
             FPlayFabCppRequestCommon(),
             ConnectionString(src.ConnectionString),
+            CustomTags(src.CustomTags),
             FunctionName(src.FunctionName),
             QueueName(src.QueueName)
             {}
@@ -1783,16 +1819,20 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FUnregisterFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the function to unregister
         FString FunctionName;
 
         FUnregisterFunctionRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             FunctionName()
             {}
 
         FUnregisterFunctionRequest(const FUnregisterFunctionRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             FunctionName(src.FunctionName)
             {}
 

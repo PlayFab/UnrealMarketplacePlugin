@@ -99,6 +99,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelAllMatchmakingTicketsForPl
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -152,6 +153,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelAllServerBackfillTicketsFo
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -205,6 +207,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelMatchmakingTicket(FMultipl
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
     } else {
@@ -262,6 +265,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CancelServerBackfillTicket(FMult
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
     } else {
@@ -320,6 +324,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateMatchmakingTicket(FMultipl
 
     // Serialize all the request properties to json
     if (request.Creator != nullptr) OutRestJsonObj->SetObjectField(TEXT("Creator"), request.Creator);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("GiveUpAfterSeconds"), request.GiveUpAfterSeconds);
     if (request.MembersToMatchWith.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("MembersToMatchWith"));
@@ -378,6 +383,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateServerBackfillTicket(FMult
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("GiveUpAfterSeconds"), request.GiveUpAfterSeconds);
     if (request.Members.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Members"));
@@ -437,6 +443,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateServerMatchmakingTicket(FM
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("GiveUpAfterSeconds"), request.GiveUpAfterSeconds);
     if (request.Members.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Members"));
@@ -496,6 +503,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMatch(FMultiplayerGetMatchReq
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
     if (request.MatchId.IsEmpty() || request.MatchId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("MatchId"));
@@ -555,6 +563,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMatchmakingTicket(FMultiplaye
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -613,6 +622,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetQueueStatistics(FMultiplayerG
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
     } else {
@@ -665,6 +675,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetServerBackfillTicket(FMultipl
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("EscapeObject"), request.EscapeObject);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -723,6 +734,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::JoinMatchmakingTicket(FMultiplay
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Member != nullptr) OutRestJsonObj->SetObjectField(TEXT("Member"), request.Member);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -781,6 +793,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListMatchmakingTicketsForPlayer(
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -834,6 +847,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListServerBackfillTicketsForPlay
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.QueueName.IsEmpty() || request.QueueName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("QueueName"));
@@ -905,6 +919,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildAlias(FMultiplayerCre
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("BuildSelectionCriteria"), request.BuildSelectionCriteria);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -967,6 +982,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     } else {
         OutRestJsonObj->SetStringField(TEXT("ContainerRunCommand"), request.ContainerRunCommand);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.GameAssetReferences.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("GameAssetReferences"));
     } else {
@@ -977,6 +993,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("GameCertificateReferences"), request.GameCertificateReferences);
     }
+    if (request.LinuxInstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("LinuxInstrumentationConfiguration"), request.LinuxInstrumentationConfiguration);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
     if (request.Ports.Num() == 0) {
@@ -1049,6 +1066,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     FString temp_ContainerFlavor;
     if (GetEnumValueToString<EContainerFlavor>(TEXT("EContainerFlavor"), request.ContainerFlavor, temp_ContainerFlavor))
         OutRestJsonObj->SetStringField(TEXT("ContainerFlavor"), temp_ContainerFlavor);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.GameAssetReferences.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("GameAssetReferences"));
     } else {
@@ -1109,6 +1127,102 @@ void UPlayFabMultiplayerAPI::HelperCreateBuildWithManagedContainer(FPlayFabBaseM
     this->RemoveFromRoot();
 }
 
+/** Creates a multiplayer server build with the server running as a process. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithProcessBasedServer(FMultiplayerCreateBuildWithProcessBasedServerRequest request,
+    FDelegateOnSuccessCreateBuildWithProcessBasedServer onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateBuildWithProcessBasedServer = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCreateBuildWithProcessBasedServer);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/CreateBuildWithProcessBasedServer";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("AreAssetsReadonly"), request.AreAssetsReadonly);
+    if (request.BuildName.IsEmpty() || request.BuildName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("BuildName"), request.BuildName);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.GameAssetReferences.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("GameAssetReferences"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("GameAssetReferences"), request.GameAssetReferences);
+    }
+    if (request.GameCertificateReferences.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("GameCertificateReferences"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("GameCertificateReferences"), request.GameCertificateReferences);
+    }
+    if (request.GameWorkingDirectory.IsEmpty() || request.GameWorkingDirectory == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("GameWorkingDirectory"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("GameWorkingDirectory"), request.GameWorkingDirectory);
+    }
+    if (request.InstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("InstrumentationConfiguration"), request.InstrumentationConfiguration);
+    if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
+    OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
+    if (request.OsPlatform.IsEmpty() || request.OsPlatform == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OsPlatform"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OsPlatform"), request.OsPlatform);
+    }
+    if (request.Ports.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Ports"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Ports"), request.Ports);
+    }
+    if (request.RegionConfigurations.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("RegionConfigurations"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("RegionConfigurations"), request.RegionConfigurations);
+    }
+    if (request.StartMultiplayerServerCommand.IsEmpty() || request.StartMultiplayerServerCommand == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("StartMultiplayerServerCommand"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("StartMultiplayerServerCommand"), request.StartMultiplayerServerCommand);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("UseStreamingForAssetDownloads"), request.UseStreamingForAssetDownloads);
+    FString temp_VmSize;
+    if (GetEnumValueToString<EAzureVmSize>(TEXT("EAzureVmSize"), request.VmSize, temp_VmSize))
+        OutRestJsonObj->SetStringField(TEXT("VmSize"), temp_VmSize);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperCreateBuildWithProcessBasedServer(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateBuildWithProcessBasedServer.IsBound())
+    {
+        FMultiplayerCreateBuildWithProcessBasedServerResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCreateBuildWithProcessBasedServerResponseResponse(response.responseData);
+        OnSuccessCreateBuildWithProcessBasedServer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Creates a remote user to log on to a VM for a multiplayer server build. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateRemoteUser(FMultiplayerCreateRemoteUserRequest request,
     FDelegateOnSuccessCreateRemoteUser onSuccess,
@@ -1138,6 +1252,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateRemoteUser(FMultiplayerCre
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExpirationTime.IsEmpty() || request.ExpirationTime == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExpirationTime"));
     } else {
@@ -1205,6 +1320,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteAsset(FMultiplayerDeleteAs
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FileName.IsEmpty() || request.FileName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FileName"));
     } else {
@@ -1262,6 +1378,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteBuild(FMultiplayerDeleteBu
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1315,6 +1432,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteBuildAlias(FMultiplayerDel
     } else {
         OutRestJsonObj->SetStringField(TEXT("AliasId"), request.AliasId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1368,6 +1486,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteBuildRegion(FMultiplayerDe
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
     } else {
@@ -1421,6 +1540,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteCertificate(FMultiplayerDe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Name.IsEmpty() || request.Name == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Name"));
     } else {
@@ -1474,6 +1594,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteContainerImageRepository(F
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ImageName.IsEmpty() || request.ImageName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ImageName"));
     } else {
@@ -1532,6 +1653,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteRemoteUser(FMultiplayerDel
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
     } else {
@@ -1595,6 +1717,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::EnableMultiplayerServersForTitle
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1642,6 +1765,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetAssetUploadUrl(FMultiplayerGe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FileName.IsEmpty() || request.FileName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FileName"));
     } else {
@@ -1699,6 +1823,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetBuild(FMultiplayerGetBuildReq
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1751,6 +1876,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetBuildAlias(FMultiplayerGetBui
     } else {
         OutRestJsonObj->SetStringField(TEXT("AliasId"), request.AliasId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1799,6 +1925,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetContainerRegistryCredentials(
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1851,6 +1978,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerDetails(FMul
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
     } else {
@@ -1908,6 +2036,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerLogs(FMultip
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ServerId.IsEmpty() || request.ServerId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ServerId"));
     } else {
@@ -1960,6 +2089,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerSessionLogsBySessi
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.SessionId.IsEmpty() || request.SessionId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SessionId"));
     } else {
@@ -2018,6 +2148,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetRemoteLoginEndpoint(FMultipla
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
     } else {
@@ -2075,6 +2206,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetTitleEnabledForMultiplayerSer
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2122,6 +2254,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2174,6 +2307,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListArchivedMultiplayerServers(F
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
@@ -2232,6 +2366,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListAssetSummaries(FMultiplayerL
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
@@ -2285,6 +2420,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildAliases(FMultiplayerMul
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2332,6 +2468,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildSummaries(FMultiplayerL
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
@@ -2385,6 +2522,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListCertificateSummaries(FMultip
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
@@ -2438,6 +2576,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListContainerImages(FMultiplayer
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
@@ -2491,6 +2630,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListContainerImageTags(FMultipla
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ImageName.IsEmpty() || request.ImageName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ImageName"));
     } else {
@@ -2548,6 +2688,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListMultiplayerServers(FMultipla
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
@@ -2606,6 +2747,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListPartyQosServers(FMultiplayer
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Version.IsEmpty() || request.Version == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Version"));
     } else {
@@ -2657,6 +2799,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServers(FMultiplayerListQ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2704,6 +2847,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServersForTitle(FMultipla
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2756,6 +2900,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListVirtualMachineSummaries(FMul
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
@@ -2820,6 +2965,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestMultiplayerServer(FMultip
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     // Check to see if string is empty
     if (request.InitialPlayers.IsEmpty() || request.InitialPlayers == "") {
         OutRestJsonObj->SetFieldNull(TEXT("InitialPlayers"));
@@ -2893,6 +3039,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RolloverContainerRegistryCredent
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2945,6 +3092,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ShutdownMultiplayerServer(FMulti
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Region.IsEmpty() || request.Region == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Region"));
     } else {
@@ -3003,6 +3151,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UntagContainerImage(FMultiplayer
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ImageName.IsEmpty() || request.ImageName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ImageName"));
     } else {
@@ -3076,6 +3225,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildAlias(FMultiplayerUpd
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("BuildSelectionCriteria"), request.BuildSelectionCriteria);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3130,6 +3280,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildRegion(FMultiplayerUp
         OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
     }
     if (request.BuildRegion != nullptr) OutRestJsonObj->SetObjectField(TEXT("BuildRegion"), request.BuildRegion);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3188,6 +3339,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildRegions(FMultiplayerU
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("BuildRegions"), request.BuildRegions);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3236,6 +3388,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UploadCertificate(FMultiplayerUp
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.GameCertificate != nullptr) OutRestJsonObj->SetObjectField(TEXT("GameCertificate"), request.GameCertificate);
 
     // Add Request to manager

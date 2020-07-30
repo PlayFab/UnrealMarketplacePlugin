@@ -217,6 +217,7 @@ FMultiplayerCreateBuildWithCustomContainerResponse UPlayFabMultiplayerModelDecod
     tempStruct.CustomGameContainerImage = !(dataObj->HasField("CustomGameContainerImage")) ? nullptr : dataObj->GetObjectField("CustomGameContainerImage");
     tempStruct.GameAssetReferences = !(dataObj->HasField("GameAssetReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameAssetReferences");
     tempStruct.GameCertificateReferences = !(dataObj->HasField("GameCertificateReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameCertificateReferences");
+    tempStruct.LinuxInstrumentationConfiguration = !(dataObj->HasField("LinuxInstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("LinuxInstrumentationConfiguration");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
     tempStruct.OsPlatform = !(dataObj->HasField("OsPlatform")) ? TEXT("") : dataObj->GetStringField("OsPlatform");
@@ -233,6 +234,34 @@ FMultiplayerCreateBuildWithManagedContainerResponse UPlayFabMultiplayerModelDeco
 {
     // Temp ustruct
     FMultiplayerCreateBuildWithManagedContainerResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.AreAssetsReadonly = !(dataObj->HasField("AreAssetsReadonly")) ? false : dataObj->GetBoolField("AreAssetsReadonly");
+    tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
+    tempStruct.BuildName = !(dataObj->HasField("BuildName")) ? TEXT("") : dataObj->GetStringField("BuildName");
+    GetEnumValueFromString<EContainerFlavor>(TEXT("EContainerFlavor"), dataObj->GetStringField("ContainerFlavor"), tempStruct.ContainerFlavor);
+    tempStruct.CreationTime = !(dataObj->HasField("CreationTime")) ? TEXT("") : dataObj->GetStringField("CreationTime");
+    tempStruct.GameAssetReferences = !(dataObj->HasField("GameAssetReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameAssetReferences");
+    tempStruct.GameCertificateReferences = !(dataObj->HasField("GameCertificateReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameCertificateReferences");
+    tempStruct.GameWorkingDirectory = !(dataObj->HasField("GameWorkingDirectory")) ? TEXT("") : dataObj->GetStringField("GameWorkingDirectory");
+    tempStruct.InstrumentationConfiguration = !(dataObj->HasField("InstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("InstrumentationConfiguration");
+    tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
+    tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
+    tempStruct.OsPlatform = !(dataObj->HasField("OsPlatform")) ? TEXT("") : dataObj->GetStringField("OsPlatform");
+    tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
+    tempStruct.RegionConfigurations = !(dataObj->HasField("RegionConfigurations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("RegionConfigurations");
+    tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
+    tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
+    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
+    GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
+
+    return tempStruct;
+}
+
+FMultiplayerCreateBuildWithProcessBasedServerResponse UPlayFabMultiplayerModelDecoder::decodeCreateBuildWithProcessBasedServerResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerCreateBuildWithProcessBasedServerResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.AreAssetsReadonly = !(dataObj->HasField("AreAssetsReadonly")) ? false : dataObj->GetBoolField("AreAssetsReadonly");

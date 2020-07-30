@@ -112,6 +112,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerCreateBuildWithManagedContainerResponse decodeCreateBuildWithManagedContainerResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the CreateBuildWithProcessBasedServerResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        static FMultiplayerCreateBuildWithProcessBasedServerResponse decodeCreateBuildWithProcessBasedServerResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the CreateRemoteUserResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerCreateRemoteUserResponse decodeCreateRemoteUserResponseResponse(UPlayFabJsonObject* response);

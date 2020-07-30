@@ -63,6 +63,9 @@ struct PLAYFAB_API FMatchmakerPlayerJoinedRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Unique identifier of the Game Server Instance the user is joining. This must be a Game Server Instance started with the
      * Matchmaker/StartGame API.
@@ -86,6 +89,9 @@ struct PLAYFAB_API FMatchmakerPlayerLeftRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Unique identifier of the Game Server Instance the user is leaving. This must be a Game Server Instance started with the
      * Matchmaker/StartGame API.
@@ -115,6 +121,9 @@ public:
     /** Custom command line argument when starting game server process. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
         FString CustomCommandLineData;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * HTTP endpoint URL for receiving game status events, if using an external matchmaker. When the game ends, PlayFab will
      * make a POST request to this URL with the X-SecretKey header set to the value of the game's secret and an
@@ -157,6 +166,9 @@ struct PLAYFAB_API FMatchmakerUserInfoRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Minimum catalog version for which data is requested (filters the results to only contain inventory items which have a
      * catalog version of this or higher).
@@ -193,7 +205,7 @@ public:
         FString Username;
     /** Array of virtual currency balance(s) belonging to the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        UPlayFabJsonObject* VirtualCurrency;
+        UPlayFabJsonObject* VirtualCurrency = nullptr;
     /** Array of remaining times and timestamps for virtual currencies. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
         UPlayFabJsonObject* VirtualCurrencyRechargeTimes = nullptr;

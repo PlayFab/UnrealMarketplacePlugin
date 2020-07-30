@@ -2399,14 +2399,6 @@ void UPlayFabClientInstanceAPI::OnGetUserDataResult(FHttpRequestPtr HttpRequest,
 }
 
 bool UPlayFabClientInstanceAPI::GetUserInventory(
-    const FGetUserInventoryDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FGetUserInventoryRequest emptyRequest = ClientModels::FGetUserInventoryRequest();
-    return UPlayFabClientInstanceAPI::GetUserInventory(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabClientInstanceAPI::GetUserInventory(
     ClientModels::FGetUserInventoryRequest& request,
     const FGetUserInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -4402,14 +4394,6 @@ void UPlayFabClientInstanceAPI::OnRegisterWithWindowsHelloResult(FHttpRequestPtr
 }
 
 bool UPlayFabClientInstanceAPI::RemoveContactEmail(
-    const FRemoveContactEmailDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FRemoveContactEmailRequest emptyRequest = ClientModels::FRemoveContactEmailRequest();
-    return UPlayFabClientInstanceAPI::RemoveContactEmail(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabClientInstanceAPI::RemoveContactEmail(
     ClientModels::FRemoveContactEmailRequest& request,
     const FRemoveContactEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -4961,14 +4945,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkAndroidDeviceIDResult(FHttpRequestPtr Ht
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkApple(
-    const FUnlinkAppleDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkAppleRequest emptyRequest = ClientModels::FUnlinkAppleRequest();
-    return UPlayFabClientInstanceAPI::UnlinkApple(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkApple(
     ClientModels::FUnlinkAppleRequest& request,
     const FUnlinkAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -5036,14 +5012,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkCustomIDResult(FHttpRequestPtr HttpReque
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkFacebookAccount(
-    const FUnlinkFacebookAccountDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkFacebookAccountRequest emptyRequest = ClientModels::FUnlinkFacebookAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkFacebookAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkFacebookAccount(
@@ -5117,14 +5085,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkFacebookInstantGamesIdResult(FHttpReques
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkGameCenterAccount(
-    const FUnlinkGameCenterAccountDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkGameCenterAccountRequest emptyRequest = ClientModels::FUnlinkGameCenterAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkGameCenterAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkGameCenterAccount(
     ClientModels::FUnlinkGameCenterAccountRequest& request,
     const FUnlinkGameCenterAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -5157,14 +5117,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkGameCenterAccountResult(FHttpRequestPtr 
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkGoogleAccount(
-    const FUnlinkGoogleAccountDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkGoogleAccountRequest emptyRequest = ClientModels::FUnlinkGoogleAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkGoogleAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkGoogleAccount(
@@ -5238,14 +5190,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkIOSDeviceIDResult(FHttpRequestPtr HttpRe
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkKongregate(
-    const FUnlinkKongregateDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkKongregateAccountRequest emptyRequest = ClientModels::FUnlinkKongregateAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkKongregate(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkKongregate(
     ClientModels::FUnlinkKongregateAccountRequest& request,
     const FUnlinkKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -5278,14 +5222,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkKongregateResult(FHttpRequestPtr HttpReq
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkNintendoServiceAccount(
-    const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkNintendoServiceAccountRequest emptyRequest = ClientModels::FUnlinkNintendoServiceAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkNintendoServiceAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkNintendoServiceAccount(
@@ -5394,14 +5330,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkOpenIdConnectResult(FHttpRequestPtr Http
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkPSNAccount(
-    const FUnlinkPSNAccountDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkPSNAccountRequest emptyRequest = ClientModels::FUnlinkPSNAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkPSNAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkPSNAccount(
     ClientModels::FUnlinkPSNAccountRequest& request,
     const FUnlinkPSNAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -5434,14 +5362,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkPSNAccountResult(FHttpRequestPtr HttpReq
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkSteamAccount(
-    const FUnlinkSteamAccountDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkSteamAccountRequest emptyRequest = ClientModels::FUnlinkSteamAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkSteamAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkSteamAccount(
@@ -5547,14 +5467,6 @@ void UPlayFabClientInstanceAPI::OnUnlinkWindowsHelloResult(FHttpRequestPtr HttpR
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabClientInstanceAPI::UnlinkXboxAccount(
-    const FUnlinkXboxAccountDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ClientModels::FUnlinkXboxAccountRequest emptyRequest = ClientModels::FUnlinkXboxAccountRequest();
-    return UPlayFabClientInstanceAPI::UnlinkXboxAccount(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabClientInstanceAPI::UnlinkXboxAccount(

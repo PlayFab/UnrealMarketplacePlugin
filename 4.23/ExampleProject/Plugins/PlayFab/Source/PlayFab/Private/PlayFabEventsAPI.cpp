@@ -99,6 +99,7 @@ UPlayFabEventsAPI* UPlayFabEventsAPI::WriteEvents(FEventsWriteEventsRequest requ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Events.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Events"));
     } else {
@@ -151,6 +152,7 @@ UPlayFabEventsAPI* UPlayFabEventsAPI::WriteTelemetryEvents(FEventsWriteEventsReq
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Events.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Events"));
     } else {

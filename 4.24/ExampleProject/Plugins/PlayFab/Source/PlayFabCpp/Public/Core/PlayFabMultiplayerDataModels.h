@@ -125,7 +125,8 @@ namespace MultiplayerModels
         AzureRegionWestUs,
         AzureRegionChinaEast2,
         AzureRegionChinaNorth2,
-        AzureRegionSouthAfricaNorth
+        AzureRegionSouthAfricaNorth,
+        AzureRegionCentralUsEuap
     };
 
     PLAYFABCPP_API void writeAzureRegionEnumJSON(AzureRegion enumVal, JsonWriter& writer);
@@ -563,6 +564,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCancelAllMatchmakingTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity key of the player whose tickets should be canceled.
         TSharedPtr<FEntityKey> Entity;
 
@@ -571,12 +574,14 @@ namespace MultiplayerModels
 
         FCancelAllMatchmakingTicketsForPlayerRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             QueueName()
             {}
 
         FCancelAllMatchmakingTicketsForPlayerRequest(const FCancelAllMatchmakingTicketsForPlayerRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             QueueName(src.QueueName)
             {}
@@ -615,6 +620,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCancelAllServerBackfillTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity key of the player whose backfill tickets should be canceled.
         FEntityKey Entity;
 
@@ -623,12 +630,14 @@ namespace MultiplayerModels
 
         FCancelAllServerBackfillTicketsForPlayerRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             QueueName()
             {}
 
         FCancelAllServerBackfillTicketsForPlayerRequest(const FCancelAllServerBackfillTicketsForPlayerRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             QueueName(src.QueueName)
             {}
@@ -678,6 +687,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCancelMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the queue the ticket is in.
         FString QueueName;
 
@@ -686,12 +697,14 @@ namespace MultiplayerModels
 
         FCancelMatchmakingTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             QueueName(),
             TicketId()
             {}
 
         FCancelMatchmakingTicketRequest(const FCancelMatchmakingTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             QueueName(src.QueueName),
             TicketId(src.TicketId)
             {}
@@ -730,6 +743,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCancelServerBackfillTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the queue the ticket is in.
         FString QueueName;
 
@@ -738,12 +753,14 @@ namespace MultiplayerModels
 
         FCancelServerBackfillTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             QueueName(),
             TicketId()
             {}
 
         FCancelServerBackfillTicketRequest(const FCancelServerBackfillTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             QueueName(src.QueueName),
             TicketId(src.TicketId)
             {}
@@ -967,16 +984,20 @@ namespace MultiplayerModels
 
         // [optional] Array of build selection criteria.
         TArray<FBuildSelectionCriterion> BuildSelectionCriteria;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FCreateBuildAliasRequest() :
             FPlayFabCppRequestCommon(),
             AliasName(),
-            BuildSelectionCriteria()
+            BuildSelectionCriteria(),
+            CustomTags()
             {}
 
         FCreateBuildAliasRequest(const FCreateBuildAliasRequest& src) :
             FPlayFabCppRequestCommon(),
             AliasName(src.AliasName),
-            BuildSelectionCriteria(src.BuildSelectionCriteria)
+            BuildSelectionCriteria(src.BuildSelectionCriteria),
+            CustomTags(src.CustomTags)
             {}
 
         FCreateBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FCreateBuildAliasRequest()
@@ -1023,6 +1044,32 @@ namespace MultiplayerModels
         }
 
         ~FGameCertificateReferenceParams();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinuxInstrumentationConfiguration : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Designates whether Linux instrumentation configuration will be enabled for this Build
+        bool IsEnabled;
+
+        FLinuxInstrumentationConfiguration() :
+            FPlayFabCppBaseModel(),
+            IsEnabled(false)
+            {}
+
+        FLinuxInstrumentationConfiguration(const FLinuxInstrumentationConfiguration& src) :
+            FPlayFabCppBaseModel(),
+            IsEnabled(src.IsEnabled)
+            {}
+
+        FLinuxInstrumentationConfiguration(const TSharedPtr<FJsonObject>& obj) : FLinuxInstrumentationConfiguration()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinuxInstrumentationConfiguration();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1094,10 +1141,15 @@ namespace MultiplayerModels
         // [optional] The container command to run when the multiplayer server has been allocated, including any arguments.
         FString ContainerRunCommand;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The list of game assets related to the build.
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
+        // [optional] The Linux instrumentation configuration for the build.
+        TSharedPtr<FLinuxInstrumentationConfiguration> pfLinuxInstrumentationConfiguration;
+
         /**
          * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
@@ -1126,8 +1178,10 @@ namespace MultiplayerModels
             pfContainerFlavor(),
             pfContainerImageReference(nullptr),
             ContainerRunCommand(),
+            CustomTags(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
             Ports(),
@@ -1143,8 +1197,10 @@ namespace MultiplayerModels
             pfContainerFlavor(src.pfContainerFlavor),
             pfContainerImageReference(src.pfContainerImageReference.IsValid() ? MakeShareable(new FContainerImageReference(*src.pfContainerImageReference)) : nullptr),
             ContainerRunCommand(src.ContainerRunCommand),
+            CustomTags(src.CustomTags),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
+            pfLinuxInstrumentationConfiguration(src.pfLinuxInstrumentationConfiguration.IsValid() ? MakeShareable(new FLinuxInstrumentationConfiguration(*src.pfLinuxInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             Ports(src.Ports),
@@ -1232,6 +1288,9 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        // [optional] The Linux instrumentation configuration for this build.
+        TSharedPtr<FLinuxInstrumentationConfiguration> pfLinuxInstrumentationConfiguration;
+
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to host on a single VM of the build.
@@ -1267,6 +1326,7 @@ namespace MultiplayerModels
             CustomGameContainerImage(nullptr),
             GameAssetReferences(),
             GameCertificateReferences(),
+            pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
@@ -1288,6 +1348,7 @@ namespace MultiplayerModels
             CustomGameContainerImage(src.CustomGameContainerImage.IsValid() ? MakeShareable(new FContainerImageReference(*src.CustomGameContainerImage)) : nullptr),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
+            pfLinuxInstrumentationConfiguration(src.pfLinuxInstrumentationConfiguration.IsValid() ? MakeShareable(new FLinuxInstrumentationConfiguration(*src.pfLinuxInstrumentationConfiguration)) : nullptr),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             OsPlatform(src.OsPlatform),
@@ -1352,6 +1413,8 @@ namespace MultiplayerModels
         // [optional] The flavor of container to create a build from.
         Boxed<ContainerFlavor> pfContainerFlavor;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The list of game assets related to the build.
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
@@ -1394,6 +1457,7 @@ namespace MultiplayerModels
             AreAssetsReadonly(),
             BuildName(),
             pfContainerFlavor(),
+            CustomTags(),
             GameAssetReferences(),
             GameCertificateReferences(),
             GameWorkingDirectory(),
@@ -1412,6 +1476,7 @@ namespace MultiplayerModels
             AreAssetsReadonly(src.AreAssetsReadonly),
             BuildName(src.BuildName),
             pfContainerFlavor(src.pfContainerFlavor),
+            CustomTags(src.CustomTags),
             GameAssetReferences(src.GameAssetReferences),
             GameCertificateReferences(src.GameCertificateReferences),
             GameWorkingDirectory(src.GameWorkingDirectory),
@@ -1551,6 +1616,229 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FCreateBuildWithProcessBasedServerRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * [optional] When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+         * will have the same assets mounted in the container.
+         */
+        Boxed<bool> AreAssetsReadonly;
+
+        // The build name.
+        FString BuildName;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The list of game assets related to the build.
+        TArray<FAssetReferenceParams> GameAssetReferences;
+        // [optional] The game certificates for the build.
+        TArray<FGameCertificateReferenceParams> GameCertificateReferences;
+        /**
+         * [optional] The working directory for the game process. If this is not provided, the working directory will be set based on the
+         * mount path of the game server executable.
+         */
+        FString GameWorkingDirectory;
+
+        // [optional] The instrumentation configuration for the build.
+        TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
+
+        /**
+         * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
+         * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
+         */
+        TMap<FString, FString> Metadata;
+        // The number of multiplayer servers to host on a single VM.
+        int32 MultiplayerServerCountPerVm;
+
+        // [optional] The OS platform used for running the game process.
+        FString OsPlatform;
+
+        // The ports to map the build on.
+        TArray<FPort> Ports;
+        // The region configurations for the build.
+        TArray<FBuildRegionParams> RegionConfigurations;
+        /**
+         * The command to run when the multiplayer server is started, including any arguments. The path to any executable should be
+         * relative to the root asset folder when unzipped.
+         */
+        FString StartMultiplayerServerCommand;
+
+        /**
+         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+         * disc.
+         */
+        Boxed<bool> UseStreamingForAssetDownloads;
+
+        // [optional] The VM size to create the build on.
+        Boxed<AzureVmSize> VmSize;
+
+        FCreateBuildWithProcessBasedServerRequest() :
+            FPlayFabCppRequestCommon(),
+            AreAssetsReadonly(),
+            BuildName(),
+            CustomTags(),
+            GameAssetReferences(),
+            GameCertificateReferences(),
+            GameWorkingDirectory(),
+            pfInstrumentationConfiguration(nullptr),
+            Metadata(),
+            MultiplayerServerCountPerVm(0),
+            OsPlatform(),
+            Ports(),
+            RegionConfigurations(),
+            StartMultiplayerServerCommand(),
+            UseStreamingForAssetDownloads(),
+            VmSize()
+            {}
+
+        FCreateBuildWithProcessBasedServerRequest(const FCreateBuildWithProcessBasedServerRequest& src) :
+            FPlayFabCppRequestCommon(),
+            AreAssetsReadonly(src.AreAssetsReadonly),
+            BuildName(src.BuildName),
+            CustomTags(src.CustomTags),
+            GameAssetReferences(src.GameAssetReferences),
+            GameCertificateReferences(src.GameCertificateReferences),
+            GameWorkingDirectory(src.GameWorkingDirectory),
+            pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
+            Metadata(src.Metadata),
+            MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
+            OsPlatform(src.OsPlatform),
+            Ports(src.Ports),
+            RegionConfigurations(src.RegionConfigurations),
+            StartMultiplayerServerCommand(src.StartMultiplayerServerCommand),
+            UseStreamingForAssetDownloads(src.UseStreamingForAssetDownloads),
+            VmSize(src.VmSize)
+            {}
+
+        FCreateBuildWithProcessBasedServerRequest(const TSharedPtr<FJsonObject>& obj) : FCreateBuildWithProcessBasedServerRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateBuildWithProcessBasedServerRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateBuildWithProcessBasedServerResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * [optional] When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+         * will have the same assets mounted in the container.
+         */
+        Boxed<bool> AreAssetsReadonly;
+
+        // [optional] The guid string build ID. Must be unique for every build.
+        FString BuildId;
+
+        // [optional] The build name.
+        FString BuildName;
+
+        // [optional] The flavor of container of the build.
+        Boxed<ContainerFlavor> pfContainerFlavor;
+
+        // [optional] The time the build was created in UTC.
+        Boxed<FDateTime> CreationTime;
+
+        // [optional] The game assets for the build.
+        TArray<FAssetReference> GameAssetReferences;
+        // [optional] The game certificates for the build.
+        TArray<FGameCertificateReference> GameCertificateReferences;
+        /**
+         * [optional] The working directory for the game process. If this is not provided, the working directory will be set based on the
+         * mount path of the game server executable.
+         */
+        FString GameWorkingDirectory;
+
+        // [optional] The instrumentation configuration for this build.
+        TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
+
+        // [optional] The metadata of the build.
+        TMap<FString, FString> Metadata;
+        // The number of multiplayer servers to host on a single VM of the build.
+        int32 MultiplayerServerCountPerVm;
+
+        // [optional] The OS platform used for running the game process.
+        FString OsPlatform;
+
+        // [optional] The ports the build is mapped on.
+        TArray<FPort> Ports;
+        // [optional] The region configuration for the build.
+        TArray<FBuildRegion> RegionConfigurations;
+        // [optional] The type of game server being hosted.
+        FString ServerType;
+
+        /**
+         * [optional] The command to run when the multiplayer server is started, including any arguments. The path to any executable is
+         * relative to the root asset folder when unzipped.
+         */
+        FString StartMultiplayerServerCommand;
+
+        /**
+         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+         * disc.
+         */
+        Boxed<bool> UseStreamingForAssetDownloads;
+
+        // [optional] The VM size the build was created on.
+        Boxed<AzureVmSize> VmSize;
+
+        FCreateBuildWithProcessBasedServerResponse() :
+            FPlayFabCppResultCommon(),
+            AreAssetsReadonly(),
+            BuildId(),
+            BuildName(),
+            pfContainerFlavor(),
+            CreationTime(),
+            GameAssetReferences(),
+            GameCertificateReferences(),
+            GameWorkingDirectory(),
+            pfInstrumentationConfiguration(nullptr),
+            Metadata(),
+            MultiplayerServerCountPerVm(0),
+            OsPlatform(),
+            Ports(),
+            RegionConfigurations(),
+            ServerType(),
+            StartMultiplayerServerCommand(),
+            UseStreamingForAssetDownloads(),
+            VmSize()
+            {}
+
+        FCreateBuildWithProcessBasedServerResponse(const FCreateBuildWithProcessBasedServerResponse& src) :
+            FPlayFabCppResultCommon(),
+            AreAssetsReadonly(src.AreAssetsReadonly),
+            BuildId(src.BuildId),
+            BuildName(src.BuildName),
+            pfContainerFlavor(src.pfContainerFlavor),
+            CreationTime(src.CreationTime),
+            GameAssetReferences(src.GameAssetReferences),
+            GameCertificateReferences(src.GameCertificateReferences),
+            GameWorkingDirectory(src.GameWorkingDirectory),
+            pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
+            Metadata(src.Metadata),
+            MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
+            OsPlatform(src.OsPlatform),
+            Ports(src.Ports),
+            RegionConfigurations(src.RegionConfigurations),
+            ServerType(src.ServerType),
+            StartMultiplayerServerCommand(src.StartMultiplayerServerCommand),
+            UseStreamingForAssetDownloads(src.UseStreamingForAssetDownloads),
+            VmSize(src.VmSize)
+            {}
+
+        FCreateBuildWithProcessBasedServerResponse(const TSharedPtr<FJsonObject>& obj) : FCreateBuildWithProcessBasedServerResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateBuildWithProcessBasedServerResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FMatchmakingPlayerAttributes : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] A data object representing a user's attributes.
@@ -1618,6 +1906,8 @@ namespace MultiplayerModels
         // The User who created this ticket.
         FMatchmakingPlayer Creator;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // How long to attempt matching this ticket in seconds.
         int32 GiveUpAfterSeconds;
 
@@ -1629,6 +1919,7 @@ namespace MultiplayerModels
         FCreateMatchmakingTicketRequest() :
             FPlayFabCppRequestCommon(),
             Creator(),
+            CustomTags(),
             GiveUpAfterSeconds(0),
             MembersToMatchWith(),
             QueueName()
@@ -1637,6 +1928,7 @@ namespace MultiplayerModels
         FCreateMatchmakingTicketRequest(const FCreateMatchmakingTicketRequest& src) :
             FPlayFabCppRequestCommon(),
             Creator(src.Creator),
+            CustomTags(src.CustomTags),
             GiveUpAfterSeconds(src.GiveUpAfterSeconds),
             MembersToMatchWith(src.MembersToMatchWith),
             QueueName(src.QueueName)
@@ -1684,6 +1976,8 @@ namespace MultiplayerModels
         // The guid string build ID of to create the remote user for.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The expiration time for the remote user created. Defaults to expiring in one day if not specified.
         Boxed<FDateTime> ExpirationTime;
 
@@ -1699,6 +1993,7 @@ namespace MultiplayerModels
         FCreateRemoteUserRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             ExpirationTime(),
             Region(),
             Username(),
@@ -1708,6 +2003,7 @@ namespace MultiplayerModels
         FCreateRemoteUserRequest(const FCreateRemoteUserRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             ExpirationTime(src.ExpirationTime),
             Region(src.Region),
             Username(src.Username),
@@ -1837,6 +2133,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCreateServerBackfillTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // How long to attempt matching this ticket in seconds.
         int32 GiveUpAfterSeconds;
 
@@ -1850,6 +2148,7 @@ namespace MultiplayerModels
 
         FCreateServerBackfillTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             GiveUpAfterSeconds(0),
             Members(),
             QueueName(),
@@ -1858,6 +2157,7 @@ namespace MultiplayerModels
 
         FCreateServerBackfillTicketRequest(const FCreateServerBackfillTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             GiveUpAfterSeconds(src.GiveUpAfterSeconds),
             Members(src.Members),
             QueueName(src.QueueName),
@@ -1903,6 +2203,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FCreateServerMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // How long to attempt matching this ticket in seconds.
         int32 GiveUpAfterSeconds;
 
@@ -1913,6 +2215,7 @@ namespace MultiplayerModels
 
         FCreateServerMatchmakingTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             GiveUpAfterSeconds(0),
             Members(),
             QueueName()
@@ -1920,6 +2223,7 @@ namespace MultiplayerModels
 
         FCreateServerMatchmakingTicketRequest(const FCreateServerMatchmakingTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             GiveUpAfterSeconds(src.GiveUpAfterSeconds),
             Members(src.Members),
             QueueName(src.QueueName)
@@ -1938,16 +2242,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FDeleteAssetRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The filename of the asset to delete.
         FString FileName;
 
         FDeleteAssetRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             FileName()
             {}
 
         FDeleteAssetRequest(const FDeleteAssetRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             FileName(src.FileName)
             {}
 
@@ -1967,14 +2275,18 @@ namespace MultiplayerModels
         // The guid string alias ID of the alias to perform the action on.
         FString AliasId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FDeleteBuildAliasRequest() :
             FPlayFabCppRequestCommon(),
-            AliasId()
+            AliasId(),
+            CustomTags()
             {}
 
         FDeleteBuildAliasRequest(const FDeleteBuildAliasRequest& src) :
             FPlayFabCppRequestCommon(),
-            AliasId(src.AliasId)
+            AliasId(src.AliasId),
+            CustomTags(src.CustomTags)
             {}
 
         FDeleteBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteBuildAliasRequest()
@@ -1993,18 +2305,22 @@ namespace MultiplayerModels
         // The guid string ID of the build we want to update regions for.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The build region to delete.
         FString Region;
 
         FDeleteBuildRegionRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             Region()
             {}
 
         FDeleteBuildRegionRequest(const FDeleteBuildRegionRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             Region(src.Region)
             {}
 
@@ -2024,14 +2340,18 @@ namespace MultiplayerModels
         // The guid string build ID of the build to delete.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FDeleteBuildRequest() :
             FPlayFabCppRequestCommon(),
-            BuildId()
+            BuildId(),
+            CustomTags()
             {}
 
         FDeleteBuildRequest(const FDeleteBuildRequest& src) :
             FPlayFabCppRequestCommon(),
-            BuildId(src.BuildId)
+            BuildId(src.BuildId),
+            CustomTags(src.CustomTags)
             {}
 
         FDeleteBuildRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteBuildRequest()
@@ -2047,16 +2367,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FDeleteCertificateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the certificate.
         FString Name;
 
         FDeleteCertificateRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Name()
             {}
 
         FDeleteCertificateRequest(const FDeleteCertificateRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Name(src.Name)
             {}
 
@@ -2073,16 +2397,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FDeleteContainerImageRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The container image repository we want to delete.
         FString ImageName;
 
         FDeleteContainerImageRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ImageName()
             {}
 
         FDeleteContainerImageRequest(const FDeleteContainerImageRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ImageName(src.ImageName)
             {}
 
@@ -2102,6 +2430,8 @@ namespace MultiplayerModels
         // The guid string build ID of the multiplayer server where the remote user is to delete.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The region of the multiplayer server where the remote user is to delete.
         FString Region;
 
@@ -2114,6 +2444,7 @@ namespace MultiplayerModels
         FDeleteRemoteUserRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             Region(),
             Username(),
             VmId()
@@ -2122,6 +2453,7 @@ namespace MultiplayerModels
         FDeleteRemoteUserRequest(const FDeleteRemoteUserRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             Region(src.Region),
             Username(src.Username),
             VmId(src.VmId)
@@ -2161,12 +2493,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FEnableMultiplayerServersForTitleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FEnableMultiplayerServersForTitleRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FEnableMultiplayerServersForTitleRequest(const FEnableMultiplayerServersForTitleRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FEnableMultiplayerServersForTitleRequest(const TSharedPtr<FJsonObject>& obj) : FEnableMultiplayerServersForTitleRequest()
@@ -2219,16 +2555,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetAssetUploadUrlRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The asset's file name to get the upload URL for.
         FString FileName;
 
         FGetAssetUploadUrlRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             FileName()
             {}
 
         FGetAssetUploadUrlRequest(const FGetAssetUploadUrlRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             FileName(src.FileName)
             {}
 
@@ -2279,14 +2619,18 @@ namespace MultiplayerModels
         // The guid string alias ID of the alias to perform the action on.
         FString AliasId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetBuildAliasRequest() :
             FPlayFabCppRequestCommon(),
-            AliasId()
+            AliasId(),
+            CustomTags()
             {}
 
         FGetBuildAliasRequest(const FGetBuildAliasRequest& src) :
             FPlayFabCppRequestCommon(),
-            AliasId(src.AliasId)
+            AliasId(src.AliasId),
+            CustomTags(src.CustomTags)
             {}
 
         FGetBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FGetBuildAliasRequest()
@@ -2305,14 +2649,18 @@ namespace MultiplayerModels
         // The guid string build ID of the build to get.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetBuildRequest() :
             FPlayFabCppRequestCommon(),
-            BuildId()
+            BuildId(),
+            CustomTags()
             {}
 
         FGetBuildRequest(const FGetBuildRequest& src) :
             FPlayFabCppRequestCommon(),
-            BuildId(src.BuildId)
+            BuildId(src.BuildId),
+            CustomTags(src.CustomTags)
             {}
 
         FGetBuildRequest(const TSharedPtr<FJsonObject>& obj) : FGetBuildRequest()
@@ -2459,12 +2807,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetContainerRegistryCredentialsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetContainerRegistryCredentialsRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FGetContainerRegistryCredentialsRequest(const FGetContainerRegistryCredentialsRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FGetContainerRegistryCredentialsRequest(const TSharedPtr<FJsonObject>& obj) : FGetContainerRegistryCredentialsRequest()
@@ -2516,6 +2868,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
          * object.
@@ -2530,6 +2884,7 @@ namespace MultiplayerModels
 
         FGetMatchmakingTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             EscapeObject(false),
             QueueName(),
             TicketId()
@@ -2537,6 +2892,7 @@ namespace MultiplayerModels
 
         FGetMatchmakingTicketRequest(const FGetMatchmakingTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             EscapeObject(src.EscapeObject),
             QueueName(src.QueueName),
             TicketId(src.TicketId)
@@ -2627,6 +2983,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMatchRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
          * object.
@@ -2644,6 +3002,7 @@ namespace MultiplayerModels
 
         FGetMatchRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             EscapeObject(false),
             MatchId(),
             QueueName(),
@@ -2652,6 +3011,7 @@ namespace MultiplayerModels
 
         FGetMatchRequest(const FGetMatchRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             EscapeObject(src.EscapeObject),
             MatchId(src.MatchId),
             QueueName(src.QueueName),
@@ -2716,6 +3076,8 @@ namespace MultiplayerModels
         // The guid string build ID of the multiplayer server to get details for.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The region the multiplayer server is located in to get details for.
         FString Region;
 
@@ -2728,6 +3090,7 @@ namespace MultiplayerModels
         FGetMultiplayerServerDetailsRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             Region(),
             SessionId()
             {}
@@ -2735,6 +3098,7 @@ namespace MultiplayerModels
         FGetMultiplayerServerDetailsRequest(const FGetMultiplayerServerDetailsRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             Region(src.Region),
             SessionId(src.SessionId)
             {}
@@ -2821,16 +3185,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerServerLogsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The server ID of multiplayer server to get logs for.
         FString ServerId;
 
         FGetMultiplayerServerLogsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ServerId()
             {}
 
         FGetMultiplayerServerLogsRequest(const FGetMultiplayerServerLogsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ServerId(src.ServerId)
             {}
 
@@ -2873,16 +3241,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerSessionLogsBySessionIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The server ID of multiplayer server to get logs for.
         FString SessionId;
 
         FGetMultiplayerSessionLogsBySessionIdRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             SessionId()
             {}
 
         FGetMultiplayerSessionLogsBySessionIdRequest(const FGetMultiplayerSessionLogsBySessionIdRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             SessionId(src.SessionId)
             {}
 
@@ -2899,16 +3271,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetQueueStatisticsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The name of the queue.
         FString QueueName;
 
         FGetQueueStatisticsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             QueueName()
             {}
 
         FGetQueueStatisticsRequest(const FGetQueueStatisticsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             QueueName(src.QueueName)
             {}
 
@@ -3000,6 +3376,8 @@ namespace MultiplayerModels
         // The guid string build ID of the multiplayer server to get remote login information for.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The region of the multiplayer server to get remote login information for.
         FString Region;
 
@@ -3009,6 +3387,7 @@ namespace MultiplayerModels
         FGetRemoteLoginEndpointRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             Region(),
             VmId()
             {}
@@ -3016,6 +3395,7 @@ namespace MultiplayerModels
         FGetRemoteLoginEndpointRequest(const FGetRemoteLoginEndpointRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             Region(src.Region),
             VmId(src.VmId)
             {}
@@ -3064,6 +3444,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetServerBackfillTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
          * object.
@@ -3078,6 +3460,7 @@ namespace MultiplayerModels
 
         FGetServerBackfillTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             EscapeObject(false),
             QueueName(),
             TicketId()
@@ -3085,6 +3468,7 @@ namespace MultiplayerModels
 
         FGetServerBackfillTicketRequest(const FGetServerBackfillTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             EscapeObject(src.EscapeObject),
             QueueName(src.QueueName),
             TicketId(src.TicketId)
@@ -3168,12 +3552,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetTitleEnabledForMultiplayerServersStatusRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetTitleEnabledForMultiplayerServersStatusRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FGetTitleEnabledForMultiplayerServersStatusRequest(const FGetTitleEnabledForMultiplayerServersStatusRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FGetTitleEnabledForMultiplayerServersStatusRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitleEnabledForMultiplayerServersStatusRequest()
@@ -3215,12 +3603,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetTitleMultiplayerServersQuotasRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetTitleMultiplayerServersQuotasRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FGetTitleMultiplayerServersQuotasRequest(const FGetTitleMultiplayerServersQuotasRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FGetTitleMultiplayerServersQuotasRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitleMultiplayerServersQuotasRequest()
@@ -3287,6 +3679,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FJoinMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The User who wants to join the ticket. Their Id must be listed in PlayFabIdsToMatchWith.
         FMatchmakingPlayer Member;
 
@@ -3298,6 +3692,7 @@ namespace MultiplayerModels
 
         FJoinMatchmakingTicketRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Member(),
             QueueName(),
             TicketId()
@@ -3305,6 +3700,7 @@ namespace MultiplayerModels
 
         FJoinMatchmakingTicketRequest(const FJoinMatchmakingTicketRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Member(src.Member),
             QueueName(src.QueueName),
             TicketId(src.TicketId)
@@ -3344,6 +3740,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListAssetSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
 
@@ -3352,12 +3750,14 @@ namespace MultiplayerModels
 
         FListAssetSummariesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PageSize(),
             SkipToken()
             {}
 
         FListAssetSummariesRequest(const FListAssetSummariesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -3435,6 +3835,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListBuildSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
 
@@ -3443,12 +3845,14 @@ namespace MultiplayerModels
 
         FListBuildSummariesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PageSize(),
             SkipToken()
             {}
 
         FListBuildSummariesRequest(const FListBuildSummariesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -3501,6 +3905,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListCertificateSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
 
@@ -3509,12 +3915,14 @@ namespace MultiplayerModels
 
         FListCertificateSummariesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PageSize(),
             SkipToken()
             {}
 
         FListCertificateSummariesRequest(const FListCertificateSummariesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -3567,6 +3975,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListContainerImagesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
 
@@ -3575,12 +3985,14 @@ namespace MultiplayerModels
 
         FListContainerImagesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             PageSize(),
             SkipToken()
             {}
 
         FListContainerImagesRequest(const FListContainerImagesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             PageSize(src.PageSize),
             SkipToken(src.SkipToken)
             {}
@@ -3633,16 +4045,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListContainerImageTagsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The container images we want to list tags for.
         FString ImageName;
 
         FListContainerImageTagsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ImageName()
             {}
 
         FListContainerImageTagsRequest(const FListContainerImageTagsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ImageName(src.ImageName)
             {}
 
@@ -3684,6 +4100,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListMatchmakingTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity key for which to find the ticket Ids.
         TSharedPtr<FEntityKey> Entity;
 
@@ -3692,12 +4110,14 @@ namespace MultiplayerModels
 
         FListMatchmakingTicketsForPlayerRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             QueueName()
             {}
 
         FListMatchmakingTicketsForPlayerRequest(const FListMatchmakingTicketsForPlayerRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             QueueName(src.QueueName)
             {}
@@ -3743,6 +4163,8 @@ namespace MultiplayerModels
         // The guid string build ID of the multiplayer servers to list.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
 
@@ -3755,6 +4177,7 @@ namespace MultiplayerModels
         FListMultiplayerServersRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             PageSize(),
             Region(),
             SkipToken()
@@ -3763,6 +4186,7 @@ namespace MultiplayerModels
         FListMultiplayerServersRequest(const FListMultiplayerServersRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             PageSize(src.PageSize),
             Region(src.Region),
             SkipToken(src.SkipToken)
@@ -3871,16 +4295,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListPartyQosServersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Qos servers version
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Qos servers version
         FString Version;
 
         FListPartyQosServersRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Version()
             {}
 
         FListPartyQosServersRequest(const FListPartyQosServersRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Version(src.Version)
             {}
 
@@ -3963,12 +4391,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListQosServersForTitleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FListQosServersForTitleRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FListQosServersForTitleRequest(const FListQosServersForTitleRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FListQosServersForTitleRequest(const TSharedPtr<FJsonObject>& obj) : FListQosServersForTitleRequest()
@@ -4019,12 +4451,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListQosServersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FListQosServersRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FListQosServersRequest(const FListQosServersRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FListQosServersRequest(const TSharedPtr<FJsonObject>& obj) : FListQosServersRequest()
@@ -4075,6 +4511,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListServerBackfillTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity key for which to find the ticket Ids.
         FEntityKey Entity;
 
@@ -4083,12 +4521,14 @@ namespace MultiplayerModels
 
         FListServerBackfillTicketsForPlayerRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             QueueName()
             {}
 
         FListServerBackfillTicketsForPlayerRequest(const FListServerBackfillTicketsForPlayerRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             QueueName(src.QueueName)
             {}
@@ -4134,6 +4574,8 @@ namespace MultiplayerModels
         // The guid string build ID of the virtual machines to list.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The page size for the request.
         Boxed<int32> PageSize;
 
@@ -4146,6 +4588,7 @@ namespace MultiplayerModels
         FListVirtualMachineSummariesRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             PageSize(),
             Region(),
             SkipToken()
@@ -4154,6 +4597,7 @@ namespace MultiplayerModels
         FListVirtualMachineSummariesRequest(const FListVirtualMachineSummariesRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             PageSize(src.PageSize),
             Region(src.Region),
             SkipToken(src.SkipToken)
@@ -4243,12 +4687,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FMultiplayerEmptyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FMultiplayerEmptyRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FMultiplayerEmptyRequest(const FMultiplayerEmptyRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FMultiplayerEmptyRequest(const TSharedPtr<FJsonObject>& obj) : FMultiplayerEmptyRequest()
@@ -4280,6 +4728,8 @@ namespace MultiplayerModels
         // [optional] The guid string build ID of the multiplayer server to request.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Initial list of players (potentially matchmade) allowed to connect to the game. This list is passed to the game server
          * when requested (via GSDK) and can be used to validate players connecting to it.
@@ -4303,6 +4753,7 @@ namespace MultiplayerModels
             FPlayFabCppRequestCommon(),
             pfBuildAliasParams(nullptr),
             BuildId(),
+            CustomTags(),
             InitialPlayers(),
             PreferredRegions(),
             SessionCookie(),
@@ -4313,6 +4764,7 @@ namespace MultiplayerModels
             FPlayFabCppRequestCommon(),
             pfBuildAliasParams(src.pfBuildAliasParams.IsValid() ? MakeShareable(new FBuildAliasParams(*src.pfBuildAliasParams)) : nullptr),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             InitialPlayers(src.InitialPlayers),
             PreferredRegions(src.PreferredRegions),
             SessionCookie(src.SessionCookie),
@@ -4401,12 +4853,16 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FRolloverContainerRegistryCredentialsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FRolloverContainerRegistryCredentialsRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FRolloverContainerRegistryCredentialsRequest(const FRolloverContainerRegistryCredentialsRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FRolloverContainerRegistryCredentialsRequest(const TSharedPtr<FJsonObject>& obj) : FRolloverContainerRegistryCredentialsRequest()
@@ -4471,6 +4927,8 @@ namespace MultiplayerModels
         // The guid string build ID of the multiplayer server to delete.
         FString BuildId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The region of the multiplayer server to shut down.
         FString Region;
 
@@ -4480,6 +4938,7 @@ namespace MultiplayerModels
         FShutdownMultiplayerServerRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
+            CustomTags(),
             Region(),
             SessionId()
             {}
@@ -4487,6 +4946,7 @@ namespace MultiplayerModels
         FShutdownMultiplayerServerRequest(const FShutdownMultiplayerServerRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
+            CustomTags(src.CustomTags),
             Region(src.Region),
             SessionId(src.SessionId)
             {}
@@ -4504,6 +4964,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FUntagContainerImageRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The container image which tag we want to remove.
         FString ImageName;
 
@@ -4512,12 +4974,14 @@ namespace MultiplayerModels
 
         FUntagContainerImageRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ImageName(),
             Tag()
             {}
 
         FUntagContainerImageRequest(const FUntagContainerImageRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ImageName(src.ImageName),
             Tag(src.Tag)
             {}
@@ -4543,18 +5007,22 @@ namespace MultiplayerModels
 
         // [optional] Array of build selection criteria.
         TArray<FBuildSelectionCriterion> BuildSelectionCriteria;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FUpdateBuildAliasRequest() :
             FPlayFabCppRequestCommon(),
             AliasId(),
             AliasName(),
-            BuildSelectionCriteria()
+            BuildSelectionCriteria(),
+            CustomTags()
             {}
 
         FUpdateBuildAliasRequest(const FUpdateBuildAliasRequest& src) :
             FPlayFabCppRequestCommon(),
             AliasId(src.AliasId),
             AliasName(src.AliasName),
-            BuildSelectionCriteria(src.BuildSelectionCriteria)
+            BuildSelectionCriteria(src.BuildSelectionCriteria),
+            CustomTags(src.CustomTags)
             {}
 
         FUpdateBuildAliasRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBuildAliasRequest()
@@ -4576,16 +5044,20 @@ namespace MultiplayerModels
         // The updated region configuration that should be applied to the specified build.
         FBuildRegionParams BuildRegion;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FUpdateBuildRegionRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
-            BuildRegion()
+            BuildRegion(),
+            CustomTags()
             {}
 
         FUpdateBuildRegionRequest(const FUpdateBuildRegionRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
-            BuildRegion(src.BuildRegion)
+            BuildRegion(src.BuildRegion),
+            CustomTags(src.CustomTags)
             {}
 
         FUpdateBuildRegionRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBuildRegionRequest()
@@ -4606,16 +5078,20 @@ namespace MultiplayerModels
 
         // The updated region configuration that should be applied to the specified build.
         TArray<FBuildRegionParams> BuildRegions;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FUpdateBuildRegionsRequest() :
             FPlayFabCppRequestCommon(),
             BuildId(),
-            BuildRegions()
+            BuildRegions(),
+            CustomTags()
             {}
 
         FUpdateBuildRegionsRequest(const FUpdateBuildRegionsRequest& src) :
             FPlayFabCppRequestCommon(),
             BuildId(src.BuildId),
-            BuildRegions(src.BuildRegions)
+            BuildRegions(src.BuildRegions),
+            CustomTags(src.CustomTags)
             {}
 
         FUpdateBuildRegionsRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBuildRegionsRequest()
@@ -4631,16 +5107,20 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FUploadCertificateRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The game certificate to upload.
         FCertificate GameCertificate;
 
         FUploadCertificateRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             GameCertificate()
             {}
 
         FUploadCertificateRequest(const FUploadCertificateRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             GameCertificate(src.GameCertificate)
             {}
 

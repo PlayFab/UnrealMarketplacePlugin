@@ -35,6 +35,9 @@ struct PLAYFAB_API FEventsWriteEventsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** Collection of events to write to PlayStream. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         TArray<UPlayFabJsonObject*> Events;

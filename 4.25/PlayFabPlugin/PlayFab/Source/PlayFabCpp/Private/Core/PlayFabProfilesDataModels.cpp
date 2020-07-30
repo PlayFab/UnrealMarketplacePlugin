@@ -774,6 +774,17 @@ void PlayFab::ProfilesModels::FGetEntityProfileRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DataAsObject.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("DataAsObject"));
@@ -792,6 +803,15 @@ void PlayFab::ProfilesModels::FGetEntityProfileRequest::writeJSON(JsonWriter& wr
 bool PlayFab::ProfilesModels::FGetEntityProfileRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DataAsObjectValue = obj->TryGetField(TEXT("DataAsObject"));
     if (DataAsObjectValue.IsValid() && !DataAsObjectValue->IsNull())
@@ -850,6 +870,17 @@ void PlayFab::ProfilesModels::FGetEntityProfilesRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DataAsObject.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("DataAsObject"));
@@ -868,6 +899,15 @@ void PlayFab::ProfilesModels::FGetEntityProfilesRequest::writeJSON(JsonWriter& w
 bool PlayFab::ProfilesModels::FGetEntityProfilesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DataAsObjectValue = obj->TryGetField(TEXT("DataAsObject"));
     if (DataAsObjectValue.IsValid() && !DataAsObjectValue->IsNull())
@@ -932,12 +972,32 @@ void PlayFab::ProfilesModels::FGetGlobalPolicyRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ProfilesModels::FGetGlobalPolicyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -987,6 +1047,17 @@ void PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest:
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteArrayStart(TEXT("MasterPlayerAccountIds"));
     for (const FString& item : MasterPlayerAccountIds)
         writer->WriteValue(item);
@@ -1005,6 +1076,15 @@ void PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest:
 bool PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     HasSucceeded &= obj->TryGetStringArrayField(TEXT("MasterPlayerAccountIds"), MasterPlayerAccountIds);
 
@@ -1119,6 +1199,17 @@ void PlayFab::ProfilesModels::FSetEntityProfilePolicyRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -1137,6 +1228,15 @@ void PlayFab::ProfilesModels::FSetEntityProfilePolicyRequest::writeJSON(JsonWrit
 bool PlayFab::ProfilesModels::FSetEntityProfilePolicyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1200,6 +1300,17 @@ void PlayFab::ProfilesModels::FSetGlobalPolicyRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Permissions.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Permissions"));
@@ -1215,6 +1326,15 @@ void PlayFab::ProfilesModels::FSetGlobalPolicyRequest::writeJSON(JsonWriter& wri
 bool PlayFab::ProfilesModels::FSetGlobalPolicyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&PermissionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Permissions"));
     for (int32 Idx = 0; Idx < PermissionsArray.Num(); Idx++)
@@ -1256,6 +1376,17 @@ void PlayFab::ProfilesModels::FSetProfileLanguageRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -1280,6 +1411,15 @@ void PlayFab::ProfilesModels::FSetProfileLanguageRequest::writeJSON(JsonWriter& 
 bool PlayFab::ProfilesModels::FSetProfileLanguageRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())

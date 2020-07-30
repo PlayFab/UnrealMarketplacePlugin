@@ -397,7 +397,7 @@ namespace PlayFab
         bool GetTasks(AdminModels::FGetTasksRequest& request, const FGetTasksDelegate& SuccessDelegate = FGetTasksDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the key-value store of custom title settings which can be read by the client
-         * This API method is designed to return title specific values which can be read by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create,test, and ship a new build. Note that due to caching, there may up to a minute delay in between updating title data and a query returning the newest value.
+         * This API method is designed to return title specific values which can be read by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. If an override label is specified in the request, the overrides are applied automatically and returned with the title data. Note that due to caching, there may up to a minute delay in between updating title data and a query returning the newest value.
          */
         bool GetTitleData(AdminModels::FGetTitleDataRequest& request, const FGetTitleDataDelegate& SuccessDelegate = FGetTitleDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

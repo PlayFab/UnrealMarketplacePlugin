@@ -84,8 +84,8 @@ namespace ExperimentationModels
         // Name of the variant.
         FString Name;
 
-        // [optional] Id of the TitleDataOverrideGroup to use with this variant.
-        FString TitleDataOverrideId;
+        // [optional] Id of the TitleDataOverride to use with this variant.
+        FString TitleDataOverrideLabel;
 
         // Percentage of target audience traffic that will see this variant.
         uint32 TrafficPercentage;
@@ -98,7 +98,7 @@ namespace ExperimentationModels
             Id(),
             IsControl(false),
             Name(),
-            TitleDataOverrideId(),
+            TitleDataOverrideLabel(),
             TrafficPercentage(0),
             Variables()
             {}
@@ -109,7 +109,7 @@ namespace ExperimentationModels
             Id(src.Id),
             IsControl(src.IsControl),
             Name(src.Name),
-            TitleDataOverrideId(src.TitleDataOverrideId),
+            TitleDataOverrideLabel(src.TitleDataOverrideLabel),
             TrafficPercentage(src.TrafficPercentage),
             Variables(src.Variables)
             {}
@@ -127,6 +127,8 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FCreateExperimentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Description of the experiment.
         FString Description;
 
@@ -154,6 +156,7 @@ namespace ExperimentationModels
         TArray<FVariant> Variants;
         FCreateExperimentRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Description(),
             Duration(0),
             pfExperimentType(),
@@ -166,6 +169,7 @@ namespace ExperimentationModels
 
         FCreateExperimentRequest(const FCreateExperimentRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Description(src.Description),
             Duration(src.Duration),
             pfExperimentType(src.pfExperimentType),
@@ -215,16 +219,20 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FDeleteExperimentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The ID of the experiment to delete.
         FString ExperimentId;
 
         FDeleteExperimentRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ExperimentId()
             {}
 
         FDeleteExperimentRequest(const FDeleteExperimentRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ExperimentId(src.ExperimentId)
             {}
 
@@ -377,12 +385,16 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FGetExperimentsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetExperimentsRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FGetExperimentsRequest(const FGetExperimentsRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FGetExperimentsRequest(const TSharedPtr<FJsonObject>& obj) : FGetExperimentsRequest()
@@ -423,16 +435,20 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FGetLatestScorecardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The ID of the experiment.
         FString ExperimentId;
 
         FGetLatestScorecardRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ExperimentId()
             {}
 
         FGetLatestScorecardRequest(const FGetLatestScorecardRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ExperimentId(src.ExperimentId)
             {}
 
@@ -661,16 +677,20 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FGetTreatmentAssignmentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FGetTreatmentAssignmentRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr)
             {}
 
         FGetTreatmentAssignmentRequest(const FGetTreatmentAssignmentRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -742,16 +762,20 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FStartExperimentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The ID of the experiment to start.
         FString ExperimentId;
 
         FStartExperimentRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ExperimentId()
             {}
 
         FStartExperimentRequest(const FStartExperimentRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ExperimentId(src.ExperimentId)
             {}
 
@@ -768,16 +792,20 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FStopExperimentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The ID of the experiment to stop.
         FString ExperimentId;
 
         FStopExperimentRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ExperimentId()
             {}
 
         FStopExperimentRequest(const FStopExperimentRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ExperimentId(src.ExperimentId)
             {}
 
@@ -794,6 +822,8 @@ namespace ExperimentationModels
 
     struct PLAYFABCPP_API FUpdateExperimentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] Description of the experiment.
         FString Description;
 
@@ -824,6 +854,7 @@ namespace ExperimentationModels
         TArray<FVariant> Variants;
         FUpdateExperimentRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Description(),
             Duration(0),
             pfExperimentType(),
@@ -837,6 +868,7 @@ namespace ExperimentationModels
 
         FUpdateExperimentRequest(const FUpdateExperimentRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Description(src.Description),
             Duration(src.Duration),
             pfExperimentType(src.pfExperimentType),

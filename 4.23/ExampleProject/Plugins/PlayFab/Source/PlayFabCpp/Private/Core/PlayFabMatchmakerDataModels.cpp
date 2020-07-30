@@ -310,6 +310,17 @@ void PlayFab::MatchmakerModels::FPlayerJoinedRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!LobbyId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: PlayerJoinedRequest::LobbyId, PlayFab calls may not work if it remains empty."));
@@ -336,6 +347,15 @@ void PlayFab::MatchmakerModels::FPlayerJoinedRequest::writeJSON(JsonWriter& writ
 bool PlayFab::MatchmakerModels::FPlayerJoinedRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> LobbyIdValue = obj->TryGetField(TEXT("LobbyId"));
     if (LobbyIdValue.IsValid() && !LobbyIdValue->IsNull())
@@ -382,6 +402,17 @@ void PlayFab::MatchmakerModels::FPlayerLeftRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!LobbyId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: PlayerLeftRequest::LobbyId, PlayFab calls may not work if it remains empty."));
@@ -408,6 +439,15 @@ void PlayFab::MatchmakerModels::FPlayerLeftRequest::writeJSON(JsonWriter& writer
 bool PlayFab::MatchmakerModels::FPlayerLeftRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> LobbyIdValue = obj->TryGetField(TEXT("LobbyId"));
     if (LobbyIdValue.IsValid() && !LobbyIdValue->IsNull())
@@ -516,6 +556,17 @@ void PlayFab::MatchmakerModels::FStartGameRequest::writeJSON(JsonWriter& writer)
         writer->WriteValue(CustomCommandLineData);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ExternalMatchmakerEventEndpoint.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: StartGameRequest::ExternalMatchmakerEventEndpoint, PlayFab calls may not work if it remains empty."));
@@ -558,6 +609,15 @@ bool PlayFab::MatchmakerModels::FStartGameRequest::readFromValue(const TSharedPt
     {
         FString TmpValue;
         if (CustomCommandLineDataValue->TryGetString(TmpValue)) { CustomCommandLineData = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ExternalMatchmakerEventEndpointValue = obj->TryGetField(TEXT("ExternalMatchmakerEventEndpoint"));
@@ -669,6 +729,17 @@ void PlayFab::MatchmakerModels::FUserInfoRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("MinCatalogVersion"));
     writer->WriteValue(MinCatalogVersion);
 
@@ -688,6 +759,15 @@ void PlayFab::MatchmakerModels::FUserInfoRequest::writeJSON(JsonWriter& writer) 
 bool PlayFab::MatchmakerModels::FUserInfoRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> MinCatalogVersionValue = obj->TryGetField(TEXT("MinCatalogVersion"));
     if (MinCatalogVersionValue.IsValid() && !MinCatalogVersionValue->IsNull())

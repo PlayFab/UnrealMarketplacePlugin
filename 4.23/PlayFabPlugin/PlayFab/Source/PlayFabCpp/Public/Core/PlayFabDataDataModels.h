@@ -47,6 +47,8 @@ namespace DataModels
 
     struct PLAYFABCPP_API FAbortFileUploadsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -60,6 +62,7 @@ namespace DataModels
 
         FAbortFileUploadsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             FileNames(),
             ProfileVersion()
@@ -67,6 +70,7 @@ namespace DataModels
 
         FAbortFileUploadsRequest(const FAbortFileUploadsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             FileNames(src.FileNames),
             ProfileVersion(src.ProfileVersion)
@@ -116,6 +120,8 @@ namespace DataModels
 
     struct PLAYFABCPP_API FDeleteFilesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -129,6 +135,7 @@ namespace DataModels
 
         FDeleteFilesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             FileNames(),
             ProfileVersion()
@@ -136,6 +143,7 @@ namespace DataModels
 
         FDeleteFilesRequest(const FDeleteFilesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             FileNames(src.FileNames),
             ProfileVersion(src.ProfileVersion)
@@ -185,6 +193,8 @@ namespace DataModels
 
     struct PLAYFABCPP_API FFinalizeFileUploadsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -192,12 +202,14 @@ namespace DataModels
         TArray<FString> FileNames;
         FFinalizeFileUploadsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             FileNames()
             {}
 
         FFinalizeFileUploadsRequest(const FFinalizeFileUploadsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             FileNames(src.FileNames)
             {}
@@ -296,16 +308,20 @@ namespace DataModels
 
     struct PLAYFABCPP_API FGetFilesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
         FGetFilesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity()
             {}
 
         FGetFilesRequest(const FGetFilesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity)
             {}
 
@@ -357,6 +373,8 @@ namespace DataModels
 
     struct PLAYFABCPP_API FGetObjectsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -368,12 +386,14 @@ namespace DataModels
 
         FGetObjectsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             EscapeObject()
             {}
 
         FGetObjectsRequest(const FGetObjectsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             EscapeObject(src.EscapeObject)
             {}
@@ -493,6 +513,8 @@ namespace DataModels
 
     struct PLAYFABCPP_API FInitiateFileUploadsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -506,6 +528,7 @@ namespace DataModels
 
         FInitiateFileUploadsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             FileNames(),
             ProfileVersion()
@@ -513,6 +536,7 @@ namespace DataModels
 
         FInitiateFileUploadsRequest(const FInitiateFileUploadsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             FileNames(src.FileNames),
             ProfileVersion(src.ProfileVersion)
@@ -661,6 +685,8 @@ namespace DataModels
 
     struct PLAYFABCPP_API FSetObjectsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -675,6 +701,7 @@ namespace DataModels
         TArray<FSetObject> Objects;
         FSetObjectsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             ExpectedProfileVersion(),
             Objects()
@@ -682,6 +709,7 @@ namespace DataModels
 
         FSetObjectsRequest(const FSetObjectsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             ExpectedProfileVersion(src.ExpectedProfileVersion),
             Objects(src.Objects)

@@ -78,14 +78,6 @@ TSharedPtr<UPlayFabAuthenticationContext> UPlayFabInsightsInstanceAPI::GetOrCrea
 }
 
 bool UPlayFabInsightsInstanceAPI::GetDetails(
-    const FGetDetailsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    InsightsModels::FInsightsEmptyRequest emptyRequest = InsightsModels::FInsightsEmptyRequest();
-    return UPlayFabInsightsInstanceAPI::GetDetails(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabInsightsInstanceAPI::GetDetails(
     InsightsModels::FInsightsEmptyRequest& request,
     const FGetDetailsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -113,14 +105,6 @@ void UPlayFabInsightsInstanceAPI::OnGetDetailsResult(FHttpRequestPtr HttpRequest
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabInsightsInstanceAPI::GetLimits(
-    const FGetLimitsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    InsightsModels::FInsightsEmptyRequest emptyRequest = InsightsModels::FInsightsEmptyRequest();
-    return UPlayFabInsightsInstanceAPI::GetLimits(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabInsightsInstanceAPI::GetLimits(

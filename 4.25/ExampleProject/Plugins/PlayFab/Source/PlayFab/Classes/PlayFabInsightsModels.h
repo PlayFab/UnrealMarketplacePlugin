@@ -35,6 +35,9 @@ struct PLAYFAB_API FInsightsInsightsEmptyRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -90,6 +93,9 @@ struct PLAYFAB_API FInsightsInsightsGetOperationStatusRequest : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** Id of the Insights operation. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
         FString OperationId;
@@ -132,6 +138,9 @@ struct PLAYFAB_API FInsightsInsightsGetPendingOperationsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The type of pending operations requested, or blank for all operation types. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
         FString OperationType;
@@ -169,6 +178,9 @@ struct PLAYFAB_API FInsightsInsightsSetPerformanceRequest : public FPlayFabReque
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The Insights performance level to apply to the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
         int32 PerformanceLevel = 0;
@@ -180,6 +192,9 @@ struct PLAYFAB_API FInsightsInsightsSetStorageRetentionRequest : public FPlayFab
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The Insights data storage retention value (in days) to apply to the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Insights | Analytics Models")
         int32 RetentionDays = 0;

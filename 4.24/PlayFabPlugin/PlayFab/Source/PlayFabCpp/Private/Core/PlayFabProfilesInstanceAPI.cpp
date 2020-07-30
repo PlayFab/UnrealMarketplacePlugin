@@ -78,14 +78,6 @@ TSharedPtr<UPlayFabAuthenticationContext> UPlayFabProfilesInstanceAPI::GetOrCrea
 }
 
 bool UPlayFabProfilesInstanceAPI::GetGlobalPolicy(
-    const FGetGlobalPolicyDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ProfilesModels::FGetGlobalPolicyRequest emptyRequest = ProfilesModels::FGetGlobalPolicyRequest();
-    return UPlayFabProfilesInstanceAPI::GetGlobalPolicy(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabProfilesInstanceAPI::GetGlobalPolicy(
     ProfilesModels::FGetGlobalPolicyRequest& request,
     const FGetGlobalPolicyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)

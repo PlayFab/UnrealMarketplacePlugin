@@ -70,6 +70,17 @@ void PlayFab::EventsModels::FEventContents::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -126,6 +137,15 @@ void PlayFab::EventsModels::FEventContents::writeJSON(JsonWriter& writer) const
 bool PlayFab::EventsModels::FEventContents::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -184,6 +204,17 @@ void PlayFab::EventsModels::FWriteEventsRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteArrayStart(TEXT("Events"));
     for (const FEventContents& item : Events)
         item.writeJSON(writer);
@@ -196,6 +227,15 @@ void PlayFab::EventsModels::FWriteEventsRequest::writeJSON(JsonWriter& writer) c
 bool PlayFab::EventsModels::FWriteEventsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&EventsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Events"));
     for (int32 Idx = 0; Idx < EventsArray.Num(); Idx++)

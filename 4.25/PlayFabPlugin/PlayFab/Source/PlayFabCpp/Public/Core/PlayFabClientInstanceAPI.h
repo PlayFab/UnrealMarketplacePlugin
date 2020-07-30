@@ -489,7 +489,7 @@ namespace PlayFab
         bool GetTime(ClientModels::FGetTimeRequest& request, const FGetTimeDelegate& SuccessDelegate = FGetTimeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the key-value store of custom title settings
-         * This API is designed to return title specific values which can be read, but not written to, by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
+         * This API is designed to return title specific values which can be read, but not written to, by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. If the player belongs to an experiment variant that uses title data overrides, the overrides are applied automatically and returned with the title data. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
          */
         bool GetTitleData(ClientModels::FGetTitleDataRequest& request, const FGetTitleDataDelegate& SuccessDelegate = FGetTitleDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the title news feed, as configured in the developer portal
@@ -506,9 +506,6 @@ namespace PlayFab
          * Data is stored as JSON key-value pairs. Every time the data is updated via any source, the version counter is incremented. If the Version parameter is provided, then this call will only return data if the current version on the system is greater than the value provided. If the Keys parameter is provided, the data object returned will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user data will be returned.
          */
         bool GetUserData(ClientModels::FGetUserDataRequest& request, const FGetUserDataDelegate& SuccessDelegate = FGetUserDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the user's current inventory of virtual goods
-
-        bool GetUserInventory(const FGetUserInventoryDelegate& SuccessDelegate = FGetUserInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the user's current inventory of virtual goods
         bool GetUserInventory(ClientModels::FGetUserInventoryRequest& request, const FGetUserInventoryDelegate& SuccessDelegate = FGetUserInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -742,12 +739,6 @@ namespace PlayFab
          * Removes a contact email from the player's profile.
          * This API removes an existing contact email from the player's profile.
          */
-
-        bool RemoveContactEmail(const FRemoveContactEmailDelegate& SuccessDelegate = FRemoveContactEmailDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Removes a contact email from the player's profile.
-         * This API removes an existing contact email from the player's profile.
-         */
         bool RemoveContactEmail(ClientModels::FRemoveContactEmailRequest& request, const FRemoveContactEmailDelegate& SuccessDelegate = FRemoveContactEmailDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Removes a specified user from the friend list of the local user
         bool RemoveFriend(ClientModels::FRemoveFriendRequest& request, const FRemoveFriendDelegate& SuccessDelegate = FRemoveFriendDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -823,30 +814,15 @@ namespace PlayFab
         // Unlinks the related Android device identifier from the user's PlayFab account
         bool UnlinkAndroidDeviceID(ClientModels::FUnlinkAndroidDeviceIDRequest& request, const FUnlinkAndroidDeviceIDDelegate& SuccessDelegate = FUnlinkAndroidDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Apple account from the user's PlayFab account.
-
-        bool UnlinkApple(const FUnlinkAppleDelegate& SuccessDelegate = FUnlinkAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Apple account from the user's PlayFab account.
         bool UnlinkApple(ClientModels::FUnlinkAppleRequest& request, const FUnlinkAppleDelegate& SuccessDelegate = FUnlinkAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related custom identifier from the user's PlayFab account
         bool UnlinkCustomID(ClientModels::FUnlinkCustomIDRequest& request, const FUnlinkCustomIDDelegate& SuccessDelegate = FUnlinkCustomIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Facebook account from the user's PlayFab account
-
-        bool UnlinkFacebookAccount(const FUnlinkFacebookAccountDelegate& SuccessDelegate = FUnlinkFacebookAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Facebook account from the user's PlayFab account
         bool UnlinkFacebookAccount(ClientModels::FUnlinkFacebookAccountRequest& request, const FUnlinkFacebookAccountDelegate& SuccessDelegate = FUnlinkFacebookAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Facebook Instant Game Ids from the user's PlayFab account
         bool UnlinkFacebookInstantGamesId(ClientModels::FUnlinkFacebookInstantGamesIdRequest& request, const FUnlinkFacebookInstantGamesIdDelegate& SuccessDelegate = FUnlinkFacebookInstantGamesIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Game Center account from the user's PlayFab account
-
-        bool UnlinkGameCenterAccount(const FUnlinkGameCenterAccountDelegate& SuccessDelegate = FUnlinkGameCenterAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Game Center account from the user's PlayFab account
         bool UnlinkGameCenterAccount(ClientModels::FUnlinkGameCenterAccountRequest& request, const FUnlinkGameCenterAccountDelegate& SuccessDelegate = FUnlinkGameCenterAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Unlinks the related Google account from the user's PlayFab account
-         * (https://developers.google.com/android/reference/com/google/android/gms/auth/GoogleAuthUtil#public-methods).
-         */
-
-        bool UnlinkGoogleAccount(const FUnlinkGoogleAccountDelegate& SuccessDelegate = FUnlinkGoogleAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Unlinks the related Google account from the user's PlayFab account
          * (https://developers.google.com/android/reference/com/google/android/gms/auth/GoogleAuthUtil#public-methods).
@@ -855,13 +831,7 @@ namespace PlayFab
         // Unlinks the related iOS device identifier from the user's PlayFab account
         bool UnlinkIOSDeviceID(ClientModels::FUnlinkIOSDeviceIDRequest& request, const FUnlinkIOSDeviceIDDelegate& SuccessDelegate = FUnlinkIOSDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Kongregate identifier from the user's PlayFab account
-
-        bool UnlinkKongregate(const FUnlinkKongregateDelegate& SuccessDelegate = FUnlinkKongregateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Kongregate identifier from the user's PlayFab account
         bool UnlinkKongregate(ClientModels::FUnlinkKongregateAccountRequest& request, const FUnlinkKongregateDelegate& SuccessDelegate = FUnlinkKongregateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Nintendo account from the user's PlayFab account.
-
-        bool UnlinkNintendoServiceAccount(const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate = FUnlinkNintendoServiceAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Nintendo account from the user's PlayFab account.
         bool UnlinkNintendoServiceAccount(ClientModels::FUnlinkNintendoServiceAccountRequest& request, const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate = FUnlinkNintendoServiceAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account
@@ -872,13 +842,7 @@ namespace PlayFab
          */
         bool UnlinkOpenIdConnect(ClientModels::FUnlinkOpenIdConnectRequest& request, const FUnlinkOpenIdConnectDelegate& SuccessDelegate = FUnlinkOpenIdConnectDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related PSN account from the user's PlayFab account
-
-        bool UnlinkPSNAccount(const FUnlinkPSNAccountDelegate& SuccessDelegate = FUnlinkPSNAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related PSN account from the user's PlayFab account
         bool UnlinkPSNAccount(ClientModels::FUnlinkPSNAccountRequest& request, const FUnlinkPSNAccountDelegate& SuccessDelegate = FUnlinkPSNAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Steam account from the user's PlayFab account
-
-        bool UnlinkSteamAccount(const FUnlinkSteamAccountDelegate& SuccessDelegate = FUnlinkSteamAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Steam account from the user's PlayFab account
         bool UnlinkSteamAccount(ClientModels::FUnlinkSteamAccountRequest& request, const FUnlinkSteamAccountDelegate& SuccessDelegate = FUnlinkSteamAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Twitch account from the user's PlayFab account.
@@ -888,9 +852,6 @@ namespace PlayFab
          * Must include the Public Key Hint
          */
         bool UnlinkWindowsHello(ClientModels::FUnlinkWindowsHelloAccountRequest& request, const FUnlinkWindowsHelloDelegate& SuccessDelegate = FUnlinkWindowsHelloDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related Xbox Live account from the user's PlayFab account
-
-        bool UnlinkXboxAccount(const FUnlinkXboxAccountDelegate& SuccessDelegate = FUnlinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Xbox Live account from the user's PlayFab account
         bool UnlinkXboxAccount(ClientModels::FUnlinkXboxAccountRequest& request, const FUnlinkXboxAccountDelegate& SuccessDelegate = FUnlinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

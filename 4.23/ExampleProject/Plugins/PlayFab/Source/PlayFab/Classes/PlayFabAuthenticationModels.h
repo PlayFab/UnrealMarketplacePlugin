@@ -47,6 +47,9 @@ struct PLAYFAB_API FAuthenticationGetEntityTokenRequest : public FPlayFabRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -74,6 +77,9 @@ struct PLAYFAB_API FAuthenticationValidateEntityTokenRequest : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** Client EntityToken */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         FString EntityToken;

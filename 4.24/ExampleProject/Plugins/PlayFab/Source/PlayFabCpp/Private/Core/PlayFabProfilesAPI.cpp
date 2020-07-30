@@ -37,14 +37,6 @@ void UPlayFabProfilesAPI::SetDevSecretKey(const FString& developerSecretKey)
 }
 
 bool UPlayFabProfilesAPI::GetGlobalPolicy(
-    const FGetGlobalPolicyDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    ProfilesModels::FGetGlobalPolicyRequest emptyRequest = ProfilesModels::FGetGlobalPolicyRequest();
-    return UPlayFabProfilesAPI::GetGlobalPolicy(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabProfilesAPI::GetGlobalPolicy(
     ProfilesModels::FGetGlobalPolicyRequest& request,
     const FGetGlobalPolicyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)

@@ -89,6 +89,9 @@ struct PLAYFAB_API FCloudScriptExecuteEntityCloudScriptRequest : public FPlayFab
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -122,6 +125,9 @@ struct PLAYFAB_API FCloudScriptExecuteFunctionRequest : public FPlayFabRequestCo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -170,6 +176,9 @@ struct PLAYFAB_API FCloudScriptListFunctionsRequest : public FPlayFabRequestComm
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -214,6 +223,9 @@ struct PLAYFAB_API FCloudScriptPostFunctionResultForEntityTriggeredActionRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -227,6 +239,9 @@ struct PLAYFAB_API FCloudScriptPostFunctionResultForFunctionExecutionRequest : p
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -240,6 +255,9 @@ struct PLAYFAB_API FCloudScriptPostFunctionResultForPlayerTriggeredActionRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -259,6 +277,9 @@ struct PLAYFAB_API FCloudScriptPostFunctionResultForScheduledTaskRequest : publi
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -275,6 +296,9 @@ struct PLAYFAB_API FCloudScriptRegisterHttpFunctionRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The name of the function to register */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString FunctionName;
@@ -295,6 +319,9 @@ public:
     /** A connection string for the storage account that hosts the queue for the Azure Function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString ConnectionString;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The name of the function to register */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString FunctionName;
@@ -308,6 +335,9 @@ struct PLAYFAB_API FCloudScriptUnregisterFunctionRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The name of the function to unregister */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString FunctionName;

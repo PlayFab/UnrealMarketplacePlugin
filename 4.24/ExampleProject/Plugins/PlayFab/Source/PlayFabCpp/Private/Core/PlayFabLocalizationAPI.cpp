@@ -37,14 +37,6 @@ void UPlayFabLocalizationAPI::SetDevSecretKey(const FString& developerSecretKey)
 }
 
 bool UPlayFabLocalizationAPI::GetLanguageList(
-    const FGetLanguageListDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    LocalizationModels::FGetLanguageListRequest emptyRequest = LocalizationModels::FGetLanguageListRequest();
-    return UPlayFabLocalizationAPI::GetLanguageList(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabLocalizationAPI::GetLanguageList(
     LocalizationModels::FGetLanguageListRequest& request,
     const FGetLanguageListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)

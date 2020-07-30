@@ -176,10 +176,10 @@ void PlayFab::ExperimentationModels::FVariant::writeJSON(JsonWriter& writer) con
         writer->WriteValue(Name);
     }
 
-    if (TitleDataOverrideId.IsEmpty() == false)
+    if (TitleDataOverrideLabel.IsEmpty() == false)
     {
-        writer->WriteIdentifierPrefix(TEXT("TitleDataOverrideId"));
-        writer->WriteValue(TitleDataOverrideId);
+        writer->WriteIdentifierPrefix(TEXT("TitleDataOverrideLabel"));
+        writer->WriteValue(TitleDataOverrideLabel);
     }
 
     writer->WriteIdentifierPrefix(TEXT("TrafficPercentage"));
@@ -229,11 +229,11 @@ bool PlayFab::ExperimentationModels::FVariant::readFromValue(const TSharedPtr<FJ
         if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
     }
 
-    const TSharedPtr<FJsonValue> TitleDataOverrideIdValue = obj->TryGetField(TEXT("TitleDataOverrideId"));
-    if (TitleDataOverrideIdValue.IsValid() && !TitleDataOverrideIdValue->IsNull())
+    const TSharedPtr<FJsonValue> TitleDataOverrideLabelValue = obj->TryGetField(TEXT("TitleDataOverrideLabel"));
+    if (TitleDataOverrideLabelValue.IsValid() && !TitleDataOverrideLabelValue->IsNull())
     {
         FString TmpValue;
-        if (TitleDataOverrideIdValue->TryGetString(TmpValue)) { TitleDataOverrideId = TmpValue; }
+        if (TitleDataOverrideLabelValue->TryGetString(TmpValue)) { TitleDataOverrideLabel = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> TrafficPercentageValue = obj->TryGetField(TEXT("TrafficPercentage"));
@@ -262,6 +262,17 @@ PlayFab::ExperimentationModels::FCreateExperimentRequest::~FCreateExperimentRequ
 void PlayFab::ExperimentationModels::FCreateExperimentRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
 
     if (Description.IsEmpty() == false)
     {
@@ -318,6 +329,15 @@ void PlayFab::ExperimentationModels::FCreateExperimentRequest::writeJSON(JsonWri
 bool PlayFab::ExperimentationModels::FCreateExperimentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
     if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
@@ -408,6 +428,17 @@ void PlayFab::ExperimentationModels::FDeleteExperimentRequest::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ExperimentId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteExperimentRequest::ExperimentId, PlayFab calls may not work if it remains empty."));
@@ -424,6 +455,15 @@ void PlayFab::ExperimentationModels::FDeleteExperimentRequest::writeJSON(JsonWri
 bool PlayFab::ExperimentationModels::FDeleteExperimentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ExperimentIdValue = obj->TryGetField(TEXT("ExperimentId"));
     if (ExperimentIdValue.IsValid() && !ExperimentIdValue->IsNull())
@@ -685,12 +725,32 @@ void PlayFab::ExperimentationModels::FGetExperimentsRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ExperimentationModels::FGetExperimentsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -740,6 +800,17 @@ void PlayFab::ExperimentationModels::FGetLatestScorecardRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ExperimentId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ExperimentId"));
@@ -752,6 +823,15 @@ void PlayFab::ExperimentationModels::FGetLatestScorecardRequest::writeJSON(JsonW
 bool PlayFab::ExperimentationModels::FGetLatestScorecardRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ExperimentIdValue = obj->TryGetField(TEXT("ExperimentId"));
     if (ExperimentIdValue.IsValid() && !ExperimentIdValue->IsNull())
@@ -1154,6 +1234,17 @@ void PlayFab::ExperimentationModels::FGetTreatmentAssignmentRequest::writeJSON(J
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -1166,6 +1257,15 @@ void PlayFab::ExperimentationModels::FGetTreatmentAssignmentRequest::writeJSON(J
 bool PlayFab::ExperimentationModels::FGetTreatmentAssignmentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1264,6 +1364,17 @@ void PlayFab::ExperimentationModels::FStartExperimentRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ExperimentId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: StartExperimentRequest::ExperimentId, PlayFab calls may not work if it remains empty."));
@@ -1280,6 +1391,15 @@ void PlayFab::ExperimentationModels::FStartExperimentRequest::writeJSON(JsonWrit
 bool PlayFab::ExperimentationModels::FStartExperimentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ExperimentIdValue = obj->TryGetField(TEXT("ExperimentId"));
     if (ExperimentIdValue.IsValid() && !ExperimentIdValue->IsNull())
@@ -1300,6 +1420,17 @@ void PlayFab::ExperimentationModels::FStopExperimentRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ExperimentId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: StopExperimentRequest::ExperimentId, PlayFab calls may not work if it remains empty."));
@@ -1316,6 +1447,15 @@ void PlayFab::ExperimentationModels::FStopExperimentRequest::writeJSON(JsonWrite
 bool PlayFab::ExperimentationModels::FStopExperimentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ExperimentIdValue = obj->TryGetField(TEXT("ExperimentId"));
     if (ExperimentIdValue.IsValid() && !ExperimentIdValue->IsNull())
@@ -1335,6 +1475,17 @@ PlayFab::ExperimentationModels::FUpdateExperimentRequest::~FUpdateExperimentRequ
 void PlayFab::ExperimentationModels::FUpdateExperimentRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
 
     if (Description.IsEmpty() == false)
     {
@@ -1401,6 +1552,15 @@ void PlayFab::ExperimentationModels::FUpdateExperimentRequest::writeJSON(JsonWri
 bool PlayFab::ExperimentationModels::FUpdateExperimentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
     if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())

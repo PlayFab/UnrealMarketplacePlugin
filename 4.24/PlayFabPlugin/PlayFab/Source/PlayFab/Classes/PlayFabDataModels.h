@@ -36,6 +36,9 @@ struct PLAYFAB_API FDataAbortFileUploadsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -69,6 +72,9 @@ struct PLAYFAB_API FDataDeleteFilesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -105,6 +111,9 @@ struct PLAYFAB_API FDataFinalizeFileUploadsRequest : public FPlayFabRequestCommo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -139,6 +148,9 @@ struct PLAYFAB_API FDataGetFilesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -169,6 +181,9 @@ struct PLAYFAB_API FDataInitiateFileUploadsRequest : public FPlayFabRequestCommo
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | File Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -210,6 +225,9 @@ struct PLAYFAB_API FDataGetObjectsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -249,6 +267,9 @@ struct PLAYFAB_API FDataSetObjectsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Data | Object Models")
         UPlayFabJsonObject* Entity = nullptr;

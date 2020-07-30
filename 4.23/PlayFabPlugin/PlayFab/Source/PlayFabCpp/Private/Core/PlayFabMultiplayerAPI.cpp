@@ -246,6 +246,36 @@ void UPlayFabMultiplayerAPI::OnCreateBuildWithManagedContainerResult(FHttpReques
     }
 }
 
+bool UPlayFabMultiplayerAPI::CreateBuildWithProcessBasedServer(
+    MultiplayerModels::FCreateBuildWithProcessBasedServerRequest& request,
+    const FCreateBuildWithProcessBasedServerDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/CreateBuildWithProcessBasedServer")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnCreateBuildWithProcessBasedServerResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerAPI::OnCreateBuildWithProcessBasedServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithProcessBasedServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FCreateBuildWithProcessBasedServerResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerAPI::CreateMatchmakingTicket(
     MultiplayerModels::FCreateMatchmakingTicketRequest& request,
     const FCreateMatchmakingTicketDelegate& SuccessDelegate,
@@ -577,14 +607,6 @@ void UPlayFabMultiplayerAPI::OnDeleteRemoteUserResult(FHttpRequestPtr HttpReques
 }
 
 bool UPlayFabMultiplayerAPI::EnableMultiplayerServersForTitle(
-    const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FEnableMultiplayerServersForTitleRequest emptyRequest = MultiplayerModels::FEnableMultiplayerServersForTitleRequest();
-    return UPlayFabMultiplayerAPI::EnableMultiplayerServersForTitle(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabMultiplayerAPI::EnableMultiplayerServersForTitle(
     MultiplayerModels::FEnableMultiplayerServersForTitleRequest& request,
     const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -702,14 +724,6 @@ void UPlayFabMultiplayerAPI::OnGetBuildAliasResult(FHttpRequestPtr HttpRequest, 
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabMultiplayerAPI::GetContainerRegistryCredentials(
-    const FGetContainerRegistryCredentialsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FGetContainerRegistryCredentialsRequest emptyRequest = MultiplayerModels::FGetContainerRegistryCredentialsRequest();
-    return UPlayFabMultiplayerAPI::GetContainerRegistryCredentials(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabMultiplayerAPI::GetContainerRegistryCredentials(
@@ -983,14 +997,6 @@ void UPlayFabMultiplayerAPI::OnGetServerBackfillTicketResult(FHttpRequestPtr Htt
 }
 
 bool UPlayFabMultiplayerAPI::GetTitleEnabledForMultiplayerServersStatus(
-    const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequest emptyRequest = MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequest();
-    return UPlayFabMultiplayerAPI::GetTitleEnabledForMultiplayerServersStatus(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabMultiplayerAPI::GetTitleEnabledForMultiplayerServersStatus(
     MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequest& request,
     const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -1018,14 +1024,6 @@ void UPlayFabMultiplayerAPI::OnGetTitleEnabledForMultiplayerServersStatusResult(
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(
-    const FGetTitleMultiplayerServersQuotasDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest emptyRequest = MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest();
-    return UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(
@@ -1146,14 +1144,6 @@ void UPlayFabMultiplayerAPI::OnListAssetSummariesResult(FHttpRequestPtr HttpRequ
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabMultiplayerAPI::ListBuildAliases(
-    const FListBuildAliasesDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FMultiplayerEmptyRequest emptyRequest = MultiplayerModels::FMultiplayerEmptyRequest();
-    return UPlayFabMultiplayerAPI::ListBuildAliases(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabMultiplayerAPI::ListBuildAliases(
@@ -1393,14 +1383,6 @@ void UPlayFabMultiplayerAPI::OnListPartyQosServersResult(FHttpRequestPtr HttpReq
 }
 
 bool UPlayFabMultiplayerAPI::ListQosServers(
-    const FListQosServersDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FListQosServersRequest emptyRequest = MultiplayerModels::FListQosServersRequest();
-    return UPlayFabMultiplayerAPI::ListQosServers(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabMultiplayerAPI::ListQosServers(
     MultiplayerModels::FListQosServersRequest& request,
     const FListQosServersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -1424,14 +1406,6 @@ void UPlayFabMultiplayerAPI::OnListQosServersResult(FHttpRequestPtr HttpRequest,
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabMultiplayerAPI::ListQosServersForTitle(
-    const FListQosServersForTitleDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FListQosServersForTitleRequest emptyRequest = MultiplayerModels::FListQosServersForTitleRequest();
-    return UPlayFabMultiplayerAPI::ListQosServersForTitle(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabMultiplayerAPI::ListQosServersForTitle(
@@ -1552,14 +1526,6 @@ void UPlayFabMultiplayerAPI::OnRequestMultiplayerServerResult(FHttpRequestPtr Ht
     {
         ErrorDelegate.ExecuteIfBound(errorResult);
     }
-}
-
-bool UPlayFabMultiplayerAPI::RolloverContainerRegistryCredentials(
-    const FRolloverContainerRegistryCredentialsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    MultiplayerModels::FRolloverContainerRegistryCredentialsRequest emptyRequest = MultiplayerModels::FRolloverContainerRegistryCredentialsRequest();
-    return UPlayFabMultiplayerAPI::RolloverContainerRegistryCredentials(emptyRequest, SuccessDelegate, ErrorDelegate);
 }
 
 bool UPlayFabMultiplayerAPI::RolloverContainerRegistryCredentials(

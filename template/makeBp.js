@@ -102,7 +102,7 @@ function getPropertyCppType(property, datatype) {
             if (isCollection && isArray) {
                 return "FString " + propSafeName + ";";
             } else if (isCollection) {
-                return "UPlayFabJsonObject* " + propSafeName + ";";
+                return "UPlayFabJsonObject* " + propSafeName + " = nullptr;";
             } else if (property.isenum) {
                 return "E" + getDataTypeSafeName(property, "actualtype") + " " + propSafeName + ";";
             } else {
@@ -112,7 +112,7 @@ function getPropertyCppType(property, datatype) {
             if (isCollection && isArray) {
                 return "TArray<bool> " + propSafeName + ";";
             } else if (isCollection) {
-                return "UPlayFabJsonObject* " + propSafeName + ";";
+                return "UPlayFabJsonObject* " + propSafeName + " = nullptr;";
             } else {
                 return "bool " + propSafeName + " = false;";
             }
@@ -120,7 +120,7 @@ function getPropertyCppType(property, datatype) {
             if (isCollection && isArray) {
                 return "TArray<int32> " + propSafeName + ";";
             } else if (isCollection) {
-                return "UPlayFabJsonObject* " + propSafeName + ";";
+                return "UPlayFabJsonObject* " + propSafeName + " = nullptr;";
             } else {
                 return "int32 " + propSafeName + " = 0;";
             }

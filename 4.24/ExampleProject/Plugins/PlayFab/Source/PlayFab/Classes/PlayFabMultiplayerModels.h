@@ -41,6 +41,9 @@ struct PLAYFAB_API FMultiplayerCancelAllMatchmakingTicketsForPlayerRequest : pub
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity key of the player whose tickets should be canceled. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -66,6 +69,9 @@ struct PLAYFAB_API FMultiplayerCancelAllServerBackfillTicketsForPlayerRequest : 
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity key of the player whose backfill tickets should be canceled. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -97,6 +103,9 @@ struct PLAYFAB_API FMultiplayerCancelMatchmakingTicketRequest : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The name of the queue the ticket is in. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString QueueName;
@@ -125,6 +134,9 @@ struct PLAYFAB_API FMultiplayerCancelServerBackfillTicketRequest : public FPlayF
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The name of the queue the ticket is in. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString QueueName;
@@ -149,6 +161,9 @@ public:
     /** The User who created this ticket. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Creator = nullptr;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** How long to attempt matching this ticket in seconds. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         int32 GiveUpAfterSeconds = 0;
@@ -176,6 +191,9 @@ struct PLAYFAB_API FMultiplayerCreateServerBackfillTicketRequest : public FPlayF
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** How long to attempt matching this ticket in seconds. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         int32 GiveUpAfterSeconds = 0;
@@ -206,6 +224,9 @@ struct PLAYFAB_API FMultiplayerCreateServerMatchmakingTicketRequest : public FPl
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** How long to attempt matching this ticket in seconds. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         int32 GiveUpAfterSeconds = 0;
@@ -227,6 +248,9 @@ struct PLAYFAB_API FMultiplayerGetMatchRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
      * object.
@@ -275,6 +299,9 @@ struct PLAYFAB_API FMultiplayerGetMatchmakingTicketRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
      * object.
@@ -341,6 +368,9 @@ struct PLAYFAB_API FMultiplayerGetQueueStatisticsRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The name of the queue. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString QueueName;
@@ -368,6 +398,9 @@ struct PLAYFAB_API FMultiplayerGetServerBackfillTicketRequest : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
      * object.
@@ -427,6 +460,9 @@ struct PLAYFAB_API FMultiplayerJoinMatchmakingTicketRequest : public FPlayFabReq
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The User who wants to join the ticket. Their Id must be listed in PlayFabIdsToMatchWith. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Member = nullptr;
@@ -454,6 +490,9 @@ struct PLAYFAB_API FMultiplayerListMatchmakingTicketsForPlayerRequest : public F
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity key for which to find the ticket Ids. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -478,6 +517,9 @@ struct PLAYFAB_API FMultiplayerListServerBackfillTicketsForPlayerRequest : publi
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity key for which to find the ticket Ids. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -540,6 +582,9 @@ public:
     /** Array of build selection criteria. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Creates a multiplayer server build with a custom container and returns information about the build creation request. */
@@ -566,18 +611,24 @@ public:
     /** The container command to run when the multiplayer server has been allocated, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ContainerRunCommand;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The list of game assets related to the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameAssetReferences;
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The Linux instrumentation configuration for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* LinuxInstrumentationConfiguration = nullptr;
     /**
      * Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
      * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* Metadata;
+        UPlayFabJsonObject* Metadata = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -633,9 +684,12 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The Linux instrumentation configuration for this build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* LinuxInstrumentationConfiguration = nullptr;
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* Metadata;
+        UPlayFabJsonObject* Metadata = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -680,6 +734,9 @@ public:
     /** The flavor of container to create a build from. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EContainerFlavor ContainerFlavor;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The list of game assets related to the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameAssetReferences;
@@ -700,7 +757,7 @@ public:
      * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* Metadata;
+        UPlayFabJsonObject* Metadata = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -764,7 +821,7 @@ public:
         UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* Metadata;
+        UPlayFabJsonObject* Metadata = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -795,6 +852,150 @@ public:
 };
 
 /**
+ * Creates a multiplayer server build with the game server running as a process and returns information about the build
+ * creation request.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateBuildWithProcessBasedServerRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+     * will have the same assets mounted in the container.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool AreAssetsReadonly = false;
+    /** The build name. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildName;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The list of game assets related to the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameAssetReferences;
+    /** The game certificates for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /**
+     * The working directory for the game process. If this is not provided, the working directory will be set based on the
+     * mount path of the game server executable.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString GameWorkingDirectory;
+    /** The instrumentation configuration for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
+    /**
+     * Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
+     * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* Metadata = nullptr;
+    /** The number of multiplayer servers to host on a single VM. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 MultiplayerServerCountPerVm = 0;
+    /** The OS platform used for running the game process. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString OsPlatform;
+    /** The ports to map the build on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> Ports;
+    /** The region configurations for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /**
+     * The command to run when the multiplayer server is started, including any arguments. The path to any executable should be
+     * relative to the root asset folder when unzipped.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString StartMultiplayerServerCommand;
+    /**
+     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+     * disc.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool UseStreamingForAssetDownloads = false;
+    /** The VM size to create the build on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        EAzureVmSize VmSize;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateBuildWithProcessBasedServerResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * When true, assets will not be copied for each server inside the VM. All serverswill run from the same set of assets, or
+     * will have the same assets mounted in the container.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool AreAssetsReadonly = false;
+    /** The guid string build ID. Must be unique for every build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildId;
+    /** The build name. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildName;
+    /** The flavor of container of the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        EContainerFlavor ContainerFlavor;
+    /** The time the build was created in UTC. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString CreationTime;
+    /** The game assets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameAssetReferences;
+    /** The game certificates for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /**
+     * The working directory for the game process. If this is not provided, the working directory will be set based on the
+     * mount path of the game server executable.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString GameWorkingDirectory;
+    /** The instrumentation configuration for this build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
+    /** The metadata of the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* Metadata = nullptr;
+    /** The number of multiplayer servers to host on a single VM of the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 MultiplayerServerCountPerVm = 0;
+    /** The OS platform used for running the game process. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString OsPlatform;
+    /** The ports the build is mapped on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> Ports;
+    /** The region configuration for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The type of game server being hosted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ServerType;
+    /**
+     * The command to run when the multiplayer server is started, including any arguments. The path to any executable is
+     * relative to the root asset folder when unzipped.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString StartMultiplayerServerCommand;
+    /**
+     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
+     * disc.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool UseStreamingForAssetDownloads = false;
+    /** The VM size the build was created on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        EAzureVmSize VmSize;
+};
+
+/**
  * Creates a remote user to log on to a VM for a multiplayer server build in a specific region. Returns user credential
  * information necessary to log on.
  */
@@ -806,6 +1007,9 @@ public:
     /** The guid string build ID of to create the remote user for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The expiration time for the remote user created. Defaults to expiring in one day if not specified. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ExpirationTime;
@@ -842,6 +1046,9 @@ struct PLAYFAB_API FMultiplayerDeleteAssetRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The filename of the asset to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString FileName;
@@ -863,6 +1070,9 @@ public:
     /** The guid string build ID of the build to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Deletes a multiplayer server build alias. */
@@ -874,6 +1084,9 @@ public:
     /** The guid string alias ID of the alias to perform the action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString AliasId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Removes a multiplayer server build's region. */
@@ -885,6 +1098,9 @@ public:
     /** The guid string ID of the build we want to update regions for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The build region to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Region;
@@ -896,6 +1112,9 @@ struct PLAYFAB_API FMultiplayerDeleteCertificateRequest : public FPlayFabRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The name of the certificate. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Name;
@@ -910,6 +1129,9 @@ struct PLAYFAB_API FMultiplayerDeleteContainerImageRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The container image repository we want to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ImageName;
@@ -927,6 +1149,9 @@ public:
     /** The guid string build ID of the multiplayer server where the remote user is to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The region of the multiplayer server where the remote user is to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Region;
@@ -948,6 +1173,9 @@ struct PLAYFAB_API FMultiplayerEnableMultiplayerServersForTitleRequest : public 
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -966,6 +1194,9 @@ struct PLAYFAB_API FMultiplayerGetAssetUploadUrlRequest : public FPlayFabRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The asset's file name to get the upload URL for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString FileName;
@@ -993,6 +1224,9 @@ public:
     /** The guid string build ID of the build to get. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1044,7 +1278,7 @@ public:
      * Server SDK (GSDK).
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* Metadata;
+        UPlayFabJsonObject* Metadata = nullptr;
     /** The number of multiplayer servers to hosted on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -1086,6 +1320,9 @@ public:
     /** The guid string alias ID of the alias to perform the action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString AliasId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /**
@@ -1097,6 +1334,9 @@ struct PLAYFAB_API FMultiplayerGetContainerRegistryCredentialsRequest : public F
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1124,6 +1364,9 @@ public:
     /** The guid string build ID of the multiplayer server to get details for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The region the multiplayer server is located in to get details for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Region;
@@ -1181,6 +1424,9 @@ struct PLAYFAB_API FMultiplayerGetMultiplayerServerLogsRequest : public FPlayFab
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The server ID of multiplayer server to get logs for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ServerId;
@@ -1205,6 +1451,9 @@ struct PLAYFAB_API FMultiplayerGetMultiplayerSessionLogsBySessionIdRequest : pub
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The server ID of multiplayer server to get logs for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SessionId;
@@ -1219,6 +1468,9 @@ public:
     /** The guid string build ID of the multiplayer server to get remote login information for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The region of the multiplayer server to get remote login information for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Region;
@@ -1249,6 +1501,9 @@ struct PLAYFAB_API FMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1267,6 +1522,9 @@ struct PLAYFAB_API FMultiplayerGetTitleMultiplayerServersQuotasRequest : public 
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1288,6 +1546,9 @@ public:
     /** The guid string build ID of the multiplayer servers to list. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 PageSize = 0;
@@ -1321,6 +1582,9 @@ struct PLAYFAB_API FMultiplayerListAssetSummariesRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 PageSize = 0;
@@ -1361,6 +1625,9 @@ struct PLAYFAB_API FMultiplayerMultiplayerEmptyRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Returns a list of summarized details of all multiplayer server builds for a title. */
@@ -1369,6 +1636,9 @@ struct PLAYFAB_API FMultiplayerListBuildSummariesRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 PageSize = 0;
@@ -1399,6 +1669,9 @@ struct PLAYFAB_API FMultiplayerListCertificateSummariesRequest : public FPlayFab
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 PageSize = 0;
@@ -1429,6 +1702,9 @@ struct PLAYFAB_API FMultiplayerListContainerImagesRequest : public FPlayFabReque
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 PageSize = 0;
@@ -1459,6 +1735,9 @@ struct PLAYFAB_API FMultiplayerListContainerImageTagsRequest : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The container images we want to list tags for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ImageName;
@@ -1480,6 +1759,9 @@ struct PLAYFAB_API FMultiplayerListPartyQosServersRequest : public FPlayFabReque
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** Qos servers version */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Version;
@@ -1507,6 +1789,9 @@ struct PLAYFAB_API FMultiplayerListQosServersRequest : public FPlayFabRequestCom
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1531,6 +1816,9 @@ struct PLAYFAB_API FMultiplayerListQosServersForTitleRequest : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1558,6 +1846,9 @@ public:
     /** The guid string build ID of the virtual machines to list. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The page size for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 PageSize = 0;
@@ -1597,6 +1888,9 @@ public:
     /** The guid string build ID of the multiplayer server to request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * Initial list of players (potentially matchmade) allowed to connect to the game. This list is passed to the game server
      * when requested (via GSDK) and can be used to validate players connecting to it.
@@ -1666,6 +1960,9 @@ struct PLAYFAB_API FMultiplayerRolloverContainerRegistryCredentialsRequest : pub
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1697,6 +1994,9 @@ public:
     /** The guid string build ID of the multiplayer server to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString BuildId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The region of the multiplayer server to shut down. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Region;
@@ -1714,6 +2014,9 @@ struct PLAYFAB_API FMultiplayerUntagContainerImageRequest : public FPlayFabReque
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The container image which tag we want to remove. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ImageName;
@@ -1737,6 +2040,9 @@ public:
     /** Array of build selection criteria. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Updates a multiplayer server build's region. */
@@ -1751,6 +2057,9 @@ public:
     /** The updated region configuration that should be applied to the specified build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* BuildRegion = nullptr;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Updates a multiplayer server build's regions. */
@@ -1765,6 +2074,9 @@ public:
     /** The updated region configuration that should be applied to the specified build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildRegions;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Uploads a multiplayer server game certificate. */
@@ -1773,6 +2085,9 @@ struct PLAYFAB_API FMultiplayerUploadCertificateRequest : public FPlayFabRequest
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The game certificate to upload. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* GameCertificate = nullptr;

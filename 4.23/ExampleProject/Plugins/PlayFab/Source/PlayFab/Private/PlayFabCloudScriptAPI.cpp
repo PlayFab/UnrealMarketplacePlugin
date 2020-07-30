@@ -99,6 +99,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ExecuteEntityCloudScript(FCloudS
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
@@ -167,6 +168,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ExecuteFunction(FCloudScriptExec
     }
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
@@ -222,6 +224,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListFunctions(FCloudScriptListFu
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -269,6 +272,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListHttpFunctions(FCloudScriptLi
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -316,6 +320,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListQueuedFunctions(FCloudScript
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -363,6 +368,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::PostFunctionResultForEntityTrigg
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionResult != nullptr) OutRestJsonObj->SetObjectField(TEXT("FunctionResult"), request.FunctionResult);
 
@@ -412,6 +418,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::PostFunctionResultForFunctionExe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionResult != nullptr) OutRestJsonObj->SetObjectField(TEXT("FunctionResult"), request.FunctionResult);
 
@@ -462,6 +469,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::PostFunctionResultForPlayerTrigg
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionResult != nullptr) OutRestJsonObj->SetObjectField(TEXT("FunctionResult"), request.FunctionResult);
     if (request.PlayerProfile != nullptr) OutRestJsonObj->SetObjectField(TEXT("PlayerProfile"), request.PlayerProfile);
@@ -514,6 +522,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::PostFunctionResultForScheduledTa
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionResult != nullptr) OutRestJsonObj->SetObjectField(TEXT("FunctionResult"), request.FunctionResult);
     if (request.ScheduledTaskId != nullptr) OutRestJsonObj->SetObjectField(TEXT("ScheduledTaskId"), request.ScheduledTaskId);
@@ -565,6 +574,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
     } else {
@@ -628,6 +638,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
     } else {
         OutRestJsonObj->SetStringField(TEXT("ConnectionString"), request.ConnectionString);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
     } else {
@@ -686,6 +697,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::UnregisterFunction(FCloudScriptU
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
     } else {

@@ -47,6 +47,12 @@ namespace EventsModels
 
     struct PLAYFABCPP_API FEventContents : public PlayFab::FPlayFabCppBaseModel
     {
+        /**
+         * [optional] The optional custom tags associated with the event (e.g. build number, external trace identifiers, etc.). Before an
+         * event is written, this collection and the base request custom tags will be merged, but not overriden. This enables the
+         * caller to specify static tags and per event tags.
+         */
+        TMap<FString, FString> CustomTags;
         // [optional] Entity associated with the event. If null, the event will apply to the calling entity.
         TSharedPtr<FEntityKey> Entity;
 
@@ -79,6 +85,7 @@ namespace EventsModels
 
         FEventContents() :
             FPlayFabCppBaseModel(),
+            CustomTags(),
             Entity(nullptr),
             EventNamespace(),
             Name(),
@@ -90,6 +97,7 @@ namespace EventsModels
 
         FEventContents(const FEventContents& src) :
             FPlayFabCppBaseModel(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             EventNamespace(src.EventNamespace),
             Name(src.Name),
@@ -112,15 +120,19 @@ namespace EventsModels
 
     struct PLAYFABCPP_API FWriteEventsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Collection of events to write to PlayStream.
         TArray<FEventContents> Events;
         FWriteEventsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Events()
             {}
 
         FWriteEventsRequest(const FWriteEventsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Events(src.Events)
             {}
 

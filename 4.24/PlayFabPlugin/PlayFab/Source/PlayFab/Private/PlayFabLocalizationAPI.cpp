@@ -99,6 +99,7 @@ UPlayFabLocalizationAPI* UPlayFabLocalizationAPI::GetLanguageList(FLocalizationG
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

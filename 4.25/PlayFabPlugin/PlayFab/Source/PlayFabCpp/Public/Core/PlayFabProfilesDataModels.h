@@ -412,6 +412,8 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FGetEntityProfileRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
          * JSON string.
@@ -423,12 +425,14 @@ namespace ProfilesModels
 
         FGetEntityProfileRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             DataAsObject(),
             Entity(nullptr)
             {}
 
         FGetEntityProfileRequest(const FGetEntityProfileRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             DataAsObject(src.DataAsObject),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
@@ -472,6 +476,8 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FGetEntityProfilesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Determines whether the objects will be returned as an escaped JSON string or as a un-escaped JSON object. Default is
          * JSON string.
@@ -482,12 +488,14 @@ namespace ProfilesModels
         TArray<FEntityKey> Entities;
         FGetEntityProfilesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             DataAsObject(),
             Entities()
             {}
 
         FGetEntityProfilesRequest(const FGetEntityProfilesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             DataAsObject(src.DataAsObject),
             Entities(src.Entities)
             {}
@@ -530,12 +538,16 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FGetGlobalPolicyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         FGetGlobalPolicyRequest() :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags()
             {}
 
         FGetGlobalPolicyRequest(const FGetGlobalPolicyRequest& src) :
-            FPlayFabCppRequestCommon()
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
             {}
 
         FGetGlobalPolicyRequest(const TSharedPtr<FJsonObject>& obj) : FGetGlobalPolicyRequest()
@@ -576,6 +588,8 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FGetTitlePlayersFromMasterPlayerAccountIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // Master player account ids.
         TArray<FString> MasterPlayerAccountIds;
         // [optional] Id of title to get players from.
@@ -583,12 +597,14 @@ namespace ProfilesModels
 
         FGetTitlePlayersFromMasterPlayerAccountIdsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             MasterPlayerAccountIds(),
             TitleId()
             {}
 
         FGetTitlePlayersFromMasterPlayerAccountIdsRequest(const FGetTitlePlayersFromMasterPlayerAccountIdsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             MasterPlayerAccountIds(src.MasterPlayerAccountIds),
             TitleId(src.TitleId)
             {}
@@ -648,6 +664,8 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FSetEntityProfilePolicyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -655,12 +673,14 @@ namespace ProfilesModels
         TArray<FEntityPermissionStatement> Statements;
         FSetEntityProfilePolicyRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             Statements()
             {}
 
         FSetEntityProfilePolicyRequest(const FSetEntityProfilePolicyRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Statements(src.Statements)
             {}
@@ -706,15 +726,19 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FSetGlobalPolicyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The permissions that govern access to all entities under this title or namespace.
         TArray<FEntityPermissionStatement> Permissions;
         FSetGlobalPolicyRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Permissions()
             {}
 
         FSetGlobalPolicyRequest(const FSetGlobalPolicyRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Permissions(src.Permissions)
             {}
 
@@ -752,6 +776,8 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FSetProfileLanguageRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -763,6 +789,7 @@ namespace ProfilesModels
 
         FSetProfileLanguageRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             ExpectedVersion(),
             Language()
@@ -770,6 +797,7 @@ namespace ProfilesModels
 
         FSetProfileLanguageRequest(const FSetProfileLanguageRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             ExpectedVersion(src.ExpectedVersion),
             Language(src.Language)

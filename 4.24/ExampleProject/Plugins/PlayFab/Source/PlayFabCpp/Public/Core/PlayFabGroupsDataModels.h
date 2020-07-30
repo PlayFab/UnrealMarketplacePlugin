@@ -47,6 +47,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FAcceptGroupApplicationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Optional. Type of the entity to accept as. If specified, must be the same entity as the claimant or an entity that is a
          * child of the claimant entity. Defaults to the claimant entity.
@@ -58,12 +60,14 @@ namespace GroupsModels
 
         FAcceptGroupApplicationRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             Group()
             {}
 
         FAcceptGroupApplicationRequest(const FAcceptGroupApplicationRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -81,6 +85,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FAcceptGroupInvitationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -89,12 +95,14 @@ namespace GroupsModels
 
         FAcceptGroupInvitationRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             Group()
             {}
 
         FAcceptGroupInvitationRequest(const FAcceptGroupInvitationRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             Group(src.Group)
             {}
@@ -112,6 +120,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FAddMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The identifier of the group
         FEntityKey Group;
 
@@ -125,6 +135,7 @@ namespace GroupsModels
 
         FAddMembersRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group(),
             Members(),
             RoleId()
@@ -132,6 +143,7 @@ namespace GroupsModels
 
         FAddMembersRequest(const FAddMembersRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group),
             Members(src.Members),
             RoleId(src.RoleId)
@@ -153,6 +165,8 @@ namespace GroupsModels
         // [optional] Optional, default true. Automatically accept an outstanding invitation if one exists instead of creating an application
         Boxed<bool> AutoAcceptOutstandingInvite;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -162,6 +176,7 @@ namespace GroupsModels
         FApplyToGroupRequest() :
             FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingInvite(),
+            CustomTags(),
             Entity(nullptr),
             Group()
             {}
@@ -169,6 +184,7 @@ namespace GroupsModels
         FApplyToGroupRequest(const FApplyToGroupRequest& src) :
             FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingInvite(src.AutoAcceptOutstandingInvite),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             Group(src.Group)
             {}
@@ -252,6 +268,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FBlockEntityRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -260,12 +278,14 @@ namespace GroupsModels
 
         FBlockEntityRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             Group()
             {}
 
         FBlockEntityRequest(const FBlockEntityRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -283,6 +303,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FChangeMemberRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] The ID of the role that the entities will become a member of. This must be an existing role. Role IDs must be between 1
          * and 64 characters long.
@@ -302,6 +324,7 @@ namespace GroupsModels
 
         FChangeMemberRoleRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             DestinationRoleId(),
             Group(),
             Members(),
@@ -310,6 +333,7 @@ namespace GroupsModels
 
         FChangeMemberRoleRequest(const FChangeMemberRoleRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             DestinationRoleId(src.DestinationRoleId),
             Group(src.Group),
             Members(src.Members),
@@ -329,6 +353,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FCreateGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -337,12 +363,14 @@ namespace GroupsModels
 
         FCreateGroupRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr),
             GroupName()
             {}
 
         FCreateGroupRequest(const FCreateGroupRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
             GroupName(src.GroupName)
             {}
@@ -415,6 +443,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FCreateGroupRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The identifier of the group
         FEntityKey Group;
 
@@ -432,6 +462,7 @@ namespace GroupsModels
 
         FCreateGroupRoleRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group(),
             RoleId(),
             RoleName()
@@ -439,6 +470,7 @@ namespace GroupsModels
 
         FCreateGroupRoleRequest(const FCreateGroupRoleRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group),
             RoleId(src.RoleId),
             RoleName(src.RoleName)
@@ -493,16 +525,20 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FDeleteGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // ID of the group or role to remove
         FEntityKey Group;
 
         FDeleteGroupRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group()
             {}
 
         FDeleteGroupRequest(const FDeleteGroupRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group)
             {}
 
@@ -519,6 +555,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FDeleteRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The identifier of the group
         FEntityKey Group;
 
@@ -527,12 +565,14 @@ namespace GroupsModels
 
         FDeleteRoleRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group(),
             RoleId()
             {}
 
         FDeleteRoleRequest(const FDeleteRoleRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group),
             RoleId(src.RoleId)
             {}
@@ -606,6 +646,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FGetGroupRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The identifier of the group
         TSharedPtr<FEntityKey> Group;
 
@@ -614,12 +656,14 @@ namespace GroupsModels
 
         FGetGroupRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group(nullptr),
             GroupName()
             {}
 
         FGetGroupRequest(const FGetGroupRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr),
             GroupName(src.GroupName)
             {}
@@ -879,6 +923,8 @@ namespace GroupsModels
         // [optional] Optional, default true. Automatically accept an application if one exists instead of creating an invitation
         Boxed<bool> AutoAcceptOutstandingApplication;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -894,6 +940,7 @@ namespace GroupsModels
         FInviteToGroupRequest() :
             FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingApplication(),
+            CustomTags(),
             Entity(),
             Group(),
             RoleId()
@@ -902,6 +949,7 @@ namespace GroupsModels
         FInviteToGroupRequest(const FInviteToGroupRequest& src) :
             FPlayFabCppRequestCommon(),
             AutoAcceptOutstandingApplication(src.AutoAcceptOutstandingApplication),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Group(src.Group),
             RoleId(src.RoleId)
@@ -966,6 +1014,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FIsMemberRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -980,6 +1030,7 @@ namespace GroupsModels
 
         FIsMemberRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             Group(),
             RoleId()
@@ -987,6 +1038,7 @@ namespace GroupsModels
 
         FIsMemberRequest(const FIsMemberRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Group(src.Group),
             RoleId(src.RoleId)
@@ -1031,16 +1083,20 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FListGroupApplicationsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The identifier of the group
         FEntityKey Group;
 
         FListGroupApplicationsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group()
             {}
 
         FListGroupApplicationsRequest(const FListGroupApplicationsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group)
             {}
 
@@ -1082,16 +1138,20 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FListGroupBlocksRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The identifier of the group
         FEntityKey Group;
 
         FListGroupBlocksRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group()
             {}
 
         FListGroupBlocksRequest(const FListGroupBlocksRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group)
             {}
 
@@ -1133,16 +1193,20 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FListGroupInvitationsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The identifier of the group
         FEntityKey Group;
 
         FListGroupInvitationsRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group()
             {}
 
         FListGroupInvitationsRequest(const FListGroupInvitationsRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group)
             {}
 
@@ -1184,16 +1248,20 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FListGroupMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // ID of the group to list the members and roles for
         FEntityKey Group;
 
         FListGroupMembersRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group()
             {}
 
         FListGroupMembersRequest(const FListGroupMembersRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group)
             {}
 
@@ -1235,16 +1303,20 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FListMembershipOpportunitiesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FListMembershipOpportunitiesRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr)
             {}
 
         FListMembershipOpportunitiesRequest(const FListMembershipOpportunitiesRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -1290,16 +1362,20 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FListMembershipRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
         FListMembershipRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(nullptr)
             {}
 
         FListMembershipRequest(const FListMembershipRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
             {}
 
@@ -1353,6 +1429,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FRemoveGroupApplicationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -1361,12 +1439,14 @@ namespace GroupsModels
 
         FRemoveGroupApplicationRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             Group()
             {}
 
         FRemoveGroupApplicationRequest(const FRemoveGroupApplicationRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -1384,6 +1464,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FRemoveGroupInvitationRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -1392,12 +1474,14 @@ namespace GroupsModels
 
         FRemoveGroupInvitationRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             Group()
             {}
 
         FRemoveGroupInvitationRequest(const FRemoveGroupInvitationRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -1415,6 +1499,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FRemoveMembersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The identifier of the group
         FEntityKey Group;
 
@@ -1425,6 +1511,7 @@ namespace GroupsModels
 
         FRemoveMembersRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Group(),
             Members(),
             RoleId()
@@ -1432,6 +1519,7 @@ namespace GroupsModels
 
         FRemoveMembersRequest(const FRemoveMembersRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Group(src.Group),
             Members(src.Members),
             RoleId(src.RoleId)
@@ -1450,6 +1538,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FUnblockEntityRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         // The entity to perform this action on.
         FEntityKey Entity;
 
@@ -1458,12 +1548,14 @@ namespace GroupsModels
 
         FUnblockEntityRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             Entity(),
             Group()
             {}
 
         FUnblockEntityRequest(const FUnblockEntityRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             Entity(src.Entity),
             Group(src.Group)
             {}
@@ -1484,6 +1576,8 @@ namespace GroupsModels
         // [optional] Optional: the ID of an existing role to set as the new administrator role for the group
         FString AdminRoleId;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Optional field used for concurrency control. By specifying the previously returned value of ProfileVersion from the
          * GetGroup API, you can ensure that the group data update will only be performed if the group has not been updated by any
@@ -1503,6 +1597,7 @@ namespace GroupsModels
         FUpdateGroupRequest() :
             FPlayFabCppRequestCommon(),
             AdminRoleId(),
+            CustomTags(),
             ExpectedProfileVersion(),
             Group(),
             GroupName(),
@@ -1512,6 +1607,7 @@ namespace GroupsModels
         FUpdateGroupRequest(const FUpdateGroupRequest& src) :
             FPlayFabCppRequestCommon(),
             AdminRoleId(src.AdminRoleId),
+            CustomTags(src.CustomTags),
             ExpectedProfileVersion(src.ExpectedProfileVersion),
             Group(src.Group),
             GroupName(src.GroupName),
@@ -1567,6 +1663,8 @@ namespace GroupsModels
 
     struct PLAYFABCPP_API FUpdateGroupRoleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * [optional] Optional field used for concurrency control. By specifying the previously returned value of ProfileVersion from the
          * GetGroup API, you can ensure that the group data update will only be performed if the group has not been updated by any
@@ -1585,6 +1683,7 @@ namespace GroupsModels
 
         FUpdateGroupRoleRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             ExpectedProfileVersion(),
             Group(),
             RoleId(),
@@ -1593,6 +1692,7 @@ namespace GroupsModels
 
         FUpdateGroupRoleRequest(const FUpdateGroupRoleRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             ExpectedProfileVersion(src.ExpectedProfileVersion),
             Group(src.Group),
             RoleId(src.RoleId),

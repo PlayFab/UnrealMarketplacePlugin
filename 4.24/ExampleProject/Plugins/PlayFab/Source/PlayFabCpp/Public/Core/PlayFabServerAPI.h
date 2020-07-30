@@ -398,7 +398,7 @@ namespace PlayFab
         bool GetTime(ServerModels::FGetTimeRequest& request, const FGetTimeDelegate& SuccessDelegate = FGetTimeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the key-value store of custom title settings
-         * This API is designed to return title specific values which can be read, but not written to, by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
+         * This API is designed to return title specific values which can be read, but not written to, by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. If an override label is specified in the request, the overrides are applied automatically and returned with the title data. Note that there may up to a minute delay in between updating title data and this API call returning the newest value.
          */
         bool GetTitleData(ServerModels::FGetTitleDataRequest& request, const FGetTitleDataDelegate& SuccessDelegate = FGetTitleDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

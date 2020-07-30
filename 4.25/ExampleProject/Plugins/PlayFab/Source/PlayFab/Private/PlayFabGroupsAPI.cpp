@@ -99,6 +99,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AcceptGroupApplication(FGroupsAcceptGroupA
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -148,6 +149,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AcceptGroupInvitation(FGroupsAcceptGroupIn
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -198,6 +200,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::AddMembers(FGroupsAddMembersRequest reques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.Members.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Members"));
@@ -258,6 +261,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ApplyToGroup(FGroupsApplyToGroupRequest re
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("AutoAcceptOutstandingInvite"), request.AutoAcceptOutstandingInvite);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -307,6 +311,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::BlockEntity(FGroupsBlockEntityRequest requ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -357,6 +362,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ChangeMemberRole(FGroupsChangeMemberRoleRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.DestinationRoleId.IsEmpty() || request.DestinationRoleId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("DestinationRoleId"));
     } else {
@@ -421,6 +427,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::CreateGroup(FGroupsCreateGroupRequest requ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.GroupName.IsEmpty() || request.GroupName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GroupName"));
@@ -474,6 +481,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::CreateRole(FGroupsCreateGroupRoleRequest r
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.RoleId.IsEmpty() || request.RoleId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("RoleId"));
@@ -532,6 +540,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::DeleteGroup(FGroupsDeleteGroupRequest requ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
     // Add Request to manager
@@ -581,6 +590,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::DeleteRole(FGroupsDeleteRoleRequest reques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.RoleId.IsEmpty() || request.RoleId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("RoleId"));
@@ -635,6 +645,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::GetGroup(FGroupsGetGroupRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.GroupName.IsEmpty() || request.GroupName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GroupName"));
@@ -689,6 +700,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::InviteToGroup(FGroupsInviteToGroupRequest 
 
     // Serialize all the request properties to json
     OutRestJsonObj->SetBoolField(TEXT("AutoAcceptOutstandingApplication"), request.AutoAcceptOutstandingApplication);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.RoleId.IsEmpty() || request.RoleId == "") {
@@ -743,6 +755,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::IsMember(FGroupsIsMemberRequest request,
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.RoleId.IsEmpty() || request.RoleId == "") {
@@ -797,6 +810,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupApplications(FGroupsListGroupAppl
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
     // Add Request to manager
@@ -845,6 +859,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupBlocks(FGroupsListGroupBlocksRequ
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
     // Add Request to manager
@@ -893,6 +908,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupInvitations(FGroupsListGroupInvit
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
     // Add Request to manager
@@ -941,6 +957,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListGroupMembers(FGroupsListGroupMembersRe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
     // Add Request to manager
@@ -989,6 +1006,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListMembership(FGroupsListMembershipReques
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
     // Add Request to manager
@@ -1037,6 +1055,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::ListMembershipOpportunities(FGroupsListMem
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
     // Add Request to manager
@@ -1085,6 +1104,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveGroupApplication(FGroupsRemoveGroupA
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -1135,6 +1155,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveGroupInvitation(FGroupsRemoveGroupIn
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -1185,6 +1206,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::RemoveMembers(FGroupsRemoveMembersRequest 
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.Members.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Members"));
@@ -1244,6 +1266,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UnblockEntity(FGroupsUnblockEntityRequest 
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
 
@@ -1299,6 +1322,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UpdateGroup(FGroupsUpdateGroupRequest requ
     } else {
         OutRestJsonObj->SetStringField(TEXT("AdminRoleId"), request.AdminRoleId);
     }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("ExpectedProfileVersion"), request.ExpectedProfileVersion);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.GroupName.IsEmpty() || request.GroupName == "") {
@@ -1358,6 +1382,7 @@ UPlayFabGroupsAPI* UPlayFabGroupsAPI::UpdateRole(FGroupsUpdateGroupRoleRequest r
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetNumberField(TEXT("ExpectedProfileVersion"), request.ExpectedProfileVersion);
     if (request.Group != nullptr) OutRestJsonObj->SetObjectField(TEXT("Group"), request.Group);
     if (request.RoleId.IsEmpty() || request.RoleId == "") {

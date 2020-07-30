@@ -138,14 +138,6 @@ void UPlayFabExperimentationInstanceAPI::OnDeleteExperimentResult(FHttpRequestPt
 }
 
 bool UPlayFabExperimentationInstanceAPI::GetExperiments(
-    const FGetExperimentsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{ 
-    ExperimentationModels::FGetExperimentsRequest emptyRequest = ExperimentationModels::FGetExperimentsRequest();
-    return UPlayFabExperimentationInstanceAPI::GetExperiments(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabExperimentationInstanceAPI::GetExperiments(
     ExperimentationModels::FGetExperimentsRequest& request,
     const FGetExperimentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)

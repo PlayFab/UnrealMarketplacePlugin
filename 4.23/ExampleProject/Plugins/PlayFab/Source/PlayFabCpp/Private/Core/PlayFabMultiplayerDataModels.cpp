@@ -180,6 +180,7 @@ void PlayFab::MultiplayerModels::writeAzureRegionEnumJSON(AzureRegion enumVal, J
     case AzureRegionChinaEast2: writer->WriteValue(TEXT("ChinaEast2")); break;
     case AzureRegionChinaNorth2: writer->WriteValue(TEXT("ChinaNorth2")); break;
     case AzureRegionSouthAfricaNorth: writer->WriteValue(TEXT("SouthAfricaNorth")); break;
+    case AzureRegionCentralUsEuap: writer->WriteValue(TEXT("CentralUsEuap")); break;
     }
 }
 
@@ -212,6 +213,7 @@ MultiplayerModels::AzureRegion PlayFab::MultiplayerModels::readAzureRegionFromVa
         _AzureRegionMap.Add(TEXT("ChinaEast2"), AzureRegionChinaEast2);
         _AzureRegionMap.Add(TEXT("ChinaNorth2"), AzureRegionChinaNorth2);
         _AzureRegionMap.Add(TEXT("SouthAfricaNorth"), AzureRegionSouthAfricaNorth);
+        _AzureRegionMap.Add(TEXT("CentralUsEuap"), AzureRegionCentralUsEuap);
 
     }
 
@@ -993,6 +995,17 @@ void PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest::w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -1015,6 +1028,15 @@ void PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest::w
 bool PlayFab::MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1060,6 +1082,17 @@ void PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerRequest
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -1079,6 +1112,15 @@ void PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerRequest
 bool PlayFab::MultiplayerModels::FCancelAllServerBackfillTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1162,6 +1204,17 @@ void PlayFab::MultiplayerModels::FCancelMatchmakingTicketRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!QueueName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: CancelMatchmakingTicketRequest::QueueName, PlayFab calls may not work if it remains empty."));
@@ -1188,6 +1241,15 @@ void PlayFab::MultiplayerModels::FCancelMatchmakingTicketRequest::writeJSON(Json
 bool PlayFab::MultiplayerModels::FCancelMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
     if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
@@ -1234,6 +1296,17 @@ void PlayFab::MultiplayerModels::FCancelServerBackfillTicketRequest::writeJSON(J
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!QueueName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: CancelServerBackfillTicketRequest::QueueName, PlayFab calls may not work if it remains empty."));
@@ -1260,6 +1333,15 @@ void PlayFab::MultiplayerModels::FCancelServerBackfillTicketRequest::writeJSON(J
 bool PlayFab::MultiplayerModels::FCancelServerBackfillTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
     if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
@@ -1617,6 +1699,17 @@ void PlayFab::MultiplayerModels::FCreateBuildAliasRequest::writeJSON(JsonWriter&
     }
 
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -1638,6 +1731,15 @@ bool PlayFab::MultiplayerModels::FCreateBuildAliasRequest::readFromValue(const T
         BuildSelectionCriteria.Add(FBuildSelectionCriterion(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -1690,6 +1792,35 @@ bool PlayFab::MultiplayerModels::FGameCertificateReferenceParams::readFromValue(
     {
         FString TmpValue;
         if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FLinuxInstrumentationConfiguration::~FLinuxInstrumentationConfiguration()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FLinuxInstrumentationConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("IsEnabled"));
+    writer->WriteValue(IsEnabled);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FLinuxInstrumentationConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IsEnabledValue = obj->TryGetField(TEXT("IsEnabled"));
+    if (IsEnabledValue.IsValid() && !IsEnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsEnabledValue->TryGetBool(TmpValue)) { IsEnabled = TmpValue; }
     }
 
     return HasSucceeded;
@@ -1785,6 +1916,7 @@ bool PlayFab::MultiplayerModels::FPort::readFromValue(const TSharedPtr<FJsonObje
 PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::~FCreateBuildWithCustomContainerRequest()
 {
     //if (ContainerImageReference != nullptr) delete ContainerImageReference;
+    //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
 
 }
 
@@ -1826,6 +1958,17 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
         writer->WriteValue(ContainerRunCommand);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (GameAssetReferences.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("GameAssetReferences"));
@@ -1843,6 +1986,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
         writer->WriteArrayEnd();
     }
 
+
+    if (pfLinuxInstrumentationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LinuxInstrumentationConfiguration"));
+        pfLinuxInstrumentationConfiguration->writeJSON(writer);
+    }
 
     if (Metadata.Num() != 0)
     {
@@ -1918,6 +2067,15 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
         if (ContainerRunCommandValue->TryGetString(TmpValue)) { ContainerRunCommand = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TArray<TSharedPtr<FJsonValue>>&GameAssetReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameAssetReferences"));
     for (int32 Idx = 0; Idx < GameAssetReferencesArray.Num(); Idx++)
     {
@@ -1933,6 +2091,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
         GameCertificateReferences.Add(FGameCertificateReferenceParams(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> LinuxInstrumentationConfigurationValue = obj->TryGetField(TEXT("LinuxInstrumentationConfiguration"));
+    if (LinuxInstrumentationConfigurationValue.IsValid() && !LinuxInstrumentationConfigurationValue->IsNull())
+    {
+        pfLinuxInstrumentationConfiguration = MakeShareable(new FLinuxInstrumentationConfiguration(LinuxInstrumentationConfigurationValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
@@ -2026,6 +2190,7 @@ bool PlayFab::MultiplayerModels::FGameCertificateReference::readFromValue(const 
 PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::~FCreateBuildWithCustomContainerResponse()
 {
     //if (CustomGameContainerImage != nullptr) delete CustomGameContainerImage;
+    //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
 
 }
 
@@ -2092,6 +2257,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::writeJ
         writer->WriteArrayEnd();
     }
 
+
+    if (pfLinuxInstrumentationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LinuxInstrumentationConfiguration"));
+        pfLinuxInstrumentationConfiguration->writeJSON(writer);
+    }
 
     if (Metadata.Num() != 0)
     {
@@ -2213,6 +2384,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
     }
 
 
+    const TSharedPtr<FJsonValue> LinuxInstrumentationConfigurationValue = obj->TryGetField(TEXT("LinuxInstrumentationConfiguration"));
+    if (LinuxInstrumentationConfigurationValue.IsValid() && !LinuxInstrumentationConfigurationValue->IsNull())
+    {
+        pfLinuxInstrumentationConfiguration = MakeShareable(new FLinuxInstrumentationConfiguration(LinuxInstrumentationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
     {
@@ -2333,6 +2510,17 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
         writeContainerFlavorEnumJSON(pfContainerFlavor, writer);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteArrayStart(TEXT("GameAssetReferences"));
     for (const FAssetReferenceParams& item : GameAssetReferences)
         item.writeJSON(writer);
@@ -2430,6 +2618,15 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
     }
 
     pfContainerFlavor = readContainerFlavorFromValue(obj->TryGetField(TEXT("ContainerFlavor")));
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&GameAssetReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameAssetReferences"));
     for (int32 Idx = 0; Idx < GameAssetReferencesArray.Num(); Idx++)
@@ -2772,6 +2969,502 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::~FCreateBuildWithProcessBasedServerRequest()
+{
+    //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+
+}
+
+void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AreAssetsReadonly.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AreAssetsReadonly"));
+        writer->WriteValue(AreAssetsReadonly);
+    }
+
+    if (!BuildName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateBuildWithProcessBasedServerRequest::BuildName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildName"));
+        writer->WriteValue(BuildName);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteArrayStart(TEXT("GameAssetReferences"));
+    for (const FAssetReferenceParams& item : GameAssetReferences)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    if (GameCertificateReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameCertificateReferences"));
+        for (const FGameCertificateReferenceParams& item : GameCertificateReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (GameWorkingDirectory.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
+        writer->WriteValue(GameWorkingDirectory);
+    }
+
+    if (pfInstrumentationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InstrumentationConfiguration"));
+        pfInstrumentationConfiguration->writeJSON(writer);
+    }
+
+    if (Metadata.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("Metadata"));
+        for (TMap<FString, FString>::TConstIterator It(Metadata); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
+    writer->WriteValue(MultiplayerServerCountPerVm);
+
+    if (OsPlatform.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OsPlatform"));
+        writer->WriteValue(OsPlatform);
+    }
+
+    writer->WriteArrayStart(TEXT("Ports"));
+    for (const FPort& item : Ports)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteArrayStart(TEXT("RegionConfigurations"));
+    for (const FBuildRegionParams& item : RegionConfigurations)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    if (!StartMultiplayerServerCommand.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateBuildWithProcessBasedServerRequest::StartMultiplayerServerCommand, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("StartMultiplayerServerCommand"));
+        writer->WriteValue(StartMultiplayerServerCommand);
+    }
+
+    if (UseStreamingForAssetDownloads.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UseStreamingForAssetDownloads"));
+        writer->WriteValue(UseStreamingForAssetDownloads);
+    }
+
+    if (VmSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmSize"));
+        writeAzureVmSizeEnumJSON(VmSize, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AreAssetsReadonlyValue = obj->TryGetField(TEXT("AreAssetsReadonly"));
+    if (AreAssetsReadonlyValue.IsValid() && !AreAssetsReadonlyValue->IsNull())
+    {
+        bool TmpValue;
+        if (AreAssetsReadonlyValue->TryGetBool(TmpValue)) { AreAssetsReadonly = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> BuildNameValue = obj->TryGetField(TEXT("BuildName"));
+    if (BuildNameValue.IsValid() && !BuildNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildNameValue->TryGetString(TmpValue)) { BuildName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&GameAssetReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameAssetReferences"));
+    for (int32 Idx = 0; Idx < GameAssetReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameAssetReferencesArray[Idx];
+        GameAssetReferences.Add(FAssetReferenceParams(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameCertificateReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameCertificateReferences"));
+    for (int32 Idx = 0; Idx < GameCertificateReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameCertificateReferencesArray[Idx];
+        GameCertificateReferences.Add(FGameCertificateReferenceParams(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> GameWorkingDirectoryValue = obj->TryGetField(TEXT("GameWorkingDirectory"));
+    if (GameWorkingDirectoryValue.IsValid() && !GameWorkingDirectoryValue->IsNull())
+    {
+        FString TmpValue;
+        if (GameWorkingDirectoryValue->TryGetString(TmpValue)) { GameWorkingDirectory = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InstrumentationConfigurationValue = obj->TryGetField(TEXT("InstrumentationConfiguration"));
+    if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
+    {
+        pfInstrumentationConfiguration = MakeShareable(new FInstrumentationConfiguration(InstrumentationConfigurationValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonObject>* MetadataObject;
+    if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*MetadataObject)->Values); It; ++It)
+        {
+            Metadata.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
+    if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
+    {
+        int32 TmpValue;
+        if (MultiplayerServerCountPerVmValue->TryGetNumber(TmpValue)) { MultiplayerServerCountPerVm = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> OsPlatformValue = obj->TryGetField(TEXT("OsPlatform"));
+    if (OsPlatformValue.IsValid() && !OsPlatformValue->IsNull())
+    {
+        FString TmpValue;
+        if (OsPlatformValue->TryGetString(TmpValue)) { OsPlatform = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
+    for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PortsArray[Idx];
+        Ports.Add(FPort(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&RegionConfigurationsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("RegionConfigurations"));
+    for (int32 Idx = 0; Idx < RegionConfigurationsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = RegionConfigurationsArray[Idx];
+        RegionConfigurations.Add(FBuildRegionParams(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> StartMultiplayerServerCommandValue = obj->TryGetField(TEXT("StartMultiplayerServerCommand"));
+    if (StartMultiplayerServerCommandValue.IsValid() && !StartMultiplayerServerCommandValue->IsNull())
+    {
+        FString TmpValue;
+        if (StartMultiplayerServerCommandValue->TryGetString(TmpValue)) { StartMultiplayerServerCommand = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> UseStreamingForAssetDownloadsValue = obj->TryGetField(TEXT("UseStreamingForAssetDownloads"));
+    if (UseStreamingForAssetDownloadsValue.IsValid() && !UseStreamingForAssetDownloadsValue->IsNull())
+    {
+        bool TmpValue;
+        if (UseStreamingForAssetDownloadsValue->TryGetBool(TmpValue)) { UseStreamingForAssetDownloads = TmpValue; }
+    }
+
+    VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::~FCreateBuildWithProcessBasedServerResponse()
+{
+    //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+
+}
+
+void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AreAssetsReadonly.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AreAssetsReadonly"));
+        writer->WriteValue(AreAssetsReadonly);
+    }
+
+    if (BuildId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildId"));
+        writer->WriteValue(BuildId);
+    }
+
+    if (BuildName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildName"));
+        writer->WriteValue(BuildName);
+    }
+
+    if (pfContainerFlavor.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContainerFlavor"));
+        writeContainerFlavorEnumJSON(pfContainerFlavor, writer);
+    }
+
+    if (CreationTime.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreationTime"));
+        writeDatetime(CreationTime, writer);
+    }
+
+    if (GameAssetReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameAssetReferences"));
+        for (const FAssetReference& item : GameAssetReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (GameCertificateReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameCertificateReferences"));
+        for (const FGameCertificateReference& item : GameCertificateReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (GameWorkingDirectory.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
+        writer->WriteValue(GameWorkingDirectory);
+    }
+
+    if (pfInstrumentationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InstrumentationConfiguration"));
+        pfInstrumentationConfiguration->writeJSON(writer);
+    }
+
+    if (Metadata.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("Metadata"));
+        for (TMap<FString, FString>::TConstIterator It(Metadata); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
+    writer->WriteValue(MultiplayerServerCountPerVm);
+
+    if (OsPlatform.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OsPlatform"));
+        writer->WriteValue(OsPlatform);
+    }
+
+    if (Ports.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Ports"));
+        for (const FPort& item : Ports)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (RegionConfigurations.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("RegionConfigurations"));
+        for (const FBuildRegion& item : RegionConfigurations)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (ServerType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerType"));
+        writer->WriteValue(ServerType);
+    }
+
+    if (StartMultiplayerServerCommand.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StartMultiplayerServerCommand"));
+        writer->WriteValue(StartMultiplayerServerCommand);
+    }
+
+    if (UseStreamingForAssetDownloads.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UseStreamingForAssetDownloads"));
+        writer->WriteValue(UseStreamingForAssetDownloads);
+    }
+
+    if (VmSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmSize"));
+        writeAzureVmSizeEnumJSON(VmSize, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AreAssetsReadonlyValue = obj->TryGetField(TEXT("AreAssetsReadonly"));
+    if (AreAssetsReadonlyValue.IsValid() && !AreAssetsReadonlyValue->IsNull())
+    {
+        bool TmpValue;
+        if (AreAssetsReadonlyValue->TryGetBool(TmpValue)) { AreAssetsReadonly = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
+    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> BuildNameValue = obj->TryGetField(TEXT("BuildName"));
+    if (BuildNameValue.IsValid() && !BuildNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildNameValue->TryGetString(TmpValue)) { BuildName = TmpValue; }
+    }
+
+    pfContainerFlavor = readContainerFlavorFromValue(obj->TryGetField(TEXT("ContainerFlavor")));
+
+    const TSharedPtr<FJsonValue> CreationTimeValue = obj->TryGetField(TEXT("CreationTime"));
+    if (CreationTimeValue.IsValid())
+        CreationTime = readDatetime(CreationTimeValue);
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameAssetReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameAssetReferences"));
+    for (int32 Idx = 0; Idx < GameAssetReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameAssetReferencesArray[Idx];
+        GameAssetReferences.Add(FAssetReference(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameCertificateReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameCertificateReferences"));
+    for (int32 Idx = 0; Idx < GameCertificateReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameCertificateReferencesArray[Idx];
+        GameCertificateReferences.Add(FGameCertificateReference(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> GameWorkingDirectoryValue = obj->TryGetField(TEXT("GameWorkingDirectory"));
+    if (GameWorkingDirectoryValue.IsValid() && !GameWorkingDirectoryValue->IsNull())
+    {
+        FString TmpValue;
+        if (GameWorkingDirectoryValue->TryGetString(TmpValue)) { GameWorkingDirectory = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InstrumentationConfigurationValue = obj->TryGetField(TEXT("InstrumentationConfiguration"));
+    if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
+    {
+        pfInstrumentationConfiguration = MakeShareable(new FInstrumentationConfiguration(InstrumentationConfigurationValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonObject>* MetadataObject;
+    if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*MetadataObject)->Values); It; ++It)
+        {
+            Metadata.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
+    if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
+    {
+        int32 TmpValue;
+        if (MultiplayerServerCountPerVmValue->TryGetNumber(TmpValue)) { MultiplayerServerCountPerVm = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> OsPlatformValue = obj->TryGetField(TEXT("OsPlatform"));
+    if (OsPlatformValue.IsValid() && !OsPlatformValue->IsNull())
+    {
+        FString TmpValue;
+        if (OsPlatformValue->TryGetString(TmpValue)) { OsPlatform = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PortsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Ports"));
+    for (int32 Idx = 0; Idx < PortsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PortsArray[Idx];
+        Ports.Add(FPort(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&RegionConfigurationsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("RegionConfigurations"));
+    for (int32 Idx = 0; Idx < RegionConfigurationsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = RegionConfigurationsArray[Idx];
+        RegionConfigurations.Add(FBuildRegion(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> ServerTypeValue = obj->TryGetField(TEXT("ServerType"));
+    if (ServerTypeValue.IsValid() && !ServerTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerTypeValue->TryGetString(TmpValue)) { ServerType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StartMultiplayerServerCommandValue = obj->TryGetField(TEXT("StartMultiplayerServerCommand"));
+    if (StartMultiplayerServerCommandValue.IsValid() && !StartMultiplayerServerCommandValue->IsNull())
+    {
+        FString TmpValue;
+        if (StartMultiplayerServerCommandValue->TryGetString(TmpValue)) { StartMultiplayerServerCommand = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> UseStreamingForAssetDownloadsValue = obj->TryGetField(TEXT("UseStreamingForAssetDownloads"));
+    if (UseStreamingForAssetDownloadsValue.IsValid() && !UseStreamingForAssetDownloadsValue->IsNull())
+    {
+        bool TmpValue;
+        if (UseStreamingForAssetDownloadsValue->TryGetBool(TmpValue)) { UseStreamingForAssetDownloads = TmpValue; }
+    }
+
+    VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FMatchmakingPlayerAttributes::~FMatchmakingPlayerAttributes()
 {
 
@@ -2869,6 +3562,17 @@ void PlayFab::MultiplayerModels::FCreateMatchmakingTicketRequest::writeJSON(Json
     writer->WriteIdentifierPrefix(TEXT("Creator"));
     Creator.writeJSON(writer);
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds"));
     writer->WriteValue(GiveUpAfterSeconds);
 
@@ -2902,6 +3606,15 @@ bool PlayFab::MultiplayerModels::FCreateMatchmakingTicketRequest::readFromValue(
     if (CreatorValue.IsValid() && !CreatorValue->IsNull())
     {
         Creator = FMatchmakingPlayer(CreatorValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
@@ -2984,6 +3697,17 @@ void PlayFab::MultiplayerModels::FCreateRemoteUserRequest::writeJSON(JsonWriter&
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ExpirationTime.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ExpirationTime"));
@@ -3032,6 +3756,15 @@ bool PlayFab::MultiplayerModels::FCreateRemoteUserRequest::readFromValue(const T
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ExpirationTimeValue = obj->TryGetField(TEXT("ExpirationTime"));
@@ -3245,6 +3978,17 @@ void PlayFab::MultiplayerModels::FCreateServerBackfillTicketRequest::writeJSON(J
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds"));
     writer->WriteValue(GiveUpAfterSeconds);
 
@@ -3276,6 +4020,15 @@ void PlayFab::MultiplayerModels::FCreateServerBackfillTicketRequest::writeJSON(J
 bool PlayFab::MultiplayerModels::FCreateServerBackfillTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
     if (GiveUpAfterSecondsValue.IsValid() && !GiveUpAfterSecondsValue->IsNull())
@@ -3353,6 +4106,17 @@ void PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::writeJSO
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("GiveUpAfterSeconds"));
     writer->WriteValue(GiveUpAfterSeconds);
 
@@ -3378,6 +4142,15 @@ void PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::writeJSO
 bool PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GiveUpAfterSecondsValue = obj->TryGetField(TEXT("GiveUpAfterSeconds"));
     if (GiveUpAfterSecondsValue.IsValid() && !GiveUpAfterSecondsValue->IsNull())
@@ -3413,6 +4186,17 @@ void PlayFab::MultiplayerModels::FDeleteAssetRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!FileName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteAssetRequest::FileName, PlayFab calls may not work if it remains empty."));
@@ -3429,6 +4213,15 @@ void PlayFab::MultiplayerModels::FDeleteAssetRequest::writeJSON(JsonWriter& writ
 bool PlayFab::MultiplayerModels::FDeleteAssetRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> FileNameValue = obj->TryGetField(TEXT("FileName"));
     if (FileNameValue.IsValid() && !FileNameValue->IsNull())
@@ -3459,6 +4252,17 @@ void PlayFab::MultiplayerModels::FDeleteBuildAliasRequest::writeJSON(JsonWriter&
         writer->WriteValue(AliasId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3471,6 +4275,15 @@ bool PlayFab::MultiplayerModels::FDeleteBuildAliasRequest::readFromValue(const T
     {
         FString TmpValue;
         if (AliasIdValue->TryGetString(TmpValue)) { AliasId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -3495,6 +4308,17 @@ void PlayFab::MultiplayerModels::FDeleteBuildRegionRequest::writeJSON(JsonWriter
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!Region.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteBuildRegionRequest::Region, PlayFab calls may not work if it remains empty."));
@@ -3517,6 +4341,15 @@ bool PlayFab::MultiplayerModels::FDeleteBuildRegionRequest::readFromValue(const 
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
@@ -3548,6 +4381,17 @@ void PlayFab::MultiplayerModels::FDeleteBuildRequest::writeJSON(JsonWriter& writ
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3562,6 +4406,15 @@ bool PlayFab::MultiplayerModels::FDeleteBuildRequest::readFromValue(const TShare
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     return HasSucceeded;
 }
 
@@ -3573,6 +4426,17 @@ PlayFab::MultiplayerModels::FDeleteCertificateRequest::~FDeleteCertificateReques
 void PlayFab::MultiplayerModels::FDeleteCertificateRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
 
     if (!Name.IsEmpty() == false)
     {
@@ -3590,6 +4454,15 @@ void PlayFab::MultiplayerModels::FDeleteCertificateRequest::writeJSON(JsonWriter
 bool PlayFab::MultiplayerModels::FDeleteCertificateRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
     if (NameValue.IsValid() && !NameValue->IsNull())
@@ -3610,6 +4483,17 @@ void PlayFab::MultiplayerModels::FDeleteContainerImageRequest::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ImageName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ImageName"));
@@ -3622,6 +4506,15 @@ void PlayFab::MultiplayerModels::FDeleteContainerImageRequest::writeJSON(JsonWri
 bool PlayFab::MultiplayerModels::FDeleteContainerImageRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ImageNameValue = obj->TryGetField(TEXT("ImageName"));
     if (ImageNameValue.IsValid() && !ImageNameValue->IsNull())
@@ -3650,6 +4543,17 @@ void PlayFab::MultiplayerModels::FDeleteRemoteUserRequest::writeJSON(JsonWriter&
     {
         writer->WriteIdentifierPrefix(TEXT("BuildId"));
         writer->WriteValue(BuildId);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
 
     if (!Region.IsEmpty() == false)
@@ -3694,6 +4598,15 @@ bool PlayFab::MultiplayerModels::FDeleteRemoteUserRequest::readFromValue(const T
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
@@ -3748,12 +4661,32 @@ void PlayFab::MultiplayerModels::FEnableMultiplayerServersForTitleRequest::write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FEnableMultiplayerServersForTitleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -3832,6 +4765,17 @@ void PlayFab::MultiplayerModels::FGetAssetUploadUrlRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!FileName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetAssetUploadUrlRequest::FileName, PlayFab calls may not work if it remains empty."));
@@ -3848,6 +4792,15 @@ void PlayFab::MultiplayerModels::FGetAssetUploadUrlRequest::writeJSON(JsonWriter
 bool PlayFab::MultiplayerModels::FGetAssetUploadUrlRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> FileNameValue = obj->TryGetField(TEXT("FileName"));
     if (FileNameValue.IsValid() && !FileNameValue->IsNull())
@@ -3923,6 +4876,17 @@ void PlayFab::MultiplayerModels::FGetBuildAliasRequest::writeJSON(JsonWriter& wr
         writer->WriteValue(AliasId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3935,6 +4899,15 @@ bool PlayFab::MultiplayerModels::FGetBuildAliasRequest::readFromValue(const TSha
     {
         FString TmpValue;
         if (AliasIdValue->TryGetString(TmpValue)) { AliasId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -3959,6 +4932,17 @@ void PlayFab::MultiplayerModels::FGetBuildRequest::writeJSON(JsonWriter& writer)
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3971,6 +4955,15 @@ bool PlayFab::MultiplayerModels::FGetBuildRequest::readFromValue(const TSharedPt
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -4272,12 +5265,32 @@ void PlayFab::MultiplayerModels::FGetContainerRegistryCredentialsRequest::writeJ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FGetContainerRegistryCredentialsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -4349,6 +5362,17 @@ void PlayFab::MultiplayerModels::FGetMatchmakingTicketRequest::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("EscapeObject"));
     writer->WriteValue(EscapeObject);
 
@@ -4378,6 +5402,15 @@ void PlayFab::MultiplayerModels::FGetMatchmakingTicketRequest::writeJSON(JsonWri
 bool PlayFab::MultiplayerModels::FGetMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EscapeObjectValue = obj->TryGetField(TEXT("EscapeObject"));
     if (EscapeObjectValue.IsValid() && !EscapeObjectValue->IsNull())
@@ -4566,6 +5599,17 @@ void PlayFab::MultiplayerModels::FGetMatchRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("EscapeObject"));
     writer->WriteValue(EscapeObject);
 
@@ -4598,6 +5642,15 @@ void PlayFab::MultiplayerModels::FGetMatchRequest::writeJSON(JsonWriter& writer)
 bool PlayFab::MultiplayerModels::FGetMatchRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EscapeObjectValue = obj->TryGetField(TEXT("EscapeObject"));
     if (EscapeObjectValue.IsValid() && !EscapeObjectValue->IsNull())
@@ -4723,6 +5776,17 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::writeJSON(
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!Region.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerDetailsRequest::Region, PlayFab calls may not work if it remains empty."));
@@ -4755,6 +5819,15 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::readFromVa
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
@@ -4938,6 +6011,17 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ServerId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerLogsRequest::ServerId, PlayFab calls may not work if it remains empty."));
@@ -4954,6 +6038,15 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::writeJSON(Jso
 bool PlayFab::MultiplayerModels::FGetMultiplayerServerLogsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ServerIdValue = obj->TryGetField(TEXT("ServerId"));
     if (ServerIdValue.IsValid() && !ServerIdValue->IsNull())
@@ -5006,6 +6099,17 @@ void PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!SessionId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerSessionLogsBySessionIdRequest::SessionId, PlayFab calls may not work if it remains empty."));
@@ -5022,6 +6126,15 @@ void PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::w
 bool PlayFab::MultiplayerModels::FGetMultiplayerSessionLogsBySessionIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> SessionIdValue = obj->TryGetField(TEXT("SessionId"));
     if (SessionIdValue.IsValid() && !SessionIdValue->IsNull())
@@ -5042,6 +6155,17 @@ void PlayFab::MultiplayerModels::FGetQueueStatisticsRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!QueueName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetQueueStatisticsRequest::QueueName, PlayFab calls may not work if it remains empty."));
@@ -5058,6 +6182,15 @@ void PlayFab::MultiplayerModels::FGetQueueStatisticsRequest::writeJSON(JsonWrite
 bool PlayFab::MultiplayerModels::FGetQueueStatisticsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
     if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
@@ -5192,6 +6325,17 @@ void PlayFab::MultiplayerModels::FGetRemoteLoginEndpointRequest::writeJSON(JsonW
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!Region.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetRemoteLoginEndpointRequest::Region, PlayFab calls may not work if it remains empty."));
@@ -5224,6 +6368,15 @@ bool PlayFab::MultiplayerModels::FGetRemoteLoginEndpointRequest::readFromValue(c
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
@@ -5294,6 +6447,17 @@ void PlayFab::MultiplayerModels::FGetServerBackfillTicketRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("EscapeObject"));
     writer->WriteValue(EscapeObject);
 
@@ -5323,6 +6487,15 @@ void PlayFab::MultiplayerModels::FGetServerBackfillTicketRequest::writeJSON(Json
 bool PlayFab::MultiplayerModels::FGetServerBackfillTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EscapeObjectValue = obj->TryGetField(TEXT("EscapeObject"));
     if (EscapeObjectValue.IsValid() && !EscapeObjectValue->IsNull())
@@ -5494,12 +6667,32 @@ void PlayFab::MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -5540,12 +6733,32 @@ void PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest::write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -5627,6 +6840,17 @@ void PlayFab::MultiplayerModels::FJoinMatchmakingTicketRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Member"));
     Member.writeJSON(writer);
 
@@ -5656,6 +6880,15 @@ void PlayFab::MultiplayerModels::FJoinMatchmakingTicketRequest::writeJSON(JsonWr
 bool PlayFab::MultiplayerModels::FJoinMatchmakingTicketRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> MemberValue = obj->TryGetField(TEXT("Member"));
     if (MemberValue.IsValid() && !MemberValue->IsNull())
@@ -5708,6 +6941,17 @@ void PlayFab::MultiplayerModels::FListAssetSummariesRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PageSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("PageSize"));
@@ -5726,6 +6970,15 @@ void PlayFab::MultiplayerModels::FListAssetSummariesRequest::writeJSON(JsonWrite
 bool PlayFab::MultiplayerModels::FListAssetSummariesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
     if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
@@ -5848,6 +7101,17 @@ void PlayFab::MultiplayerModels::FListBuildSummariesRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PageSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("PageSize"));
@@ -5866,6 +7130,15 @@ void PlayFab::MultiplayerModels::FListBuildSummariesRequest::writeJSON(JsonWrite
 bool PlayFab::MultiplayerModels::FListBuildSummariesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
     if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
@@ -5952,6 +7225,17 @@ void PlayFab::MultiplayerModels::FListCertificateSummariesRequest::writeJSON(Jso
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PageSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("PageSize"));
@@ -5970,6 +7254,15 @@ void PlayFab::MultiplayerModels::FListCertificateSummariesRequest::writeJSON(Jso
 bool PlayFab::MultiplayerModels::FListCertificateSummariesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
     if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
@@ -6056,6 +7349,17 @@ void PlayFab::MultiplayerModels::FListContainerImagesRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PageSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("PageSize"));
@@ -6074,6 +7378,15 @@ void PlayFab::MultiplayerModels::FListContainerImagesRequest::writeJSON(JsonWrit
 bool PlayFab::MultiplayerModels::FListContainerImagesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
     if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
@@ -6154,6 +7467,17 @@ void PlayFab::MultiplayerModels::FListContainerImageTagsRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ImageName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ImageName"));
@@ -6166,6 +7490,15 @@ void PlayFab::MultiplayerModels::FListContainerImageTagsRequest::writeJSON(JsonW
 bool PlayFab::MultiplayerModels::FListContainerImageTagsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ImageNameValue = obj->TryGetField(TEXT("ImageName"));
     if (ImageNameValue.IsValid() && !ImageNameValue->IsNull())
@@ -6217,6 +7550,17 @@ void PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerRequest::writeJ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -6239,6 +7583,15 @@ void PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerRequest::writeJ
 bool PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -6302,6 +7655,17 @@ void PlayFab::MultiplayerModels::FListMultiplayerServersRequest::writeJSON(JsonW
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PageSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("PageSize"));
@@ -6336,6 +7700,15 @@ bool PlayFab::MultiplayerModels::FListMultiplayerServersRequest::readFromValue(c
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
@@ -6542,11 +7915,18 @@ void PlayFab::MultiplayerModels::FListPartyQosServersRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
-    if (!Version.IsEmpty() == false)
+    if (CustomTags.Num() != 0)
     {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: ListPartyQosServersRequest::Version, PlayFab calls may not work if it remains empty."));
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
-    else
+
+    if (Version.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Version"));
         writer->WriteValue(Version);
@@ -6558,6 +7938,15 @@ void PlayFab::MultiplayerModels::FListPartyQosServersRequest::writeJSON(JsonWrit
 bool PlayFab::MultiplayerModels::FListPartyQosServersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
     if (VersionValue.IsValid() && !VersionValue->IsNull())
@@ -6682,12 +8071,32 @@ void PlayFab::MultiplayerModels::FListQosServersForTitleRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FListQosServersForTitleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -6760,12 +8169,32 @@ void PlayFab::MultiplayerModels::FListQosServersRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FListQosServersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -6838,6 +8267,17 @@ void PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerRequest::wri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -6857,6 +8297,15 @@ void PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerRequest::wri
 bool PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -6920,6 +8369,17 @@ void PlayFab::MultiplayerModels::FListVirtualMachineSummariesRequest::writeJSON(
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PageSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("PageSize"));
@@ -6954,6 +8414,15 @@ bool PlayFab::MultiplayerModels::FListVirtualMachineSummariesRequest::readFromVa
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
@@ -7106,12 +8575,32 @@ void PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -7174,6 +8663,17 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::writeJSON(Jso
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (InitialPlayers.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("InitialPlayers"));
@@ -7223,6 +8723,15 @@ bool PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::readFromValue
     {
         FString TmpValue;
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     obj->TryGetStringArrayField(TEXT("InitialPlayers"), InitialPlayers);
@@ -7410,12 +8919,32 @@ void PlayFab::MultiplayerModels::FRolloverContainerRegistryCredentialsRequest::w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::MultiplayerModels::FRolloverContainerRegistryCredentialsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -7533,6 +9062,17 @@ void PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::writeJSON(Js
         writer->WriteValue(BuildId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!Region.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ShutdownMultiplayerServerRequest::Region, PlayFab calls may not work if it remains empty."));
@@ -7567,6 +9107,15 @@ bool PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::readFromValu
         if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
     if (RegionValue.IsValid() && !RegionValue->IsNull())
     {
@@ -7593,6 +9142,17 @@ void PlayFab::MultiplayerModels::FUntagContainerImageRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ImageName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ImageName"));
@@ -7611,6 +9171,15 @@ void PlayFab::MultiplayerModels::FUntagContainerImageRequest::writeJSON(JsonWrit
 bool PlayFab::MultiplayerModels::FUntagContainerImageRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ImageNameValue = obj->TryGetField(TEXT("ImageName"));
     if (ImageNameValue.IsValid() && !ImageNameValue->IsNull())
@@ -7663,6 +9232,17 @@ void PlayFab::MultiplayerModels::FUpdateBuildAliasRequest::writeJSON(JsonWriter&
     }
 
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -7692,6 +9272,15 @@ bool PlayFab::MultiplayerModels::FUpdateBuildAliasRequest::readFromValue(const T
     }
 
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     return HasSucceeded;
 }
 
@@ -7717,6 +9306,17 @@ void PlayFab::MultiplayerModels::FUpdateBuildRegionRequest::writeJSON(JsonWriter
     writer->WriteIdentifierPrefix(TEXT("BuildRegion"));
     BuildRegion.writeJSON(writer);
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -7735,6 +9335,15 @@ bool PlayFab::MultiplayerModels::FUpdateBuildRegionRequest::readFromValue(const 
     if (BuildRegionValue.IsValid() && !BuildRegionValue->IsNull())
     {
         BuildRegion = FBuildRegionParams(BuildRegionValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -7765,6 +9374,17 @@ void PlayFab::MultiplayerModels::FUpdateBuildRegionsRequest::writeJSON(JsonWrite
     writer->WriteArrayEnd();
 
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -7787,6 +9407,15 @@ bool PlayFab::MultiplayerModels::FUpdateBuildRegionsRequest::readFromValue(const
     }
 
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     return HasSucceeded;
 }
 
@@ -7799,6 +9428,17 @@ void PlayFab::MultiplayerModels::FUploadCertificateRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("GameCertificate"));
     GameCertificate.writeJSON(writer);
 
@@ -7808,6 +9448,15 @@ void PlayFab::MultiplayerModels::FUploadCertificateRequest::writeJSON(JsonWriter
 bool PlayFab::MultiplayerModels::FUploadCertificateRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GameCertificateValue = obj->TryGetField(TEXT("GameCertificate"));
     if (GameCertificateValue.IsValid() && !GameCertificateValue->IsNull())

@@ -69,6 +69,17 @@ void PlayFab::GroupsModels::FAcceptGroupApplicationRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -81,6 +92,15 @@ void PlayFab::GroupsModels::FAcceptGroupApplicationRequest::writeJSON(JsonWriter
 bool PlayFab::GroupsModels::FAcceptGroupApplicationRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -107,6 +127,17 @@ void PlayFab::GroupsModels::FAcceptGroupInvitationRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -122,6 +153,15 @@ void PlayFab::GroupsModels::FAcceptGroupInvitationRequest::writeJSON(JsonWriter&
 bool PlayFab::GroupsModels::FAcceptGroupInvitationRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -147,6 +187,17 @@ void PlayFab::GroupsModels::FAddMembersRequest::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -168,6 +219,15 @@ void PlayFab::GroupsModels::FAddMembersRequest::writeJSON(JsonWriter& writer) co
 bool PlayFab::GroupsModels::FAddMembersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -209,6 +269,17 @@ void PlayFab::GroupsModels::FApplyToGroupRequest::writeJSON(JsonWriter& writer) 
         writer->WriteValue(AutoAcceptOutstandingInvite);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -230,6 +301,15 @@ bool PlayFab::GroupsModels::FApplyToGroupRequest::readFromValue(const TSharedPtr
     {
         bool TmpValue;
         if (AutoAcceptOutstandingInviteValue->TryGetBool(TmpValue)) { AutoAcceptOutstandingInvite = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
@@ -361,6 +441,17 @@ void PlayFab::GroupsModels::FBlockEntityRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -373,6 +464,15 @@ void PlayFab::GroupsModels::FBlockEntityRequest::writeJSON(JsonWriter& writer) c
 bool PlayFab::GroupsModels::FBlockEntityRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -397,6 +497,17 @@ PlayFab::GroupsModels::FChangeMemberRoleRequest::~FChangeMemberRoleRequest()
 void PlayFab::GroupsModels::FChangeMemberRoleRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
 
     if (DestinationRoleId.IsEmpty() == false)
     {
@@ -429,6 +540,15 @@ void PlayFab::GroupsModels::FChangeMemberRoleRequest::writeJSON(JsonWriter& writ
 bool PlayFab::GroupsModels::FChangeMemberRoleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DestinationRoleIdValue = obj->TryGetField(TEXT("DestinationRoleId"));
     if (DestinationRoleIdValue.IsValid() && !DestinationRoleIdValue->IsNull())
@@ -471,6 +591,17 @@ void PlayFab::GroupsModels::FCreateGroupRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -493,6 +624,15 @@ void PlayFab::GroupsModels::FCreateGroupRequest::writeJSON(JsonWriter& writer) c
 bool PlayFab::GroupsModels::FCreateGroupRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -624,6 +764,17 @@ void PlayFab::GroupsModels::FCreateGroupRoleRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -653,6 +804,15 @@ void PlayFab::GroupsModels::FCreateGroupRoleRequest::writeJSON(JsonWriter& write
 bool PlayFab::GroupsModels::FCreateGroupRoleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -741,6 +901,17 @@ void PlayFab::GroupsModels::FDeleteGroupRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -750,6 +921,15 @@ void PlayFab::GroupsModels::FDeleteGroupRequest::writeJSON(JsonWriter& writer) c
 bool PlayFab::GroupsModels::FDeleteGroupRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -769,6 +949,17 @@ void PlayFab::GroupsModels::FDeleteRoleRequest::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -784,6 +975,15 @@ void PlayFab::GroupsModels::FDeleteRoleRequest::writeJSON(JsonWriter& writer) co
 bool PlayFab::GroupsModels::FDeleteRoleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -892,6 +1092,17 @@ void PlayFab::GroupsModels::FGetGroupRequest::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Group.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Group"));
@@ -910,6 +1121,15 @@ void PlayFab::GroupsModels::FGetGroupRequest::writeJSON(JsonWriter& writer) cons
 bool PlayFab::GroupsModels::FGetGroupRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -1337,6 +1557,17 @@ void PlayFab::GroupsModels::FInviteToGroupRequest::writeJSON(JsonWriter& writer)
         writer->WriteValue(AutoAcceptOutstandingApplication);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -1361,6 +1592,15 @@ bool PlayFab::GroupsModels::FInviteToGroupRequest::readFromValue(const TSharedPt
     {
         bool TmpValue;
         if (AutoAcceptOutstandingApplicationValue->TryGetBool(TmpValue)) { AutoAcceptOutstandingApplication = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
@@ -1473,6 +1713,17 @@ void PlayFab::GroupsModels::FIsMemberRequest::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -1491,6 +1742,15 @@ void PlayFab::GroupsModels::FIsMemberRequest::writeJSON(JsonWriter& writer) cons
 bool PlayFab::GroupsModels::FIsMemberRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1552,6 +1812,17 @@ void PlayFab::GroupsModels::FListGroupApplicationsRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -1561,6 +1832,15 @@ void PlayFab::GroupsModels::FListGroupApplicationsRequest::writeJSON(JsonWriter&
 bool PlayFab::GroupsModels::FListGroupApplicationsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -1616,6 +1896,17 @@ void PlayFab::GroupsModels::FListGroupBlocksRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -1625,6 +1916,15 @@ void PlayFab::GroupsModels::FListGroupBlocksRequest::writeJSON(JsonWriter& write
 bool PlayFab::GroupsModels::FListGroupBlocksRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -1680,6 +1980,17 @@ void PlayFab::GroupsModels::FListGroupInvitationsRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -1689,6 +2000,15 @@ void PlayFab::GroupsModels::FListGroupInvitationsRequest::writeJSON(JsonWriter& 
 bool PlayFab::GroupsModels::FListGroupInvitationsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -1744,6 +2064,17 @@ void PlayFab::GroupsModels::FListGroupMembersRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -1753,6 +2084,15 @@ void PlayFab::GroupsModels::FListGroupMembersRequest::writeJSON(JsonWriter& writ
 bool PlayFab::GroupsModels::FListGroupMembersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -1809,6 +2149,17 @@ void PlayFab::GroupsModels::FListMembershipOpportunitiesRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -1821,6 +2172,15 @@ void PlayFab::GroupsModels::FListMembershipOpportunitiesRequest::writeJSON(JsonW
 bool PlayFab::GroupsModels::FListMembershipOpportunitiesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -1894,6 +2254,17 @@ void PlayFab::GroupsModels::FListMembershipRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -1906,6 +2277,15 @@ void PlayFab::GroupsModels::FListMembershipRequest::writeJSON(JsonWriter& writer
 bool PlayFab::GroupsModels::FListMembershipRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -2001,6 +2381,17 @@ void PlayFab::GroupsModels::FRemoveGroupApplicationRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -2013,6 +2404,15 @@ void PlayFab::GroupsModels::FRemoveGroupApplicationRequest::writeJSON(JsonWriter
 bool PlayFab::GroupsModels::FRemoveGroupApplicationRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -2038,6 +2438,17 @@ void PlayFab::GroupsModels::FRemoveGroupInvitationRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -2050,6 +2461,15 @@ void PlayFab::GroupsModels::FRemoveGroupInvitationRequest::writeJSON(JsonWriter&
 bool PlayFab::GroupsModels::FRemoveGroupInvitationRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -2075,6 +2495,17 @@ void PlayFab::GroupsModels::FRemoveMembersRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Group"));
     Group.writeJSON(writer);
 
@@ -2096,6 +2527,15 @@ void PlayFab::GroupsModels::FRemoveMembersRequest::writeJSON(JsonWriter& writer)
 bool PlayFab::GroupsModels::FRemoveMembersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> GroupValue = obj->TryGetField(TEXT("Group"));
     if (GroupValue.IsValid() && !GroupValue->IsNull())
@@ -2130,6 +2570,17 @@ void PlayFab::GroupsModels::FUnblockEntityRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
@@ -2142,6 +2593,15 @@ void PlayFab::GroupsModels::FUnblockEntityRequest::writeJSON(JsonWriter& writer)
 bool PlayFab::GroupsModels::FUnblockEntityRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -2171,6 +2631,17 @@ void PlayFab::GroupsModels::FUpdateGroupRequest::writeJSON(JsonWriter& writer) c
     {
         writer->WriteIdentifierPrefix(TEXT("AdminRoleId"));
         writer->WriteValue(AdminRoleId);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
 
     if (ExpectedProfileVersion.notNull())
@@ -2206,6 +2677,15 @@ bool PlayFab::GroupsModels::FUpdateGroupRequest::readFromValue(const TSharedPtr<
     {
         FString TmpValue;
         if (AdminRoleIdValue->TryGetString(TmpValue)) { AdminRoleId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ExpectedProfileVersionValue = obj->TryGetField(TEXT("ExpectedProfileVersion"));
@@ -2297,6 +2777,17 @@ void PlayFab::GroupsModels::FUpdateGroupRoleRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ExpectedProfileVersion.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ExpectedProfileVersion"));
@@ -2328,6 +2819,15 @@ void PlayFab::GroupsModels::FUpdateGroupRoleRequest::writeJSON(JsonWriter& write
 bool PlayFab::GroupsModels::FUpdateGroupRoleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ExpectedProfileVersionValue = obj->TryGetField(TEXT("ExpectedProfileVersion"));
     if (ExpectedProfileVersionValue.IsValid() && !ExpectedProfileVersionValue->IsNull())

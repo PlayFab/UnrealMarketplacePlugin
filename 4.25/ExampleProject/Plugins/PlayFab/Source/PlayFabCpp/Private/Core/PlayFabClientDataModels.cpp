@@ -620,6 +620,17 @@ void PlayFab::ClientModels::FAddOrUpdateContactEmailRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!EmailAddress.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: AddOrUpdateContactEmailRequest::EmailAddress, PlayFab calls may not work if it remains empty."));
@@ -636,6 +647,15 @@ void PlayFab::ClientModels::FAddOrUpdateContactEmailRequest::writeJSON(JsonWrite
 bool PlayFab::ClientModels::FAddOrUpdateContactEmailRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EmailAddressValue = obj->TryGetField(TEXT("EmailAddress"));
     if (EmailAddressValue.IsValid() && !EmailAddressValue->IsNull())
@@ -738,6 +758,17 @@ void PlayFab::ClientModels::FAddUsernamePasswordRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!Email.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: AddUsernamePasswordRequest::Email, PlayFab calls may not work if it remains empty."));
@@ -774,6 +805,15 @@ void PlayFab::ClientModels::FAddUsernamePasswordRequest::writeJSON(JsonWriter& w
 bool PlayFab::ClientModels::FAddUsernamePasswordRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EmailValue = obj->TryGetField(TEXT("Email"));
     if (EmailValue.IsValid() && !EmailValue->IsNull())
@@ -843,6 +883,17 @@ void PlayFab::ClientModels::FAddUserVirtualCurrencyRequest::writeJSON(JsonWriter
     writer->WriteIdentifierPrefix(TEXT("Amount"));
     writer->WriteValue(Amount);
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!VirtualCurrency.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: AddUserVirtualCurrencyRequest::VirtualCurrency, PlayFab calls may not work if it remains empty."));
@@ -865,6 +916,15 @@ bool PlayFab::ClientModels::FAddUserVirtualCurrencyRequest::readFromValue(const 
     {
         int32 TmpValue;
         if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> VirtualCurrencyValue = obj->TryGetField(TEXT("VirtualCurrency"));
@@ -2522,6 +2582,17 @@ void PlayFab::ClientModels::FConfirmPurchaseRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!OrderId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ConfirmPurchaseRequest::OrderId, PlayFab calls may not work if it remains empty."));
@@ -2538,6 +2609,15 @@ void PlayFab::ClientModels::FConfirmPurchaseRequest::writeJSON(JsonWriter& write
 bool PlayFab::ClientModels::FConfirmPurchaseRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> OrderIdValue = obj->TryGetField(TEXT("OrderId"));
     if (OrderIdValue.IsValid() && !OrderIdValue->IsNull())
@@ -2624,6 +2704,17 @@ void PlayFab::ClientModels::FConsumeItemRequest::writeJSON(JsonWriter& writer) c
     writer->WriteIdentifierPrefix(TEXT("ConsumeCount"));
     writer->WriteValue(ConsumeCount);
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ItemInstanceId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ConsumeItemRequest::ItemInstanceId, PlayFab calls may not work if it remains empty."));
@@ -2653,6 +2744,15 @@ bool PlayFab::ClientModels::FConsumeItemRequest::readFromValue(const TSharedPtr<
     {
         int32 TmpValue;
         if (ConsumeCountValue->TryGetNumber(TmpValue)) { ConsumeCount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ItemInstanceIdValue = obj->TryGetField(TEXT("ItemInstanceId"));
@@ -2722,6 +2822,17 @@ void PlayFab::ClientModels::FConsumePSNEntitlementsRequest::writeJSON(JsonWriter
         writer->WriteValue(CatalogVersion);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("ServiceLabel"));
     writer->WriteValue(ServiceLabel);
 
@@ -2737,6 +2848,15 @@ bool PlayFab::ClientModels::FConsumePSNEntitlementsRequest::readFromValue(const 
     {
         FString TmpValue;
         if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ServiceLabelValue = obj->TryGetField(TEXT("ServiceLabel"));
@@ -2800,6 +2920,17 @@ void PlayFab::ClientModels::FConsumeXboxEntitlementsRequest::writeJSON(JsonWrite
         writer->WriteValue(CatalogVersion);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!XboxToken.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ConsumeXboxEntitlementsRequest::XboxToken, PlayFab calls may not work if it remains empty."));
@@ -2822,6 +2953,15 @@ bool PlayFab::ClientModels::FConsumeXboxEntitlementsRequest::readFromValue(const
     {
         FString TmpValue;
         if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> XboxTokenValue = obj->TryGetField(TEXT("XboxToken"));
@@ -4582,6 +4722,17 @@ void PlayFab::ClientModels::FExecuteCloudScriptRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!FunctionName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ExecuteCloudScriptRequest::FunctionName, PlayFab calls may not work if it remains empty."));
@@ -4622,6 +4773,15 @@ void PlayFab::ClientModels::FExecuteCloudScriptRequest::writeJSON(JsonWriter& wr
 bool PlayFab::ClientModels::FExecuteCloudScriptRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> FunctionNameValue = obj->TryGetField(TEXT("FunctionName"));
     if (FunctionNameValue.IsValid() && !FunctionNameValue->IsNull())
@@ -8208,6 +8368,17 @@ void PlayFab::ClientModels::FGetCharacterInventoryRequest::writeJSON(JsonWriter&
         writer->WriteValue(CharacterId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -8227,6 +8398,15 @@ bool PlayFab::ClientModels::FGetCharacterInventoryRequest::readFromValue(const T
     {
         FString TmpValue;
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -8846,6 +9026,17 @@ void PlayFab::ClientModels::FGetFriendLeaderboardAroundPlayerRequest::writeJSON(
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (IncludeFacebookFriends.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
@@ -8910,6 +9101,15 @@ void PlayFab::ClientModels::FGetFriendLeaderboardAroundPlayerRequest::writeJSON(
 bool PlayFab::ClientModels::FGetFriendLeaderboardAroundPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> IncludeFacebookFriendsValue = obj->TryGetField(TEXT("IncludeFacebookFriends"));
     if (IncludeFacebookFriendsValue.IsValid() && !IncludeFacebookFriendsValue->IsNull())
@@ -9121,6 +9321,17 @@ void PlayFab::ClientModels::FGetFriendLeaderboardRequest::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (IncludeFacebookFriends.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
@@ -9182,6 +9393,15 @@ void PlayFab::ClientModels::FGetFriendLeaderboardRequest::writeJSON(JsonWriter& 
 bool PlayFab::ClientModels::FGetFriendLeaderboardRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> IncludeFacebookFriendsValue = obj->TryGetField(TEXT("IncludeFacebookFriends"));
     if (IncludeFacebookFriendsValue.IsValid() && !IncludeFacebookFriendsValue->IsNull())
@@ -9258,6 +9478,17 @@ void PlayFab::ClientModels::FGetFriendsListRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (IncludeFacebookFriends.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
@@ -9288,6 +9519,15 @@ void PlayFab::ClientModels::FGetFriendsListRequest::writeJSON(JsonWriter& writer
 bool PlayFab::ClientModels::FGetFriendsListRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> IncludeFacebookFriendsValue = obj->TryGetField(TEXT("IncludeFacebookFriends"));
     if (IncludeFacebookFriendsValue.IsValid() && !IncludeFacebookFriendsValue->IsNull())
@@ -9480,6 +9720,17 @@ void PlayFab::ClientModels::FGetLeaderboardAroundPlayerRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (MaxResultsCount.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
@@ -9526,6 +9777,15 @@ void PlayFab::ClientModels::FGetLeaderboardAroundPlayerRequest::writeJSON(JsonWr
 bool PlayFab::ClientModels::FGetLeaderboardAroundPlayerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> MaxResultsCountValue = obj->TryGetField(TEXT("MaxResultsCount"));
     if (MaxResultsCountValue.IsValid() && !MaxResultsCountValue->IsNull())
@@ -9720,6 +9980,17 @@ void PlayFab::ClientModels::FGetLeaderboardRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (MaxResultsCount.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
@@ -9763,6 +10034,15 @@ void PlayFab::ClientModels::FGetLeaderboardRequest::writeJSON(JsonWriter& writer
 bool PlayFab::ClientModels::FGetLeaderboardRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> MaxResultsCountValue = obj->TryGetField(TEXT("MaxResultsCount"));
     if (MaxResultsCountValue.IsValid() && !MaxResultsCountValue->IsNull())
@@ -10199,6 +10479,17 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
     InfoRequestParameters.writeJSON(writer);
 
@@ -10214,6 +10505,15 @@ void PlayFab::ClientModels::FGetPlayerCombinedInfoRequest::writeJSON(JsonWriter&
 bool PlayFab::ClientModels::FGetPlayerCombinedInfoRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
     if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
@@ -10572,6 +10872,17 @@ void PlayFab::ClientModels::FGetPlayerProfileRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PlayFabId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
@@ -10590,6 +10901,15 @@ void PlayFab::ClientModels::FGetPlayerProfileRequest::writeJSON(JsonWriter& writ
 bool PlayFab::ClientModels::FGetPlayerProfileRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
     if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
@@ -10811,6 +11131,17 @@ void PlayFab::ClientModels::FGetPlayerStatisticsRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (StatisticNames.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("StatisticNames"));
@@ -10835,6 +11166,15 @@ void PlayFab::ClientModels::FGetPlayerStatisticsRequest::writeJSON(JsonWriter& w
 bool PlayFab::ClientModels::FGetPlayerStatisticsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     obj->TryGetStringArrayField(TEXT("StatisticNames"), StatisticNames);
 
@@ -10894,6 +11234,17 @@ void PlayFab::ClientModels::FGetPlayerStatisticVersionsRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (StatisticName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("StatisticName"));
@@ -10906,6 +11257,15 @@ void PlayFab::ClientModels::FGetPlayerStatisticVersionsRequest::writeJSON(JsonWr
 bool PlayFab::ClientModels::FGetPlayerStatisticVersionsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> StatisticNameValue = obj->TryGetField(TEXT("StatisticName"));
     if (StatisticNameValue.IsValid() && !StatisticNameValue->IsNull())
@@ -11045,6 +11405,17 @@ void PlayFab::ClientModels::FGetPlayerTagsRequest::writeJSON(JsonWriter& writer)
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Namespace.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Namespace"));
@@ -11067,6 +11438,15 @@ void PlayFab::ClientModels::FGetPlayerTagsRequest::writeJSON(JsonWriter& writer)
 bool PlayFab::ClientModels::FGetPlayerTagsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> NamespaceValue = obj->TryGetField(TEXT("Namespace"));
     if (NamespaceValue.IsValid() && !NamespaceValue->IsNull())
@@ -13488,12 +13868,32 @@ void PlayFab::ClientModels::FGetUserInventoryRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FGetUserInventoryRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -13685,6 +14085,17 @@ void PlayFab::ClientModels::FGrantCharacterToUserRequest::writeJSON(JsonWriter& 
         writer->WriteValue(CharacterName);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ItemId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GrantCharacterToUserRequest::ItemId, PlayFab calls may not work if it remains empty."));
@@ -13714,6 +14125,15 @@ bool PlayFab::ClientModels::FGrantCharacterToUserRequest::readFromValue(const TS
     {
         FString TmpValue;
         if (CharacterNameValue->TryGetString(TmpValue)) { CharacterName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
@@ -13876,6 +14296,17 @@ void PlayFab::ClientModels::FLinkAndroidDeviceIDRequest::writeJSON(JsonWriter& w
         writer->WriteValue(AndroidDeviceId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -13907,6 +14338,15 @@ bool PlayFab::ClientModels::FLinkAndroidDeviceIDRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (AndroidDeviceIdValue->TryGetString(TmpValue)) { AndroidDeviceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
@@ -13954,6 +14394,17 @@ void PlayFab::ClientModels::FLinkAppleRequest::writeJSON(JsonWriter& writer) con
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -13976,6 +14427,15 @@ void PlayFab::ClientModels::FLinkAppleRequest::writeJSON(JsonWriter& writer) con
 bool PlayFab::ClientModels::FLinkAppleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -14013,6 +14473,17 @@ void PlayFab::ClientModels::FLinkCustomIDRequest::writeJSON(JsonWriter& writer) 
         writer->WriteValue(CustomId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14031,6 +14502,15 @@ bool PlayFab::ClientModels::FLinkCustomIDRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (CustomIdValue->TryGetString(TmpValue)) { CustomId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
@@ -14081,6 +14561,17 @@ void PlayFab::ClientModels::FLinkFacebookAccountRequest::writeJSON(JsonWriter& w
         writer->WriteValue(AccessToken);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14099,6 +14590,15 @@ bool PlayFab::ClientModels::FLinkFacebookAccountRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
@@ -14139,6 +14639,17 @@ void PlayFab::ClientModels::FLinkFacebookInstantGamesIdRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!FacebookInstantGamesSignature.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: LinkFacebookInstantGamesIdRequest::FacebookInstantGamesSignature, PlayFab calls may not work if it remains empty."));
@@ -14161,6 +14672,15 @@ void PlayFab::ClientModels::FLinkFacebookInstantGamesIdRequest::writeJSON(JsonWr
 bool PlayFab::ClientModels::FLinkFacebookInstantGamesIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> FacebookInstantGamesSignatureValue = obj->TryGetField(TEXT("FacebookInstantGamesSignature"));
     if (FacebookInstantGamesSignatureValue.IsValid() && !FacebookInstantGamesSignatureValue->IsNull())
@@ -14206,6 +14726,17 @@ PlayFab::ClientModels::FLinkGameCenterAccountRequest::~FLinkGameCenterAccountReq
 void PlayFab::ClientModels::FLinkGameCenterAccountRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
 
     if (ForceLink.notNull())
     {
@@ -14253,6 +14784,15 @@ void PlayFab::ClientModels::FLinkGameCenterAccountRequest::writeJSON(JsonWriter&
 bool PlayFab::ClientModels::FLinkGameCenterAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -14327,6 +14867,17 @@ void PlayFab::ClientModels::FLinkGoogleAccountRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14345,6 +14896,15 @@ void PlayFab::ClientModels::FLinkGoogleAccountRequest::writeJSON(JsonWriter& wri
 bool PlayFab::ClientModels::FLinkGoogleAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -14391,6 +14951,17 @@ void PlayFab::ClientModels::FLinkIOSDeviceIDRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!DeviceId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: LinkIOSDeviceIDRequest::DeviceId, PlayFab calls may not work if it remains empty."));
@@ -14425,6 +14996,15 @@ void PlayFab::ClientModels::FLinkIOSDeviceIDRequest::writeJSON(JsonWriter& write
 bool PlayFab::ClientModels::FLinkIOSDeviceIDRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DeviceIdValue = obj->TryGetField(TEXT("DeviceId"));
     if (DeviceIdValue.IsValid() && !DeviceIdValue->IsNull())
@@ -14495,6 +15075,17 @@ void PlayFab::ClientModels::FLinkKongregateAccountRequest::writeJSON(JsonWriter&
         writer->WriteValue(AuthTicket);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14523,6 +15114,15 @@ bool PlayFab::ClientModels::FLinkKongregateAccountRequest::readFromValue(const T
     {
         FString TmpValue;
         if (AuthTicketValue->TryGetString(TmpValue)) { AuthTicket = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
@@ -14570,6 +15170,17 @@ void PlayFab::ClientModels::FLinkNintendoServiceAccountRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14592,6 +15203,15 @@ void PlayFab::ClientModels::FLinkNintendoServiceAccountRequest::writeJSON(JsonWr
 bool PlayFab::ClientModels::FLinkNintendoServiceAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -14619,6 +15239,17 @@ void PlayFab::ClientModels::FLinkNintendoSwitchDeviceIdRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14641,6 +15272,15 @@ void PlayFab::ClientModels::FLinkNintendoSwitchDeviceIdRequest::writeJSON(JsonWr
 bool PlayFab::ClientModels::FLinkNintendoSwitchDeviceIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -14697,6 +15337,17 @@ void PlayFab::ClientModels::FLinkOpenIdConnectRequest::writeJSON(JsonWriter& wri
         writer->WriteValue(ConnectionId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14725,6 +15376,15 @@ bool PlayFab::ClientModels::FLinkOpenIdConnectRequest::readFromValue(const TShar
     {
         FString TmpValue;
         if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
@@ -14763,6 +15423,17 @@ void PlayFab::ClientModels::FLinkPSNAccountRequest::writeJSON(JsonWriter& writer
         writer->WriteValue(AuthCode);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14797,6 +15468,15 @@ bool PlayFab::ClientModels::FLinkPSNAccountRequest::readFromValue(const TSharedP
     {
         FString TmpValue;
         if (AuthCodeValue->TryGetString(TmpValue)) { AuthCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
@@ -14851,6 +15531,17 @@ void PlayFab::ClientModels::FLinkSteamAccountRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14873,6 +15564,15 @@ void PlayFab::ClientModels::FLinkSteamAccountRequest::writeJSON(JsonWriter& writ
 bool PlayFab::ClientModels::FLinkSteamAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -14929,6 +15629,17 @@ void PlayFab::ClientModels::FLinkTwitchAccountRequest::writeJSON(JsonWriter& wri
         writer->WriteValue(AccessToken);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -14947,6 +15658,15 @@ bool PlayFab::ClientModels::FLinkTwitchAccountRequest::readFromValue(const TShar
     {
         FString TmpValue;
         if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
@@ -14987,6 +15707,17 @@ void PlayFab::ClientModels::FLinkWindowsHelloAccountRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DeviceName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("DeviceName"));
@@ -15025,6 +15756,15 @@ void PlayFab::ClientModels::FLinkWindowsHelloAccountRequest::writeJSON(JsonWrite
 bool PlayFab::ClientModels::FLinkWindowsHelloAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DeviceNameValue = obj->TryGetField(TEXT("DeviceName"));
     if (DeviceNameValue.IsValid() && !DeviceNameValue->IsNull())
@@ -15085,6 +15825,17 @@ void PlayFab::ClientModels::FLinkXboxAccountRequest::writeJSON(JsonWriter& write
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (ForceLink.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ForceLink"));
@@ -15107,6 +15858,15 @@ void PlayFab::ClientModels::FLinkXboxAccountRequest::writeJSON(JsonWriter& write
 bool PlayFab::ClientModels::FLinkXboxAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
     if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
@@ -15503,6 +16263,17 @@ void PlayFab::ClientModels::FLoginWithAndroidDeviceIDRequest::writeJSON(JsonWrit
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -15565,6 +16336,15 @@ bool PlayFab::ClientModels::FLoginWithAndroidDeviceIDRequest::readFromValue(cons
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
     if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
     {
@@ -15618,6 +16398,17 @@ void PlayFab::ClientModels::FLoginWithAppleRequest::writeJSON(JsonWriter& writer
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -15668,6 +16459,15 @@ bool PlayFab::ClientModels::FLoginWithAppleRequest::readFromValue(const TSharedP
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -15729,6 +16529,17 @@ void PlayFab::ClientModels::FLoginWithCustomIDRequest::writeJSON(JsonWriter& wri
         writer->WriteValue(CustomId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -15778,6 +16589,15 @@ bool PlayFab::ClientModels::FLoginWithCustomIDRequest::readFromValue(const TShar
         if (CustomIdValue->TryGetString(TmpValue)) { CustomId = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
     if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
     {
@@ -15817,6 +16637,17 @@ PlayFab::ClientModels::FLoginWithEmailAddressRequest::~FLoginWithEmailAddressReq
 void PlayFab::ClientModels::FLoginWithEmailAddressRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
 
     if (!Email.IsEmpty() == false)
     {
@@ -15860,6 +16691,15 @@ void PlayFab::ClientModels::FLoginWithEmailAddressRequest::writeJSON(JsonWriter&
 bool PlayFab::ClientModels::FLoginWithEmailAddressRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EmailValue = obj->TryGetField(TEXT("Email"));
     if (EmailValue.IsValid() && !EmailValue->IsNull())
@@ -15905,6 +16745,17 @@ void PlayFab::ClientModels::FLoginWithFacebookInstantGamesIdRequest::writeJSON(J
     {
         writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
         writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
 
     if (EncryptedRequest.IsEmpty() == false)
@@ -15957,6 +16808,15 @@ bool PlayFab::ClientModels::FLoginWithFacebookInstantGamesIdRequest::readFromVal
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -16022,6 +16882,17 @@ void PlayFab::ClientModels::FLoginWithFacebookRequest::writeJSON(JsonWriter& wri
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -16071,6 +16942,15 @@ bool PlayFab::ClientModels::FLoginWithFacebookRequest::readFromValue(const TShar
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
     if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
     {
@@ -16115,6 +16995,17 @@ void PlayFab::ClientModels::FLoginWithGameCenterRequest::writeJSON(JsonWriter& w
     {
         writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
         writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
 
     if (EncryptedRequest.IsEmpty() == false)
@@ -16187,6 +17078,15 @@ bool PlayFab::ClientModels::FLoginWithGameCenterRequest::readFromValue(const TSh
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -16270,6 +17170,17 @@ void PlayFab::ClientModels::FLoginWithGoogleAccountRequest::writeJSON(JsonWriter
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -16316,6 +17227,15 @@ bool PlayFab::ClientModels::FLoginWithGoogleAccountRequest::readFromValue(const 
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -16369,6 +17289,17 @@ void PlayFab::ClientModels::FLoginWithIOSDeviceIDRequest::writeJSON(JsonWriter& 
     {
         writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
         writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
 
     if (DeviceId.IsEmpty() == false)
@@ -16429,6 +17360,15 @@ bool PlayFab::ClientModels::FLoginWithIOSDeviceIDRequest::readFromValue(const TS
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> DeviceIdValue = obj->TryGetField(TEXT("DeviceId"));
@@ -16504,6 +17444,17 @@ void PlayFab::ClientModels::FLoginWithKongregateRequest::writeJSON(JsonWriter& w
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -16559,6 +17510,15 @@ bool PlayFab::ClientModels::FLoginWithKongregateRequest::readFromValue(const TSh
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
     if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
     {
@@ -16612,6 +17572,17 @@ void PlayFab::ClientModels::FLoginWithNintendoServiceAccountRequest::writeJSON(J
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -16662,6 +17633,15 @@ bool PlayFab::ClientModels::FLoginWithNintendoServiceAccountRequest::readFromVal
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -16717,6 +17697,17 @@ void PlayFab::ClientModels::FLoginWithNintendoSwitchDeviceIdRequest::writeJSON(J
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -16763,6 +17754,15 @@ bool PlayFab::ClientModels::FLoginWithNintendoSwitchDeviceIdRequest::readFromVal
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -16828,6 +17828,17 @@ void PlayFab::ClientModels::FLoginWithOpenIdConnectRequest::writeJSON(JsonWriter
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -16887,6 +17898,15 @@ bool PlayFab::ClientModels::FLoginWithOpenIdConnectRequest::readFromValue(const 
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
     if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
     {
@@ -16934,6 +17954,17 @@ void PlayFab::ClientModels::FLoginWithPlayFabRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (InfoRequestParameters.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
@@ -16976,6 +18007,15 @@ void PlayFab::ClientModels::FLoginWithPlayFabRequest::writeJSON(JsonWriter& writ
 bool PlayFab::ClientModels::FLoginWithPlayFabRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
     if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
@@ -17027,6 +18067,17 @@ void PlayFab::ClientModels::FLoginWithPSNRequest::writeJSON(JsonWriter& writer) 
     {
         writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
         writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
 
     if (EncryptedRequest.IsEmpty() == false)
@@ -17090,6 +18141,15 @@ bool PlayFab::ClientModels::FLoginWithPSNRequest::readFromValue(const TSharedPtr
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
     if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
     {
@@ -17150,6 +18210,17 @@ void PlayFab::ClientModels::FLoginWithSteamRequest::writeJSON(JsonWriter& writer
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -17196,6 +18267,15 @@ bool PlayFab::ClientModels::FLoginWithSteamRequest::readFromValue(const TSharedP
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -17257,6 +18337,17 @@ void PlayFab::ClientModels::FLoginWithTwitchRequest::writeJSON(JsonWriter& write
         writer->WriteValue(CreateAccount);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (EncryptedRequest.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
@@ -17304,6 +18395,15 @@ bool PlayFab::ClientModels::FLoginWithTwitchRequest::readFromValue(const TShared
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -17356,6 +18456,17 @@ void PlayFab::ClientModels::FLoginWithWindowsHelloRequest::writeJSON(JsonWriter&
         writer->WriteValue(ChallengeSignature);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (InfoRequestParameters.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
@@ -17396,6 +18507,15 @@ bool PlayFab::ClientModels::FLoginWithWindowsHelloRequest::readFromValue(const T
         if (ChallengeSignatureValue->TryGetString(TmpValue)) { ChallengeSignature = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
     if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
     {
@@ -17433,6 +18553,17 @@ void PlayFab::ClientModels::FLoginWithXboxRequest::writeJSON(JsonWriter& writer)
     {
         writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
         writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
     }
 
     if (EncryptedRequest.IsEmpty() == false)
@@ -17481,6 +18612,15 @@ bool PlayFab::ClientModels::FLoginWithXboxRequest::readFromValue(const TSharedPt
     {
         bool TmpValue;
         if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
@@ -17542,6 +18682,17 @@ void PlayFab::ClientModels::FMatchmakeRequest::writeJSON(JsonWriter& writer) con
         writer->WriteValue(CharacterId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (GameMode.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("GameMode"));
@@ -17597,6 +18748,15 @@ bool PlayFab::ClientModels::FMatchmakeRequest::readFromValue(const TSharedPtr<FJ
     {
         FString TmpValue;
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> GameModeValue = obj->TryGetField(TEXT("GameMode"));
@@ -17979,6 +19139,17 @@ void PlayFab::ClientModels::FPayForPurchaseRequest::writeJSON(JsonWriter& writer
         writer->WriteValue(Currency);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!OrderId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: PayForPurchaseRequest::OrderId, PlayFab calls may not work if it remains empty."));
@@ -18017,6 +19188,15 @@ bool PlayFab::ClientModels::FPayForPurchaseRequest::readFromValue(const TSharedP
     {
         FString TmpValue;
         if (CurrencyValue->TryGetString(TmpValue)) { Currency = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> OrderIdValue = obj->TryGetField(TEXT("OrderId"));
@@ -18355,6 +19535,17 @@ void PlayFab::ClientModels::FPurchaseItemRequest::writeJSON(JsonWriter& writer) 
         writer->WriteValue(CharacterId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ItemId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: PurchaseItemRequest::ItemId, PlayFab calls may not work if it remains empty."));
@@ -18403,6 +19594,15 @@ bool PlayFab::ClientModels::FPurchaseItemRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
@@ -18578,6 +19778,17 @@ void PlayFab::ClientModels::FRedeemCouponRequest::writeJSON(JsonWriter& writer) 
         writer->WriteValue(CouponCode);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -18604,6 +19815,15 @@ bool PlayFab::ClientModels::FRedeemCouponRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (CouponCodeValue->TryGetString(TmpValue)) { CouponCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -18802,6 +20022,17 @@ void PlayFab::ClientModels::FRegisterPlayFabUserRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DisplayName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("DisplayName"));
@@ -18866,6 +20097,15 @@ void PlayFab::ClientModels::FRegisterPlayFabUserRequest::writeJSON(JsonWriter& w
 bool PlayFab::ClientModels::FRegisterPlayFabUserRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DisplayNameValue = obj->TryGetField(TEXT("DisplayName"));
     if (DisplayNameValue.IsValid() && !DisplayNameValue->IsNull())
@@ -19026,6 +20266,17 @@ void PlayFab::ClientModels::FRegisterWithWindowsHelloRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DeviceName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("DeviceName"));
@@ -19078,6 +20329,15 @@ void PlayFab::ClientModels::FRegisterWithWindowsHelloRequest::writeJSON(JsonWrit
 bool PlayFab::ClientModels::FRegisterWithWindowsHelloRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DeviceNameValue = obj->TryGetField(TEXT("DeviceName"));
     if (DeviceNameValue.IsValid() && !DeviceNameValue->IsNull())
@@ -19139,12 +20399,32 @@ void PlayFab::ClientModels::FRemoveContactEmailRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FRemoveContactEmailRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -19345,6 +20625,17 @@ void PlayFab::ClientModels::FReportAdActivityRequest::writeJSON(JsonWriter& writ
     writer->WriteIdentifierPrefix(TEXT("Activity"));
     writeAdActivityEnumJSON(Activity, writer);
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!PlacementId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ReportAdActivityRequest::PlacementId, PlayFab calls may not work if it remains empty."));
@@ -19373,6 +20664,15 @@ bool PlayFab::ClientModels::FReportAdActivityRequest::readFromValue(const TShare
     bool HasSucceeded = true;
 
     Activity = readAdActivityFromValue(obj->TryGetField(TEXT("Activity")));
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PlacementIdValue = obj->TryGetField(TEXT("PlacementId"));
     if (PlacementIdValue.IsValid() && !PlacementIdValue->IsNull())
@@ -19425,6 +20725,17 @@ void PlayFab::ClientModels::FReportPlayerClientRequest::writeJSON(JsonWriter& wr
         writer->WriteValue(Comment);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ReporteeId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ReportPlayerClientRequest::ReporteeId, PlayFab calls may not work if it remains empty."));
@@ -19447,6 +20758,15 @@ bool PlayFab::ClientModels::FReportPlayerClientRequest::readFromValue(const TSha
     {
         FString TmpValue;
         if (CommentValue->TryGetString(TmpValue)) { Comment = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ReporteeIdValue = obj->TryGetField(TEXT("ReporteeId"));
@@ -19503,6 +20823,17 @@ void PlayFab::ClientModels::FRestoreIOSPurchasesRequest::writeJSON(JsonWriter& w
         writer->WriteValue(CatalogVersion);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!ReceiptData.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: RestoreIOSPurchasesRequest::ReceiptData, PlayFab calls may not work if it remains empty."));
@@ -19525,6 +20856,15 @@ bool PlayFab::ClientModels::FRestoreIOSPurchasesRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> ReceiptDataValue = obj->TryGetField(TEXT("ReceiptData"));
@@ -19582,6 +20922,17 @@ void PlayFab::ClientModels::FRewardAdActivityRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!PlacementId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: RewardAdActivityRequest::PlacementId, PlayFab calls may not work if it remains empty."));
@@ -19608,6 +20959,15 @@ void PlayFab::ClientModels::FRewardAdActivityRequest::writeJSON(JsonWriter& writ
 bool PlayFab::ClientModels::FRewardAdActivityRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PlacementIdValue = obj->TryGetField(TEXT("PlacementId"));
     if (PlacementIdValue.IsValid() && !PlacementIdValue->IsNull())
@@ -19743,6 +21103,17 @@ void PlayFab::ClientModels::FSendAccountRecoveryEmailRequest::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!Email.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: SendAccountRecoveryEmailRequest::Email, PlayFab calls may not work if it remains empty."));
@@ -19775,6 +21146,15 @@ void PlayFab::ClientModels::FSendAccountRecoveryEmailRequest::writeJSON(JsonWrit
 bool PlayFab::ClientModels::FSendAccountRecoveryEmailRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EmailValue = obj->TryGetField(TEXT("Email"));
     if (EmailValue.IsValid() && !EmailValue->IsNull())
@@ -19977,6 +21357,17 @@ void PlayFab::ClientModels::FStartGameRequest::writeJSON(JsonWriter& writer) con
         writer->WriteValue(CustomCommandLineData);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!GameMode.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: StartGameRequest::GameMode, PlayFab calls may not work if it remains empty."));
@@ -20022,6 +21413,15 @@ bool PlayFab::ClientModels::FStartGameRequest::readFromValue(const TSharedPtr<FJ
     {
         FString TmpValue;
         if (CustomCommandLineDataValue->TryGetString(TmpValue)) { CustomCommandLineData = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> GameModeValue = obj->TryGetField(TEXT("GameMode"));
@@ -20181,6 +21581,17 @@ void PlayFab::ClientModels::FStartPurchaseRequest::writeJSON(JsonWriter& writer)
         writer->WriteValue(CatalogVersion);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteArrayStart(TEXT("Items"));
     for (const FItemPurchaseRequest& item : Items)
         item.writeJSON(writer);
@@ -20205,6 +21616,15 @@ bool PlayFab::ClientModels::FStartPurchaseRequest::readFromValue(const TSharedPt
     {
         FString TmpValue;
         if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
@@ -20383,6 +21803,17 @@ void PlayFab::ClientModels::FSubtractUserVirtualCurrencyRequest::writeJSON(JsonW
     writer->WriteIdentifierPrefix(TEXT("Amount"));
     writer->WriteValue(Amount);
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!VirtualCurrency.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: SubtractUserVirtualCurrencyRequest::VirtualCurrency, PlayFab calls may not work if it remains empty."));
@@ -20405,6 +21836,15 @@ bool PlayFab::ClientModels::FSubtractUserVirtualCurrencyRequest::readFromValue(c
     {
         int32 TmpValue;
         if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> VirtualCurrencyValue = obj->TryGetField(TEXT("VirtualCurrency"));
@@ -20432,6 +21872,17 @@ void PlayFab::ClientModels::FUnlinkAndroidDeviceIDRequest::writeJSON(JsonWriter&
         writer->WriteValue(AndroidDeviceId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -20444,6 +21895,15 @@ bool PlayFab::ClientModels::FUnlinkAndroidDeviceIDRequest::readFromValue(const T
     {
         FString TmpValue;
         if (AndroidDeviceIdValue->TryGetString(TmpValue)) { AndroidDeviceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -20477,12 +21937,32 @@ void PlayFab::ClientModels::FUnlinkAppleRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkAppleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20502,6 +21982,17 @@ void PlayFab::ClientModels::FUnlinkCustomIDRequest::writeJSON(JsonWriter& writer
         writer->WriteValue(CustomId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -20514,6 +22005,15 @@ bool PlayFab::ClientModels::FUnlinkCustomIDRequest::readFromValue(const TSharedP
     {
         FString TmpValue;
         if (CustomIdValue->TryGetString(TmpValue)) { CustomId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -20547,12 +22047,32 @@ void PlayFab::ClientModels::FUnlinkFacebookAccountRequest::writeJSON(JsonWriter&
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkFacebookAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20585,6 +22105,17 @@ void PlayFab::ClientModels::FUnlinkFacebookInstantGamesIdRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (FacebookInstantGamesId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("FacebookInstantGamesId"));
@@ -20597,6 +22128,15 @@ void PlayFab::ClientModels::FUnlinkFacebookInstantGamesIdRequest::writeJSON(Json
 bool PlayFab::ClientModels::FUnlinkFacebookInstantGamesIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> FacebookInstantGamesIdValue = obj->TryGetField(TEXT("FacebookInstantGamesId"));
     if (FacebookInstantGamesIdValue.IsValid() && !FacebookInstantGamesIdValue->IsNull())
@@ -20636,12 +22176,32 @@ void PlayFab::ClientModels::FUnlinkGameCenterAccountRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkGameCenterAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20674,12 +22234,32 @@ void PlayFab::ClientModels::FUnlinkGoogleAccountRequest::writeJSON(JsonWriter& w
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkGoogleAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20712,6 +22292,17 @@ void PlayFab::ClientModels::FUnlinkIOSDeviceIDRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DeviceId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("DeviceId"));
@@ -20724,6 +22315,15 @@ void PlayFab::ClientModels::FUnlinkIOSDeviceIDRequest::writeJSON(JsonWriter& wri
 bool PlayFab::ClientModels::FUnlinkIOSDeviceIDRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DeviceIdValue = obj->TryGetField(TEXT("DeviceId"));
     if (DeviceIdValue.IsValid() && !DeviceIdValue->IsNull())
@@ -20763,12 +22363,32 @@ void PlayFab::ClientModels::FUnlinkKongregateAccountRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkKongregateAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20801,12 +22421,32 @@ void PlayFab::ClientModels::FUnlinkNintendoServiceAccountRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkNintendoServiceAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20820,6 +22460,17 @@ void PlayFab::ClientModels::FUnlinkNintendoSwitchDeviceIdRequest::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (NintendoSwitchDeviceId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
@@ -20832,6 +22483,15 @@ void PlayFab::ClientModels::FUnlinkNintendoSwitchDeviceIdRequest::writeJSON(Json
 bool PlayFab::ClientModels::FUnlinkNintendoSwitchDeviceIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> NintendoSwitchDeviceIdValue = obj->TryGetField(TEXT("NintendoSwitchDeviceId"));
     if (NintendoSwitchDeviceIdValue.IsValid() && !NintendoSwitchDeviceIdValue->IsNull())
@@ -20881,6 +22541,17 @@ void PlayFab::ClientModels::FUnlinkOpenIdConnectRequest::writeJSON(JsonWriter& w
         writer->WriteValue(ConnectionId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -20895,6 +22566,15 @@ bool PlayFab::ClientModels::FUnlinkOpenIdConnectRequest::readFromValue(const TSh
         if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     return HasSucceeded;
 }
 
@@ -20907,12 +22587,32 @@ void PlayFab::ClientModels::FUnlinkPSNAccountRequest::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkPSNAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20945,12 +22645,32 @@ void PlayFab::ClientModels::FUnlinkSteamAccountRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkSteamAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -20989,6 +22709,17 @@ void PlayFab::ClientModels::FUnlinkTwitchAccountRequest::writeJSON(JsonWriter& w
         writer->WriteValue(AccessToken);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -21001,6 +22732,15 @@ bool PlayFab::ClientModels::FUnlinkTwitchAccountRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -21034,6 +22774,17 @@ void PlayFab::ClientModels::FUnlinkWindowsHelloAccountRequest::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!PublicKeyHint.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkWindowsHelloAccountRequest::PublicKeyHint, PlayFab calls may not work if it remains empty."));
@@ -21050,6 +22801,15 @@ void PlayFab::ClientModels::FUnlinkWindowsHelloAccountRequest::writeJSON(JsonWri
 bool PlayFab::ClientModels::FUnlinkWindowsHelloAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> PublicKeyHintValue = obj->TryGetField(TEXT("PublicKeyHint"));
     if (PublicKeyHintValue.IsValid() && !PublicKeyHintValue->IsNull())
@@ -21089,12 +22849,32 @@ void PlayFab::ClientModels::FUnlinkXboxAccountRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ClientModels::FUnlinkXboxAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     return HasSucceeded;
 }
@@ -21149,6 +22929,17 @@ void PlayFab::ClientModels::FUnlockContainerInstanceRequest::writeJSON(JsonWrite
         writer->WriteValue(ContainerItemInstanceId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (KeyItemInstanceId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("KeyItemInstanceId"));
@@ -21181,6 +22972,15 @@ bool PlayFab::ClientModels::FUnlockContainerInstanceRequest::readFromValue(const
     {
         FString TmpValue;
         if (ContainerItemInstanceIdValue->TryGetString(TmpValue)) { ContainerItemInstanceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> KeyItemInstanceIdValue = obj->TryGetField(TEXT("KeyItemInstanceId"));
@@ -21224,6 +23024,17 @@ void PlayFab::ClientModels::FUnlockContainerItemRequest::writeJSON(JsonWriter& w
         writer->WriteValue(ContainerItemId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -21250,6 +23061,15 @@ bool PlayFab::ClientModels::FUnlockContainerItemRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (ContainerItemIdValue->TryGetString(TmpValue)) { ContainerItemId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     return HasSucceeded;
@@ -21393,6 +23213,17 @@ void PlayFab::ClientModels::FUpdateCharacterDataRequest::writeJSON(JsonWriter& w
         writer->WriteValue(CharacterId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Data.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("Data"));
@@ -21431,6 +23262,15 @@ bool PlayFab::ClientModels::FUpdateCharacterDataRequest::readFromValue(const TSh
     {
         FString TmpValue;
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonObject>* DataObject;
@@ -21508,6 +23348,17 @@ void PlayFab::ClientModels::FUpdateCharacterStatisticsRequest::writeJSON(JsonWri
         writer->WriteObjectEnd();
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -21529,6 +23380,15 @@ bool PlayFab::ClientModels::FUpdateCharacterStatisticsRequest::readFromValue(con
         {
             int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
             CharacterStatistics.Add(It.Key(), TmpValue);
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
 
@@ -21563,6 +23423,17 @@ void PlayFab::ClientModels::FUpdatePlayerStatisticsRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteArrayStart(TEXT("Statistics"));
     for (const FStatisticUpdate& item : Statistics)
         item.writeJSON(writer);
@@ -21575,6 +23446,15 @@ void PlayFab::ClientModels::FUpdatePlayerStatisticsRequest::writeJSON(JsonWriter
 bool PlayFab::ClientModels::FUpdatePlayerStatisticsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&StatisticsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Statistics"));
     for (int32 Idx = 0; Idx < StatisticsArray.Num(); Idx++)
@@ -21614,6 +23494,17 @@ PlayFab::ClientModels::FUpdateSharedGroupDataRequest::~FUpdateSharedGroupDataReq
 void PlayFab::ClientModels::FUpdateSharedGroupDataRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
 
     if (Data.Num() != 0)
     {
@@ -21657,6 +23548,15 @@ void PlayFab::ClientModels::FUpdateSharedGroupDataRequest::writeJSON(JsonWriter&
 bool PlayFab::ClientModels::FUpdateSharedGroupDataRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonObject>* DataObject;
     if (obj->TryGetObjectField(TEXT("Data"), DataObject))
@@ -21709,6 +23609,17 @@ void PlayFab::ClientModels::FUpdateUserDataRequest::writeJSON(JsonWriter& writer
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Data.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("Data"));
@@ -21741,6 +23652,15 @@ void PlayFab::ClientModels::FUpdateUserDataRequest::writeJSON(JsonWriter& writer
 bool PlayFab::ClientModels::FUpdateUserDataRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonObject>* DataObject;
     if (obj->TryGetObjectField(TEXT("Data"), DataObject))
@@ -21796,6 +23716,17 @@ void PlayFab::ClientModels::FUpdateUserTitleDisplayNameRequest::writeJSON(JsonWr
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!DisplayName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateUserTitleDisplayNameRequest::DisplayName, PlayFab calls may not work if it remains empty."));
@@ -21812,6 +23743,15 @@ void PlayFab::ClientModels::FUpdateUserTitleDisplayNameRequest::writeJSON(JsonWr
 bool PlayFab::ClientModels::FUpdateUserTitleDisplayNameRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> DisplayNameValue = obj->TryGetField(TEXT("DisplayName"));
     if (DisplayNameValue.IsValid() && !DisplayNameValue->IsNull())
@@ -21876,6 +23816,17 @@ void PlayFab::ClientModels::FValidateAmazonReceiptRequest::writeJSON(JsonWriter&
         writer->WriteValue(CurrencyCode);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
     writer->WriteValue(PurchasePrice);
 
@@ -21918,6 +23869,15 @@ bool PlayFab::ClientModels::FValidateAmazonReceiptRequest::readFromValue(const T
     {
         FString TmpValue;
         if (CurrencyCodeValue->TryGetString(TmpValue)) { CurrencyCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> PurchasePriceValue = obj->TryGetField(TEXT("PurchasePrice"));
@@ -22001,6 +23961,17 @@ void PlayFab::ClientModels::FValidateGooglePlayPurchaseRequest::writeJSON(JsonWr
         writer->WriteValue(CurrencyCode);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (PurchasePrice.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
@@ -22046,6 +24017,15 @@ bool PlayFab::ClientModels::FValidateGooglePlayPurchaseRequest::readFromValue(co
     {
         FString TmpValue;
         if (CurrencyCodeValue->TryGetString(TmpValue)) { CurrencyCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> PurchasePriceValue = obj->TryGetField(TEXT("PurchasePrice"));
@@ -22129,6 +24109,17 @@ void PlayFab::ClientModels::FValidateIOSReceiptRequest::writeJSON(JsonWriter& wr
         writer->WriteValue(CurrencyCode);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
     writer->WriteValue(PurchasePrice);
 
@@ -22161,6 +24152,15 @@ bool PlayFab::ClientModels::FValidateIOSReceiptRequest::readFromValue(const TSha
     {
         FString TmpValue;
         if (CurrencyCodeValue->TryGetString(TmpValue)) { CurrencyCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> PurchasePriceValue = obj->TryGetField(TEXT("PurchasePrice"));
@@ -22241,6 +24241,17 @@ void PlayFab::ClientModels::FValidateWindowsReceiptRequest::writeJSON(JsonWriter
         writer->WriteValue(CurrencyCode);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
     writer->WriteValue(static_cast<int64>(PurchasePrice));
 
@@ -22273,6 +24284,15 @@ bool PlayFab::ClientModels::FValidateWindowsReceiptRequest::readFromValue(const 
     {
         FString TmpValue;
         if (CurrencyCodeValue->TryGetString(TmpValue)) { CurrencyCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
     }
 
     const TSharedPtr<FJsonValue> PurchasePriceValue = obj->TryGetField(TEXT("PurchasePrice"));
@@ -22358,6 +24378,17 @@ void PlayFab::ClientModels::FWriteClientCharacterEventRequest::writeJSON(JsonWri
         writer->WriteValue(CharacterId);
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!EventName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: WriteClientCharacterEventRequest::EventName, PlayFab calls may not work if it remains empty."));
@@ -22397,6 +24428,15 @@ bool PlayFab::ClientModels::FWriteClientCharacterEventRequest::readFromValue(con
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
     }
 
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> EventNameValue = obj->TryGetField(TEXT("EventName"));
     if (EventNameValue.IsValid() && !EventNameValue->IsNull())
     {
@@ -22432,6 +24472,17 @@ void PlayFab::ClientModels::FWriteClientPlayerEventRequest::writeJSON(JsonWriter
         writer->WriteObjectEnd();
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!EventName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: WriteClientPlayerEventRequest::EventName, PlayFab calls may not work if it remains empty."));
@@ -22461,6 +24512,15 @@ bool PlayFab::ClientModels::FWriteClientPlayerEventRequest::readFromValue(const 
         for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*BodyObject)->Values); It; ++It)
         {
             Body.Add(It.Key(), FJsonKeeper(It.Value()));
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
 
@@ -22531,6 +24591,17 @@ void PlayFab::ClientModels::FWriteTitleEventRequest::writeJSON(JsonWriter& write
         writer->WriteObjectEnd();
     }
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!EventName.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: WriteTitleEventRequest::EventName, PlayFab calls may not work if it remains empty."));
@@ -22560,6 +24631,15 @@ bool PlayFab::ClientModels::FWriteTitleEventRequest::readFromValue(const TShared
         for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*BodyObject)->Values); It; ++It)
         {
             Body.Add(It.Key(), FJsonKeeper(It.Value()));
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
 

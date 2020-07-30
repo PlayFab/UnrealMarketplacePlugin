@@ -66,9 +66,6 @@ namespace PlayFab
         // Deletes an existing experiment for a title.
         bool DeleteExperiment(ExperimentationModels::FDeleteExperimentRequest& request, const FDeleteExperimentDelegate& SuccessDelegate = FDeleteExperimentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets the details of all experiments for a title.
-
-        bool GetExperiments(const FGetExperimentsDelegate& SuccessDelegate = FGetExperimentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Gets the details of all experiments for a title.
         bool GetExperiments(ExperimentationModels::FGetExperimentsRequest& request, const FGetExperimentsDelegate& SuccessDelegate = FGetExperimentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets the latest scorecard of the experiment for the title.
         bool GetLatestScorecard(ExperimentationModels::FGetLatestScorecardRequest& request, const FGetLatestScorecardDelegate& SuccessDelegate = FGetLatestScorecardDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

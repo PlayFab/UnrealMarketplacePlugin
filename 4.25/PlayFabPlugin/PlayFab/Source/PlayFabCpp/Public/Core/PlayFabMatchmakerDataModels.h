@@ -173,6 +173,8 @@ namespace MatchmakerModels
 
     struct PLAYFABCPP_API FPlayerJoinedRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Unique identifier of the Game Server Instance the user is joining. This must be a Game Server Instance started with the
          * Matchmaker/StartGame API.
@@ -184,12 +186,14 @@ namespace MatchmakerModels
 
         FPlayerJoinedRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             LobbyId(),
             PlayFabId()
             {}
 
         FPlayerJoinedRequest(const FPlayerJoinedRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             LobbyId(src.LobbyId),
             PlayFabId(src.PlayFabId)
             {}
@@ -228,6 +232,8 @@ namespace MatchmakerModels
 
     struct PLAYFABCPP_API FPlayerLeftRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Unique identifier of the Game Server Instance the user is leaving. This must be a Game Server Instance started with the
          * Matchmaker/StartGame API.
@@ -239,12 +245,14 @@ namespace MatchmakerModels
 
         FPlayerLeftRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             LobbyId(),
             PlayFabId()
             {}
 
         FPlayerLeftRequest(const FPlayerLeftRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             LobbyId(src.LobbyId),
             PlayFabId(src.PlayFabId)
             {}
@@ -304,6 +312,8 @@ namespace MatchmakerModels
         // [optional] Custom command line argument when starting game server process.
         FString CustomCommandLineData;
 
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * HTTP endpoint URL for receiving game status events, if using an external matchmaker. When the game ends, PlayFab will
          * make a POST request to this URL with the X-SecretKey header set to the value of the game's secret and an
@@ -321,6 +331,7 @@ namespace MatchmakerModels
             FPlayFabCppRequestCommon(),
             Build(),
             CustomCommandLineData(),
+            CustomTags(),
             ExternalMatchmakerEventEndpoint(),
             GameMode(),
             pfRegion()
@@ -330,6 +341,7 @@ namespace MatchmakerModels
             FPlayFabCppRequestCommon(),
             Build(src.Build),
             CustomCommandLineData(src.CustomCommandLineData),
+            CustomTags(src.CustomTags),
             ExternalMatchmakerEventEndpoint(src.ExternalMatchmakerEventEndpoint),
             GameMode(src.GameMode),
             pfRegion(src.pfRegion)
@@ -394,6 +406,8 @@ namespace MatchmakerModels
 
     struct PLAYFABCPP_API FUserInfoRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * Minimum catalog version for which data is requested (filters the results to only contain inventory items which have a
          * catalog version of this or higher).
@@ -405,12 +419,14 @@ namespace MatchmakerModels
 
         FUserInfoRequest() :
             FPlayFabCppRequestCommon(),
+            CustomTags(),
             MinCatalogVersion(0),
             PlayFabId()
             {}
 
         FUserInfoRequest(const FUserInfoRequest& src) :
             FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
             MinCatalogVersion(src.MinCatalogVersion),
             PlayFabId(src.PlayFabId)
             {}

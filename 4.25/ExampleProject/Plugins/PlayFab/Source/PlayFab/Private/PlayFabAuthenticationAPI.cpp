@@ -106,6 +106,7 @@ UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::GetEntityToken(FAuthentica
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
     // Add Request to manager
@@ -154,6 +155,7 @@ UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::ValidateEntityToken(FAuthe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.EntityToken.IsEmpty() || request.EntityToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EntityToken"));
     } else {

@@ -38,19 +38,7 @@ namespace PlayFab
          * Gets the current values for the Insights performance and data storage retention, list of pending operations, and the
          * performance and data storage retention limits.
          */
-
-        bool GetDetails(const FGetDetailsDelegate& SuccessDelegate = FGetDetailsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Gets the current values for the Insights performance and data storage retention, list of pending operations, and the
-         * performance and data storage retention limits.
-         */
         bool GetDetails(InsightsModels::FInsightsEmptyRequest& request, const FGetDetailsDelegate& SuccessDelegate = FGetDetailsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Retrieves the range of allowed values for performance and data storage retention values as well as the submeter details
-         * for each performance level.
-         */
-
-        bool GetLimits(const FGetLimitsDelegate& SuccessDelegate = FGetLimitsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the range of allowed values for performance and data storage retention values as well as the submeter details
          * for each performance level.

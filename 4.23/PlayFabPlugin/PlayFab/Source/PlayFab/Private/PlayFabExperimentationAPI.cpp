@@ -99,6 +99,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::CreateExperiment(FExperi
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Description.IsEmpty() || request.Description == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Description"));
     } else {
@@ -183,6 +184,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::DeleteExperiment(FExperi
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExperimentId.IsEmpty() || request.ExperimentId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExperimentId"));
     } else {
@@ -235,6 +237,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::GetExperiments(FExperime
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -282,6 +285,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::GetLatestScorecard(FExpe
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExperimentId.IsEmpty() || request.ExperimentId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExperimentId"));
     } else {
@@ -334,6 +338,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::GetTreatmentAssignment(F
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
 
     // Add Request to manager
@@ -382,6 +387,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::StartExperiment(FExperim
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExperimentId.IsEmpty() || request.ExperimentId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExperimentId"));
     } else {
@@ -435,6 +441,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::StopExperiment(FExperime
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.ExperimentId.IsEmpty() || request.ExperimentId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ExperimentId"));
     } else {
@@ -488,6 +495,7 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::UpdateExperiment(FExperi
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Description.IsEmpty() || request.Description == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Description"));
     } else {

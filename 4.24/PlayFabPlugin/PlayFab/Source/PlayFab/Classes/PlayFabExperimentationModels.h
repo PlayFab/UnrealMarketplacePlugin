@@ -36,6 +36,9 @@ struct PLAYFAB_API FExperimentationCreateExperimentRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** Description of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;
@@ -84,6 +87,9 @@ struct PLAYFAB_API FExperimentationDeleteExperimentRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The ID of the experiment to delete. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -105,6 +111,9 @@ struct PLAYFAB_API FExperimentationGetExperimentsRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -123,6 +132,9 @@ struct PLAYFAB_API FExperimentationGetLatestScorecardRequest : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The ID of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -147,6 +159,9 @@ struct PLAYFAB_API FExperimentationGetTreatmentAssignmentRequest : public FPlayF
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         UPlayFabJsonObject* Entity = nullptr;
@@ -168,6 +183,9 @@ struct PLAYFAB_API FExperimentationStartExperimentRequest : public FPlayFabReque
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The ID of the experiment to start. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -179,6 +197,9 @@ struct PLAYFAB_API FExperimentationStopExperimentRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** The ID of the experiment to stop. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString ExperimentId;
@@ -193,6 +214,9 @@ struct PLAYFAB_API FExperimentationUpdateExperimentRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /** Description of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;

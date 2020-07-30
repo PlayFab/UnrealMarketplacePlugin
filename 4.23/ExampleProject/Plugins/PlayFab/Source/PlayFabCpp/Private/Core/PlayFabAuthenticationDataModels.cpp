@@ -167,6 +167,17 @@ void PlayFab::AuthenticationModels::FGetEntityTokenRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -179,6 +190,15 @@ void PlayFab::AuthenticationModels::FGetEntityTokenRequest::writeJSON(JsonWriter
 bool PlayFab::AuthenticationModels::FGetEntityTokenRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
@@ -328,6 +348,17 @@ void PlayFab::AuthenticationModels::FValidateEntityTokenRequest::writeJSON(JsonW
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!EntityToken.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: ValidateEntityTokenRequest::EntityToken, PlayFab calls may not work if it remains empty."));
@@ -344,6 +375,15 @@ void PlayFab::AuthenticationModels::FValidateEntityTokenRequest::writeJSON(JsonW
 bool PlayFab::AuthenticationModels::FValidateEntityTokenRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TSharedPtr<FJsonValue> EntityTokenValue = obj->TryGetField(TEXT("EntityToken"));
     if (EntityTokenValue.IsValid() && !EntityTokenValue->IsNull())

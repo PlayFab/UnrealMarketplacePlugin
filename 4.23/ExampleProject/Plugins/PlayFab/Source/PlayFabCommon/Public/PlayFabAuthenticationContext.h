@@ -25,18 +25,18 @@ public:
 #ifndef DISABLE_PLAYFABENTITY_API
         EntityToken = PlayFabCommon::PlayFabCommonSettings::entityToken;
 #endif
-#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
         DeveloperSecretKey = PlayFabCommon::PlayFabCommonSettings::developerSecretKey;
-#endif
     }
 
     // Get the client session ticket that is used as an authentication token in many PlayFab API methods.
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetClientSessionTicket()
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("ClientSessionTicket is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
+        if (DeveloperSecretKey.Len() != 0)
+        {
+            checkf(false, TEXT("ClientSessionTicket is disabled because DISABLE_PLAYFABCLIENT_API is set."));
+        }
+
         return ClientSessionTicket;
     }
 
@@ -92,35 +92,35 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetDeveloperSecretKey()
     {
-#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
-        return DeveloperSecretKey;
-#endif
-
-        checkf(false, TEXT("Cannot call GetDeveloperSecretKey in a non-developer build!"));
+        if (ClientSessionTicket.Len() != 0)
+        {
+            checkf(false, TEXT("Cannot call GetDeveloperSecretKey in a non-developer build!"));
+        }
+        
         return DeveloperSecretKey;
     }
 
     // Get the developer secret key. These keys can be used in development environments.
     const FString& GetDeveloperSecretKey() const
     {
-#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
-        return DeveloperSecretKey;
-#endif
+        if (ClientSessionTicket.Len() != 0)
+        {
+            checkf(false, TEXT("Cannot call GetDeveloperSecretKey in a non-developer build!"));
+        }
 
-        checkf(false, TEXT("Cannot call GetDeveloperSecretKey in a non-developer build!"));
         return DeveloperSecretKey;
     }
 
     // Set the developer secret key. These keys can be used in development environments.
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetDeveloperSecretKey(FString InKey)
-    { 
-#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
-        DeveloperSecretKey = MoveTemp(InKey);
-        return;
-#endif
+    {
+        if (ClientSessionTicket.Len() != 0)
+        {
+            checkf(false, TEXT("Cannot call SetDeveloperSecretKey in a non-developer build!"));
+        }
 
-        checkf(false, TEXT("Cannot call SetDeveloperSecretKey in a non-developer build!"));
+        DeveloperSecretKey = MoveTemp(InKey);
     }
 
     // Get the player's unique PlayFabId.

@@ -26,14 +26,14 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetClientSessionTicket()
     {
-        checkf(DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0, "For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login");
+        checkf(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0, "For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login");
         return ClientSessionTicket;
     }
 
     // Get the client session ticket that is used as an authentication token in many PlayFab API methods.
     const FString& GetClientSessionTicket() const
     {
-        checkf(DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0, "For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login");
+        checkf(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0, "For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login");
         return ClientSessionTicket;
     }
 
@@ -41,7 +41,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetClientSessionTicket(FString InTicket)
     {
-        checkf(DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0, "For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login");
+        checkf(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0, "For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login");
         ClientSessionTicket = InTicket;
     }
 

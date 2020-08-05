@@ -5221,6 +5221,61 @@ bool PlayFab::AdminModels::FDeleteTaskRequest::readFromValue(const TSharedPtr<FJ
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FDeleteTitleDataOverrideRequest::~FDeleteTitleDataOverrideRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteTitleDataOverrideRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!OverrideLabel.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteTitleDataOverrideRequest::OverrideLabel, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("OverrideLabel"));
+        writer->WriteValue(OverrideLabel);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteTitleDataOverrideRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> OverrideLabelValue = obj->TryGetField(TEXT("OverrideLabel"));
+    if (OverrideLabelValue.IsValid() && !OverrideLabelValue->IsNull())
+    {
+        FString TmpValue;
+        if (OverrideLabelValue->TryGetString(TmpValue)) { OverrideLabel = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeleteTitleDataOverrideResult::~FDeleteTitleDataOverrideResult()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteTitleDataOverrideResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteTitleDataOverrideResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FDeleteTitleRequest::~FDeleteTitleRequest()
 {
 
@@ -15746,6 +15801,116 @@ void PlayFab::AdminModels::FSetPublisherDataResult::writeJSON(JsonWriter& writer
 }
 
 bool PlayFab::AdminModels::FSetPublisherDataResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FTitleDataKeyValue::~FTitleDataKeyValue()
+{
+
+}
+
+void PlayFab::AdminModels::FTitleDataKeyValue::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Key.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Key"));
+        writer->WriteValue(Key);
+    }
+
+    if (Value.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        writer->WriteValue(Value);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FTitleDataKeyValue::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> KeyValue = obj->TryGetField(TEXT("Key"));
+    if (KeyValue.IsValid() && !KeyValue->IsNull())
+    {
+        FString TmpValue;
+        if (KeyValue->TryGetString(TmpValue)) { Key = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        FString TmpValue;
+        if (ValueValue->TryGetString(TmpValue)) { Value = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::~FSetTitleDataAndOverridesRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("KeyValues"));
+    for (const FTitleDataKeyValue& item : KeyValues)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    if (OverrideLabel.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OverrideLabel"));
+        writer->WriteValue(OverrideLabel);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&KeyValuesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("KeyValues"));
+    for (int32 Idx = 0; Idx < KeyValuesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = KeyValuesArray[Idx];
+        KeyValues.Add(FTitleDataKeyValue(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> OverrideLabelValue = obj->TryGetField(TEXT("OverrideLabel"));
+    if (OverrideLabelValue.IsValid() && !OverrideLabelValue->IsNull())
+    {
+        FString TmpValue;
+        if (OverrideLabelValue->TryGetString(TmpValue)) { OverrideLabel = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FSetTitleDataAndOverridesResult::~FSetTitleDataAndOverridesResult()
+{
+
+}
+
+void PlayFab::AdminModels::FSetTitleDataAndOverridesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FSetTitleDataAndOverridesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

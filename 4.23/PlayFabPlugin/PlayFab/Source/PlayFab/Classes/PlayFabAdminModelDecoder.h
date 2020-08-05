@@ -412,6 +412,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         static FAdminDeleteStoreResult decodeDeleteStoreResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the DeleteTitleDataOverrideResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        static FAdminDeleteTitleDataOverrideResult decodeDeleteTitleDataOverrideResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetCatalogItemsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         static FAdminGetCatalogItemsResult decodeGetCatalogItemsResultResponse(UPlayFabJsonObject* response);
@@ -447,6 +451,10 @@ public:
     /** Decode the SetTitleDataResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         static FAdminSetTitleDataResult decodeSetTitleDataResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SetTitleDataAndOverridesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        static FAdminSetTitleDataAndOverridesResult decodeSetTitleDataAndOverridesResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the SetupPushNotificationResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management Models")

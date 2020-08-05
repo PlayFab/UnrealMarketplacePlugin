@@ -2941,6 +2941,53 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeleteTitleDataOverrideRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Name of the override.
+        FString OverrideLabel;
+
+        FDeleteTitleDataOverrideRequest() :
+            FPlayFabCppRequestCommon(),
+            OverrideLabel()
+            {}
+
+        FDeleteTitleDataOverrideRequest(const FDeleteTitleDataOverrideRequest& src) :
+            FPlayFabCppRequestCommon(),
+            OverrideLabel(src.OverrideLabel)
+            {}
+
+        FDeleteTitleDataOverrideRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteTitleDataOverrideRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteTitleDataOverrideRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteTitleDataOverrideResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FDeleteTitleDataOverrideResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeleteTitleDataOverrideResult(const FDeleteTitleDataOverrideResult& src) :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeleteTitleDataOverrideResult(const TSharedPtr<FJsonObject>& obj) : FDeleteTitleDataOverrideResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteTitleDataOverrideResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteTitleRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         FDeleteTitleRequest() :
@@ -9335,6 +9382,94 @@ namespace AdminModels
         }
 
         ~FSetPublisherDataResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTitleDataKeyValue : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] Key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
+         * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
+         */
+        FString Key;
+
+        // [optional] New value to set. Set to null to remove a value
+        FString Value;
+
+        FTitleDataKeyValue() :
+            FPlayFabCppBaseModel(),
+            Key(),
+            Value()
+            {}
+
+        FTitleDataKeyValue(const FTitleDataKeyValue& src) :
+            FPlayFabCppBaseModel(),
+            Key(src.Key),
+            Value(src.Value)
+            {}
+
+        FTitleDataKeyValue(const TSharedPtr<FJsonObject>& obj) : FTitleDataKeyValue()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTitleDataKeyValue();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetTitleDataAndOverridesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * List of titleData key-value pairs to set/delete. Use an empty value to delete an existing key; use a non-empty value to
+         * create/update a key.
+         */
+        TArray<FTitleDataKeyValue> KeyValues;
+        // [optional] Name of the override.
+        FString OverrideLabel;
+
+        FSetTitleDataAndOverridesRequest() :
+            FPlayFabCppRequestCommon(),
+            KeyValues(),
+            OverrideLabel()
+            {}
+
+        FSetTitleDataAndOverridesRequest(const FSetTitleDataAndOverridesRequest& src) :
+            FPlayFabCppRequestCommon(),
+            KeyValues(src.KeyValues),
+            OverrideLabel(src.OverrideLabel)
+            {}
+
+        FSetTitleDataAndOverridesRequest(const TSharedPtr<FJsonObject>& obj) : FSetTitleDataAndOverridesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetTitleDataAndOverridesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetTitleDataAndOverridesResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FSetTitleDataAndOverridesResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FSetTitleDataAndOverridesResult(const FSetTitleDataAndOverridesResult& src) :
+            FPlayFabCppResultCommon()
+            {}
+
+        FSetTitleDataAndOverridesResult(const TSharedPtr<FJsonObject>& obj) : FSetTitleDataAndOverridesResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetTitleDataAndOverridesResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

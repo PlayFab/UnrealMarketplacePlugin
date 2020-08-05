@@ -45,6 +45,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteStoreDelegate, const AdminModels::FDeleteStoreResult&);
         DECLARE_DELEGATE_OneParam(FDeleteTaskDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteTitleDelegate, const AdminModels::FDeleteTitleResult&);
+        DECLARE_DELEGATE_OneParam(FDeleteTitleDataOverrideDelegate, const AdminModels::FDeleteTitleDataOverrideResult&);
         DECLARE_DELEGATE_OneParam(FExportMasterPlayerDataDelegate, const AdminModels::FExportMasterPlayerDataResult&);
         DECLARE_DELEGATE_OneParam(FGetActionsOnPlayersInSegmentTaskInstanceDelegate, const AdminModels::FGetActionsOnPlayersInSegmentTaskInstanceResult&);
         DECLARE_DELEGATE_OneParam(FGetAllSegmentsDelegate, const AdminModels::FGetAllSegmentsResult&);
@@ -113,6 +114,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSetPublisherDataDelegate, const AdminModels::FSetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FSetStoreItemsDelegate, const AdminModels::FUpdateStoreItemsResult&);
         DECLARE_DELEGATE_OneParam(FSetTitleDataDelegate, const AdminModels::FSetTitleDataResult&);
+        DECLARE_DELEGATE_OneParam(FSetTitleDataAndOverridesDelegate, const AdminModels::FSetTitleDataAndOverridesResult&);
         DECLARE_DELEGATE_OneParam(FSetTitleInternalDataDelegate, const AdminModels::FSetTitleDataResult&);
         DECLARE_DELEGATE_OneParam(FSetupPushNotificationDelegate, const AdminModels::FSetupPushNotificationResult&);
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const AdminModels::FModifyUserVirtualCurrencyResult&);
@@ -271,6 +273,11 @@ namespace PlayFab
          * Deletes all data associated with the title, including catalog, virtual currencies, leaderboard statistics, Cloud Script revisions, segment definitions, event rules, tasks, add-ons, secret keys, data encryption keys, and permission policies. Removes the title from its studio and removes all associated developer roles and permissions. Does not delete PlayStream event history associated with the title. Note, this API queues the title for deletion and returns immediately. It may take several hours or more before all title data is fully deleted. All player accounts in the title must be deleted before deleting the title. If any player accounts exist, the API will return a 'TitleContainsUserAccounts' error. Until the title data is fully deleted, attempts to call APIs with the title will fail with the 'TitleDeleted' error.
          */
         bool DeleteTitle(AdminModels::FDeleteTitleRequest& request, const FDeleteTitleDelegate& SuccessDelegate = FDeleteTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Deletes a specified set of title data overrides.
+         * This API method is designed to delete specified title data overrides associated with the given label.
+         */
+        bool DeleteTitleDataOverride(AdminModels::FDeleteTitleDataOverrideRequest& request, const FDeleteTitleDataOverrideDelegate& SuccessDelegate = FDeleteTitleDataOverrideDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Exports all associated data of a master player account
          * Exports all data associated with the master player account, including data from all titles the player has played, such as statistics, custom data, inventory, purchases, virtual currency balances, characters, group memberships, publisher data, credential data, account linkages, friends list and PlayStream event history. Note, this API queues the player for export and returns a receipt immediately. Record the receipt ID for future reference. It may take some time before the export is available for download. Upon completion of the export, an email containing the URL to download the export dump will be sent to the notification email address configured for the title.
@@ -606,6 +613,11 @@ namespace PlayFab
          */
         bool SetTitleData(AdminModels::FSetTitleDataRequest& request, const FSetTitleDataDelegate& SuccessDelegate = FSetTitleDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Set and delete key-value pairs in a title data override instance.
+         * This API method is designed to set and delete key-value pairs in a title data override instance. If the key exists and the new value is empty, the method will delete the key; otherwise, the method will update the current value with the new value. Keys are trimmed and cannot start with '!'.
+         */
+        bool SetTitleDataAndOverrides(AdminModels::FSetTitleDataAndOverridesRequest& request, const FSetTitleDataAndOverridesDelegate& SuccessDelegate = FSetTitleDataAndOverridesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Updates the key-value store of custom title settings which cannot be read by the client
          * This API method is designed to store title specific values which are accessible only by the server. These values can be used to tweak settings used by game servers and Cloud Scripts without the need to update and re-deploy. This operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it already exists, the Value for that key will be overwritten with the new Value.
          */
@@ -728,6 +740,7 @@ namespace PlayFab
         void OnDeleteStoreResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteStoreDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteTitleDataOverrideResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTitleDataOverrideDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnExportMasterPlayerDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExportMasterPlayerDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetActionsOnPlayersInSegmentTaskInstanceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetActionsOnPlayersInSegmentTaskInstanceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAllSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAllSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -796,6 +809,7 @@ namespace PlayFab
         void OnSetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetStoreItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSetTitleDataAndOverridesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataAndOverridesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetTitleInternalDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleInternalDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetupPushNotificationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetupPushNotificationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

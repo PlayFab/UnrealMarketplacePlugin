@@ -162,6 +162,17 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum IdentifiedDeviceType
+    {
+        IdentifiedDeviceTypeUnknown,
+        IdentifiedDeviceTypeXboxOne,
+        IdentifiedDeviceTypeScarlett
+    };
+
+    PLAYFABCPP_API void writeIdentifiedDeviceTypeEnumJSON(IdentifiedDeviceType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API IdentifiedDeviceType readIdentifiedDeviceTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API IdentifiedDeviceType readIdentifiedDeviceTypeFromValue(const FString& value);
+
     enum LoginIdentityProvider
     {
         LoginIdentityProviderUnknown,
@@ -226,6 +237,9 @@ namespace AuthenticationModels
         // [optional] The entity id and type.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] The authenticated device for this entity, for the given login
+        Boxed<IdentifiedDeviceType> pfIdentifiedDeviceType;
+
         // [optional] The identity provider for this entity, for the given login
         Boxed<LoginIdentityProvider> IdentityProvider;
 
@@ -235,6 +249,7 @@ namespace AuthenticationModels
         FValidateEntityTokenResponse() :
             FPlayFabCppResultCommon(),
             Entity(nullptr),
+            pfIdentifiedDeviceType(),
             IdentityProvider(),
             Lineage(nullptr)
             {}
@@ -242,6 +257,7 @@ namespace AuthenticationModels
         FValidateEntityTokenResponse(const FValidateEntityTokenResponse& src) :
             FPlayFabCppResultCommon(),
             Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
+            pfIdentifiedDeviceType(src.pfIdentifiedDeviceType),
             IdentityProvider(src.IdentityProvider),
             Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr)
             {}

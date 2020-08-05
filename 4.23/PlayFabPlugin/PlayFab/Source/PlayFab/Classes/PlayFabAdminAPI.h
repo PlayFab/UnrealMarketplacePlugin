@@ -1392,6 +1392,19 @@ public:
         void HelperDeleteStore(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteTitleDataOverride, FAdminDeleteTitleDataOverrideResult, result, UObject*, customData);
+
+    /** Deletes a specified set of title data overrides. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteTitleDataOverride(FAdminDeleteTitleDataOverrideRequest request,
+            FDelegateOnSuccessDeleteTitleDataOverride onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteTitleDataOverride(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetCatalogItems, FAdminGetCatalogItemsResult, result, UObject*, customData);
 
     /** Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
@@ -1533,6 +1546,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperSetTitleData(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetTitleDataAndOverrides, FAdminSetTitleDataAndOverridesResult, result, UObject*, customData);
+
+    /** Set and delete key-value pairs in a title data override instance. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* SetTitleDataAndOverrides(FAdminSetTitleDataAndOverridesRequest request,
+            FDelegateOnSuccessSetTitleDataAndOverrides onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetTitleDataAndOverrides(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetTitleInternalData, FAdminSetTitleDataResult, result, UObject*, customData);
@@ -1716,6 +1742,7 @@ public:
     FDelegateOnSuccessAddNews OnSuccessAddNews;
     FDelegateOnSuccessAddVirtualCurrencyTypes OnSuccessAddVirtualCurrencyTypes;
     FDelegateOnSuccessDeleteStore OnSuccessDeleteStore;
+    FDelegateOnSuccessDeleteTitleDataOverride OnSuccessDeleteTitleDataOverride;
     FDelegateOnSuccessGetCatalogItems OnSuccessGetCatalogItems;
     FDelegateOnSuccessGetPublisherData OnSuccessGetPublisherData;
     FDelegateOnSuccessGetRandomResultTables OnSuccessGetRandomResultTables;
@@ -1727,6 +1754,7 @@ public:
     FDelegateOnSuccessSetCatalogItems OnSuccessSetCatalogItems;
     FDelegateOnSuccessSetStoreItems OnSuccessSetStoreItems;
     FDelegateOnSuccessSetTitleData OnSuccessSetTitleData;
+    FDelegateOnSuccessSetTitleDataAndOverrides OnSuccessSetTitleDataAndOverrides;
     FDelegateOnSuccessSetTitleInternalData OnSuccessSetTitleInternalData;
     FDelegateOnSuccessSetupPushNotification OnSuccessSetupPushNotification;
     FDelegateOnSuccessUpdateCatalogItems OnSuccessUpdateCatalogItems;

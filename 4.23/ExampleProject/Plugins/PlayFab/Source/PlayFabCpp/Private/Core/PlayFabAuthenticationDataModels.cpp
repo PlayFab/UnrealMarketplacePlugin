@@ -265,6 +265,44 @@ bool PlayFab::AuthenticationModels::FGetEntityTokenResponse::readFromValue(const
     return HasSucceeded;
 }
 
+void PlayFab::AuthenticationModels::writeIdentifiedDeviceTypeEnumJSON(IdentifiedDeviceType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case IdentifiedDeviceTypeUnknown: writer->WriteValue(TEXT("Unknown")); break;
+    case IdentifiedDeviceTypeXboxOne: writer->WriteValue(TEXT("XboxOne")); break;
+    case IdentifiedDeviceTypeScarlett: writer->WriteValue(TEXT("Scarlett")); break;
+    }
+}
+
+AuthenticationModels::IdentifiedDeviceType PlayFab::AuthenticationModels::readIdentifiedDeviceTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readIdentifiedDeviceTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AuthenticationModels::IdentifiedDeviceType PlayFab::AuthenticationModels::readIdentifiedDeviceTypeFromValue(const FString& value)
+{
+    static TMap<FString, IdentifiedDeviceType> _IdentifiedDeviceTypeMap;
+    if (_IdentifiedDeviceTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _IdentifiedDeviceTypeMap.Add(TEXT("Unknown"), IdentifiedDeviceTypeUnknown);
+        _IdentifiedDeviceTypeMap.Add(TEXT("XboxOne"), IdentifiedDeviceTypeXboxOne);
+        _IdentifiedDeviceTypeMap.Add(TEXT("Scarlett"), IdentifiedDeviceTypeScarlett);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _IdentifiedDeviceTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return IdentifiedDeviceTypeUnknown; // Basically critical fail
+}
+
 void PlayFab::AuthenticationModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -412,6 +450,12 @@ void PlayFab::AuthenticationModels::FValidateEntityTokenResponse::writeJSON(Json
         Entity->writeJSON(writer);
     }
 
+    if (pfIdentifiedDeviceType.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentifiedDeviceType"));
+        writeIdentifiedDeviceTypeEnumJSON(pfIdentifiedDeviceType, writer);
+    }
+
     if (IdentityProvider.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("IdentityProvider"));
@@ -436,6 +480,8 @@ bool PlayFab::AuthenticationModels::FValidateEntityTokenResponse::readFromValue(
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
+
+    pfIdentifiedDeviceType = readIdentifiedDeviceTypeFromValue(obj->TryGetField(TEXT("IdentifiedDeviceType")));
 
     IdentityProvider = readLoginIdentityProviderFromValue(obj->TryGetField(TEXT("IdentityProvider")));
 

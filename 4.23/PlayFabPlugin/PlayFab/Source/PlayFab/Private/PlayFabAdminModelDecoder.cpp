@@ -947,6 +947,15 @@ FAdminDeleteStoreResult UPlayFabAdminModelDecoder::decodeDeleteStoreResultRespon
     return tempStruct;
 }
 
+FAdminDeleteTitleDataOverrideResult UPlayFabAdminModelDecoder::decodeDeleteTitleDataOverrideResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeleteTitleDataOverrideResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminGetCatalogItemsResult UPlayFabAdminModelDecoder::decodeGetCatalogItemsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -1039,6 +1048,15 @@ FAdminSetTitleDataResult UPlayFabAdminModelDecoder::decodeSetTitleDataResultResp
 {
     // Temp ustruct
     FAdminSetTitleDataResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FAdminSetTitleDataAndOverridesResult UPlayFabAdminModelDecoder::decodeSetTitleDataAndOverridesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminSetTitleDataAndOverridesResult tempStruct;
 
 
     return tempStruct;

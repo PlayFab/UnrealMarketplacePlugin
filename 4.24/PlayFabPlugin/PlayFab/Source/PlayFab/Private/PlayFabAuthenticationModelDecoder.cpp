@@ -47,6 +47,7 @@ FAuthenticationValidateEntityTokenResponse UPlayFabAuthenticationModelDecoder::d
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.Entity = !(dataObj->HasField("Entity")) ? nullptr : dataObj->GetObjectField("Entity");
+    GetEnumValueFromString<EIdentifiedDeviceType>(TEXT("EIdentifiedDeviceType"), dataObj->GetStringField("IdentifiedDeviceType"), tempStruct.IdentifiedDeviceType);
     GetEnumValueFromString<ELoginIdentityProvider>(TEXT("ELoginIdentityProvider"), dataObj->GetStringField("IdentityProvider"), tempStruct.IdentityProvider);
     tempStruct.Lineage = !(dataObj->HasField("Lineage")) ? nullptr : dataObj->GetObjectField("Lineage");
 

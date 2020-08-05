@@ -19,21 +19,21 @@ public:
         ClientSessionTicket = PlayFabCommon::PlayFabCommonSettings::clientSessionTicket;
         EntityToken = PlayFabCommon::PlayFabCommonSettings::entityToken;
         DeveloperSecretKey = PlayFabCommon::PlayFabCommonSettings::developerSecretKey;
-        checkf(!(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0), TEXT("Cannot have a ClientSessionTicket with a Developer Secret Key Present!"));
+        ClientAdminSecurityCheck();
     }
 
     // Get the client session ticket that is used as an authentication token in many PlayFab API methods.
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetClientSessionTicket()
     {
-        checkf(!(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0), TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login"));
+        ClientAdminSecurityCheck();
         return ClientSessionTicket;
     }
 
     // Get the client session ticket that is used as an authentication token in many PlayFab API methods.
     const FString& GetClientSessionTicket() const
     {
-        checkf(!(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0), TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login"));
+        ClientAdminSecurityCheck();
         return ClientSessionTicket;
     }
 
@@ -41,7 +41,6 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetClientSessionTicket(FString InTicket)
     {
-        checkf(!(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0), TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login"));
         ClientSessionTicket = InTicket;
     }
 
@@ -69,24 +68,22 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetDeveloperSecretKey()
     {
-        checkf(!(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0), TEXT("Cannot have a ClientSessionTicket with a Developer Secret Key Present!"));
-
+        ClientAdminSecurityCheck();
         return DeveloperSecretKey;
     }
 
     // Get the developer secret key. These keys can be used in development environments.
     const FString& GetDeveloperSecretKey() const
     {
-        checkf(!(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0), TEXT("Cannot have a ClientSessionTicket with a Developer Secret Key Present!"));
-
+        ClientAdminSecurityCheck();
         return DeveloperSecretKey;
     }
 
     // Set the developer secret key. These keys can be used in development environments.
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetDeveloperSecretKey(FString InKey)
-    { 
-        checkf(!(DeveloperSecretKey.Len() != 0 && ClientSessionTicket.Len() != 0), TEXT("Cannot have a ClientSessionTicket with a Developer Secret Key Present!"));
+    {
+        ClientAdminSecurityCheck();
         DeveloperSecretKey = InKey;
     }
 
@@ -118,6 +115,11 @@ public:
         EntityToken.Empty();
         DeveloperSecretKey.Empty();
         PlayFabId.Empty();
+    }
+
+    void ClientAdminSecurityCheck()
+    {
+        checkf(!(DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0), TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login"));
     }
 
 private: 

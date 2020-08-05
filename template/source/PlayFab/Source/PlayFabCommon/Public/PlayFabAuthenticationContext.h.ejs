@@ -117,7 +117,9 @@ public:
         PlayFabId.Empty();
     }
 
-    void ClientAdminSecurityCheck()
+    // Check if things are in the correct order
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
+    void ClientAdminSecurityCheck() const
     {
         checkf(!(DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0), TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login"));
     }

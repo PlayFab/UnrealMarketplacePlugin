@@ -734,6 +734,36 @@ void UPlayFabAdminAPI::OnDeleteTitleResult(FHttpRequestPtr HttpRequest, FHttpRes
     }
 }
 
+bool UPlayFabAdminAPI::DeleteTitleDataOverride(
+    AdminModels::FDeleteTitleDataOverrideRequest& request,
+    const FDeleteTitleDataOverrideDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteTitleDataOverride")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteTitleDataOverrideResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnDeleteTitleDataOverrideResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTitleDataOverrideDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FDeleteTitleDataOverrideResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAdminAPI::ExportMasterPlayerData(
     AdminModels::FExportMasterPlayerDataRequest& request,
     const FExportMasterPlayerDataDelegate& SuccessDelegate,
@@ -2819,6 +2849,36 @@ bool UPlayFabAdminAPI::SetTitleData(
 void UPlayFabAdminAPI::OnSetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AdminModels::FSetTitleDataResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabAdminAPI::SetTitleDataAndOverrides(
+    AdminModels::FSetTitleDataAndOverridesRequest& request,
+    const FSetTitleDataAndOverridesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetTitleDataAndOverrides")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetTitleDataAndOverridesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminAPI::OnSetTitleDataAndOverridesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataAndOverridesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FSetTitleDataAndOverridesResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

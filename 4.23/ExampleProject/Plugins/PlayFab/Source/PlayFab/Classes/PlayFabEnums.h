@@ -872,6 +872,16 @@ enum class EPlayerConnectionState : uint8
     pfenum_Participated UMETA(DisplayName = "Participated"),
 };
 
+/** IdentifiedDeviceType */
+
+UENUM(BlueprintType)
+enum class EIdentifiedDeviceType : uint8
+{
+    pfenum_Unknown UMETA(DisplayName = "Unknown"),
+    pfenum_XboxOne UMETA(DisplayName = "XboxOne"),
+    pfenum_Scarlett UMETA(DisplayName = "Scarlett"),
+};
+
 /** TriggerType */
 
 UENUM(BlueprintType)

@@ -619,7 +619,6 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7012: returnText = "ExperimentationInvalidDuration"; break;
     case 7013: returnText = "ExperimentationMaxExperimentsReached"; break;
     case 7014: returnText = "ExperimentationExperimentSchedulingInProgress"; break;
-    case 7015: returnText = "ExperimentationExistingCodelessScheduled"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 11000: returnText = "SnapshotNotFound"; break;

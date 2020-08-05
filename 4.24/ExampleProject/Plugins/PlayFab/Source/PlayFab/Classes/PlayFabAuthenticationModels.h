@@ -71,7 +71,7 @@ public:
         FString TokenExpiration;
 };
 
-/** Given an entity token, validates that it hasn't exipired or been revoked and will return details of the owner. */
+/** Given an entity token, validates that it hasn't expired or been revoked and will return details of the owner. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAuthenticationValidateEntityTokenRequest : public FPlayFabRequestCommon
 {
@@ -93,6 +93,9 @@ public:
     /** The entity id and type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** The authenticated device for this entity, for the given login */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        EIdentifiedDeviceType IdentifiedDeviceType;
     /** The identity provider for this entity, for the given login */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         ELoginIdentityProvider IdentityProvider;

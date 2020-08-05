@@ -597,7 +597,6 @@ namespace PlayFab
         PlayFabErrorExperimentationInvalidDuration = 7012,
         PlayFabErrorExperimentationMaxExperimentsReached = 7013,
         PlayFabErrorExperimentationExperimentSchedulingInProgress = 7014,
-        PlayFabErrorExperimentationExistingCodelessScheduled = 7015,
         PlayFabErrorMaxActionDepthExceeded = 8000,
         PlayFabErrorTitleNotOnUpdatedPricingPlan = 9000,
         PlayFabErrorSnapshotNotFound = 11000

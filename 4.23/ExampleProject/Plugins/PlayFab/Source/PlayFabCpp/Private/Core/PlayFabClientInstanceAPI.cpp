@@ -115,10 +115,6 @@ bool UPlayFabClientInstanceAPI::AcceptTrade(
     const FAcceptTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -150,10 +146,6 @@ bool UPlayFabClientInstanceAPI::AddFriend(
     const FAddFriendDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -185,10 +177,6 @@ bool UPlayFabClientInstanceAPI::AddGenericID(
     const FAddGenericIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -220,10 +208,6 @@ bool UPlayFabClientInstanceAPI::AddOrUpdateContactEmail(
     const FAddOrUpdateContactEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -255,10 +239,6 @@ bool UPlayFabClientInstanceAPI::AddSharedGroupMembers(
     const FAddSharedGroupMembersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -290,10 +270,6 @@ bool UPlayFabClientInstanceAPI::AddUsernamePassword(
     const FAddUsernamePasswordDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -325,10 +301,6 @@ bool UPlayFabClientInstanceAPI::AddUserVirtualCurrency(
     const FAddUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -360,10 +332,6 @@ bool UPlayFabClientInstanceAPI::AndroidDevicePushNotificationRegistration(
     const FAndroidDevicePushNotificationRegistrationDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -395,10 +363,6 @@ bool UPlayFabClientInstanceAPI::AttributeInstall(
     const FAttributeInstallDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -436,10 +400,6 @@ bool UPlayFabClientInstanceAPI::CancelTrade(
     const FCancelTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -471,10 +431,6 @@ bool UPlayFabClientInstanceAPI::ConfirmPurchase(
     const FConfirmPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -506,10 +462,6 @@ bool UPlayFabClientInstanceAPI::ConsumeItem(
     const FConsumeItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -541,10 +493,6 @@ bool UPlayFabClientInstanceAPI::ConsumePSNEntitlements(
     const FConsumePSNEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -576,10 +524,6 @@ bool UPlayFabClientInstanceAPI::ConsumeXboxEntitlements(
     const FConsumeXboxEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -611,10 +555,6 @@ bool UPlayFabClientInstanceAPI::CreateSharedGroup(
     const FCreateSharedGroupDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -646,10 +586,6 @@ bool UPlayFabClientInstanceAPI::ExecuteCloudScript(
     const FExecuteCloudScriptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -681,10 +617,6 @@ bool UPlayFabClientInstanceAPI::GetAccountInfo(
     const FGetAccountInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -716,10 +648,6 @@ bool UPlayFabClientInstanceAPI::GetAdPlacements(
     const FGetAdPlacementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -751,10 +679,6 @@ bool UPlayFabClientInstanceAPI::GetAllUsersCharacters(
     const FGetAllUsersCharactersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -786,10 +710,6 @@ bool UPlayFabClientInstanceAPI::GetCatalogItems(
     const FGetCatalogItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -821,10 +741,6 @@ bool UPlayFabClientInstanceAPI::GetCharacterData(
     const FGetCharacterDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -856,10 +772,6 @@ bool UPlayFabClientInstanceAPI::GetCharacterInventory(
     const FGetCharacterInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -891,10 +803,6 @@ bool UPlayFabClientInstanceAPI::GetCharacterLeaderboard(
     const FGetCharacterLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -926,10 +834,6 @@ bool UPlayFabClientInstanceAPI::GetCharacterReadOnlyData(
     const FGetCharacterReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -961,10 +865,6 @@ bool UPlayFabClientInstanceAPI::GetCharacterStatistics(
     const FGetCharacterStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -996,10 +896,6 @@ bool UPlayFabClientInstanceAPI::GetContentDownloadUrl(
     const FGetContentDownloadUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1031,10 +927,6 @@ bool UPlayFabClientInstanceAPI::GetCurrentGames(
     const FGetCurrentGamesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1066,10 +958,6 @@ bool UPlayFabClientInstanceAPI::GetFriendLeaderboard(
     const FGetFriendLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1101,10 +989,6 @@ bool UPlayFabClientInstanceAPI::GetFriendLeaderboardAroundPlayer(
     const FGetFriendLeaderboardAroundPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1136,10 +1020,6 @@ bool UPlayFabClientInstanceAPI::GetFriendsList(
     const FGetFriendsListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1171,10 +1051,6 @@ bool UPlayFabClientInstanceAPI::GetGameServerRegions(
     const FGetGameServerRegionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1206,10 +1082,6 @@ bool UPlayFabClientInstanceAPI::GetLeaderboard(
     const FGetLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1241,10 +1113,6 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardAroundCharacter(
     const FGetLeaderboardAroundCharacterDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1276,10 +1144,6 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardAroundPlayer(
     const FGetLeaderboardAroundPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1311,10 +1175,6 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardForUserCharacters(
     const FGetLeaderboardForUserCharactersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1346,10 +1206,6 @@ bool UPlayFabClientInstanceAPI::GetPaymentToken(
     const FGetPaymentTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1381,10 +1237,6 @@ bool UPlayFabClientInstanceAPI::GetPhotonAuthenticationToken(
     const FGetPhotonAuthenticationTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1416,10 +1268,6 @@ bool UPlayFabClientInstanceAPI::GetPlayerCombinedInfo(
     const FGetPlayerCombinedInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1451,10 +1299,6 @@ bool UPlayFabClientInstanceAPI::GetPlayerProfile(
     const FGetPlayerProfileDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1494,10 +1338,6 @@ bool UPlayFabClientInstanceAPI::GetPlayerSegments(
     const FGetPlayerSegmentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1529,10 +1369,6 @@ bool UPlayFabClientInstanceAPI::GetPlayerStatistics(
     const FGetPlayerStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1564,10 +1400,6 @@ bool UPlayFabClientInstanceAPI::GetPlayerStatisticVersions(
     const FGetPlayerStatisticVersionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1599,10 +1431,6 @@ bool UPlayFabClientInstanceAPI::GetPlayerTags(
     const FGetPlayerTagsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1634,10 +1462,6 @@ bool UPlayFabClientInstanceAPI::GetPlayerTrades(
     const FGetPlayerTradesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1669,10 +1493,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromFacebookIDs(
     const FGetPlayFabIDsFromFacebookIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1704,10 +1524,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromFacebookInstantGamesIds(
     const FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1739,10 +1555,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGameCenterIDs(
     const FGetPlayFabIDsFromGameCenterIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1774,10 +1586,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGenericIDs(
     const FGetPlayFabIDsFromGenericIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1809,10 +1617,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGoogleIDs(
     const FGetPlayFabIDsFromGoogleIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1844,10 +1648,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromKongregateIDs(
     const FGetPlayFabIDsFromKongregateIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1879,10 +1679,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(
     const FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1914,10 +1710,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromPSNAccountIDs(
     const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1949,10 +1741,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromSteamIDs(
     const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -1984,10 +1772,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromTwitchIDs(
     const FGetPlayFabIDsFromTwitchIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2019,10 +1803,6 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromXboxLiveIDs(
     const FGetPlayFabIDsFromXboxLiveIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2054,10 +1834,6 @@ bool UPlayFabClientInstanceAPI::GetPublisherData(
     const FGetPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2089,10 +1865,6 @@ bool UPlayFabClientInstanceAPI::GetPurchase(
     const FGetPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2124,10 +1896,6 @@ bool UPlayFabClientInstanceAPI::GetSharedGroupData(
     const FGetSharedGroupDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2159,10 +1927,6 @@ bool UPlayFabClientInstanceAPI::GetStoreItems(
     const FGetStoreItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2202,10 +1966,6 @@ bool UPlayFabClientInstanceAPI::GetTime(
     const FGetTimeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2237,10 +1997,6 @@ bool UPlayFabClientInstanceAPI::GetTitleData(
     const FGetTitleDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2272,10 +2028,6 @@ bool UPlayFabClientInstanceAPI::GetTitleNews(
     const FGetTitleNewsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2333,10 +2085,6 @@ bool UPlayFabClientInstanceAPI::GetTradeStatus(
     const FGetTradeStatusDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2368,10 +2116,6 @@ bool UPlayFabClientInstanceAPI::GetUserData(
     const FGetUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2403,10 +2147,6 @@ bool UPlayFabClientInstanceAPI::GetUserInventory(
     const FGetUserInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2438,10 +2178,6 @@ bool UPlayFabClientInstanceAPI::GetUserPublisherData(
     const FGetUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2473,10 +2209,6 @@ bool UPlayFabClientInstanceAPI::GetUserPublisherReadOnlyData(
     const FGetUserPublisherReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2508,10 +2240,6 @@ bool UPlayFabClientInstanceAPI::GetUserReadOnlyData(
     const FGetUserReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2569,10 +2297,6 @@ bool UPlayFabClientInstanceAPI::GrantCharacterToUser(
     const FGrantCharacterToUserDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2604,10 +2328,6 @@ bool UPlayFabClientInstanceAPI::LinkAndroidDeviceID(
     const FLinkAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2639,10 +2359,6 @@ bool UPlayFabClientInstanceAPI::LinkApple(
     const FLinkAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2674,10 +2390,6 @@ bool UPlayFabClientInstanceAPI::LinkCustomID(
     const FLinkCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2709,10 +2421,6 @@ bool UPlayFabClientInstanceAPI::LinkFacebookAccount(
     const FLinkFacebookAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2744,10 +2452,6 @@ bool UPlayFabClientInstanceAPI::LinkFacebookInstantGamesId(
     const FLinkFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2779,10 +2483,6 @@ bool UPlayFabClientInstanceAPI::LinkGameCenterAccount(
     const FLinkGameCenterAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2814,10 +2514,6 @@ bool UPlayFabClientInstanceAPI::LinkGoogleAccount(
     const FLinkGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2849,10 +2545,6 @@ bool UPlayFabClientInstanceAPI::LinkIOSDeviceID(
     const FLinkIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2884,10 +2576,6 @@ bool UPlayFabClientInstanceAPI::LinkKongregate(
     const FLinkKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2919,10 +2607,6 @@ bool UPlayFabClientInstanceAPI::LinkNintendoServiceAccount(
     const FLinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2954,10 +2638,6 @@ bool UPlayFabClientInstanceAPI::LinkNintendoSwitchDeviceId(
     const FLinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -2989,10 +2669,6 @@ bool UPlayFabClientInstanceAPI::LinkOpenIdConnect(
     const FLinkOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -3024,10 +2700,6 @@ bool UPlayFabClientInstanceAPI::LinkPSNAccount(
     const FLinkPSNAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -3059,10 +2731,6 @@ bool UPlayFabClientInstanceAPI::LinkSteamAccount(
     const FLinkSteamAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -3094,10 +2762,6 @@ bool UPlayFabClientInstanceAPI::LinkTwitch(
     const FLinkTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -3129,10 +2793,6 @@ bool UPlayFabClientInstanceAPI::LinkWindowsHello(
     const FLinkWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -3164,10 +2824,6 @@ bool UPlayFabClientInstanceAPI::LinkXboxAccount(
     const FLinkXboxAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4073,10 +3729,6 @@ bool UPlayFabClientInstanceAPI::Matchmake(
     const FMatchmakeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4108,10 +3760,6 @@ bool UPlayFabClientInstanceAPI::OpenTrade(
     const FOpenTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4143,10 +3791,6 @@ bool UPlayFabClientInstanceAPI::PayForPurchase(
     const FPayForPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4178,10 +3822,6 @@ bool UPlayFabClientInstanceAPI::PurchaseItem(
     const FPurchaseItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4213,10 +3853,6 @@ bool UPlayFabClientInstanceAPI::RedeemCoupon(
     const FRedeemCouponDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4248,10 +3884,6 @@ bool UPlayFabClientInstanceAPI::RefreshPSNAuthToken(
     const FRefreshPSNAuthTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4283,10 +3915,6 @@ bool UPlayFabClientInstanceAPI::RegisterForIOSPushNotification(
     const FRegisterForIOSPushNotificationDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4398,10 +4026,6 @@ bool UPlayFabClientInstanceAPI::RemoveContactEmail(
     const FRemoveContactEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4433,10 +4057,6 @@ bool UPlayFabClientInstanceAPI::RemoveFriend(
     const FRemoveFriendDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4468,10 +4088,6 @@ bool UPlayFabClientInstanceAPI::RemoveGenericID(
     const FRemoveGenericIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4503,10 +4119,6 @@ bool UPlayFabClientInstanceAPI::RemoveSharedGroupMembers(
     const FRemoveSharedGroupMembersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4538,10 +4150,6 @@ bool UPlayFabClientInstanceAPI::ReportAdActivity(
     const FReportAdActivityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4573,10 +4181,6 @@ bool UPlayFabClientInstanceAPI::ReportDeviceInfo(
     const FReportDeviceInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4608,10 +4212,6 @@ bool UPlayFabClientInstanceAPI::ReportPlayer(
     const FReportPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4643,10 +4243,6 @@ bool UPlayFabClientInstanceAPI::RestoreIOSPurchases(
     const FRestoreIOSPurchasesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4678,10 +4274,6 @@ bool UPlayFabClientInstanceAPI::RewardAdActivity(
     const FRewardAdActivityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4739,10 +4331,6 @@ bool UPlayFabClientInstanceAPI::SetFriendTags(
     const FSetFriendTagsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4774,10 +4362,6 @@ bool UPlayFabClientInstanceAPI::SetPlayerSecret(
     const FSetPlayerSecretDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4809,10 +4393,6 @@ bool UPlayFabClientInstanceAPI::StartGame(
     const FStartGameDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4844,10 +4424,6 @@ bool UPlayFabClientInstanceAPI::StartPurchase(
     const FStartPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4879,10 +4455,6 @@ bool UPlayFabClientInstanceAPI::SubtractUserVirtualCurrency(
     const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4914,10 +4486,6 @@ bool UPlayFabClientInstanceAPI::UnlinkAndroidDeviceID(
     const FUnlinkAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4949,10 +4517,6 @@ bool UPlayFabClientInstanceAPI::UnlinkApple(
     const FUnlinkAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -4984,10 +4548,6 @@ bool UPlayFabClientInstanceAPI::UnlinkCustomID(
     const FUnlinkCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5019,10 +4579,6 @@ bool UPlayFabClientInstanceAPI::UnlinkFacebookAccount(
     const FUnlinkFacebookAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5054,10 +4610,6 @@ bool UPlayFabClientInstanceAPI::UnlinkFacebookInstantGamesId(
     const FUnlinkFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5089,10 +4641,6 @@ bool UPlayFabClientInstanceAPI::UnlinkGameCenterAccount(
     const FUnlinkGameCenterAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5124,10 +4672,6 @@ bool UPlayFabClientInstanceAPI::UnlinkGoogleAccount(
     const FUnlinkGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5159,10 +4703,6 @@ bool UPlayFabClientInstanceAPI::UnlinkIOSDeviceID(
     const FUnlinkIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5194,10 +4734,6 @@ bool UPlayFabClientInstanceAPI::UnlinkKongregate(
     const FUnlinkKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5229,10 +4765,6 @@ bool UPlayFabClientInstanceAPI::UnlinkNintendoServiceAccount(
     const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5264,10 +4796,6 @@ bool UPlayFabClientInstanceAPI::UnlinkNintendoSwitchDeviceId(
     const FUnlinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5299,10 +4827,6 @@ bool UPlayFabClientInstanceAPI::UnlinkOpenIdConnect(
     const FUnlinkOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5334,10 +4858,6 @@ bool UPlayFabClientInstanceAPI::UnlinkPSNAccount(
     const FUnlinkPSNAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5369,10 +4889,6 @@ bool UPlayFabClientInstanceAPI::UnlinkSteamAccount(
     const FUnlinkSteamAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5404,10 +4920,6 @@ bool UPlayFabClientInstanceAPI::UnlinkTwitch(
     const FUnlinkTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5439,10 +4951,6 @@ bool UPlayFabClientInstanceAPI::UnlinkWindowsHello(
     const FUnlinkWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5474,10 +4982,6 @@ bool UPlayFabClientInstanceAPI::UnlinkXboxAccount(
     const FUnlinkXboxAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5509,10 +5013,6 @@ bool UPlayFabClientInstanceAPI::UnlockContainerInstance(
     const FUnlockContainerInstanceDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5544,10 +5044,6 @@ bool UPlayFabClientInstanceAPI::UnlockContainerItem(
     const FUnlockContainerItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5579,10 +5075,6 @@ bool UPlayFabClientInstanceAPI::UpdateAvatarUrl(
     const FUpdateAvatarUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5614,10 +5106,6 @@ bool UPlayFabClientInstanceAPI::UpdateCharacterData(
     const FUpdateCharacterDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5649,10 +5137,6 @@ bool UPlayFabClientInstanceAPI::UpdateCharacterStatistics(
     const FUpdateCharacterStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5684,10 +5168,6 @@ bool UPlayFabClientInstanceAPI::UpdatePlayerStatistics(
     const FUpdatePlayerStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5719,10 +5199,6 @@ bool UPlayFabClientInstanceAPI::UpdateSharedGroupData(
     const FUpdateSharedGroupDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5754,10 +5230,6 @@ bool UPlayFabClientInstanceAPI::UpdateUserData(
     const FUpdateUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5789,10 +5261,6 @@ bool UPlayFabClientInstanceAPI::UpdateUserPublisherData(
     const FUpdateUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5824,10 +5292,6 @@ bool UPlayFabClientInstanceAPI::UpdateUserTitleDisplayName(
     const FUpdateUserTitleDisplayNameDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5859,10 +5323,6 @@ bool UPlayFabClientInstanceAPI::ValidateAmazonIAPReceipt(
     const FValidateAmazonIAPReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5894,10 +5354,6 @@ bool UPlayFabClientInstanceAPI::ValidateGooglePlayPurchase(
     const FValidateGooglePlayPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5929,10 +5385,6 @@ bool UPlayFabClientInstanceAPI::ValidateIOSReceipt(
     const FValidateIOSReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5964,10 +5416,6 @@ bool UPlayFabClientInstanceAPI::ValidateWindowsStoreReceipt(
     const FValidateWindowsStoreReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -5999,10 +5447,6 @@ bool UPlayFabClientInstanceAPI::WriteCharacterEvent(
     const FWriteCharacterEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -6034,10 +5478,6 @@ bool UPlayFabClientInstanceAPI::WritePlayerEvent(
     const FWritePlayerEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
@@ -6069,10 +5509,6 @@ bool UPlayFabClientInstanceAPI::WriteTitleEvent(
     const FWriteTitleEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() != 0)    {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must not set the DeveloperSecretKey if you are calling a Client API."));
-        return false;
-    }
     if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
         || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));

@@ -775,6 +775,36 @@ void UPlayFabAdminInstanceAPI::OnDeleteTitleResult(FHttpRequestPtr HttpRequest, 
     }
 }
 
+bool UPlayFabAdminInstanceAPI::DeleteTitleDataOverride(
+    AdminModels::FDeleteTitleDataOverrideRequest& request,
+    const FDeleteTitleDataOverrideDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Admin/DeleteTitleDataOverride")) : this->settings->GetUrl(TEXT("/Admin/DeleteTitleDataOverride")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminInstanceAPI::OnDeleteTitleDataOverrideResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminInstanceAPI::OnDeleteTitleDataOverrideResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTitleDataOverrideDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FDeleteTitleDataOverrideResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAdminInstanceAPI::ExportMasterPlayerData(
     AdminModels::FExportMasterPlayerDataRequest& request,
     const FExportMasterPlayerDataDelegate& SuccessDelegate,
@@ -2860,6 +2890,36 @@ bool UPlayFabAdminInstanceAPI::SetTitleData(
 void UPlayFabAdminInstanceAPI::OnSetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AdminModels::FSetTitleDataResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabAdminInstanceAPI::SetTitleDataAndOverrides(
+    AdminModels::FSetTitleDataAndOverridesRequest& request,
+    const FSetTitleDataAndOverridesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetDeveloperSecretKey().Len() == 0)){
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Admin/SetTitleDataAndOverrides")) : this->settings->GetUrl(TEXT("/Admin/SetTitleDataAndOverrides")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminInstanceAPI::OnSetTitleDataAndOverridesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminInstanceAPI::OnSetTitleDataAndOverridesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataAndOverridesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FSetTitleDataAndOverridesResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

@@ -5549,6 +5549,58 @@ void UPlayFabAdminAPI::HelperDeleteStore(FPlayFabBaseModel response, UObject* cu
     this->RemoveFromRoot();
 }
 
+/** Deletes a specified set of title data overrides. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteTitleDataOverride(FAdminDeleteTitleDataOverrideRequest request,
+    FDelegateOnSuccessDeleteTitleDataOverride onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteTitleDataOverride = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteTitleDataOverride);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/DeleteTitleDataOverride";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.OverrideLabel.IsEmpty() || request.OverrideLabel == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OverrideLabel"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OverrideLabel"), request.OverrideLabel);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperDeleteTitleDataOverride(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteTitleDataOverride.IsBound())
+    {
+        FAdminDeleteTitleDataOverrideResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeleteTitleDataOverrideResultResponse(response.responseData);
+        OnSuccessDeleteTitleDataOverride.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
 UPlayFabAdminAPI* UPlayFabAdminAPI::GetCatalogItems(FAdminGetCatalogItemsRequest request,
     FDelegateOnSuccessGetCatalogItems onSuccess,
@@ -6162,6 +6214,63 @@ void UPlayFabAdminAPI::HelperSetTitleData(FPlayFabBaseModel response, UObject* c
     {
         FAdminSetTitleDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
         OnSuccessSetTitleData.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Set and delete key-value pairs in a title data override instance. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleDataAndOverrides(FAdminSetTitleDataAndOverridesRequest request,
+    FDelegateOnSuccessSetTitleDataAndOverrides onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSetTitleDataAndOverrides = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetTitleDataAndOverrides);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/SetTitleDataAndOverrides";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.KeyValues.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("KeyValues"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("KeyValues"), request.KeyValues);
+    }
+    if (request.OverrideLabel.IsEmpty() || request.OverrideLabel == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OverrideLabel"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OverrideLabel"), request.OverrideLabel);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperSetTitleDataAndOverrides(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSetTitleDataAndOverrides.IsBound())
+    {
+        FAdminSetTitleDataAndOverridesResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetTitleDataAndOverridesResultResponse(response.responseData);
+        OnSuccessSetTitleDataAndOverrides.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

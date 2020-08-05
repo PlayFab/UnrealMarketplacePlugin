@@ -2639,6 +2639,24 @@ struct PLAYFAB_API FAdminDeleteStoreResult : public FPlayFabResultCommon
 public:
 };
 
+/** Will delete all the title data associated with the given override label. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteTitleDataOverrideRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Name of the override. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString OverrideLabel;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteTitleDataOverrideResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminGetCatalogItemsRequest : public FPlayFabRequestCommon
 {
@@ -2919,6 +2937,33 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminSetTitleDataResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
+ * Will set the given key values in the specified override or the primary title data based on whether the label is provided
+ * or not.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminSetTitleDataAndOverridesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * List of titleData key-value pairs to set/delete. Use an empty value to delete an existing key; use a non-empty value to
+     * create/update a key.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        TArray<UPlayFabJsonObject*> KeyValues;
+    /** Name of the override. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString OverrideLabel;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminSetTitleDataAndOverridesResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

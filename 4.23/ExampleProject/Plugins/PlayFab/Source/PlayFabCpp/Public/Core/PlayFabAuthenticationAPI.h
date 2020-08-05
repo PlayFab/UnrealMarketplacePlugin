@@ -38,7 +38,7 @@ namespace PlayFab
         bool GetEntityToken(AuthenticationModels::FGetEntityTokenRequest& request, const FGetEntityTokenDelegate& SuccessDelegate = FGetEntityTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Method for a server to validate a client provided EntityToken. Only callable by the title entity.
-         * Given an entity token, validates that it hasn't exipired or been revoked and will return details of the owner.
+         * Given an entity token, validates that it hasn't expired or been revoked and will return details of the owner.
          */
         bool ValidateEntityToken(AuthenticationModels::FValidateEntityTokenRequest& request, const FValidateEntityTokenDelegate& SuccessDelegate = FValidateEntityTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
 

@@ -41,6 +41,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetClientSessionTicket(FString InTicket)
     {
+        ClientAdminSecurityCheck();
         ClientSessionTicket = InTicket;
     }
 

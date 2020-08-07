@@ -86,7 +86,6 @@ void UTestTitleDataLoader::ApplyToSettings()
     // Settings are globally shared
     IPlayFab* playFabSettings = &(IPlayFab::Get());
     playFabSettings->setGameTitleId(titleId);
-    playFabSettings->setDeveloperSecretKey(developerSecretKey);
 }
 
 bool UTestTitleDataLoader::LoadTestTitleData()

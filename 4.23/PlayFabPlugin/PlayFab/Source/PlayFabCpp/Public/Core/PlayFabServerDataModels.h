@@ -1447,16 +1447,21 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FAuthenticateSessionTicketResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Indicates if token was expired at request time.
+        Boxed<bool> IsSessionTicketExpired;
+
         // [optional] Account info for the user whose session ticket was supplied.
         TSharedPtr<FUserAccountInfo> UserInfo;
 
         FAuthenticateSessionTicketResult() :
             FPlayFabCppResultCommon(),
+            IsSessionTicketExpired(),
             UserInfo(nullptr)
             {}
 
         FAuthenticateSessionTicketResult(const FAuthenticateSessionTicketResult& src) :
             FPlayFabCppResultCommon(),
+            IsSessionTicketExpired(src.IsSessionTicketExpired),
             UserInfo(src.UserInfo.IsValid() ? MakeShareable(new FUserAccountInfo(*src.UserInfo)) : nullptr)
             {}
 

@@ -539,6 +539,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1508: returnText = "TitleDataOverrideNotFound"; break;
     case 1509: returnText = "DuplicateKeys"; break;
     case 1510: returnText = "WasNotCreatedWithCloudRoot"; break;
+    case 1511: returnText = "LegacyMultiplayerServersDeprecated"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

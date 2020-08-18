@@ -539,19 +539,6 @@ FMultiplayerListPartyQosServersResponse UPlayFabMultiplayerModelDecoder::decodeL
     return tempStruct;
 }
 
-FMultiplayerListQosServersResponse UPlayFabMultiplayerModelDecoder::decodeListQosServersResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FMultiplayerListQosServersResponse tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
-    tempStruct.QosServers = !(dataObj->HasField("QosServers")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("QosServers");
-    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
-
-    return tempStruct;
-}
-
 FMultiplayerListQosServersForTitleResponse UPlayFabMultiplayerModelDecoder::decodeListQosServersForTitleResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

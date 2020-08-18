@@ -126,7 +126,8 @@ namespace MultiplayerModels
         AzureRegionChinaEast2,
         AzureRegionChinaNorth2,
         AzureRegionSouthAfricaNorth,
-        AzureRegionCentralUsEuap
+        AzureRegionCentralUsEuap,
+        AzureRegionWestCentralUs
     };
 
     PLAYFABCPP_API void writeAzureRegionEnumJSON(AzureRegion enumVal, JsonWriter& writer);
@@ -4297,19 +4298,14 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Qos servers version
-        FString Version;
-
         FListPartyQosServersRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags(),
-            Version()
+            CustomTags()
             {}
 
         FListPartyQosServersRequest(const FListPartyQosServersRequest& src) :
             FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Version(src.Version)
+            CustomTags(src.CustomTags)
             {}
 
         FListPartyQosServersRequest(const TSharedPtr<FJsonObject>& obj) : FListPartyQosServersRequest()
@@ -4393,14 +4389,22 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        /**
+         * Indicates that the response should contain Qos servers for all regions, including those where there are no builds
+         * deployed for the title.
+         */
+        bool IncludeAllRegions;
+
         FListQosServersForTitleRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags()
+            CustomTags(),
+            IncludeAllRegions(false)
             {}
 
         FListQosServersForTitleRequest(const FListQosServersForTitleRequest& src) :
             FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
+            CustomTags(src.CustomTags),
+            IncludeAllRegions(src.IncludeAllRegions)
             {}
 
         FListQosServersForTitleRequest(const TSharedPtr<FJsonObject>& obj) : FListQosServersForTitleRequest()
@@ -4444,66 +4448,6 @@ namespace MultiplayerModels
         }
 
         ~FListQosServersForTitleResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListQosServersRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        FListQosServersRequest() :
-            FPlayFabCppRequestCommon(),
-            CustomTags()
-            {}
-
-        FListQosServersRequest(const FListQosServersRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
-
-        FListQosServersRequest(const TSharedPtr<FJsonObject>& obj) : FListQosServersRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListQosServersRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListQosServersResponse : public PlayFab::FPlayFabCppResultCommon
-    {
-        // The page size on the response.
-        int32 PageSize;
-
-        // [optional] The list of QoS servers.
-        TArray<FQosServer> QosServers;
-        // [optional] The skip token for the paged response.
-        FString SkipToken;
-
-        FListQosServersResponse() :
-            FPlayFabCppResultCommon(),
-            PageSize(0),
-            QosServers(),
-            SkipToken()
-            {}
-
-        FListQosServersResponse(const FListQosServersResponse& src) :
-            FPlayFabCppResultCommon(),
-            PageSize(src.PageSize),
-            QosServers(src.QosServers),
-            SkipToken(src.SkipToken)
-            {}
-
-        FListQosServersResponse(const TSharedPtr<FJsonObject>& obj) : FListQosServersResponse()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListQosServersResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

@@ -181,6 +181,7 @@ void PlayFab::MultiplayerModels::writeAzureRegionEnumJSON(AzureRegion enumVal, J
     case AzureRegionChinaNorth2: writer->WriteValue(TEXT("ChinaNorth2")); break;
     case AzureRegionSouthAfricaNorth: writer->WriteValue(TEXT("SouthAfricaNorth")); break;
     case AzureRegionCentralUsEuap: writer->WriteValue(TEXT("CentralUsEuap")); break;
+    case AzureRegionWestCentralUs: writer->WriteValue(TEXT("WestCentralUs")); break;
     }
 }
 
@@ -214,6 +215,7 @@ MultiplayerModels::AzureRegion PlayFab::MultiplayerModels::readAzureRegionFromVa
         _AzureRegionMap.Add(TEXT("ChinaNorth2"), AzureRegionChinaNorth2);
         _AzureRegionMap.Add(TEXT("SouthAfricaNorth"), AzureRegionSouthAfricaNorth);
         _AzureRegionMap.Add(TEXT("CentralUsEuap"), AzureRegionCentralUsEuap);
+        _AzureRegionMap.Add(TEXT("WestCentralUs"), AzureRegionWestCentralUs);
 
     }
 
@@ -7926,12 +7928,6 @@ void PlayFab::MultiplayerModels::FListPartyQosServersRequest::writeJSON(JsonWrit
         writer->WriteObjectEnd();
     }
 
-    if (Version.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Version"));
-        writer->WriteValue(Version);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -7946,13 +7942,6 @@ bool PlayFab::MultiplayerModels::FListPartyQosServersRequest::readFromValue(cons
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
-    }
-
-    const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
-    if (VersionValue.IsValid() && !VersionValue->IsNull())
-    {
-        FString TmpValue;
-        if (VersionValue->TryGetString(TmpValue)) { Version = TmpValue; }
     }
 
     return HasSucceeded;
@@ -8082,6 +8071,9 @@ void PlayFab::MultiplayerModels::FListQosServersForTitleRequest::writeJSON(JsonW
         writer->WriteObjectEnd();
     }
 
+    writer->WriteIdentifierPrefix(TEXT("IncludeAllRegions"));
+    writer->WriteValue(IncludeAllRegions);
+
     writer->WriteObjectEnd();
 }
 
@@ -8096,6 +8088,13 @@ bool PlayFab::MultiplayerModels::FListQosServersForTitleRequest::readFromValue(c
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> IncludeAllRegionsValue = obj->TryGetField(TEXT("IncludeAllRegions"));
+    if (IncludeAllRegionsValue.IsValid() && !IncludeAllRegionsValue->IsNull())
+    {
+        bool TmpValue;
+        if (IncludeAllRegionsValue->TryGetBool(TmpValue)) { IncludeAllRegions = TmpValue; }
     }
 
     return HasSucceeded;
@@ -8132,104 +8131,6 @@ void PlayFab::MultiplayerModels::FListQosServersForTitleResponse::writeJSON(Json
 }
 
 bool PlayFab::MultiplayerModels::FListQosServersForTitleResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
-    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
-    {
-        int32 TmpValue;
-        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&QosServersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("QosServers"));
-    for (int32 Idx = 0; Idx < QosServersArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = QosServersArray[Idx];
-        QosServers.Add(FQosServer(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
-    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FListQosServersRequest::~FListQosServersRequest()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FListQosServersRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FListQosServersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::MultiplayerModels::FListQosServersResponse::~FListQosServersResponse()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FListQosServersResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("PageSize"));
-    writer->WriteValue(PageSize);
-
-    if (QosServers.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("QosServers"));
-        for (const FQosServer& item : QosServers)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (SkipToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
-        writer->WriteValue(SkipToken);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FListQosServersResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

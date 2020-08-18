@@ -960,6 +960,7 @@ enum class EAzureRegion : uint8
     pfenum_ChinaNorth2 UMETA(DisplayName = "ChinaNorth2"),
     pfenum_SouthAfricaNorth UMETA(DisplayName = "SouthAfricaNorth"),
     pfenum_CentralUsEuap UMETA(DisplayName = "CentralUsEuap"),
+    pfenum_WestCentralUs UMETA(DisplayName = "WestCentralUs"),
 };
 
 /** AzureVmFamily */

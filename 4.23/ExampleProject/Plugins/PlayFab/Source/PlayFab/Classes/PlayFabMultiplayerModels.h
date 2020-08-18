@@ -1762,40 +1762,10 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Qos servers version */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString Version;
 };
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerListPartyQosServersResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The page size on the response. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        int32 PageSize = 0;
-    /** The list of QoS servers. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        TArray<UPlayFabJsonObject*> QosServers;
-    /** The skip token for the paged response. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString SkipToken;
-};
-
-/** Returns a list of quality of service servers. */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListQosServersRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListQosServersResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1819,6 +1789,12 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * Indicates that the response should contain Qos servers for all regions, including those where there are no builds
+     * deployed for the title.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool IncludeAllRegions = false;
 };
 
 USTRUCT(BlueprintType)

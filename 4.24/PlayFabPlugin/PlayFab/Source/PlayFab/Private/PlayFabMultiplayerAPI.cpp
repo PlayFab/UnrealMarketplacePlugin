@@ -2748,11 +2748,6 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListPartyQosServers(FMultiplayer
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.Version.IsEmpty() || request.Version == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("Version"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("Version"), request.Version);
-    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2776,54 +2771,7 @@ void UPlayFabMultiplayerAPI::HelperListPartyQosServers(FPlayFabBaseModel respons
     this->RemoveFromRoot();
 }
 
-/** Lists quality of service servers. */
-UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServers(FMultiplayerListQosServersRequest request,
-    FDelegateOnSuccessListQosServers onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessListQosServers = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListQosServers);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/MultiplayerServer/ListQosServers";
-
-
-    // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabMultiplayerRequestCompleted
-void UPlayFabMultiplayerAPI::HelperListQosServers(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessListQosServers.IsBound())
-    {
-        FMultiplayerListQosServersResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListQosServersResponseResponse(response.responseData);
-        OnSuccessListQosServers.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Lists quality of service servers. */
+/** Lists quality of service servers for the title. By default, servers are only returned for regions where a Multiplayer Servers build has been deployed. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServersForTitle(FMultiplayerListQosServersForTitleRequest request,
     FDelegateOnSuccessListQosServersForTitle onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -2848,6 +2796,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServersForTitle(FMultipla
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("IncludeAllRegions"), request.IncludeAllRegions);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

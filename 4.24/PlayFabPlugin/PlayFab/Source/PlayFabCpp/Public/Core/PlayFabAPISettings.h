@@ -18,11 +18,9 @@ public:
         VerticalName(PlayFab::PlayFabSettings::GetVerticalName())
         , BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
         , TitleId(PlayFab::PlayFabSettings::GetTitleId())
-#ifndef DISABLE_PLAYFABCLIENT_API
         , AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
         , AdvertisingIdValue(PlayFab::PlayFabSettings::GetAdvertisingIdValue())
         , DisableAdvertising(PlayFab::PlayFabSettings::GetDisableAdvertising())
-#endif
     {
     }
 
@@ -73,71 +71,41 @@ public:
 
     FString& GetAdvertisingIdType()
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("AdvertisingIdType is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
         return AdvertisingIdType;
     }
 
     const FString& GetAdvertisingIdType() const
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("AdvertisingIdType is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
         return AdvertisingIdType;
     }
 
     void SetAdvertisingIdType(FString InAdvertisingIdType)
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("AdvertisingIdType is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
-
         AdvertisingIdType = InAdvertisingIdType;
     }
 
     FString& GetAdvertisingIdValue()
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("AdvertisingIdValue is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
-
         return AdvertisingIdValue;
     }
 
     const FString& GetAdvertisingIdValue() const
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("AdvertisingIdValue is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
-
         return AdvertisingIdValue;
     }
 
     void SetAdvertisingIdValue(FString InAdvertisingIdValue)
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("AdvertisingIdValue is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
-
         AdvertisingIdValue = InAdvertisingIdValue;
     }
 
     bool GetDisableAdvertising() const
     {
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("DisableAdvertising is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
-
         return DisableAdvertising;
     }
 
     void SetDisableAdvertising(bool InDisableAdvertising)
     {
-    
-#ifdef DISABLE_PLAYFABCLIENT_API
-        checkf(false, TEXT("DisableAdvertising is disabled because DISABLE_PLAYFABCLIENT_API is set."));
-#endif
         DisableAdvertising = InDisableAdvertising;
     }
 

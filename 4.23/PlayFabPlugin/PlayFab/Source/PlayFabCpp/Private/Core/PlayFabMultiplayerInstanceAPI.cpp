@@ -1423,32 +1423,6 @@ void UPlayFabMultiplayerInstanceAPI::OnListPartyQosServersResult(FHttpRequestPtr
     }
 }
 
-bool UPlayFabMultiplayerInstanceAPI::ListQosServers(
-    MultiplayerModels::FListQosServersRequest& request,
-    const FListQosServersDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/MultiplayerServer/ListQosServers")) : this->settings->GetUrl(TEXT("/MultiplayerServer/ListQosServers")), request.toJSONString(), TEXT(""), TEXT(""));
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnListQosServersResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabMultiplayerInstanceAPI::OnListQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    MultiplayerModels::FListQosServersResponse outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabMultiplayerInstanceAPI::ListQosServersForTitle(
     MultiplayerModels::FListQosServersForTitleRequest& request,
     const FListQosServersForTitleDelegate& SuccessDelegate,

@@ -343,6 +343,7 @@ FServerAuthenticateSessionTicketResult UPlayFabServerModelDecoder::decodeAuthent
     FServerAuthenticateSessionTicketResult tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.IsSessionTicketExpired = !(dataObj->HasField("IsSessionTicketExpired")) ? false : dataObj->GetBoolField("IsSessionTicketExpired");
     tempStruct.UserInfo = !(dataObj->HasField("UserInfo")) ? nullptr : dataObj->GetObjectField("UserInfo");
 
     return tempStruct;

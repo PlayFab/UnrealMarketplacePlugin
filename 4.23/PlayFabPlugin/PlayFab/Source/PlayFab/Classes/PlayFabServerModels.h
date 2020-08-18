@@ -922,6 +922,9 @@ struct PLAYFAB_API FServerAuthenticateSessionTicketResult : public FPlayFabResul
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Indicates if token was expired at request time. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool IsSessionTicketExpired = false;
     /** Account info for the user whose session ticket was supplied. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* UserInfo = nullptr;

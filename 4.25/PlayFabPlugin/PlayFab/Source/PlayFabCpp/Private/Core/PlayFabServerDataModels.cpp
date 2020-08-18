@@ -2465,6 +2465,12 @@ void PlayFab::ServerModels::FAuthenticateSessionTicketResult::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (IsSessionTicketExpired.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IsSessionTicketExpired"));
+        writer->WriteValue(IsSessionTicketExpired);
+    }
+
     if (UserInfo.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("UserInfo"));
@@ -2477,6 +2483,13 @@ void PlayFab::ServerModels::FAuthenticateSessionTicketResult::writeJSON(JsonWrit
 bool PlayFab::ServerModels::FAuthenticateSessionTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IsSessionTicketExpiredValue = obj->TryGetField(TEXT("IsSessionTicketExpired"));
+    if (IsSessionTicketExpiredValue.IsValid() && !IsSessionTicketExpiredValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsSessionTicketExpiredValue->TryGetBool(TmpValue)) { IsSessionTicketExpired = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> UserInfoValue = obj->TryGetField(TEXT("UserInfo"));
     if (UserInfoValue.IsValid() && !UserInfoValue->IsNull())

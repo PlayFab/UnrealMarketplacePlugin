@@ -67,7 +67,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListMatchmakingTicketsForPlayerDelegate, const MultiplayerModels::FListMatchmakingTicketsForPlayerResult&);
         DECLARE_DELEGATE_OneParam(FListMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListPartyQosServersDelegate, const MultiplayerModels::FListPartyQosServersResponse&);
-        DECLARE_DELEGATE_OneParam(FListQosServersDelegate, const MultiplayerModels::FListQosServersResponse&);
         DECLARE_DELEGATE_OneParam(FListQosServersForTitleDelegate, const MultiplayerModels::FListQosServersForTitleResponse&);
         DECLARE_DELEGATE_OneParam(FListServerBackfillTicketsForPlayerDelegate, const MultiplayerModels::FListServerBackfillTicketsForPlayerResult&);
         DECLARE_DELEGATE_OneParam(FListVirtualMachineSummariesDelegate, const MultiplayerModels::FListVirtualMachineSummariesResponse&);
@@ -341,12 +340,8 @@ namespace PlayFab
          */
         bool ListPartyQosServers(MultiplayerModels::FListPartyQosServersRequest& request, const FListPartyQosServersDelegate& SuccessDelegate = FListPartyQosServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Lists quality of service servers.
-         * Returns a list of quality of service servers.
-         */
-        bool ListQosServers(MultiplayerModels::FListQosServersRequest& request, const FListQosServersDelegate& SuccessDelegate = FListQosServersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Lists quality of service servers.
+         * Lists quality of service servers for the title. By default, servers are only returned for regions where a Multiplayer
+         * Servers build has been deployed.
          * Returns a list of quality of service servers for a title.
          */
         bool ListQosServersForTitle(MultiplayerModels::FListQosServersForTitleRequest& request, const FListQosServersForTitleDelegate& SuccessDelegate = FListQosServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -449,7 +444,6 @@ namespace PlayFab
         void OnListMatchmakingTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMatchmakingTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListPartyQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPartyQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnListQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQosServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListServerBackfillTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBackfillTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualMachineSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualMachineSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

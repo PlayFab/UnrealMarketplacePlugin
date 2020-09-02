@@ -622,6 +622,10 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7014: returnText = "ExperimentationExperimentSchedulingInProgress"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
+    case 10000: returnText = "SegmentManagementTitleNotInFlight"; break;
+    case 10001: returnText = "SegmentManagementNoExpressionTree"; break;
+    case 10002: returnText = "SegmentManagementTriggerActionCountOverLimit"; break;
+    case 10003: returnText = "SegmentManagementSegmentCountOverLimit"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }
 

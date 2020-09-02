@@ -393,6 +393,90 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FSchedule : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] A short description about this schedule. For example, "Game launch on July 15th".
+        FString Description;
+
+        /**
+         * The date and time in UTC at which the schedule ends. If IsRecurringWeekly is true, this schedule will keep renewing for
+         * future weeks until disabled or removed.
+         */
+        FDateTime EndTime;
+
+        // Disables the schedule.
+        bool IsDisabled;
+
+        // If true, the StartTime and EndTime will get renewed every week.
+        bool IsRecurringWeekly;
+
+        // The date and time in UTC at which the schedule starts.
+        FDateTime StartTime;
+
+        // The standby target to maintain for the duration of the schedule.
+        int32 TargetStandby;
+
+        FSchedule() :
+            FPlayFabCppBaseModel(),
+            Description(),
+            EndTime(0),
+            IsDisabled(false),
+            IsRecurringWeekly(false),
+            StartTime(0),
+            TargetStandby(0)
+            {}
+
+        FSchedule(const FSchedule& src) :
+            FPlayFabCppBaseModel(),
+            Description(src.Description),
+            EndTime(src.EndTime),
+            IsDisabled(src.IsDisabled),
+            IsRecurringWeekly(src.IsRecurringWeekly),
+            StartTime(src.StartTime),
+            TargetStandby(src.TargetStandby)
+            {}
+
+        FSchedule(const TSharedPtr<FJsonObject>& obj) : FSchedule()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSchedule();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FScheduledStandbySettings : public PlayFab::FPlayFabCppBaseModel
+    {
+        // When true, scheduled standby will be enabled
+        bool IsEnabled;
+
+        // [optional] A list of non-overlapping schedules
+        TArray<FSchedule> ScheduleList;
+        FScheduledStandbySettings() :
+            FPlayFabCppBaseModel(),
+            IsEnabled(false),
+            ScheduleList()
+            {}
+
+        FScheduledStandbySettings(const FScheduledStandbySettings& src) :
+            FPlayFabCppBaseModel(),
+            IsEnabled(src.IsEnabled),
+            ScheduleList(src.ScheduleList)
+            {}
+
+        FScheduledStandbySettings(const TSharedPtr<FJsonObject>& obj) : FScheduledStandbySettings()
+        {
+            readFromValue(obj);
+        }
+
+        ~FScheduledStandbySettings();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FBuildRegion : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The current multiplayer server stats for the region.
@@ -406,6 +490,9 @@ namespace MultiplayerModels
 
         // [optional] The build region.
         FString Region;
+
+        // [optional] Optional settings to set the standby target to specified values during the supplied schedules
+        TSharedPtr<FScheduledStandbySettings> pfScheduledStandbySettings;
 
         // The target number of standby multiplayer servers for the region.
         int32 StandbyServers;
@@ -422,6 +509,7 @@ namespace MultiplayerModels
             pfDynamicStandbySettings(nullptr),
             MaxServers(0),
             Region(),
+            pfScheduledStandbySettings(nullptr),
             StandbyServers(0),
             Status()
             {}
@@ -432,6 +520,7 @@ namespace MultiplayerModels
             pfDynamicStandbySettings(src.pfDynamicStandbySettings.IsValid() ? MakeShareable(new FDynamicStandbySettings(*src.pfDynamicStandbySettings)) : nullptr),
             MaxServers(src.MaxServers),
             Region(src.Region),
+            pfScheduledStandbySettings(src.pfScheduledStandbySettings.IsValid() ? MakeShareable(new FScheduledStandbySettings(*src.pfScheduledStandbySettings)) : nullptr),
             StandbyServers(src.StandbyServers),
             Status(src.Status)
             {}
@@ -458,6 +547,9 @@ namespace MultiplayerModels
         // The build region.
         FString Region;
 
+        // [optional] Optional settings to set the standby target to specified values during the supplied schedules
+        TSharedPtr<FScheduledStandbySettings> pfScheduledStandbySettings;
+
         // The number of standby multiplayer servers for the region.
         int32 StandbyServers;
 
@@ -466,6 +558,7 @@ namespace MultiplayerModels
             pfDynamicStandbySettings(nullptr),
             MaxServers(0),
             Region(),
+            pfScheduledStandbySettings(nullptr),
             StandbyServers(0)
             {}
 
@@ -474,6 +567,7 @@ namespace MultiplayerModels
             pfDynamicStandbySettings(src.pfDynamicStandbySettings.IsValid() ? MakeShareable(new FDynamicStandbySettings(*src.pfDynamicStandbySettings)) : nullptr),
             MaxServers(src.MaxServers),
             Region(src.Region),
+            pfScheduledStandbySettings(src.pfScheduledStandbySettings.IsValid() ? MakeShareable(new FScheduledStandbySettings(*src.pfScheduledStandbySettings)) : nullptr),
             StandbyServers(src.StandbyServers)
             {}
 
@@ -4390,15 +4484,15 @@ namespace MultiplayerModels
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         /**
-         * Indicates that the response should contain Qos servers for all regions, including those where there are no builds
+         * [optional] Indicates that the response should contain Qos servers for all regions, including those where there are no builds
          * deployed for the title.
          */
-        bool IncludeAllRegions;
+        Boxed<bool> IncludeAllRegions;
 
         FListQosServersForTitleRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            IncludeAllRegions(false)
+            IncludeAllRegions()
             {}
 
         FListQosServersForTitleRequest(const FListQosServersForTitleRequest& src) :

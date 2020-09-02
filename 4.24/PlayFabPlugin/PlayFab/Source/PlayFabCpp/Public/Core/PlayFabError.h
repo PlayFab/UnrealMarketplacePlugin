@@ -600,6 +600,10 @@ namespace PlayFab
         PlayFabErrorExperimentationExperimentSchedulingInProgress = 7014,
         PlayFabErrorMaxActionDepthExceeded = 8000,
         PlayFabErrorTitleNotOnUpdatedPricingPlan = 9000,
+        PlayFabErrorSegmentManagementTitleNotInFlight = 10000,
+        PlayFabErrorSegmentManagementNoExpressionTree = 10001,
+        PlayFabErrorSegmentManagementTriggerActionCountOverLimit = 10002,
+        PlayFabErrorSegmentManagementSegmentCountOverLimit = 10003,
         PlayFabErrorSnapshotNotFound = 11000
     };
 

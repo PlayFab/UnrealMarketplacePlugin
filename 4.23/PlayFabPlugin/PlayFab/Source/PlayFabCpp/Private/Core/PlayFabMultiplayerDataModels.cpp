@@ -685,10 +685,135 @@ bool PlayFab::MultiplayerModels::FDynamicStandbySettings::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FSchedule::~FSchedule()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FSchedule::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("EndTime"));
+    writeDatetime(EndTime, writer);
+
+    writer->WriteIdentifierPrefix(TEXT("IsDisabled"));
+    writer->WriteValue(IsDisabled);
+
+    writer->WriteIdentifierPrefix(TEXT("IsRecurringWeekly"));
+    writer->WriteValue(IsRecurringWeekly);
+
+    writer->WriteIdentifierPrefix(TEXT("StartTime"));
+    writeDatetime(StartTime, writer);
+
+    writer->WriteIdentifierPrefix(TEXT("TargetStandby"));
+    writer->WriteValue(TargetStandby);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FSchedule::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
+    if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EndTimeValue = obj->TryGetField(TEXT("EndTime"));
+    if (EndTimeValue.IsValid())
+        EndTime = readDatetime(EndTimeValue);
+
+
+    const TSharedPtr<FJsonValue> IsDisabledValue = obj->TryGetField(TEXT("IsDisabled"));
+    if (IsDisabledValue.IsValid() && !IsDisabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsDisabledValue->TryGetBool(TmpValue)) { IsDisabled = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IsRecurringWeeklyValue = obj->TryGetField(TEXT("IsRecurringWeekly"));
+    if (IsRecurringWeeklyValue.IsValid() && !IsRecurringWeeklyValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsRecurringWeeklyValue->TryGetBool(TmpValue)) { IsRecurringWeekly = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StartTimeValue = obj->TryGetField(TEXT("StartTime"));
+    if (StartTimeValue.IsValid())
+        StartTime = readDatetime(StartTimeValue);
+
+
+    const TSharedPtr<FJsonValue> TargetStandbyValue = obj->TryGetField(TEXT("TargetStandby"));
+    if (TargetStandbyValue.IsValid() && !TargetStandbyValue->IsNull())
+    {
+        int32 TmpValue;
+        if (TargetStandbyValue->TryGetNumber(TmpValue)) { TargetStandby = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FScheduledStandbySettings::~FScheduledStandbySettings()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FScheduledStandbySettings::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("IsEnabled"));
+    writer->WriteValue(IsEnabled);
+
+    if (ScheduleList.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ScheduleList"));
+        for (const FSchedule& item : ScheduleList)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FScheduledStandbySettings::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IsEnabledValue = obj->TryGetField(TEXT("IsEnabled"));
+    if (IsEnabledValue.IsValid() && !IsEnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsEnabledValue->TryGetBool(TmpValue)) { IsEnabled = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&ScheduleListArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ScheduleList"));
+    for (int32 Idx = 0; Idx < ScheduleListArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ScheduleListArray[Idx];
+        ScheduleList.Add(FSchedule(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FBuildRegion::~FBuildRegion()
 {
     //if (CurrentServerStats != nullptr) delete CurrentServerStats;
     //if (DynamicStandbySettings != nullptr) delete DynamicStandbySettings;
+    //if (ScheduledStandbySettings != nullptr) delete ScheduledStandbySettings;
 
 }
 
@@ -715,6 +840,12 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
     {
         writer->WriteIdentifierPrefix(TEXT("Region"));
         writer->WriteValue(Region);
+    }
+
+    if (pfScheduledStandbySettings.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ScheduledStandbySettings"));
+        pfScheduledStandbySettings->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("StandbyServers"));
@@ -759,6 +890,12 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
         if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> ScheduledStandbySettingsValue = obj->TryGetField(TEXT("ScheduledStandbySettings"));
+    if (ScheduledStandbySettingsValue.IsValid() && !ScheduledStandbySettingsValue->IsNull())
+    {
+        pfScheduledStandbySettings = MakeShareable(new FScheduledStandbySettings(ScheduledStandbySettingsValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> StandbyServersValue = obj->TryGetField(TEXT("StandbyServers"));
     if (StandbyServersValue.IsValid() && !StandbyServersValue->IsNull())
     {
@@ -779,6 +916,7 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
 PlayFab::MultiplayerModels::FBuildRegionParams::~FBuildRegionParams()
 {
     //if (DynamicStandbySettings != nullptr) delete DynamicStandbySettings;
+    //if (ScheduledStandbySettings != nullptr) delete ScheduledStandbySettings;
 
 }
 
@@ -803,6 +941,12 @@ void PlayFab::MultiplayerModels::FBuildRegionParams::writeJSON(JsonWriter& write
     {
         writer->WriteIdentifierPrefix(TEXT("Region"));
         writer->WriteValue(Region);
+    }
+
+    if (pfScheduledStandbySettings.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ScheduledStandbySettings"));
+        pfScheduledStandbySettings->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("StandbyServers"));
@@ -833,6 +977,12 @@ bool PlayFab::MultiplayerModels::FBuildRegionParams::readFromValue(const TShared
     {
         FString TmpValue;
         if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ScheduledStandbySettingsValue = obj->TryGetField(TEXT("ScheduledStandbySettings"));
+    if (ScheduledStandbySettingsValue.IsValid() && !ScheduledStandbySettingsValue->IsNull())
+    {
+        pfScheduledStandbySettings = MakeShareable(new FScheduledStandbySettings(ScheduledStandbySettingsValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> StandbyServersValue = obj->TryGetField(TEXT("StandbyServers"));
@@ -8071,8 +8221,11 @@ void PlayFab::MultiplayerModels::FListQosServersForTitleRequest::writeJSON(JsonW
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("IncludeAllRegions"));
-    writer->WriteValue(IncludeAllRegions);
+    if (IncludeAllRegions.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeAllRegions"));
+        writer->WriteValue(IncludeAllRegions);
+    }
 
     writer->WriteObjectEnd();
 }

@@ -626,6 +626,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10001: returnText = "SegmentManagementNoExpressionTree"; break;
     case 10002: returnText = "SegmentManagementTriggerActionCountOverLimit"; break;
     case 10003: returnText = "SegmentManagementSegmentCountOverLimit"; break;
+    case 10004: returnText = "SegmentManagementInvalidSegmentId"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }
 

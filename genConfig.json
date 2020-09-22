@@ -8,5 +8,10 @@
         "buildFlags": "nonnullable",
         "templateFolder": "UnrealSwitchTemplate",
         "versionKey": "unrealmarketplaceplugin"
+    },
+    "ps4": {
+        "buildFlags": "nonnullable",
+        "templateFolder": "UnrealPs4Template",
+        "versionKey": "unrealmarketplaceplugin"
     }
 }

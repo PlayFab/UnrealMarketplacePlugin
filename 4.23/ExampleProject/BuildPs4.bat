@@ -1,5 +1,5 @@
 echo ========== BUILDING PS4 ==========
-set ueVersion=4.24
+set ueVersion=4.23
 set uatPath=%~d0\dev\EpicGames\UE_%ueVersion%_src\Engine\Build\BatchFiles\RunUAT.bat
 set targetPlatform=PS4
 set exampleProjArchDir=%~dp0..\Archive

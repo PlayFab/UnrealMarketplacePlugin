@@ -3554,8 +3554,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
         FString Keys;
     /**
-     * Name of the override. This value is ignored when used by the game client; otherwise, the overrides are applied
-     * automatically to the title data.
+     * Optional field that specifies the name of an override. This value is ignored when used by the game client; otherwise,
+     * the overrides are applied automatically to the title data.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
         FString OverrideLabel;

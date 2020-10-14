@@ -1738,6 +1738,12 @@ namespace MultiplayerModels
         TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
 
         /**
+         * [optional] Indicates whether this build will be created using the OS Preview versionPreview OS is recommended for dev builds to
+         * detect any breaking changes before they are released to retail. Retail builds should set this value to false.
+         */
+        Boxed<bool> IsOSPreview;
+
+        /**
          * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
@@ -1776,6 +1782,7 @@ namespace MultiplayerModels
             GameCertificateReferences(),
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
+            IsOSPreview(),
             Metadata(),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
@@ -1795,6 +1802,7 @@ namespace MultiplayerModels
             GameCertificateReferences(src.GameCertificateReferences),
             GameWorkingDirectory(src.GameWorkingDirectory),
             pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
+            IsOSPreview(src.IsOSPreview),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             OsPlatform(src.OsPlatform),
@@ -1849,6 +1857,12 @@ namespace MultiplayerModels
         // [optional] The instrumentation configuration for this build.
         TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
 
+        /**
+         * [optional] Indicates whether this build will be created using the OS Preview versionPreview OS is recommended for dev builds to
+         * detect any breaking changes before they are released to retail. Retail builds should set this value to false.
+         */
+        Boxed<bool> IsOSPreview;
+
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
         // The number of multiplayer servers to host on a single VM of the build.
@@ -1890,6 +1904,7 @@ namespace MultiplayerModels
             GameCertificateReferences(),
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
+            IsOSPreview(),
             Metadata(),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
@@ -1912,6 +1927,7 @@ namespace MultiplayerModels
             GameCertificateReferences(src.GameCertificateReferences),
             GameWorkingDirectory(src.GameWorkingDirectory),
             pfInstrumentationConfiguration(src.pfInstrumentationConfiguration.IsValid() ? MakeShareable(new FInstrumentationConfiguration(*src.pfInstrumentationConfiguration)) : nullptr),
+            IsOSPreview(src.IsOSPreview),
             Metadata(src.Metadata),
             MultiplayerServerCountPerVm(src.MultiplayerServerCountPerVm),
             OsPlatform(src.OsPlatform),

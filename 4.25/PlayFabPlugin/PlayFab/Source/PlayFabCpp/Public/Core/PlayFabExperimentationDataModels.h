@@ -29,6 +29,67 @@ namespace ExperimentationModels
     PLAYFABCPP_API AnalysisTaskState readAnalysisTaskStateFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API AnalysisTaskState readAnalysisTaskStateFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FCreateExclusionGroupRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Description of the exclusion group.
+        FString Description;
+
+        // Friendly name of the exclusion group.
+        FString Name;
+
+        FCreateExclusionGroupRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Description(),
+            Name()
+            {}
+
+        FCreateExclusionGroupRequest(const FCreateExclusionGroupRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
+            Description(src.Description),
+            Name(src.Name)
+            {}
+
+        FCreateExclusionGroupRequest(const TSharedPtr<FJsonObject>& obj) : FCreateExclusionGroupRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateExclusionGroupRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateExclusionGroupResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Identifier of the exclusion group.
+        FString ExclusionGroupId;
+
+        FCreateExclusionGroupResult() :
+            FPlayFabCppResultCommon(),
+            ExclusionGroupId()
+            {}
+
+        FCreateExclusionGroupResult(const FCreateExclusionGroupResult& src) :
+            FPlayFabCppResultCommon(),
+            ExclusionGroupId(src.ExclusionGroupId)
+            {}
+
+        FCreateExclusionGroupResult(const TSharedPtr<FJsonObject>& obj) : FCreateExclusionGroupResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateExclusionGroupResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum ExperimentType
     {
         ExperimentTypeActive,
@@ -132,8 +193,17 @@ namespace ExperimentationModels
         // [optional] Description of the experiment.
         FString Description;
 
-        // The duration of the experiment, in days.
-        uint32 Duration;
+        // [optional] The duration of the experiment, in days.
+        Boxed<uint32> Duration;
+
+        // [optional] When experiment should end.
+        Boxed<FDateTime> EndDate;
+
+        // [optional] Id of the exclusion group.
+        FString ExclusionGroupId;
+
+        // [optional] Percentage of exclusion group traffic that will see this experiment.
+        Boxed<uint32> ExclusionGroupTrafficAllocation;
 
         // [optional] Type of experiment.
         Boxed<ExperimentType> pfExperimentType;
@@ -158,7 +228,10 @@ namespace ExperimentationModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             Description(),
-            Duration(0),
+            Duration(),
+            EndDate(),
+            ExclusionGroupId(),
+            ExclusionGroupTrafficAllocation(),
             pfExperimentType(),
             Name(),
             SegmentId(),
@@ -172,6 +245,9 @@ namespace ExperimentationModels
             CustomTags(src.CustomTags),
             Description(src.Description),
             Duration(src.Duration),
+            EndDate(src.EndDate),
+            ExclusionGroupId(src.ExclusionGroupId),
+            ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
             pfExperimentType(src.pfExperimentType),
             Name(src.Name),
             SegmentId(src.SegmentId),
@@ -212,6 +288,36 @@ namespace ExperimentationModels
         }
 
         ~FCreateExperimentResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteExclusionGroupRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The ID of the exclusion group to delete.
+        FString ExclusionGroupId;
+
+        FDeleteExclusionGroupRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ExclusionGroupId()
+            {}
+
+        FDeleteExclusionGroupRequest(const FDeleteExclusionGroupRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
+            ExclusionGroupId(src.ExclusionGroupId)
+            {}
+
+        FDeleteExclusionGroupRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteExclusionGroupRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteExclusionGroupRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -299,6 +405,37 @@ namespace ExperimentationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FExclusionGroupTrafficAllocation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Id of the experiment.
+        FString ExperimentId;
+
+        // Percentage of exclusion group traffic that will see this experiment.
+        uint32 TrafficAllocation;
+
+        FExclusionGroupTrafficAllocation() :
+            FPlayFabCppBaseModel(),
+            ExperimentId(),
+            TrafficAllocation(0)
+            {}
+
+        FExclusionGroupTrafficAllocation(const FExclusionGroupTrafficAllocation& src) :
+            FPlayFabCppBaseModel(),
+            ExperimentId(src.ExperimentId),
+            TrafficAllocation(src.TrafficAllocation)
+            {}
+
+        FExclusionGroupTrafficAllocation(const TSharedPtr<FJsonObject>& obj) : FExclusionGroupTrafficAllocation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExclusionGroupTrafficAllocation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum ExperimentState
     {
         ExperimentStateNew,
@@ -316,8 +453,17 @@ namespace ExperimentationModels
         // [optional] Description of the experiment.
         FString Description;
 
-        // The duration of the experiment, in days.
-        uint32 Duration;
+        // [optional] The duration of the experiment, in days.
+        Boxed<uint32> Duration;
+
+        // [optional] When experiment should end/was ended.
+        Boxed<FDateTime> EndDate;
+
+        // [optional] Id of the exclusion group for this experiment.
+        FString ExclusionGroupId;
+
+        // [optional] Percentage of exclusion group traffic that will see this experiment.
+        Boxed<uint32> ExclusionGroupTrafficAllocation;
 
         // [optional] Type of experiment.
         Boxed<ExperimentType> pfExperimentType;
@@ -347,7 +493,10 @@ namespace ExperimentationModels
         FExperiment() :
             FPlayFabCppBaseModel(),
             Description(),
-            Duration(0),
+            Duration(),
+            EndDate(),
+            ExclusionGroupId(),
+            ExclusionGroupTrafficAllocation(),
             pfExperimentType(),
             Id(),
             Name(),
@@ -362,6 +511,9 @@ namespace ExperimentationModels
             FPlayFabCppBaseModel(),
             Description(src.Description),
             Duration(src.Duration),
+            EndDate(src.EndDate),
+            ExclusionGroupId(src.ExclusionGroupId),
+            ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
             pfExperimentType(src.pfExperimentType),
             Id(src.Id),
             Name(src.Name),
@@ -378,6 +530,147 @@ namespace ExperimentationModels
         }
 
         ~FExperiment();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExperimentExclusionGroup : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Description of the exclusion group.
+        FString Description;
+
+        // [optional] Id of the exclusion group.
+        FString ExclusionGroupId;
+
+        // [optional] Friendly name of the exclusion group.
+        FString Name;
+
+        FExperimentExclusionGroup() :
+            FPlayFabCppBaseModel(),
+            Description(),
+            ExclusionGroupId(),
+            Name()
+            {}
+
+        FExperimentExclusionGroup(const FExperimentExclusionGroup& src) :
+            FPlayFabCppBaseModel(),
+            Description(src.Description),
+            ExclusionGroupId(src.ExclusionGroupId),
+            Name(src.Name)
+            {}
+
+        FExperimentExclusionGroup(const TSharedPtr<FJsonObject>& obj) : FExperimentExclusionGroup()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExperimentExclusionGroup();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetExclusionGroupsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        FGetExclusionGroupsRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags()
+            {}
+
+        FGetExclusionGroupsRequest(const FGetExclusionGroupsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
+            {}
+
+        FGetExclusionGroupsRequest(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetExclusionGroupsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetExclusionGroupsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] List of exclusion groups for the title.
+        TArray<FExperimentExclusionGroup> ExclusionGroups;
+        FGetExclusionGroupsResult() :
+            FPlayFabCppResultCommon(),
+            ExclusionGroups()
+            {}
+
+        FGetExclusionGroupsResult(const FGetExclusionGroupsResult& src) :
+            FPlayFabCppResultCommon(),
+            ExclusionGroups(src.ExclusionGroups)
+            {}
+
+        FGetExclusionGroupsResult(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetExclusionGroupsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetExclusionGroupTrafficRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The ID of the exclusion group.
+        FString ExclusionGroupId;
+
+        FGetExclusionGroupTrafficRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ExclusionGroupId()
+            {}
+
+        FGetExclusionGroupTrafficRequest(const FGetExclusionGroupTrafficRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
+            ExclusionGroupId(src.ExclusionGroupId)
+            {}
+
+        FGetExclusionGroupTrafficRequest(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupTrafficRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetExclusionGroupTrafficRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetExclusionGroupTrafficResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] List of traffic allocations for the exclusion group.
+        TArray<FExclusionGroupTrafficAllocation> TrafficAllocations;
+        FGetExclusionGroupTrafficResult() :
+            FPlayFabCppResultCommon(),
+            TrafficAllocations()
+            {}
+
+        FGetExclusionGroupTrafficResult(const FGetExclusionGroupTrafficResult& src) :
+            FPlayFabCppResultCommon(),
+            TrafficAllocations(src.TrafficAllocations)
+            {}
+
+        FGetExclusionGroupTrafficResult(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupTrafficResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetExclusionGroupTrafficResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -820,6 +1113,46 @@ namespace ExperimentationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUpdateExclusionGroupRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Description of the exclusion group.
+        FString Description;
+
+        // The ID of the exclusion group to update.
+        FString ExclusionGroupId;
+
+        // Friendly name of the exclusion group.
+        FString Name;
+
+        FUpdateExclusionGroupRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Description(),
+            ExclusionGroupId(),
+            Name()
+            {}
+
+        FUpdateExclusionGroupRequest(const FUpdateExclusionGroupRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
+            Description(src.Description),
+            ExclusionGroupId(src.ExclusionGroupId),
+            Name(src.Name)
+            {}
+
+        FUpdateExclusionGroupRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateExclusionGroupRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateExclusionGroupRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUpdateExperimentRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -827,8 +1160,17 @@ namespace ExperimentationModels
         // [optional] Description of the experiment.
         FString Description;
 
-        // The duration of the experiment, in days.
-        uint32 Duration;
+        // [optional] The duration of the experiment, in days.
+        Boxed<uint32> Duration;
+
+        // [optional] When experiment should end.
+        Boxed<FDateTime> EndDate;
+
+        // [optional] Id of the exclusion group.
+        FString ExclusionGroupId;
+
+        // [optional] Percentage of exclusion group traffic that will see this experiment.
+        Boxed<uint32> ExclusionGroupTrafficAllocation;
 
         // [optional] Type of experiment.
         Boxed<ExperimentType> pfExperimentType;
@@ -856,7 +1198,10 @@ namespace ExperimentationModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             Description(),
-            Duration(0),
+            Duration(),
+            EndDate(),
+            ExclusionGroupId(),
+            ExclusionGroupTrafficAllocation(),
             pfExperimentType(),
             Id(),
             Name(),
@@ -871,6 +1216,9 @@ namespace ExperimentationModels
             CustomTags(src.CustomTags),
             Description(src.Description),
             Duration(src.Duration),
+            EndDate(src.EndDate),
+            ExclusionGroupId(src.ExclusionGroupId),
+            ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
             pfExperimentType(src.pfExperimentType),
             Id(src.Id),
             Name(src.Name),

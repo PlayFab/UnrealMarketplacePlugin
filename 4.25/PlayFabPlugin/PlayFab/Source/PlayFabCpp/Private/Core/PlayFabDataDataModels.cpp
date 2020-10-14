@@ -311,6 +311,9 @@ void PlayFab::DataModels::FFinalizeFileUploadsRequest::writeJSON(JsonWriter& wri
     writer->WriteArrayEnd();
 
 
+    writer->WriteIdentifierPrefix(TEXT("ProfileVersion"));
+    writer->WriteValue(ProfileVersion);
+
     writer->WriteObjectEnd();
 }
 
@@ -334,6 +337,13 @@ bool PlayFab::DataModels::FFinalizeFileUploadsRequest::readFromValue(const TShar
     }
 
     HasSucceeded &= obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
+
+    const TSharedPtr<FJsonValue> ProfileVersionValue = obj->TryGetField(TEXT("ProfileVersion"));
+    if (ProfileVersionValue.IsValid() && !ProfileVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ProfileVersionValue->TryGetNumber(TmpValue)) { ProfileVersion = TmpValue; }
+    }
 
     return HasSucceeded;
 }

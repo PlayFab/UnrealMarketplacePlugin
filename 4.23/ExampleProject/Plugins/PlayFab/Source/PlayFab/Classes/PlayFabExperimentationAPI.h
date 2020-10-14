@@ -59,6 +59,19 @@ public:
     // Experimentation
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateExclusionGroup, FExperimentationCreateExclusionGroupResult, result, UObject*, customData);
+
+    /** Creates a new experiment exclusion group for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabExperimentationAPI* CreateExclusionGroup(FExperimentationCreateExclusionGroupRequest request,
+            FDelegateOnSuccessCreateExclusionGroup onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabExperimentationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateExclusionGroup(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateExperiment, FExperimentationCreateExperimentResult, result, UObject*, customData);
 
     /** Creates a new experiment for a title. */
@@ -72,6 +85,19 @@ public:
         void HelperCreateExperiment(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteExclusionGroup, FExperimentationEmptyResponse, result, UObject*, customData);
+
+    /** Deletes an existing exclusion group for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabExperimentationAPI* DeleteExclusionGroup(FExperimentationDeleteExclusionGroupRequest request,
+            FDelegateOnSuccessDeleteExclusionGroup onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabExperimentationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteExclusionGroup(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteExperiment, FExperimentationEmptyResponse, result, UObject*, customData);
 
     /** Deletes an existing experiment for a title. */
@@ -83,6 +109,32 @@ public:
     // Implements FOnPlayFabExperimentationRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperDeleteExperiment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetExclusionGroups, FExperimentationGetExclusionGroupsResult, result, UObject*, customData);
+
+    /** Gets the details of all exclusion groups for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabExperimentationAPI* GetExclusionGroups(FExperimentationGetExclusionGroupsRequest request,
+            FDelegateOnSuccessGetExclusionGroups onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabExperimentationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetExclusionGroups(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetExclusionGroupTraffic, FExperimentationGetExclusionGroupTrafficResult, result, UObject*, customData);
+
+    /** Gets the details of all exclusion groups for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabExperimentationAPI* GetExclusionGroupTraffic(FExperimentationGetExclusionGroupTrafficRequest request,
+            FDelegateOnSuccessGetExclusionGroupTraffic onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabExperimentationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetExclusionGroupTraffic(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetExperiments, FExperimentationGetExperimentsResult, result, UObject*, customData);
@@ -150,6 +202,19 @@ public:
         void HelperStopExperiment(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateExclusionGroup, FExperimentationEmptyResponse, result, UObject*, customData);
+
+    /** Updates an existing exclusion group for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabExperimentationAPI* UpdateExclusionGroup(FExperimentationUpdateExclusionGroupRequest request,
+            FDelegateOnSuccessUpdateExclusionGroup onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabExperimentationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateExclusionGroup(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateExperiment, FExperimentationEmptyResponse, result, UObject*, customData);
 
     /** Updates an existing experiment for a title. */
@@ -180,13 +245,18 @@ public:
     UObject* mCustomData;
 
     FDelegateOnFailurePlayFabError OnFailure;
+    FDelegateOnSuccessCreateExclusionGroup OnSuccessCreateExclusionGroup;
     FDelegateOnSuccessCreateExperiment OnSuccessCreateExperiment;
+    FDelegateOnSuccessDeleteExclusionGroup OnSuccessDeleteExclusionGroup;
     FDelegateOnSuccessDeleteExperiment OnSuccessDeleteExperiment;
+    FDelegateOnSuccessGetExclusionGroups OnSuccessGetExclusionGroups;
+    FDelegateOnSuccessGetExclusionGroupTraffic OnSuccessGetExclusionGroupTraffic;
     FDelegateOnSuccessGetExperiments OnSuccessGetExperiments;
     FDelegateOnSuccessGetLatestScorecard OnSuccessGetLatestScorecard;
     FDelegateOnSuccessGetTreatmentAssignment OnSuccessGetTreatmentAssignment;
     FDelegateOnSuccessStartExperiment OnSuccessStartExperiment;
     FDelegateOnSuccessStopExperiment OnSuccessStopExperiment;
+    FDelegateOnSuccessUpdateExclusionGroup OnSuccessUpdateExclusionGroup;
     FDelegateOnSuccessUpdateExperiment OnSuccessUpdateExperiment;
 
 private:

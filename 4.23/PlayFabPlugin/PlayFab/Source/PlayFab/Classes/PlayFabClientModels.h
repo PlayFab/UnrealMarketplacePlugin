@@ -3483,7 +3483,11 @@ public:
         FString XboxToken;
 };
 
-/** Note: the user's Position is relative to the overall leaderboard. */
+/**
+ * Note that the Position of the user in the results is for the overall leaderboard. If Facebook friends are included, make
+ * sure the access token from previous LoginWithFacebook call is still valid and not expired. If Xbox Live friends are
+ * included, make sure the access token from the previous LoginWithXbox call is still valid and not expired.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetLeaderboardResult : public FPlayFabResultCommon
 {
@@ -4769,8 +4773,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
         FString Keys;
     /**
-     * Name of the override. This value is ignored when used by the game client; otherwise, the overrides are applied
-     * automatically to the title data.
+     * Optional field that specifies the name of an override. This value is ignored when used by the game client; otherwise,
+     * the overrides are applied automatically to the title data.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
         FString OverrideLabel;

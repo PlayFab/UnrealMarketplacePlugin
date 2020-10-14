@@ -57,6 +57,107 @@ ExperimentationModels::AnalysisTaskState PlayFab::ExperimentationModels::readAna
     return AnalysisTaskStateWaiting; // Basically critical fail
 }
 
+PlayFab::ExperimentationModels::FCreateExclusionGroupRequest::~FCreateExclusionGroupRequest()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FCreateExclusionGroupRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateExclusionGroupRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FCreateExclusionGroupRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
+    if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ExperimentationModels::FCreateExclusionGroupResult::~FCreateExclusionGroupResult()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FCreateExclusionGroupResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ExclusionGroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FCreateExclusionGroupResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::ExperimentationModels::writeExperimentTypeEnumJSON(ExperimentType enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -280,8 +381,29 @@ void PlayFab::ExperimentationModels::FCreateExperimentRequest::writeJSON(JsonWri
         writer->WriteValue(Description);
     }
 
-    writer->WriteIdentifierPrefix(TEXT("Duration"));
-    writer->WriteValue(static_cast<int64>(Duration));
+    if (Duration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Duration"));
+        writer->WriteValue(static_cast<int64>(Duration));
+    }
+
+    if (EndDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EndDate"));
+        writeDatetime(EndDate, writer);
+    }
+
+    if (ExclusionGroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    if (ExclusionGroupTrafficAllocation.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupTrafficAllocation"));
+        writer->WriteValue(static_cast<int64>(ExclusionGroupTrafficAllocation));
+    }
 
     if (pfExperimentType.notNull())
     {
@@ -353,6 +475,25 @@ bool PlayFab::ExperimentationModels::FCreateExperimentRequest::readFromValue(con
         if (DurationValue->TryGetNumber(TmpValue)) { Duration = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> EndDateValue = obj->TryGetField(TEXT("EndDate"));
+    if (EndDateValue.IsValid())
+        EndDate = readDatetime(EndDateValue);
+
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ExclusionGroupTrafficAllocationValue = obj->TryGetField(TEXT("ExclusionGroupTrafficAllocation"));
+    if (ExclusionGroupTrafficAllocationValue.IsValid() && !ExclusionGroupTrafficAllocationValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (ExclusionGroupTrafficAllocationValue->TryGetNumber(TmpValue)) { ExclusionGroupTrafficAllocation = TmpValue; }
+    }
+
     pfExperimentType = readExperimentTypeFromValue(obj->TryGetField(TEXT("ExperimentType")));
 
     const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
@@ -414,6 +555,62 @@ bool PlayFab::ExperimentationModels::FCreateExperimentResult::readFromValue(cons
     {
         FString TmpValue;
         if (ExperimentIdValue->TryGetString(TmpValue)) { ExperimentId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ExperimentationModels::FDeleteExclusionGroupRequest::~FDeleteExclusionGroupRequest()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FDeleteExclusionGroupRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!ExclusionGroupId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteExclusionGroupRequest::ExclusionGroupId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FDeleteExclusionGroupRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -543,6 +740,48 @@ bool PlayFab::ExperimentationModels::FEntityKey::readFromValue(const TSharedPtr<
     return HasSucceeded;
 }
 
+PlayFab::ExperimentationModels::FExclusionGroupTrafficAllocation::~FExclusionGroupTrafficAllocation()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FExclusionGroupTrafficAllocation::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ExperimentId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExperimentId"));
+        writer->WriteValue(ExperimentId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("TrafficAllocation"));
+    writer->WriteValue(static_cast<int64>(TrafficAllocation));
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FExclusionGroupTrafficAllocation::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ExperimentIdValue = obj->TryGetField(TEXT("ExperimentId"));
+    if (ExperimentIdValue.IsValid() && !ExperimentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExperimentIdValue->TryGetString(TmpValue)) { ExperimentId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TrafficAllocationValue = obj->TryGetField(TEXT("TrafficAllocation"));
+    if (TrafficAllocationValue.IsValid() && !TrafficAllocationValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (TrafficAllocationValue->TryGetNumber(TmpValue)) { TrafficAllocation = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::ExperimentationModels::writeExperimentStateEnumJSON(ExperimentState enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -598,8 +837,29 @@ void PlayFab::ExperimentationModels::FExperiment::writeJSON(JsonWriter& writer) 
         writer->WriteValue(Description);
     }
 
-    writer->WriteIdentifierPrefix(TEXT("Duration"));
-    writer->WriteValue(static_cast<int64>(Duration));
+    if (Duration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Duration"));
+        writer->WriteValue(static_cast<int64>(Duration));
+    }
+
+    if (EndDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EndDate"));
+        writeDatetime(EndDate, writer);
+    }
+
+    if (ExclusionGroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    if (ExclusionGroupTrafficAllocation.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupTrafficAllocation"));
+        writer->WriteValue(static_cast<int64>(ExclusionGroupTrafficAllocation));
+    }
 
     if (pfExperimentType.notNull())
     {
@@ -673,6 +933,25 @@ bool PlayFab::ExperimentationModels::FExperiment::readFromValue(const TSharedPtr
         if (DurationValue->TryGetNumber(TmpValue)) { Duration = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> EndDateValue = obj->TryGetField(TEXT("EndDate"));
+    if (EndDateValue.IsValid())
+        EndDate = readDatetime(EndDateValue);
+
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ExclusionGroupTrafficAllocationValue = obj->TryGetField(TEXT("ExclusionGroupTrafficAllocation"));
+    if (ExclusionGroupTrafficAllocationValue.IsValid() && !ExclusionGroupTrafficAllocationValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (ExclusionGroupTrafficAllocationValue->TryGetNumber(TmpValue)) { ExclusionGroupTrafficAllocation = TmpValue; }
+    }
+
     pfExperimentType = readExperimentTypeFromValue(obj->TryGetField(TEXT("ExperimentType")));
 
     const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
@@ -710,6 +989,231 @@ bool PlayFab::ExperimentationModels::FExperiment::readFromValue(const TSharedPtr
     {
         TSharedPtr<FJsonValue> CurrentItem = VariantsArray[Idx];
         Variants.Add(FVariant(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::ExperimentationModels::FExperimentExclusionGroup::~FExperimentExclusionGroup()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FExperimentExclusionGroup::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
+
+    if (ExclusionGroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FExperimentExclusionGroup::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
+    if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ExperimentationModels::FGetExclusionGroupsRequest::~FGetExclusionGroupsRequest()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FGetExclusionGroupsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FGetExclusionGroupsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ExperimentationModels::FGetExclusionGroupsResult::~FGetExclusionGroupsResult()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FGetExclusionGroupsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ExclusionGroups.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ExclusionGroups"));
+        for (const FExperimentExclusionGroup& item : ExclusionGroups)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FGetExclusionGroupsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ExclusionGroupsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ExclusionGroups"));
+    for (int32 Idx = 0; Idx < ExclusionGroupsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ExclusionGroupsArray[Idx];
+        ExclusionGroups.Add(FExperimentExclusionGroup(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::ExperimentationModels::FGetExclusionGroupTrafficRequest::~FGetExclusionGroupTrafficRequest()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FGetExclusionGroupTrafficRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!ExclusionGroupId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetExclusionGroupTrafficRequest::ExclusionGroupId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FGetExclusionGroupTrafficRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ExperimentationModels::FGetExclusionGroupTrafficResult::~FGetExclusionGroupTrafficResult()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FGetExclusionGroupTrafficResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (TrafficAllocations.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("TrafficAllocations"));
+        for (const FExclusionGroupTrafficAllocation& item : TrafficAllocations)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FGetExclusionGroupTrafficResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&TrafficAllocationsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("TrafficAllocations"));
+    for (int32 Idx = 0; Idx < TrafficAllocationsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = TrafficAllocationsArray[Idx];
+        TrafficAllocations.Add(FExclusionGroupTrafficAllocation(CurrentItem->AsObject()));
     }
 
 
@@ -1467,6 +1971,92 @@ bool PlayFab::ExperimentationModels::FStopExperimentRequest::readFromValue(const
     return HasSucceeded;
 }
 
+PlayFab::ExperimentationModels::FUpdateExclusionGroupRequest::~FUpdateExclusionGroupRequest()
+{
+
+}
+
+void PlayFab::ExperimentationModels::FUpdateExclusionGroupRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
+
+    if (!ExclusionGroupId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateExclusionGroupRequest::ExclusionGroupId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateExclusionGroupRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ExperimentationModels::FUpdateExclusionGroupRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
+    if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ExperimentationModels::FUpdateExperimentRequest::~FUpdateExperimentRequest()
 {
 
@@ -1493,8 +2083,29 @@ void PlayFab::ExperimentationModels::FUpdateExperimentRequest::writeJSON(JsonWri
         writer->WriteValue(Description);
     }
 
-    writer->WriteIdentifierPrefix(TEXT("Duration"));
-    writer->WriteValue(static_cast<int64>(Duration));
+    if (Duration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Duration"));
+        writer->WriteValue(static_cast<int64>(Duration));
+    }
+
+    if (EndDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EndDate"));
+        writeDatetime(EndDate, writer);
+    }
+
+    if (ExclusionGroupId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupId"));
+        writer->WriteValue(ExclusionGroupId);
+    }
+
+    if (ExclusionGroupTrafficAllocation.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExclusionGroupTrafficAllocation"));
+        writer->WriteValue(static_cast<int64>(ExclusionGroupTrafficAllocation));
+    }
 
     if (pfExperimentType.notNull())
     {
@@ -1574,6 +2185,25 @@ bool PlayFab::ExperimentationModels::FUpdateExperimentRequest::readFromValue(con
     {
         uint32 TmpValue;
         if (DurationValue->TryGetNumber(TmpValue)) { Duration = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EndDateValue = obj->TryGetField(TEXT("EndDate"));
+    if (EndDateValue.IsValid())
+        EndDate = readDatetime(EndDateValue);
+
+
+    const TSharedPtr<FJsonValue> ExclusionGroupIdValue = obj->TryGetField(TEXT("ExclusionGroupId"));
+    if (ExclusionGroupIdValue.IsValid() && !ExclusionGroupIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExclusionGroupIdValue->TryGetString(TmpValue)) { ExclusionGroupId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ExclusionGroupTrafficAllocationValue = obj->TryGetField(TEXT("ExclusionGroupTrafficAllocation"));
+    if (ExclusionGroupTrafficAllocationValue.IsValid() && !ExclusionGroupTrafficAllocationValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (ExclusionGroupTrafficAllocationValue->TryGetNumber(TmpValue)) { ExclusionGroupTrafficAllocation = TmpValue; }
     }
 
     pfExperimentType = readExperimentTypeFromValue(obj->TryGetField(TEXT("ExperimentType")));

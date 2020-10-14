@@ -3605,7 +3605,10 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FGetContentUploadUrlResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] URL for uploading content via HTTP PUT method. The URL will expire in approximately one hour.
+        /**
+         * [optional] URL for uploading content via HTTP PUT method. The URL requires the 'x-ms-blob-type' header to have the value
+         * 'BlockBlob'. The URL will expire in approximately one hour.
+         */
         FString URL;
 
         FGetContentUploadUrlResult() :
@@ -6294,8 +6297,8 @@ namespace AdminModels
         // [optional] Specific keys to search for in the title data (leave null to get all keys)
         TArray<FString> Keys;
         /**
-         * [optional] Name of the override. This value is ignored when used by the game client; otherwise, the overrides are applied
-         * automatically to the title data.
+         * [optional] Optional field that specifies the name of an override. This value is ignored when used by the game client; otherwise,
+         * the overrides are applied automatically to the title data.
          */
         FString OverrideLabel;
 

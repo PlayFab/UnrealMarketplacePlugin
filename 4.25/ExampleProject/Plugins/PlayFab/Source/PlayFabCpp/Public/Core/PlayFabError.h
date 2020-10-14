@@ -598,6 +598,13 @@ namespace PlayFab
         PlayFabErrorExperimentationInvalidDuration = 7012,
         PlayFabErrorExperimentationMaxExperimentsReached = 7013,
         PlayFabErrorExperimentationExperimentSchedulingInProgress = 7014,
+        PlayFabErrorExperimentationInvalidEndDate = 7015,
+        PlayFabErrorExperimentationInvalidStartDate = 7016,
+        PlayFabErrorExperimentationMaxDurationExceeded = 7017,
+        PlayFabErrorExperimentationExclusionGroupNotFound = 7018,
+        PlayFabErrorExperimentationExclusionGroupInsufficientCapacity = 7019,
+        PlayFabErrorExperimentationExclusionGroupCannotDelete = 7020,
+        PlayFabErrorExperimentationExclusionGroupInvalidTrafficAllocation = 7021,
         PlayFabErrorMaxActionDepthExceeded = 8000,
         PlayFabErrorTitleNotOnUpdatedPricingPlan = 9000,
         PlayFabErrorSegmentManagementTitleNotInFlight = 10000,
@@ -605,6 +612,8 @@ namespace PlayFab
         PlayFabErrorSegmentManagementTriggerActionCountOverLimit = 10002,
         PlayFabErrorSegmentManagementSegmentCountOverLimit = 10003,
         PlayFabErrorSegmentManagementInvalidSegmentId = 10004,
+        PlayFabErrorSegmentManagementInvalidInput = 10005,
+        PlayFabErrorSegmentManagementInvalidSegmentName = 10006,
         PlayFabErrorSnapshotNotFound = 11000
     };
 

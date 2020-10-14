@@ -714,7 +714,7 @@ public:
 /**
  * Updates permissions for your title. Policies affect what is allowed to happen on your title. Your policy is a collection
  * of statements that, together, govern particular area for your title. Today, the only allowed policy is called
- * 'ApiPolicy' and it governs what calls players are allowed to make.
+ * 'ApiPolicy' and it governs what api calls are allowed.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminUpdatePolicyRequest : public FPlayFabRequestCommon
@@ -849,7 +849,10 @@ struct PLAYFAB_API FAdminGetContentUploadUrlResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** URL for uploading content via HTTP PUT method. The URL will expire in approximately one hour. */
+    /**
+     * URL for uploading content via HTTP PUT method. The URL requires the 'x-ms-blob-type' header to have the value
+     * 'BlockBlob'. The URL will expire in approximately one hour.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Content Models")
         FString URL;
 };
@@ -2390,6 +2393,11 @@ public:
 
 
 ///////////////////////////////////////////////////////
+// Segments
+//////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////
 // Server-Side Cloud Script
 //////////////////////////////////////////////////////
 
@@ -2785,8 +2793,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Keys;
     /**
-     * Name of the override. This value is ignored when used by the game client; otherwise, the overrides are applied
-     * automatically to the title data.
+     * Optional field that specifies the name of an override. This value is ignored when used by the game client; otherwise,
+     * the overrides are applied automatically to the title data.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString OverrideLabel;

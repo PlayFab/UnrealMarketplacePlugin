@@ -36,6 +36,36 @@ void UPlayFabExperimentationAPI::SetDevSecretKey(const FString& developerSecretK
     PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
+bool UPlayFabExperimentationAPI::CreateExclusionGroup(
+    ExperimentationModels::FCreateExclusionGroupRequest& request,
+    const FCreateExclusionGroupDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Experimentation/CreateExclusionGroup")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationAPI::OnCreateExclusionGroupResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabExperimentationAPI::OnCreateExclusionGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateExclusionGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ExperimentationModels::FCreateExclusionGroupResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabExperimentationAPI::CreateExperiment(
     ExperimentationModels::FCreateExperimentRequest& request,
     const FCreateExperimentDelegate& SuccessDelegate,
@@ -66,6 +96,36 @@ void UPlayFabExperimentationAPI::OnCreateExperimentResult(FHttpRequestPtr HttpRe
     }
 }
 
+bool UPlayFabExperimentationAPI::DeleteExclusionGroup(
+    ExperimentationModels::FDeleteExclusionGroupRequest& request,
+    const FDeleteExclusionGroupDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Experimentation/DeleteExclusionGroup")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationAPI::OnDeleteExclusionGroupResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabExperimentationAPI::OnDeleteExclusionGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteExclusionGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ExperimentationModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabExperimentationAPI::DeleteExperiment(
     ExperimentationModels::FDeleteExperimentRequest& request,
     const FDeleteExperimentDelegate& SuccessDelegate,
@@ -85,6 +145,66 @@ bool UPlayFabExperimentationAPI::DeleteExperiment(
 void UPlayFabExperimentationAPI::OnDeleteExperimentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteExperimentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ExperimentationModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabExperimentationAPI::GetExclusionGroups(
+    ExperimentationModels::FGetExclusionGroupsRequest& request,
+    const FGetExclusionGroupsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Experimentation/GetExclusionGroups")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationAPI::OnGetExclusionGroupsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabExperimentationAPI::OnGetExclusionGroupsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetExclusionGroupsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ExperimentationModels::FGetExclusionGroupsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabExperimentationAPI::GetExclusionGroupTraffic(
+    ExperimentationModels::FGetExclusionGroupTrafficRequest& request,
+    const FGetExclusionGroupTrafficDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Experimentation/GetExclusionGroupTraffic")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationAPI::OnGetExclusionGroupTrafficResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabExperimentationAPI::OnGetExclusionGroupTrafficResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetExclusionGroupTrafficDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ExperimentationModels::FGetExclusionGroupTrafficResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -233,6 +353,36 @@ bool UPlayFabExperimentationAPI::StopExperiment(
 }
 
 void UPlayFabExperimentationAPI::OnStopExperimentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FStopExperimentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ExperimentationModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabExperimentationAPI::UpdateExclusionGroup(
+    ExperimentationModels::FUpdateExclusionGroupRequest& request,
+    const FUpdateExclusionGroupDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Experimentation/UpdateExclusionGroup")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationAPI::OnUpdateExclusionGroupResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabExperimentationAPI::OnUpdateExclusionGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateExclusionGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ExperimentationModels::FEmptyResponse outResult;
     FPlayFabCppError errorResult;

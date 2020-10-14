@@ -1174,6 +1174,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithProcessBasedServe
         OutRestJsonObj->SetStringField(TEXT("GameWorkingDirectory"), request.GameWorkingDirectory);
     }
     if (request.InstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("InstrumentationConfiguration"), request.InstrumentationConfiguration);
+    OutRestJsonObj->SetBoolField(TEXT("IsOSPreview"), request.IsOSPreview);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
     if (request.OsPlatform.IsEmpty() || request.OsPlatform == "") {

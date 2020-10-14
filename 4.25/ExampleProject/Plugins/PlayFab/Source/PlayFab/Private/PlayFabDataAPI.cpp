@@ -225,6 +225,7 @@ UPlayFabDataAPI* UPlayFabDataAPI::FinalizeFileUploads(FDataFinalizeFileUploadsRe
         FString(request.FileNames).ParseIntoArray(FileNamesArray, TEXT(","), false);
         OutRestJsonObj->SetStringArrayField(TEXT("FileNames"), FileNamesArray);
     }
+    OutRestJsonObj->SetNumberField(TEXT("ProfileVersion"), request.ProfileVersion);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

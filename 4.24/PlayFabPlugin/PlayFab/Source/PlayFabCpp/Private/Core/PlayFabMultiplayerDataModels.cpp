@@ -3185,6 +3185,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::writ
         pfInstrumentationConfiguration->writeJSON(writer);
     }
 
+    if (IsOSPreview.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IsOSPreview"));
+        writer->WriteValue(IsOSPreview);
+    }
+
     if (Metadata.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("Metadata"));
@@ -3296,6 +3302,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
     if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
     {
         pfInstrumentationConfiguration = MakeShareable(new FInstrumentationConfiguration(InstrumentationConfigurationValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IsOSPreviewValue = obj->TryGetField(TEXT("IsOSPreview"));
+    if (IsOSPreviewValue.IsValid() && !IsOSPreviewValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsOSPreviewValue->TryGetBool(TmpValue)) { IsOSPreview = TmpValue; }
     }
 
     const TSharedPtr<FJsonObject>* MetadataObject;
@@ -3426,6 +3439,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::wri
         pfInstrumentationConfiguration->writeJSON(writer);
     }
 
+    if (IsOSPreview.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IsOSPreview"));
+        writer->WriteValue(IsOSPreview);
+    }
+
     if (Metadata.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("Metadata"));
@@ -3550,6 +3569,13 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::rea
     if (InstrumentationConfigurationValue.IsValid() && !InstrumentationConfigurationValue->IsNull())
     {
         pfInstrumentationConfiguration = MakeShareable(new FInstrumentationConfiguration(InstrumentationConfigurationValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IsOSPreviewValue = obj->TryGetField(TEXT("IsOSPreview"));
+    if (IsOSPreviewValue.IsValid() && !IsOSPreviewValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsOSPreviewValue->TryGetBool(TmpValue)) { IsOSPreview = TmpValue; }
     }
 
     const TSharedPtr<FJsonObject>* MetadataObject;

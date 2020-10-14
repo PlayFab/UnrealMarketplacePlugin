@@ -620,6 +620,13 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7012: returnText = "ExperimentationInvalidDuration"; break;
     case 7013: returnText = "ExperimentationMaxExperimentsReached"; break;
     case 7014: returnText = "ExperimentationExperimentSchedulingInProgress"; break;
+    case 7015: returnText = "ExperimentationInvalidEndDate"; break;
+    case 7016: returnText = "ExperimentationInvalidStartDate"; break;
+    case 7017: returnText = "ExperimentationMaxDurationExceeded"; break;
+    case 7018: returnText = "ExperimentationExclusionGroupNotFound"; break;
+    case 7019: returnText = "ExperimentationExclusionGroupInsufficientCapacity"; break;
+    case 7020: returnText = "ExperimentationExclusionGroupCannotDelete"; break;
+    case 7021: returnText = "ExperimentationExclusionGroupInvalidTrafficAllocation"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 10000: returnText = "SegmentManagementTitleNotInFlight"; break;
@@ -627,6 +634,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10002: returnText = "SegmentManagementTriggerActionCountOverLimit"; break;
     case 10003: returnText = "SegmentManagementSegmentCountOverLimit"; break;
     case 10004: returnText = "SegmentManagementInvalidSegmentId"; break;
+    case 10005: returnText = "SegmentManagementInvalidInput"; break;
+    case 10006: returnText = "SegmentManagementInvalidSegmentName"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }
 

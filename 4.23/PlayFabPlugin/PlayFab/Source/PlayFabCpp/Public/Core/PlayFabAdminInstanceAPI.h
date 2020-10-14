@@ -661,7 +661,7 @@ namespace PlayFab
         bool UpdatePlayerStatisticDefinition(AdminModels::FUpdatePlayerStatisticDefinitionRequest& request, const FUpdatePlayerStatisticDefinitionDelegate& SuccessDelegate = FUpdatePlayerStatisticDefinitionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Changes a policy for a title
-         * Updates permissions for your title. Policies affect what is allowed to happen on your title. Your policy is a collection of statements that, together, govern particular area for your title. Today, the only allowed policy is called 'ApiPolicy' and it governs what calls players are allowed to make.
+         * Updates permissions for your title. Policies affect what is allowed to happen on your title. Your policy is a collection of statements that, together, govern particular area for your title. Today, the only allowed policy is called 'ApiPolicy' and it governs what api calls are allowed.
          */
         bool UpdatePolicy(AdminModels::FUpdatePolicyRequest& request, const FUpdatePolicyDelegate& SuccessDelegate = FUpdatePolicyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

@@ -75,6 +75,64 @@ FString UPlayFabExperimentationAPI::PercentEncode(const FString& Text)
 ///////////////////////////////////////////////////////
 // Experimentation
 //////////////////////////////////////////////////////
+/** Creates a new experiment exclusion group for a title. */
+UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::CreateExclusionGroup(FExperimentationCreateExclusionGroupRequest request,
+    FDelegateOnSuccessCreateExclusionGroup onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabExperimentationAPI* manager = NewObject<UPlayFabExperimentationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateExclusionGroup = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabExperimentationAPI::HelperCreateExclusionGroup);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Experimentation/CreateExclusionGroup";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Description.IsEmpty() || request.Description == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Description"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Description"), request.Description);
+    }
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabExperimentationRequestCompleted
+void UPlayFabExperimentationAPI::HelperCreateExclusionGroup(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateExclusionGroup.IsBound())
+    {
+        FExperimentationCreateExclusionGroupResult ResultStruct = UPlayFabExperimentationModelDecoder::decodeCreateExclusionGroupResultResponse(response.responseData);
+        OnSuccessCreateExclusionGroup.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Creates a new experiment for a title. */
 UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::CreateExperiment(FExperimentationCreateExperimentRequest request,
     FDelegateOnSuccessCreateExperiment onSuccess,
@@ -106,6 +164,17 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::CreateExperiment(FExperi
         OutRestJsonObj->SetStringField(TEXT("Description"), request.Description);
     }
     OutRestJsonObj->SetNumberField(TEXT("Duration"), request.Duration);
+    if (request.EndDate.IsEmpty() || request.EndDate == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EndDate"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EndDate"), request.EndDate);
+    }
+    if (request.ExclusionGroupId.IsEmpty() || request.ExclusionGroupId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ExclusionGroupId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ExclusionGroupId"), request.ExclusionGroupId);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("ExclusionGroupTrafficAllocation"), request.ExclusionGroupTrafficAllocation);
     FString temp_ExperimentType;
     if (GetEnumValueToString<EExperimentType>(TEXT("EExperimentType"), request.ExperimentType, temp_ExperimentType))
         OutRestJsonObj->SetStringField(TEXT("ExperimentType"), temp_ExperimentType);
@@ -160,6 +229,59 @@ void UPlayFabExperimentationAPI::HelperCreateExperiment(FPlayFabBaseModel respon
     this->RemoveFromRoot();
 }
 
+/** Deletes an existing exclusion group for a title. */
+UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::DeleteExclusionGroup(FExperimentationDeleteExclusionGroupRequest request,
+    FDelegateOnSuccessDeleteExclusionGroup onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabExperimentationAPI* manager = NewObject<UPlayFabExperimentationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteExclusionGroup = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabExperimentationAPI::HelperDeleteExclusionGroup);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Experimentation/DeleteExclusionGroup";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.ExclusionGroupId.IsEmpty() || request.ExclusionGroupId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ExclusionGroupId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ExclusionGroupId"), request.ExclusionGroupId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabExperimentationRequestCompleted
+void UPlayFabExperimentationAPI::HelperDeleteExclusionGroup(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteExclusionGroup.IsBound())
+    {
+        FExperimentationEmptyResponse ResultStruct = UPlayFabExperimentationModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessDeleteExclusionGroup.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Deletes an existing experiment for a title. */
 UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::DeleteExperiment(FExperimentationDeleteExperimentRequest request,
     FDelegateOnSuccessDeleteExperiment onSuccess,
@@ -208,7 +330,109 @@ void UPlayFabExperimentationAPI::HelperDeleteExperiment(FPlayFabBaseModel respon
     else if (!error.hasError && OnSuccessDeleteExperiment.IsBound())
     {
         FExperimentationEmptyResponse ResultStruct = UPlayFabExperimentationModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
         OnSuccessDeleteExperiment.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets the details of all exclusion groups for a title. */
+UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::GetExclusionGroups(FExperimentationGetExclusionGroupsRequest request,
+    FDelegateOnSuccessGetExclusionGroups onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabExperimentationAPI* manager = NewObject<UPlayFabExperimentationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetExclusionGroups = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabExperimentationAPI::HelperGetExclusionGroups);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Experimentation/GetExclusionGroups";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabExperimentationRequestCompleted
+void UPlayFabExperimentationAPI::HelperGetExclusionGroups(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetExclusionGroups.IsBound())
+    {
+        FExperimentationGetExclusionGroupsResult ResultStruct = UPlayFabExperimentationModelDecoder::decodeGetExclusionGroupsResultResponse(response.responseData);
+        OnSuccessGetExclusionGroups.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets the details of all exclusion groups for a title. */
+UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::GetExclusionGroupTraffic(FExperimentationGetExclusionGroupTrafficRequest request,
+    FDelegateOnSuccessGetExclusionGroupTraffic onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabExperimentationAPI* manager = NewObject<UPlayFabExperimentationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetExclusionGroupTraffic = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabExperimentationAPI::HelperGetExclusionGroupTraffic);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Experimentation/GetExclusionGroupTraffic";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.ExclusionGroupId.IsEmpty() || request.ExclusionGroupId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ExclusionGroupId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ExclusionGroupId"), request.ExclusionGroupId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabExperimentationRequestCompleted
+void UPlayFabExperimentationAPI::HelperGetExclusionGroupTraffic(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetExclusionGroupTraffic.IsBound())
+    {
+        FExperimentationGetExclusionGroupTrafficResult ResultStruct = UPlayFabExperimentationModelDecoder::decodeGetExclusionGroupTrafficResultResponse(response.responseData);
+        OnSuccessGetExclusionGroupTraffic.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -471,6 +695,70 @@ void UPlayFabExperimentationAPI::HelperStopExperiment(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
+/** Updates an existing exclusion group for a title. */
+UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::UpdateExclusionGroup(FExperimentationUpdateExclusionGroupRequest request,
+    FDelegateOnSuccessUpdateExclusionGroup onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabExperimentationAPI* manager = NewObject<UPlayFabExperimentationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateExclusionGroup = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabExperimentationAPI::HelperUpdateExclusionGroup);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Experimentation/UpdateExclusionGroup";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Description.IsEmpty() || request.Description == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Description"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Description"), request.Description);
+    }
+    if (request.ExclusionGroupId.IsEmpty() || request.ExclusionGroupId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ExclusionGroupId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ExclusionGroupId"), request.ExclusionGroupId);
+    }
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabExperimentationRequestCompleted
+void UPlayFabExperimentationAPI::HelperUpdateExclusionGroup(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateExclusionGroup.IsBound())
+    {
+        FExperimentationEmptyResponse ResultStruct = UPlayFabExperimentationModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateExclusionGroup.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Updates an existing experiment for a title. */
 UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::UpdateExperiment(FExperimentationUpdateExperimentRequest request,
     FDelegateOnSuccessUpdateExperiment onSuccess,
@@ -502,6 +790,17 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::UpdateExperiment(FExperi
         OutRestJsonObj->SetStringField(TEXT("Description"), request.Description);
     }
     OutRestJsonObj->SetNumberField(TEXT("Duration"), request.Duration);
+    if (request.EndDate.IsEmpty() || request.EndDate == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EndDate"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EndDate"), request.EndDate);
+    }
+    if (request.ExclusionGroupId.IsEmpty() || request.ExclusionGroupId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ExclusionGroupId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ExclusionGroupId"), request.ExclusionGroupId);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("ExclusionGroupTrafficAllocation"), request.ExclusionGroupTrafficAllocation);
     FString temp_ExperimentType;
     if (GetEnumValueToString<EExperimentType>(TEXT("EExperimentType"), request.ExperimentType, temp_ExperimentType))
         OutRestJsonObj->SetStringField(TEXT("ExperimentType"), temp_ExperimentType);

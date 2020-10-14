@@ -30,6 +30,33 @@ class UPlayFabJsonObject;
 // Experimentation
 //////////////////////////////////////////////////////
 
+/** Given a title entity token and exclusion group details, will create a new exclusion group for the title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationCreateExclusionGroupRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Description of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString Description;
+    /** Friendly name of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString Name;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationCreateExclusionGroupResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Identifier of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString ExclusionGroupId;
+};
+
 /** Given a title entity token and experiment details, will create a new experiment for the title. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FExperimentationCreateExperimentRequest : public FPlayFabRequestCommon
@@ -45,6 +72,15 @@ public:
     /** The duration of the experiment, in days. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         int32 Duration = 0;
+    /** When experiment should end. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString EndDate;
+    /** Id of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString ExclusionGroupId;
+    /** Percentage of exclusion group traffic that will see this experiment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        int32 ExclusionGroupTrafficAllocation = 0;
     /** Type of experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         EExperimentType ExperimentType;
@@ -78,6 +114,27 @@ public:
         FString ExperimentId;
 };
 
+/** Given an entity token and an exclusion group ID this API deletes the exclusion group. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationDeleteExclusionGroupRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The ID of the exclusion group to delete. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString ExclusionGroupId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationEmptyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
 /**
  * Given an entity token and an experiment ID this API deletes the experiment. A running experiment must be stopped before
  * it can be deleted.
@@ -95,11 +152,52 @@ public:
         FString ExperimentId;
 };
 
+/** Given a title entity token will return the list of all exclusion groups for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FExperimentationEmptyResponse : public FPlayFabResultCommon
+struct PLAYFAB_API FExperimentationGetExclusionGroupsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationGetExclusionGroupsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** List of exclusion groups for the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        TArray<UPlayFabJsonObject*> ExclusionGroups;
+};
+
+/**
+ * Given a title entity token and an exclusion group ID, will return the list of traffic allocations for the exclusion
+ * group.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationGetExclusionGroupTrafficRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The ID of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString ExclusionGroupId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationGetExclusionGroupTrafficResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** List of traffic allocations for the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        TArray<UPlayFabJsonObject*> TrafficAllocations;
 };
 
 /**
@@ -205,6 +303,26 @@ public:
         FString ExperimentId;
 };
 
+/** Given an entity token and exclusion group details this API updates the exclusion group. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FExperimentationUpdateExclusionGroupRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Description of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString Description;
+    /** The ID of the exclusion group to update. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString ExclusionGroupId;
+    /** Friendly name of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString Name;
+};
+
 /**
  * Given a title entity token and experiment details, this API updates the experiment. If an experiment is already running,
  * only the description and duration properties can be updated.
@@ -223,6 +341,15 @@ public:
     /** The duration of the experiment, in days. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         int32 Duration = 0;
+    /** When experiment should end. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString EndDate;
+    /** Id of the exclusion group. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        FString ExclusionGroupId;
+    /** Percentage of exclusion group traffic that will see this experiment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
+        int32 ExclusionGroupTrafficAllocation = 0;
     /** Type of experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         EExperimentType ExperimentType;

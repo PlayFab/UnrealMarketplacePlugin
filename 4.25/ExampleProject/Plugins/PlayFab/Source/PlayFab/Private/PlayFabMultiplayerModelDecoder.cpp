@@ -273,6 +273,7 @@ FMultiplayerCreateBuildWithProcessBasedServerResponse UPlayFabMultiplayerModelDe
     tempStruct.GameCertificateReferences = !(dataObj->HasField("GameCertificateReferences")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameCertificateReferences");
     tempStruct.GameWorkingDirectory = !(dataObj->HasField("GameWorkingDirectory")) ? TEXT("") : dataObj->GetStringField("GameWorkingDirectory");
     tempStruct.InstrumentationConfiguration = !(dataObj->HasField("InstrumentationConfiguration")) ? nullptr : dataObj->GetObjectField("InstrumentationConfiguration");
+    tempStruct.IsOSPreview = !(dataObj->HasField("IsOSPreview")) ? false : dataObj->GetBoolField("IsOSPreview");
     tempStruct.Metadata = !(dataObj->HasField("Metadata")) ? nullptr : dataObj->GetObjectField("Metadata");
     tempStruct.MultiplayerServerCountPerVm = !(dataObj->HasField("MultiplayerServerCountPerVm")) ? 0 : int(dataObj->GetNumberField("MultiplayerServerCountPerVm"));
     tempStruct.OsPlatform = !(dataObj->HasField("OsPlatform")) ? TEXT("") : dataObj->GetStringField("OsPlatform");

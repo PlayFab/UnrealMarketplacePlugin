@@ -200,18 +200,23 @@ namespace DataModels
 
         // Names of the files to be finalized. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'
         TArray<FString> FileNames;
+        // The current version of the profile, can be used for concurrency control during updates.
+        int32 ProfileVersion;
+
         FFinalizeFileUploadsRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             Entity(),
-            FileNames()
+            FileNames(),
+            ProfileVersion(0)
             {}
 
         FFinalizeFileUploadsRequest(const FFinalizeFileUploadsRequest& src) :
             FPlayFabCppRequestCommon(),
             CustomTags(src.CustomTags),
             Entity(src.Entity),
-            FileNames(src.FileNames)
+            FileNames(src.FileNames),
+            ProfileVersion(src.ProfileVersion)
             {}
 
         FFinalizeFileUploadsRequest(const TSharedPtr<FJsonObject>& obj) : FFinalizeFileUploadsRequest()

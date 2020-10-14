@@ -686,6 +686,12 @@ void PlayFab::ServerModels::FAdvancedPushPlatformMsg::writeJSON(JsonWriter& writ
 {
     writer->WriteObjectStart();
 
+    if (GCMDataOnly.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GCMDataOnly"));
+        writer->WriteValue(GCMDataOnly);
+    }
+
     if (!Json.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: AdvancedPushPlatformMsg::Json, PlayFab calls may not work if it remains empty."));
@@ -705,6 +711,13 @@ void PlayFab::ServerModels::FAdvancedPushPlatformMsg::writeJSON(JsonWriter& writ
 bool PlayFab::ServerModels::FAdvancedPushPlatformMsg::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GCMDataOnlyValue = obj->TryGetField(TEXT("GCMDataOnly"));
+    if (GCMDataOnlyValue.IsValid() && !GCMDataOnlyValue->IsNull())
+    {
+        bool TmpValue;
+        if (GCMDataOnlyValue->TryGetBool(TmpValue)) { GCMDataOnly = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> JsonValue = obj->TryGetField(TEXT("Json"));
     if (JsonValue.IsValid() && !JsonValue->IsNull())

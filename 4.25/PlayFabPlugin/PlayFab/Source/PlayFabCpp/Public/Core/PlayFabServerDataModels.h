@@ -404,6 +404,12 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FAdvancedPushPlatformMsg : public PlayFab::FPlayFabCppBaseModel
     {
+        /**
+         * [optional] Stops GoogleCloudMessaging notifications from including both notification and data properties and instead only sends the
+         * data property.
+         */
+        Boxed<bool> GCMDataOnly;
+
         // The Json the platform should receive.
         FString Json;
 
@@ -412,12 +418,14 @@ namespace ServerModels
 
         FAdvancedPushPlatformMsg() :
             FPlayFabCppBaseModel(),
+            GCMDataOnly(),
             Json(),
             Platform()
             {}
 
         FAdvancedPushPlatformMsg(const FAdvancedPushPlatformMsg& src) :
             FPlayFabCppBaseModel(),
+            GCMDataOnly(src.GCMDataOnly),
             Json(src.Json),
             Platform(src.Platform)
             {}
@@ -7305,8 +7313,8 @@ namespace ServerModels
         // [optional] Specific keys to search for in the title data (leave null to get all keys)
         TArray<FString> Keys;
         /**
-         * [optional] Name of the override. This value is ignored when used by the game client; otherwise, the overrides are applied
-         * automatically to the title data.
+         * [optional] Optional field that specifies the name of an override. This value is ignored when used by the game client; otherwise,
+         * the overrides are applied automatically to the title data.
          */
         FString OverrideLabel;
 

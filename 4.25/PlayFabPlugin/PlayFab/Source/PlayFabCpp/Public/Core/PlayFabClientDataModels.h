@@ -1602,6 +1602,105 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FMicrosoftStorePayload : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Microsoft store ID key. This is optional. Alternatively you can use XboxToken
+        FString CollectionsMsIdKey;
+
+        // [optional] If collectionsMsIdKey is provided, this will verify the user id in the collectionsMsIdKey is the same.
+        FString UserId;
+
+        /**
+         * [optional] Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", ""). This is
+         * optional. Alternatively can use CollectionsMsIdKey
+         */
+        FString XboxToken;
+
+        FMicrosoftStorePayload() :
+            FPlayFabCppBaseModel(),
+            CollectionsMsIdKey(),
+            UserId(),
+            XboxToken()
+            {}
+
+        FMicrosoftStorePayload(const FMicrosoftStorePayload& src) :
+            FPlayFabCppBaseModel(),
+            CollectionsMsIdKey(src.CollectionsMsIdKey),
+            UserId(src.UserId),
+            XboxToken(src.XboxToken)
+            {}
+
+        FMicrosoftStorePayload(const TSharedPtr<FJsonObject>& obj) : FMicrosoftStorePayload()
+        {
+            readFromValue(obj);
+        }
+
+        ~FMicrosoftStorePayload();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FConsumeMicrosoftStoreEntitlementsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Catalog version to use
+        FString CatalogVersion;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Marketplace specific payload containing details to fetch in app purchase transactions
+        FMicrosoftStorePayload MarketplaceSpecificData;
+
+        FConsumeMicrosoftStoreEntitlementsRequest() :
+            FPlayFabCppRequestCommon(),
+            CatalogVersion(),
+            CustomTags(),
+            MarketplaceSpecificData()
+            {}
+
+        FConsumeMicrosoftStoreEntitlementsRequest(const FConsumeMicrosoftStoreEntitlementsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CatalogVersion(src.CatalogVersion),
+            CustomTags(src.CustomTags),
+            MarketplaceSpecificData(src.MarketplaceSpecificData)
+            {}
+
+        FConsumeMicrosoftStoreEntitlementsRequest(const TSharedPtr<FJsonObject>& obj) : FConsumeMicrosoftStoreEntitlementsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConsumeMicrosoftStoreEntitlementsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FConsumeMicrosoftStoreEntitlementsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Details for the items purchased.
+        TArray<FItemInstance> Items;
+        FConsumeMicrosoftStoreEntitlementsResponse() :
+            FPlayFabCppResultCommon(),
+            Items()
+            {}
+
+        FConsumeMicrosoftStoreEntitlementsResponse(const FConsumeMicrosoftStoreEntitlementsResponse& src) :
+            FPlayFabCppResultCommon(),
+            Items(src.Items)
+            {}
+
+        FConsumeMicrosoftStoreEntitlementsResponse(const TSharedPtr<FJsonObject>& obj) : FConsumeMicrosoftStoreEntitlementsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConsumeMicrosoftStoreEntitlementsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FConsumePSNEntitlementsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Which catalog to match granted entitlements against. If null, defaults to title default catalog

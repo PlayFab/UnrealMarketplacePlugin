@@ -3155,6 +3155,32 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientConsumeMicrosoftStoreEntitlementsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Catalog version to use */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        FString CatalogVersion;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Marketplace specific payload containing details to fetch in app purchase transactions */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        UPlayFabJsonObject* MarketplaceSpecificData = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientConsumeMicrosoftStoreEntitlementsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Details for the items purchased. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        TArray<UPlayFabJsonObject*> Items;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientConsumePSNEntitlementsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -3483,11 +3509,7 @@ public:
         FString XboxToken;
 };
 
-/**
- * Note that the Position of the user in the results is for the overall leaderboard. If Facebook friends are included, make
- * sure the access token from previous LoginWithFacebook call is still valid and not expired. If Xbox Live friends are
- * included, make sure the access token from the previous LoginWithXbox call is still valid and not expired.
- */
+/** Note: the user's Position is relative to the overall leaderboard. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetLeaderboardResult : public FPlayFabResultCommon
 {

@@ -1661,6 +1661,19 @@ public:
         void HelperAndroidDevicePushNotificationRegistration(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConsumeMicrosoftStoreEntitlements, FClientConsumeMicrosoftStoreEntitlementsResponse, result, UObject*, customData);
+
+    /** Grants the player's current entitlements from Microsoft Store's Collection API */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* ConsumeMicrosoftStoreEntitlements(FClientConsumeMicrosoftStoreEntitlementsRequest request,
+            FDelegateOnSuccessConsumeMicrosoftStoreEntitlements onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperConsumeMicrosoftStoreEntitlements(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConsumePSNEntitlements, FClientConsumePSNEntitlementsResult, result, UObject*, customData);
 
     /** Checks for any new consumable entitlements. If any are found, they are consumed and added as PlayFab items */
@@ -2618,6 +2631,7 @@ public:
     FDelegateOnSuccessMatchmake OnSuccessMatchmake;
     FDelegateOnSuccessStartGame OnSuccessStartGame;
     FDelegateOnSuccessAndroidDevicePushNotificationRegistration OnSuccessAndroidDevicePushNotificationRegistration;
+    FDelegateOnSuccessConsumeMicrosoftStoreEntitlements OnSuccessConsumeMicrosoftStoreEntitlements;
     FDelegateOnSuccessConsumePSNEntitlements OnSuccessConsumePSNEntitlements;
     FDelegateOnSuccessConsumeXboxEntitlements OnSuccessConsumeXboxEntitlements;
     FDelegateOnSuccessRefreshPSNAuthToken OnSuccessRefreshPSNAuthToken;

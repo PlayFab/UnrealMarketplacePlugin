@@ -2807,6 +2807,161 @@ bool PlayFab::ClientModels::FConsumeItemResult::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FMicrosoftStorePayload::~FMicrosoftStorePayload()
+{
+
+}
+
+void PlayFab::ClientModels::FMicrosoftStorePayload::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CollectionsMsIdKey.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CollectionsMsIdKey"));
+        writer->WriteValue(CollectionsMsIdKey);
+    }
+
+    if (UserId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserId"));
+        writer->WriteValue(UserId);
+    }
+
+    if (XboxToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
+        writer->WriteValue(XboxToken);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FMicrosoftStorePayload::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CollectionsMsIdKeyValue = obj->TryGetField(TEXT("CollectionsMsIdKey"));
+    if (CollectionsMsIdKeyValue.IsValid() && !CollectionsMsIdKeyValue->IsNull())
+    {
+        FString TmpValue;
+        if (CollectionsMsIdKeyValue->TryGetString(TmpValue)) { CollectionsMsIdKey = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> UserIdValue = obj->TryGetField(TEXT("UserId"));
+    if (UserIdValue.IsValid() && !UserIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (UserIdValue->TryGetString(TmpValue)) { UserId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> XboxTokenValue = obj->TryGetField(TEXT("XboxToken"));
+    if (XboxTokenValue.IsValid() && !XboxTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (XboxTokenValue->TryGetString(TmpValue)) { XboxToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FConsumeMicrosoftStoreEntitlementsRequest::~FConsumeMicrosoftStoreEntitlementsRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FConsumeMicrosoftStoreEntitlementsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("MarketplaceSpecificData"));
+    MarketplaceSpecificData.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FConsumeMicrosoftStoreEntitlementsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatalogVersionValue = obj->TryGetField(TEXT("CatalogVersion"));
+    if (CatalogVersionValue.IsValid() && !CatalogVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> MarketplaceSpecificDataValue = obj->TryGetField(TEXT("MarketplaceSpecificData"));
+    if (MarketplaceSpecificDataValue.IsValid() && !MarketplaceSpecificDataValue->IsNull())
+    {
+        MarketplaceSpecificData = FMicrosoftStorePayload(MarketplaceSpecificDataValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FConsumeMicrosoftStoreEntitlementsResponse::~FConsumeMicrosoftStoreEntitlementsResponse()
+{
+
+}
+
+void PlayFab::ClientModels::FConsumeMicrosoftStoreEntitlementsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Items.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Items"));
+        for (const FItemInstance& item : Items)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FConsumeMicrosoftStoreEntitlementsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
+    for (int32 Idx = 0; Idx < ItemsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ItemsArray[Idx];
+        Items.Add(FItemInstance(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FConsumePSNEntitlementsRequest::~FConsumePSNEntitlementsRequest()
 {
 

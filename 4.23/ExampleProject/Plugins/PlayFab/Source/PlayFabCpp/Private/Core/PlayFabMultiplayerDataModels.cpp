@@ -241,6 +241,11 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyF: writer->WriteValue(TEXT("F")); break;
     case AzureVmFamilyFsv2: writer->WriteValue(TEXT("Fsv2")); break;
     case AzureVmFamilyDasv4: writer->WriteValue(TEXT("Dasv4")); break;
+    case AzureVmFamilyDav4: writer->WriteValue(TEXT("Dav4")); break;
+    case AzureVmFamilyEav4: writer->WriteValue(TEXT("Eav4")); break;
+    case AzureVmFamilyEasv4: writer->WriteValue(TEXT("Easv4")); break;
+    case AzureVmFamilyEv4: writer->WriteValue(TEXT("Ev4")); break;
+    case AzureVmFamilyEsv4: writer->WriteValue(TEXT("Esv4")); break;
     }
 }
 
@@ -262,6 +267,11 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("F"), AzureVmFamilyF);
         _AzureVmFamilyMap.Add(TEXT("Fsv2"), AzureVmFamilyFsv2);
         _AzureVmFamilyMap.Add(TEXT("Dasv4"), AzureVmFamilyDasv4);
+        _AzureVmFamilyMap.Add(TEXT("Dav4"), AzureVmFamilyDav4);
+        _AzureVmFamilyMap.Add(TEXT("Eav4"), AzureVmFamilyEav4);
+        _AzureVmFamilyMap.Add(TEXT("Easv4"), AzureVmFamilyEasv4);
+        _AzureVmFamilyMap.Add(TEXT("Ev4"), AzureVmFamilyEv4);
+        _AzureVmFamilyMap.Add(TEXT("Esv4"), AzureVmFamilyEsv4);
 
     }
 
@@ -310,6 +320,10 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_D4as_v4: writer->WriteValue(TEXT("Standard_D4as_v4")); break;
     case AzureVmSizeStandard_D8as_v4: writer->WriteValue(TEXT("Standard_D8as_v4")); break;
     case AzureVmSizeStandard_D16as_v4: writer->WriteValue(TEXT("Standard_D16as_v4")); break;
+    case AzureVmSizeStandard_D2a_v4: writer->WriteValue(TEXT("Standard_D2a_v4")); break;
+    case AzureVmSizeStandard_D4a_v4: writer->WriteValue(TEXT("Standard_D4a_v4")); break;
+    case AzureVmSizeStandard_D8a_v4: writer->WriteValue(TEXT("Standard_D8a_v4")); break;
+    case AzureVmSizeStandard_D16a_v4: writer->WriteValue(TEXT("Standard_D16a_v4")); break;
     }
 }
 
@@ -354,6 +368,10 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_D4as_v4"), AzureVmSizeStandard_D4as_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D8as_v4"), AzureVmSizeStandard_D8as_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D16as_v4"), AzureVmSizeStandard_D16as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D2a_v4"), AzureVmSizeStandard_D2a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D4a_v4"), AzureVmSizeStandard_D4a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D8a_v4"), AzureVmSizeStandard_D8a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D16a_v4"), AzureVmSizeStandard_D16a_v4);
 
     }
 

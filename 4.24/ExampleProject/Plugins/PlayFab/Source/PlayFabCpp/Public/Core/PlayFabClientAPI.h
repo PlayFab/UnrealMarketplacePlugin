@@ -30,6 +30,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCancelTradeDelegate, const ClientModels::FCancelTradeResponse&);
         DECLARE_DELEGATE_OneParam(FConfirmPurchaseDelegate, const ClientModels::FConfirmPurchaseResult&);
         DECLARE_DELEGATE_OneParam(FConsumeItemDelegate, const ClientModels::FConsumeItemResult&);
+        DECLARE_DELEGATE_OneParam(FConsumeMicrosoftStoreEntitlementsDelegate, const ClientModels::FConsumeMicrosoftStoreEntitlementsResponse&);
         DECLARE_DELEGATE_OneParam(FConsumePSNEntitlementsDelegate, const ClientModels::FConsumePSNEntitlementsResult&);
         DECLARE_DELEGATE_OneParam(FConsumeXboxEntitlementsDelegate, const ClientModels::FConsumeXboxEntitlementsResult&);
         DECLARE_DELEGATE_OneParam(FCreateSharedGroupDelegate, const ClientModels::FCreateSharedGroupResult&);
@@ -259,6 +260,8 @@ namespace PlayFab
         bool ConfirmPurchase(ClientModels::FConfirmPurchaseRequest& request, const FConfirmPurchaseDelegate& SuccessDelegate = FConfirmPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory.
         bool ConsumeItem(ClientModels::FConsumeItemRequest& request, const FConsumeItemDelegate& SuccessDelegate = FConsumeItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Grants the player's current entitlements from Microsoft Store's Collection API
+        bool ConsumeMicrosoftStoreEntitlements(ClientModels::FConsumeMicrosoftStoreEntitlementsRequest& request, const FConsumeMicrosoftStoreEntitlementsDelegate& SuccessDelegate = FConsumeMicrosoftStoreEntitlementsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Checks for any new consumable entitlements. If any are found, they are consumed and added as PlayFab items
         bool ConsumePSNEntitlements(ClientModels::FConsumePSNEntitlementsRequest& request, const FConsumePSNEntitlementsDelegate& SuccessDelegate = FConsumePSNEntitlementsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -937,6 +940,7 @@ namespace PlayFab
         void OnCancelTradeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCancelTradeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnConfirmPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConfirmPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnConsumeItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConsumeItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnConsumeMicrosoftStoreEntitlementsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConsumeMicrosoftStoreEntitlementsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnConsumePSNEntitlementsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConsumePSNEntitlementsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnConsumeXboxEntitlementsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConsumeXboxEntitlementsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

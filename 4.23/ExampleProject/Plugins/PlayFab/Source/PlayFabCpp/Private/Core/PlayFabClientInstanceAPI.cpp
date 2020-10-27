@@ -488,6 +488,37 @@ void UPlayFabClientInstanceAPI::OnConsumeItemResult(FHttpRequestPtr HttpRequest,
     }
 }
 
+bool UPlayFabClientInstanceAPI::ConsumeMicrosoftStoreEntitlements(
+    ClientModels::FConsumeMicrosoftStoreEntitlementsRequest& request,
+    const FConsumeMicrosoftStoreEntitlementsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
+        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ConsumeMicrosoftStoreEntitlements")) : this->settings->GetUrl(TEXT("/Client/ConsumeMicrosoftStoreEntitlements")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnConsumeMicrosoftStoreEntitlementsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnConsumeMicrosoftStoreEntitlementsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConsumeMicrosoftStoreEntitlementsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FConsumeMicrosoftStoreEntitlementsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientInstanceAPI::ConsumePSNEntitlements(
     ClientModels::FConsumePSNEntitlementsRequest& request,
     const FConsumePSNEntitlementsDelegate& SuccessDelegate,

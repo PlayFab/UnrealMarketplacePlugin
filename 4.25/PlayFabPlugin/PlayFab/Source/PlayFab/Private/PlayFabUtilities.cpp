@@ -574,7 +574,6 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 4008: returnText = "CatalogSearchParameterInvalid"; break;
     case 4009: returnText = "CatalogFeatureDisabled"; break;
     case 4010: returnText = "CatalogConfigInvalid"; break;
-    case 4011: returnText = "CatalogUnauthorized"; break;
     case 4012: returnText = "CatalogItemTypeInvalid"; break;
     case 4013: returnText = "CatalogBadRequest"; break;
     case 4014: returnText = "CatalogTooManyRequests"; break;
@@ -636,6 +635,10 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10004: returnText = "SegmentManagementInvalidSegmentId"; break;
     case 10005: returnText = "SegmentManagementInvalidInput"; break;
     case 10006: returnText = "SegmentManagementInvalidSegmentName"; break;
+    case 10007: returnText = "DeleteSegmentRateLimitExceeded"; break;
+    case 10008: returnText = "CreateSegmentRateLimitExceeded"; break;
+    case 10009: returnText = "UpdateSegmentRateLimitExceeded"; break;
+    case 10010: returnText = "GetSegmentsRateLimitExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     }
 

@@ -552,7 +552,6 @@ namespace PlayFab
         PlayFabErrorCatalogSearchParameterInvalid = 4008,
         PlayFabErrorCatalogFeatureDisabled = 4009,
         PlayFabErrorCatalogConfigInvalid = 4010,
-        PlayFabErrorCatalogUnauthorized = 4011,
         PlayFabErrorCatalogItemTypeInvalid = 4012,
         PlayFabErrorCatalogBadRequest = 4013,
         PlayFabErrorCatalogTooManyRequests = 4014,
@@ -614,6 +613,10 @@ namespace PlayFab
         PlayFabErrorSegmentManagementInvalidSegmentId = 10004,
         PlayFabErrorSegmentManagementInvalidInput = 10005,
         PlayFabErrorSegmentManagementInvalidSegmentName = 10006,
+        PlayFabErrorDeleteSegmentRateLimitExceeded = 10007,
+        PlayFabErrorCreateSegmentRateLimitExceeded = 10008,
+        PlayFabErrorUpdateSegmentRateLimitExceeded = 10009,
+        PlayFabErrorGetSegmentsRateLimitExceeded = 10010,
         PlayFabErrorSnapshotNotFound = 11000
     };
 

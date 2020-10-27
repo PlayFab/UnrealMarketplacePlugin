@@ -6618,6 +6618,60 @@ void UPlayFabClientAPI::HelperAndroidDevicePushNotificationRegistration(FPlayFab
     this->RemoveFromRoot();
 }
 
+/** Grants the player's current entitlements from Microsoft Store's Collection API */
+UPlayFabClientAPI* UPlayFabClientAPI::ConsumeMicrosoftStoreEntitlements(FClientConsumeMicrosoftStoreEntitlementsRequest request,
+    FDelegateOnSuccessConsumeMicrosoftStoreEntitlements onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessConsumeMicrosoftStoreEntitlements = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConsumeMicrosoftStoreEntitlements);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/ConsumeMicrosoftStoreEntitlements";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.MarketplaceSpecificData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MarketplaceSpecificData"), request.MarketplaceSpecificData);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperConsumeMicrosoftStoreEntitlements(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessConsumeMicrosoftStoreEntitlements.IsBound())
+    {
+        FClientConsumeMicrosoftStoreEntitlementsResponse ResultStruct = UPlayFabClientModelDecoder::decodeConsumeMicrosoftStoreEntitlementsResponseResponse(response.responseData);
+        OnSuccessConsumeMicrosoftStoreEntitlements.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Checks for any new consumable entitlements. If any are found, they are consumed and added as PlayFab items */
 UPlayFabClientAPI* UPlayFabClientAPI::ConsumePSNEntitlements(FClientConsumePSNEntitlementsRequest request,
     FDelegateOnSuccessConsumePSNEntitlements onSuccess,

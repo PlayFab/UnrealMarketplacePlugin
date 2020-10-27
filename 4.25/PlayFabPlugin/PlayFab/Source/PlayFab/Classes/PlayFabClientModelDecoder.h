@@ -418,6 +418,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
         static FClientAndroidDevicePushNotificationRegistrationResult decodeAndroidDevicePushNotificationRegistrationResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ConsumeMicrosoftStoreEntitlementsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
+        static FClientConsumeMicrosoftStoreEntitlementsResponse decodeConsumeMicrosoftStoreEntitlementsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the ConsumePSNEntitlementsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
         static FClientConsumePSNEntitlementsResult decodeConsumePSNEntitlementsResultResponse(UPlayFabJsonObject* response);

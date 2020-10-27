@@ -932,6 +932,17 @@ FClientAndroidDevicePushNotificationRegistrationResult UPlayFabClientModelDecode
     return tempStruct;
 }
 
+FClientConsumeMicrosoftStoreEntitlementsResponse UPlayFabClientModelDecoder::decodeConsumeMicrosoftStoreEntitlementsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientConsumeMicrosoftStoreEntitlementsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Items = !(dataObj->HasField("Items")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Items");
+
+    return tempStruct;
+}
+
 FClientConsumePSNEntitlementsResult UPlayFabClientModelDecoder::decodeConsumePSNEntitlementsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

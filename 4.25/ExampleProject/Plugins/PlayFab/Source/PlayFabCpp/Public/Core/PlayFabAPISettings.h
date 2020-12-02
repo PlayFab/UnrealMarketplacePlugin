@@ -95,8 +95,16 @@ public:
 
     FString GeneratePfUrl(const FString& urlPath)
     {
-        return TEXT("https://") + TitleId + productionEnvironmentURL
-            + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        if (productionEnvironmentURL.StartsWith(TEXT("https://")))
+        {
+            return productionEnvironmentURL
+                + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        }
+        else
+        {
+            return TEXT("https://") + TitleId + productionEnvironmentURL
+                + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        }
     }
 
 private:

@@ -36,8 +36,17 @@ namespace PlayFabCommon
         static FString GeneratePfUrl(const FString& urlPath)
         {
             const UPlayFabRuntimeSettings* rSettings = GetDefault<UPlayFabRuntimeSettings>();
-            return TEXT("https://") + rSettings->TitleId + rSettings->ProductionEnvironmentURL
-                + urlPath + TEXT("?sdk=") + versionString;
+            if (rSettings->ProductionEnvironmentURL.StartsWith(TEXT("https://")))
+            {
+                return rSettings->ProductionEnvironmentURL
+                    + urlPath + TEXT("?sdk=") + versionString;
+            }
+            else
+            {
+                return TEXT("https://") + rSettings->TitleId + rSettings->ProductionEnvironmentURL
+                    + urlPath + TEXT("?sdk=") + versionString;
+            }
+
         }
     };
 }

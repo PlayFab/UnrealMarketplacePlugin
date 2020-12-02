@@ -17,8 +17,9 @@ int PlayFabRequestHandler::GetPendingCalls()
     return PlayFabRequestHandler::pendingCalls;
 }
 
-TSharedRef<IHttpRequest> PlayFabRequestHandler::SendRequest(const FString& url, const FString& callBody, const FString& authKey, const FString& authValue)
+TSharedRef<IHttpRequest> PlayFabRequestHandler::SendRequest(TSharedPtr<UPlayFabAPISettings> settings, const FString& urlPath, const FString& callBody, const FString& authKey, const FString& authValue)
 {
+    FString fullUrl = settings.IsValid() ? settings->GeneratePfUrl(urlPath) : PlayFabSettings::GeneratePfUrl(urlPath);
     if (PlayFabSettings::GetTitleId().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must define a titleID before making API Calls."));
     }
@@ -26,7 +27,7 @@ TSharedRef<IHttpRequest> PlayFabRequestHandler::SendRequest(const FString& url, 
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetVerb(TEXT("POST"));
-    HttpRequest->SetURL(url);
+    HttpRequest->SetURL(fullUrl);
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), PlayFabSettings::versionString);
 

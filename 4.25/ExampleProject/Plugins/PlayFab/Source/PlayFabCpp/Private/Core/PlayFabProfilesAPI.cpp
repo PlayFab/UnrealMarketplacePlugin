@@ -41,13 +41,13 @@ bool UPlayFabProfilesAPI::GetGlobalPolicy(
     const FGetGlobalPolicyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/GetGlobalPolicy")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Profile/GetGlobalPolicy"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnGetGlobalPolicyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -71,13 +71,13 @@ bool UPlayFabProfilesAPI::GetProfile(
     const FGetProfileDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/GetProfile")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Profile/GetProfile"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnGetProfileResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -101,13 +101,13 @@ bool UPlayFabProfilesAPI::GetProfiles(
     const FGetProfilesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/GetProfiles")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Profile/GetProfiles"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnGetProfilesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -131,13 +131,13 @@ bool UPlayFabProfilesAPI::GetTitlePlayersFromMasterPlayerAccountIds(
     const FGetTitlePlayersFromMasterPlayerAccountIdsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/GetTitlePlayersFromMasterPlayerAccountIds")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Profile/GetTitlePlayersFromMasterPlayerAccountIds"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnGetTitlePlayersFromMasterPlayerAccountIdsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -161,13 +161,13 @@ bool UPlayFabProfilesAPI::SetGlobalPolicy(
     const FSetGlobalPolicyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/SetGlobalPolicy")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Profile/SetGlobalPolicy"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnSetGlobalPolicyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -191,13 +191,13 @@ bool UPlayFabProfilesAPI::SetProfileLanguage(
     const FSetProfileLanguageDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/SetProfileLanguage")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Profile/SetProfileLanguage"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnSetProfileLanguageResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -221,13 +221,13 @@ bool UPlayFabProfilesAPI::SetProfilePolicy(
     const FSetProfilePolicyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Profile/SetProfilePolicy")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Profile/SetProfilePolicy"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesAPI::OnSetProfilePolicyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

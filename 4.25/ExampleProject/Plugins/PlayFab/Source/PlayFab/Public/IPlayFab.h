@@ -86,11 +86,6 @@ public:
         return IPlayFabCommonModuleInterface::Get().GetVersionString();
     }
 
-    inline FString getVerticalName() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetVerticalName();
-    }
-
     inline FString getBuildIdentifier() const
     {
         return IPlayFabCommonModuleInterface::Get().GetBuildIdentifier();
@@ -161,9 +156,9 @@ public:
         return IPlayFabCommonModuleInterface::Get().GetDisableAdvertising();
     }
 
-    inline FString getUrl(const FString& callPath) const
+    inline FString GeneratePfUrl(const FString& urlPath) const
     {
-        return IPlayFabCommonModuleInterface::Get().GetUrl(callPath);
+        return IPlayFabCommonModuleInterface::Get().GeneratePfUrl(urlPath);
     }
 
     inline int32 GetPendingCallCount()

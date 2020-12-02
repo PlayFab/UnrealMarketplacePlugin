@@ -4443,19 +4443,14 @@ namespace MultiplayerModels
         // [optional] The region the QoS server is located in.
         FString Region;
 
-        // [optional] The QoS server URL.
-        FString ServerUrl;
-
         FQosServer() :
             FPlayFabCppBaseModel(),
-            Region(),
-            ServerUrl()
+            Region()
             {}
 
         FQosServer(const FQosServer& src) :
             FPlayFabCppBaseModel(),
-            Region(src.Region),
-            ServerUrl(src.ServerUrl)
+            Region(src.Region)
             {}
 
         FQosServer(const TSharedPtr<FJsonObject>& obj) : FQosServer()

@@ -42,12 +42,10 @@ public:
     virtual FString GetSdkVersion() const = 0;
     virtual FString GetBuildIdentifier() const = 0;
     virtual FString GetVersionString() const = 0;
-    virtual FString GetVerticalName() const = 0;
 
     virtual FString GetAD_TYPE_IDFA() const = 0;
     virtual FString GetAD_TYPE_ANDROID_ID() const = 0;
 
-    virtual FString GetServerURL() const = 0;
     virtual FString GetProductionEnvironmentURL() const = 0;
     virtual FString GetTitleId() const = 0;
     virtual FString GetClientSessionTicket() const = 0;
@@ -57,7 +55,6 @@ public:
     virtual FString GetAdvertisingIdValue() const = 0;
     virtual bool GetDisableAdvertising() const = 0;
 
-    virtual void SetServerURL(const FString& serverURL) = 0;
     virtual void SetProductionEnvironmentURL(const FString& productionEnvironmentURL) = 0;
     virtual void SetTitleId(const FString& titleId) = 0;
     virtual void SetClientSessionTicket(const FString& clientSessionTicket) = 0;
@@ -76,5 +73,5 @@ public:
     virtual FString GetPhotonChatAppId() const = 0;
     virtual void SetPhotonChatAppId(const FString & photonChatAppId) = 0;
 
-    virtual FString GetUrl(const FString& callPath) const = 0;
+    virtual FString GeneratePfUrl(const FString& urlPath) const = 0;
 };

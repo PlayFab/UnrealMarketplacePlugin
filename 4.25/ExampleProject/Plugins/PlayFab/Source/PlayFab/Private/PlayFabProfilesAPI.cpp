@@ -524,7 +524,7 @@ void UPlayFabProfilesAPI::Activate()
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     FString RequestUrl;
-    RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+    RequestUrl = pfSettings->GeneratePfUrl(PlayFabRequestURL);
 
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();

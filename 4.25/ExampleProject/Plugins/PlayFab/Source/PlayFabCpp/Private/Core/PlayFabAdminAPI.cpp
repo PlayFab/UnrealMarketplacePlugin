@@ -41,13 +41,13 @@ bool UPlayFabAdminAPI::AbortTaskInstance(
     const FAbortTaskInstanceDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/AbortTaskInstance")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/AbortTaskInstance"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnAbortTaskInstanceResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -71,13 +71,13 @@ bool UPlayFabAdminAPI::AddLocalizedNews(
     const FAddLocalizedNewsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/AddLocalizedNews")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/AddLocalizedNews"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnAddLocalizedNewsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -101,13 +101,13 @@ bool UPlayFabAdminAPI::AddNews(
     const FAddNewsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/AddNews")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/AddNews"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnAddNewsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -131,13 +131,13 @@ bool UPlayFabAdminAPI::AddPlayerTag(
     const FAddPlayerTagDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/AddPlayerTag")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/AddPlayerTag"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnAddPlayerTagResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -161,13 +161,13 @@ bool UPlayFabAdminAPI::AddServerBuild(
     const FAddServerBuildDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/AddServerBuild")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/AddServerBuild"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnAddServerBuildResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -191,13 +191,13 @@ bool UPlayFabAdminAPI::AddUserVirtualCurrency(
     const FAddUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/AddUserVirtualCurrency")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/AddUserVirtualCurrency"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnAddUserVirtualCurrencyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -221,13 +221,13 @@ bool UPlayFabAdminAPI::AddVirtualCurrencyTypes(
     const FAddVirtualCurrencyTypesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/AddVirtualCurrencyTypes")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/AddVirtualCurrencyTypes"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnAddVirtualCurrencyTypesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -251,13 +251,13 @@ bool UPlayFabAdminAPI::BanUsers(
     const FBanUsersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/BanUsers")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/BanUsers"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnBanUsersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -281,13 +281,13 @@ bool UPlayFabAdminAPI::CheckLimitedEditionItemAvailability(
     const FCheckLimitedEditionItemAvailabilityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CheckLimitedEditionItemAvailability")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CheckLimitedEditionItemAvailability"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCheckLimitedEditionItemAvailabilityResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -311,13 +311,13 @@ bool UPlayFabAdminAPI::CreateActionsOnPlayersInSegmentTask(
     const FCreateActionsOnPlayersInSegmentTaskDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CreateActionsOnPlayersInSegmentTask")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CreateActionsOnPlayersInSegmentTask"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreateActionsOnPlayersInSegmentTaskResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -341,13 +341,13 @@ bool UPlayFabAdminAPI::CreateCloudScriptTask(
     const FCreateCloudScriptTaskDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CreateCloudScriptTask")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CreateCloudScriptTask"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreateCloudScriptTaskResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -371,13 +371,13 @@ bool UPlayFabAdminAPI::CreateInsightsScheduledScalingTask(
     const FCreateInsightsScheduledScalingTaskDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CreateInsightsScheduledScalingTask")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CreateInsightsScheduledScalingTask"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreateInsightsScheduledScalingTaskResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -401,13 +401,13 @@ bool UPlayFabAdminAPI::CreateOpenIdConnection(
     const FCreateOpenIdConnectionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CreateOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CreateOpenIdConnection"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreateOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -431,13 +431,13 @@ bool UPlayFabAdminAPI::CreatePlayerSharedSecret(
     const FCreatePlayerSharedSecretDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CreatePlayerSharedSecret")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CreatePlayerSharedSecret"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreatePlayerSharedSecretResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -461,13 +461,13 @@ bool UPlayFabAdminAPI::CreatePlayerStatisticDefinition(
     const FCreatePlayerStatisticDefinitionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/CreatePlayerStatisticDefinition")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/CreatePlayerStatisticDefinition"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnCreatePlayerStatisticDefinitionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -491,13 +491,13 @@ bool UPlayFabAdminAPI::DeleteContent(
     const FDeleteContentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteContent")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeleteContent"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteContentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -521,13 +521,13 @@ bool UPlayFabAdminAPI::DeleteMasterPlayerAccount(
     const FDeleteMasterPlayerAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteMasterPlayerAccount")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeleteMasterPlayerAccount"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteMasterPlayerAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -551,13 +551,13 @@ bool UPlayFabAdminAPI::DeleteOpenIdConnection(
     const FDeleteOpenIdConnectionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeleteOpenIdConnection"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -581,13 +581,13 @@ bool UPlayFabAdminAPI::DeletePlayer(
     const FDeletePlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeletePlayer")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeletePlayer"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeletePlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -611,13 +611,13 @@ bool UPlayFabAdminAPI::DeletePlayerSharedSecret(
     const FDeletePlayerSharedSecretDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeletePlayerSharedSecret")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeletePlayerSharedSecret"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeletePlayerSharedSecretResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -641,13 +641,13 @@ bool UPlayFabAdminAPI::DeleteStore(
     const FDeleteStoreDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteStore")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeleteStore"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteStoreResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -671,13 +671,13 @@ bool UPlayFabAdminAPI::DeleteTask(
     const FDeleteTaskDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteTask")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeleteTask"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteTaskResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -709,13 +709,13 @@ bool UPlayFabAdminAPI::DeleteTitle(
     const FDeleteTitleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteTitle")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeleteTitle"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteTitleResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -739,13 +739,13 @@ bool UPlayFabAdminAPI::DeleteTitleDataOverride(
     const FDeleteTitleDataOverrideDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/DeleteTitleDataOverride")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/DeleteTitleDataOverride"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnDeleteTitleDataOverrideResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -769,13 +769,13 @@ bool UPlayFabAdminAPI::ExportMasterPlayerData(
     const FExportMasterPlayerDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ExportMasterPlayerData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ExportMasterPlayerData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnExportMasterPlayerDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -799,13 +799,13 @@ bool UPlayFabAdminAPI::GetActionsOnPlayersInSegmentTaskInstance(
     const FGetActionsOnPlayersInSegmentTaskInstanceDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetActionsOnPlayersInSegmentTaskInstance")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetActionsOnPlayersInSegmentTaskInstance"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetActionsOnPlayersInSegmentTaskInstanceResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -837,13 +837,13 @@ bool UPlayFabAdminAPI::GetAllSegments(
     const FGetAllSegmentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetAllSegments")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetAllSegments"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetAllSegmentsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -867,13 +867,13 @@ bool UPlayFabAdminAPI::GetCatalogItems(
     const FGetCatalogItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetCatalogItems")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetCatalogItems"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetCatalogItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -897,13 +897,13 @@ bool UPlayFabAdminAPI::GetCloudScriptRevision(
     const FGetCloudScriptRevisionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetCloudScriptRevision")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetCloudScriptRevision"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetCloudScriptRevisionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -927,13 +927,13 @@ bool UPlayFabAdminAPI::GetCloudScriptTaskInstance(
     const FGetCloudScriptTaskInstanceDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetCloudScriptTaskInstance")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetCloudScriptTaskInstance"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetCloudScriptTaskInstanceResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -965,13 +965,13 @@ bool UPlayFabAdminAPI::GetCloudScriptVersions(
     const FGetCloudScriptVersionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetCloudScriptVersions")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetCloudScriptVersions"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetCloudScriptVersionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -995,13 +995,13 @@ bool UPlayFabAdminAPI::GetContentList(
     const FGetContentListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetContentList")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetContentList"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetContentListResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1025,13 +1025,13 @@ bool UPlayFabAdminAPI::GetContentUploadUrl(
     const FGetContentUploadUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetContentUploadUrl")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetContentUploadUrl"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetContentUploadUrlResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1055,13 +1055,13 @@ bool UPlayFabAdminAPI::GetDataReport(
     const FGetDataReportDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetDataReport")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetDataReport"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetDataReportResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1085,13 +1085,13 @@ bool UPlayFabAdminAPI::GetMatchmakerGameInfo(
     const FGetMatchmakerGameInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetMatchmakerGameInfo")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetMatchmakerGameInfo"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetMatchmakerGameInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1115,13 +1115,13 @@ bool UPlayFabAdminAPI::GetMatchmakerGameModes(
     const FGetMatchmakerGameModesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetMatchmakerGameModes")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetMatchmakerGameModes"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetMatchmakerGameModesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1145,13 +1145,13 @@ bool UPlayFabAdminAPI::GetPlayedTitleList(
     const FGetPlayedTitleListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayedTitleList")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayedTitleList"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayedTitleListResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1175,13 +1175,13 @@ bool UPlayFabAdminAPI::GetPlayerIdFromAuthToken(
     const FGetPlayerIdFromAuthTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayerIdFromAuthToken")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayerIdFromAuthToken"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayerIdFromAuthTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1205,13 +1205,13 @@ bool UPlayFabAdminAPI::GetPlayerProfile(
     const FGetPlayerProfileDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayerProfile")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayerProfile"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayerProfileResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1235,13 +1235,13 @@ bool UPlayFabAdminAPI::GetPlayerSegments(
     const FGetPlayerSegmentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayerSegments")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayerSegments"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayerSegmentsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1273,13 +1273,13 @@ bool UPlayFabAdminAPI::GetPlayerSharedSecrets(
     const FGetPlayerSharedSecretsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayerSharedSecrets")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayerSharedSecrets"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayerSharedSecretsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1303,13 +1303,13 @@ bool UPlayFabAdminAPI::GetPlayersInSegment(
     const FGetPlayersInSegmentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayersInSegment")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayersInSegment"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayersInSegmentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1341,13 +1341,13 @@ bool UPlayFabAdminAPI::GetPlayerStatisticDefinitions(
     const FGetPlayerStatisticDefinitionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayerStatisticDefinitions")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayerStatisticDefinitions"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayerStatisticDefinitionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1371,13 +1371,13 @@ bool UPlayFabAdminAPI::GetPlayerStatisticVersions(
     const FGetPlayerStatisticVersionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayerStatisticVersions")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayerStatisticVersions"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayerStatisticVersionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1401,13 +1401,13 @@ bool UPlayFabAdminAPI::GetPlayerTags(
     const FGetPlayerTagsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPlayerTags")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPlayerTags"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPlayerTagsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1431,13 +1431,13 @@ bool UPlayFabAdminAPI::GetPolicy(
     const FGetPolicyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPolicy")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPolicy"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPolicyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1461,13 +1461,13 @@ bool UPlayFabAdminAPI::GetPublisherData(
     const FGetPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetPublisherData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetPublisherData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1491,13 +1491,13 @@ bool UPlayFabAdminAPI::GetRandomResultTables(
     const FGetRandomResultTablesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetRandomResultTables")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetRandomResultTables"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetRandomResultTablesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1521,13 +1521,13 @@ bool UPlayFabAdminAPI::GetServerBuildInfo(
     const FGetServerBuildInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetServerBuildInfo")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetServerBuildInfo"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetServerBuildInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1551,13 +1551,13 @@ bool UPlayFabAdminAPI::GetServerBuildUploadUrl(
     const FGetServerBuildUploadUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetServerBuildUploadUrl")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetServerBuildUploadUrl"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetServerBuildUploadUrlResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1581,13 +1581,13 @@ bool UPlayFabAdminAPI::GetStoreItems(
     const FGetStoreItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetStoreItems")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetStoreItems"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetStoreItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1611,13 +1611,13 @@ bool UPlayFabAdminAPI::GetTaskInstances(
     const FGetTaskInstancesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetTaskInstances")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetTaskInstances"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetTaskInstancesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1641,13 +1641,13 @@ bool UPlayFabAdminAPI::GetTasks(
     const FGetTasksDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetTasks")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetTasks"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetTasksResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1671,13 +1671,13 @@ bool UPlayFabAdminAPI::GetTitleData(
     const FGetTitleDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetTitleData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetTitleData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetTitleDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1701,13 +1701,13 @@ bool UPlayFabAdminAPI::GetTitleInternalData(
     const FGetTitleInternalDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetTitleInternalData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetTitleInternalData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetTitleInternalDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1731,13 +1731,13 @@ bool UPlayFabAdminAPI::GetUserAccountInfo(
     const FGetUserAccountInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserAccountInfo")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserAccountInfo"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserAccountInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1761,13 +1761,13 @@ bool UPlayFabAdminAPI::GetUserBans(
     const FGetUserBansDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserBans")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserBans"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserBansResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1791,13 +1791,13 @@ bool UPlayFabAdminAPI::GetUserData(
     const FGetUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1821,13 +1821,13 @@ bool UPlayFabAdminAPI::GetUserInternalData(
     const FGetUserInternalDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserInternalData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserInternalData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserInternalDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1851,13 +1851,13 @@ bool UPlayFabAdminAPI::GetUserInventory(
     const FGetUserInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserInventory")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserInventory"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserInventoryResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1881,13 +1881,13 @@ bool UPlayFabAdminAPI::GetUserPublisherData(
     const FGetUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserPublisherData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserPublisherData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1911,13 +1911,13 @@ bool UPlayFabAdminAPI::GetUserPublisherInternalData(
     const FGetUserPublisherInternalDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserPublisherInternalData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserPublisherInternalData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserPublisherInternalDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1941,13 +1941,13 @@ bool UPlayFabAdminAPI::GetUserPublisherReadOnlyData(
     const FGetUserPublisherReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserPublisherReadOnlyData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserPublisherReadOnlyData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserPublisherReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1971,13 +1971,13 @@ bool UPlayFabAdminAPI::GetUserReadOnlyData(
     const FGetUserReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GetUserReadOnlyData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetUserReadOnlyData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetUserReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2001,13 +2001,13 @@ bool UPlayFabAdminAPI::GrantItemsToUsers(
     const FGrantItemsToUsersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/GrantItemsToUsers")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GrantItemsToUsers"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGrantItemsToUsersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2031,13 +2031,13 @@ bool UPlayFabAdminAPI::IncrementLimitedEditionItemAvailability(
     const FIncrementLimitedEditionItemAvailabilityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/IncrementLimitedEditionItemAvailability")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/IncrementLimitedEditionItemAvailability"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnIncrementLimitedEditionItemAvailabilityResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2061,13 +2061,13 @@ bool UPlayFabAdminAPI::IncrementPlayerStatisticVersion(
     const FIncrementPlayerStatisticVersionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/IncrementPlayerStatisticVersion")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/IncrementPlayerStatisticVersion"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnIncrementPlayerStatisticVersionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2099,13 +2099,13 @@ bool UPlayFabAdminAPI::ListOpenIdConnection(
     const FListOpenIdConnectionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ListOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ListOpenIdConnection"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnListOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2137,13 +2137,13 @@ bool UPlayFabAdminAPI::ListServerBuilds(
     const FListServerBuildsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ListServerBuilds")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ListServerBuilds"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnListServerBuildsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2175,13 +2175,13 @@ bool UPlayFabAdminAPI::ListVirtualCurrencyTypes(
     const FListVirtualCurrencyTypesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ListVirtualCurrencyTypes")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ListVirtualCurrencyTypes"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnListVirtualCurrencyTypesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2205,13 +2205,13 @@ bool UPlayFabAdminAPI::ModifyMatchmakerGameModes(
     const FModifyMatchmakerGameModesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ModifyMatchmakerGameModes")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ModifyMatchmakerGameModes"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnModifyMatchmakerGameModesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2235,13 +2235,13 @@ bool UPlayFabAdminAPI::ModifyServerBuild(
     const FModifyServerBuildDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ModifyServerBuild")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ModifyServerBuild"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnModifyServerBuildResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2265,13 +2265,13 @@ bool UPlayFabAdminAPI::RefundPurchase(
     const FRefundPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RefundPurchase")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RefundPurchase"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRefundPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2295,13 +2295,13 @@ bool UPlayFabAdminAPI::RemovePlayerTag(
     const FRemovePlayerTagDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RemovePlayerTag")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RemovePlayerTag"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRemovePlayerTagResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2325,13 +2325,13 @@ bool UPlayFabAdminAPI::RemoveServerBuild(
     const FRemoveServerBuildDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RemoveServerBuild")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RemoveServerBuild"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRemoveServerBuildResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2355,13 +2355,13 @@ bool UPlayFabAdminAPI::RemoveVirtualCurrencyTypes(
     const FRemoveVirtualCurrencyTypesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RemoveVirtualCurrencyTypes")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RemoveVirtualCurrencyTypes"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRemoveVirtualCurrencyTypesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2385,13 +2385,13 @@ bool UPlayFabAdminAPI::ResetCharacterStatistics(
     const FResetCharacterStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ResetCharacterStatistics")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ResetCharacterStatistics"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnResetCharacterStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2415,13 +2415,13 @@ bool UPlayFabAdminAPI::ResetPassword(
     const FResetPasswordDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ResetPassword")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ResetPassword"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnResetPasswordResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2445,13 +2445,13 @@ bool UPlayFabAdminAPI::ResetUserStatistics(
     const FResetUserStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ResetUserStatistics")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ResetUserStatistics"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnResetUserStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2475,13 +2475,13 @@ bool UPlayFabAdminAPI::ResolvePurchaseDispute(
     const FResolvePurchaseDisputeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/ResolvePurchaseDispute")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ResolvePurchaseDispute"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnResolvePurchaseDisputeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2505,13 +2505,13 @@ bool UPlayFabAdminAPI::RevokeAllBansForUser(
     const FRevokeAllBansForUserDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RevokeAllBansForUser")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RevokeAllBansForUser"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRevokeAllBansForUserResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2535,13 +2535,13 @@ bool UPlayFabAdminAPI::RevokeBans(
     const FRevokeBansDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RevokeBans")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RevokeBans"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRevokeBansResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2565,13 +2565,13 @@ bool UPlayFabAdminAPI::RevokeInventoryItem(
     const FRevokeInventoryItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RevokeInventoryItem")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RevokeInventoryItem"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRevokeInventoryItemResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2595,13 +2595,13 @@ bool UPlayFabAdminAPI::RevokeInventoryItems(
     const FRevokeInventoryItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RevokeInventoryItems")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RevokeInventoryItems"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRevokeInventoryItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2625,13 +2625,13 @@ bool UPlayFabAdminAPI::RunTask(
     const FRunTaskDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/RunTask")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RunTask"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRunTaskResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2655,13 +2655,13 @@ bool UPlayFabAdminAPI::SendAccountRecoveryEmail(
     const FSendAccountRecoveryEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SendAccountRecoveryEmail")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SendAccountRecoveryEmail"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSendAccountRecoveryEmailResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2685,13 +2685,13 @@ bool UPlayFabAdminAPI::SetCatalogItems(
     const FSetCatalogItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetCatalogItems")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetCatalogItems"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetCatalogItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2715,13 +2715,13 @@ bool UPlayFabAdminAPI::SetPlayerSecret(
     const FSetPlayerSecretDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetPlayerSecret")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetPlayerSecret"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetPlayerSecretResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2745,13 +2745,13 @@ bool UPlayFabAdminAPI::SetPublishedRevision(
     const FSetPublishedRevisionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetPublishedRevision")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetPublishedRevision"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetPublishedRevisionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2775,13 +2775,13 @@ bool UPlayFabAdminAPI::SetPublisherData(
     const FSetPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetPublisherData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetPublisherData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2805,13 +2805,13 @@ bool UPlayFabAdminAPI::SetStoreItems(
     const FSetStoreItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetStoreItems")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetStoreItems"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetStoreItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2835,13 +2835,13 @@ bool UPlayFabAdminAPI::SetTitleData(
     const FSetTitleDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetTitleData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetTitleData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetTitleDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2865,13 +2865,13 @@ bool UPlayFabAdminAPI::SetTitleDataAndOverrides(
     const FSetTitleDataAndOverridesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetTitleDataAndOverrides")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetTitleDataAndOverrides"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetTitleDataAndOverridesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2895,13 +2895,13 @@ bool UPlayFabAdminAPI::SetTitleInternalData(
     const FSetTitleInternalDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetTitleInternalData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetTitleInternalData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetTitleInternalDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2925,13 +2925,13 @@ bool UPlayFabAdminAPI::SetupPushNotification(
     const FSetupPushNotificationDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SetupPushNotification")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetupPushNotification"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetupPushNotificationResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2955,13 +2955,13 @@ bool UPlayFabAdminAPI::SubtractUserVirtualCurrency(
     const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/SubtractUserVirtualCurrency")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SubtractUserVirtualCurrency"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSubtractUserVirtualCurrencyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2985,13 +2985,13 @@ bool UPlayFabAdminAPI::UpdateBans(
     const FUpdateBansDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateBans")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateBans"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateBansResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3015,13 +3015,13 @@ bool UPlayFabAdminAPI::UpdateCatalogItems(
     const FUpdateCatalogItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateCatalogItems")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateCatalogItems"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateCatalogItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3045,13 +3045,13 @@ bool UPlayFabAdminAPI::UpdateCloudScript(
     const FUpdateCloudScriptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateCloudScript")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateCloudScript"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateCloudScriptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3075,13 +3075,13 @@ bool UPlayFabAdminAPI::UpdateOpenIdConnection(
     const FUpdateOpenIdConnectionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateOpenIdConnection")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateOpenIdConnection"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateOpenIdConnectionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3105,13 +3105,13 @@ bool UPlayFabAdminAPI::UpdatePlayerSharedSecret(
     const FUpdatePlayerSharedSecretDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdatePlayerSharedSecret")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdatePlayerSharedSecret"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdatePlayerSharedSecretResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3135,13 +3135,13 @@ bool UPlayFabAdminAPI::UpdatePlayerStatisticDefinition(
     const FUpdatePlayerStatisticDefinitionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdatePlayerStatisticDefinition")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdatePlayerStatisticDefinition"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdatePlayerStatisticDefinitionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3165,13 +3165,13 @@ bool UPlayFabAdminAPI::UpdatePolicy(
     const FUpdatePolicyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdatePolicy")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdatePolicy"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdatePolicyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3195,13 +3195,13 @@ bool UPlayFabAdminAPI::UpdateRandomResultTables(
     const FUpdateRandomResultTablesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateRandomResultTables")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateRandomResultTables"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateRandomResultTablesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3225,13 +3225,13 @@ bool UPlayFabAdminAPI::UpdateStoreItems(
     const FUpdateStoreItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateStoreItems")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateStoreItems"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateStoreItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3255,13 +3255,13 @@ bool UPlayFabAdminAPI::UpdateTask(
     const FUpdateTaskDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateTask")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateTask"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateTaskResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3285,13 +3285,13 @@ bool UPlayFabAdminAPI::UpdateUserData(
     const FUpdateUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateUserData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateUserData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateUserDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3315,13 +3315,13 @@ bool UPlayFabAdminAPI::UpdateUserInternalData(
     const FUpdateUserInternalDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateUserInternalData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateUserInternalData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateUserInternalDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3345,13 +3345,13 @@ bool UPlayFabAdminAPI::UpdateUserPublisherData(
     const FUpdateUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateUserPublisherData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateUserPublisherData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateUserPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3375,13 +3375,13 @@ bool UPlayFabAdminAPI::UpdateUserPublisherInternalData(
     const FUpdateUserPublisherInternalDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateUserPublisherInternalData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateUserPublisherInternalData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateUserPublisherInternalDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3405,13 +3405,13 @@ bool UPlayFabAdminAPI::UpdateUserPublisherReadOnlyData(
     const FUpdateUserPublisherReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateUserPublisherReadOnlyData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateUserPublisherReadOnlyData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateUserPublisherReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3435,13 +3435,13 @@ bool UPlayFabAdminAPI::UpdateUserReadOnlyData(
     const FUpdateUserReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateUserReadOnlyData")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateUserReadOnlyData"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateUserReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3465,13 +3465,13 @@ bool UPlayFabAdminAPI::UpdateUserTitleDisplayName(
     const FUpdateUserTitleDisplayNameDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetDeveloperSecretKey().Len() == 0)){
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : PlayFabSettings::GetDeveloperSecretKey();
+    if (devSecretKey.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Admin/UpdateUserTitleDisplayName")), request.toJSONString(), TEXT("X-SecretKey"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/UpdateUserTitleDisplayName"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnUpdateUserTitleDisplayNameResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

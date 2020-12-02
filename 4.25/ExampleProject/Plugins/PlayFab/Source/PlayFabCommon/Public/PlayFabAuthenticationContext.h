@@ -68,7 +68,7 @@ public:
         EntityToken = InToken;
     }
 
-    // Get the developer secret key. These keys can be used in development environments.
+    // Get the developer secret key. These keys can be used in server environments.
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetDeveloperSecretKey()
     {
@@ -76,14 +76,14 @@ public:
         return DeveloperSecretKey;
     }
 
-    // Get the developer secret key. These keys can be used in development environments.
+    // Get the developer secret key. These keys can be used in server environments.
     const FString& GetDeveloperSecretKey() const
     {
         ClientAdminSecurityCheck();
         return DeveloperSecretKey;
     }
 
-    // Set the developer secret key. These keys can be used in development environments.
+    // Set the developer secret key. These keys can be used in server environments.
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetDeveloperSecretKey(FString InKey)
     {
@@ -137,7 +137,7 @@ private:
     UPROPERTY()
     FString EntityToken;
 
-    // Developer secret key. These keys can be used in development environments.
+    // Developer secret key. These keys can be used in server environments.
     UPROPERTY()
     FString DeveloperSecretKey;
 

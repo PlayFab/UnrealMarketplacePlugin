@@ -805,7 +805,7 @@ void UPlayFabCloudScriptAPI::Activate()
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     FString RequestUrl;
-    RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->getUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;
+    RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->GeneratePfUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;
 
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();

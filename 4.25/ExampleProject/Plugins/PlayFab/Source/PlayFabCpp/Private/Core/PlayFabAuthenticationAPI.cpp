@@ -62,7 +62,7 @@ bool UPlayFabAuthenticationAPI::GetEntityToken(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Authentication/GetEntityToken")), request.toJSONString(), authKey, authValue);
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Authentication/GetEntityToken"), request.toJSONString(), authKey, authValue);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAuthenticationAPI::OnGetEntityTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -88,13 +88,13 @@ bool UPlayFabAuthenticationAPI::ValidateEntityToken(
     const FValidateEntityTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && PlayFabSettings::GetEntityToken().Len() == 0)) {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(PlayFabSettings::GetUrl(TEXT("/Authentication/ValidateEntityToken")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Authentication/ValidateEntityToken"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAuthenticationAPI::OnValidateEntityTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

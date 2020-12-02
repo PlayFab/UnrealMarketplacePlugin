@@ -15,28 +15,12 @@ class PLAYFABCPP_API UPlayFabAPISettings
 {
 public:
     UPlayFabAPISettings() :
-        VerticalName(PlayFab::PlayFabSettings::GetVerticalName())
-        , BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
+        BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
         , TitleId(PlayFab::PlayFabSettings::GetTitleId())
         , AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
         , AdvertisingIdValue(PlayFab::PlayFabSettings::GetAdvertisingIdValue())
         , DisableAdvertising(PlayFab::PlayFabSettings::GetDisableAdvertising())
     {
-    }
-
-    FString& GetVerticalName()
-    {
-        return VerticalName;
-    }
-
-    const FString& GetVerticalName() const
-    {
-        return VerticalName;
-    }
-
-    void SetVerticalName(FString InVerticalName)
-    {
-        VerticalName = InVerticalName;
     }
 
     FString& GetBaseServiceHost()
@@ -109,15 +93,13 @@ public:
         DisableAdvertising = InDisableAdvertising;
     }
 
-    FString GetUrl(const FString& CallPath)
+    FString GeneratePfUrl(const FString& urlPath)
     {
-        return TEXT("https://") + (!VerticalName.IsEmpty() ? VerticalName : TitleId) + BaseServiceHost
-         + CallPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        return TEXT("https://") + TitleId + BaseServiceHost
+         + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
     }
 
 private:
-    // The name of a PlayFab service vertical
-    FString VerticalName; 
     // The base for a PlayFab service host
     FString BaseServiceHost; 
     // You must set this value for PlayFabSdk to work properly (found in the Game Manager for your title, at the PlayFab Website)

@@ -33,12 +33,10 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
     FString GetSdkVersion() const override { return PlayFabCommon::PlayFabCommonSettings::sdkVersion; }
     FString GetBuildIdentifier() const override { return PlayFabCommon::PlayFabCommonSettings::buildIdentifier; }
     FString GetVersionString() const override { return PlayFabCommon::PlayFabCommonSettings::versionString; }
-    FString GetVerticalName() const override { return PlayFabCommon::PlayFabCommonSettings::verticalName; }
 
     FString GetAD_TYPE_IDFA() const override { return PlayFabCommon::PlayFabCommonSettings::AD_TYPE_IDFA; }
     FString GetAD_TYPE_ANDROID_ID() const override { return PlayFabCommon::PlayFabCommonSettings::AD_TYPE_ANDROID_ID; }
 
-    FString GetServerURL() const override { return PlayFabCommon::PlayFabCommonSettings::serverURL; }
     FString GetProductionEnvironmentURL() const override { return PlayFabCommon::PlayFabCommonSettings::productionEnvironmentURL; }
     FString GetTitleId() const override { return (PlayFabCommon::PlayFabCommonSettings::titleId.IsEmpty() ? GetDefault<UPlayFabRuntimeSettings>()->TitleId : PlayFabCommon::PlayFabCommonSettings::titleId); }
     FString GetClientSessionTicket() const override { return PlayFabCommon::PlayFabCommonSettings::clientSessionTicket; }
@@ -48,7 +46,6 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
     FString GetAdvertisingIdValue() const override { return PlayFabCommon::PlayFabCommonSettings::advertisingIdValue; }
     bool GetDisableAdvertising() const override { return PlayFabCommon::PlayFabCommonSettings::disableAdvertising; }
 
-    void SetServerURL(const FString& serverURL) override { PlayFabCommon::PlayFabCommonSettings::serverURL = serverURL; }
     void SetProductionEnvironmentURL(const FString& productionEnvironmentURL) override { PlayFabCommon::PlayFabCommonSettings::productionEnvironmentURL = productionEnvironmentURL; }
     void SetTitleId(const FString& titleId) override { PlayFabCommon::PlayFabCommonSettings::titleId = titleId; }
     void SetClientSessionTicket(const FString& clientSessionTicket) override { PlayFabCommon::PlayFabCommonSettings::clientSessionTicket = clientSessionTicket; }
@@ -67,7 +64,7 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
     FString GetPhotonChatAppId() const override { return PlayFabCommon::PlayFabCommonSettings::photonChatAppId; }
     void SetPhotonChatAppId(const FString & photonChatAppId) override { PlayFabCommon::PlayFabCommonSettings::photonChatAppId = photonChatAppId; }
 
-    FString GetUrl(const FString& callPath) const override { return PlayFabCommon::PlayFabCommonSettings::getURL(callPath); }
+    FString GeneratePfUrl(const FString& urlPath) const override { return PlayFabCommon::PlayFabCommonSettings::GeneratePfUrl(urlPath); }
 };
 
 void FPlayFabCommonModule::StartupModule()
@@ -116,7 +113,6 @@ void FPlayFabCommonModule::UnregisterSettings()
 bool FPlayFabCommonModule::HandleSettingsSaved()
 {
     // copy to the internal structure
-    PlayFabCommon::PlayFabCommonSettings::serverURL = FString(); // flush the previous Server URL
     PlayFabCommon::PlayFabCommonSettings::productionEnvironmentURL = GetDefault<UPlayFabRuntimeSettings>()->ProductionEnvironmentURL;
     PlayFabCommon::PlayFabCommonSettings::titleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     PlayFabCommon::PlayFabCommonSettings::developerSecretKey = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;

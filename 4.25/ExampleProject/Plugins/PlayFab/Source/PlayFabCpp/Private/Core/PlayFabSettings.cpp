@@ -17,10 +17,6 @@ namespace PlayFab
     FString PlayFabSettings::AD_TYPE_ANDROID_ID;
 
     // Getters
-    FString PlayFabSettings::GetServerURL()
-    {
-        return IPlayFabCommonModuleInterface::Get().GetServerURL();
-    }
     FString PlayFabSettings::GetProductionEnvironmentURL()
     {
         return IPlayFabCommonModuleInterface::Get().GetProductionEnvironmentURL();
@@ -53,13 +49,9 @@ namespace PlayFab
     {
         return IPlayFabCommonModuleInterface::Get().GetDisableAdvertising();
     }
-    FString PlayFabSettings::GetVerticalName()
+    FString PlayFabSettings::GeneratePfUrl(const FString& urlPath)
     {
-        return IPlayFabCommonModuleInterface::Get().GetVerticalName();
-    }
-    FString PlayFabSettings::GetUrl(const FString& callPath)
-    {
-        return IPlayFabCommonModuleInterface::Get().GetUrl(callPath);
+        return IPlayFabCommonModuleInterface::Get().GeneratePfUrl(urlPath);
     }
     FString PlayFabSettings::GetLocalApiServer()
     {
@@ -67,10 +59,6 @@ namespace PlayFab
     }
 
     // Setters
-    void PlayFabSettings::SetServerURL(const FString&  serverURL)
-    {
-        IPlayFabCommonModuleInterface::Get().SetServerURL(serverURL);
-    }
     void PlayFabSettings::SetProductionEnvironmentURL(const FString&  productionEnvironmentURL)
     {
         IPlayFabCommonModuleInterface::Get().SetProductionEnvironmentURL(productionEnvironmentURL);

@@ -15,9 +15,7 @@ namespace PlayFabCommon
         static const FString sdkVersion;
         static const FString buildIdentifier;
         static const FString versionString;
-        static const FString verticalName;
 
-        static FString serverURL;
         static FString productionEnvironmentURL;
         static FString titleId; // You must set this value for PlayFabSdk to work properly (Found in the Game Manager for your title, at the PlayFab Website)
         static FString clientSessionTicket; // Secret token that represents your session in the Client API. Set by calling any login method in the Client API
@@ -36,13 +34,10 @@ namespace PlayFabCommon
         static FString photonTurnbasedAppId;
         static FString photonChatAppId;
 
-        static FString getURL(const FString& callPath)
+        static FString GeneratePfUrl(const FString& urlPath)
         {
-            if (serverURL.Len() == 0)
-            {
-                serverURL = TEXT("https://") + titleId + (verticalName.IsEmpty() ? "" : "." + verticalName) + productionEnvironmentURL;
-            }
-            return serverURL + callPath + TEXT("?sdk=") + versionString;
+            return TEXT("https://") + titleId + productionEnvironmentURL
+                + urlPath + TEXT("?sdk=") + versionString;
         }
     };
 }

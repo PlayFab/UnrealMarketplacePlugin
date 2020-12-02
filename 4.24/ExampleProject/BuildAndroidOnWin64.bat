@@ -23,7 +23,7 @@ copy /Y "%PF_TEST_TITLE_DATA_JSON%" "%~dp0%Content\TestTitleData"
 
 rem # The actual build command. To adapt depending on the needs.
 pushd "%uatPath%"
-.\RunUAT.bat -ScriptsForProject="%~dp0ExampleProject.uproject" BuildCookRun -nocompile -editorrecompile -installed -nop4 -project="%~dp0ExampleProject.uproject" -cook -stage -archive -archivedirectory="%archivePath%" -package -clientconfig=Development -ue4exe=UE4Editor-Cmd.exe -pak -prereqs -nodebuginfo -targetplatform=Android -cookflavor=Multi -build -utf8output
+.\RunUAT.bat -ScriptsForProject="%~dp0ExampleProject.uproject" BuildCookRun -editorrecompile -installed -project="%~dp0ExampleProject.uproject" -cook -stage -archive -archivedirectory="%archivePath%" -package -clientconfig=Development -ue4exe=UE4Editor-Cmd.exe -pak -prereqs -nodebuginfo -targetplatform=Android -cookflavor=Multi -build -utf8output
 popd 
 
 rem $ Delete testTitleData out of the build folder now that the APK packaging is complete.

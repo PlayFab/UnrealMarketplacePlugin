@@ -9,8 +9,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "PlayFabUtilities.h"
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "IPlayFab.h"
 #include "PlayFabPrivate.h"
 

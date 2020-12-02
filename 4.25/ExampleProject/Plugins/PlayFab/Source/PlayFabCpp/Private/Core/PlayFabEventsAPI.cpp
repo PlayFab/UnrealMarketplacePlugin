@@ -26,16 +26,6 @@ FString UPlayFabEventsAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabEventsAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabEventsAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabEventsAPI::WriteEvents(
     EventsModels::FWriteEventsRequest& request,
     const FWriteEventsDelegate& SuccessDelegate,

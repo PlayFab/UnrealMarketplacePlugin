@@ -26,16 +26,6 @@ FString UPlayFabGroupsAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabGroupsAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabGroupsAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabGroupsAPI::AcceptGroupApplication(
     GroupsModels::FAcceptGroupApplicationRequest& request,
     const FAcceptGroupApplicationDelegate& SuccessDelegate,

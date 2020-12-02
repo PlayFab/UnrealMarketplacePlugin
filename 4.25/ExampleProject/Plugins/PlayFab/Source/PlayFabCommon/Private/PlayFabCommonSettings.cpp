@@ -11,12 +11,7 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::buildIdentifier = "jbuild_unrealmarketplaceplugin__sdk-unrealslave-2_0";
     const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.49.201027";
 
-    FString PlayFabCommonSettings::productionEnvironmentURL = ".playfabapi.com";
-
-    FString PlayFabCommonSettings::titleId;
-
     FString PlayFabCommonSettings::clientSessionTicket;
-    FString PlayFabCommonSettings::developerSecretKey;
     FString PlayFabCommonSettings::entityToken;
     FString PlayFabCommonSettings::advertisingIdType;
     FString PlayFabCommonSettings::advertisingIdValue;

@@ -2196,7 +2196,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::SendAccountRecoveryEmail(FClientSendAccoun
     } else {
         OutRestJsonObj->SetStringField(TEXT("EmailTemplateId"), request.EmailTemplateId);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3733,7 +3733,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetTitlePublicKey(FClientGetTitlePublicKey
 
 
     // Serialize all the request properties to json
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.TitleSharedSecret.IsEmpty() || request.TitleSharedSecret == "") {
         OutRestJsonObj->SetFieldNull(TEXT("TitleSharedSecret"));
     } else {
@@ -3790,7 +3790,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetWindowsHelloChallenge(FClientGetWindows
     } else {
         OutRestJsonObj->SetStringField(TEXT("PublicKeyHint"), request.PublicKeyHint);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3866,7 +3866,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithAndroidDeviceID(FClientLoginWithA
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3932,7 +3932,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithApple(FClientLoginWithAppleReques
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4001,7 +4001,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithCustomID(FClientLoginWithCustomID
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4064,7 +4064,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithEmailAddress(FClientLoginWithEmai
     } else {
         OutRestJsonObj->SetStringField(TEXT("Password"), request.Password);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4133,7 +4133,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebook(FClientLoginWithFacebook
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4202,7 +4202,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithFacebookInstantGamesId(FClientLog
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4291,7 +4291,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGameCenter(FClientLoginWithGameCe
     } else {
         OutRestJsonObj->SetStringField(TEXT("Timestamp"), request.Timestamp);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4360,7 +4360,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGoogleAccount(FClientLoginWithGoo
     } else {
         OutRestJsonObj->SetStringField(TEXT("ServerAuthCode"), request.ServerAuthCode);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4439,7 +4439,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithIOSDeviceID(FClientLoginWithIOSDe
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4513,7 +4513,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithKongregate(FClientLoginWithKongre
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4582,7 +4582,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoServiceAccount(FClientLog
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4651,7 +4651,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithNintendoSwitchDeviceId(FClientLog
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4725,7 +4725,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithOpenIdConnect(FClientLoginWithOpe
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4783,7 +4783,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPlayFab(FClientLoginWithPlayFabRe
     } else {
         OutRestJsonObj->SetStringField(TEXT("Password"), request.Password);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Username.IsEmpty() || request.Username == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Username"));
     } else {
@@ -4863,7 +4863,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPSN(FClientLoginWithPSNRequest re
     } else {
         OutRestJsonObj->SetStringField(TEXT("RedirectUri"), request.RedirectUri);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -4932,7 +4932,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithSteam(FClientLoginWithSteamReques
     } else {
         OutRestJsonObj->SetStringField(TEXT("SteamTicket"), request.SteamTicket);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -5001,7 +5001,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithTwitch(FClientLoginWithTwitchRequ
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -5064,7 +5064,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithWindowsHello(FClientLoginWithWind
     } else {
         OutRestJsonObj->SetStringField(TEXT("PublicKeyHint"), request.PublicKeyHint);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -5128,7 +5128,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithXbox(FClientLoginWithXboxRequest 
     } else {
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
         OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
     } else {
@@ -5212,7 +5212,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterPlayFabUser(FClientRegisterPlayFab
         OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
     }
     OutRestJsonObj->SetBoolField(TEXT("RequireBothUsernameAndEmail"), request.RequireBothUsernameAndEmail);
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Username.IsEmpty() || request.Username == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Username"));
     } else {
@@ -5287,7 +5287,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::RegisterWithWindowsHello(FClientRegisterWi
     } else {
         OutRestJsonObj->SetStringField(TEXT("PublicKey"), request.PublicKey);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.UserName.IsEmpty() || request.UserName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("UserName"));
     } else {
@@ -6378,7 +6378,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetGameServerRegions(FClientGameServerRegi
     } else {
         OutRestJsonObj->SetStringField(TEXT("BuildVersion"), request.BuildVersion);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -10084,7 +10084,7 @@ void UPlayFabClientAPI::Activate()
     else if (useSessionTicket)
         HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
     else if (useSecretKey)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getDeveloperSecretKey());
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey);
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

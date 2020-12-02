@@ -26,16 +26,6 @@ FString UPlayFabDataAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabDataAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabDataAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabDataAPI::AbortFileUploads(
     DataModels::FAbortFileUploadsRequest& request,
     const FAbortFileUploadsDelegate& SuccessDelegate,

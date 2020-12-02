@@ -20,7 +20,7 @@ int PlayFabRequestHandler::GetPendingCalls()
 TSharedRef<IHttpRequest> PlayFabRequestHandler::SendRequest(TSharedPtr<UPlayFabAPISettings> settings, const FString& urlPath, const FString& callBody, const FString& authKey, const FString& authValue)
 {
     FString fullUrl = settings.IsValid() ? settings->GeneratePfUrl(urlPath) : PlayFabSettings::GeneratePfUrl(urlPath);
-    if (PlayFabSettings::GetTitleId().Len() == 0) {
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must define a titleID before making API Calls."));
     }
     PlayFabRequestHandler::pendingCalls += 1;

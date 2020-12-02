@@ -26,11 +26,6 @@ FString UPlayFabClientAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabClientAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
 bool UPlayFabClientAPI::SetAdvertId(const FString& advertisingIdType, const FString& advertisingIdValue)
 {
     // TODO: Work on exposing PlayFabSettings::AD_TYPE_X vars, for now, just validate against them
@@ -66,11 +61,6 @@ void UPlayFabClientAPI::MultiStepClientLogin(bool needsAttribution)
             return;
         AttributeInstall(request);
     }
-}
-
-void UPlayFabClientAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
 }
 
 bool UPlayFabClientAPI::AcceptTrade(
@@ -2846,8 +2836,8 @@ bool UPlayFabClientAPI::LoginWithAndroidDeviceID(
     const FLoginWithAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithAndroidDeviceID"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -2888,8 +2878,8 @@ bool UPlayFabClientAPI::LoginWithApple(
     const FLoginWithAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithApple"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -2930,8 +2920,8 @@ bool UPlayFabClientAPI::LoginWithCustomID(
     const FLoginWithCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithCustomID"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -2972,8 +2962,8 @@ bool UPlayFabClientAPI::LoginWithEmailAddress(
     const FLoginWithEmailAddressDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithEmailAddress"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3014,8 +3004,8 @@ bool UPlayFabClientAPI::LoginWithFacebook(
     const FLoginWithFacebookDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithFacebook"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3056,8 +3046,8 @@ bool UPlayFabClientAPI::LoginWithFacebookInstantGamesId(
     const FLoginWithFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithFacebookInstantGamesId"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3098,8 +3088,8 @@ bool UPlayFabClientAPI::LoginWithGameCenter(
     const FLoginWithGameCenterDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithGameCenter"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3140,8 +3130,8 @@ bool UPlayFabClientAPI::LoginWithGoogleAccount(
     const FLoginWithGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithGoogleAccount"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3182,8 +3172,8 @@ bool UPlayFabClientAPI::LoginWithIOSDeviceID(
     const FLoginWithIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithIOSDeviceID"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3224,8 +3214,8 @@ bool UPlayFabClientAPI::LoginWithKongregate(
     const FLoginWithKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithKongregate"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3266,8 +3256,8 @@ bool UPlayFabClientAPI::LoginWithNintendoServiceAccount(
     const FLoginWithNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithNintendoServiceAccount"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3308,8 +3298,8 @@ bool UPlayFabClientAPI::LoginWithNintendoSwitchDeviceId(
     const FLoginWithNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithNintendoSwitchDeviceId"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3350,8 +3340,8 @@ bool UPlayFabClientAPI::LoginWithOpenIdConnect(
     const FLoginWithOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithOpenIdConnect"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3392,8 +3382,8 @@ bool UPlayFabClientAPI::LoginWithPlayFab(
     const FLoginWithPlayFabDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithPlayFab"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3434,8 +3424,8 @@ bool UPlayFabClientAPI::LoginWithPSN(
     const FLoginWithPSNDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithPSN"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3476,8 +3466,8 @@ bool UPlayFabClientAPI::LoginWithSteam(
     const FLoginWithSteamDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithSteam"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3518,8 +3508,8 @@ bool UPlayFabClientAPI::LoginWithTwitch(
     const FLoginWithTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithTwitch"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3560,8 +3550,8 @@ bool UPlayFabClientAPI::LoginWithWindowsHello(
     const FLoginWithWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithWindowsHello"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3602,8 +3592,8 @@ bool UPlayFabClientAPI::LoginWithXbox(
     const FLoginWithXboxDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithXbox"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3861,8 +3851,8 @@ bool UPlayFabClientAPI::RegisterPlayFabUser(
     const FRegisterPlayFabUserDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RegisterPlayFabUser"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3893,8 +3883,8 @@ bool UPlayFabClientAPI::RegisterWithWindowsHello(
     const FRegisterWithWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (PlayFabSettings::GetTitleId().Len() > 0)
-        request.TitleId = PlayFabSettings::GetTitleId();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RegisterWithWindowsHello"), request.toJSONString(), TEXT(""), TEXT(""));

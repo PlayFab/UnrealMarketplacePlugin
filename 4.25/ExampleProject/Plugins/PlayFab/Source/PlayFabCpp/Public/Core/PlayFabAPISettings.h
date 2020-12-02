@@ -15,27 +15,27 @@ class PLAYFABCPP_API UPlayFabAPISettings
 {
 public:
     UPlayFabAPISettings() :
-        BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
-        , TitleId(PlayFab::PlayFabSettings::GetTitleId())
+        productionEnvironmentURL(GetDefault<UPlayFabRuntimeSettings>()->ProductionEnvironmentURL)
+        , TitleId(GetDefault<UPlayFabRuntimeSettings>()->TitleId)
         , AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
         , AdvertisingIdValue(PlayFab::PlayFabSettings::GetAdvertisingIdValue())
         , DisableAdvertising(PlayFab::PlayFabSettings::GetDisableAdvertising())
     {
     }
 
-    FString& GetBaseServiceHost()
+    FString& GetProductionEnvironmentURL()
     {
-        return BaseServiceHost;
+        return productionEnvironmentURL;
     }
 
-    const FString& GetBaseServiceHost() const
+    const FString& GetProductionEnvironmentURL() const
     {
-        return BaseServiceHost;
+        return productionEnvironmentURL;
     }
 
-    void SetBaseServiceHost(FString InBaseServiceHost)
+    void SetProductionEnvironmentURL(FString setUrl)
     {
-        BaseServiceHost = InBaseServiceHost;
+        productionEnvironmentURL = setUrl;
     }
 
     FString& GetTitleId()
@@ -95,13 +95,13 @@ public:
 
     FString GeneratePfUrl(const FString& urlPath)
     {
-        return TEXT("https://") + TitleId + BaseServiceHost
-         + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        return TEXT("https://") + TitleId + productionEnvironmentURL
+            + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
     }
 
 private:
     // The base for a PlayFab service host
-    FString BaseServiceHost; 
+    FString productionEnvironmentURL;
     // You must set this value for PlayFabSdk to work properly (found in the Game Manager for your title, at the PlayFab Website)
     FString TitleId; 
     

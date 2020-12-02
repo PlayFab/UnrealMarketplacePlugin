@@ -2887,7 +2887,7 @@ bool UPlayFabClientInstanceAPI::LoginWithAndroidDeviceID(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -2933,7 +2933,7 @@ bool UPlayFabClientInstanceAPI::LoginWithApple(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -2979,7 +2979,7 @@ bool UPlayFabClientInstanceAPI::LoginWithCustomID(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3025,7 +3025,7 @@ bool UPlayFabClientInstanceAPI::LoginWithEmailAddress(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3071,7 +3071,7 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebook(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3117,7 +3117,7 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebookInstantGamesId(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3163,7 +3163,7 @@ bool UPlayFabClientInstanceAPI::LoginWithGameCenter(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3209,7 +3209,7 @@ bool UPlayFabClientInstanceAPI::LoginWithGoogleAccount(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3255,7 +3255,7 @@ bool UPlayFabClientInstanceAPI::LoginWithIOSDeviceID(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3301,7 +3301,7 @@ bool UPlayFabClientInstanceAPI::LoginWithKongregate(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3347,7 +3347,7 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoServiceAccount(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3393,7 +3393,7 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoSwitchDeviceId(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3439,7 +3439,7 @@ bool UPlayFabClientInstanceAPI::LoginWithOpenIdConnect(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3485,7 +3485,7 @@ bool UPlayFabClientInstanceAPI::LoginWithPlayFab(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3531,7 +3531,7 @@ bool UPlayFabClientInstanceAPI::LoginWithPSN(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3577,7 +3577,7 @@ bool UPlayFabClientInstanceAPI::LoginWithSteam(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3623,7 +3623,7 @@ bool UPlayFabClientInstanceAPI::LoginWithTwitch(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3669,7 +3669,7 @@ bool UPlayFabClientInstanceAPI::LoginWithWindowsHello(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3715,7 +3715,7 @@ bool UPlayFabClientInstanceAPI::LoginWithXbox(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -3978,7 +3978,7 @@ bool UPlayFabClientInstanceAPI::RegisterPlayFabUser(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 
@@ -4012,7 +4012,7 @@ bool UPlayFabClientInstanceAPI::RegisterWithWindowsHello(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
         request.TitleId = this->settings->GetTitleId();
 

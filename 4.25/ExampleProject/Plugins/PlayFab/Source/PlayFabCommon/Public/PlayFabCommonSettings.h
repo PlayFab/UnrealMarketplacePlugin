@@ -6,9 +6,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 
 namespace PlayFabCommon
 {
+    // Runtime static shared variables for PlayFab
     class PLAYFABCOMMON_API PlayFabCommonSettings
     {
     public:
@@ -16,10 +18,7 @@ namespace PlayFabCommon
         static const FString buildIdentifier;
         static const FString versionString;
 
-        static FString productionEnvironmentURL;
-        static FString titleId; // You must set this value for PlayFabSdk to work properly (Found in the Game Manager for your title, at the PlayFab Website)
         static FString clientSessionTicket; // Secret token that represents your session in the Client API. Set by calling any login method in the Client API
-        static FString developerSecretKey; // You must set this value for PlayFabSdk to work properly (Found in the Game Manager for your title, at the PlayFab Website)
         static FString entityToken; // Secret token that represents your session in the Entity API. Set by calling GetEntityToken in the Entity API
         static FString advertisingIdType; // Set this to the appropriate AD_TYPE_X constant below
         static FString advertisingIdValue; // Set this to corresponding device value
@@ -36,7 +35,8 @@ namespace PlayFabCommon
 
         static FString GeneratePfUrl(const FString& urlPath)
         {
-            return TEXT("https://") + titleId + productionEnvironmentURL
+            const UPlayFabRuntimeSettings* rSettings = GetDefault<UPlayFabRuntimeSettings>();
+            return TEXT("https://") + rSettings->TitleId + rSettings->ProductionEnvironmentURL
                 + urlPath + TEXT("?sdk=") + versionString;
         }
     };

@@ -26,16 +26,6 @@ FString UPlayFabLocalizationAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabLocalizationAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabLocalizationAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabLocalizationAPI::GetLanguageList(
     LocalizationModels::FGetLanguageListRequest& request,
     const FGetLanguageListDelegate& SuccessDelegate,

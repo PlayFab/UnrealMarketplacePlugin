@@ -26,16 +26,6 @@ FString UPlayFabExperimentationAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabExperimentationAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabExperimentationAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabExperimentationAPI::CreateExclusionGroup(
     ExperimentationModels::FCreateExclusionGroupRequest& request,
     const FCreateExclusionGroupDelegate& SuccessDelegate,

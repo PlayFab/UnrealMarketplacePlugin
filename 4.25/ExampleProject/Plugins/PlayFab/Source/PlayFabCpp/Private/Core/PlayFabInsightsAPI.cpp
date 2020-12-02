@@ -26,16 +26,6 @@ FString UPlayFabInsightsAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabInsightsAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabInsightsAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabInsightsAPI::GetDetails(
     InsightsModels::FInsightsEmptyRequest& request,
     const FGetDetailsDelegate& SuccessDelegate,

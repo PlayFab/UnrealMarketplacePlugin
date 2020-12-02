@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "PlayFabCommonSettings.h"
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "PlayFabAuthenticationContext.generated.h"
 
 /**
@@ -21,7 +22,7 @@ public:
     {
         ClientSessionTicket = PlayFabCommon::PlayFabCommonSettings::clientSessionTicket;
         EntityToken = PlayFabCommon::PlayFabCommonSettings::entityToken;
-        DeveloperSecretKey = PlayFabCommon::PlayFabCommonSettings::developerSecretKey;
+        DeveloperSecretKey = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
         ClientAdminSecurityCheck();
     }
 
@@ -125,7 +126,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
     void ClientAdminSecurityCheck() const
     {
-        checkf(DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0, TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login"));
+        checkf(
+            DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0, // The condition is true/safe if one or the other is length zero
+            TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login")
+        );
     }
 
 private: 

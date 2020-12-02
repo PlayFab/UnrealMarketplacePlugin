@@ -17,20 +17,14 @@ namespace PlayFab
         static FString buildIdentifier;
         static FString versionString;
 
-        static FString GetProductionEnvironmentURL();
-        static FString GetTitleId();
         static FString GetClientSessionTicket();
-        static FString GetDeveloperSecretKey();
         static FString GetEntityToken();
         static FString GetAdvertisingIdType();
         static FString GetAdvertisingIdValue();
         static bool GetDisableAdvertising();
         static FString GetLocalApiServer();
 
-        static void SetProductionEnvironmentURL(const FString& productionEnvironmentURL);
-        static void SetTitleId(const FString& titleId);
         static void SetClientSessionTicket(const FString& clientSessionTicket);
-        static void SetDeveloperSecretKey(const FString& developerSecretKey);
         static void SetEntityToken(const FString& entityToken);
         static void SetAdvertisingIdType(const FString& advertisingIdType);
         static void SetAdvertisingIdValue(const FString& advertisingIdValue);

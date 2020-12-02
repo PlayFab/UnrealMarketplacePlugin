@@ -41,15 +41,6 @@ public:
         return FModuleManager::Get().IsModuleLoaded("PlayFab");
     }
 
-    inline FString getGameTitleId() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetTitleId();
-    }
-    inline void setGameTitleId(const FString& NewGameTitleId)
-    {
-        IPlayFabCommonModuleInterface::Get().SetTitleId(NewGameTitleId);
-    }
-
     inline bool IsClientLoggedIn() const
     {
         return getSessionTicket().Len() > 0;
@@ -70,15 +61,6 @@ public:
     inline void setEntityToken(const FString& NewEntityToken)
     {
         IPlayFabCommonModuleInterface::Get().SetEntityToken(NewEntityToken);
-    }
-
-    inline FString getDeveloperSecretKey() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetDeveloperSecretKey();
-    }
-    inline void setDeveloperSecretKey(const FString& NewSecretApiKey)
-    {
-        IPlayFabCommonModuleInterface::Get().SetDeveloperSecretKey(NewSecretApiKey);
     }
 
     inline FString getVersionString() const

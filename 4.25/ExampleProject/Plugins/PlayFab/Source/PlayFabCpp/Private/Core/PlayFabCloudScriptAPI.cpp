@@ -26,16 +26,6 @@ FString UPlayFabCloudScriptAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabCloudScriptAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabCloudScriptAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabCloudScriptAPI::ExecuteEntityCloudScript(
     CloudScriptModels::FExecuteEntityCloudScriptRequest& request,
     const FExecuteEntityCloudScriptDelegate& SuccessDelegate,

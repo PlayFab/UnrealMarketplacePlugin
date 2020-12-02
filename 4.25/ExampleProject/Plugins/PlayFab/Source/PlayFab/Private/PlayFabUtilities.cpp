@@ -9,15 +9,18 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "PlayFabUtilities.h"
 #include "IPlayFab.h"
 #include "PlayFabPrivate.h"
 
-void UPlayFabUtilities::setPlayFabSettings(FString GameTitleId, FString PlayFabSecretApiKey, FString PhotonRealtimeAppId, FString PhotonTurnbasedAppId, FString PhotonChatAppId)
+void UPlayFabUtilities::setPlayFabSettings(FString GameTitleId, FString PlayFabSecretApiKey, FString ProductionUrl, FString PhotonRealtimeAppId, FString PhotonTurnbasedAppId, FString PhotonChatAppId)
 {
     // Set the settings
-    IPlayFab::Get().setGameTitleId(GameTitleId);
-    IPlayFab::Get().setDeveloperSecretKey(PlayFabSecretApiKey);
+    UPlayFabRuntimeSettings* rSettings = GetMutableDefault<UPlayFabRuntimeSettings>();
+    if (GameTitleId.Len() != 0) { rSettings->TitleId = GameTitleId; }
+    if (PlayFabSecretApiKey.Len() != 0) { rSettings->DeveloperSecretKey = PlayFabSecretApiKey; }
+    if (ProductionUrl.Len() != 0) { rSettings->ProductionEnvironmentURL = ProductionUrl; }
     IPlayFab::Get().setPhotonRealtimeAppId(PhotonRealtimeAppId);
     IPlayFab::Get().setPhotonTurnbasedAppId(PhotonTurnbasedAppId);
     IPlayFab::Get().setPhotonChatAppId(PhotonChatAppId);

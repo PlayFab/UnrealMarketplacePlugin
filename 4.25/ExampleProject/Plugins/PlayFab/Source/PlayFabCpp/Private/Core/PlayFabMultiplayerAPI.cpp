@@ -26,16 +26,6 @@ FString UPlayFabMultiplayerAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabMultiplayerAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabMultiplayerAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabMultiplayerAPI::CancelAllMatchmakingTicketsForPlayer(
     MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest& request,
     const FCancelAllMatchmakingTicketsForPlayerDelegate& SuccessDelegate,

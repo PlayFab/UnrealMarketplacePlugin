@@ -26,16 +26,6 @@ FString UPlayFabAuthenticationAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-void UPlayFabAuthenticationAPI::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
-
-void UPlayFabAuthenticationAPI::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}
-
 bool UPlayFabAuthenticationAPI::GetEntityToken(
     AuthenticationModels::FGetEntityTokenRequest& request,
     const FGetEntityTokenDelegate& SuccessDelegate,
@@ -56,8 +46,8 @@ bool UPlayFabAuthenticationAPI::GetEntityToken(
             authKey = TEXT("X-EntityToken"); authValue = PlayFabSettings::GetEntityToken();
         } else if (PlayFabSettings::GetClientSessionTicket().Len() > 0) {
             authKey = TEXT("X-Authorization"); authValue = PlayFabSettings::GetClientSessionTicket();
-        } else if (PlayFabSettings::GetDeveloperSecretKey().Len() > 0) {
-            authKey = TEXT("X-SecretKey"); authValue = PlayFabSettings::GetDeveloperSecretKey();
+        } else if (GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey.Len() > 0) {
+            authKey = TEXT("X-SecretKey"); authValue = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
         }
     }
 

@@ -26,6 +26,7 @@ FString UPlayFabGroupsAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabGroupsAPI::AcceptGroupApplication(
     GroupsModels::FAcceptGroupApplicationRequest& request,
     const FAcceptGroupApplicationDelegate& SuccessDelegate,

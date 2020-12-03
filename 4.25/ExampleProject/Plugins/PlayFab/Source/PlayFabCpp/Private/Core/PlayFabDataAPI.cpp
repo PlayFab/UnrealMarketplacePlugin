@@ -26,6 +26,7 @@ FString UPlayFabDataAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabDataAPI::AbortFileUploads(
     DataModels::FAbortFileUploadsRequest& request,
     const FAbortFileUploadsDelegate& SuccessDelegate,

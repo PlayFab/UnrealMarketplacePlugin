@@ -39,7 +39,6 @@ void UPlayFabCppTests::SetUp(UPlayFabTestContext* testContext)
         testContext->EndTest(PlayFabApiTestFinishState::SKIPPED, "Could not load the PlayFab API");
     }
 
-    IPlayFab* playFabSettings = &(IPlayFab::Get());
     FString titleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     if (titleId.Len() == 0)
     {

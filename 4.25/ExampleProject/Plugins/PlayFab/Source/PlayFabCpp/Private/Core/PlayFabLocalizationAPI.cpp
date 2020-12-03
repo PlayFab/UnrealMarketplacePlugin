@@ -26,6 +26,7 @@ FString UPlayFabLocalizationAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabLocalizationAPI::GetLanguageList(
     LocalizationModels::FGetLanguageListRequest& request,
     const FGetLanguageListDelegate& SuccessDelegate,

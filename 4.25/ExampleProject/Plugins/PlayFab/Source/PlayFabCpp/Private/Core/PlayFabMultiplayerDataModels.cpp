@@ -8156,6 +8156,12 @@ void PlayFab::MultiplayerModels::FQosServer::writeJSON(JsonWriter& writer) const
         writer->WriteValue(Region);
     }
 
+    if (ServerUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerUrl"));
+        writer->WriteValue(ServerUrl);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -8168,6 +8174,13 @@ bool PlayFab::MultiplayerModels::FQosServer::readFromValue(const TSharedPtr<FJso
     {
         FString TmpValue;
         if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerUrlValue = obj->TryGetField(TEXT("ServerUrl"));
+    if (ServerUrlValue.IsValid() && !ServerUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerUrlValue->TryGetString(TmpValue)) { ServerUrl = TmpValue; }
     }
 
     return HasSucceeded;

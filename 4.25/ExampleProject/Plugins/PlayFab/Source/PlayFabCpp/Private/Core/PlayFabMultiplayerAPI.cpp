@@ -26,6 +26,7 @@ FString UPlayFabMultiplayerAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabMultiplayerAPI::CancelAllMatchmakingTicketsForPlayer(
     MultiplayerModels::FCancelAllMatchmakingTicketsForPlayerRequest& request,
     const FCancelAllMatchmakingTicketsForPlayerDelegate& SuccessDelegate,

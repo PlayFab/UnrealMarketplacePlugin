@@ -83,7 +83,7 @@ bool UPlayFabMatchmakerInstanceAPI::AuthUser(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if(context->GetDeveloperSecretKey().Len() == 0){
+    if(context->GetDeveloperSecretKey().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
@@ -113,7 +113,7 @@ bool UPlayFabMatchmakerInstanceAPI::PlayerJoined(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if(context->GetDeveloperSecretKey().Len() == 0){
+    if(context->GetDeveloperSecretKey().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
@@ -143,7 +143,7 @@ bool UPlayFabMatchmakerInstanceAPI::PlayerLeft(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if(context->GetDeveloperSecretKey().Len() == 0){
+    if(context->GetDeveloperSecretKey().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
@@ -173,7 +173,7 @@ bool UPlayFabMatchmakerInstanceAPI::StartGame(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if(context->GetDeveloperSecretKey().Len() == 0){
+    if(context->GetDeveloperSecretKey().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 
@@ -203,7 +203,7 @@ bool UPlayFabMatchmakerInstanceAPI::UserInfo(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if(context->GetDeveloperSecretKey().Len() == 0){
+    if(context->GetDeveloperSecretKey().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
     }
 

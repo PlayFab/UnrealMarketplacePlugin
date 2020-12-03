@@ -15,58 +15,12 @@ class PLAYFABCPP_API UPlayFabAPISettings
 {
 public:
     UPlayFabAPISettings() :
-        VerticalName(PlayFab::PlayFabSettings::GetVerticalName())
-        , BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
+        BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
         , TitleId(PlayFab::PlayFabSettings::GetTitleId())
         , AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
         , AdvertisingIdValue(PlayFab::PlayFabSettings::GetAdvertisingIdValue())
         , DisableAdvertising(PlayFab::PlayFabSettings::GetDisableAdvertising())
     {
-    }
-
-    FString& GetVerticalName()
-    {
-        return VerticalName;
-    }
-
-    const FString& GetVerticalName() const
-    {
-        return VerticalName;
-    }
-
-    void SetVerticalName(FString InVerticalName)
-    {
-        VerticalName = InVerticalName;
-    }
-
-    FString& GetBaseServiceHost()
-    {
-        return BaseServiceHost;
-    }
-
-    const FString& GetBaseServiceHost() const
-    {
-        return BaseServiceHost;
-    }
-
-    void SetBaseServiceHost(FString InBaseServiceHost)
-    {
-        BaseServiceHost = InBaseServiceHost;
-    }
-
-    FString& GetTitleId()
-    {
-        return TitleId;
-    }
-
-    const FString& GetTitleId() const
-    {
-        return TitleId;
-    }
-
-    void SetTitleId(FString InTitleId)
-    {
-        TitleId = InTitleId;
     }
 
     FString& GetAdvertisingIdType()
@@ -109,20 +63,13 @@ public:
         DisableAdvertising = InDisableAdvertising;
     }
 
-    FString GetUrl(const FString& CallPath)
+    FString GeneratePfUrl(const FString& urlPath)
     {
         return TEXT("https://") + (!VerticalName.IsEmpty() ? VerticalName : TitleId) + BaseServiceHost
-         + CallPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+            + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
     }
 
 private:
-    // The name of a PlayFab service vertical
-    FString VerticalName; 
-    // The base for a PlayFab service host
-    FString BaseServiceHost; 
-    // You must set this value for PlayFabSdk to work properly (found in the Game Manager for your title, at the PlayFab Website)
-    FString TitleId; 
-    
     // Set this to the appropriate AD_TYPE_X constant (defined in PlayFabSettings)
     FString AdvertisingIdType; 
     // Set this to corresponding device value

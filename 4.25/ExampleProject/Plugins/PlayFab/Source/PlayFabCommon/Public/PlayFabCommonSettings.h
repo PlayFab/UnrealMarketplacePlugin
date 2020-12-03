@@ -46,7 +46,6 @@ namespace PlayFabCommon
                 return TEXT("https://") + rSettings->TitleId + rSettings->ProductionEnvironmentURL
                     + urlPath + TEXT("?sdk=") + versionString;
             }
-
         }
     };
 }

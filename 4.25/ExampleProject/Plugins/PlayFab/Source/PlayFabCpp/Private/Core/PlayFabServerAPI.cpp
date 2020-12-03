@@ -26,6 +26,7 @@ FString UPlayFabServerAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabServerAPI::AddCharacterVirtualCurrency(
     ServerModels::FAddCharacterVirtualCurrencyRequest& request,
     const FAddCharacterVirtualCurrencyDelegate& SuccessDelegate,

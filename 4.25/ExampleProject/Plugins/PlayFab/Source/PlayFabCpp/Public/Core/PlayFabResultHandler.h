@@ -6,7 +6,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PlayFabAPISettings.h"
 #include "PlayFabCppBaseModel.h"
 #include "PlayFabError.h"
 #include "Http.h"

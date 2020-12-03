@@ -26,6 +26,7 @@ FString UPlayFabEventsAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabEventsAPI::WriteEvents(
     EventsModels::FWriteEventsRequest& request,
     const FWriteEventsDelegate& SuccessDelegate,

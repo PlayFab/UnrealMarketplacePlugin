@@ -26,6 +26,7 @@ FString UPlayFabAuthenticationAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabAuthenticationAPI::GetEntityToken(
     AuthenticationModels::FGetEntityTokenRequest& request,
     const FGetEntityTokenDelegate& SuccessDelegate,
@@ -37,15 +38,14 @@ bool UPlayFabAuthenticationAPI::GetEntityToken(
             authKey = TEXT("X-EntityToken"); authValue = request.AuthenticationContext->GetEntityToken();
         } else if (request.AuthenticationContext->GetClientSessionTicket().Len() > 0) {
             authKey = TEXT("X-Authorization"); authValue = request.AuthenticationContext->GetClientSessionTicket();
-        } else if (request.AuthenticationContext->GetDeveloperSecretKey().Len() > 0) {
-            authKey = TEXT("X-SecretKey"); authValue = request.AuthenticationContext->GetDeveloperSecretKey();
+        } else if (GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey.Len() > 0) {
+            authKey = TEXT("X-SecretKey"); authValue = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
         }
-    }
-    else {
-        if (PlayFabSettings::GetEntityToken().Len() > 0) {
-            authKey = TEXT("X-EntityToken"); authValue = PlayFabSettings::GetEntityToken();
-        } else if (PlayFabSettings::GetClientSessionTicket().Len() > 0) {
-            authKey = TEXT("X-Authorization"); authValue = PlayFabSettings::GetClientSessionTicket();
+    } else {
+        if (entityToken.Len() > 0) {
+            authKey = TEXT("X-EntityToken"); authValue = entityToken;
+        } else if (clientTicket.Len() > 0) {
+            authKey = TEXT("X-Authorization"); authValue = clientTicket;
         } else if (GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey.Len() > 0) {
             authKey = TEXT("X-SecretKey"); authValue = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
         }
@@ -64,7 +64,7 @@ void UPlayFabAuthenticationAPI::OnGetEntityTokenResult(FHttpRequestPtr HttpReque
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.EntityToken.Len() > 0)
-            PlayFabSettings::SetEntityToken(outResult.EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken);
         SuccessDelegate.ExecuteIfBound(outResult);
     }
     else

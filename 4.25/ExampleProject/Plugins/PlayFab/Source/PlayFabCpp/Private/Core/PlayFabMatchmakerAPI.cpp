@@ -26,6 +26,7 @@ FString UPlayFabMatchmakerAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabMatchmakerAPI::AuthUser(
     MatchmakerModels::FAuthUserRequest& request,
     const FAuthUserDelegate& SuccessDelegate,

@@ -106,7 +106,7 @@ bool UPlayFabClientAPI::AddFriend(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddFriend"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddFriend"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAddFriendResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -137,7 +137,7 @@ bool UPlayFabClientAPI::AddGenericID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddGenericID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddGenericID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAddGenericIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -168,7 +168,7 @@ bool UPlayFabClientAPI::AddOrUpdateContactEmail(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddOrUpdateContactEmail"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddOrUpdateContactEmail"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAddOrUpdateContactEmailResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -199,7 +199,7 @@ bool UPlayFabClientAPI::AddSharedGroupMembers(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddSharedGroupMembers"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddSharedGroupMembers"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAddSharedGroupMembersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -230,7 +230,7 @@ bool UPlayFabClientAPI::AddUsernamePassword(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddUsernamePassword"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddUsernamePassword"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAddUsernamePasswordResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -261,7 +261,7 @@ bool UPlayFabClientAPI::AddUserVirtualCurrency(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddUserVirtualCurrency"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AddUserVirtualCurrency"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAddUserVirtualCurrencyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -292,7 +292,7 @@ bool UPlayFabClientAPI::AndroidDevicePushNotificationRegistration(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AndroidDevicePushNotificationRegistration"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AndroidDevicePushNotificationRegistration"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAndroidDevicePushNotificationRegistrationResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -323,7 +323,7 @@ bool UPlayFabClientAPI::AttributeInstall(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AttributeInstall"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AttributeInstall"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAttributeInstallResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -357,7 +357,7 @@ bool UPlayFabClientAPI::CancelTrade(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/CancelTrade"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/CancelTrade"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnCancelTradeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -388,7 +388,7 @@ bool UPlayFabClientAPI::ConfirmPurchase(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConfirmPurchase"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConfirmPurchase"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnConfirmPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -419,7 +419,7 @@ bool UPlayFabClientAPI::ConsumeItem(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumeItem"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumeItem"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnConsumeItemResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -450,7 +450,7 @@ bool UPlayFabClientAPI::ConsumeMicrosoftStoreEntitlements(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumeMicrosoftStoreEntitlements"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumeMicrosoftStoreEntitlements"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnConsumeMicrosoftStoreEntitlementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -481,7 +481,7 @@ bool UPlayFabClientAPI::ConsumePSNEntitlements(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumePSNEntitlements"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumePSNEntitlements"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnConsumePSNEntitlementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -512,7 +512,7 @@ bool UPlayFabClientAPI::ConsumeXboxEntitlements(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumeXboxEntitlements"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumeXboxEntitlements"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnConsumeXboxEntitlementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -543,7 +543,7 @@ bool UPlayFabClientAPI::CreateSharedGroup(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/CreateSharedGroup"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/CreateSharedGroup"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnCreateSharedGroupResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -574,7 +574,7 @@ bool UPlayFabClientAPI::ExecuteCloudScript(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ExecuteCloudScript"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ExecuteCloudScript"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnExecuteCloudScriptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -605,7 +605,7 @@ bool UPlayFabClientAPI::GetAccountInfo(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetAccountInfo"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetAccountInfo"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetAccountInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -636,7 +636,7 @@ bool UPlayFabClientAPI::GetAdPlacements(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetAdPlacements"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetAdPlacements"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetAdPlacementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -667,7 +667,7 @@ bool UPlayFabClientAPI::GetAllUsersCharacters(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetAllUsersCharacters"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetAllUsersCharacters"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetAllUsersCharactersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -698,7 +698,7 @@ bool UPlayFabClientAPI::GetCatalogItems(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCatalogItems"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCatalogItems"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetCatalogItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -729,7 +729,7 @@ bool UPlayFabClientAPI::GetCharacterData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetCharacterDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -760,7 +760,7 @@ bool UPlayFabClientAPI::GetCharacterInventory(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterInventory"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterInventory"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetCharacterInventoryResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -791,7 +791,7 @@ bool UPlayFabClientAPI::GetCharacterLeaderboard(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetCharacterLeaderboardResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -822,7 +822,7 @@ bool UPlayFabClientAPI::GetCharacterReadOnlyData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetCharacterReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -853,7 +853,7 @@ bool UPlayFabClientAPI::GetCharacterStatistics(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterStatistics"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCharacterStatistics"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetCharacterStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -884,7 +884,7 @@ bool UPlayFabClientAPI::GetContentDownloadUrl(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetContentDownloadUrl"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetContentDownloadUrl"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetContentDownloadUrlResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -915,7 +915,7 @@ bool UPlayFabClientAPI::GetCurrentGames(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCurrentGames"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetCurrentGames"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetCurrentGamesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -946,7 +946,7 @@ bool UPlayFabClientAPI::GetFriendLeaderboard(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetFriendLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetFriendLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetFriendLeaderboardResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -977,7 +977,7 @@ bool UPlayFabClientAPI::GetFriendLeaderboardAroundPlayer(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetFriendLeaderboardAroundPlayer"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetFriendLeaderboardAroundPlayer"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetFriendLeaderboardAroundPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1008,7 +1008,7 @@ bool UPlayFabClientAPI::GetFriendsList(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetFriendsList"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetFriendsList"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetFriendsListResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1039,7 +1039,7 @@ bool UPlayFabClientAPI::GetGameServerRegions(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetGameServerRegions"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetGameServerRegions"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetGameServerRegionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1070,7 +1070,7 @@ bool UPlayFabClientAPI::GetLeaderboard(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetLeaderboardResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1101,7 +1101,7 @@ bool UPlayFabClientAPI::GetLeaderboardAroundCharacter(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboardAroundCharacter"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboardAroundCharacter"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetLeaderboardAroundCharacterResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1132,7 +1132,7 @@ bool UPlayFabClientAPI::GetLeaderboardAroundPlayer(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboardAroundPlayer"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboardAroundPlayer"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetLeaderboardAroundPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1163,7 +1163,7 @@ bool UPlayFabClientAPI::GetLeaderboardForUserCharacters(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboardForUserCharacters"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetLeaderboardForUserCharacters"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetLeaderboardForUserCharactersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1194,7 +1194,7 @@ bool UPlayFabClientAPI::GetPaymentToken(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPaymentToken"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPaymentToken"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPaymentTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1225,7 +1225,7 @@ bool UPlayFabClientAPI::GetPhotonAuthenticationToken(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPhotonAuthenticationToken"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPhotonAuthenticationToken"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPhotonAuthenticationTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1256,7 +1256,7 @@ bool UPlayFabClientAPI::GetPlayerCombinedInfo(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerCombinedInfo"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerCombinedInfo"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayerCombinedInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1287,7 +1287,7 @@ bool UPlayFabClientAPI::GetPlayerProfile(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerProfile"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerProfile"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayerProfileResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1326,7 +1326,7 @@ bool UPlayFabClientAPI::GetPlayerSegments(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerSegments"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerSegments"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayerSegmentsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1357,7 +1357,7 @@ bool UPlayFabClientAPI::GetPlayerStatistics(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerStatistics"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerStatistics"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayerStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1388,7 +1388,7 @@ bool UPlayFabClientAPI::GetPlayerStatisticVersions(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerStatisticVersions"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerStatisticVersions"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayerStatisticVersionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1419,7 +1419,7 @@ bool UPlayFabClientAPI::GetPlayerTags(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerTags"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerTags"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayerTagsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1450,7 +1450,7 @@ bool UPlayFabClientAPI::GetPlayerTrades(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerTrades"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayerTrades"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayerTradesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1481,7 +1481,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromFacebookIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromFacebookIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromFacebookIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromFacebookIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1512,7 +1512,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromFacebookInstantGamesIds(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromFacebookInstantGamesIds"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromFacebookInstantGamesIds"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromFacebookInstantGamesIdsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1543,7 +1543,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromGameCenterIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromGameCenterIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromGameCenterIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromGameCenterIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1574,7 +1574,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromGenericIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromGenericIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromGenericIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromGenericIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1605,7 +1605,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromGoogleIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromGoogleIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromGoogleIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromGoogleIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1636,7 +1636,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromKongregateIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromKongregateIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromKongregateIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromKongregateIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1667,7 +1667,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1698,7 +1698,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromPSNAccountIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromPSNAccountIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromPSNAccountIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromPSNAccountIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1729,7 +1729,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromSteamIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromSteamIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromSteamIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromSteamIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1760,7 +1760,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromTwitchIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromTwitchIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromTwitchIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromTwitchIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1791,7 +1791,7 @@ bool UPlayFabClientAPI::GetPlayFabIDsFromXboxLiveIDs(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromXboxLiveIDs"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromXboxLiveIDs"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromXboxLiveIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1822,7 +1822,7 @@ bool UPlayFabClientAPI::GetPublisherData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPublisherData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPublisherData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1853,7 +1853,7 @@ bool UPlayFabClientAPI::GetPurchase(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPurchase"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPurchase"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1884,7 +1884,7 @@ bool UPlayFabClientAPI::GetSharedGroupData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetSharedGroupData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetSharedGroupData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetSharedGroupDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1915,7 +1915,7 @@ bool UPlayFabClientAPI::GetStoreItems(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetStoreItems"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetStoreItems"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetStoreItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1954,7 +1954,7 @@ bool UPlayFabClientAPI::GetTime(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTime"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTime"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetTimeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1985,7 +1985,7 @@ bool UPlayFabClientAPI::GetTitleData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTitleData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTitleData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetTitleDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2016,7 +2016,7 @@ bool UPlayFabClientAPI::GetTitleNews(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTitleNews"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTitleNews"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetTitleNewsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2073,7 +2073,7 @@ bool UPlayFabClientAPI::GetTradeStatus(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTradeStatus"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetTradeStatus"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetTradeStatusResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2104,7 +2104,7 @@ bool UPlayFabClientAPI::GetUserData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetUserDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2135,7 +2135,7 @@ bool UPlayFabClientAPI::GetUserInventory(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserInventory"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserInventory"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetUserInventoryResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2166,7 +2166,7 @@ bool UPlayFabClientAPI::GetUserPublisherData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserPublisherData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserPublisherData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetUserPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2197,7 +2197,7 @@ bool UPlayFabClientAPI::GetUserPublisherReadOnlyData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserPublisherReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserPublisherReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetUserPublisherReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2228,7 +2228,7 @@ bool UPlayFabClientAPI::GetUserReadOnlyData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetUserReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetUserReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2285,7 +2285,7 @@ bool UPlayFabClientAPI::GrantCharacterToUser(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GrantCharacterToUser"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GrantCharacterToUser"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGrantCharacterToUserResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2316,7 +2316,7 @@ bool UPlayFabClientAPI::LinkAndroidDeviceID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkAndroidDeviceID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkAndroidDeviceID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkAndroidDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2347,7 +2347,7 @@ bool UPlayFabClientAPI::LinkApple(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkApple"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkApple"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkAppleResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2378,7 +2378,7 @@ bool UPlayFabClientAPI::LinkCustomID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkCustomID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkCustomID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkCustomIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2409,7 +2409,7 @@ bool UPlayFabClientAPI::LinkFacebookAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkFacebookAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkFacebookAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkFacebookAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2440,7 +2440,7 @@ bool UPlayFabClientAPI::LinkFacebookInstantGamesId(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkFacebookInstantGamesId"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkFacebookInstantGamesId"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkFacebookInstantGamesIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2471,7 +2471,7 @@ bool UPlayFabClientAPI::LinkGameCenterAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkGameCenterAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkGameCenterAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkGameCenterAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2502,7 +2502,7 @@ bool UPlayFabClientAPI::LinkGoogleAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkGoogleAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkGoogleAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkGoogleAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2533,7 +2533,7 @@ bool UPlayFabClientAPI::LinkIOSDeviceID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkIOSDeviceID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkIOSDeviceID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkIOSDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2564,7 +2564,7 @@ bool UPlayFabClientAPI::LinkKongregate(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkKongregate"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkKongregate"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkKongregateResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2595,7 +2595,7 @@ bool UPlayFabClientAPI::LinkNintendoServiceAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkNintendoServiceAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkNintendoServiceAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2626,7 +2626,7 @@ bool UPlayFabClientAPI::LinkNintendoSwitchDeviceId(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkNintendoSwitchDeviceId"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkNintendoSwitchDeviceId"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkNintendoSwitchDeviceIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2657,7 +2657,7 @@ bool UPlayFabClientAPI::LinkOpenIdConnect(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkOpenIdConnect"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkOpenIdConnect"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkOpenIdConnectResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2688,7 +2688,7 @@ bool UPlayFabClientAPI::LinkPSNAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkPSNAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkPSNAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkPSNAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2719,7 +2719,7 @@ bool UPlayFabClientAPI::LinkSteamAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkSteamAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkSteamAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkSteamAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2750,7 +2750,7 @@ bool UPlayFabClientAPI::LinkTwitch(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkTwitch"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkTwitch"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkTwitchResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2781,7 +2781,7 @@ bool UPlayFabClientAPI::LinkWindowsHello(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkWindowsHello"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkWindowsHello"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkWindowsHelloResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2812,7 +2812,7 @@ bool UPlayFabClientAPI::LinkXboxAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkXboxAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkXboxAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkXboxAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2853,11 +2853,11 @@ void UPlayFabClientAPI::OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr HttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2895,11 +2895,11 @@ void UPlayFabClientAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpRequest, FHtt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2937,11 +2937,11 @@ void UPlayFabClientAPI::OnLoginWithCustomIDResult(FHttpRequestPtr HttpRequest, F
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2979,11 +2979,11 @@ void UPlayFabClientAPI::OnLoginWithEmailAddressResult(FHttpRequestPtr HttpReques
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3021,11 +3021,11 @@ void UPlayFabClientAPI::OnLoginWithFacebookResult(FHttpRequestPtr HttpRequest, F
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3063,11 +3063,11 @@ void UPlayFabClientAPI::OnLoginWithFacebookInstantGamesIdResult(FHttpRequestPtr 
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3105,11 +3105,11 @@ void UPlayFabClientAPI::OnLoginWithGameCenterResult(FHttpRequestPtr HttpRequest,
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3147,11 +3147,11 @@ void UPlayFabClientAPI::OnLoginWithGoogleAccountResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3189,11 +3189,11 @@ void UPlayFabClientAPI::OnLoginWithIOSDeviceIDResult(FHttpRequestPtr HttpRequest
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3231,11 +3231,11 @@ void UPlayFabClientAPI::OnLoginWithKongregateResult(FHttpRequestPtr HttpRequest,
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3273,11 +3273,11 @@ void UPlayFabClientAPI::OnLoginWithNintendoServiceAccountResult(FHttpRequestPtr 
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3315,11 +3315,11 @@ void UPlayFabClientAPI::OnLoginWithNintendoSwitchDeviceIdResult(FHttpRequestPtr 
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3357,11 +3357,11 @@ void UPlayFabClientAPI::OnLoginWithOpenIdConnectResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3399,11 +3399,11 @@ void UPlayFabClientAPI::OnLoginWithPlayFabResult(FHttpRequestPtr HttpRequest, FH
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3441,11 +3441,11 @@ void UPlayFabClientAPI::OnLoginWithPSNResult(FHttpRequestPtr HttpRequest, FHttpR
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3483,11 +3483,11 @@ void UPlayFabClientAPI::OnLoginWithSteamResult(FHttpRequestPtr HttpRequest, FHtt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3525,11 +3525,11 @@ void UPlayFabClientAPI::OnLoginWithTwitchResult(FHttpRequestPtr HttpRequest, FHt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3567,11 +3567,11 @@ void UPlayFabClientAPI::OnLoginWithWindowsHelloResult(FHttpRequestPtr HttpReques
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3609,11 +3609,11 @@ void UPlayFabClientAPI::OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttp
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3641,7 +3641,7 @@ bool UPlayFabClientAPI::Matchmake(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/Matchmake"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/Matchmake"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnMatchmakeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3672,7 +3672,7 @@ bool UPlayFabClientAPI::OpenTrade(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/OpenTrade"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/OpenTrade"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnOpenTradeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3703,7 +3703,7 @@ bool UPlayFabClientAPI::PayForPurchase(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/PayForPurchase"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/PayForPurchase"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnPayForPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3734,7 +3734,7 @@ bool UPlayFabClientAPI::PurchaseItem(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/PurchaseItem"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/PurchaseItem"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnPurchaseItemResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3765,7 +3765,7 @@ bool UPlayFabClientAPI::RedeemCoupon(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RedeemCoupon"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RedeemCoupon"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRedeemCouponResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3796,7 +3796,7 @@ bool UPlayFabClientAPI::RefreshPSNAuthToken(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RefreshPSNAuthToken"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RefreshPSNAuthToken"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRefreshPSNAuthTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3827,7 +3827,7 @@ bool UPlayFabClientAPI::RegisterForIOSPushNotification(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RegisterForIOSPushNotification"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RegisterForIOSPushNotification"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRegisterForIOSPushNotificationResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3867,7 +3867,7 @@ void UPlayFabClientAPI::OnRegisterPlayFabUserResult(FHttpRequestPtr HttpRequest,
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.SessionTicket.Len() > 0)
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
         MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -3900,11 +3900,11 @@ void UPlayFabClientAPI::OnRegisterWithWindowsHelloResult(FHttpRequestPtr HttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3932,7 +3932,7 @@ bool UPlayFabClientAPI::RemoveContactEmail(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveContactEmail"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveContactEmail"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRemoveContactEmailResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3963,7 +3963,7 @@ bool UPlayFabClientAPI::RemoveFriend(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveFriend"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveFriend"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRemoveFriendResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3994,7 +3994,7 @@ bool UPlayFabClientAPI::RemoveGenericID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveGenericID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveGenericID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRemoveGenericIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4025,7 +4025,7 @@ bool UPlayFabClientAPI::RemoveSharedGroupMembers(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveSharedGroupMembers"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RemoveSharedGroupMembers"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRemoveSharedGroupMembersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4056,7 +4056,7 @@ bool UPlayFabClientAPI::ReportAdActivity(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ReportAdActivity"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ReportAdActivity"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnReportAdActivityResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4087,7 +4087,7 @@ bool UPlayFabClientAPI::ReportDeviceInfo(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ReportDeviceInfo"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ReportDeviceInfo"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnReportDeviceInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4118,7 +4118,7 @@ bool UPlayFabClientAPI::ReportPlayer(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ReportPlayer"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ReportPlayer"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnReportPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4149,7 +4149,7 @@ bool UPlayFabClientAPI::RestoreIOSPurchases(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RestoreIOSPurchases"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RestoreIOSPurchases"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRestoreIOSPurchasesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4180,7 +4180,7 @@ bool UPlayFabClientAPI::RewardAdActivity(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RewardAdActivity"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/RewardAdActivity"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnRewardAdActivityResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4237,7 +4237,7 @@ bool UPlayFabClientAPI::SetFriendTags(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/SetFriendTags"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/SetFriendTags"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnSetFriendTagsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4268,7 +4268,7 @@ bool UPlayFabClientAPI::SetPlayerSecret(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/SetPlayerSecret"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/SetPlayerSecret"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnSetPlayerSecretResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4299,7 +4299,7 @@ bool UPlayFabClientAPI::StartGame(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/StartGame"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/StartGame"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnStartGameResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4330,7 +4330,7 @@ bool UPlayFabClientAPI::StartPurchase(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/StartPurchase"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/StartPurchase"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnStartPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4361,7 +4361,7 @@ bool UPlayFabClientAPI::SubtractUserVirtualCurrency(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/SubtractUserVirtualCurrency"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/SubtractUserVirtualCurrency"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnSubtractUserVirtualCurrencyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4392,7 +4392,7 @@ bool UPlayFabClientAPI::UnlinkAndroidDeviceID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkAndroidDeviceID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkAndroidDeviceID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkAndroidDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4423,7 +4423,7 @@ bool UPlayFabClientAPI::UnlinkApple(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkApple"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkApple"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkAppleResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4454,7 +4454,7 @@ bool UPlayFabClientAPI::UnlinkCustomID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkCustomID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkCustomID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkCustomIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4485,7 +4485,7 @@ bool UPlayFabClientAPI::UnlinkFacebookAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkFacebookAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkFacebookAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkFacebookAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4516,7 +4516,7 @@ bool UPlayFabClientAPI::UnlinkFacebookInstantGamesId(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkFacebookInstantGamesId"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkFacebookInstantGamesId"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkFacebookInstantGamesIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4547,7 +4547,7 @@ bool UPlayFabClientAPI::UnlinkGameCenterAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkGameCenterAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkGameCenterAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkGameCenterAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4578,7 +4578,7 @@ bool UPlayFabClientAPI::UnlinkGoogleAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkGoogleAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkGoogleAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkGoogleAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4609,7 +4609,7 @@ bool UPlayFabClientAPI::UnlinkIOSDeviceID(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkIOSDeviceID"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkIOSDeviceID"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkIOSDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4640,7 +4640,7 @@ bool UPlayFabClientAPI::UnlinkKongregate(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkKongregate"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkKongregate"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkKongregateResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4671,7 +4671,7 @@ bool UPlayFabClientAPI::UnlinkNintendoServiceAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkNintendoServiceAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkNintendoServiceAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4702,7 +4702,7 @@ bool UPlayFabClientAPI::UnlinkNintendoSwitchDeviceId(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkNintendoSwitchDeviceId"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkNintendoSwitchDeviceId"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkNintendoSwitchDeviceIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4733,7 +4733,7 @@ bool UPlayFabClientAPI::UnlinkOpenIdConnect(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkOpenIdConnect"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkOpenIdConnect"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkOpenIdConnectResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4764,7 +4764,7 @@ bool UPlayFabClientAPI::UnlinkPSNAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkPSNAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkPSNAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkPSNAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4795,7 +4795,7 @@ bool UPlayFabClientAPI::UnlinkSteamAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkSteamAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkSteamAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkSteamAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4826,7 +4826,7 @@ bool UPlayFabClientAPI::UnlinkTwitch(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkTwitch"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkTwitch"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkTwitchResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4857,7 +4857,7 @@ bool UPlayFabClientAPI::UnlinkWindowsHello(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkWindowsHello"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkWindowsHello"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkWindowsHelloResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4888,7 +4888,7 @@ bool UPlayFabClientAPI::UnlinkXboxAccount(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkXboxAccount"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkXboxAccount"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkXboxAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4919,7 +4919,7 @@ bool UPlayFabClientAPI::UnlockContainerInstance(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlockContainerInstance"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlockContainerInstance"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlockContainerInstanceResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4950,7 +4950,7 @@ bool UPlayFabClientAPI::UnlockContainerItem(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlockContainerItem"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlockContainerItem"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlockContainerItemResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4981,7 +4981,7 @@ bool UPlayFabClientAPI::UpdateAvatarUrl(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateAvatarUrl"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateAvatarUrl"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdateAvatarUrlResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5012,7 +5012,7 @@ bool UPlayFabClientAPI::UpdateCharacterData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateCharacterData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateCharacterData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdateCharacterDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5043,7 +5043,7 @@ bool UPlayFabClientAPI::UpdateCharacterStatistics(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateCharacterStatistics"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateCharacterStatistics"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdateCharacterStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5074,7 +5074,7 @@ bool UPlayFabClientAPI::UpdatePlayerStatistics(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdatePlayerStatistics"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdatePlayerStatistics"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdatePlayerStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5105,7 +5105,7 @@ bool UPlayFabClientAPI::UpdateSharedGroupData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateSharedGroupData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateSharedGroupData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdateSharedGroupDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5136,7 +5136,7 @@ bool UPlayFabClientAPI::UpdateUserData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateUserData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateUserData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdateUserDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5167,7 +5167,7 @@ bool UPlayFabClientAPI::UpdateUserPublisherData(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateUserPublisherData"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateUserPublisherData"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdateUserPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5198,7 +5198,7 @@ bool UPlayFabClientAPI::UpdateUserTitleDisplayName(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateUserTitleDisplayName"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UpdateUserTitleDisplayName"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUpdateUserTitleDisplayNameResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5229,7 +5229,7 @@ bool UPlayFabClientAPI::ValidateAmazonIAPReceipt(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateAmazonIAPReceipt"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateAmazonIAPReceipt"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnValidateAmazonIAPReceiptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5260,7 +5260,7 @@ bool UPlayFabClientAPI::ValidateGooglePlayPurchase(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateGooglePlayPurchase"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateGooglePlayPurchase"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnValidateGooglePlayPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5291,7 +5291,7 @@ bool UPlayFabClientAPI::ValidateIOSReceipt(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateIOSReceipt"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateIOSReceipt"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnValidateIOSReceiptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5322,7 +5322,7 @@ bool UPlayFabClientAPI::ValidateWindowsStoreReceipt(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateWindowsStoreReceipt"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ValidateWindowsStoreReceipt"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnValidateWindowsStoreReceiptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5353,7 +5353,7 @@ bool UPlayFabClientAPI::WriteCharacterEvent(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/WriteCharacterEvent"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/WriteCharacterEvent"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnWriteCharacterEventResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5384,7 +5384,7 @@ bool UPlayFabClientAPI::WritePlayerEvent(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/WritePlayerEvent"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/WritePlayerEvent"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnWritePlayerEventResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5415,7 +5415,7 @@ bool UPlayFabClientAPI::WriteTitleEvent(
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/WriteTitleEvent"), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/WriteTitleEvent"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnWriteTitleEventResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

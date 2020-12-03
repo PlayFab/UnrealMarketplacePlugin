@@ -1402,6 +1402,7 @@ bool UPlayFabMultiplayerInstanceAPI::ListPartyQosServers(
     const FListPartyQosServersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/MultiplayerServer/ListPartyQosServers"), request.toJSONString(), TEXT(""), TEXT(""));

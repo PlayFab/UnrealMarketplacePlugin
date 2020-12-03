@@ -15,42 +15,12 @@ class PLAYFABCPP_API UPlayFabAPISettings
 {
 public:
     UPlayFabAPISettings() :
-        productionEnvironmentURL(GetDefault<UPlayFabRuntimeSettings>()->ProductionEnvironmentURL)
-        , TitleId(GetDefault<UPlayFabRuntimeSettings>()->TitleId)
+        BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
+        , TitleId(PlayFab::PlayFabSettings::GetTitleId())
         , AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
         , AdvertisingIdValue(PlayFab::PlayFabSettings::GetAdvertisingIdValue())
         , DisableAdvertising(PlayFab::PlayFabSettings::GetDisableAdvertising())
     {
-    }
-
-    FString& GetProductionEnvironmentURL()
-    {
-        return productionEnvironmentURL;
-    }
-
-    const FString& GetProductionEnvironmentURL() const
-    {
-        return productionEnvironmentURL;
-    }
-
-    void SetProductionEnvironmentURL(FString setUrl)
-    {
-        productionEnvironmentURL = setUrl;
-    }
-
-    FString& GetTitleId()
-    {
-        return TitleId;
-    }
-
-    const FString& GetTitleId() const
-    {
-        return TitleId;
-    }
-
-    void SetTitleId(FString InTitleId)
-    {
-        TitleId = InTitleId;
     }
 
     FString& GetAdvertisingIdType()
@@ -95,24 +65,11 @@ public:
 
     FString GeneratePfUrl(const FString& urlPath)
     {
-        if (productionEnvironmentURL.StartsWith(TEXT("https://")))
-        {
-            return productionEnvironmentURL
-                + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
-        }
-        else
-        {
-            return TEXT("https://") + TitleId + productionEnvironmentURL
-                + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
-        }
+        return TEXT("https://") + (!VerticalName.IsEmpty() ? VerticalName : TitleId) + BaseServiceHost
+            + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
     }
 
 private:
-    // The base for a PlayFab service host
-    FString productionEnvironmentURL;
-    // You must set this value for PlayFabSdk to work properly (found in the Game Manager for your title, at the PlayFab Website)
-    FString TitleId; 
-    
     // Set this to the appropriate AD_TYPE_X constant (defined in PlayFabSettings)
     FString AdvertisingIdType; 
     // Set this to corresponding device value

@@ -26,6 +26,7 @@ FString UPlayFabInsightsAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabInsightsAPI::GetDetails(
     InsightsModels::FInsightsEmptyRequest& request,
     const FGetDetailsDelegate& SuccessDelegate,

@@ -26,6 +26,7 @@ FString UPlayFabProfilesAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabProfilesAPI::GetGlobalPolicy(
     ProfilesModels::FGetGlobalPolicyRequest& request,
     const FGetGlobalPolicyDelegate& SuccessDelegate,

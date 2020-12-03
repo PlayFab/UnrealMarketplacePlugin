@@ -260,7 +260,7 @@ UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetTitlePlayersFromMasterPlayerAccount
         FString(request.MasterPlayerAccountIds).ParseIntoArray(MasterPlayerAccountIdsArray, TEXT(","), false);
         OutRestJsonObj->SetStringArrayField(TEXT("MasterPlayerAccountIds"), MasterPlayerAccountIdsArray);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), IPlayFab::Get().getGameTitleId());
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -524,7 +524,7 @@ void UPlayFabProfilesAPI::Activate()
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     FString RequestUrl;
-    RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+    RequestUrl = pfSettings->GeneratePfUrl(PlayFabRequestURL);
 
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
@@ -537,7 +537,7 @@ void UPlayFabProfilesAPI::Activate()
     else if (useSessionTicket)
         HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
     else if (useSecretKey)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getDeveloperSecretKey());
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey);
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

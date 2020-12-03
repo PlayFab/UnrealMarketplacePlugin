@@ -115,7 +115,7 @@ bool UPlayFabClientInstanceAPI::AcceptTrade(
     const FAcceptTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -146,7 +146,7 @@ bool UPlayFabClientInstanceAPI::AddFriend(
     const FAddFriendDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -177,7 +177,7 @@ bool UPlayFabClientInstanceAPI::AddGenericID(
     const FAddGenericIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -208,7 +208,7 @@ bool UPlayFabClientInstanceAPI::AddOrUpdateContactEmail(
     const FAddOrUpdateContactEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -239,7 +239,7 @@ bool UPlayFabClientInstanceAPI::AddSharedGroupMembers(
     const FAddSharedGroupMembersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -270,7 +270,7 @@ bool UPlayFabClientInstanceAPI::AddUsernamePassword(
     const FAddUsernamePasswordDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -301,7 +301,7 @@ bool UPlayFabClientInstanceAPI::AddUserVirtualCurrency(
     const FAddUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -332,7 +332,7 @@ bool UPlayFabClientInstanceAPI::AndroidDevicePushNotificationRegistration(
     const FAndroidDevicePushNotificationRegistrationDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -363,7 +363,7 @@ bool UPlayFabClientInstanceAPI::AttributeInstall(
     const FAttributeInstallDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -400,7 +400,7 @@ bool UPlayFabClientInstanceAPI::CancelTrade(
     const FCancelTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -431,7 +431,7 @@ bool UPlayFabClientInstanceAPI::ConfirmPurchase(
     const FConfirmPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -462,7 +462,7 @@ bool UPlayFabClientInstanceAPI::ConsumeItem(
     const FConsumeItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -493,7 +493,7 @@ bool UPlayFabClientInstanceAPI::ConsumeMicrosoftStoreEntitlements(
     const FConsumeMicrosoftStoreEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -524,7 +524,7 @@ bool UPlayFabClientInstanceAPI::ConsumePSNEntitlements(
     const FConsumePSNEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -555,7 +555,7 @@ bool UPlayFabClientInstanceAPI::ConsumeXboxEntitlements(
     const FConsumeXboxEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -586,7 +586,7 @@ bool UPlayFabClientInstanceAPI::CreateSharedGroup(
     const FCreateSharedGroupDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -617,7 +617,7 @@ bool UPlayFabClientInstanceAPI::ExecuteCloudScript(
     const FExecuteCloudScriptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -648,7 +648,7 @@ bool UPlayFabClientInstanceAPI::GetAccountInfo(
     const FGetAccountInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -679,7 +679,7 @@ bool UPlayFabClientInstanceAPI::GetAdPlacements(
     const FGetAdPlacementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -710,7 +710,7 @@ bool UPlayFabClientInstanceAPI::GetAllUsersCharacters(
     const FGetAllUsersCharactersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -741,7 +741,7 @@ bool UPlayFabClientInstanceAPI::GetCatalogItems(
     const FGetCatalogItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -772,7 +772,7 @@ bool UPlayFabClientInstanceAPI::GetCharacterData(
     const FGetCharacterDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -803,7 +803,7 @@ bool UPlayFabClientInstanceAPI::GetCharacterInventory(
     const FGetCharacterInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -834,7 +834,7 @@ bool UPlayFabClientInstanceAPI::GetCharacterLeaderboard(
     const FGetCharacterLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -865,7 +865,7 @@ bool UPlayFabClientInstanceAPI::GetCharacterReadOnlyData(
     const FGetCharacterReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -896,7 +896,7 @@ bool UPlayFabClientInstanceAPI::GetCharacterStatistics(
     const FGetCharacterStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -927,7 +927,7 @@ bool UPlayFabClientInstanceAPI::GetContentDownloadUrl(
     const FGetContentDownloadUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -958,7 +958,7 @@ bool UPlayFabClientInstanceAPI::GetCurrentGames(
     const FGetCurrentGamesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -989,7 +989,7 @@ bool UPlayFabClientInstanceAPI::GetFriendLeaderboard(
     const FGetFriendLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1020,7 +1020,7 @@ bool UPlayFabClientInstanceAPI::GetFriendLeaderboardAroundPlayer(
     const FGetFriendLeaderboardAroundPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1051,7 +1051,7 @@ bool UPlayFabClientInstanceAPI::GetFriendsList(
     const FGetFriendsListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1082,7 +1082,7 @@ bool UPlayFabClientInstanceAPI::GetGameServerRegions(
     const FGetGameServerRegionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1113,7 +1113,7 @@ bool UPlayFabClientInstanceAPI::GetLeaderboard(
     const FGetLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1144,7 +1144,7 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardAroundCharacter(
     const FGetLeaderboardAroundCharacterDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1175,7 +1175,7 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardAroundPlayer(
     const FGetLeaderboardAroundPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1206,7 +1206,7 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardForUserCharacters(
     const FGetLeaderboardForUserCharactersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1237,7 +1237,7 @@ bool UPlayFabClientInstanceAPI::GetPaymentToken(
     const FGetPaymentTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1268,7 +1268,7 @@ bool UPlayFabClientInstanceAPI::GetPhotonAuthenticationToken(
     const FGetPhotonAuthenticationTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1299,7 +1299,7 @@ bool UPlayFabClientInstanceAPI::GetPlayerCombinedInfo(
     const FGetPlayerCombinedInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1330,7 +1330,7 @@ bool UPlayFabClientInstanceAPI::GetPlayerProfile(
     const FGetPlayerProfileDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1369,7 +1369,7 @@ bool UPlayFabClientInstanceAPI::GetPlayerSegments(
     const FGetPlayerSegmentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1400,7 +1400,7 @@ bool UPlayFabClientInstanceAPI::GetPlayerStatistics(
     const FGetPlayerStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1431,7 +1431,7 @@ bool UPlayFabClientInstanceAPI::GetPlayerStatisticVersions(
     const FGetPlayerStatisticVersionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1462,7 +1462,7 @@ bool UPlayFabClientInstanceAPI::GetPlayerTags(
     const FGetPlayerTagsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1493,7 +1493,7 @@ bool UPlayFabClientInstanceAPI::GetPlayerTrades(
     const FGetPlayerTradesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1524,7 +1524,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromFacebookIDs(
     const FGetPlayFabIDsFromFacebookIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1555,7 +1555,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromFacebookInstantGamesIds(
     const FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1586,7 +1586,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGameCenterIDs(
     const FGetPlayFabIDsFromGameCenterIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1617,7 +1617,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGenericIDs(
     const FGetPlayFabIDsFromGenericIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1648,7 +1648,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGoogleIDs(
     const FGetPlayFabIDsFromGoogleIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1679,7 +1679,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromKongregateIDs(
     const FGetPlayFabIDsFromKongregateIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1710,7 +1710,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(
     const FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1741,7 +1741,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromPSNAccountIDs(
     const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1772,7 +1772,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromSteamIDs(
     const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1803,7 +1803,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromTwitchIDs(
     const FGetPlayFabIDsFromTwitchIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1834,7 +1834,7 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromXboxLiveIDs(
     const FGetPlayFabIDsFromXboxLiveIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1865,7 +1865,7 @@ bool UPlayFabClientInstanceAPI::GetPublisherData(
     const FGetPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1896,7 +1896,7 @@ bool UPlayFabClientInstanceAPI::GetPurchase(
     const FGetPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1927,7 +1927,7 @@ bool UPlayFabClientInstanceAPI::GetSharedGroupData(
     const FGetSharedGroupDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1958,7 +1958,7 @@ bool UPlayFabClientInstanceAPI::GetStoreItems(
     const FGetStoreItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -1997,7 +1997,7 @@ bool UPlayFabClientInstanceAPI::GetTime(
     const FGetTimeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2028,7 +2028,7 @@ bool UPlayFabClientInstanceAPI::GetTitleData(
     const FGetTitleDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2059,7 +2059,7 @@ bool UPlayFabClientInstanceAPI::GetTitleNews(
     const FGetTitleNewsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2090,6 +2090,7 @@ bool UPlayFabClientInstanceAPI::GetTitlePublicKey(
     const FGetTitlePublicKeyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetTitlePublicKey"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -2116,7 +2117,7 @@ bool UPlayFabClientInstanceAPI::GetTradeStatus(
     const FGetTradeStatusDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2147,7 +2148,7 @@ bool UPlayFabClientInstanceAPI::GetUserData(
     const FGetUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2178,7 +2179,7 @@ bool UPlayFabClientInstanceAPI::GetUserInventory(
     const FGetUserInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2209,7 +2210,7 @@ bool UPlayFabClientInstanceAPI::GetUserPublisherData(
     const FGetUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2240,7 +2241,7 @@ bool UPlayFabClientInstanceAPI::GetUserPublisherReadOnlyData(
     const FGetUserPublisherReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2271,7 +2272,7 @@ bool UPlayFabClientInstanceAPI::GetUserReadOnlyData(
     const FGetUserReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2302,6 +2303,7 @@ bool UPlayFabClientInstanceAPI::GetWindowsHelloChallenge(
     const FGetWindowsHelloChallengeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetWindowsHelloChallenge"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -2328,7 +2330,7 @@ bool UPlayFabClientInstanceAPI::GrantCharacterToUser(
     const FGrantCharacterToUserDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2359,7 +2361,7 @@ bool UPlayFabClientInstanceAPI::LinkAndroidDeviceID(
     const FLinkAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2390,7 +2392,7 @@ bool UPlayFabClientInstanceAPI::LinkApple(
     const FLinkAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2421,7 +2423,7 @@ bool UPlayFabClientInstanceAPI::LinkCustomID(
     const FLinkCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2452,7 +2454,7 @@ bool UPlayFabClientInstanceAPI::LinkFacebookAccount(
     const FLinkFacebookAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2483,7 +2485,7 @@ bool UPlayFabClientInstanceAPI::LinkFacebookInstantGamesId(
     const FLinkFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2514,7 +2516,7 @@ bool UPlayFabClientInstanceAPI::LinkGameCenterAccount(
     const FLinkGameCenterAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2545,7 +2547,7 @@ bool UPlayFabClientInstanceAPI::LinkGoogleAccount(
     const FLinkGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2576,7 +2578,7 @@ bool UPlayFabClientInstanceAPI::LinkIOSDeviceID(
     const FLinkIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2607,7 +2609,7 @@ bool UPlayFabClientInstanceAPI::LinkKongregate(
     const FLinkKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2638,7 +2640,7 @@ bool UPlayFabClientInstanceAPI::LinkNintendoServiceAccount(
     const FLinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2669,7 +2671,7 @@ bool UPlayFabClientInstanceAPI::LinkNintendoSwitchDeviceId(
     const FLinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2700,7 +2702,7 @@ bool UPlayFabClientInstanceAPI::LinkOpenIdConnect(
     const FLinkOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2731,7 +2733,7 @@ bool UPlayFabClientInstanceAPI::LinkPSNAccount(
     const FLinkPSNAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2762,7 +2764,7 @@ bool UPlayFabClientInstanceAPI::LinkSteamAccount(
     const FLinkSteamAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2793,7 +2795,7 @@ bool UPlayFabClientInstanceAPI::LinkTwitch(
     const FLinkTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2824,7 +2826,7 @@ bool UPlayFabClientInstanceAPI::LinkWindowsHello(
     const FLinkWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2855,7 +2857,7 @@ bool UPlayFabClientInstanceAPI::LinkXboxAccount(
     const FLinkXboxAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -2886,6 +2888,7 @@ bool UPlayFabClientInstanceAPI::LoginWithAndroidDeviceID(
     const FLoginWithAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -2906,11 +2909,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2932,6 +2935,7 @@ bool UPlayFabClientInstanceAPI::LoginWithApple(
     const FLoginWithAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -2952,11 +2956,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpReque
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2978,6 +2982,7 @@ bool UPlayFabClientInstanceAPI::LoginWithCustomID(
     const FLoginWithCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -2998,11 +3003,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithCustomIDResult(FHttpRequestPtr HttpRe
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3024,6 +3029,7 @@ bool UPlayFabClientInstanceAPI::LoginWithEmailAddress(
     const FLoginWithEmailAddressDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3044,11 +3050,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithEmailAddressResult(FHttpRequestPtr Ht
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3070,6 +3076,7 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebook(
     const FLoginWithFacebookDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3090,11 +3097,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithFacebookResult(FHttpRequestPtr HttpRe
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3116,6 +3123,7 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebookInstantGamesId(
     const FLoginWithFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3136,11 +3144,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithFacebookInstantGamesIdResult(FHttpReq
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3162,6 +3170,7 @@ bool UPlayFabClientInstanceAPI::LoginWithGameCenter(
     const FLoginWithGameCenterDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3182,11 +3191,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithGameCenterResult(FHttpRequestPtr Http
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3208,6 +3217,7 @@ bool UPlayFabClientInstanceAPI::LoginWithGoogleAccount(
     const FLoginWithGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3228,11 +3238,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithGoogleAccountResult(FHttpRequestPtr H
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3254,6 +3264,7 @@ bool UPlayFabClientInstanceAPI::LoginWithIOSDeviceID(
     const FLoginWithIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3274,11 +3285,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithIOSDeviceIDResult(FHttpRequestPtr Htt
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3300,6 +3311,7 @@ bool UPlayFabClientInstanceAPI::LoginWithKongregate(
     const FLoginWithKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3320,11 +3332,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithKongregateResult(FHttpRequestPtr Http
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3346,6 +3358,7 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoServiceAccount(
     const FLoginWithNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3366,11 +3379,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithNintendoServiceAccountResult(FHttpReq
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3392,6 +3405,7 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoSwitchDeviceId(
     const FLoginWithNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3412,11 +3426,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithNintendoSwitchDeviceIdResult(FHttpReq
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3438,6 +3452,7 @@ bool UPlayFabClientInstanceAPI::LoginWithOpenIdConnect(
     const FLoginWithOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3458,11 +3473,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithOpenIdConnectResult(FHttpRequestPtr H
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3484,6 +3499,7 @@ bool UPlayFabClientInstanceAPI::LoginWithPlayFab(
     const FLoginWithPlayFabDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3504,11 +3520,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithPlayFabResult(FHttpRequestPtr HttpReq
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3530,6 +3546,7 @@ bool UPlayFabClientInstanceAPI::LoginWithPSN(
     const FLoginWithPSNDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3550,11 +3567,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithPSNResult(FHttpRequestPtr HttpRequest
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3576,6 +3593,7 @@ bool UPlayFabClientInstanceAPI::LoginWithSteam(
     const FLoginWithSteamDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3596,11 +3614,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithSteamResult(FHttpRequestPtr HttpReque
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3622,6 +3640,7 @@ bool UPlayFabClientInstanceAPI::LoginWithTwitch(
     const FLoginWithTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3642,11 +3661,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithTwitchResult(FHttpRequestPtr HttpRequ
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3668,6 +3687,7 @@ bool UPlayFabClientInstanceAPI::LoginWithWindowsHello(
     const FLoginWithWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3688,11 +3708,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithWindowsHelloResult(FHttpRequestPtr Ht
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3714,6 +3734,7 @@ bool UPlayFabClientInstanceAPI::LoginWithXbox(
     const FLoginWithXboxDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3734,11 +3755,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithXboxResult(FHttpRequestPtr HttpReques
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3760,7 +3781,7 @@ bool UPlayFabClientInstanceAPI::Matchmake(
     const FMatchmakeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -3791,7 +3812,7 @@ bool UPlayFabClientInstanceAPI::OpenTrade(
     const FOpenTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -3822,7 +3843,7 @@ bool UPlayFabClientInstanceAPI::PayForPurchase(
     const FPayForPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -3853,7 +3874,7 @@ bool UPlayFabClientInstanceAPI::PurchaseItem(
     const FPurchaseItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -3884,7 +3905,7 @@ bool UPlayFabClientInstanceAPI::RedeemCoupon(
     const FRedeemCouponDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -3915,7 +3936,7 @@ bool UPlayFabClientInstanceAPI::RefreshPSNAuthToken(
     const FRefreshPSNAuthTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -3946,7 +3967,7 @@ bool UPlayFabClientInstanceAPI::RegisterForIOSPushNotification(
     const FRegisterForIOSPushNotificationDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -3977,6 +3998,7 @@ bool UPlayFabClientInstanceAPI::RegisterPlayFabUser(
     const FRegisterPlayFabUserDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -3995,7 +4017,7 @@ void UPlayFabClientInstanceAPI::OnRegisterPlayFabUserResult(FHttpRequestPtr Http
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.SessionTicket.Len() > 0)
-            this->GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
         MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -4011,6 +4033,7 @@ bool UPlayFabClientInstanceAPI::RegisterWithWindowsHello(
     const FRegisterWithWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (!this->settings.IsValid())
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
     else
@@ -4031,11 +4054,11 @@ void UPlayFabClientInstanceAPI::OnRegisterWithWindowsHelloResult(FHttpRequestPtr
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
             this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            // context->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            // context->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -4057,7 +4080,7 @@ bool UPlayFabClientInstanceAPI::RemoveContactEmail(
     const FRemoveContactEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4088,7 +4111,7 @@ bool UPlayFabClientInstanceAPI::RemoveFriend(
     const FRemoveFriendDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4119,7 +4142,7 @@ bool UPlayFabClientInstanceAPI::RemoveGenericID(
     const FRemoveGenericIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4150,7 +4173,7 @@ bool UPlayFabClientInstanceAPI::RemoveSharedGroupMembers(
     const FRemoveSharedGroupMembersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4181,7 +4204,7 @@ bool UPlayFabClientInstanceAPI::ReportAdActivity(
     const FReportAdActivityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4212,7 +4235,7 @@ bool UPlayFabClientInstanceAPI::ReportDeviceInfo(
     const FReportDeviceInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4243,7 +4266,7 @@ bool UPlayFabClientInstanceAPI::ReportPlayer(
     const FReportPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4274,7 +4297,7 @@ bool UPlayFabClientInstanceAPI::RestoreIOSPurchases(
     const FRestoreIOSPurchasesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4305,7 +4328,7 @@ bool UPlayFabClientInstanceAPI::RewardAdActivity(
     const FRewardAdActivityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4336,6 +4359,7 @@ bool UPlayFabClientInstanceAPI::SendAccountRecoveryEmail(
     const FSendAccountRecoveryEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/SendAccountRecoveryEmail"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -4362,7 +4386,7 @@ bool UPlayFabClientInstanceAPI::SetFriendTags(
     const FSetFriendTagsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4393,7 +4417,7 @@ bool UPlayFabClientInstanceAPI::SetPlayerSecret(
     const FSetPlayerSecretDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4424,7 +4448,7 @@ bool UPlayFabClientInstanceAPI::StartGame(
     const FStartGameDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4455,7 +4479,7 @@ bool UPlayFabClientInstanceAPI::StartPurchase(
     const FStartPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4486,7 +4510,7 @@ bool UPlayFabClientInstanceAPI::SubtractUserVirtualCurrency(
     const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4517,7 +4541,7 @@ bool UPlayFabClientInstanceAPI::UnlinkAndroidDeviceID(
     const FUnlinkAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4548,7 +4572,7 @@ bool UPlayFabClientInstanceAPI::UnlinkApple(
     const FUnlinkAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4579,7 +4603,7 @@ bool UPlayFabClientInstanceAPI::UnlinkCustomID(
     const FUnlinkCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4610,7 +4634,7 @@ bool UPlayFabClientInstanceAPI::UnlinkFacebookAccount(
     const FUnlinkFacebookAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4641,7 +4665,7 @@ bool UPlayFabClientInstanceAPI::UnlinkFacebookInstantGamesId(
     const FUnlinkFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4672,7 +4696,7 @@ bool UPlayFabClientInstanceAPI::UnlinkGameCenterAccount(
     const FUnlinkGameCenterAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4703,7 +4727,7 @@ bool UPlayFabClientInstanceAPI::UnlinkGoogleAccount(
     const FUnlinkGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4734,7 +4758,7 @@ bool UPlayFabClientInstanceAPI::UnlinkIOSDeviceID(
     const FUnlinkIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4765,7 +4789,7 @@ bool UPlayFabClientInstanceAPI::UnlinkKongregate(
     const FUnlinkKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4796,7 +4820,7 @@ bool UPlayFabClientInstanceAPI::UnlinkNintendoServiceAccount(
     const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4827,7 +4851,7 @@ bool UPlayFabClientInstanceAPI::UnlinkNintendoSwitchDeviceId(
     const FUnlinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4858,7 +4882,7 @@ bool UPlayFabClientInstanceAPI::UnlinkOpenIdConnect(
     const FUnlinkOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4889,7 +4913,7 @@ bool UPlayFabClientInstanceAPI::UnlinkPSNAccount(
     const FUnlinkPSNAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4920,7 +4944,7 @@ bool UPlayFabClientInstanceAPI::UnlinkSteamAccount(
     const FUnlinkSteamAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4951,7 +4975,7 @@ bool UPlayFabClientInstanceAPI::UnlinkTwitch(
     const FUnlinkTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -4982,7 +5006,7 @@ bool UPlayFabClientInstanceAPI::UnlinkWindowsHello(
     const FUnlinkWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5013,7 +5037,7 @@ bool UPlayFabClientInstanceAPI::UnlinkXboxAccount(
     const FUnlinkXboxAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5044,7 +5068,7 @@ bool UPlayFabClientInstanceAPI::UnlockContainerInstance(
     const FUnlockContainerInstanceDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5075,7 +5099,7 @@ bool UPlayFabClientInstanceAPI::UnlockContainerItem(
     const FUnlockContainerItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5106,7 +5130,7 @@ bool UPlayFabClientInstanceAPI::UpdateAvatarUrl(
     const FUpdateAvatarUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5137,7 +5161,7 @@ bool UPlayFabClientInstanceAPI::UpdateCharacterData(
     const FUpdateCharacterDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5168,7 +5192,7 @@ bool UPlayFabClientInstanceAPI::UpdateCharacterStatistics(
     const FUpdateCharacterStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5199,7 +5223,7 @@ bool UPlayFabClientInstanceAPI::UpdatePlayerStatistics(
     const FUpdatePlayerStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5230,7 +5254,7 @@ bool UPlayFabClientInstanceAPI::UpdateSharedGroupData(
     const FUpdateSharedGroupDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5261,7 +5285,7 @@ bool UPlayFabClientInstanceAPI::UpdateUserData(
     const FUpdateUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5292,7 +5316,7 @@ bool UPlayFabClientInstanceAPI::UpdateUserPublisherData(
     const FUpdateUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5323,7 +5347,7 @@ bool UPlayFabClientInstanceAPI::UpdateUserTitleDisplayName(
     const FUpdateUserTitleDisplayNameDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5354,7 +5378,7 @@ bool UPlayFabClientInstanceAPI::ValidateAmazonIAPReceipt(
     const FValidateAmazonIAPReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5385,7 +5409,7 @@ bool UPlayFabClientInstanceAPI::ValidateGooglePlayPurchase(
     const FValidateGooglePlayPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5416,7 +5440,7 @@ bool UPlayFabClientInstanceAPI::ValidateIOSReceipt(
     const FValidateIOSReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5447,7 +5471,7 @@ bool UPlayFabClientInstanceAPI::ValidateWindowsStoreReceipt(
     const FValidateWindowsStoreReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5478,7 +5502,7 @@ bool UPlayFabClientInstanceAPI::WriteCharacterEvent(
     const FWriteCharacterEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5509,7 +5533,7 @@ bool UPlayFabClientInstanceAPI::WritePlayerEvent(
     const FWritePlayerEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
@@ -5540,7 +5564,7 @@ bool UPlayFabClientInstanceAPI::WriteTitleEvent(
     const FWriteTitleEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : this->GetOrCreateAuthenticationContext();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;

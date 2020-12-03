@@ -26,6 +26,7 @@ FString UPlayFabAdminAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
+
 bool UPlayFabAdminAPI::AbortTaskInstance(
     AdminModels::FAbortTaskInstanceRequest& request,
     const FAbortTaskInstanceDelegate& SuccessDelegate,

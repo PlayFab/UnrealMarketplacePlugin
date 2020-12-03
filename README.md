@@ -114,7 +114,7 @@ In Unreal 4.25, there is a step that is highly recommended:
 * Toggle it on.
 * Save All. (ctrl + shift +s)
 
-![Network Settings](images/NetworkSettings.PNG)
+![Network Settings](images/NetworkSettings.png)
 
 ### Fix it in the files:
 

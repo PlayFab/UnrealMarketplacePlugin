@@ -148,7 +148,7 @@ function getPropertySerialization(tabbing, property, datatype) {
                 return tabbing + "if (request.ParamsEncoded != \"\") OutRestJsonObj->SetStringField(TEXT(\"" + property.name + "\"), request." + propSafeName + ");\n";
             }
             if (property.name === "TitleId") {
-                return tabbing + "OutRestJsonObj->SetStringField(TEXT(\"" + property.name + "\"), IPlayFab::Get().getGameTitleId());\n";
+                return tabbing + "OutRestJsonObj->SetStringField(TEXT(\"" + property.name + "\"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);\n";
             }
             if (isCollection && isArray) {
                 return tabbing + "// Check to see if string is empty\n"
@@ -317,10 +317,10 @@ function getCustomApiAssignmentLogic(tabbing, api, apiCall) {
 function getCustomApiActivationUrlLogic(api) {
     if (api.name === "CloudScript")
     {
-        return "RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->getUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;\n"
+        return "RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->GeneratePfUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;\n"
     }
     else 
     {
-        return "RequestUrl = pfSettings->getUrl(PlayFabRequestURL);\n"
+        return "RequestUrl = pfSettings->GeneratePfUrl(PlayFabRequestURL);\n"
     }
 }

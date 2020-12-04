@@ -45,6 +45,7 @@ bool UPlayFabAuthenticationAPI::GetEntityToken(
         authKey = TEXT("X-SecretKey"); authValue = devSecretKey;
     }
 
+
     auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Authentication/GetEntityToken"), request.toJSONString(), authKey, authValue);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAuthenticationAPI::OnGetEntityTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();

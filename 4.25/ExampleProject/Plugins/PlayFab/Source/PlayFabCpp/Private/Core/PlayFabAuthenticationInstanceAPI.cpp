@@ -84,22 +84,16 @@ bool UPlayFabAuthenticationInstanceAPI::GetEntityToken(
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
     FString authKey; FString authValue;
-    if (request.AuthenticationContext.IsValid()) {
-        if (request.AuthenticationContext->GetEntityToken().Len() > 0) {
-            authKey = TEXT("X-EntityToken"); authValue = request.AuthenticationContext->GetEntityToken();
-        } else if (request.AuthenticationContext->GetClientSessionTicket().Len() > 0) {
-            authKey = TEXT("X-Authorization"); authValue = request.AuthenticationContext->GetClientSessionTicket();
-        } else if (GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey.Len() > 0) {
-            authKey = TEXT("X-SecretKey"); authValue = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
-        }
-    } else {
-        if (context->GetEntityToken().Len() > 0) {
-            authKey = TEXT("X-EntityToken"); authValue = context->GetEntityToken();
-        } else if (context->GetClientSessionTicket().Len() > 0) {
-            authKey = TEXT("X-Authorization"); authValue = context->GetClientSessionTicket();
-        } else if (context->GetDeveloperSecretKey().Len() > 0) {
-            authKey = TEXT("X-SecretKey"); authValue = context->GetDeveloperSecretKey();
-        }
+    FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();
+    FString devSecretKey = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+
+    if (entityToken.Len() > 0) {
+        authKey = TEXT("X-EntityToken"); authValue = entityToken;
+    } else if (clientTicket.Len() > 0) {
+        authKey = TEXT("X-Authorization"); authValue = clientTicket;
+    } else if (GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey.Len() > 0) {
+        authKey = TEXT("X-SecretKey"); authValue = devSecretKey;
     }
 
 
@@ -115,7 +109,7 @@ void UPlayFabAuthenticationInstanceAPI::OnGetEntityTokenResult(FHttpRequestPtr H
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.EntityToken.Len() > 0)
-            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken);
+            context->SetEntityToken(outResult.EntityToken);
         SuccessDelegate.ExecuteIfBound(outResult);
     }
     else

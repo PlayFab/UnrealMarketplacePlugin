@@ -72,8 +72,7 @@ bool UPlayFabCloudScriptAPI::ExecuteFunction(
     {
         FString endpoint = TEXT("/CloudScript/ExecuteFunction");
         endpoint.RemoveFromStart(TEXT("/"));
-        FString url = localApiServer + endpoint; // TODO: This is a full url
-        auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, url, request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+        auto HttpRequest = PlayFabRequestHandler::SendFullUrlRequest(localApiServer + endpoint, request.toJSONString(), TEXT("X-EntityToken"), entityToken);
         HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabCloudScriptAPI::OnExecuteFunctionResult, SuccessDelegate, ErrorDelegate);
         return HttpRequest->ProcessRequest();
     }

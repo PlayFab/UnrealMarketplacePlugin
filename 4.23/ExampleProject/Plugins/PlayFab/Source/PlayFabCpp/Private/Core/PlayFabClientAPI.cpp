@@ -2853,11 +2853,11 @@ void UPlayFabClientAPI::OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr HttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2895,11 +2895,11 @@ void UPlayFabClientAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpRequest, FHtt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2937,11 +2937,11 @@ void UPlayFabClientAPI::OnLoginWithCustomIDResult(FHttpRequestPtr HttpRequest, F
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2979,11 +2979,11 @@ void UPlayFabClientAPI::OnLoginWithEmailAddressResult(FHttpRequestPtr HttpReques
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3021,11 +3021,11 @@ void UPlayFabClientAPI::OnLoginWithFacebookResult(FHttpRequestPtr HttpRequest, F
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3063,11 +3063,11 @@ void UPlayFabClientAPI::OnLoginWithFacebookInstantGamesIdResult(FHttpRequestPtr 
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3105,11 +3105,11 @@ void UPlayFabClientAPI::OnLoginWithGameCenterResult(FHttpRequestPtr HttpRequest,
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3147,11 +3147,11 @@ void UPlayFabClientAPI::OnLoginWithGoogleAccountResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3189,11 +3189,11 @@ void UPlayFabClientAPI::OnLoginWithIOSDeviceIDResult(FHttpRequestPtr HttpRequest
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3231,11 +3231,11 @@ void UPlayFabClientAPI::OnLoginWithKongregateResult(FHttpRequestPtr HttpRequest,
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3273,11 +3273,11 @@ void UPlayFabClientAPI::OnLoginWithNintendoServiceAccountResult(FHttpRequestPtr 
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3315,11 +3315,11 @@ void UPlayFabClientAPI::OnLoginWithNintendoSwitchDeviceIdResult(FHttpRequestPtr 
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3357,11 +3357,11 @@ void UPlayFabClientAPI::OnLoginWithOpenIdConnectResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3399,11 +3399,11 @@ void UPlayFabClientAPI::OnLoginWithPlayFabResult(FHttpRequestPtr HttpRequest, FH
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3441,11 +3441,11 @@ void UPlayFabClientAPI::OnLoginWithPSNResult(FHttpRequestPtr HttpRequest, FHttpR
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3483,11 +3483,11 @@ void UPlayFabClientAPI::OnLoginWithSteamResult(FHttpRequestPtr HttpRequest, FHtt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3525,11 +3525,11 @@ void UPlayFabClientAPI::OnLoginWithTwitchResult(FHttpRequestPtr HttpRequest, FHt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3567,11 +3567,11 @@ void UPlayFabClientAPI::OnLoginWithWindowsHelloResult(FHttpRequestPtr HttpReques
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3609,11 +3609,11 @@ void UPlayFabClientAPI::OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttp
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3867,7 +3867,7 @@ void UPlayFabClientAPI::OnRegisterPlayFabUserResult(FHttpRequestPtr HttpRequest,
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.SessionTicket.Len() > 0)
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
         MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -3900,11 +3900,11 @@ void UPlayFabClientAPI::OnRegisterWithWindowsHelloResult(FHttpRequestPtr HttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            // PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {

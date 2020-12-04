@@ -115,7 +115,7 @@ void UPlayFabAuthenticationInstanceAPI::OnGetEntityTokenResult(FHttpRequestPtr H
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.EntityToken.Len() > 0)
-            // context->SetEntityToken(outResult.EntityToken);
+            context->SetEntityToken(outResult.EntityToken);
         SuccessDelegate.ExecuteIfBound(outResult);
     }
     else

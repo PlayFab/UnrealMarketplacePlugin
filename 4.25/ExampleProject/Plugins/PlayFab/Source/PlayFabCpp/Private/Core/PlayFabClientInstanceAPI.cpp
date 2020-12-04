@@ -2889,10 +2889,8 @@ bool UPlayFabClientInstanceAPI::LoginWithAndroidDeviceID(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithAndroidDeviceID"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -2908,12 +2906,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2936,10 +2933,8 @@ bool UPlayFabClientInstanceAPI::LoginWithApple(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithApple"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -2955,12 +2950,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2983,10 +2977,8 @@ bool UPlayFabClientInstanceAPI::LoginWithCustomID(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithCustomID"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3002,12 +2994,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithCustomIDResult(FHttpRequestPtr HttpRe
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3030,10 +3021,8 @@ bool UPlayFabClientInstanceAPI::LoginWithEmailAddress(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithEmailAddress"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3049,12 +3038,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithEmailAddressResult(FHttpRequestPtr Ht
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3077,10 +3065,7 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebook(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
-        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
+    request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithFacebook"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3096,12 +3081,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithFacebookResult(FHttpRequestPtr HttpRe
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3124,10 +3108,8 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebookInstantGamesId(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithFacebookInstantGamesId"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3143,12 +3125,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithFacebookInstantGamesIdResult(FHttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3171,10 +3152,8 @@ bool UPlayFabClientInstanceAPI::LoginWithGameCenter(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithGameCenter"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3190,12 +3169,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithGameCenterResult(FHttpRequestPtr Http
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3218,10 +3196,8 @@ bool UPlayFabClientInstanceAPI::LoginWithGoogleAccount(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithGoogleAccount"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3237,12 +3213,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithGoogleAccountResult(FHttpRequestPtr H
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3265,10 +3240,8 @@ bool UPlayFabClientInstanceAPI::LoginWithIOSDeviceID(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithIOSDeviceID"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3284,12 +3257,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithIOSDeviceIDResult(FHttpRequestPtr Htt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3312,10 +3284,8 @@ bool UPlayFabClientInstanceAPI::LoginWithKongregate(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithKongregate"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3331,12 +3301,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithKongregateResult(FHttpRequestPtr Http
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3359,10 +3328,8 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoServiceAccount(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithNintendoServiceAccount"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3378,12 +3345,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithNintendoServiceAccountResult(FHttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3406,10 +3372,8 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoSwitchDeviceId(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithNintendoSwitchDeviceId"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3425,12 +3389,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithNintendoSwitchDeviceIdResult(FHttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3453,10 +3416,8 @@ bool UPlayFabClientInstanceAPI::LoginWithOpenIdConnect(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithOpenIdConnect"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3472,12 +3433,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithOpenIdConnectResult(FHttpRequestPtr H
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3500,10 +3460,8 @@ bool UPlayFabClientInstanceAPI::LoginWithPlayFab(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithPlayFab"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3519,12 +3477,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithPlayFabResult(FHttpRequestPtr HttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3547,10 +3504,8 @@ bool UPlayFabClientInstanceAPI::LoginWithPSN(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithPSN"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3566,12 +3521,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithPSNResult(FHttpRequestPtr HttpRequest
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3594,10 +3548,8 @@ bool UPlayFabClientInstanceAPI::LoginWithSteam(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithSteam"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3613,12 +3565,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithSteamResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3641,10 +3592,8 @@ bool UPlayFabClientInstanceAPI::LoginWithTwitch(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithTwitch"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3660,12 +3609,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithTwitchResult(FHttpRequestPtr HttpRequ
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3688,10 +3636,8 @@ bool UPlayFabClientInstanceAPI::LoginWithWindowsHello(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithWindowsHello"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3707,12 +3653,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithWindowsHelloResult(FHttpRequestPtr Ht
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3735,10 +3680,8 @@ bool UPlayFabClientInstanceAPI::LoginWithXbox(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithXbox"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -3754,12 +3697,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithXboxResult(FHttpRequestPtr HttpReques
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3999,10 +3941,8 @@ bool UPlayFabClientInstanceAPI::RegisterPlayFabUser(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RegisterPlayFabUser"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -4017,7 +3957,7 @@ void UPlayFabClientInstanceAPI::OnRegisterPlayFabUserResult(FHttpRequestPtr Http
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.SessionTicket.Len() > 0)
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
         MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -4034,10 +3974,8 @@ bool UPlayFabClientInstanceAPI::RegisterWithWindowsHello(
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
     TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (!this->settings.IsValid())
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
         request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
-    else
-        request.TitleId = this->settings->GetTitleId();
 
 
     auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RegisterWithWindowsHello"), request.toJSONString(), TEXT(""), TEXT(""));
@@ -4053,12 +3991,11 @@ void UPlayFabClientInstanceAPI::OnRegisterWithWindowsHelloResult(FHttpRequestPtr
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            // context->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            // context->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {

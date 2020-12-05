@@ -12,9 +12,7 @@ class PLAYFABCPP_API UPlayFabAPISettings
 {
 public:
     UPlayFabAPISettings() :
-        BaseServiceHost(PlayFab::PlayFabSettings::GetProductionEnvironmentURL())
-        , TitleId(PlayFab::PlayFabSettings::GetTitleId())
-        , AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
+        AdvertisingIdType(PlayFab::PlayFabSettings::GetAdvertisingIdType())
         , AdvertisingIdValue(PlayFab::PlayFabSettings::GetAdvertisingIdValue())
         , DisableAdvertising(PlayFab::PlayFabSettings::GetDisableAdvertising())
     {
@@ -62,8 +60,17 @@ public:
 
     FString GeneratePfUrl(const FString& urlPath)
     {
-        return TEXT("https://") + (!VerticalName.IsEmpty() ? VerticalName : TitleId) + BaseServiceHost
-            + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        const UPlayFabRuntimeSettings* rSettings = GetDefault<UPlayFabRuntimeSettings>();
+        if (rSettings->ProductionEnvironmentURL.StartsWith(TEXT("https://")))
+        {
+            return rSettings->ProductionEnvironmentURL
+                + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        }
+        else
+        {
+            return TEXT("https://") + rSettings->TitleId + rSettings->ProductionEnvironmentURL
+                + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;
+        }
     }
 
 private:

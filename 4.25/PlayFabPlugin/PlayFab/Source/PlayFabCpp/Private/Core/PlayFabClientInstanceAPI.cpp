@@ -115,14 +115,14 @@ bool UPlayFabClientInstanceAPI::AcceptTrade(
     const FAcceptTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AcceptTrade")) : this->settings->GetUrl(TEXT("/Client/AcceptTrade")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AcceptTrade"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAcceptTradeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -146,14 +146,14 @@ bool UPlayFabClientInstanceAPI::AddFriend(
     const FAddFriendDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AddFriend")) : this->settings->GetUrl(TEXT("/Client/AddFriend")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AddFriend"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAddFriendResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -177,14 +177,14 @@ bool UPlayFabClientInstanceAPI::AddGenericID(
     const FAddGenericIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AddGenericID")) : this->settings->GetUrl(TEXT("/Client/AddGenericID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AddGenericID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAddGenericIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -208,14 +208,14 @@ bool UPlayFabClientInstanceAPI::AddOrUpdateContactEmail(
     const FAddOrUpdateContactEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AddOrUpdateContactEmail")) : this->settings->GetUrl(TEXT("/Client/AddOrUpdateContactEmail")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AddOrUpdateContactEmail"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAddOrUpdateContactEmailResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -239,14 +239,14 @@ bool UPlayFabClientInstanceAPI::AddSharedGroupMembers(
     const FAddSharedGroupMembersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AddSharedGroupMembers")) : this->settings->GetUrl(TEXT("/Client/AddSharedGroupMembers")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AddSharedGroupMembers"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAddSharedGroupMembersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -270,14 +270,14 @@ bool UPlayFabClientInstanceAPI::AddUsernamePassword(
     const FAddUsernamePasswordDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AddUsernamePassword")) : this->settings->GetUrl(TEXT("/Client/AddUsernamePassword")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AddUsernamePassword"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAddUsernamePasswordResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -301,14 +301,14 @@ bool UPlayFabClientInstanceAPI::AddUserVirtualCurrency(
     const FAddUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AddUserVirtualCurrency")) : this->settings->GetUrl(TEXT("/Client/AddUserVirtualCurrency")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AddUserVirtualCurrency"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAddUserVirtualCurrencyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -332,14 +332,14 @@ bool UPlayFabClientInstanceAPI::AndroidDevicePushNotificationRegistration(
     const FAndroidDevicePushNotificationRegistrationDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AndroidDevicePushNotificationRegistration")) : this->settings->GetUrl(TEXT("/Client/AndroidDevicePushNotificationRegistration")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AndroidDevicePushNotificationRegistration"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAndroidDevicePushNotificationRegistrationResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -363,14 +363,14 @@ bool UPlayFabClientInstanceAPI::AttributeInstall(
     const FAttributeInstallDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/AttributeInstall")) : this->settings->GetUrl(TEXT("/Client/AttributeInstall")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/AttributeInstall"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnAttributeInstallResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -400,14 +400,14 @@ bool UPlayFabClientInstanceAPI::CancelTrade(
     const FCancelTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/CancelTrade")) : this->settings->GetUrl(TEXT("/Client/CancelTrade")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/CancelTrade"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnCancelTradeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -431,14 +431,14 @@ bool UPlayFabClientInstanceAPI::ConfirmPurchase(
     const FConfirmPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ConfirmPurchase")) : this->settings->GetUrl(TEXT("/Client/ConfirmPurchase")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ConfirmPurchase"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnConfirmPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -462,14 +462,14 @@ bool UPlayFabClientInstanceAPI::ConsumeItem(
     const FConsumeItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ConsumeItem")) : this->settings->GetUrl(TEXT("/Client/ConsumeItem")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ConsumeItem"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnConsumeItemResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -493,14 +493,14 @@ bool UPlayFabClientInstanceAPI::ConsumeMicrosoftStoreEntitlements(
     const FConsumeMicrosoftStoreEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ConsumeMicrosoftStoreEntitlements")) : this->settings->GetUrl(TEXT("/Client/ConsumeMicrosoftStoreEntitlements")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ConsumeMicrosoftStoreEntitlements"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnConsumeMicrosoftStoreEntitlementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -524,14 +524,14 @@ bool UPlayFabClientInstanceAPI::ConsumePSNEntitlements(
     const FConsumePSNEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ConsumePSNEntitlements")) : this->settings->GetUrl(TEXT("/Client/ConsumePSNEntitlements")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ConsumePSNEntitlements"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnConsumePSNEntitlementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -555,14 +555,14 @@ bool UPlayFabClientInstanceAPI::ConsumeXboxEntitlements(
     const FConsumeXboxEntitlementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ConsumeXboxEntitlements")) : this->settings->GetUrl(TEXT("/Client/ConsumeXboxEntitlements")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ConsumeXboxEntitlements"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnConsumeXboxEntitlementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -586,14 +586,14 @@ bool UPlayFabClientInstanceAPI::CreateSharedGroup(
     const FCreateSharedGroupDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/CreateSharedGroup")) : this->settings->GetUrl(TEXT("/Client/CreateSharedGroup")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/CreateSharedGroup"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnCreateSharedGroupResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -617,14 +617,14 @@ bool UPlayFabClientInstanceAPI::ExecuteCloudScript(
     const FExecuteCloudScriptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ExecuteCloudScript")) : this->settings->GetUrl(TEXT("/Client/ExecuteCloudScript")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ExecuteCloudScript"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnExecuteCloudScriptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -648,14 +648,14 @@ bool UPlayFabClientInstanceAPI::GetAccountInfo(
     const FGetAccountInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetAccountInfo")) : this->settings->GetUrl(TEXT("/Client/GetAccountInfo")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetAccountInfo"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetAccountInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -679,14 +679,14 @@ bool UPlayFabClientInstanceAPI::GetAdPlacements(
     const FGetAdPlacementsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetAdPlacements")) : this->settings->GetUrl(TEXT("/Client/GetAdPlacements")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetAdPlacements"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetAdPlacementsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -710,14 +710,14 @@ bool UPlayFabClientInstanceAPI::GetAllUsersCharacters(
     const FGetAllUsersCharactersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetAllUsersCharacters")) : this->settings->GetUrl(TEXT("/Client/GetAllUsersCharacters")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetAllUsersCharacters"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetAllUsersCharactersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -741,14 +741,14 @@ bool UPlayFabClientInstanceAPI::GetCatalogItems(
     const FGetCatalogItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetCatalogItems")) : this->settings->GetUrl(TEXT("/Client/GetCatalogItems")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCatalogItems"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCatalogItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -772,14 +772,14 @@ bool UPlayFabClientInstanceAPI::GetCharacterData(
     const FGetCharacterDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetCharacterData")) : this->settings->GetUrl(TEXT("/Client/GetCharacterData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCharacterData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCharacterDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -803,14 +803,14 @@ bool UPlayFabClientInstanceAPI::GetCharacterInventory(
     const FGetCharacterInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetCharacterInventory")) : this->settings->GetUrl(TEXT("/Client/GetCharacterInventory")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCharacterInventory"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCharacterInventoryResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -834,14 +834,14 @@ bool UPlayFabClientInstanceAPI::GetCharacterLeaderboard(
     const FGetCharacterLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetCharacterLeaderboard")) : this->settings->GetUrl(TEXT("/Client/GetCharacterLeaderboard")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCharacterLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCharacterLeaderboardResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -865,14 +865,14 @@ bool UPlayFabClientInstanceAPI::GetCharacterReadOnlyData(
     const FGetCharacterReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetCharacterReadOnlyData")) : this->settings->GetUrl(TEXT("/Client/GetCharacterReadOnlyData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCharacterReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCharacterReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -896,14 +896,14 @@ bool UPlayFabClientInstanceAPI::GetCharacterStatistics(
     const FGetCharacterStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetCharacterStatistics")) : this->settings->GetUrl(TEXT("/Client/GetCharacterStatistics")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCharacterStatistics"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCharacterStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -927,14 +927,14 @@ bool UPlayFabClientInstanceAPI::GetContentDownloadUrl(
     const FGetContentDownloadUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetContentDownloadUrl")) : this->settings->GetUrl(TEXT("/Client/GetContentDownloadUrl")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetContentDownloadUrl"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetContentDownloadUrlResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -958,14 +958,14 @@ bool UPlayFabClientInstanceAPI::GetCurrentGames(
     const FGetCurrentGamesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetCurrentGames")) : this->settings->GetUrl(TEXT("/Client/GetCurrentGames")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCurrentGames"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCurrentGamesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -989,14 +989,14 @@ bool UPlayFabClientInstanceAPI::GetFriendLeaderboard(
     const FGetFriendLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetFriendLeaderboard")) : this->settings->GetUrl(TEXT("/Client/GetFriendLeaderboard")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetFriendLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetFriendLeaderboardResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1020,14 +1020,14 @@ bool UPlayFabClientInstanceAPI::GetFriendLeaderboardAroundPlayer(
     const FGetFriendLeaderboardAroundPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetFriendLeaderboardAroundPlayer")) : this->settings->GetUrl(TEXT("/Client/GetFriendLeaderboardAroundPlayer")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetFriendLeaderboardAroundPlayer"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetFriendLeaderboardAroundPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1051,14 +1051,14 @@ bool UPlayFabClientInstanceAPI::GetFriendsList(
     const FGetFriendsListDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetFriendsList")) : this->settings->GetUrl(TEXT("/Client/GetFriendsList")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetFriendsList"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetFriendsListResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1082,14 +1082,14 @@ bool UPlayFabClientInstanceAPI::GetGameServerRegions(
     const FGetGameServerRegionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetGameServerRegions")) : this->settings->GetUrl(TEXT("/Client/GetGameServerRegions")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetGameServerRegions"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetGameServerRegionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1113,14 +1113,14 @@ bool UPlayFabClientInstanceAPI::GetLeaderboard(
     const FGetLeaderboardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetLeaderboard")) : this->settings->GetUrl(TEXT("/Client/GetLeaderboard")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetLeaderboard"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetLeaderboardResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1144,14 +1144,14 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardAroundCharacter(
     const FGetLeaderboardAroundCharacterDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetLeaderboardAroundCharacter")) : this->settings->GetUrl(TEXT("/Client/GetLeaderboardAroundCharacter")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetLeaderboardAroundCharacter"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetLeaderboardAroundCharacterResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1175,14 +1175,14 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardAroundPlayer(
     const FGetLeaderboardAroundPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetLeaderboardAroundPlayer")) : this->settings->GetUrl(TEXT("/Client/GetLeaderboardAroundPlayer")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetLeaderboardAroundPlayer"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetLeaderboardAroundPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1206,14 +1206,14 @@ bool UPlayFabClientInstanceAPI::GetLeaderboardForUserCharacters(
     const FGetLeaderboardForUserCharactersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetLeaderboardForUserCharacters")) : this->settings->GetUrl(TEXT("/Client/GetLeaderboardForUserCharacters")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetLeaderboardForUserCharacters"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetLeaderboardForUserCharactersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1237,14 +1237,14 @@ bool UPlayFabClientInstanceAPI::GetPaymentToken(
     const FGetPaymentTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPaymentToken")) : this->settings->GetUrl(TEXT("/Client/GetPaymentToken")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPaymentToken"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPaymentTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1268,14 +1268,14 @@ bool UPlayFabClientInstanceAPI::GetPhotonAuthenticationToken(
     const FGetPhotonAuthenticationTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPhotonAuthenticationToken")) : this->settings->GetUrl(TEXT("/Client/GetPhotonAuthenticationToken")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPhotonAuthenticationToken"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPhotonAuthenticationTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1299,14 +1299,14 @@ bool UPlayFabClientInstanceAPI::GetPlayerCombinedInfo(
     const FGetPlayerCombinedInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayerCombinedInfo")) : this->settings->GetUrl(TEXT("/Client/GetPlayerCombinedInfo")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerCombinedInfo"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerCombinedInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1330,14 +1330,14 @@ bool UPlayFabClientInstanceAPI::GetPlayerProfile(
     const FGetPlayerProfileDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayerProfile")) : this->settings->GetUrl(TEXT("/Client/GetPlayerProfile")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerProfile"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerProfileResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1369,14 +1369,14 @@ bool UPlayFabClientInstanceAPI::GetPlayerSegments(
     const FGetPlayerSegmentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayerSegments")) : this->settings->GetUrl(TEXT("/Client/GetPlayerSegments")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerSegments"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerSegmentsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1400,14 +1400,14 @@ bool UPlayFabClientInstanceAPI::GetPlayerStatistics(
     const FGetPlayerStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayerStatistics")) : this->settings->GetUrl(TEXT("/Client/GetPlayerStatistics")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerStatistics"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1431,14 +1431,14 @@ bool UPlayFabClientInstanceAPI::GetPlayerStatisticVersions(
     const FGetPlayerStatisticVersionsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayerStatisticVersions")) : this->settings->GetUrl(TEXT("/Client/GetPlayerStatisticVersions")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerStatisticVersions"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerStatisticVersionsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1462,14 +1462,14 @@ bool UPlayFabClientInstanceAPI::GetPlayerTags(
     const FGetPlayerTagsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayerTags")) : this->settings->GetUrl(TEXT("/Client/GetPlayerTags")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerTags"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerTagsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1493,14 +1493,14 @@ bool UPlayFabClientInstanceAPI::GetPlayerTrades(
     const FGetPlayerTradesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayerTrades")) : this->settings->GetUrl(TEXT("/Client/GetPlayerTrades")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerTrades"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerTradesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1524,14 +1524,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromFacebookIDs(
     const FGetPlayFabIDsFromFacebookIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromFacebookIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromFacebookIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromFacebookIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromFacebookIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1555,14 +1555,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromFacebookInstantGamesIds(
     const FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromFacebookInstantGamesIds")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromFacebookInstantGamesIds")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromFacebookInstantGamesIds"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromFacebookInstantGamesIdsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1586,14 +1586,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGameCenterIDs(
     const FGetPlayFabIDsFromGameCenterIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromGameCenterIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromGameCenterIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromGameCenterIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromGameCenterIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1617,14 +1617,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGenericIDs(
     const FGetPlayFabIDsFromGenericIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromGenericIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromGenericIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromGenericIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromGenericIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1648,14 +1648,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGoogleIDs(
     const FGetPlayFabIDsFromGoogleIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromGoogleIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromGoogleIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromGoogleIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromGoogleIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1679,14 +1679,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromKongregateIDs(
     const FGetPlayFabIDsFromKongregateIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromKongregateIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromKongregateIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromKongregateIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromKongregateIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1710,14 +1710,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(
     const FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1741,14 +1741,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromPSNAccountIDs(
     const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromPSNAccountIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromPSNAccountIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromPSNAccountIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromPSNAccountIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1772,14 +1772,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromSteamIDs(
     const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromSteamIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromSteamIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromSteamIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromSteamIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1803,14 +1803,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromTwitchIDs(
     const FGetPlayFabIDsFromTwitchIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromTwitchIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromTwitchIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromTwitchIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromTwitchIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1834,14 +1834,14 @@ bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromXboxLiveIDs(
     const FGetPlayFabIDsFromXboxLiveIDsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPlayFabIDsFromXboxLiveIDs")) : this->settings->GetUrl(TEXT("/Client/GetPlayFabIDsFromXboxLiveIDs")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromXboxLiveIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromXboxLiveIDsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1865,14 +1865,14 @@ bool UPlayFabClientInstanceAPI::GetPublisherData(
     const FGetPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPublisherData")) : this->settings->GetUrl(TEXT("/Client/GetPublisherData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPublisherData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1896,14 +1896,14 @@ bool UPlayFabClientInstanceAPI::GetPurchase(
     const FGetPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetPurchase")) : this->settings->GetUrl(TEXT("/Client/GetPurchase")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPurchase"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1927,14 +1927,14 @@ bool UPlayFabClientInstanceAPI::GetSharedGroupData(
     const FGetSharedGroupDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetSharedGroupData")) : this->settings->GetUrl(TEXT("/Client/GetSharedGroupData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetSharedGroupData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetSharedGroupDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1958,14 +1958,14 @@ bool UPlayFabClientInstanceAPI::GetStoreItems(
     const FGetStoreItemsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetStoreItems")) : this->settings->GetUrl(TEXT("/Client/GetStoreItems")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetStoreItems"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetStoreItemsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -1997,14 +1997,14 @@ bool UPlayFabClientInstanceAPI::GetTime(
     const FGetTimeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetTime")) : this->settings->GetUrl(TEXT("/Client/GetTime")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetTime"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetTimeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2028,14 +2028,14 @@ bool UPlayFabClientInstanceAPI::GetTitleData(
     const FGetTitleDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetTitleData")) : this->settings->GetUrl(TEXT("/Client/GetTitleData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetTitleData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetTitleDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2059,14 +2059,14 @@ bool UPlayFabClientInstanceAPI::GetTitleNews(
     const FGetTitleNewsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetTitleNews")) : this->settings->GetUrl(TEXT("/Client/GetTitleNews")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetTitleNews"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetTitleNewsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2090,9 +2090,10 @@ bool UPlayFabClientInstanceAPI::GetTitlePublicKey(
     const FGetTitlePublicKeyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetTitlePublicKey")) : this->settings->GetUrl(TEXT("/Client/GetTitlePublicKey")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetTitlePublicKey"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetTitlePublicKeyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2116,14 +2117,14 @@ bool UPlayFabClientInstanceAPI::GetTradeStatus(
     const FGetTradeStatusDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetTradeStatus")) : this->settings->GetUrl(TEXT("/Client/GetTradeStatus")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetTradeStatus"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetTradeStatusResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2147,14 +2148,14 @@ bool UPlayFabClientInstanceAPI::GetUserData(
     const FGetUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetUserData")) : this->settings->GetUrl(TEXT("/Client/GetUserData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetUserData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetUserDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2178,14 +2179,14 @@ bool UPlayFabClientInstanceAPI::GetUserInventory(
     const FGetUserInventoryDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetUserInventory")) : this->settings->GetUrl(TEXT("/Client/GetUserInventory")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetUserInventory"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetUserInventoryResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2209,14 +2210,14 @@ bool UPlayFabClientInstanceAPI::GetUserPublisherData(
     const FGetUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetUserPublisherData")) : this->settings->GetUrl(TEXT("/Client/GetUserPublisherData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetUserPublisherData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetUserPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2240,14 +2241,14 @@ bool UPlayFabClientInstanceAPI::GetUserPublisherReadOnlyData(
     const FGetUserPublisherReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetUserPublisherReadOnlyData")) : this->settings->GetUrl(TEXT("/Client/GetUserPublisherReadOnlyData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetUserPublisherReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetUserPublisherReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2271,14 +2272,14 @@ bool UPlayFabClientInstanceAPI::GetUserReadOnlyData(
     const FGetUserReadOnlyDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetUserReadOnlyData")) : this->settings->GetUrl(TEXT("/Client/GetUserReadOnlyData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetUserReadOnlyData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetUserReadOnlyDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2302,9 +2303,10 @@ bool UPlayFabClientInstanceAPI::GetWindowsHelloChallenge(
     const FGetWindowsHelloChallengeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GetWindowsHelloChallenge")) : this->settings->GetUrl(TEXT("/Client/GetWindowsHelloChallenge")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetWindowsHelloChallenge"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetWindowsHelloChallengeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2328,14 +2330,14 @@ bool UPlayFabClientInstanceAPI::GrantCharacterToUser(
     const FGrantCharacterToUserDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/GrantCharacterToUser")) : this->settings->GetUrl(TEXT("/Client/GrantCharacterToUser")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GrantCharacterToUser"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGrantCharacterToUserResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2359,14 +2361,14 @@ bool UPlayFabClientInstanceAPI::LinkAndroidDeviceID(
     const FLinkAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkAndroidDeviceID")) : this->settings->GetUrl(TEXT("/Client/LinkAndroidDeviceID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkAndroidDeviceID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkAndroidDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2390,14 +2392,14 @@ bool UPlayFabClientInstanceAPI::LinkApple(
     const FLinkAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkApple")) : this->settings->GetUrl(TEXT("/Client/LinkApple")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkApple"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkAppleResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2421,14 +2423,14 @@ bool UPlayFabClientInstanceAPI::LinkCustomID(
     const FLinkCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkCustomID")) : this->settings->GetUrl(TEXT("/Client/LinkCustomID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkCustomID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkCustomIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2452,14 +2454,14 @@ bool UPlayFabClientInstanceAPI::LinkFacebookAccount(
     const FLinkFacebookAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkFacebookAccount")) : this->settings->GetUrl(TEXT("/Client/LinkFacebookAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkFacebookAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkFacebookAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2483,14 +2485,14 @@ bool UPlayFabClientInstanceAPI::LinkFacebookInstantGamesId(
     const FLinkFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkFacebookInstantGamesId")) : this->settings->GetUrl(TEXT("/Client/LinkFacebookInstantGamesId")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkFacebookInstantGamesId"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkFacebookInstantGamesIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2514,14 +2516,14 @@ bool UPlayFabClientInstanceAPI::LinkGameCenterAccount(
     const FLinkGameCenterAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkGameCenterAccount")) : this->settings->GetUrl(TEXT("/Client/LinkGameCenterAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkGameCenterAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkGameCenterAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2545,14 +2547,14 @@ bool UPlayFabClientInstanceAPI::LinkGoogleAccount(
     const FLinkGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkGoogleAccount")) : this->settings->GetUrl(TEXT("/Client/LinkGoogleAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkGoogleAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkGoogleAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2576,14 +2578,14 @@ bool UPlayFabClientInstanceAPI::LinkIOSDeviceID(
     const FLinkIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkIOSDeviceID")) : this->settings->GetUrl(TEXT("/Client/LinkIOSDeviceID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkIOSDeviceID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkIOSDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2607,14 +2609,14 @@ bool UPlayFabClientInstanceAPI::LinkKongregate(
     const FLinkKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkKongregate")) : this->settings->GetUrl(TEXT("/Client/LinkKongregate")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkKongregate"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkKongregateResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2638,14 +2640,14 @@ bool UPlayFabClientInstanceAPI::LinkNintendoServiceAccount(
     const FLinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkNintendoServiceAccount")) : this->settings->GetUrl(TEXT("/Client/LinkNintendoServiceAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkNintendoServiceAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2669,14 +2671,14 @@ bool UPlayFabClientInstanceAPI::LinkNintendoSwitchDeviceId(
     const FLinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkNintendoSwitchDeviceId")) : this->settings->GetUrl(TEXT("/Client/LinkNintendoSwitchDeviceId")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkNintendoSwitchDeviceId"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkNintendoSwitchDeviceIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2700,14 +2702,14 @@ bool UPlayFabClientInstanceAPI::LinkOpenIdConnect(
     const FLinkOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkOpenIdConnect")) : this->settings->GetUrl(TEXT("/Client/LinkOpenIdConnect")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkOpenIdConnect"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkOpenIdConnectResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2731,14 +2733,14 @@ bool UPlayFabClientInstanceAPI::LinkPSNAccount(
     const FLinkPSNAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkPSNAccount")) : this->settings->GetUrl(TEXT("/Client/LinkPSNAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkPSNAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkPSNAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2762,14 +2764,14 @@ bool UPlayFabClientInstanceAPI::LinkSteamAccount(
     const FLinkSteamAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkSteamAccount")) : this->settings->GetUrl(TEXT("/Client/LinkSteamAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkSteamAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkSteamAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2793,14 +2795,14 @@ bool UPlayFabClientInstanceAPI::LinkTwitch(
     const FLinkTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkTwitch")) : this->settings->GetUrl(TEXT("/Client/LinkTwitch")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkTwitch"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkTwitchResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2824,14 +2826,14 @@ bool UPlayFabClientInstanceAPI::LinkWindowsHello(
     const FLinkWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkWindowsHello")) : this->settings->GetUrl(TEXT("/Client/LinkWindowsHello")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkWindowsHello"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkWindowsHelloResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2855,14 +2857,14 @@ bool UPlayFabClientInstanceAPI::LinkXboxAccount(
     const FLinkXboxAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LinkXboxAccount")) : this->settings->GetUrl(TEXT("/Client/LinkXboxAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkXboxAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkXboxAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2886,13 +2888,12 @@ bool UPlayFabClientInstanceAPI::LoginWithAndroidDeviceID(
     const FLoginWithAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithAndroidDeviceID")) : this->settings->GetUrl(TEXT("/Client/LoginWithAndroidDeviceID")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithAndroidDeviceID"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithAndroidDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2905,12 +2906,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2932,13 +2932,12 @@ bool UPlayFabClientInstanceAPI::LoginWithApple(
     const FLoginWithAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithApple")) : this->settings->GetUrl(TEXT("/Client/LoginWithApple")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithApple"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithAppleResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2951,12 +2950,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -2978,13 +2976,12 @@ bool UPlayFabClientInstanceAPI::LoginWithCustomID(
     const FLoginWithCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithCustomID")) : this->settings->GetUrl(TEXT("/Client/LoginWithCustomID")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithCustomID"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithCustomIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -2997,12 +2994,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithCustomIDResult(FHttpRequestPtr HttpRe
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3024,13 +3020,12 @@ bool UPlayFabClientInstanceAPI::LoginWithEmailAddress(
     const FLoginWithEmailAddressDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithEmailAddress")) : this->settings->GetUrl(TEXT("/Client/LoginWithEmailAddress")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithEmailAddress"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithEmailAddressResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3043,12 +3038,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithEmailAddressResult(FHttpRequestPtr Ht
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3070,13 +3064,12 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebook(
     const FLoginWithFacebookDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithFacebook")) : this->settings->GetUrl(TEXT("/Client/LoginWithFacebook")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithFacebook"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithFacebookResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3089,12 +3082,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithFacebookResult(FHttpRequestPtr HttpRe
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3116,13 +3108,12 @@ bool UPlayFabClientInstanceAPI::LoginWithFacebookInstantGamesId(
     const FLoginWithFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithFacebookInstantGamesId")) : this->settings->GetUrl(TEXT("/Client/LoginWithFacebookInstantGamesId")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithFacebookInstantGamesId"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithFacebookInstantGamesIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3135,12 +3126,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithFacebookInstantGamesIdResult(FHttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3162,13 +3152,12 @@ bool UPlayFabClientInstanceAPI::LoginWithGameCenter(
     const FLoginWithGameCenterDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithGameCenter")) : this->settings->GetUrl(TEXT("/Client/LoginWithGameCenter")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithGameCenter"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithGameCenterResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3181,12 +3170,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithGameCenterResult(FHttpRequestPtr Http
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3208,13 +3196,12 @@ bool UPlayFabClientInstanceAPI::LoginWithGoogleAccount(
     const FLoginWithGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithGoogleAccount")) : this->settings->GetUrl(TEXT("/Client/LoginWithGoogleAccount")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithGoogleAccount"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithGoogleAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3227,12 +3214,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithGoogleAccountResult(FHttpRequestPtr H
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3254,13 +3240,12 @@ bool UPlayFabClientInstanceAPI::LoginWithIOSDeviceID(
     const FLoginWithIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithIOSDeviceID")) : this->settings->GetUrl(TEXT("/Client/LoginWithIOSDeviceID")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithIOSDeviceID"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithIOSDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3273,12 +3258,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithIOSDeviceIDResult(FHttpRequestPtr Htt
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3300,13 +3284,12 @@ bool UPlayFabClientInstanceAPI::LoginWithKongregate(
     const FLoginWithKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithKongregate")) : this->settings->GetUrl(TEXT("/Client/LoginWithKongregate")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithKongregate"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithKongregateResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3319,12 +3302,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithKongregateResult(FHttpRequestPtr Http
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3346,13 +3328,12 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoServiceAccount(
     const FLoginWithNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithNintendoServiceAccount")) : this->settings->GetUrl(TEXT("/Client/LoginWithNintendoServiceAccount")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithNintendoServiceAccount"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3365,12 +3346,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithNintendoServiceAccountResult(FHttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3392,13 +3372,12 @@ bool UPlayFabClientInstanceAPI::LoginWithNintendoSwitchDeviceId(
     const FLoginWithNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithNintendoSwitchDeviceId")) : this->settings->GetUrl(TEXT("/Client/LoginWithNintendoSwitchDeviceId")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithNintendoSwitchDeviceId"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithNintendoSwitchDeviceIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3411,12 +3390,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithNintendoSwitchDeviceIdResult(FHttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3438,13 +3416,12 @@ bool UPlayFabClientInstanceAPI::LoginWithOpenIdConnect(
     const FLoginWithOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithOpenIdConnect")) : this->settings->GetUrl(TEXT("/Client/LoginWithOpenIdConnect")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithOpenIdConnect"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithOpenIdConnectResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3457,12 +3434,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithOpenIdConnectResult(FHttpRequestPtr H
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3484,13 +3460,12 @@ bool UPlayFabClientInstanceAPI::LoginWithPlayFab(
     const FLoginWithPlayFabDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithPlayFab")) : this->settings->GetUrl(TEXT("/Client/LoginWithPlayFab")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithPlayFab"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithPlayFabResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3503,12 +3478,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithPlayFabResult(FHttpRequestPtr HttpReq
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3530,13 +3504,12 @@ bool UPlayFabClientInstanceAPI::LoginWithPSN(
     const FLoginWithPSNDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithPSN")) : this->settings->GetUrl(TEXT("/Client/LoginWithPSN")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithPSN"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithPSNResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3549,12 +3522,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithPSNResult(FHttpRequestPtr HttpRequest
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3576,13 +3548,12 @@ bool UPlayFabClientInstanceAPI::LoginWithSteam(
     const FLoginWithSteamDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithSteam")) : this->settings->GetUrl(TEXT("/Client/LoginWithSteam")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithSteam"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithSteamResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3595,12 +3566,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithSteamResult(FHttpRequestPtr HttpReque
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3622,13 +3592,12 @@ bool UPlayFabClientInstanceAPI::LoginWithTwitch(
     const FLoginWithTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithTwitch")) : this->settings->GetUrl(TEXT("/Client/LoginWithTwitch")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithTwitch"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithTwitchResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3641,12 +3610,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithTwitchResult(FHttpRequestPtr HttpRequ
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3668,13 +3636,12 @@ bool UPlayFabClientInstanceAPI::LoginWithWindowsHello(
     const FLoginWithWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithWindowsHello")) : this->settings->GetUrl(TEXT("/Client/LoginWithWindowsHello")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithWindowsHello"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithWindowsHelloResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3687,12 +3654,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithWindowsHelloResult(FHttpRequestPtr Ht
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3714,13 +3680,12 @@ bool UPlayFabClientInstanceAPI::LoginWithXbox(
     const FLoginWithXboxDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/LoginWithXbox")) : this->settings->GetUrl(TEXT("/Client/LoginWithXbox")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LoginWithXbox"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLoginWithXboxResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3733,12 +3698,11 @@ void UPlayFabClientInstanceAPI::OnLoginWithXboxResult(FHttpRequestPtr HttpReques
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -3760,14 +3724,14 @@ bool UPlayFabClientInstanceAPI::Matchmake(
     const FMatchmakeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/Matchmake")) : this->settings->GetUrl(TEXT("/Client/Matchmake")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/Matchmake"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnMatchmakeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3791,14 +3755,14 @@ bool UPlayFabClientInstanceAPI::OpenTrade(
     const FOpenTradeDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/OpenTrade")) : this->settings->GetUrl(TEXT("/Client/OpenTrade")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/OpenTrade"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnOpenTradeResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3822,14 +3786,14 @@ bool UPlayFabClientInstanceAPI::PayForPurchase(
     const FPayForPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/PayForPurchase")) : this->settings->GetUrl(TEXT("/Client/PayForPurchase")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/PayForPurchase"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnPayForPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3853,14 +3817,14 @@ bool UPlayFabClientInstanceAPI::PurchaseItem(
     const FPurchaseItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/PurchaseItem")) : this->settings->GetUrl(TEXT("/Client/PurchaseItem")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/PurchaseItem"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnPurchaseItemResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3884,14 +3848,14 @@ bool UPlayFabClientInstanceAPI::RedeemCoupon(
     const FRedeemCouponDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RedeemCoupon")) : this->settings->GetUrl(TEXT("/Client/RedeemCoupon")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RedeemCoupon"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRedeemCouponResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3915,14 +3879,14 @@ bool UPlayFabClientInstanceAPI::RefreshPSNAuthToken(
     const FRefreshPSNAuthTokenDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RefreshPSNAuthToken")) : this->settings->GetUrl(TEXT("/Client/RefreshPSNAuthToken")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RefreshPSNAuthToken"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRefreshPSNAuthTokenResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3946,14 +3910,14 @@ bool UPlayFabClientInstanceAPI::RegisterForIOSPushNotification(
     const FRegisterForIOSPushNotificationDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RegisterForIOSPushNotification")) : this->settings->GetUrl(TEXT("/Client/RegisterForIOSPushNotification")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RegisterForIOSPushNotification"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRegisterForIOSPushNotificationResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3977,13 +3941,12 @@ bool UPlayFabClientInstanceAPI::RegisterPlayFabUser(
     const FRegisterPlayFabUserDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RegisterPlayFabUser")) : this->settings->GetUrl(TEXT("/Client/RegisterPlayFabUser")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RegisterPlayFabUser"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRegisterPlayFabUserResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -3995,7 +3958,7 @@ void UPlayFabClientInstanceAPI::OnRegisterPlayFabUserResult(FHttpRequestPtr Http
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
         if (outResult.SessionTicket.Len() > 0)
-            this->GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
         MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
@@ -4011,13 +3974,12 @@ bool UPlayFabClientInstanceAPI::RegisterWithWindowsHello(
     const FRegisterWithWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if (!this->settings.IsValid())
-        request.TitleId = PlayFabSettings::GetTitleId();
-    else
-        request.TitleId = this->settings->GetTitleId();
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RegisterWithWindowsHello")) : this->settings->GetUrl(TEXT("/Client/RegisterWithWindowsHello")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RegisterWithWindowsHello"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRegisterWithWindowsHelloResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4030,12 +3992,11 @@ void UPlayFabClientInstanceAPI::OnRegisterWithWindowsHelloResult(FHttpRequestPtr
     {
         outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
         if (outResult.SessionTicket.Len() > 0) {
-            this->GetOrCreateAuthenticationContext();
-            this->authContext->SetClientSessionTicket(outResult.SessionTicket);
+            GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
             outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
         }
         if (outResult.EntityToken.IsValid()) {
-            this->authContext->SetEntityToken(outResult.EntityToken->EntityToken);
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
             outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
         }
         if (outResult.PlayFabId.Len() > 0) {
@@ -4057,14 +4018,14 @@ bool UPlayFabClientInstanceAPI::RemoveContactEmail(
     const FRemoveContactEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RemoveContactEmail")) : this->settings->GetUrl(TEXT("/Client/RemoveContactEmail")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RemoveContactEmail"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRemoveContactEmailResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4088,14 +4049,14 @@ bool UPlayFabClientInstanceAPI::RemoveFriend(
     const FRemoveFriendDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RemoveFriend")) : this->settings->GetUrl(TEXT("/Client/RemoveFriend")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RemoveFriend"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRemoveFriendResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4119,14 +4080,14 @@ bool UPlayFabClientInstanceAPI::RemoveGenericID(
     const FRemoveGenericIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RemoveGenericID")) : this->settings->GetUrl(TEXT("/Client/RemoveGenericID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RemoveGenericID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRemoveGenericIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4150,14 +4111,14 @@ bool UPlayFabClientInstanceAPI::RemoveSharedGroupMembers(
     const FRemoveSharedGroupMembersDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RemoveSharedGroupMembers")) : this->settings->GetUrl(TEXT("/Client/RemoveSharedGroupMembers")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RemoveSharedGroupMembers"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRemoveSharedGroupMembersResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4181,14 +4142,14 @@ bool UPlayFabClientInstanceAPI::ReportAdActivity(
     const FReportAdActivityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ReportAdActivity")) : this->settings->GetUrl(TEXT("/Client/ReportAdActivity")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ReportAdActivity"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnReportAdActivityResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4212,14 +4173,14 @@ bool UPlayFabClientInstanceAPI::ReportDeviceInfo(
     const FReportDeviceInfoDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ReportDeviceInfo")) : this->settings->GetUrl(TEXT("/Client/ReportDeviceInfo")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ReportDeviceInfo"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnReportDeviceInfoResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4243,14 +4204,14 @@ bool UPlayFabClientInstanceAPI::ReportPlayer(
     const FReportPlayerDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ReportPlayer")) : this->settings->GetUrl(TEXT("/Client/ReportPlayer")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ReportPlayer"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnReportPlayerResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4274,14 +4235,14 @@ bool UPlayFabClientInstanceAPI::RestoreIOSPurchases(
     const FRestoreIOSPurchasesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RestoreIOSPurchases")) : this->settings->GetUrl(TEXT("/Client/RestoreIOSPurchases")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RestoreIOSPurchases"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRestoreIOSPurchasesResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4305,14 +4266,14 @@ bool UPlayFabClientInstanceAPI::RewardAdActivity(
     const FRewardAdActivityDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/RewardAdActivity")) : this->settings->GetUrl(TEXT("/Client/RewardAdActivity")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/RewardAdActivity"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnRewardAdActivityResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4336,9 +4297,10 @@ bool UPlayFabClientInstanceAPI::SendAccountRecoveryEmail(
     const FSendAccountRecoveryEmailDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/SendAccountRecoveryEmail")) : this->settings->GetUrl(TEXT("/Client/SendAccountRecoveryEmail")), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/SendAccountRecoveryEmail"), request.toJSONString(), TEXT(""), TEXT(""));
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnSendAccountRecoveryEmailResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4362,14 +4324,14 @@ bool UPlayFabClientInstanceAPI::SetFriendTags(
     const FSetFriendTagsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/SetFriendTags")) : this->settings->GetUrl(TEXT("/Client/SetFriendTags")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/SetFriendTags"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnSetFriendTagsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4393,14 +4355,14 @@ bool UPlayFabClientInstanceAPI::SetPlayerSecret(
     const FSetPlayerSecretDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/SetPlayerSecret")) : this->settings->GetUrl(TEXT("/Client/SetPlayerSecret")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/SetPlayerSecret"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnSetPlayerSecretResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4424,14 +4386,14 @@ bool UPlayFabClientInstanceAPI::StartGame(
     const FStartGameDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/StartGame")) : this->settings->GetUrl(TEXT("/Client/StartGame")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/StartGame"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnStartGameResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4455,14 +4417,14 @@ bool UPlayFabClientInstanceAPI::StartPurchase(
     const FStartPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/StartPurchase")) : this->settings->GetUrl(TEXT("/Client/StartPurchase")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/StartPurchase"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnStartPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4486,14 +4448,14 @@ bool UPlayFabClientInstanceAPI::SubtractUserVirtualCurrency(
     const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/SubtractUserVirtualCurrency")) : this->settings->GetUrl(TEXT("/Client/SubtractUserVirtualCurrency")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/SubtractUserVirtualCurrency"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnSubtractUserVirtualCurrencyResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4517,14 +4479,14 @@ bool UPlayFabClientInstanceAPI::UnlinkAndroidDeviceID(
     const FUnlinkAndroidDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkAndroidDeviceID")) : this->settings->GetUrl(TEXT("/Client/UnlinkAndroidDeviceID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkAndroidDeviceID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkAndroidDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4548,14 +4510,14 @@ bool UPlayFabClientInstanceAPI::UnlinkApple(
     const FUnlinkAppleDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkApple")) : this->settings->GetUrl(TEXT("/Client/UnlinkApple")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkApple"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkAppleResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4579,14 +4541,14 @@ bool UPlayFabClientInstanceAPI::UnlinkCustomID(
     const FUnlinkCustomIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkCustomID")) : this->settings->GetUrl(TEXT("/Client/UnlinkCustomID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkCustomID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkCustomIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4610,14 +4572,14 @@ bool UPlayFabClientInstanceAPI::UnlinkFacebookAccount(
     const FUnlinkFacebookAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkFacebookAccount")) : this->settings->GetUrl(TEXT("/Client/UnlinkFacebookAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkFacebookAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkFacebookAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4641,14 +4603,14 @@ bool UPlayFabClientInstanceAPI::UnlinkFacebookInstantGamesId(
     const FUnlinkFacebookInstantGamesIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkFacebookInstantGamesId")) : this->settings->GetUrl(TEXT("/Client/UnlinkFacebookInstantGamesId")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkFacebookInstantGamesId"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkFacebookInstantGamesIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4672,14 +4634,14 @@ bool UPlayFabClientInstanceAPI::UnlinkGameCenterAccount(
     const FUnlinkGameCenterAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkGameCenterAccount")) : this->settings->GetUrl(TEXT("/Client/UnlinkGameCenterAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkGameCenterAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkGameCenterAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4703,14 +4665,14 @@ bool UPlayFabClientInstanceAPI::UnlinkGoogleAccount(
     const FUnlinkGoogleAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkGoogleAccount")) : this->settings->GetUrl(TEXT("/Client/UnlinkGoogleAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkGoogleAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkGoogleAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4734,14 +4696,14 @@ bool UPlayFabClientInstanceAPI::UnlinkIOSDeviceID(
     const FUnlinkIOSDeviceIDDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkIOSDeviceID")) : this->settings->GetUrl(TEXT("/Client/UnlinkIOSDeviceID")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkIOSDeviceID"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkIOSDeviceIDResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4765,14 +4727,14 @@ bool UPlayFabClientInstanceAPI::UnlinkKongregate(
     const FUnlinkKongregateDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkKongregate")) : this->settings->GetUrl(TEXT("/Client/UnlinkKongregate")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkKongregate"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkKongregateResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4796,14 +4758,14 @@ bool UPlayFabClientInstanceAPI::UnlinkNintendoServiceAccount(
     const FUnlinkNintendoServiceAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkNintendoServiceAccount")) : this->settings->GetUrl(TEXT("/Client/UnlinkNintendoServiceAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkNintendoServiceAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkNintendoServiceAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4827,14 +4789,14 @@ bool UPlayFabClientInstanceAPI::UnlinkNintendoSwitchDeviceId(
     const FUnlinkNintendoSwitchDeviceIdDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkNintendoSwitchDeviceId")) : this->settings->GetUrl(TEXT("/Client/UnlinkNintendoSwitchDeviceId")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkNintendoSwitchDeviceId"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkNintendoSwitchDeviceIdResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4858,14 +4820,14 @@ bool UPlayFabClientInstanceAPI::UnlinkOpenIdConnect(
     const FUnlinkOpenIdConnectDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkOpenIdConnect")) : this->settings->GetUrl(TEXT("/Client/UnlinkOpenIdConnect")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkOpenIdConnect"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkOpenIdConnectResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4889,14 +4851,14 @@ bool UPlayFabClientInstanceAPI::UnlinkPSNAccount(
     const FUnlinkPSNAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkPSNAccount")) : this->settings->GetUrl(TEXT("/Client/UnlinkPSNAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkPSNAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkPSNAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4920,14 +4882,14 @@ bool UPlayFabClientInstanceAPI::UnlinkSteamAccount(
     const FUnlinkSteamAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkSteamAccount")) : this->settings->GetUrl(TEXT("/Client/UnlinkSteamAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkSteamAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkSteamAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4951,14 +4913,14 @@ bool UPlayFabClientInstanceAPI::UnlinkTwitch(
     const FUnlinkTwitchDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkTwitch")) : this->settings->GetUrl(TEXT("/Client/UnlinkTwitch")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkTwitch"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkTwitchResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -4982,14 +4944,14 @@ bool UPlayFabClientInstanceAPI::UnlinkWindowsHello(
     const FUnlinkWindowsHelloDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkWindowsHello")) : this->settings->GetUrl(TEXT("/Client/UnlinkWindowsHello")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkWindowsHello"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkWindowsHelloResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5013,14 +4975,14 @@ bool UPlayFabClientInstanceAPI::UnlinkXboxAccount(
     const FUnlinkXboxAccountDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlinkXboxAccount")) : this->settings->GetUrl(TEXT("/Client/UnlinkXboxAccount")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkXboxAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkXboxAccountResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5044,14 +5006,14 @@ bool UPlayFabClientInstanceAPI::UnlockContainerInstance(
     const FUnlockContainerInstanceDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlockContainerInstance")) : this->settings->GetUrl(TEXT("/Client/UnlockContainerInstance")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlockContainerInstance"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlockContainerInstanceResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5075,14 +5037,14 @@ bool UPlayFabClientInstanceAPI::UnlockContainerItem(
     const FUnlockContainerItemDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UnlockContainerItem")) : this->settings->GetUrl(TEXT("/Client/UnlockContainerItem")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlockContainerItem"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlockContainerItemResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5106,14 +5068,14 @@ bool UPlayFabClientInstanceAPI::UpdateAvatarUrl(
     const FUpdateAvatarUrlDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdateAvatarUrl")) : this->settings->GetUrl(TEXT("/Client/UpdateAvatarUrl")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdateAvatarUrl"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdateAvatarUrlResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5137,14 +5099,14 @@ bool UPlayFabClientInstanceAPI::UpdateCharacterData(
     const FUpdateCharacterDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdateCharacterData")) : this->settings->GetUrl(TEXT("/Client/UpdateCharacterData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdateCharacterData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdateCharacterDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5168,14 +5130,14 @@ bool UPlayFabClientInstanceAPI::UpdateCharacterStatistics(
     const FUpdateCharacterStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdateCharacterStatistics")) : this->settings->GetUrl(TEXT("/Client/UpdateCharacterStatistics")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdateCharacterStatistics"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdateCharacterStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5199,14 +5161,14 @@ bool UPlayFabClientInstanceAPI::UpdatePlayerStatistics(
     const FUpdatePlayerStatisticsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdatePlayerStatistics")) : this->settings->GetUrl(TEXT("/Client/UpdatePlayerStatistics")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdatePlayerStatistics"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdatePlayerStatisticsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5230,14 +5192,14 @@ bool UPlayFabClientInstanceAPI::UpdateSharedGroupData(
     const FUpdateSharedGroupDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdateSharedGroupData")) : this->settings->GetUrl(TEXT("/Client/UpdateSharedGroupData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdateSharedGroupData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdateSharedGroupDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5261,14 +5223,14 @@ bool UPlayFabClientInstanceAPI::UpdateUserData(
     const FUpdateUserDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdateUserData")) : this->settings->GetUrl(TEXT("/Client/UpdateUserData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdateUserData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdateUserDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5292,14 +5254,14 @@ bool UPlayFabClientInstanceAPI::UpdateUserPublisherData(
     const FUpdateUserPublisherDataDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdateUserPublisherData")) : this->settings->GetUrl(TEXT("/Client/UpdateUserPublisherData")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdateUserPublisherData"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdateUserPublisherDataResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5323,14 +5285,14 @@ bool UPlayFabClientInstanceAPI::UpdateUserTitleDisplayName(
     const FUpdateUserTitleDisplayNameDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/UpdateUserTitleDisplayName")) : this->settings->GetUrl(TEXT("/Client/UpdateUserTitleDisplayName")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdateUserTitleDisplayName"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdateUserTitleDisplayNameResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5354,14 +5316,14 @@ bool UPlayFabClientInstanceAPI::ValidateAmazonIAPReceipt(
     const FValidateAmazonIAPReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ValidateAmazonIAPReceipt")) : this->settings->GetUrl(TEXT("/Client/ValidateAmazonIAPReceipt")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ValidateAmazonIAPReceipt"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnValidateAmazonIAPReceiptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5385,14 +5347,14 @@ bool UPlayFabClientInstanceAPI::ValidateGooglePlayPurchase(
     const FValidateGooglePlayPurchaseDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ValidateGooglePlayPurchase")) : this->settings->GetUrl(TEXT("/Client/ValidateGooglePlayPurchase")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ValidateGooglePlayPurchase"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnValidateGooglePlayPurchaseResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5416,14 +5378,14 @@ bool UPlayFabClientInstanceAPI::ValidateIOSReceipt(
     const FValidateIOSReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ValidateIOSReceipt")) : this->settings->GetUrl(TEXT("/Client/ValidateIOSReceipt")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ValidateIOSReceipt"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnValidateIOSReceiptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5447,14 +5409,14 @@ bool UPlayFabClientInstanceAPI::ValidateWindowsStoreReceipt(
     const FValidateWindowsStoreReceiptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/ValidateWindowsStoreReceipt")) : this->settings->GetUrl(TEXT("/Client/ValidateWindowsStoreReceipt")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ValidateWindowsStoreReceipt"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnValidateWindowsStoreReceiptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5478,14 +5440,14 @@ bool UPlayFabClientInstanceAPI::WriteCharacterEvent(
     const FWriteCharacterEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/WriteCharacterEvent")) : this->settings->GetUrl(TEXT("/Client/WriteCharacterEvent")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/WriteCharacterEvent"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnWriteCharacterEventResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5509,14 +5471,14 @@ bool UPlayFabClientInstanceAPI::WritePlayerEvent(
     const FWritePlayerEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/WritePlayerEvent")) : this->settings->GetUrl(TEXT("/Client/WritePlayerEvent")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/WritePlayerEvent"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnWritePlayerEventResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -5540,14 +5502,14 @@ bool UPlayFabClientInstanceAPI::WriteTitleEvent(
     const FWriteTitleEventDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
         return false;
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Client/WriteTitleEvent")) : this->settings->GetUrl(TEXT("/Client/WriteTitleEvent")), request.toJSONString(), TEXT("X-Authorization"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/WriteTitleEvent"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnWriteTitleEventResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

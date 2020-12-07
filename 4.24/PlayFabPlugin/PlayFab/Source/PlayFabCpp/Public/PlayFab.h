@@ -85,8 +85,7 @@ public:
         return FModuleManager::Get().IsModuleLoaded("PlayFabCpp");
     }
 
-    virtual FString GetTitleId() const = 0;
-        virtual PlayFabAdminPtr GetAdminAPI() const = 0;
+    virtual PlayFabAdminPtr GetAdminAPI() const = 0;
     virtual PlayFabClientPtr GetClientAPI() const = 0;
     virtual PlayFabMatchmakerPtr GetMatchmakerAPI() const = 0;
     virtual PlayFabServerPtr GetServerAPI() const = 0;
@@ -100,5 +99,4 @@ public:
     virtual PlayFabLocalizationPtr GetLocalizationAPI() const = 0;
     virtual PlayFabMultiplayerPtr GetMultiplayerAPI() const = 0;
     virtual PlayFabProfilesPtr GetProfilesAPI() const = 0;
-
 };

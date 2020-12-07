@@ -22,11 +22,6 @@ FString UPlayFab<%- api.name %>API::GetBuildIdentifier() const
 {
     return PlayFabSettings::buildIdentifier;
 }
-
-void UPlayFab<%- api.name %>API::SetTitleId(const FString& titleId)
-{
-    PlayFabSettings::SetTitleId(titleId);
-}
 <% if (hasClientOptions) { %>
 bool UPlayFabClientAPI::SetAdvertId(const FString& advertisingIdType, const FString& advertisingIdValue)
 {
@@ -63,12 +58,7 @@ void UPlayFabClientAPI::MultiStepClientLogin(bool needsAttribution)
             return;
         AttributeInstall(request);
     }
-}
-<% } %>
-void UPlayFab<%- api.name %>API::SetDevSecretKey(const FString& developerSecretKey)
-{
-    PlayFabSettings::SetDeveloperSecretKey(developerSecretKey);
-}<% for(var i in api.calls) { var apiCall = api.calls[i];%>
+}<% } %><% for(var i in api.calls) { var apiCall = api.calls[i];%>
 <% if (!hasRequest(apiCall, api)) { %>
 bool UPlayFab<%- api.name %>API::<%- apiCall.name %>(
     const F<%- apiCall.name %>Delegate& SuccessDelegate,
@@ -85,7 +75,7 @@ bool UPlayFab<%- api.name %>API::<%- apiCall.name %>(
 {
 <%- getRequestActions("    ", apiCall, false)%>
 <%- getCustomApiLogic("    ", api, apiCall, false)%>
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(<%- getUrlAccessor(apiCall, false) %>, request.toJSONString(), <%- getAuthParams(apiCall, false) %>);
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("<%- apiCall.url %>"), request.toJSONString(), <%- getAuthParams(apiCall, false) %>);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFab<%- api.name %>API::On<%- apiCall.name %>Result, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

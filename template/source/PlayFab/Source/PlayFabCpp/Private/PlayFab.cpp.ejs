@@ -17,8 +17,6 @@ class FPlayFabModule : public IPlayFabModuleInterface
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
 
-    FString GetTitleId() const override { return PlayFab::PlayFabSettings::GetTitleId(); };
-    
 <% for(var i = 0; i < apis.length; i++) { var api = apis[i];
 %>    PlayFab<%- api.name %>Ptr Get<%- api.name %>API() const override { return <%- api.name %>API; };
 <% } %>

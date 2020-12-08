@@ -478,6 +478,109 @@ bool PlayFab::AdminModels::FAdCampaignAttributionModel::readFromValue(const TSha
     return HasSucceeded;
 }
 
+void PlayFab::AdminModels::writeSegmentFilterComparisonEnumJSON(SegmentFilterComparison enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case SegmentFilterComparisonGreaterThan: writer->WriteValue(TEXT("GreaterThan")); break;
+    case SegmentFilterComparisonLessThan: writer->WriteValue(TEXT("LessThan")); break;
+    case SegmentFilterComparisonEqualTo: writer->WriteValue(TEXT("EqualTo")); break;
+    case SegmentFilterComparisonNotEqualTo: writer->WriteValue(TEXT("NotEqualTo")); break;
+    case SegmentFilterComparisonGreaterThanOrEqual: writer->WriteValue(TEXT("GreaterThanOrEqual")); break;
+    case SegmentFilterComparisonLessThanOrEqual: writer->WriteValue(TEXT("LessThanOrEqual")); break;
+    case SegmentFilterComparisonExists: writer->WriteValue(TEXT("Exists")); break;
+    case SegmentFilterComparisonContains: writer->WriteValue(TEXT("Contains")); break;
+    case SegmentFilterComparisonNotContains: writer->WriteValue(TEXT("NotContains")); break;
+    }
+}
+
+AdminModels::SegmentFilterComparison PlayFab::AdminModels::readSegmentFilterComparisonFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readSegmentFilterComparisonFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::SegmentFilterComparison PlayFab::AdminModels::readSegmentFilterComparisonFromValue(const FString& value)
+{
+    static TMap<FString, SegmentFilterComparison> _SegmentFilterComparisonMap;
+    if (_SegmentFilterComparisonMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _SegmentFilterComparisonMap.Add(TEXT("GreaterThan"), SegmentFilterComparisonGreaterThan);
+        _SegmentFilterComparisonMap.Add(TEXT("LessThan"), SegmentFilterComparisonLessThan);
+        _SegmentFilterComparisonMap.Add(TEXT("EqualTo"), SegmentFilterComparisonEqualTo);
+        _SegmentFilterComparisonMap.Add(TEXT("NotEqualTo"), SegmentFilterComparisonNotEqualTo);
+        _SegmentFilterComparisonMap.Add(TEXT("GreaterThanOrEqual"), SegmentFilterComparisonGreaterThanOrEqual);
+        _SegmentFilterComparisonMap.Add(TEXT("LessThanOrEqual"), SegmentFilterComparisonLessThanOrEqual);
+        _SegmentFilterComparisonMap.Add(TEXT("Exists"), SegmentFilterComparisonExists);
+        _SegmentFilterComparisonMap.Add(TEXT("Contains"), SegmentFilterComparisonContains);
+        _SegmentFilterComparisonMap.Add(TEXT("NotContains"), SegmentFilterComparisonNotContains);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _SegmentFilterComparisonMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return SegmentFilterComparisonGreaterThan; // Basically critical fail
+}
+
+PlayFab::AdminModels::FAdCampaignSegmentFilter::~FAdCampaignSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FAdCampaignSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CampaignId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CampaignId"));
+        writer->WriteValue(CampaignId);
+    }
+
+    if (CampaignSource.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CampaignSource"));
+        writer->WriteValue(CampaignSource);
+    }
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FAdCampaignSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CampaignIdValue = obj->TryGetField(TEXT("CampaignId"));
+    if (CampaignIdValue.IsValid() && !CampaignIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CampaignIdValue->TryGetString(TmpValue)) { CampaignId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CampaignSourceValue = obj->TryGetField(TEXT("CampaignSource"));
+    if (CampaignSourceValue.IsValid() && !CampaignSourceValue->IsNull())
+    {
+        FString TmpValue;
+        if (CampaignSourceValue->TryGetString(TmpValue)) { CampaignSource = TmpValue; }
+    }
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FAddLocalizedNewsRequest::~FAddLocalizedNewsRequest()
 {
 
@@ -1373,6 +1476,25 @@ bool PlayFab::AdminModels::FAddVirtualCurrencyTypesRequest::readFromValue(const 
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FAllPlayersSegmentFilter::~FAllPlayersSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FAllPlayersSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FAllPlayersSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 void PlayFab::AdminModels::writeConditionalsEnumJSON(Conditionals enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -1583,6 +1705,51 @@ bool PlayFab::AdminModels::FBanInfo::readFromValue(const TSharedPtr<FJsonObject>
     {
         FString TmpValue;
         if (ReasonValue->TryGetString(TmpValue)) { Reason = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FBanPlayerSegmentAction::~FBanPlayerSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FBanPlayerSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BanHours.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("BanHours"));
+        writer->WriteValue(static_cast<int64>(BanHours));
+    }
+
+    if (ReasonForBan.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReasonForBan"));
+        writer->WriteValue(ReasonForBan);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FBanPlayerSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BanHoursValue = obj->TryGetField(TEXT("BanHours"));
+    if (BanHoursValue.IsValid() && !BanHoursValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (BanHoursValue->TryGetNumber(TmpValue)) { BanHours = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ReasonForBanValue = obj->TryGetField(TEXT("ReasonForBan"));
+    if (ReasonForBanValue.IsValid() && !ReasonForBanValue->IsNull())
+    {
+        FString TmpValue;
+        if (ReasonForBanValue->TryGetString(TmpValue)) { ReasonForBan = TmpValue; }
     }
 
     return HasSucceeded;
@@ -4079,6 +4246,12 @@ void PlayFab::AdminModels::FCreateOpenIdConnectionRequest::writeJSON(JsonWriter&
         writer->WriteValue(ConnectionId);
     }
 
+    if (IgnoreNonce.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IgnoreNonce"));
+        writer->WriteValue(IgnoreNonce);
+    }
+
     if (IssuerDiscoveryUrl.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IssuerDiscoveryUrl"));
@@ -4117,6 +4290,13 @@ bool PlayFab::AdminModels::FCreateOpenIdConnectionRequest::readFromValue(const T
     {
         FString TmpValue;
         if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IgnoreNonceValue = obj->TryGetField(TEXT("IgnoreNonce"));
+    if (IgnoreNonceValue.IsValid() && !IgnoreNonceValue->IsNull())
+    {
+        bool TmpValue;
+        if (IgnoreNonceValue->TryGetBool(TmpValue)) { IgnoreNonce = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> IssuerDiscoveryUrlValue = obj->TryGetField(TEXT("IssuerDiscoveryUrl"));
@@ -4438,6 +4618,2544 @@ bool PlayFab::AdminModels::FCreatePlayerStatisticDefinitionResult::readFromValue
     if (StatisticValue.IsValid() && !StatisticValue->IsNull())
     {
         Statistic = MakeShareable(new FPlayerStatisticDefinition(StatisticValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeletePlayerSegmentAction::~FDeletePlayerSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FDeletePlayerSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeletePlayerSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeletePlayerStatisticSegmentAction::~FDeletePlayerStatisticSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FDeletePlayerStatisticSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeletePlayerStatisticSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> StatisticNameValue = obj->TryGetField(TEXT("StatisticName"));
+    if (StatisticNameValue.IsValid() && !StatisticNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (StatisticNameValue->TryGetString(TmpValue)) { StatisticName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FEmailNotificationSegmentAction::~FEmailNotificationSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FEmailNotificationSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (EmailTemplateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EmailTemplateId"));
+        writer->WriteValue(EmailTemplateId);
+    }
+
+    if (EmailTemplateName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EmailTemplateName"));
+        writer->WriteValue(EmailTemplateName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FEmailNotificationSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EmailTemplateIdValue = obj->TryGetField(TEXT("EmailTemplateId"));
+    if (EmailTemplateIdValue.IsValid() && !EmailTemplateIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (EmailTemplateIdValue->TryGetString(TmpValue)) { EmailTemplateId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EmailTemplateNameValue = obj->TryGetField(TEXT("EmailTemplateName"));
+    if (EmailTemplateNameValue.IsValid() && !EmailTemplateNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (EmailTemplateNameValue->TryGetString(TmpValue)) { EmailTemplateName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FExecuteAzureFunctionSegmentAction::~FExecuteAzureFunctionSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FExecuteAzureFunctionSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AzureFunction.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureFunction"));
+        writer->WriteValue(AzureFunction);
+    }
+
+    if (FunctionParameter.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionParameter"));
+        FunctionParameter.writeJSON(writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("GenerateFunctionExecutedEvents"));
+    writer->WriteValue(GenerateFunctionExecutedEvents);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FExecuteAzureFunctionSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AzureFunctionValue = obj->TryGetField(TEXT("AzureFunction"));
+    if (AzureFunctionValue.IsValid() && !AzureFunctionValue->IsNull())
+    {
+        FString TmpValue;
+        if (AzureFunctionValue->TryGetString(TmpValue)) { AzureFunction = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> FunctionParameterValue = obj->TryGetField(TEXT("FunctionParameter"));
+    if (FunctionParameterValue.IsValid() && !FunctionParameterValue->IsNull())
+    {
+        FunctionParameter = FJsonKeeper(FunctionParameterValue);
+    }
+
+    const TSharedPtr<FJsonValue> GenerateFunctionExecutedEventsValue = obj->TryGetField(TEXT("GenerateFunctionExecutedEvents"));
+    if (GenerateFunctionExecutedEventsValue.IsValid() && !GenerateFunctionExecutedEventsValue->IsNull())
+    {
+        bool TmpValue;
+        if (GenerateFunctionExecutedEventsValue->TryGetBool(TmpValue)) { GenerateFunctionExecutedEvents = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FExecuteCloudScriptSegmentAction::~FExecuteCloudScriptSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FExecuteCloudScriptSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CloudScriptFunction.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CloudScriptFunction"));
+        writer->WriteValue(CloudScriptFunction);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("CloudScriptPublishResultsToPlayStream"));
+    writer->WriteValue(CloudScriptPublishResultsToPlayStream);
+
+    if (FunctionParameter.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionParameter"));
+        FunctionParameter.writeJSON(writer);
+    }
+
+    if (FunctionParameterJson.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionParameterJson"));
+        writer->WriteValue(FunctionParameterJson);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FExecuteCloudScriptSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CloudScriptFunctionValue = obj->TryGetField(TEXT("CloudScriptFunction"));
+    if (CloudScriptFunctionValue.IsValid() && !CloudScriptFunctionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CloudScriptFunctionValue->TryGetString(TmpValue)) { CloudScriptFunction = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CloudScriptPublishResultsToPlayStreamValue = obj->TryGetField(TEXT("CloudScriptPublishResultsToPlayStream"));
+    if (CloudScriptPublishResultsToPlayStreamValue.IsValid() && !CloudScriptPublishResultsToPlayStreamValue->IsNull())
+    {
+        bool TmpValue;
+        if (CloudScriptPublishResultsToPlayStreamValue->TryGetBool(TmpValue)) { CloudScriptPublishResultsToPlayStream = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> FunctionParameterValue = obj->TryGetField(TEXT("FunctionParameter"));
+    if (FunctionParameterValue.IsValid() && !FunctionParameterValue->IsNull())
+    {
+        FunctionParameter = FJsonKeeper(FunctionParameterValue);
+    }
+
+    const TSharedPtr<FJsonValue> FunctionParameterJsonValue = obj->TryGetField(TEXT("FunctionParameterJson"));
+    if (FunctionParameterJsonValue.IsValid() && !FunctionParameterJsonValue->IsNull())
+    {
+        FString TmpValue;
+        if (FunctionParameterJsonValue->TryGetString(TmpValue)) { FunctionParameterJson = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGrantItemSegmentAction::~FGrantItemSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FGrantItemSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CatelogId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatelogId"));
+        writer->WriteValue(CatelogId);
+    }
+
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Quantity"));
+    writer->WriteValue(static_cast<int64>(Quantity));
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGrantItemSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatelogIdValue = obj->TryGetField(TEXT("CatelogId"));
+    if (CatelogIdValue.IsValid() && !CatelogIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatelogIdValue->TryGetString(TmpValue)) { CatelogId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
+    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> QuantityValue = obj->TryGetField(TEXT("Quantity"));
+    if (QuantityValue.IsValid() && !QuantityValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (QuantityValue->TryGetNumber(TmpValue)) { Quantity = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGrantVirtualCurrencySegmentAction::~FGrantVirtualCurrencySegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FGrantVirtualCurrencySegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Amount"));
+    writer->WriteValue(Amount);
+
+    if (CurrencyCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CurrencyCode"));
+        writer->WriteValue(CurrencyCode);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGrantVirtualCurrencySegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CurrencyCodeValue = obj->TryGetField(TEXT("CurrencyCode"));
+    if (CurrencyCodeValue.IsValid() && !CurrencyCodeValue->IsNull())
+    {
+        FString TmpValue;
+        if (CurrencyCodeValue->TryGetString(TmpValue)) { CurrencyCode = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FIncrementPlayerStatisticSegmentAction::~FIncrementPlayerStatisticSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FIncrementPlayerStatisticSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("IncrementValue"));
+    writer->WriteValue(IncrementValue);
+
+    if (StatisticName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticName"));
+        writer->WriteValue(StatisticName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FIncrementPlayerStatisticSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IncrementValueValue = obj->TryGetField(TEXT("IncrementValue"));
+    if (IncrementValueValue.IsValid() && !IncrementValueValue->IsNull())
+    {
+        int32 TmpValue;
+        if (IncrementValueValue->TryGetNumber(TmpValue)) { IncrementValue = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StatisticNameValue = obj->TryGetField(TEXT("StatisticName"));
+    if (StatisticNameValue.IsValid() && !StatisticNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (StatisticNameValue->TryGetString(TmpValue)) { StatisticName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FPushNotificationSegmentAction::~FPushNotificationSegmentAction()
+{
+
+}
+
+void PlayFab::AdminModels::FPushNotificationSegmentAction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PushNotificationTemplateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PushNotificationTemplateId"));
+        writer->WriteValue(PushNotificationTemplateId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FPushNotificationSegmentAction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PushNotificationTemplateIdValue = obj->TryGetField(TEXT("PushNotificationTemplateId"));
+    if (PushNotificationTemplateIdValue.IsValid() && !PushNotificationTemplateIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PushNotificationTemplateIdValue->TryGetString(TmpValue)) { PushNotificationTemplateId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FSegmentTrigger::~FSegmentTrigger()
+{
+    //if (BanPlayerAction != nullptr) delete BanPlayerAction;
+    //if (DeletePlayerAction != nullptr) delete DeletePlayerAction;
+    //if (DeletePlayerStatisticAction != nullptr) delete DeletePlayerStatisticAction;
+    //if (EmailNotificationAction != nullptr) delete EmailNotificationAction;
+    //if (ExecuteAzureFunctionAction != nullptr) delete ExecuteAzureFunctionAction;
+    //if (ExecuteCloudScriptAction != nullptr) delete ExecuteCloudScriptAction;
+    //if (GrantItemAction != nullptr) delete GrantItemAction;
+    //if (GrantVirtualCurrencyAction != nullptr) delete GrantVirtualCurrencyAction;
+    //if (IncrementPlayerStatisticAction != nullptr) delete IncrementPlayerStatisticAction;
+    //if (PushNotificationAction != nullptr) delete PushNotificationAction;
+
+}
+
+void PlayFab::AdminModels::FSegmentTrigger::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BanPlayerAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("BanPlayerAction"));
+        BanPlayerAction->writeJSON(writer);
+    }
+
+    if (DeletePlayerAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeletePlayerAction"));
+        DeletePlayerAction->writeJSON(writer);
+    }
+
+    if (DeletePlayerStatisticAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeletePlayerStatisticAction"));
+        DeletePlayerStatisticAction->writeJSON(writer);
+    }
+
+    if (EmailNotificationAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EmailNotificationAction"));
+        EmailNotificationAction->writeJSON(writer);
+    }
+
+    if (ExecuteAzureFunctionAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExecuteAzureFunctionAction"));
+        ExecuteAzureFunctionAction->writeJSON(writer);
+    }
+
+    if (ExecuteCloudScriptAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExecuteCloudScriptAction"));
+        ExecuteCloudScriptAction->writeJSON(writer);
+    }
+
+    if (GrantItemAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GrantItemAction"));
+        GrantItemAction->writeJSON(writer);
+    }
+
+    if (GrantVirtualCurrencyAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GrantVirtualCurrencyAction"));
+        GrantVirtualCurrencyAction->writeJSON(writer);
+    }
+
+    if (IncrementPlayerStatisticAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncrementPlayerStatisticAction"));
+        IncrementPlayerStatisticAction->writeJSON(writer);
+    }
+
+    if (PushNotificationAction.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PushNotificationAction"));
+        PushNotificationAction->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FSegmentTrigger::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BanPlayerActionValue = obj->TryGetField(TEXT("BanPlayerAction"));
+    if (BanPlayerActionValue.IsValid() && !BanPlayerActionValue->IsNull())
+    {
+        BanPlayerAction = MakeShareable(new FBanPlayerSegmentAction(BanPlayerActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> DeletePlayerActionValue = obj->TryGetField(TEXT("DeletePlayerAction"));
+    if (DeletePlayerActionValue.IsValid() && !DeletePlayerActionValue->IsNull())
+    {
+        DeletePlayerAction = MakeShareable(new FDeletePlayerSegmentAction(DeletePlayerActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> DeletePlayerStatisticActionValue = obj->TryGetField(TEXT("DeletePlayerStatisticAction"));
+    if (DeletePlayerStatisticActionValue.IsValid() && !DeletePlayerStatisticActionValue->IsNull())
+    {
+        DeletePlayerStatisticAction = MakeShareable(new FDeletePlayerStatisticSegmentAction(DeletePlayerStatisticActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> EmailNotificationActionValue = obj->TryGetField(TEXT("EmailNotificationAction"));
+    if (EmailNotificationActionValue.IsValid() && !EmailNotificationActionValue->IsNull())
+    {
+        EmailNotificationAction = MakeShareable(new FEmailNotificationSegmentAction(EmailNotificationActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ExecuteAzureFunctionActionValue = obj->TryGetField(TEXT("ExecuteAzureFunctionAction"));
+    if (ExecuteAzureFunctionActionValue.IsValid() && !ExecuteAzureFunctionActionValue->IsNull())
+    {
+        ExecuteAzureFunctionAction = MakeShareable(new FExecuteAzureFunctionSegmentAction(ExecuteAzureFunctionActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ExecuteCloudScriptActionValue = obj->TryGetField(TEXT("ExecuteCloudScriptAction"));
+    if (ExecuteCloudScriptActionValue.IsValid() && !ExecuteCloudScriptActionValue->IsNull())
+    {
+        ExecuteCloudScriptAction = MakeShareable(new FExecuteCloudScriptSegmentAction(ExecuteCloudScriptActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> GrantItemActionValue = obj->TryGetField(TEXT("GrantItemAction"));
+    if (GrantItemActionValue.IsValid() && !GrantItemActionValue->IsNull())
+    {
+        GrantItemAction = MakeShareable(new FGrantItemSegmentAction(GrantItemActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> GrantVirtualCurrencyActionValue = obj->TryGetField(TEXT("GrantVirtualCurrencyAction"));
+    if (GrantVirtualCurrencyActionValue.IsValid() && !GrantVirtualCurrencyActionValue->IsNull())
+    {
+        GrantVirtualCurrencyAction = MakeShareable(new FGrantVirtualCurrencySegmentAction(GrantVirtualCurrencyActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IncrementPlayerStatisticActionValue = obj->TryGetField(TEXT("IncrementPlayerStatisticAction"));
+    if (IncrementPlayerStatisticActionValue.IsValid() && !IncrementPlayerStatisticActionValue->IsNull())
+    {
+        IncrementPlayerStatisticAction = MakeShareable(new FIncrementPlayerStatisticSegmentAction(IncrementPlayerStatisticActionValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PushNotificationActionValue = obj->TryGetField(TEXT("PushNotificationAction"));
+    if (PushNotificationActionValue.IsValid() && !PushNotificationActionValue->IsNull())
+    {
+        PushNotificationAction = MakeShareable(new FPushNotificationSegmentAction(PushNotificationActionValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FFirstLoginDateSegmentFilter::~FFirstLoginDateSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FFirstLoginDateSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("LogInDate"));
+    writeDatetime(LogInDate, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FFirstLoginDateSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> LogInDateValue = obj->TryGetField(TEXT("LogInDate"));
+    if (LogInDateValue.IsValid())
+        LogInDate = readDatetime(LogInDateValue);
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FFirstLoginTimespanSegmentFilter::~FFirstLoginTimespanSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FFirstLoginTimespanSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("DurationInMinutes"));
+    writer->WriteValue(DurationInMinutes);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FFirstLoginTimespanSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> DurationInMinutesValue = obj->TryGetField(TEXT("DurationInMinutes"));
+    if (DurationInMinutesValue.IsValid() && !DurationInMinutesValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInMinutesValue->TryGetNumber(TmpValue)) { DurationInMinutes = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FLastLoginDateSegmentFilter::~FLastLoginDateSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FLastLoginDateSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("LogInDate"));
+    writeDatetime(LogInDate, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FLastLoginDateSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> LogInDateValue = obj->TryGetField(TEXT("LogInDate"));
+    if (LogInDateValue.IsValid())
+        LogInDate = readDatetime(LogInDateValue);
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FLastLoginTimespanSegmentFilter::~FLastLoginTimespanSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FLastLoginTimespanSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("DurationInMinutes"));
+    writer->WriteValue(DurationInMinutes);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FLastLoginTimespanSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> DurationInMinutesValue = obj->TryGetField(TEXT("DurationInMinutes"));
+    if (DurationInMinutesValue.IsValid() && !DurationInMinutesValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInMinutesValue->TryGetNumber(TmpValue)) { DurationInMinutes = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+void PlayFab::AdminModels::writeSegmentLoginIdentityProviderEnumJSON(SegmentLoginIdentityProvider enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case SegmentLoginIdentityProviderUnknown: writer->WriteValue(TEXT("Unknown")); break;
+    case SegmentLoginIdentityProviderPlayFab: writer->WriteValue(TEXT("PlayFab")); break;
+    case SegmentLoginIdentityProviderCustom: writer->WriteValue(TEXT("Custom")); break;
+    case SegmentLoginIdentityProviderGameCenter: writer->WriteValue(TEXT("GameCenter")); break;
+    case SegmentLoginIdentityProviderGooglePlay: writer->WriteValue(TEXT("GooglePlay")); break;
+    case SegmentLoginIdentityProviderSteam: writer->WriteValue(TEXT("Steam")); break;
+    case SegmentLoginIdentityProviderXBoxLive: writer->WriteValue(TEXT("XBoxLive")); break;
+    case SegmentLoginIdentityProviderPSN: writer->WriteValue(TEXT("PSN")); break;
+    case SegmentLoginIdentityProviderKongregate: writer->WriteValue(TEXT("Kongregate")); break;
+    case SegmentLoginIdentityProviderFacebook: writer->WriteValue(TEXT("Facebook")); break;
+    case SegmentLoginIdentityProviderIOSDevice: writer->WriteValue(TEXT("IOSDevice")); break;
+    case SegmentLoginIdentityProviderAndroidDevice: writer->WriteValue(TEXT("AndroidDevice")); break;
+    case SegmentLoginIdentityProviderTwitch: writer->WriteValue(TEXT("Twitch")); break;
+    case SegmentLoginIdentityProviderWindowsHello: writer->WriteValue(TEXT("WindowsHello")); break;
+    case SegmentLoginIdentityProviderGameServer: writer->WriteValue(TEXT("GameServer")); break;
+    case SegmentLoginIdentityProviderCustomServer: writer->WriteValue(TEXT("CustomServer")); break;
+    case SegmentLoginIdentityProviderNintendoSwitch: writer->WriteValue(TEXT("NintendoSwitch")); break;
+    case SegmentLoginIdentityProviderFacebookInstantGames: writer->WriteValue(TEXT("FacebookInstantGames")); break;
+    case SegmentLoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
+    case SegmentLoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
+    case SegmentLoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
+    }
+}
+
+AdminModels::SegmentLoginIdentityProvider PlayFab::AdminModels::readSegmentLoginIdentityProviderFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readSegmentLoginIdentityProviderFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::SegmentLoginIdentityProvider PlayFab::AdminModels::readSegmentLoginIdentityProviderFromValue(const FString& value)
+{
+    static TMap<FString, SegmentLoginIdentityProvider> _SegmentLoginIdentityProviderMap;
+    if (_SegmentLoginIdentityProviderMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _SegmentLoginIdentityProviderMap.Add(TEXT("Unknown"), SegmentLoginIdentityProviderUnknown);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("PlayFab"), SegmentLoginIdentityProviderPlayFab);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("Custom"), SegmentLoginIdentityProviderCustom);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("GameCenter"), SegmentLoginIdentityProviderGameCenter);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("GooglePlay"), SegmentLoginIdentityProviderGooglePlay);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("Steam"), SegmentLoginIdentityProviderSteam);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("XBoxLive"), SegmentLoginIdentityProviderXBoxLive);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("PSN"), SegmentLoginIdentityProviderPSN);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("Kongregate"), SegmentLoginIdentityProviderKongregate);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("Facebook"), SegmentLoginIdentityProviderFacebook);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("IOSDevice"), SegmentLoginIdentityProviderIOSDevice);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("AndroidDevice"), SegmentLoginIdentityProviderAndroidDevice);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("Twitch"), SegmentLoginIdentityProviderTwitch);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("WindowsHello"), SegmentLoginIdentityProviderWindowsHello);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("GameServer"), SegmentLoginIdentityProviderGameServer);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("CustomServer"), SegmentLoginIdentityProviderCustomServer);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("NintendoSwitch"), SegmentLoginIdentityProviderNintendoSwitch);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("FacebookInstantGames"), SegmentLoginIdentityProviderFacebookInstantGames);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), SegmentLoginIdentityProviderOpenIdConnect);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("Apple"), SegmentLoginIdentityProviderApple);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), SegmentLoginIdentityProviderNintendoSwitchAccount);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _SegmentLoginIdentityProviderMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return SegmentLoginIdentityProviderUnknown; // Basically critical fail
+}
+
+PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::~FLinkedUserAccountSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (LoginProvider.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LoginProvider"));
+        writeSegmentLoginIdentityProviderEnumJSON(LoginProvider, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    LoginProvider = readSegmentLoginIdentityProviderFromValue(obj->TryGetField(TEXT("LoginProvider")));
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FLinkedUserAccountHasEmailSegmentFilter::~FLinkedUserAccountHasEmailSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FLinkedUserAccountHasEmailSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (LoginProvider.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LoginProvider"));
+        writeSegmentLoginIdentityProviderEnumJSON(LoginProvider, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FLinkedUserAccountHasEmailSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    LoginProvider = readSegmentLoginIdentityProviderFromValue(obj->TryGetField(TEXT("LoginProvider")));
+
+    return HasSucceeded;
+}
+
+void PlayFab::AdminModels::writeSegmentCountryCodeEnumJSON(SegmentCountryCode enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case SegmentCountryCodeAF: writer->WriteValue(TEXT("AF")); break;
+    case SegmentCountryCodeAX: writer->WriteValue(TEXT("AX")); break;
+    case SegmentCountryCodeAL: writer->WriteValue(TEXT("AL")); break;
+    case SegmentCountryCodeDZ: writer->WriteValue(TEXT("DZ")); break;
+    case SegmentCountryCodeAS: writer->WriteValue(TEXT("AS")); break;
+    case SegmentCountryCodeAD: writer->WriteValue(TEXT("AD")); break;
+    case SegmentCountryCodeAO: writer->WriteValue(TEXT("AO")); break;
+    case SegmentCountryCodeAI: writer->WriteValue(TEXT("AI")); break;
+    case SegmentCountryCodeAQ: writer->WriteValue(TEXT("AQ")); break;
+    case SegmentCountryCodeAG: writer->WriteValue(TEXT("AG")); break;
+    case SegmentCountryCodeAR: writer->WriteValue(TEXT("AR")); break;
+    case SegmentCountryCodeAM: writer->WriteValue(TEXT("AM")); break;
+    case SegmentCountryCodeAW: writer->WriteValue(TEXT("AW")); break;
+    case SegmentCountryCodeAU: writer->WriteValue(TEXT("AU")); break;
+    case SegmentCountryCodeAT: writer->WriteValue(TEXT("AT")); break;
+    case SegmentCountryCodeAZ: writer->WriteValue(TEXT("AZ")); break;
+    case SegmentCountryCodeBS: writer->WriteValue(TEXT("BS")); break;
+    case SegmentCountryCodeBH: writer->WriteValue(TEXT("BH")); break;
+    case SegmentCountryCodeBD: writer->WriteValue(TEXT("BD")); break;
+    case SegmentCountryCodeBB: writer->WriteValue(TEXT("BB")); break;
+    case SegmentCountryCodeBY: writer->WriteValue(TEXT("BY")); break;
+    case SegmentCountryCodeBE: writer->WriteValue(TEXT("BE")); break;
+    case SegmentCountryCodeBZ: writer->WriteValue(TEXT("BZ")); break;
+    case SegmentCountryCodeBJ: writer->WriteValue(TEXT("BJ")); break;
+    case SegmentCountryCodeBM: writer->WriteValue(TEXT("BM")); break;
+    case SegmentCountryCodeBT: writer->WriteValue(TEXT("BT")); break;
+    case SegmentCountryCodeBO: writer->WriteValue(TEXT("BO")); break;
+    case SegmentCountryCodeBQ: writer->WriteValue(TEXT("BQ")); break;
+    case SegmentCountryCodeBA: writer->WriteValue(TEXT("BA")); break;
+    case SegmentCountryCodeBW: writer->WriteValue(TEXT("BW")); break;
+    case SegmentCountryCodeBV: writer->WriteValue(TEXT("BV")); break;
+    case SegmentCountryCodeBR: writer->WriteValue(TEXT("BR")); break;
+    case SegmentCountryCodeIO: writer->WriteValue(TEXT("IO")); break;
+    case SegmentCountryCodeBN: writer->WriteValue(TEXT("BN")); break;
+    case SegmentCountryCodeBG: writer->WriteValue(TEXT("BG")); break;
+    case SegmentCountryCodeBF: writer->WriteValue(TEXT("BF")); break;
+    case SegmentCountryCodeBI: writer->WriteValue(TEXT("BI")); break;
+    case SegmentCountryCodeKH: writer->WriteValue(TEXT("KH")); break;
+    case SegmentCountryCodeCM: writer->WriteValue(TEXT("CM")); break;
+    case SegmentCountryCodeCA: writer->WriteValue(TEXT("CA")); break;
+    case SegmentCountryCodeCV: writer->WriteValue(TEXT("CV")); break;
+    case SegmentCountryCodeKY: writer->WriteValue(TEXT("KY")); break;
+    case SegmentCountryCodeCF: writer->WriteValue(TEXT("CF")); break;
+    case SegmentCountryCodeTD: writer->WriteValue(TEXT("TD")); break;
+    case SegmentCountryCodeCL: writer->WriteValue(TEXT("CL")); break;
+    case SegmentCountryCodeCN: writer->WriteValue(TEXT("CN")); break;
+    case SegmentCountryCodeCX: writer->WriteValue(TEXT("CX")); break;
+    case SegmentCountryCodeCC: writer->WriteValue(TEXT("CC")); break;
+    case SegmentCountryCodeCO: writer->WriteValue(TEXT("CO")); break;
+    case SegmentCountryCodeKM: writer->WriteValue(TEXT("KM")); break;
+    case SegmentCountryCodeCG: writer->WriteValue(TEXT("CG")); break;
+    case SegmentCountryCodeCD: writer->WriteValue(TEXT("CD")); break;
+    case SegmentCountryCodeCK: writer->WriteValue(TEXT("CK")); break;
+    case SegmentCountryCodeCR: writer->WriteValue(TEXT("CR")); break;
+    case SegmentCountryCodeCI: writer->WriteValue(TEXT("CI")); break;
+    case SegmentCountryCodeHR: writer->WriteValue(TEXT("HR")); break;
+    case SegmentCountryCodeCU: writer->WriteValue(TEXT("CU")); break;
+    case SegmentCountryCodeCW: writer->WriteValue(TEXT("CW")); break;
+    case SegmentCountryCodeCY: writer->WriteValue(TEXT("CY")); break;
+    case SegmentCountryCodeCZ: writer->WriteValue(TEXT("CZ")); break;
+    case SegmentCountryCodeDK: writer->WriteValue(TEXT("DK")); break;
+    case SegmentCountryCodeDJ: writer->WriteValue(TEXT("DJ")); break;
+    case SegmentCountryCodeDM: writer->WriteValue(TEXT("DM")); break;
+    case SegmentCountryCodeDO: writer->WriteValue(TEXT("DO")); break;
+    case SegmentCountryCodeEC: writer->WriteValue(TEXT("EC")); break;
+    case SegmentCountryCodeEG: writer->WriteValue(TEXT("EG")); break;
+    case SegmentCountryCodeSV: writer->WriteValue(TEXT("SV")); break;
+    case SegmentCountryCodeGQ: writer->WriteValue(TEXT("GQ")); break;
+    case SegmentCountryCodeER: writer->WriteValue(TEXT("ER")); break;
+    case SegmentCountryCodeEE: writer->WriteValue(TEXT("EE")); break;
+    case SegmentCountryCodeET: writer->WriteValue(TEXT("ET")); break;
+    case SegmentCountryCodeFK: writer->WriteValue(TEXT("FK")); break;
+    case SegmentCountryCodeFO: writer->WriteValue(TEXT("FO")); break;
+    case SegmentCountryCodeFJ: writer->WriteValue(TEXT("FJ")); break;
+    case SegmentCountryCodeFI: writer->WriteValue(TEXT("FI")); break;
+    case SegmentCountryCodeFR: writer->WriteValue(TEXT("FR")); break;
+    case SegmentCountryCodeGF: writer->WriteValue(TEXT("GF")); break;
+    case SegmentCountryCodePF: writer->WriteValue(TEXT("PF")); break;
+    case SegmentCountryCodeTF: writer->WriteValue(TEXT("TF")); break;
+    case SegmentCountryCodeGA: writer->WriteValue(TEXT("GA")); break;
+    case SegmentCountryCodeGM: writer->WriteValue(TEXT("GM")); break;
+    case SegmentCountryCodeGE: writer->WriteValue(TEXT("GE")); break;
+    case SegmentCountryCodeDE: writer->WriteValue(TEXT("DE")); break;
+    case SegmentCountryCodeGH: writer->WriteValue(TEXT("GH")); break;
+    case SegmentCountryCodeGI: writer->WriteValue(TEXT("GI")); break;
+    case SegmentCountryCodeGR: writer->WriteValue(TEXT("GR")); break;
+    case SegmentCountryCodeGL: writer->WriteValue(TEXT("GL")); break;
+    case SegmentCountryCodeGD: writer->WriteValue(TEXT("GD")); break;
+    case SegmentCountryCodeGP: writer->WriteValue(TEXT("GP")); break;
+    case SegmentCountryCodeGU: writer->WriteValue(TEXT("GU")); break;
+    case SegmentCountryCodeGT: writer->WriteValue(TEXT("GT")); break;
+    case SegmentCountryCodeGG: writer->WriteValue(TEXT("GG")); break;
+    case SegmentCountryCodeGN: writer->WriteValue(TEXT("GN")); break;
+    case SegmentCountryCodeGW: writer->WriteValue(TEXT("GW")); break;
+    case SegmentCountryCodeGY: writer->WriteValue(TEXT("GY")); break;
+    case SegmentCountryCodeHT: writer->WriteValue(TEXT("HT")); break;
+    case SegmentCountryCodeHM: writer->WriteValue(TEXT("HM")); break;
+    case SegmentCountryCodeVA: writer->WriteValue(TEXT("VA")); break;
+    case SegmentCountryCodeHN: writer->WriteValue(TEXT("HN")); break;
+    case SegmentCountryCodeHK: writer->WriteValue(TEXT("HK")); break;
+    case SegmentCountryCodeHU: writer->WriteValue(TEXT("HU")); break;
+    case SegmentCountryCodeIS: writer->WriteValue(TEXT("IS")); break;
+    case SegmentCountryCodeIN: writer->WriteValue(TEXT("IN")); break;
+    case SegmentCountryCodeID: writer->WriteValue(TEXT("ID")); break;
+    case SegmentCountryCodeIR: writer->WriteValue(TEXT("IR")); break;
+    case SegmentCountryCodeIQ: writer->WriteValue(TEXT("IQ")); break;
+    case SegmentCountryCodeIE: writer->WriteValue(TEXT("IE")); break;
+    case SegmentCountryCodeIM: writer->WriteValue(TEXT("IM")); break;
+    case SegmentCountryCodeIL: writer->WriteValue(TEXT("IL")); break;
+    case SegmentCountryCodeIT: writer->WriteValue(TEXT("IT")); break;
+    case SegmentCountryCodeJM: writer->WriteValue(TEXT("JM")); break;
+    case SegmentCountryCodeJP: writer->WriteValue(TEXT("JP")); break;
+    case SegmentCountryCodeJE: writer->WriteValue(TEXT("JE")); break;
+    case SegmentCountryCodeJO: writer->WriteValue(TEXT("JO")); break;
+    case SegmentCountryCodeKZ: writer->WriteValue(TEXT("KZ")); break;
+    case SegmentCountryCodeKE: writer->WriteValue(TEXT("KE")); break;
+    case SegmentCountryCodeKI: writer->WriteValue(TEXT("KI")); break;
+    case SegmentCountryCodeKP: writer->WriteValue(TEXT("KP")); break;
+    case SegmentCountryCodeKR: writer->WriteValue(TEXT("KR")); break;
+    case SegmentCountryCodeKW: writer->WriteValue(TEXT("KW")); break;
+    case SegmentCountryCodeKG: writer->WriteValue(TEXT("KG")); break;
+    case SegmentCountryCodeLA: writer->WriteValue(TEXT("LA")); break;
+    case SegmentCountryCodeLV: writer->WriteValue(TEXT("LV")); break;
+    case SegmentCountryCodeLB: writer->WriteValue(TEXT("LB")); break;
+    case SegmentCountryCodeLS: writer->WriteValue(TEXT("LS")); break;
+    case SegmentCountryCodeLR: writer->WriteValue(TEXT("LR")); break;
+    case SegmentCountryCodeLY: writer->WriteValue(TEXT("LY")); break;
+    case SegmentCountryCodeLI: writer->WriteValue(TEXT("LI")); break;
+    case SegmentCountryCodeLT: writer->WriteValue(TEXT("LT")); break;
+    case SegmentCountryCodeLU: writer->WriteValue(TEXT("LU")); break;
+    case SegmentCountryCodeMO: writer->WriteValue(TEXT("MO")); break;
+    case SegmentCountryCodeMK: writer->WriteValue(TEXT("MK")); break;
+    case SegmentCountryCodeMG: writer->WriteValue(TEXT("MG")); break;
+    case SegmentCountryCodeMW: writer->WriteValue(TEXT("MW")); break;
+    case SegmentCountryCodeMY: writer->WriteValue(TEXT("MY")); break;
+    case SegmentCountryCodeMV: writer->WriteValue(TEXT("MV")); break;
+    case SegmentCountryCodeML: writer->WriteValue(TEXT("ML")); break;
+    case SegmentCountryCodeMT: writer->WriteValue(TEXT("MT")); break;
+    case SegmentCountryCodeMH: writer->WriteValue(TEXT("MH")); break;
+    case SegmentCountryCodeMQ: writer->WriteValue(TEXT("MQ")); break;
+    case SegmentCountryCodeMR: writer->WriteValue(TEXT("MR")); break;
+    case SegmentCountryCodeMU: writer->WriteValue(TEXT("MU")); break;
+    case SegmentCountryCodeYT: writer->WriteValue(TEXT("YT")); break;
+    case SegmentCountryCodeMX: writer->WriteValue(TEXT("MX")); break;
+    case SegmentCountryCodeFM: writer->WriteValue(TEXT("FM")); break;
+    case SegmentCountryCodeMD: writer->WriteValue(TEXT("MD")); break;
+    case SegmentCountryCodeMC: writer->WriteValue(TEXT("MC")); break;
+    case SegmentCountryCodeMN: writer->WriteValue(TEXT("MN")); break;
+    case SegmentCountryCodeME: writer->WriteValue(TEXT("ME")); break;
+    case SegmentCountryCodeMS: writer->WriteValue(TEXT("MS")); break;
+    case SegmentCountryCodeMA: writer->WriteValue(TEXT("MA")); break;
+    case SegmentCountryCodeMZ: writer->WriteValue(TEXT("MZ")); break;
+    case SegmentCountryCodeMM: writer->WriteValue(TEXT("MM")); break;
+    case SegmentCountryCodeNA: writer->WriteValue(TEXT("NA")); break;
+    case SegmentCountryCodeNR: writer->WriteValue(TEXT("NR")); break;
+    case SegmentCountryCodeNP: writer->WriteValue(TEXT("NP")); break;
+    case SegmentCountryCodeNL: writer->WriteValue(TEXT("NL")); break;
+    case SegmentCountryCodeNC: writer->WriteValue(TEXT("NC")); break;
+    case SegmentCountryCodeNZ: writer->WriteValue(TEXT("NZ")); break;
+    case SegmentCountryCodeNI: writer->WriteValue(TEXT("NI")); break;
+    case SegmentCountryCodeNE: writer->WriteValue(TEXT("NE")); break;
+    case SegmentCountryCodeNG: writer->WriteValue(TEXT("NG")); break;
+    case SegmentCountryCodeNU: writer->WriteValue(TEXT("NU")); break;
+    case SegmentCountryCodeNF: writer->WriteValue(TEXT("NF")); break;
+    case SegmentCountryCodeMP: writer->WriteValue(TEXT("MP")); break;
+    case SegmentCountryCodeNO: writer->WriteValue(TEXT("NO")); break;
+    case SegmentCountryCodeOM: writer->WriteValue(TEXT("OM")); break;
+    case SegmentCountryCodePK: writer->WriteValue(TEXT("PK")); break;
+    case SegmentCountryCodePW: writer->WriteValue(TEXT("PW")); break;
+    case SegmentCountryCodePS: writer->WriteValue(TEXT("PS")); break;
+    case SegmentCountryCodePA: writer->WriteValue(TEXT("PA")); break;
+    case SegmentCountryCodePG: writer->WriteValue(TEXT("PG")); break;
+    case SegmentCountryCodePY: writer->WriteValue(TEXT("PY")); break;
+    case SegmentCountryCodePE: writer->WriteValue(TEXT("PE")); break;
+    case SegmentCountryCodePH: writer->WriteValue(TEXT("PH")); break;
+    case SegmentCountryCodePN: writer->WriteValue(TEXT("PN")); break;
+    case SegmentCountryCodePL: writer->WriteValue(TEXT("PL")); break;
+    case SegmentCountryCodePT: writer->WriteValue(TEXT("PT")); break;
+    case SegmentCountryCodePR: writer->WriteValue(TEXT("PR")); break;
+    case SegmentCountryCodeQA: writer->WriteValue(TEXT("QA")); break;
+    case SegmentCountryCodeRE: writer->WriteValue(TEXT("RE")); break;
+    case SegmentCountryCodeRO: writer->WriteValue(TEXT("RO")); break;
+    case SegmentCountryCodeRU: writer->WriteValue(TEXT("RU")); break;
+    case SegmentCountryCodeRW: writer->WriteValue(TEXT("RW")); break;
+    case SegmentCountryCodeBL: writer->WriteValue(TEXT("BL")); break;
+    case SegmentCountryCodeSH: writer->WriteValue(TEXT("SH")); break;
+    case SegmentCountryCodeKN: writer->WriteValue(TEXT("KN")); break;
+    case SegmentCountryCodeLC: writer->WriteValue(TEXT("LC")); break;
+    case SegmentCountryCodeMF: writer->WriteValue(TEXT("MF")); break;
+    case SegmentCountryCodePM: writer->WriteValue(TEXT("PM")); break;
+    case SegmentCountryCodeVC: writer->WriteValue(TEXT("VC")); break;
+    case SegmentCountryCodeWS: writer->WriteValue(TEXT("WS")); break;
+    case SegmentCountryCodeSM: writer->WriteValue(TEXT("SM")); break;
+    case SegmentCountryCodeST: writer->WriteValue(TEXT("ST")); break;
+    case SegmentCountryCodeSA: writer->WriteValue(TEXT("SA")); break;
+    case SegmentCountryCodeSN: writer->WriteValue(TEXT("SN")); break;
+    case SegmentCountryCodeRS: writer->WriteValue(TEXT("RS")); break;
+    case SegmentCountryCodeSC: writer->WriteValue(TEXT("SC")); break;
+    case SegmentCountryCodeSL: writer->WriteValue(TEXT("SL")); break;
+    case SegmentCountryCodeSG: writer->WriteValue(TEXT("SG")); break;
+    case SegmentCountryCodeSX: writer->WriteValue(TEXT("SX")); break;
+    case SegmentCountryCodeSK: writer->WriteValue(TEXT("SK")); break;
+    case SegmentCountryCodeSI: writer->WriteValue(TEXT("SI")); break;
+    case SegmentCountryCodeSB: writer->WriteValue(TEXT("SB")); break;
+    case SegmentCountryCodeSO: writer->WriteValue(TEXT("SO")); break;
+    case SegmentCountryCodeZA: writer->WriteValue(TEXT("ZA")); break;
+    case SegmentCountryCodeGS: writer->WriteValue(TEXT("GS")); break;
+    case SegmentCountryCodeSS: writer->WriteValue(TEXT("SS")); break;
+    case SegmentCountryCodeES: writer->WriteValue(TEXT("ES")); break;
+    case SegmentCountryCodeLK: writer->WriteValue(TEXT("LK")); break;
+    case SegmentCountryCodeSD: writer->WriteValue(TEXT("SD")); break;
+    case SegmentCountryCodeSR: writer->WriteValue(TEXT("SR")); break;
+    case SegmentCountryCodeSJ: writer->WriteValue(TEXT("SJ")); break;
+    case SegmentCountryCodeSZ: writer->WriteValue(TEXT("SZ")); break;
+    case SegmentCountryCodeSE: writer->WriteValue(TEXT("SE")); break;
+    case SegmentCountryCodeCH: writer->WriteValue(TEXT("CH")); break;
+    case SegmentCountryCodeSY: writer->WriteValue(TEXT("SY")); break;
+    case SegmentCountryCodeTW: writer->WriteValue(TEXT("TW")); break;
+    case SegmentCountryCodeTJ: writer->WriteValue(TEXT("TJ")); break;
+    case SegmentCountryCodeTZ: writer->WriteValue(TEXT("TZ")); break;
+    case SegmentCountryCodeTH: writer->WriteValue(TEXT("TH")); break;
+    case SegmentCountryCodeTL: writer->WriteValue(TEXT("TL")); break;
+    case SegmentCountryCodeTG: writer->WriteValue(TEXT("TG")); break;
+    case SegmentCountryCodeTK: writer->WriteValue(TEXT("TK")); break;
+    case SegmentCountryCodeTO: writer->WriteValue(TEXT("TO")); break;
+    case SegmentCountryCodeTT: writer->WriteValue(TEXT("TT")); break;
+    case SegmentCountryCodeTN: writer->WriteValue(TEXT("TN")); break;
+    case SegmentCountryCodeTR: writer->WriteValue(TEXT("TR")); break;
+    case SegmentCountryCodeTM: writer->WriteValue(TEXT("TM")); break;
+    case SegmentCountryCodeTC: writer->WriteValue(TEXT("TC")); break;
+    case SegmentCountryCodeTV: writer->WriteValue(TEXT("TV")); break;
+    case SegmentCountryCodeUG: writer->WriteValue(TEXT("UG")); break;
+    case SegmentCountryCodeUA: writer->WriteValue(TEXT("UA")); break;
+    case SegmentCountryCodeAE: writer->WriteValue(TEXT("AE")); break;
+    case SegmentCountryCodeGB: writer->WriteValue(TEXT("GB")); break;
+    case SegmentCountryCodeUS: writer->WriteValue(TEXT("US")); break;
+    case SegmentCountryCodeUM: writer->WriteValue(TEXT("UM")); break;
+    case SegmentCountryCodeUY: writer->WriteValue(TEXT("UY")); break;
+    case SegmentCountryCodeUZ: writer->WriteValue(TEXT("UZ")); break;
+    case SegmentCountryCodeVU: writer->WriteValue(TEXT("VU")); break;
+    case SegmentCountryCodeVE: writer->WriteValue(TEXT("VE")); break;
+    case SegmentCountryCodeVN: writer->WriteValue(TEXT("VN")); break;
+    case SegmentCountryCodeVG: writer->WriteValue(TEXT("VG")); break;
+    case SegmentCountryCodeVI: writer->WriteValue(TEXT("VI")); break;
+    case SegmentCountryCodeWF: writer->WriteValue(TEXT("WF")); break;
+    case SegmentCountryCodeEH: writer->WriteValue(TEXT("EH")); break;
+    case SegmentCountryCodeYE: writer->WriteValue(TEXT("YE")); break;
+    case SegmentCountryCodeZM: writer->WriteValue(TEXT("ZM")); break;
+    case SegmentCountryCodeZW: writer->WriteValue(TEXT("ZW")); break;
+    }
+}
+
+AdminModels::SegmentCountryCode PlayFab::AdminModels::readSegmentCountryCodeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readSegmentCountryCodeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::SegmentCountryCode PlayFab::AdminModels::readSegmentCountryCodeFromValue(const FString& value)
+{
+    static TMap<FString, SegmentCountryCode> _SegmentCountryCodeMap;
+    if (_SegmentCountryCodeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _SegmentCountryCodeMap.Add(TEXT("AF"), SegmentCountryCodeAF);
+        _SegmentCountryCodeMap.Add(TEXT("AX"), SegmentCountryCodeAX);
+        _SegmentCountryCodeMap.Add(TEXT("AL"), SegmentCountryCodeAL);
+        _SegmentCountryCodeMap.Add(TEXT("DZ"), SegmentCountryCodeDZ);
+        _SegmentCountryCodeMap.Add(TEXT("AS"), SegmentCountryCodeAS);
+        _SegmentCountryCodeMap.Add(TEXT("AD"), SegmentCountryCodeAD);
+        _SegmentCountryCodeMap.Add(TEXT("AO"), SegmentCountryCodeAO);
+        _SegmentCountryCodeMap.Add(TEXT("AI"), SegmentCountryCodeAI);
+        _SegmentCountryCodeMap.Add(TEXT("AQ"), SegmentCountryCodeAQ);
+        _SegmentCountryCodeMap.Add(TEXT("AG"), SegmentCountryCodeAG);
+        _SegmentCountryCodeMap.Add(TEXT("AR"), SegmentCountryCodeAR);
+        _SegmentCountryCodeMap.Add(TEXT("AM"), SegmentCountryCodeAM);
+        _SegmentCountryCodeMap.Add(TEXT("AW"), SegmentCountryCodeAW);
+        _SegmentCountryCodeMap.Add(TEXT("AU"), SegmentCountryCodeAU);
+        _SegmentCountryCodeMap.Add(TEXT("AT"), SegmentCountryCodeAT);
+        _SegmentCountryCodeMap.Add(TEXT("AZ"), SegmentCountryCodeAZ);
+        _SegmentCountryCodeMap.Add(TEXT("BS"), SegmentCountryCodeBS);
+        _SegmentCountryCodeMap.Add(TEXT("BH"), SegmentCountryCodeBH);
+        _SegmentCountryCodeMap.Add(TEXT("BD"), SegmentCountryCodeBD);
+        _SegmentCountryCodeMap.Add(TEXT("BB"), SegmentCountryCodeBB);
+        _SegmentCountryCodeMap.Add(TEXT("BY"), SegmentCountryCodeBY);
+        _SegmentCountryCodeMap.Add(TEXT("BE"), SegmentCountryCodeBE);
+        _SegmentCountryCodeMap.Add(TEXT("BZ"), SegmentCountryCodeBZ);
+        _SegmentCountryCodeMap.Add(TEXT("BJ"), SegmentCountryCodeBJ);
+        _SegmentCountryCodeMap.Add(TEXT("BM"), SegmentCountryCodeBM);
+        _SegmentCountryCodeMap.Add(TEXT("BT"), SegmentCountryCodeBT);
+        _SegmentCountryCodeMap.Add(TEXT("BO"), SegmentCountryCodeBO);
+        _SegmentCountryCodeMap.Add(TEXT("BQ"), SegmentCountryCodeBQ);
+        _SegmentCountryCodeMap.Add(TEXT("BA"), SegmentCountryCodeBA);
+        _SegmentCountryCodeMap.Add(TEXT("BW"), SegmentCountryCodeBW);
+        _SegmentCountryCodeMap.Add(TEXT("BV"), SegmentCountryCodeBV);
+        _SegmentCountryCodeMap.Add(TEXT("BR"), SegmentCountryCodeBR);
+        _SegmentCountryCodeMap.Add(TEXT("IO"), SegmentCountryCodeIO);
+        _SegmentCountryCodeMap.Add(TEXT("BN"), SegmentCountryCodeBN);
+        _SegmentCountryCodeMap.Add(TEXT("BG"), SegmentCountryCodeBG);
+        _SegmentCountryCodeMap.Add(TEXT("BF"), SegmentCountryCodeBF);
+        _SegmentCountryCodeMap.Add(TEXT("BI"), SegmentCountryCodeBI);
+        _SegmentCountryCodeMap.Add(TEXT("KH"), SegmentCountryCodeKH);
+        _SegmentCountryCodeMap.Add(TEXT("CM"), SegmentCountryCodeCM);
+        _SegmentCountryCodeMap.Add(TEXT("CA"), SegmentCountryCodeCA);
+        _SegmentCountryCodeMap.Add(TEXT("CV"), SegmentCountryCodeCV);
+        _SegmentCountryCodeMap.Add(TEXT("KY"), SegmentCountryCodeKY);
+        _SegmentCountryCodeMap.Add(TEXT("CF"), SegmentCountryCodeCF);
+        _SegmentCountryCodeMap.Add(TEXT("TD"), SegmentCountryCodeTD);
+        _SegmentCountryCodeMap.Add(TEXT("CL"), SegmentCountryCodeCL);
+        _SegmentCountryCodeMap.Add(TEXT("CN"), SegmentCountryCodeCN);
+        _SegmentCountryCodeMap.Add(TEXT("CX"), SegmentCountryCodeCX);
+        _SegmentCountryCodeMap.Add(TEXT("CC"), SegmentCountryCodeCC);
+        _SegmentCountryCodeMap.Add(TEXT("CO"), SegmentCountryCodeCO);
+        _SegmentCountryCodeMap.Add(TEXT("KM"), SegmentCountryCodeKM);
+        _SegmentCountryCodeMap.Add(TEXT("CG"), SegmentCountryCodeCG);
+        _SegmentCountryCodeMap.Add(TEXT("CD"), SegmentCountryCodeCD);
+        _SegmentCountryCodeMap.Add(TEXT("CK"), SegmentCountryCodeCK);
+        _SegmentCountryCodeMap.Add(TEXT("CR"), SegmentCountryCodeCR);
+        _SegmentCountryCodeMap.Add(TEXT("CI"), SegmentCountryCodeCI);
+        _SegmentCountryCodeMap.Add(TEXT("HR"), SegmentCountryCodeHR);
+        _SegmentCountryCodeMap.Add(TEXT("CU"), SegmentCountryCodeCU);
+        _SegmentCountryCodeMap.Add(TEXT("CW"), SegmentCountryCodeCW);
+        _SegmentCountryCodeMap.Add(TEXT("CY"), SegmentCountryCodeCY);
+        _SegmentCountryCodeMap.Add(TEXT("CZ"), SegmentCountryCodeCZ);
+        _SegmentCountryCodeMap.Add(TEXT("DK"), SegmentCountryCodeDK);
+        _SegmentCountryCodeMap.Add(TEXT("DJ"), SegmentCountryCodeDJ);
+        _SegmentCountryCodeMap.Add(TEXT("DM"), SegmentCountryCodeDM);
+        _SegmentCountryCodeMap.Add(TEXT("DO"), SegmentCountryCodeDO);
+        _SegmentCountryCodeMap.Add(TEXT("EC"), SegmentCountryCodeEC);
+        _SegmentCountryCodeMap.Add(TEXT("EG"), SegmentCountryCodeEG);
+        _SegmentCountryCodeMap.Add(TEXT("SV"), SegmentCountryCodeSV);
+        _SegmentCountryCodeMap.Add(TEXT("GQ"), SegmentCountryCodeGQ);
+        _SegmentCountryCodeMap.Add(TEXT("ER"), SegmentCountryCodeER);
+        _SegmentCountryCodeMap.Add(TEXT("EE"), SegmentCountryCodeEE);
+        _SegmentCountryCodeMap.Add(TEXT("ET"), SegmentCountryCodeET);
+        _SegmentCountryCodeMap.Add(TEXT("FK"), SegmentCountryCodeFK);
+        _SegmentCountryCodeMap.Add(TEXT("FO"), SegmentCountryCodeFO);
+        _SegmentCountryCodeMap.Add(TEXT("FJ"), SegmentCountryCodeFJ);
+        _SegmentCountryCodeMap.Add(TEXT("FI"), SegmentCountryCodeFI);
+        _SegmentCountryCodeMap.Add(TEXT("FR"), SegmentCountryCodeFR);
+        _SegmentCountryCodeMap.Add(TEXT("GF"), SegmentCountryCodeGF);
+        _SegmentCountryCodeMap.Add(TEXT("PF"), SegmentCountryCodePF);
+        _SegmentCountryCodeMap.Add(TEXT("TF"), SegmentCountryCodeTF);
+        _SegmentCountryCodeMap.Add(TEXT("GA"), SegmentCountryCodeGA);
+        _SegmentCountryCodeMap.Add(TEXT("GM"), SegmentCountryCodeGM);
+        _SegmentCountryCodeMap.Add(TEXT("GE"), SegmentCountryCodeGE);
+        _SegmentCountryCodeMap.Add(TEXT("DE"), SegmentCountryCodeDE);
+        _SegmentCountryCodeMap.Add(TEXT("GH"), SegmentCountryCodeGH);
+        _SegmentCountryCodeMap.Add(TEXT("GI"), SegmentCountryCodeGI);
+        _SegmentCountryCodeMap.Add(TEXT("GR"), SegmentCountryCodeGR);
+        _SegmentCountryCodeMap.Add(TEXT("GL"), SegmentCountryCodeGL);
+        _SegmentCountryCodeMap.Add(TEXT("GD"), SegmentCountryCodeGD);
+        _SegmentCountryCodeMap.Add(TEXT("GP"), SegmentCountryCodeGP);
+        _SegmentCountryCodeMap.Add(TEXT("GU"), SegmentCountryCodeGU);
+        _SegmentCountryCodeMap.Add(TEXT("GT"), SegmentCountryCodeGT);
+        _SegmentCountryCodeMap.Add(TEXT("GG"), SegmentCountryCodeGG);
+        _SegmentCountryCodeMap.Add(TEXT("GN"), SegmentCountryCodeGN);
+        _SegmentCountryCodeMap.Add(TEXT("GW"), SegmentCountryCodeGW);
+        _SegmentCountryCodeMap.Add(TEXT("GY"), SegmentCountryCodeGY);
+        _SegmentCountryCodeMap.Add(TEXT("HT"), SegmentCountryCodeHT);
+        _SegmentCountryCodeMap.Add(TEXT("HM"), SegmentCountryCodeHM);
+        _SegmentCountryCodeMap.Add(TEXT("VA"), SegmentCountryCodeVA);
+        _SegmentCountryCodeMap.Add(TEXT("HN"), SegmentCountryCodeHN);
+        _SegmentCountryCodeMap.Add(TEXT("HK"), SegmentCountryCodeHK);
+        _SegmentCountryCodeMap.Add(TEXT("HU"), SegmentCountryCodeHU);
+        _SegmentCountryCodeMap.Add(TEXT("IS"), SegmentCountryCodeIS);
+        _SegmentCountryCodeMap.Add(TEXT("IN"), SegmentCountryCodeIN);
+        _SegmentCountryCodeMap.Add(TEXT("ID"), SegmentCountryCodeID);
+        _SegmentCountryCodeMap.Add(TEXT("IR"), SegmentCountryCodeIR);
+        _SegmentCountryCodeMap.Add(TEXT("IQ"), SegmentCountryCodeIQ);
+        _SegmentCountryCodeMap.Add(TEXT("IE"), SegmentCountryCodeIE);
+        _SegmentCountryCodeMap.Add(TEXT("IM"), SegmentCountryCodeIM);
+        _SegmentCountryCodeMap.Add(TEXT("IL"), SegmentCountryCodeIL);
+        _SegmentCountryCodeMap.Add(TEXT("IT"), SegmentCountryCodeIT);
+        _SegmentCountryCodeMap.Add(TEXT("JM"), SegmentCountryCodeJM);
+        _SegmentCountryCodeMap.Add(TEXT("JP"), SegmentCountryCodeJP);
+        _SegmentCountryCodeMap.Add(TEXT("JE"), SegmentCountryCodeJE);
+        _SegmentCountryCodeMap.Add(TEXT("JO"), SegmentCountryCodeJO);
+        _SegmentCountryCodeMap.Add(TEXT("KZ"), SegmentCountryCodeKZ);
+        _SegmentCountryCodeMap.Add(TEXT("KE"), SegmentCountryCodeKE);
+        _SegmentCountryCodeMap.Add(TEXT("KI"), SegmentCountryCodeKI);
+        _SegmentCountryCodeMap.Add(TEXT("KP"), SegmentCountryCodeKP);
+        _SegmentCountryCodeMap.Add(TEXT("KR"), SegmentCountryCodeKR);
+        _SegmentCountryCodeMap.Add(TEXT("KW"), SegmentCountryCodeKW);
+        _SegmentCountryCodeMap.Add(TEXT("KG"), SegmentCountryCodeKG);
+        _SegmentCountryCodeMap.Add(TEXT("LA"), SegmentCountryCodeLA);
+        _SegmentCountryCodeMap.Add(TEXT("LV"), SegmentCountryCodeLV);
+        _SegmentCountryCodeMap.Add(TEXT("LB"), SegmentCountryCodeLB);
+        _SegmentCountryCodeMap.Add(TEXT("LS"), SegmentCountryCodeLS);
+        _SegmentCountryCodeMap.Add(TEXT("LR"), SegmentCountryCodeLR);
+        _SegmentCountryCodeMap.Add(TEXT("LY"), SegmentCountryCodeLY);
+        _SegmentCountryCodeMap.Add(TEXT("LI"), SegmentCountryCodeLI);
+        _SegmentCountryCodeMap.Add(TEXT("LT"), SegmentCountryCodeLT);
+        _SegmentCountryCodeMap.Add(TEXT("LU"), SegmentCountryCodeLU);
+        _SegmentCountryCodeMap.Add(TEXT("MO"), SegmentCountryCodeMO);
+        _SegmentCountryCodeMap.Add(TEXT("MK"), SegmentCountryCodeMK);
+        _SegmentCountryCodeMap.Add(TEXT("MG"), SegmentCountryCodeMG);
+        _SegmentCountryCodeMap.Add(TEXT("MW"), SegmentCountryCodeMW);
+        _SegmentCountryCodeMap.Add(TEXT("MY"), SegmentCountryCodeMY);
+        _SegmentCountryCodeMap.Add(TEXT("MV"), SegmentCountryCodeMV);
+        _SegmentCountryCodeMap.Add(TEXT("ML"), SegmentCountryCodeML);
+        _SegmentCountryCodeMap.Add(TEXT("MT"), SegmentCountryCodeMT);
+        _SegmentCountryCodeMap.Add(TEXT("MH"), SegmentCountryCodeMH);
+        _SegmentCountryCodeMap.Add(TEXT("MQ"), SegmentCountryCodeMQ);
+        _SegmentCountryCodeMap.Add(TEXT("MR"), SegmentCountryCodeMR);
+        _SegmentCountryCodeMap.Add(TEXT("MU"), SegmentCountryCodeMU);
+        _SegmentCountryCodeMap.Add(TEXT("YT"), SegmentCountryCodeYT);
+        _SegmentCountryCodeMap.Add(TEXT("MX"), SegmentCountryCodeMX);
+        _SegmentCountryCodeMap.Add(TEXT("FM"), SegmentCountryCodeFM);
+        _SegmentCountryCodeMap.Add(TEXT("MD"), SegmentCountryCodeMD);
+        _SegmentCountryCodeMap.Add(TEXT("MC"), SegmentCountryCodeMC);
+        _SegmentCountryCodeMap.Add(TEXT("MN"), SegmentCountryCodeMN);
+        _SegmentCountryCodeMap.Add(TEXT("ME"), SegmentCountryCodeME);
+        _SegmentCountryCodeMap.Add(TEXT("MS"), SegmentCountryCodeMS);
+        _SegmentCountryCodeMap.Add(TEXT("MA"), SegmentCountryCodeMA);
+        _SegmentCountryCodeMap.Add(TEXT("MZ"), SegmentCountryCodeMZ);
+        _SegmentCountryCodeMap.Add(TEXT("MM"), SegmentCountryCodeMM);
+        _SegmentCountryCodeMap.Add(TEXT("NA"), SegmentCountryCodeNA);
+        _SegmentCountryCodeMap.Add(TEXT("NR"), SegmentCountryCodeNR);
+        _SegmentCountryCodeMap.Add(TEXT("NP"), SegmentCountryCodeNP);
+        _SegmentCountryCodeMap.Add(TEXT("NL"), SegmentCountryCodeNL);
+        _SegmentCountryCodeMap.Add(TEXT("NC"), SegmentCountryCodeNC);
+        _SegmentCountryCodeMap.Add(TEXT("NZ"), SegmentCountryCodeNZ);
+        _SegmentCountryCodeMap.Add(TEXT("NI"), SegmentCountryCodeNI);
+        _SegmentCountryCodeMap.Add(TEXT("NE"), SegmentCountryCodeNE);
+        _SegmentCountryCodeMap.Add(TEXT("NG"), SegmentCountryCodeNG);
+        _SegmentCountryCodeMap.Add(TEXT("NU"), SegmentCountryCodeNU);
+        _SegmentCountryCodeMap.Add(TEXT("NF"), SegmentCountryCodeNF);
+        _SegmentCountryCodeMap.Add(TEXT("MP"), SegmentCountryCodeMP);
+        _SegmentCountryCodeMap.Add(TEXT("NO"), SegmentCountryCodeNO);
+        _SegmentCountryCodeMap.Add(TEXT("OM"), SegmentCountryCodeOM);
+        _SegmentCountryCodeMap.Add(TEXT("PK"), SegmentCountryCodePK);
+        _SegmentCountryCodeMap.Add(TEXT("PW"), SegmentCountryCodePW);
+        _SegmentCountryCodeMap.Add(TEXT("PS"), SegmentCountryCodePS);
+        _SegmentCountryCodeMap.Add(TEXT("PA"), SegmentCountryCodePA);
+        _SegmentCountryCodeMap.Add(TEXT("PG"), SegmentCountryCodePG);
+        _SegmentCountryCodeMap.Add(TEXT("PY"), SegmentCountryCodePY);
+        _SegmentCountryCodeMap.Add(TEXT("PE"), SegmentCountryCodePE);
+        _SegmentCountryCodeMap.Add(TEXT("PH"), SegmentCountryCodePH);
+        _SegmentCountryCodeMap.Add(TEXT("PN"), SegmentCountryCodePN);
+        _SegmentCountryCodeMap.Add(TEXT("PL"), SegmentCountryCodePL);
+        _SegmentCountryCodeMap.Add(TEXT("PT"), SegmentCountryCodePT);
+        _SegmentCountryCodeMap.Add(TEXT("PR"), SegmentCountryCodePR);
+        _SegmentCountryCodeMap.Add(TEXT("QA"), SegmentCountryCodeQA);
+        _SegmentCountryCodeMap.Add(TEXT("RE"), SegmentCountryCodeRE);
+        _SegmentCountryCodeMap.Add(TEXT("RO"), SegmentCountryCodeRO);
+        _SegmentCountryCodeMap.Add(TEXT("RU"), SegmentCountryCodeRU);
+        _SegmentCountryCodeMap.Add(TEXT("RW"), SegmentCountryCodeRW);
+        _SegmentCountryCodeMap.Add(TEXT("BL"), SegmentCountryCodeBL);
+        _SegmentCountryCodeMap.Add(TEXT("SH"), SegmentCountryCodeSH);
+        _SegmentCountryCodeMap.Add(TEXT("KN"), SegmentCountryCodeKN);
+        _SegmentCountryCodeMap.Add(TEXT("LC"), SegmentCountryCodeLC);
+        _SegmentCountryCodeMap.Add(TEXT("MF"), SegmentCountryCodeMF);
+        _SegmentCountryCodeMap.Add(TEXT("PM"), SegmentCountryCodePM);
+        _SegmentCountryCodeMap.Add(TEXT("VC"), SegmentCountryCodeVC);
+        _SegmentCountryCodeMap.Add(TEXT("WS"), SegmentCountryCodeWS);
+        _SegmentCountryCodeMap.Add(TEXT("SM"), SegmentCountryCodeSM);
+        _SegmentCountryCodeMap.Add(TEXT("ST"), SegmentCountryCodeST);
+        _SegmentCountryCodeMap.Add(TEXT("SA"), SegmentCountryCodeSA);
+        _SegmentCountryCodeMap.Add(TEXT("SN"), SegmentCountryCodeSN);
+        _SegmentCountryCodeMap.Add(TEXT("RS"), SegmentCountryCodeRS);
+        _SegmentCountryCodeMap.Add(TEXT("SC"), SegmentCountryCodeSC);
+        _SegmentCountryCodeMap.Add(TEXT("SL"), SegmentCountryCodeSL);
+        _SegmentCountryCodeMap.Add(TEXT("SG"), SegmentCountryCodeSG);
+        _SegmentCountryCodeMap.Add(TEXT("SX"), SegmentCountryCodeSX);
+        _SegmentCountryCodeMap.Add(TEXT("SK"), SegmentCountryCodeSK);
+        _SegmentCountryCodeMap.Add(TEXT("SI"), SegmentCountryCodeSI);
+        _SegmentCountryCodeMap.Add(TEXT("SB"), SegmentCountryCodeSB);
+        _SegmentCountryCodeMap.Add(TEXT("SO"), SegmentCountryCodeSO);
+        _SegmentCountryCodeMap.Add(TEXT("ZA"), SegmentCountryCodeZA);
+        _SegmentCountryCodeMap.Add(TEXT("GS"), SegmentCountryCodeGS);
+        _SegmentCountryCodeMap.Add(TEXT("SS"), SegmentCountryCodeSS);
+        _SegmentCountryCodeMap.Add(TEXT("ES"), SegmentCountryCodeES);
+        _SegmentCountryCodeMap.Add(TEXT("LK"), SegmentCountryCodeLK);
+        _SegmentCountryCodeMap.Add(TEXT("SD"), SegmentCountryCodeSD);
+        _SegmentCountryCodeMap.Add(TEXT("SR"), SegmentCountryCodeSR);
+        _SegmentCountryCodeMap.Add(TEXT("SJ"), SegmentCountryCodeSJ);
+        _SegmentCountryCodeMap.Add(TEXT("SZ"), SegmentCountryCodeSZ);
+        _SegmentCountryCodeMap.Add(TEXT("SE"), SegmentCountryCodeSE);
+        _SegmentCountryCodeMap.Add(TEXT("CH"), SegmentCountryCodeCH);
+        _SegmentCountryCodeMap.Add(TEXT("SY"), SegmentCountryCodeSY);
+        _SegmentCountryCodeMap.Add(TEXT("TW"), SegmentCountryCodeTW);
+        _SegmentCountryCodeMap.Add(TEXT("TJ"), SegmentCountryCodeTJ);
+        _SegmentCountryCodeMap.Add(TEXT("TZ"), SegmentCountryCodeTZ);
+        _SegmentCountryCodeMap.Add(TEXT("TH"), SegmentCountryCodeTH);
+        _SegmentCountryCodeMap.Add(TEXT("TL"), SegmentCountryCodeTL);
+        _SegmentCountryCodeMap.Add(TEXT("TG"), SegmentCountryCodeTG);
+        _SegmentCountryCodeMap.Add(TEXT("TK"), SegmentCountryCodeTK);
+        _SegmentCountryCodeMap.Add(TEXT("TO"), SegmentCountryCodeTO);
+        _SegmentCountryCodeMap.Add(TEXT("TT"), SegmentCountryCodeTT);
+        _SegmentCountryCodeMap.Add(TEXT("TN"), SegmentCountryCodeTN);
+        _SegmentCountryCodeMap.Add(TEXT("TR"), SegmentCountryCodeTR);
+        _SegmentCountryCodeMap.Add(TEXT("TM"), SegmentCountryCodeTM);
+        _SegmentCountryCodeMap.Add(TEXT("TC"), SegmentCountryCodeTC);
+        _SegmentCountryCodeMap.Add(TEXT("TV"), SegmentCountryCodeTV);
+        _SegmentCountryCodeMap.Add(TEXT("UG"), SegmentCountryCodeUG);
+        _SegmentCountryCodeMap.Add(TEXT("UA"), SegmentCountryCodeUA);
+        _SegmentCountryCodeMap.Add(TEXT("AE"), SegmentCountryCodeAE);
+        _SegmentCountryCodeMap.Add(TEXT("GB"), SegmentCountryCodeGB);
+        _SegmentCountryCodeMap.Add(TEXT("US"), SegmentCountryCodeUS);
+        _SegmentCountryCodeMap.Add(TEXT("UM"), SegmentCountryCodeUM);
+        _SegmentCountryCodeMap.Add(TEXT("UY"), SegmentCountryCodeUY);
+        _SegmentCountryCodeMap.Add(TEXT("UZ"), SegmentCountryCodeUZ);
+        _SegmentCountryCodeMap.Add(TEXT("VU"), SegmentCountryCodeVU);
+        _SegmentCountryCodeMap.Add(TEXT("VE"), SegmentCountryCodeVE);
+        _SegmentCountryCodeMap.Add(TEXT("VN"), SegmentCountryCodeVN);
+        _SegmentCountryCodeMap.Add(TEXT("VG"), SegmentCountryCodeVG);
+        _SegmentCountryCodeMap.Add(TEXT("VI"), SegmentCountryCodeVI);
+        _SegmentCountryCodeMap.Add(TEXT("WF"), SegmentCountryCodeWF);
+        _SegmentCountryCodeMap.Add(TEXT("EH"), SegmentCountryCodeEH);
+        _SegmentCountryCodeMap.Add(TEXT("YE"), SegmentCountryCodeYE);
+        _SegmentCountryCodeMap.Add(TEXT("ZM"), SegmentCountryCodeZM);
+        _SegmentCountryCodeMap.Add(TEXT("ZW"), SegmentCountryCodeZW);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _SegmentCountryCodeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return SegmentCountryCodeAF; // Basically critical fail
+}
+
+PlayFab::AdminModels::FLocationSegmentFilter::~FLocationSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FLocationSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CountryCode.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CountryCode"));
+        writeSegmentCountryCodeEnumJSON(CountryCode, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FLocationSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    CountryCode = readSegmentCountryCodeFromValue(obj->TryGetField(TEXT("CountryCode")));
+
+    return HasSucceeded;
+}
+
+void PlayFab::AdminModels::writeSegmentPushNotificationDevicePlatformEnumJSON(SegmentPushNotificationDevicePlatform enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case SegmentPushNotificationDevicePlatformApplePushNotificationService: writer->WriteValue(TEXT("ApplePushNotificationService")); break;
+    case SegmentPushNotificationDevicePlatformGoogleCloudMessaging: writer->WriteValue(TEXT("GoogleCloudMessaging")); break;
+    }
+}
+
+AdminModels::SegmentPushNotificationDevicePlatform PlayFab::AdminModels::readSegmentPushNotificationDevicePlatformFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readSegmentPushNotificationDevicePlatformFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::SegmentPushNotificationDevicePlatform PlayFab::AdminModels::readSegmentPushNotificationDevicePlatformFromValue(const FString& value)
+{
+    static TMap<FString, SegmentPushNotificationDevicePlatform> _SegmentPushNotificationDevicePlatformMap;
+    if (_SegmentPushNotificationDevicePlatformMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _SegmentPushNotificationDevicePlatformMap.Add(TEXT("ApplePushNotificationService"), SegmentPushNotificationDevicePlatformApplePushNotificationService);
+        _SegmentPushNotificationDevicePlatformMap.Add(TEXT("GoogleCloudMessaging"), SegmentPushNotificationDevicePlatformGoogleCloudMessaging);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _SegmentPushNotificationDevicePlatformMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return SegmentPushNotificationDevicePlatformApplePushNotificationService; // Basically critical fail
+}
+
+PlayFab::AdminModels::FPushNotificationSegmentFilter::~FPushNotificationSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FPushNotificationSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PushNotificationDevicePlatform.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PushNotificationDevicePlatform"));
+        writeSegmentPushNotificationDevicePlatformEnumJSON(PushNotificationDevicePlatform, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FPushNotificationSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    PushNotificationDevicePlatform = readSegmentPushNotificationDevicePlatformFromValue(obj->TryGetField(TEXT("PushNotificationDevicePlatform")));
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FStatisticSegmentFilter::~FStatisticSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FStatisticSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (FilterValue.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FilterValue"));
+        writer->WriteValue(FilterValue);
+    }
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (UseCurrentVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UseCurrentVersion"));
+        writer->WriteValue(UseCurrentVersion);
+    }
+
+    if (Version.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Version"));
+        writer->WriteValue(Version);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FStatisticSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> FilterValueValue = obj->TryGetField(TEXT("FilterValue"));
+    if (FilterValueValue.IsValid() && !FilterValueValue->IsNull())
+    {
+        FString TmpValue;
+        if (FilterValueValue->TryGetString(TmpValue)) { FilterValue = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> UseCurrentVersionValue = obj->TryGetField(TEXT("UseCurrentVersion"));
+    if (UseCurrentVersionValue.IsValid() && !UseCurrentVersionValue->IsNull())
+    {
+        bool TmpValue;
+        if (UseCurrentVersionValue->TryGetBool(TmpValue)) { UseCurrentVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
+    if (VersionValue.IsValid() && !VersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (VersionValue->TryGetNumber(TmpValue)) { Version = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FTagSegmentFilter::~FTagSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FTagSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (TagValue.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TagValue"));
+        writer->WriteValue(TagValue);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FTagSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> TagValueValue = obj->TryGetField(TEXT("TagValue"));
+    if (TagValueValue.IsValid() && !TagValueValue->IsNull())
+    {
+        FString TmpValue;
+        if (TagValueValue->TryGetString(TmpValue)) { TagValue = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FTotalValueToDateInUSDSegmentFilter::~FTotalValueToDateInUSDSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FTotalValueToDateInUSDSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Amount.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FTotalValueToDateInUSDSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        FString TmpValue;
+        if (AmountValue->TryGetString(TmpValue)) { Amount = TmpValue; }
+    }
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUserOriginationSegmentFilter::~FUserOriginationSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FUserOriginationSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (LoginProvider.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LoginProvider"));
+        writeSegmentLoginIdentityProviderEnumJSON(LoginProvider, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUserOriginationSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    LoginProvider = readSegmentLoginIdentityProviderFromValue(obj->TryGetField(TEXT("LoginProvider")));
+
+    return HasSucceeded;
+}
+
+void PlayFab::AdminModels::writeSegmentCurrencyEnumJSON(SegmentCurrency enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case SegmentCurrencyAED: writer->WriteValue(TEXT("AED")); break;
+    case SegmentCurrencyAFN: writer->WriteValue(TEXT("AFN")); break;
+    case SegmentCurrencyALL: writer->WriteValue(TEXT("ALL")); break;
+    case SegmentCurrencyAMD: writer->WriteValue(TEXT("AMD")); break;
+    case SegmentCurrencyANG: writer->WriteValue(TEXT("ANG")); break;
+    case SegmentCurrencyAOA: writer->WriteValue(TEXT("AOA")); break;
+    case SegmentCurrencyARS: writer->WriteValue(TEXT("ARS")); break;
+    case SegmentCurrencyAUD: writer->WriteValue(TEXT("AUD")); break;
+    case SegmentCurrencyAWG: writer->WriteValue(TEXT("AWG")); break;
+    case SegmentCurrencyAZN: writer->WriteValue(TEXT("AZN")); break;
+    case SegmentCurrencyBAM: writer->WriteValue(TEXT("BAM")); break;
+    case SegmentCurrencyBBD: writer->WriteValue(TEXT("BBD")); break;
+    case SegmentCurrencyBDT: writer->WriteValue(TEXT("BDT")); break;
+    case SegmentCurrencyBGN: writer->WriteValue(TEXT("BGN")); break;
+    case SegmentCurrencyBHD: writer->WriteValue(TEXT("BHD")); break;
+    case SegmentCurrencyBIF: writer->WriteValue(TEXT("BIF")); break;
+    case SegmentCurrencyBMD: writer->WriteValue(TEXT("BMD")); break;
+    case SegmentCurrencyBND: writer->WriteValue(TEXT("BND")); break;
+    case SegmentCurrencyBOB: writer->WriteValue(TEXT("BOB")); break;
+    case SegmentCurrencyBRL: writer->WriteValue(TEXT("BRL")); break;
+    case SegmentCurrencyBSD: writer->WriteValue(TEXT("BSD")); break;
+    case SegmentCurrencyBTN: writer->WriteValue(TEXT("BTN")); break;
+    case SegmentCurrencyBWP: writer->WriteValue(TEXT("BWP")); break;
+    case SegmentCurrencyBYR: writer->WriteValue(TEXT("BYR")); break;
+    case SegmentCurrencyBZD: writer->WriteValue(TEXT("BZD")); break;
+    case SegmentCurrencyCAD: writer->WriteValue(TEXT("CAD")); break;
+    case SegmentCurrencyCDF: writer->WriteValue(TEXT("CDF")); break;
+    case SegmentCurrencyCHF: writer->WriteValue(TEXT("CHF")); break;
+    case SegmentCurrencyCLP: writer->WriteValue(TEXT("CLP")); break;
+    case SegmentCurrencyCNY: writer->WriteValue(TEXT("CNY")); break;
+    case SegmentCurrencyCOP: writer->WriteValue(TEXT("COP")); break;
+    case SegmentCurrencyCRC: writer->WriteValue(TEXT("CRC")); break;
+    case SegmentCurrencyCUC: writer->WriteValue(TEXT("CUC")); break;
+    case SegmentCurrencyCUP: writer->WriteValue(TEXT("CUP")); break;
+    case SegmentCurrencyCVE: writer->WriteValue(TEXT("CVE")); break;
+    case SegmentCurrencyCZK: writer->WriteValue(TEXT("CZK")); break;
+    case SegmentCurrencyDJF: writer->WriteValue(TEXT("DJF")); break;
+    case SegmentCurrencyDKK: writer->WriteValue(TEXT("DKK")); break;
+    case SegmentCurrencyDOP: writer->WriteValue(TEXT("DOP")); break;
+    case SegmentCurrencyDZD: writer->WriteValue(TEXT("DZD")); break;
+    case SegmentCurrencyEGP: writer->WriteValue(TEXT("EGP")); break;
+    case SegmentCurrencyERN: writer->WriteValue(TEXT("ERN")); break;
+    case SegmentCurrencyETB: writer->WriteValue(TEXT("ETB")); break;
+    case SegmentCurrencyEUR: writer->WriteValue(TEXT("EUR")); break;
+    case SegmentCurrencyFJD: writer->WriteValue(TEXT("FJD")); break;
+    case SegmentCurrencyFKP: writer->WriteValue(TEXT("FKP")); break;
+    case SegmentCurrencyGBP: writer->WriteValue(TEXT("GBP")); break;
+    case SegmentCurrencyGEL: writer->WriteValue(TEXT("GEL")); break;
+    case SegmentCurrencyGGP: writer->WriteValue(TEXT("GGP")); break;
+    case SegmentCurrencyGHS: writer->WriteValue(TEXT("GHS")); break;
+    case SegmentCurrencyGIP: writer->WriteValue(TEXT("GIP")); break;
+    case SegmentCurrencyGMD: writer->WriteValue(TEXT("GMD")); break;
+    case SegmentCurrencyGNF: writer->WriteValue(TEXT("GNF")); break;
+    case SegmentCurrencyGTQ: writer->WriteValue(TEXT("GTQ")); break;
+    case SegmentCurrencyGYD: writer->WriteValue(TEXT("GYD")); break;
+    case SegmentCurrencyHKD: writer->WriteValue(TEXT("HKD")); break;
+    case SegmentCurrencyHNL: writer->WriteValue(TEXT("HNL")); break;
+    case SegmentCurrencyHRK: writer->WriteValue(TEXT("HRK")); break;
+    case SegmentCurrencyHTG: writer->WriteValue(TEXT("HTG")); break;
+    case SegmentCurrencyHUF: writer->WriteValue(TEXT("HUF")); break;
+    case SegmentCurrencyIDR: writer->WriteValue(TEXT("IDR")); break;
+    case SegmentCurrencyILS: writer->WriteValue(TEXT("ILS")); break;
+    case SegmentCurrencyIMP: writer->WriteValue(TEXT("IMP")); break;
+    case SegmentCurrencyINR: writer->WriteValue(TEXT("INR")); break;
+    case SegmentCurrencyIQD: writer->WriteValue(TEXT("IQD")); break;
+    case SegmentCurrencyIRR: writer->WriteValue(TEXT("IRR")); break;
+    case SegmentCurrencyISK: writer->WriteValue(TEXT("ISK")); break;
+    case SegmentCurrencyJEP: writer->WriteValue(TEXT("JEP")); break;
+    case SegmentCurrencyJMD: writer->WriteValue(TEXT("JMD")); break;
+    case SegmentCurrencyJOD: writer->WriteValue(TEXT("JOD")); break;
+    case SegmentCurrencyJPY: writer->WriteValue(TEXT("JPY")); break;
+    case SegmentCurrencyKES: writer->WriteValue(TEXT("KES")); break;
+    case SegmentCurrencyKGS: writer->WriteValue(TEXT("KGS")); break;
+    case SegmentCurrencyKHR: writer->WriteValue(TEXT("KHR")); break;
+    case SegmentCurrencyKMF: writer->WriteValue(TEXT("KMF")); break;
+    case SegmentCurrencyKPW: writer->WriteValue(TEXT("KPW")); break;
+    case SegmentCurrencyKRW: writer->WriteValue(TEXT("KRW")); break;
+    case SegmentCurrencyKWD: writer->WriteValue(TEXT("KWD")); break;
+    case SegmentCurrencyKYD: writer->WriteValue(TEXT("KYD")); break;
+    case SegmentCurrencyKZT: writer->WriteValue(TEXT("KZT")); break;
+    case SegmentCurrencyLAK: writer->WriteValue(TEXT("LAK")); break;
+    case SegmentCurrencyLBP: writer->WriteValue(TEXT("LBP")); break;
+    case SegmentCurrencyLKR: writer->WriteValue(TEXT("LKR")); break;
+    case SegmentCurrencyLRD: writer->WriteValue(TEXT("LRD")); break;
+    case SegmentCurrencyLSL: writer->WriteValue(TEXT("LSL")); break;
+    case SegmentCurrencyLYD: writer->WriteValue(TEXT("LYD")); break;
+    case SegmentCurrencyMAD: writer->WriteValue(TEXT("MAD")); break;
+    case SegmentCurrencyMDL: writer->WriteValue(TEXT("MDL")); break;
+    case SegmentCurrencyMGA: writer->WriteValue(TEXT("MGA")); break;
+    case SegmentCurrencyMKD: writer->WriteValue(TEXT("MKD")); break;
+    case SegmentCurrencyMMK: writer->WriteValue(TEXT("MMK")); break;
+    case SegmentCurrencyMNT: writer->WriteValue(TEXT("MNT")); break;
+    case SegmentCurrencyMOP: writer->WriteValue(TEXT("MOP")); break;
+    case SegmentCurrencyMRO: writer->WriteValue(TEXT("MRO")); break;
+    case SegmentCurrencyMUR: writer->WriteValue(TEXT("MUR")); break;
+    case SegmentCurrencyMVR: writer->WriteValue(TEXT("MVR")); break;
+    case SegmentCurrencyMWK: writer->WriteValue(TEXT("MWK")); break;
+    case SegmentCurrencyMXN: writer->WriteValue(TEXT("MXN")); break;
+    case SegmentCurrencyMYR: writer->WriteValue(TEXT("MYR")); break;
+    case SegmentCurrencyMZN: writer->WriteValue(TEXT("MZN")); break;
+    case SegmentCurrencyNAD: writer->WriteValue(TEXT("NAD")); break;
+    case SegmentCurrencyNGN: writer->WriteValue(TEXT("NGN")); break;
+    case SegmentCurrencyNIO: writer->WriteValue(TEXT("NIO")); break;
+    case SegmentCurrencyNOK: writer->WriteValue(TEXT("NOK")); break;
+    case SegmentCurrencyNPR: writer->WriteValue(TEXT("NPR")); break;
+    case SegmentCurrencyNZD: writer->WriteValue(TEXT("NZD")); break;
+    case SegmentCurrencyOMR: writer->WriteValue(TEXT("OMR")); break;
+    case SegmentCurrencyPAB: writer->WriteValue(TEXT("PAB")); break;
+    case SegmentCurrencyPEN: writer->WriteValue(TEXT("PEN")); break;
+    case SegmentCurrencyPGK: writer->WriteValue(TEXT("PGK")); break;
+    case SegmentCurrencyPHP: writer->WriteValue(TEXT("PHP")); break;
+    case SegmentCurrencyPKR: writer->WriteValue(TEXT("PKR")); break;
+    case SegmentCurrencyPLN: writer->WriteValue(TEXT("PLN")); break;
+    case SegmentCurrencyPYG: writer->WriteValue(TEXT("PYG")); break;
+    case SegmentCurrencyQAR: writer->WriteValue(TEXT("QAR")); break;
+    case SegmentCurrencyRON: writer->WriteValue(TEXT("RON")); break;
+    case SegmentCurrencyRSD: writer->WriteValue(TEXT("RSD")); break;
+    case SegmentCurrencyRUB: writer->WriteValue(TEXT("RUB")); break;
+    case SegmentCurrencyRWF: writer->WriteValue(TEXT("RWF")); break;
+    case SegmentCurrencySAR: writer->WriteValue(TEXT("SAR")); break;
+    case SegmentCurrencySBD: writer->WriteValue(TEXT("SBD")); break;
+    case SegmentCurrencySCR: writer->WriteValue(TEXT("SCR")); break;
+    case SegmentCurrencySDG: writer->WriteValue(TEXT("SDG")); break;
+    case SegmentCurrencySEK: writer->WriteValue(TEXT("SEK")); break;
+    case SegmentCurrencySGD: writer->WriteValue(TEXT("SGD")); break;
+    case SegmentCurrencySHP: writer->WriteValue(TEXT("SHP")); break;
+    case SegmentCurrencySLL: writer->WriteValue(TEXT("SLL")); break;
+    case SegmentCurrencySOS: writer->WriteValue(TEXT("SOS")); break;
+    case SegmentCurrencySPL: writer->WriteValue(TEXT("SPL")); break;
+    case SegmentCurrencySRD: writer->WriteValue(TEXT("SRD")); break;
+    case SegmentCurrencySTD: writer->WriteValue(TEXT("STD")); break;
+    case SegmentCurrencySVC: writer->WriteValue(TEXT("SVC")); break;
+    case SegmentCurrencySYP: writer->WriteValue(TEXT("SYP")); break;
+    case SegmentCurrencySZL: writer->WriteValue(TEXT("SZL")); break;
+    case SegmentCurrencyTHB: writer->WriteValue(TEXT("THB")); break;
+    case SegmentCurrencyTJS: writer->WriteValue(TEXT("TJS")); break;
+    case SegmentCurrencyTMT: writer->WriteValue(TEXT("TMT")); break;
+    case SegmentCurrencyTND: writer->WriteValue(TEXT("TND")); break;
+    case SegmentCurrencyTOP: writer->WriteValue(TEXT("TOP")); break;
+    case SegmentCurrencyTRY: writer->WriteValue(TEXT("TRY")); break;
+    case SegmentCurrencyTTD: writer->WriteValue(TEXT("TTD")); break;
+    case SegmentCurrencyTVD: writer->WriteValue(TEXT("TVD")); break;
+    case SegmentCurrencyTWD: writer->WriteValue(TEXT("TWD")); break;
+    case SegmentCurrencyTZS: writer->WriteValue(TEXT("TZS")); break;
+    case SegmentCurrencyUAH: writer->WriteValue(TEXT("UAH")); break;
+    case SegmentCurrencyUGX: writer->WriteValue(TEXT("UGX")); break;
+    case SegmentCurrencyUSD: writer->WriteValue(TEXT("USD")); break;
+    case SegmentCurrencyUYU: writer->WriteValue(TEXT("UYU")); break;
+    case SegmentCurrencyUZS: writer->WriteValue(TEXT("UZS")); break;
+    case SegmentCurrencyVEF: writer->WriteValue(TEXT("VEF")); break;
+    case SegmentCurrencyVND: writer->WriteValue(TEXT("VND")); break;
+    case SegmentCurrencyVUV: writer->WriteValue(TEXT("VUV")); break;
+    case SegmentCurrencyWST: writer->WriteValue(TEXT("WST")); break;
+    case SegmentCurrencyXAF: writer->WriteValue(TEXT("XAF")); break;
+    case SegmentCurrencyXCD: writer->WriteValue(TEXT("XCD")); break;
+    case SegmentCurrencyXDR: writer->WriteValue(TEXT("XDR")); break;
+    case SegmentCurrencyXOF: writer->WriteValue(TEXT("XOF")); break;
+    case SegmentCurrencyXPF: writer->WriteValue(TEXT("XPF")); break;
+    case SegmentCurrencyYER: writer->WriteValue(TEXT("YER")); break;
+    case SegmentCurrencyZAR: writer->WriteValue(TEXT("ZAR")); break;
+    case SegmentCurrencyZMW: writer->WriteValue(TEXT("ZMW")); break;
+    case SegmentCurrencyZWD: writer->WriteValue(TEXT("ZWD")); break;
+    }
+}
+
+AdminModels::SegmentCurrency PlayFab::AdminModels::readSegmentCurrencyFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readSegmentCurrencyFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::SegmentCurrency PlayFab::AdminModels::readSegmentCurrencyFromValue(const FString& value)
+{
+    static TMap<FString, SegmentCurrency> _SegmentCurrencyMap;
+    if (_SegmentCurrencyMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _SegmentCurrencyMap.Add(TEXT("AED"), SegmentCurrencyAED);
+        _SegmentCurrencyMap.Add(TEXT("AFN"), SegmentCurrencyAFN);
+        _SegmentCurrencyMap.Add(TEXT("ALL"), SegmentCurrencyALL);
+        _SegmentCurrencyMap.Add(TEXT("AMD"), SegmentCurrencyAMD);
+        _SegmentCurrencyMap.Add(TEXT("ANG"), SegmentCurrencyANG);
+        _SegmentCurrencyMap.Add(TEXT("AOA"), SegmentCurrencyAOA);
+        _SegmentCurrencyMap.Add(TEXT("ARS"), SegmentCurrencyARS);
+        _SegmentCurrencyMap.Add(TEXT("AUD"), SegmentCurrencyAUD);
+        _SegmentCurrencyMap.Add(TEXT("AWG"), SegmentCurrencyAWG);
+        _SegmentCurrencyMap.Add(TEXT("AZN"), SegmentCurrencyAZN);
+        _SegmentCurrencyMap.Add(TEXT("BAM"), SegmentCurrencyBAM);
+        _SegmentCurrencyMap.Add(TEXT("BBD"), SegmentCurrencyBBD);
+        _SegmentCurrencyMap.Add(TEXT("BDT"), SegmentCurrencyBDT);
+        _SegmentCurrencyMap.Add(TEXT("BGN"), SegmentCurrencyBGN);
+        _SegmentCurrencyMap.Add(TEXT("BHD"), SegmentCurrencyBHD);
+        _SegmentCurrencyMap.Add(TEXT("BIF"), SegmentCurrencyBIF);
+        _SegmentCurrencyMap.Add(TEXT("BMD"), SegmentCurrencyBMD);
+        _SegmentCurrencyMap.Add(TEXT("BND"), SegmentCurrencyBND);
+        _SegmentCurrencyMap.Add(TEXT("BOB"), SegmentCurrencyBOB);
+        _SegmentCurrencyMap.Add(TEXT("BRL"), SegmentCurrencyBRL);
+        _SegmentCurrencyMap.Add(TEXT("BSD"), SegmentCurrencyBSD);
+        _SegmentCurrencyMap.Add(TEXT("BTN"), SegmentCurrencyBTN);
+        _SegmentCurrencyMap.Add(TEXT("BWP"), SegmentCurrencyBWP);
+        _SegmentCurrencyMap.Add(TEXT("BYR"), SegmentCurrencyBYR);
+        _SegmentCurrencyMap.Add(TEXT("BZD"), SegmentCurrencyBZD);
+        _SegmentCurrencyMap.Add(TEXT("CAD"), SegmentCurrencyCAD);
+        _SegmentCurrencyMap.Add(TEXT("CDF"), SegmentCurrencyCDF);
+        _SegmentCurrencyMap.Add(TEXT("CHF"), SegmentCurrencyCHF);
+        _SegmentCurrencyMap.Add(TEXT("CLP"), SegmentCurrencyCLP);
+        _SegmentCurrencyMap.Add(TEXT("CNY"), SegmentCurrencyCNY);
+        _SegmentCurrencyMap.Add(TEXT("COP"), SegmentCurrencyCOP);
+        _SegmentCurrencyMap.Add(TEXT("CRC"), SegmentCurrencyCRC);
+        _SegmentCurrencyMap.Add(TEXT("CUC"), SegmentCurrencyCUC);
+        _SegmentCurrencyMap.Add(TEXT("CUP"), SegmentCurrencyCUP);
+        _SegmentCurrencyMap.Add(TEXT("CVE"), SegmentCurrencyCVE);
+        _SegmentCurrencyMap.Add(TEXT("CZK"), SegmentCurrencyCZK);
+        _SegmentCurrencyMap.Add(TEXT("DJF"), SegmentCurrencyDJF);
+        _SegmentCurrencyMap.Add(TEXT("DKK"), SegmentCurrencyDKK);
+        _SegmentCurrencyMap.Add(TEXT("DOP"), SegmentCurrencyDOP);
+        _SegmentCurrencyMap.Add(TEXT("DZD"), SegmentCurrencyDZD);
+        _SegmentCurrencyMap.Add(TEXT("EGP"), SegmentCurrencyEGP);
+        _SegmentCurrencyMap.Add(TEXT("ERN"), SegmentCurrencyERN);
+        _SegmentCurrencyMap.Add(TEXT("ETB"), SegmentCurrencyETB);
+        _SegmentCurrencyMap.Add(TEXT("EUR"), SegmentCurrencyEUR);
+        _SegmentCurrencyMap.Add(TEXT("FJD"), SegmentCurrencyFJD);
+        _SegmentCurrencyMap.Add(TEXT("FKP"), SegmentCurrencyFKP);
+        _SegmentCurrencyMap.Add(TEXT("GBP"), SegmentCurrencyGBP);
+        _SegmentCurrencyMap.Add(TEXT("GEL"), SegmentCurrencyGEL);
+        _SegmentCurrencyMap.Add(TEXT("GGP"), SegmentCurrencyGGP);
+        _SegmentCurrencyMap.Add(TEXT("GHS"), SegmentCurrencyGHS);
+        _SegmentCurrencyMap.Add(TEXT("GIP"), SegmentCurrencyGIP);
+        _SegmentCurrencyMap.Add(TEXT("GMD"), SegmentCurrencyGMD);
+        _SegmentCurrencyMap.Add(TEXT("GNF"), SegmentCurrencyGNF);
+        _SegmentCurrencyMap.Add(TEXT("GTQ"), SegmentCurrencyGTQ);
+        _SegmentCurrencyMap.Add(TEXT("GYD"), SegmentCurrencyGYD);
+        _SegmentCurrencyMap.Add(TEXT("HKD"), SegmentCurrencyHKD);
+        _SegmentCurrencyMap.Add(TEXT("HNL"), SegmentCurrencyHNL);
+        _SegmentCurrencyMap.Add(TEXT("HRK"), SegmentCurrencyHRK);
+        _SegmentCurrencyMap.Add(TEXT("HTG"), SegmentCurrencyHTG);
+        _SegmentCurrencyMap.Add(TEXT("HUF"), SegmentCurrencyHUF);
+        _SegmentCurrencyMap.Add(TEXT("IDR"), SegmentCurrencyIDR);
+        _SegmentCurrencyMap.Add(TEXT("ILS"), SegmentCurrencyILS);
+        _SegmentCurrencyMap.Add(TEXT("IMP"), SegmentCurrencyIMP);
+        _SegmentCurrencyMap.Add(TEXT("INR"), SegmentCurrencyINR);
+        _SegmentCurrencyMap.Add(TEXT("IQD"), SegmentCurrencyIQD);
+        _SegmentCurrencyMap.Add(TEXT("IRR"), SegmentCurrencyIRR);
+        _SegmentCurrencyMap.Add(TEXT("ISK"), SegmentCurrencyISK);
+        _SegmentCurrencyMap.Add(TEXT("JEP"), SegmentCurrencyJEP);
+        _SegmentCurrencyMap.Add(TEXT("JMD"), SegmentCurrencyJMD);
+        _SegmentCurrencyMap.Add(TEXT("JOD"), SegmentCurrencyJOD);
+        _SegmentCurrencyMap.Add(TEXT("JPY"), SegmentCurrencyJPY);
+        _SegmentCurrencyMap.Add(TEXT("KES"), SegmentCurrencyKES);
+        _SegmentCurrencyMap.Add(TEXT("KGS"), SegmentCurrencyKGS);
+        _SegmentCurrencyMap.Add(TEXT("KHR"), SegmentCurrencyKHR);
+        _SegmentCurrencyMap.Add(TEXT("KMF"), SegmentCurrencyKMF);
+        _SegmentCurrencyMap.Add(TEXT("KPW"), SegmentCurrencyKPW);
+        _SegmentCurrencyMap.Add(TEXT("KRW"), SegmentCurrencyKRW);
+        _SegmentCurrencyMap.Add(TEXT("KWD"), SegmentCurrencyKWD);
+        _SegmentCurrencyMap.Add(TEXT("KYD"), SegmentCurrencyKYD);
+        _SegmentCurrencyMap.Add(TEXT("KZT"), SegmentCurrencyKZT);
+        _SegmentCurrencyMap.Add(TEXT("LAK"), SegmentCurrencyLAK);
+        _SegmentCurrencyMap.Add(TEXT("LBP"), SegmentCurrencyLBP);
+        _SegmentCurrencyMap.Add(TEXT("LKR"), SegmentCurrencyLKR);
+        _SegmentCurrencyMap.Add(TEXT("LRD"), SegmentCurrencyLRD);
+        _SegmentCurrencyMap.Add(TEXT("LSL"), SegmentCurrencyLSL);
+        _SegmentCurrencyMap.Add(TEXT("LYD"), SegmentCurrencyLYD);
+        _SegmentCurrencyMap.Add(TEXT("MAD"), SegmentCurrencyMAD);
+        _SegmentCurrencyMap.Add(TEXT("MDL"), SegmentCurrencyMDL);
+        _SegmentCurrencyMap.Add(TEXT("MGA"), SegmentCurrencyMGA);
+        _SegmentCurrencyMap.Add(TEXT("MKD"), SegmentCurrencyMKD);
+        _SegmentCurrencyMap.Add(TEXT("MMK"), SegmentCurrencyMMK);
+        _SegmentCurrencyMap.Add(TEXT("MNT"), SegmentCurrencyMNT);
+        _SegmentCurrencyMap.Add(TEXT("MOP"), SegmentCurrencyMOP);
+        _SegmentCurrencyMap.Add(TEXT("MRO"), SegmentCurrencyMRO);
+        _SegmentCurrencyMap.Add(TEXT("MUR"), SegmentCurrencyMUR);
+        _SegmentCurrencyMap.Add(TEXT("MVR"), SegmentCurrencyMVR);
+        _SegmentCurrencyMap.Add(TEXT("MWK"), SegmentCurrencyMWK);
+        _SegmentCurrencyMap.Add(TEXT("MXN"), SegmentCurrencyMXN);
+        _SegmentCurrencyMap.Add(TEXT("MYR"), SegmentCurrencyMYR);
+        _SegmentCurrencyMap.Add(TEXT("MZN"), SegmentCurrencyMZN);
+        _SegmentCurrencyMap.Add(TEXT("NAD"), SegmentCurrencyNAD);
+        _SegmentCurrencyMap.Add(TEXT("NGN"), SegmentCurrencyNGN);
+        _SegmentCurrencyMap.Add(TEXT("NIO"), SegmentCurrencyNIO);
+        _SegmentCurrencyMap.Add(TEXT("NOK"), SegmentCurrencyNOK);
+        _SegmentCurrencyMap.Add(TEXT("NPR"), SegmentCurrencyNPR);
+        _SegmentCurrencyMap.Add(TEXT("NZD"), SegmentCurrencyNZD);
+        _SegmentCurrencyMap.Add(TEXT("OMR"), SegmentCurrencyOMR);
+        _SegmentCurrencyMap.Add(TEXT("PAB"), SegmentCurrencyPAB);
+        _SegmentCurrencyMap.Add(TEXT("PEN"), SegmentCurrencyPEN);
+        _SegmentCurrencyMap.Add(TEXT("PGK"), SegmentCurrencyPGK);
+        _SegmentCurrencyMap.Add(TEXT("PHP"), SegmentCurrencyPHP);
+        _SegmentCurrencyMap.Add(TEXT("PKR"), SegmentCurrencyPKR);
+        _SegmentCurrencyMap.Add(TEXT("PLN"), SegmentCurrencyPLN);
+        _SegmentCurrencyMap.Add(TEXT("PYG"), SegmentCurrencyPYG);
+        _SegmentCurrencyMap.Add(TEXT("QAR"), SegmentCurrencyQAR);
+        _SegmentCurrencyMap.Add(TEXT("RON"), SegmentCurrencyRON);
+        _SegmentCurrencyMap.Add(TEXT("RSD"), SegmentCurrencyRSD);
+        _SegmentCurrencyMap.Add(TEXT("RUB"), SegmentCurrencyRUB);
+        _SegmentCurrencyMap.Add(TEXT("RWF"), SegmentCurrencyRWF);
+        _SegmentCurrencyMap.Add(TEXT("SAR"), SegmentCurrencySAR);
+        _SegmentCurrencyMap.Add(TEXT("SBD"), SegmentCurrencySBD);
+        _SegmentCurrencyMap.Add(TEXT("SCR"), SegmentCurrencySCR);
+        _SegmentCurrencyMap.Add(TEXT("SDG"), SegmentCurrencySDG);
+        _SegmentCurrencyMap.Add(TEXT("SEK"), SegmentCurrencySEK);
+        _SegmentCurrencyMap.Add(TEXT("SGD"), SegmentCurrencySGD);
+        _SegmentCurrencyMap.Add(TEXT("SHP"), SegmentCurrencySHP);
+        _SegmentCurrencyMap.Add(TEXT("SLL"), SegmentCurrencySLL);
+        _SegmentCurrencyMap.Add(TEXT("SOS"), SegmentCurrencySOS);
+        _SegmentCurrencyMap.Add(TEXT("SPL"), SegmentCurrencySPL);
+        _SegmentCurrencyMap.Add(TEXT("SRD"), SegmentCurrencySRD);
+        _SegmentCurrencyMap.Add(TEXT("STD"), SegmentCurrencySTD);
+        _SegmentCurrencyMap.Add(TEXT("SVC"), SegmentCurrencySVC);
+        _SegmentCurrencyMap.Add(TEXT("SYP"), SegmentCurrencySYP);
+        _SegmentCurrencyMap.Add(TEXT("SZL"), SegmentCurrencySZL);
+        _SegmentCurrencyMap.Add(TEXT("THB"), SegmentCurrencyTHB);
+        _SegmentCurrencyMap.Add(TEXT("TJS"), SegmentCurrencyTJS);
+        _SegmentCurrencyMap.Add(TEXT("TMT"), SegmentCurrencyTMT);
+        _SegmentCurrencyMap.Add(TEXT("TND"), SegmentCurrencyTND);
+        _SegmentCurrencyMap.Add(TEXT("TOP"), SegmentCurrencyTOP);
+        _SegmentCurrencyMap.Add(TEXT("TRY"), SegmentCurrencyTRY);
+        _SegmentCurrencyMap.Add(TEXT("TTD"), SegmentCurrencyTTD);
+        _SegmentCurrencyMap.Add(TEXT("TVD"), SegmentCurrencyTVD);
+        _SegmentCurrencyMap.Add(TEXT("TWD"), SegmentCurrencyTWD);
+        _SegmentCurrencyMap.Add(TEXT("TZS"), SegmentCurrencyTZS);
+        _SegmentCurrencyMap.Add(TEXT("UAH"), SegmentCurrencyUAH);
+        _SegmentCurrencyMap.Add(TEXT("UGX"), SegmentCurrencyUGX);
+        _SegmentCurrencyMap.Add(TEXT("USD"), SegmentCurrencyUSD);
+        _SegmentCurrencyMap.Add(TEXT("UYU"), SegmentCurrencyUYU);
+        _SegmentCurrencyMap.Add(TEXT("UZS"), SegmentCurrencyUZS);
+        _SegmentCurrencyMap.Add(TEXT("VEF"), SegmentCurrencyVEF);
+        _SegmentCurrencyMap.Add(TEXT("VND"), SegmentCurrencyVND);
+        _SegmentCurrencyMap.Add(TEXT("VUV"), SegmentCurrencyVUV);
+        _SegmentCurrencyMap.Add(TEXT("WST"), SegmentCurrencyWST);
+        _SegmentCurrencyMap.Add(TEXT("XAF"), SegmentCurrencyXAF);
+        _SegmentCurrencyMap.Add(TEXT("XCD"), SegmentCurrencyXCD);
+        _SegmentCurrencyMap.Add(TEXT("XDR"), SegmentCurrencyXDR);
+        _SegmentCurrencyMap.Add(TEXT("XOF"), SegmentCurrencyXOF);
+        _SegmentCurrencyMap.Add(TEXT("XPF"), SegmentCurrencyXPF);
+        _SegmentCurrencyMap.Add(TEXT("YER"), SegmentCurrencyYER);
+        _SegmentCurrencyMap.Add(TEXT("ZAR"), SegmentCurrencyZAR);
+        _SegmentCurrencyMap.Add(TEXT("ZMW"), SegmentCurrencyZMW);
+        _SegmentCurrencyMap.Add(TEXT("ZWD"), SegmentCurrencyZWD);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _SegmentCurrencyMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return SegmentCurrencyAED; // Basically critical fail
+}
+
+PlayFab::AdminModels::FValueToDateSegmentFilter::~FValueToDateSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FValueToDateSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Amount.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (Currency.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Currency"));
+        writeSegmentCurrencyEnumJSON(Currency, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FValueToDateSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        FString TmpValue;
+        if (AmountValue->TryGetString(TmpValue)) { Amount = TmpValue; }
+    }
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    Currency = readSegmentCurrencyFromValue(obj->TryGetField(TEXT("Currency")));
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FVirtualCurrencyBalanceSegmentFilter::~FVirtualCurrencyBalanceSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FVirtualCurrencyBalanceSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Amount"));
+    writer->WriteValue(Amount);
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (CurrencyCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CurrencyCode"));
+        writer->WriteValue(CurrencyCode);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FVirtualCurrencyBalanceSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> CurrencyCodeValue = obj->TryGetField(TEXT("CurrencyCode"));
+    if (CurrencyCodeValue.IsValid() && !CurrencyCodeValue->IsNull())
+    {
+        FString TmpValue;
+        if (CurrencyCodeValue->TryGetString(TmpValue)) { CurrencyCode = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FSegmentAndDefinition::~FSegmentAndDefinition()
+{
+    //if (AdCampaignFilter != nullptr) delete AdCampaignFilter;
+    //if (AllPlayersFilter != nullptr) delete AllPlayersFilter;
+    //if (FirstLoginDateFilter != nullptr) delete FirstLoginDateFilter;
+    //if (FirstLoginFilter != nullptr) delete FirstLoginFilter;
+    //if (LastLoginDateFilter != nullptr) delete LastLoginDateFilter;
+    //if (LastLoginFilter != nullptr) delete LastLoginFilter;
+    //if (LinkedUserAccountFilter != nullptr) delete LinkedUserAccountFilter;
+    //if (LinkedUserAccountHasEmailFilter != nullptr) delete LinkedUserAccountHasEmailFilter;
+    //if (LocationFilter != nullptr) delete LocationFilter;
+    //if (PushNotificationFilter != nullptr) delete PushNotificationFilter;
+    //if (StatisticFilter != nullptr) delete StatisticFilter;
+    //if (TagFilter != nullptr) delete TagFilter;
+    //if (TotalValueToDateInUSDFilter != nullptr) delete TotalValueToDateInUSDFilter;
+    //if (UserOriginationFilter != nullptr) delete UserOriginationFilter;
+    //if (ValueToDateFilter != nullptr) delete ValueToDateFilter;
+    //if (VirtualCurrencyBalanceFilter != nullptr) delete VirtualCurrencyBalanceFilter;
+
+}
+
+void PlayFab::AdminModels::FSegmentAndDefinition::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AdCampaignFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AdCampaignFilter"));
+        AdCampaignFilter->writeJSON(writer);
+    }
+
+    if (AllPlayersFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AllPlayersFilter"));
+        AllPlayersFilter->writeJSON(writer);
+    }
+
+    if (FirstLoginDateFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FirstLoginDateFilter"));
+        FirstLoginDateFilter->writeJSON(writer);
+    }
+
+    if (FirstLoginFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("FirstLoginFilter"));
+        FirstLoginFilter->writeJSON(writer);
+    }
+
+    if (LastLoginDateFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastLoginDateFilter"));
+        LastLoginDateFilter->writeJSON(writer);
+    }
+
+    if (LastLoginFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastLoginFilter"));
+        LastLoginFilter->writeJSON(writer);
+    }
+
+    if (LinkedUserAccountFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LinkedUserAccountFilter"));
+        LinkedUserAccountFilter->writeJSON(writer);
+    }
+
+    if (LinkedUserAccountHasEmailFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LinkedUserAccountHasEmailFilter"));
+        LinkedUserAccountHasEmailFilter->writeJSON(writer);
+    }
+
+    if (LocationFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LocationFilter"));
+        LocationFilter->writeJSON(writer);
+    }
+
+    if (PushNotificationFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PushNotificationFilter"));
+        PushNotificationFilter->writeJSON(writer);
+    }
+
+    if (StatisticFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("StatisticFilter"));
+        StatisticFilter->writeJSON(writer);
+    }
+
+    if (TagFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TagFilter"));
+        TagFilter->writeJSON(writer);
+    }
+
+    if (TotalValueToDateInUSDFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TotalValueToDateInUSDFilter"));
+        TotalValueToDateInUSDFilter->writeJSON(writer);
+    }
+
+    if (UserOriginationFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserOriginationFilter"));
+        UserOriginationFilter->writeJSON(writer);
+    }
+
+    if (ValueToDateFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ValueToDateFilter"));
+        ValueToDateFilter->writeJSON(writer);
+    }
+
+    if (VirtualCurrencyBalanceFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VirtualCurrencyBalanceFilter"));
+        VirtualCurrencyBalanceFilter->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FSegmentAndDefinition::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AdCampaignFilterValue = obj->TryGetField(TEXT("AdCampaignFilter"));
+    if (AdCampaignFilterValue.IsValid() && !AdCampaignFilterValue->IsNull())
+    {
+        AdCampaignFilter = MakeShareable(new FAdCampaignSegmentFilter(AdCampaignFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> AllPlayersFilterValue = obj->TryGetField(TEXT("AllPlayersFilter"));
+    if (AllPlayersFilterValue.IsValid() && !AllPlayersFilterValue->IsNull())
+    {
+        AllPlayersFilter = MakeShareable(new FAllPlayersSegmentFilter(AllPlayersFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> FirstLoginDateFilterValue = obj->TryGetField(TEXT("FirstLoginDateFilter"));
+    if (FirstLoginDateFilterValue.IsValid() && !FirstLoginDateFilterValue->IsNull())
+    {
+        FirstLoginDateFilter = MakeShareable(new FFirstLoginDateSegmentFilter(FirstLoginDateFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> FirstLoginFilterValue = obj->TryGetField(TEXT("FirstLoginFilter"));
+    if (FirstLoginFilterValue.IsValid() && !FirstLoginFilterValue->IsNull())
+    {
+        FirstLoginFilter = MakeShareable(new FFirstLoginTimespanSegmentFilter(FirstLoginFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> LastLoginDateFilterValue = obj->TryGetField(TEXT("LastLoginDateFilter"));
+    if (LastLoginDateFilterValue.IsValid() && !LastLoginDateFilterValue->IsNull())
+    {
+        LastLoginDateFilter = MakeShareable(new FLastLoginDateSegmentFilter(LastLoginDateFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> LastLoginFilterValue = obj->TryGetField(TEXT("LastLoginFilter"));
+    if (LastLoginFilterValue.IsValid() && !LastLoginFilterValue->IsNull())
+    {
+        LastLoginFilter = MakeShareable(new FLastLoginTimespanSegmentFilter(LastLoginFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> LinkedUserAccountFilterValue = obj->TryGetField(TEXT("LinkedUserAccountFilter"));
+    if (LinkedUserAccountFilterValue.IsValid() && !LinkedUserAccountFilterValue->IsNull())
+    {
+        LinkedUserAccountFilter = MakeShareable(new FLinkedUserAccountSegmentFilter(LinkedUserAccountFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> LinkedUserAccountHasEmailFilterValue = obj->TryGetField(TEXT("LinkedUserAccountHasEmailFilter"));
+    if (LinkedUserAccountHasEmailFilterValue.IsValid() && !LinkedUserAccountHasEmailFilterValue->IsNull())
+    {
+        LinkedUserAccountHasEmailFilter = MakeShareable(new FLinkedUserAccountHasEmailSegmentFilter(LinkedUserAccountHasEmailFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> LocationFilterValue = obj->TryGetField(TEXT("LocationFilter"));
+    if (LocationFilterValue.IsValid() && !LocationFilterValue->IsNull())
+    {
+        LocationFilter = MakeShareable(new FLocationSegmentFilter(LocationFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PushNotificationFilterValue = obj->TryGetField(TEXT("PushNotificationFilter"));
+    if (PushNotificationFilterValue.IsValid() && !PushNotificationFilterValue->IsNull())
+    {
+        PushNotificationFilter = MakeShareable(new FPushNotificationSegmentFilter(PushNotificationFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> StatisticFilterValue = obj->TryGetField(TEXT("StatisticFilter"));
+    if (StatisticFilterValue.IsValid() && !StatisticFilterValue->IsNull())
+    {
+        StatisticFilter = MakeShareable(new FStatisticSegmentFilter(StatisticFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TagFilterValue = obj->TryGetField(TEXT("TagFilter"));
+    if (TagFilterValue.IsValid() && !TagFilterValue->IsNull())
+    {
+        TagFilter = MakeShareable(new FTagSegmentFilter(TagFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TotalValueToDateInUSDFilterValue = obj->TryGetField(TEXT("TotalValueToDateInUSDFilter"));
+    if (TotalValueToDateInUSDFilterValue.IsValid() && !TotalValueToDateInUSDFilterValue->IsNull())
+    {
+        TotalValueToDateInUSDFilter = MakeShareable(new FTotalValueToDateInUSDSegmentFilter(TotalValueToDateInUSDFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> UserOriginationFilterValue = obj->TryGetField(TEXT("UserOriginationFilter"));
+    if (UserOriginationFilterValue.IsValid() && !UserOriginationFilterValue->IsNull())
+    {
+        UserOriginationFilter = MakeShareable(new FUserOriginationSegmentFilter(UserOriginationFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ValueToDateFilterValue = obj->TryGetField(TEXT("ValueToDateFilter"));
+    if (ValueToDateFilterValue.IsValid() && !ValueToDateFilterValue->IsNull())
+    {
+        ValueToDateFilter = MakeShareable(new FValueToDateSegmentFilter(ValueToDateFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> VirtualCurrencyBalanceFilterValue = obj->TryGetField(TEXT("VirtualCurrencyBalanceFilter"));
+    if (VirtualCurrencyBalanceFilterValue.IsValid() && !VirtualCurrencyBalanceFilterValue->IsNull())
+    {
+        VirtualCurrencyBalanceFilter = MakeShareable(new FVirtualCurrencyBalanceSegmentFilter(VirtualCurrencyBalanceFilterValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FSegmentOrDefinition::~FSegmentOrDefinition()
+{
+
+}
+
+void PlayFab::AdminModels::FSegmentOrDefinition::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (SegmentAndDefinitions.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("SegmentAndDefinitions"));
+        for (const FSegmentAndDefinition& item : SegmentAndDefinitions)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FSegmentOrDefinition::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&SegmentAndDefinitionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("SegmentAndDefinitions"));
+    for (int32 Idx = 0; Idx < SegmentAndDefinitionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SegmentAndDefinitionsArray[Idx];
+        SegmentAndDefinitions.Add(FSegmentAndDefinition(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FSegmentModel::~FSegmentModel()
+{
+
+}
+
+void PlayFab::AdminModels::FSegmentModel::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Description.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Description"));
+        writer->WriteValue(Description);
+    }
+
+    if (EnteredSegmentActions.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("EnteredSegmentActions"));
+        for (const FSegmentTrigger& item : EnteredSegmentActions)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("LastUpdateTime"));
+    writeDatetime(LastUpdateTime, writer);
+
+    if (LeftSegmentActions.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("LeftSegmentActions"));
+        for (const FSegmentTrigger& item : LeftSegmentActions)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (SegmentId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    if (SegmentOrDefinitions.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("SegmentOrDefinitions"));
+        for (const FSegmentOrDefinition& item : SegmentOrDefinitions)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FSegmentModel::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
+    if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&EnteredSegmentActionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("EnteredSegmentActions"));
+    for (int32 Idx = 0; Idx < EnteredSegmentActionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = EnteredSegmentActionsArray[Idx];
+        EnteredSegmentActions.Add(FSegmentTrigger(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> LastUpdateTimeValue = obj->TryGetField(TEXT("LastUpdateTime"));
+    if (LastUpdateTimeValue.IsValid())
+        LastUpdateTime = readDatetime(LastUpdateTimeValue);
+
+
+    const TArray<TSharedPtr<FJsonValue>>&LeftSegmentActionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("LeftSegmentActions"));
+    for (int32 Idx = 0; Idx < LeftSegmentActionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = LeftSegmentActionsArray[Idx];
+        LeftSegmentActions.Add(FSegmentTrigger(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&SegmentOrDefinitionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("SegmentOrDefinitions"));
+    for (int32 Idx = 0; Idx < SegmentOrDefinitionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SegmentOrDefinitionsArray[Idx];
+        SegmentOrDefinitions.Add(FSegmentOrDefinition(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FCreateSegmentRequest::~FCreateSegmentRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FCreateSegmentRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("SegmentModel"));
+    pfSegmentModel.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCreateSegmentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> SegmentModelValue = obj->TryGetField(TEXT("SegmentModel"));
+    if (SegmentModelValue.IsValid() && !SegmentModelValue->IsNull())
+    {
+        pfSegmentModel = FSegmentModel(SegmentModelValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FCreateSegmentResponse::~FCreateSegmentResponse()
+{
+
+}
+
+void PlayFab::AdminModels::FCreateSegmentResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ErrorMessage.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ErrorMessage"));
+        writer->WriteValue(ErrorMessage);
+    }
+
+    if (SegmentId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCreateSegmentResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ErrorMessageValue = obj->TryGetField(TEXT("ErrorMessage"));
+    if (ErrorMessageValue.IsValid() && !ErrorMessageValue->IsNull())
+    {
+        FString TmpValue;
+        if (ErrorMessageValue->TryGetString(TmpValue)) { ErrorMessage = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -5097,6 +7815,74 @@ void PlayFab::AdminModels::FDeletePlayerSharedSecretResult::writeJSON(JsonWriter
 bool PlayFab::AdminModels::FDeletePlayerSharedSecretResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeleteSegmentRequest::~FDeleteSegmentRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteSegmentRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!SegmentId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteSegmentRequest::SegmentId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteSegmentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeleteSegmentsResponse::~FDeleteSegmentsResponse()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteSegmentsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ErrorMessage.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ErrorMessage"));
+        writer->WriteValue(ErrorMessage);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteSegmentsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ErrorMessageValue = obj->TryGetField(TEXT("ErrorMessage"));
+    if (ErrorMessageValue.IsValid() && !ErrorMessageValue->IsNull())
+    {
+        FString TmpValue;
+        if (ErrorMessageValue->TryGetString(TmpValue)) { ErrorMessage = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -9718,6 +12504,82 @@ bool PlayFab::AdminModels::FGetRandomResultTablesResult::readFromValue(const TSh
             Tables.Add(It.Key(), FRandomResultTableListing(It.Value()->AsObject()));
         }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetSegmentsRequest::~FGetSegmentsRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FGetSegmentsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("SegmentIds"));
+    for (const FString& item : SegmentIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetSegmentsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("SegmentIds"), SegmentIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetSegmentsResponse::~FGetSegmentsResponse()
+{
+
+}
+
+void PlayFab::AdminModels::FGetSegmentsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ErrorMessage.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ErrorMessage"));
+        writer->WriteValue(ErrorMessage);
+    }
+
+    if (Segments.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Segments"));
+        for (const FSegmentModel& item : Segments)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetSegmentsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ErrorMessageValue = obj->TryGetField(TEXT("ErrorMessage"));
+    if (ErrorMessageValue.IsValid() && !ErrorMessageValue->IsNull())
+    {
+        FString TmpValue;
+        if (ErrorMessageValue->TryGetString(TmpValue)) { ErrorMessage = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&SegmentsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Segments"));
+    for (int32 Idx = 0; Idx < SegmentsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SegmentsArray[Idx];
+        Segments.Add(FSegmentModel(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -17059,6 +19921,79 @@ void PlayFab::AdminModels::FUpdateRandomResultTablesResult::writeJSON(JsonWriter
 bool PlayFab::AdminModels::FUpdateRandomResultTablesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdateSegmentRequest::~FUpdateSegmentRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FUpdateSegmentRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("SegmentModel"));
+    pfSegmentModel.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdateSegmentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> SegmentModelValue = obj->TryGetField(TEXT("SegmentModel"));
+    if (SegmentModelValue.IsValid() && !SegmentModelValue->IsNull())
+    {
+        pfSegmentModel = FSegmentModel(SegmentModelValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdateSegmentResponse::~FUpdateSegmentResponse()
+{
+
+}
+
+void PlayFab::AdminModels::FUpdateSegmentResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ErrorMessage.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ErrorMessage"));
+        writer->WriteValue(ErrorMessage);
+    }
+
+    if (SegmentId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdateSegmentResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ErrorMessageValue = obj->TryGetField(TEXT("ErrorMessage"));
+    if (ErrorMessageValue.IsValid() && !ErrorMessageValue->IsNull())
+    {
+        FString TmpValue;
+        if (ErrorMessageValue->TryGetString(TmpValue)) { ErrorMessage = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
+    }
 
     return HasSucceeded;
 }

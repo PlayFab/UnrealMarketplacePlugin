@@ -2499,6 +2499,61 @@ void UPlayFabMultiplayerAPI::HelperListBuildSummaries(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
+/** Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client access is enabled, allows game client to request list of builds with player entity token. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildSummariesV2(FMultiplayerListBuildSummariesRequest request,
+    FDelegateOnSuccessListBuildSummariesV2 onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListBuildSummariesV2 = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListBuildSummariesV2);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/ListBuildSummariesV2";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
+    if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SkipToken"), request.SkipToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperListBuildSummariesV2(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListBuildSummariesV2.IsBound())
+    {
+        FMultiplayerListBuildSummariesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListBuildSummariesResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessListBuildSummariesV2.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Lists multiplayer server game certificates for a title. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListCertificateSummaries(FMultiplayerListCertificateSummariesRequest request,
     FDelegateOnSuccessListCertificateSummaries onSuccess,

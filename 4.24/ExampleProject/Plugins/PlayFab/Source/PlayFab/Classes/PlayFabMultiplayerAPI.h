@@ -613,6 +613,22 @@ public:
         void HelperListBuildSummaries(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildSummariesV2, FMultiplayerListBuildSummariesResponse, result, UObject*, customData);
+
+    /**
+     * Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client
+     * access is enabled, allows game client to request list of builds with player entity token.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListBuildSummariesV2(FMultiplayerListBuildSummariesRequest request,
+            FDelegateOnSuccessListBuildSummariesV2 onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListBuildSummariesV2(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListCertificateSummaries, FMultiplayerListCertificateSummariesResponse, result, UObject*, customData);
 
     /** Lists multiplayer server game certificates for a title. */
@@ -872,6 +888,7 @@ public:
     FDelegateOnSuccessListAssetSummaries OnSuccessListAssetSummaries;
     FDelegateOnSuccessListBuildAliases OnSuccessListBuildAliases;
     FDelegateOnSuccessListBuildSummaries OnSuccessListBuildSummaries;
+    FDelegateOnSuccessListBuildSummariesV2 OnSuccessListBuildSummariesV2;
     FDelegateOnSuccessListCertificateSummaries OnSuccessListCertificateSummaries;
     FDelegateOnSuccessListContainerImages OnSuccessListContainerImages;
     FDelegateOnSuccessListContainerImageTags OnSuccessListContainerImageTags;

@@ -273,6 +273,59 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum SegmentFilterComparison
+    {
+        SegmentFilterComparisonGreaterThan,
+        SegmentFilterComparisonLessThan,
+        SegmentFilterComparisonEqualTo,
+        SegmentFilterComparisonNotEqualTo,
+        SegmentFilterComparisonGreaterThanOrEqual,
+        SegmentFilterComparisonLessThanOrEqual,
+        SegmentFilterComparisonExists,
+        SegmentFilterComparisonContains,
+        SegmentFilterComparisonNotContains
+    };
+
+    PLAYFABCPP_API void writeSegmentFilterComparisonEnumJSON(SegmentFilterComparison enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentFilterComparison readSegmentFilterComparisonFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentFilterComparison readSegmentFilterComparisonFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FAdCampaignSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Campaign id.
+        FString CampaignId;
+
+        // [optional] Campaign source.
+        FString CampaignSource;
+
+        // [optional] Campaign comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        FAdCampaignSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            CampaignId(),
+            CampaignSource(),
+            Comparison()
+            {}
+
+        FAdCampaignSegmentFilter(const FAdCampaignSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            CampaignId(src.CampaignId),
+            CampaignSource(src.CampaignSource),
+            Comparison(src.Comparison)
+            {}
+
+        FAdCampaignSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FAdCampaignSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAdCampaignSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FAddLocalizedNewsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Localized body text of the news.
@@ -744,6 +797,27 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FAllPlayersSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        FAllPlayersSegmentFilter() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FAllPlayersSegmentFilter(const FAllPlayersSegmentFilter& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FAllPlayersSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FAllPlayersSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAllPlayersSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum Conditionals
     {
         ConditionalsAny,
@@ -846,6 +920,37 @@ namespace AdminModels
         }
 
         ~FBanInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FBanPlayerSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Ban hours duration.
+        Boxed<uint32> BanHours;
+
+        // [optional] Reason for ban.
+        FString ReasonForBan;
+
+        FBanPlayerSegmentAction() :
+            FPlayFabCppBaseModel(),
+            BanHours(),
+            ReasonForBan()
+            {}
+
+        FBanPlayerSegmentAction(const FBanPlayerSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            BanHours(src.BanHours),
+            ReasonForBan(src.ReasonForBan)
+            {}
+
+        FBanPlayerSegmentAction(const TSharedPtr<FJsonObject>& obj) : FBanPlayerSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FBanPlayerSegmentAction();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2229,6 +2334,9 @@ namespace AdminModels
         // A name for the connection that identifies it within the title.
         FString ConnectionId;
 
+        // [optional] Ignore 'nonce' claim in identity tokens.
+        Boxed<bool> IgnoreNonce;
+
         /**
          * [optional] The discovery document URL to read issuer information from. This must be the absolute URL to the JSON OpenId
          * Configuration document and must be accessible from the internet. If you don't know it, try your issuer URL followed by
@@ -2245,6 +2353,7 @@ namespace AdminModels
             ClientId(),
             ClientSecret(),
             ConnectionId(),
+            IgnoreNonce(),
             IssuerDiscoveryUrl(),
             IssuerInformation(nullptr)
             {}
@@ -2254,6 +2363,7 @@ namespace AdminModels
             ClientId(src.ClientId),
             ClientSecret(src.ClientSecret),
             ConnectionId(src.ConnectionId),
+            IgnoreNonce(src.IgnoreNonce),
             IssuerDiscoveryUrl(src.IssuerDiscoveryUrl),
             IssuerInformation(src.IssuerInformation.IsValid() ? MakeShareable(new FOpenIdIssuerInformation(*src.IssuerInformation)) : nullptr)
             {}
@@ -2448,6 +2558,1502 @@ namespace AdminModels
         }
 
         ~FCreatePlayerStatisticDefinitionResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePlayerSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        FDeletePlayerSegmentAction() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FDeletePlayerSegmentAction(const FDeletePlayerSegmentAction& src) :
+            FPlayFabCppBaseModel()
+            {}
+
+        FDeletePlayerSegmentAction(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePlayerStatisticSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Statistic name.
+        FString StatisticName;
+
+        FDeletePlayerStatisticSegmentAction() :
+            FPlayFabCppBaseModel(),
+            StatisticName()
+            {}
+
+        FDeletePlayerStatisticSegmentAction(const FDeletePlayerStatisticSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            StatisticName(src.StatisticName)
+            {}
+
+        FDeletePlayerStatisticSegmentAction(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerStatisticSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerStatisticSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEmailNotificationSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Email template id.
+        FString EmailTemplateId;
+
+        // [optional] Email template name.
+        FString EmailTemplateName;
+
+        FEmailNotificationSegmentAction() :
+            FPlayFabCppBaseModel(),
+            EmailTemplateId(),
+            EmailTemplateName()
+            {}
+
+        FEmailNotificationSegmentAction(const FEmailNotificationSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            EmailTemplateId(src.EmailTemplateId),
+            EmailTemplateName(src.EmailTemplateName)
+            {}
+
+        FEmailNotificationSegmentAction(const TSharedPtr<FJsonObject>& obj) : FEmailNotificationSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEmailNotificationSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExecuteAzureFunctionSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Azure function.
+        FString AzureFunction;
+
+        // [optional] Azure function parameter.
+        FJsonKeeper FunctionParameter;
+
+        // Generate play stream event.
+        bool GenerateFunctionExecutedEvents;
+
+        FExecuteAzureFunctionSegmentAction() :
+            FPlayFabCppBaseModel(),
+            AzureFunction(),
+            FunctionParameter(),
+            GenerateFunctionExecutedEvents(false)
+            {}
+
+        FExecuteAzureFunctionSegmentAction(const FExecuteAzureFunctionSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            AzureFunction(src.AzureFunction),
+            FunctionParameter(src.FunctionParameter),
+            GenerateFunctionExecutedEvents(src.GenerateFunctionExecutedEvents)
+            {}
+
+        FExecuteAzureFunctionSegmentAction(const TSharedPtr<FJsonObject>& obj) : FExecuteAzureFunctionSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteAzureFunctionSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExecuteCloudScriptSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Cloud script function.
+        FString CloudScriptFunction;
+
+        // Generate play stream event.
+        bool CloudScriptPublishResultsToPlayStream;
+
+        // [optional] Cloud script function parameter.
+        FJsonKeeper FunctionParameter;
+
+        // [optional] Cloud script function parameter json text.
+        FString FunctionParameterJson;
+
+        FExecuteCloudScriptSegmentAction() :
+            FPlayFabCppBaseModel(),
+            CloudScriptFunction(),
+            CloudScriptPublishResultsToPlayStream(false),
+            FunctionParameter(),
+            FunctionParameterJson()
+            {}
+
+        FExecuteCloudScriptSegmentAction(const FExecuteCloudScriptSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            CloudScriptFunction(src.CloudScriptFunction),
+            CloudScriptPublishResultsToPlayStream(src.CloudScriptPublishResultsToPlayStream),
+            FunctionParameter(src.FunctionParameter),
+            FunctionParameterJson(src.FunctionParameterJson)
+            {}
+
+        FExecuteCloudScriptSegmentAction(const TSharedPtr<FJsonObject>& obj) : FExecuteCloudScriptSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteCloudScriptSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGrantItemSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Item catalog id.
+        FString CatelogId;
+
+        // [optional] Item id.
+        FString ItemId;
+
+        // Item quantity.
+        uint32 Quantity;
+
+        FGrantItemSegmentAction() :
+            FPlayFabCppBaseModel(),
+            CatelogId(),
+            ItemId(),
+            Quantity(0)
+            {}
+
+        FGrantItemSegmentAction(const FGrantItemSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            CatelogId(src.CatelogId),
+            ItemId(src.ItemId),
+            Quantity(src.Quantity)
+            {}
+
+        FGrantItemSegmentAction(const TSharedPtr<FJsonObject>& obj) : FGrantItemSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGrantItemSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGrantVirtualCurrencySegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Virtual currency amount.
+        int32 Amount;
+
+        // [optional] Virtual currency code.
+        FString CurrencyCode;
+
+        FGrantVirtualCurrencySegmentAction() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            CurrencyCode()
+            {}
+
+        FGrantVirtualCurrencySegmentAction(const FGrantVirtualCurrencySegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            Amount(src.Amount),
+            CurrencyCode(src.CurrencyCode)
+            {}
+
+        FGrantVirtualCurrencySegmentAction(const TSharedPtr<FJsonObject>& obj) : FGrantVirtualCurrencySegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGrantVirtualCurrencySegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FIncrementPlayerStatisticSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Increment value.
+        int32 IncrementValue;
+
+        // [optional] Statistic name.
+        FString StatisticName;
+
+        FIncrementPlayerStatisticSegmentAction() :
+            FPlayFabCppBaseModel(),
+            IncrementValue(0),
+            StatisticName()
+            {}
+
+        FIncrementPlayerStatisticSegmentAction(const FIncrementPlayerStatisticSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            IncrementValue(src.IncrementValue),
+            StatisticName(src.StatisticName)
+            {}
+
+        FIncrementPlayerStatisticSegmentAction(const TSharedPtr<FJsonObject>& obj) : FIncrementPlayerStatisticSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FIncrementPlayerStatisticSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPushNotificationSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Push notification template id.
+        FString PushNotificationTemplateId;
+
+        FPushNotificationSegmentAction() :
+            FPlayFabCppBaseModel(),
+            PushNotificationTemplateId()
+            {}
+
+        FPushNotificationSegmentAction(const FPushNotificationSegmentAction& src) :
+            FPlayFabCppBaseModel(),
+            PushNotificationTemplateId(src.PushNotificationTemplateId)
+            {}
+
+        FPushNotificationSegmentAction(const TSharedPtr<FJsonObject>& obj) : FPushNotificationSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPushNotificationSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentTrigger : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Ban player segment trigger action.
+        TSharedPtr<FBanPlayerSegmentAction> BanPlayerAction;
+
+        // [optional] Delete player segment trigger action.
+        TSharedPtr<FDeletePlayerSegmentAction> DeletePlayerAction;
+
+        // [optional] Delete player statistic segment trigger action.
+        TSharedPtr<FDeletePlayerStatisticSegmentAction> DeletePlayerStatisticAction;
+
+        // [optional] Email notification segment trigger action.
+        TSharedPtr<FEmailNotificationSegmentAction> EmailNotificationAction;
+
+        // [optional] Execute azure function segment trigger action.
+        TSharedPtr<FExecuteAzureFunctionSegmentAction> ExecuteAzureFunctionAction;
+
+        // [optional] Execute cloud script segment trigger action.
+        TSharedPtr<FExecuteCloudScriptSegmentAction> ExecuteCloudScriptAction;
+
+        // [optional] Grant item segment trigger action.
+        TSharedPtr<FGrantItemSegmentAction> GrantItemAction;
+
+        // [optional] Grant virtual currency segment trigger action.
+        TSharedPtr<FGrantVirtualCurrencySegmentAction> GrantVirtualCurrencyAction;
+
+        // [optional] Increment player statistic segment trigger action.
+        TSharedPtr<FIncrementPlayerStatisticSegmentAction> IncrementPlayerStatisticAction;
+
+        // [optional] Push notification segment trigger action.
+        TSharedPtr<FPushNotificationSegmentAction> PushNotificationAction;
+
+        FSegmentTrigger() :
+            FPlayFabCppBaseModel(),
+            BanPlayerAction(nullptr),
+            DeletePlayerAction(nullptr),
+            DeletePlayerStatisticAction(nullptr),
+            EmailNotificationAction(nullptr),
+            ExecuteAzureFunctionAction(nullptr),
+            ExecuteCloudScriptAction(nullptr),
+            GrantItemAction(nullptr),
+            GrantVirtualCurrencyAction(nullptr),
+            IncrementPlayerStatisticAction(nullptr),
+            PushNotificationAction(nullptr)
+            {}
+
+        FSegmentTrigger(const FSegmentTrigger& src) :
+            FPlayFabCppBaseModel(),
+            BanPlayerAction(src.BanPlayerAction.IsValid() ? MakeShareable(new FBanPlayerSegmentAction(*src.BanPlayerAction)) : nullptr),
+            DeletePlayerAction(src.DeletePlayerAction.IsValid() ? MakeShareable(new FDeletePlayerSegmentAction(*src.DeletePlayerAction)) : nullptr),
+            DeletePlayerStatisticAction(src.DeletePlayerStatisticAction.IsValid() ? MakeShareable(new FDeletePlayerStatisticSegmentAction(*src.DeletePlayerStatisticAction)) : nullptr),
+            EmailNotificationAction(src.EmailNotificationAction.IsValid() ? MakeShareable(new FEmailNotificationSegmentAction(*src.EmailNotificationAction)) : nullptr),
+            ExecuteAzureFunctionAction(src.ExecuteAzureFunctionAction.IsValid() ? MakeShareable(new FExecuteAzureFunctionSegmentAction(*src.ExecuteAzureFunctionAction)) : nullptr),
+            ExecuteCloudScriptAction(src.ExecuteCloudScriptAction.IsValid() ? MakeShareable(new FExecuteCloudScriptSegmentAction(*src.ExecuteCloudScriptAction)) : nullptr),
+            GrantItemAction(src.GrantItemAction.IsValid() ? MakeShareable(new FGrantItemSegmentAction(*src.GrantItemAction)) : nullptr),
+            GrantVirtualCurrencyAction(src.GrantVirtualCurrencyAction.IsValid() ? MakeShareable(new FGrantVirtualCurrencySegmentAction(*src.GrantVirtualCurrencyAction)) : nullptr),
+            IncrementPlayerStatisticAction(src.IncrementPlayerStatisticAction.IsValid() ? MakeShareable(new FIncrementPlayerStatisticSegmentAction(*src.IncrementPlayerStatisticAction)) : nullptr),
+            PushNotificationAction(src.PushNotificationAction.IsValid() ? MakeShareable(new FPushNotificationSegmentAction(*src.PushNotificationAction)) : nullptr)
+            {}
+
+        FSegmentTrigger(const TSharedPtr<FJsonObject>& obj) : FSegmentTrigger()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentTrigger();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFirstLoginDateSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] First player login date comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // First player login date.
+        FDateTime LogInDate;
+
+        FFirstLoginDateSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            LogInDate(0)
+            {}
+
+        FFirstLoginDateSegmentFilter(const FFirstLoginDateSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            LogInDate(src.LogInDate)
+            {}
+
+        FFirstLoginDateSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FFirstLoginDateSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFirstLoginDateSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFirstLoginTimespanSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] First player login duration comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // First player login duration.
+        double DurationInMinutes;
+
+        FFirstLoginTimespanSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            DurationInMinutes(0)
+            {}
+
+        FFirstLoginTimespanSegmentFilter(const FFirstLoginTimespanSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            DurationInMinutes(src.DurationInMinutes)
+            {}
+
+        FFirstLoginTimespanSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FFirstLoginTimespanSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFirstLoginTimespanSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLastLoginDateSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Last player login date comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // Last player login date.
+        FDateTime LogInDate;
+
+        FLastLoginDateSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            LogInDate(0)
+            {}
+
+        FLastLoginDateSegmentFilter(const FLastLoginDateSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            LogInDate(src.LogInDate)
+            {}
+
+        FLastLoginDateSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLastLoginDateSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLastLoginDateSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLastLoginTimespanSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Last player login duration comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // Last player login duration.
+        double DurationInMinutes;
+
+        FLastLoginTimespanSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            DurationInMinutes(0)
+            {}
+
+        FLastLoginTimespanSegmentFilter(const FLastLoginTimespanSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            DurationInMinutes(src.DurationInMinutes)
+            {}
+
+        FLastLoginTimespanSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLastLoginTimespanSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLastLoginTimespanSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentLoginIdentityProvider
+    {
+        SegmentLoginIdentityProviderUnknown,
+        SegmentLoginIdentityProviderPlayFab,
+        SegmentLoginIdentityProviderCustom,
+        SegmentLoginIdentityProviderGameCenter,
+        SegmentLoginIdentityProviderGooglePlay,
+        SegmentLoginIdentityProviderSteam,
+        SegmentLoginIdentityProviderXBoxLive,
+        SegmentLoginIdentityProviderPSN,
+        SegmentLoginIdentityProviderKongregate,
+        SegmentLoginIdentityProviderFacebook,
+        SegmentLoginIdentityProviderIOSDevice,
+        SegmentLoginIdentityProviderAndroidDevice,
+        SegmentLoginIdentityProviderTwitch,
+        SegmentLoginIdentityProviderWindowsHello,
+        SegmentLoginIdentityProviderGameServer,
+        SegmentLoginIdentityProviderCustomServer,
+        SegmentLoginIdentityProviderNintendoSwitch,
+        SegmentLoginIdentityProviderFacebookInstantGames,
+        SegmentLoginIdentityProviderOpenIdConnect,
+        SegmentLoginIdentityProviderApple,
+        SegmentLoginIdentityProviderNintendoSwitchAccount
+    };
+
+    PLAYFABCPP_API void writeSegmentLoginIdentityProviderEnumJSON(SegmentLoginIdentityProvider enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentLoginIdentityProvider readSegmentLoginIdentityProviderFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentLoginIdentityProvider readSegmentLoginIdentityProviderFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FLinkedUserAccountSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Login provider comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Login provider.
+        Boxed<SegmentLoginIdentityProvider> LoginProvider;
+
+        FLinkedUserAccountSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            LoginProvider()
+            {}
+
+        FLinkedUserAccountSegmentFilter(const FLinkedUserAccountSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            LoginProvider(src.LoginProvider)
+            {}
+
+        FLinkedUserAccountSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLinkedUserAccountSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkedUserAccountSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkedUserAccountHasEmailSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Login provider comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Login provider.
+        Boxed<SegmentLoginIdentityProvider> LoginProvider;
+
+        FLinkedUserAccountHasEmailSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            LoginProvider()
+            {}
+
+        FLinkedUserAccountHasEmailSegmentFilter(const FLinkedUserAccountHasEmailSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            LoginProvider(src.LoginProvider)
+            {}
+
+        FLinkedUserAccountHasEmailSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLinkedUserAccountHasEmailSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkedUserAccountHasEmailSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentCountryCode
+    {
+        SegmentCountryCodeAF,
+        SegmentCountryCodeAX,
+        SegmentCountryCodeAL,
+        SegmentCountryCodeDZ,
+        SegmentCountryCodeAS,
+        SegmentCountryCodeAD,
+        SegmentCountryCodeAO,
+        SegmentCountryCodeAI,
+        SegmentCountryCodeAQ,
+        SegmentCountryCodeAG,
+        SegmentCountryCodeAR,
+        SegmentCountryCodeAM,
+        SegmentCountryCodeAW,
+        SegmentCountryCodeAU,
+        SegmentCountryCodeAT,
+        SegmentCountryCodeAZ,
+        SegmentCountryCodeBS,
+        SegmentCountryCodeBH,
+        SegmentCountryCodeBD,
+        SegmentCountryCodeBB,
+        SegmentCountryCodeBY,
+        SegmentCountryCodeBE,
+        SegmentCountryCodeBZ,
+        SegmentCountryCodeBJ,
+        SegmentCountryCodeBM,
+        SegmentCountryCodeBT,
+        SegmentCountryCodeBO,
+        SegmentCountryCodeBQ,
+        SegmentCountryCodeBA,
+        SegmentCountryCodeBW,
+        SegmentCountryCodeBV,
+        SegmentCountryCodeBR,
+        SegmentCountryCodeIO,
+        SegmentCountryCodeBN,
+        SegmentCountryCodeBG,
+        SegmentCountryCodeBF,
+        SegmentCountryCodeBI,
+        SegmentCountryCodeKH,
+        SegmentCountryCodeCM,
+        SegmentCountryCodeCA,
+        SegmentCountryCodeCV,
+        SegmentCountryCodeKY,
+        SegmentCountryCodeCF,
+        SegmentCountryCodeTD,
+        SegmentCountryCodeCL,
+        SegmentCountryCodeCN,
+        SegmentCountryCodeCX,
+        SegmentCountryCodeCC,
+        SegmentCountryCodeCO,
+        SegmentCountryCodeKM,
+        SegmentCountryCodeCG,
+        SegmentCountryCodeCD,
+        SegmentCountryCodeCK,
+        SegmentCountryCodeCR,
+        SegmentCountryCodeCI,
+        SegmentCountryCodeHR,
+        SegmentCountryCodeCU,
+        SegmentCountryCodeCW,
+        SegmentCountryCodeCY,
+        SegmentCountryCodeCZ,
+        SegmentCountryCodeDK,
+        SegmentCountryCodeDJ,
+        SegmentCountryCodeDM,
+        SegmentCountryCodeDO,
+        SegmentCountryCodeEC,
+        SegmentCountryCodeEG,
+        SegmentCountryCodeSV,
+        SegmentCountryCodeGQ,
+        SegmentCountryCodeER,
+        SegmentCountryCodeEE,
+        SegmentCountryCodeET,
+        SegmentCountryCodeFK,
+        SegmentCountryCodeFO,
+        SegmentCountryCodeFJ,
+        SegmentCountryCodeFI,
+        SegmentCountryCodeFR,
+        SegmentCountryCodeGF,
+        SegmentCountryCodePF,
+        SegmentCountryCodeTF,
+        SegmentCountryCodeGA,
+        SegmentCountryCodeGM,
+        SegmentCountryCodeGE,
+        SegmentCountryCodeDE,
+        SegmentCountryCodeGH,
+        SegmentCountryCodeGI,
+        SegmentCountryCodeGR,
+        SegmentCountryCodeGL,
+        SegmentCountryCodeGD,
+        SegmentCountryCodeGP,
+        SegmentCountryCodeGU,
+        SegmentCountryCodeGT,
+        SegmentCountryCodeGG,
+        SegmentCountryCodeGN,
+        SegmentCountryCodeGW,
+        SegmentCountryCodeGY,
+        SegmentCountryCodeHT,
+        SegmentCountryCodeHM,
+        SegmentCountryCodeVA,
+        SegmentCountryCodeHN,
+        SegmentCountryCodeHK,
+        SegmentCountryCodeHU,
+        SegmentCountryCodeIS,
+        SegmentCountryCodeIN,
+        SegmentCountryCodeID,
+        SegmentCountryCodeIR,
+        SegmentCountryCodeIQ,
+        SegmentCountryCodeIE,
+        SegmentCountryCodeIM,
+        SegmentCountryCodeIL,
+        SegmentCountryCodeIT,
+        SegmentCountryCodeJM,
+        SegmentCountryCodeJP,
+        SegmentCountryCodeJE,
+        SegmentCountryCodeJO,
+        SegmentCountryCodeKZ,
+        SegmentCountryCodeKE,
+        SegmentCountryCodeKI,
+        SegmentCountryCodeKP,
+        SegmentCountryCodeKR,
+        SegmentCountryCodeKW,
+        SegmentCountryCodeKG,
+        SegmentCountryCodeLA,
+        SegmentCountryCodeLV,
+        SegmentCountryCodeLB,
+        SegmentCountryCodeLS,
+        SegmentCountryCodeLR,
+        SegmentCountryCodeLY,
+        SegmentCountryCodeLI,
+        SegmentCountryCodeLT,
+        SegmentCountryCodeLU,
+        SegmentCountryCodeMO,
+        SegmentCountryCodeMK,
+        SegmentCountryCodeMG,
+        SegmentCountryCodeMW,
+        SegmentCountryCodeMY,
+        SegmentCountryCodeMV,
+        SegmentCountryCodeML,
+        SegmentCountryCodeMT,
+        SegmentCountryCodeMH,
+        SegmentCountryCodeMQ,
+        SegmentCountryCodeMR,
+        SegmentCountryCodeMU,
+        SegmentCountryCodeYT,
+        SegmentCountryCodeMX,
+        SegmentCountryCodeFM,
+        SegmentCountryCodeMD,
+        SegmentCountryCodeMC,
+        SegmentCountryCodeMN,
+        SegmentCountryCodeME,
+        SegmentCountryCodeMS,
+        SegmentCountryCodeMA,
+        SegmentCountryCodeMZ,
+        SegmentCountryCodeMM,
+        SegmentCountryCodeNA,
+        SegmentCountryCodeNR,
+        SegmentCountryCodeNP,
+        SegmentCountryCodeNL,
+        SegmentCountryCodeNC,
+        SegmentCountryCodeNZ,
+        SegmentCountryCodeNI,
+        SegmentCountryCodeNE,
+        SegmentCountryCodeNG,
+        SegmentCountryCodeNU,
+        SegmentCountryCodeNF,
+        SegmentCountryCodeMP,
+        SegmentCountryCodeNO,
+        SegmentCountryCodeOM,
+        SegmentCountryCodePK,
+        SegmentCountryCodePW,
+        SegmentCountryCodePS,
+        SegmentCountryCodePA,
+        SegmentCountryCodePG,
+        SegmentCountryCodePY,
+        SegmentCountryCodePE,
+        SegmentCountryCodePH,
+        SegmentCountryCodePN,
+        SegmentCountryCodePL,
+        SegmentCountryCodePT,
+        SegmentCountryCodePR,
+        SegmentCountryCodeQA,
+        SegmentCountryCodeRE,
+        SegmentCountryCodeRO,
+        SegmentCountryCodeRU,
+        SegmentCountryCodeRW,
+        SegmentCountryCodeBL,
+        SegmentCountryCodeSH,
+        SegmentCountryCodeKN,
+        SegmentCountryCodeLC,
+        SegmentCountryCodeMF,
+        SegmentCountryCodePM,
+        SegmentCountryCodeVC,
+        SegmentCountryCodeWS,
+        SegmentCountryCodeSM,
+        SegmentCountryCodeST,
+        SegmentCountryCodeSA,
+        SegmentCountryCodeSN,
+        SegmentCountryCodeRS,
+        SegmentCountryCodeSC,
+        SegmentCountryCodeSL,
+        SegmentCountryCodeSG,
+        SegmentCountryCodeSX,
+        SegmentCountryCodeSK,
+        SegmentCountryCodeSI,
+        SegmentCountryCodeSB,
+        SegmentCountryCodeSO,
+        SegmentCountryCodeZA,
+        SegmentCountryCodeGS,
+        SegmentCountryCodeSS,
+        SegmentCountryCodeES,
+        SegmentCountryCodeLK,
+        SegmentCountryCodeSD,
+        SegmentCountryCodeSR,
+        SegmentCountryCodeSJ,
+        SegmentCountryCodeSZ,
+        SegmentCountryCodeSE,
+        SegmentCountryCodeCH,
+        SegmentCountryCodeSY,
+        SegmentCountryCodeTW,
+        SegmentCountryCodeTJ,
+        SegmentCountryCodeTZ,
+        SegmentCountryCodeTH,
+        SegmentCountryCodeTL,
+        SegmentCountryCodeTG,
+        SegmentCountryCodeTK,
+        SegmentCountryCodeTO,
+        SegmentCountryCodeTT,
+        SegmentCountryCodeTN,
+        SegmentCountryCodeTR,
+        SegmentCountryCodeTM,
+        SegmentCountryCodeTC,
+        SegmentCountryCodeTV,
+        SegmentCountryCodeUG,
+        SegmentCountryCodeUA,
+        SegmentCountryCodeAE,
+        SegmentCountryCodeGB,
+        SegmentCountryCodeUS,
+        SegmentCountryCodeUM,
+        SegmentCountryCodeUY,
+        SegmentCountryCodeUZ,
+        SegmentCountryCodeVU,
+        SegmentCountryCodeVE,
+        SegmentCountryCodeVN,
+        SegmentCountryCodeVG,
+        SegmentCountryCodeVI,
+        SegmentCountryCodeWF,
+        SegmentCountryCodeEH,
+        SegmentCountryCodeYE,
+        SegmentCountryCodeZM,
+        SegmentCountryCodeZW
+    };
+
+    PLAYFABCPP_API void writeSegmentCountryCodeEnumJSON(SegmentCountryCode enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentCountryCode readSegmentCountryCodeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentCountryCode readSegmentCountryCodeFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FLocationSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Segment country code.
+        Boxed<SegmentCountryCode> CountryCode;
+
+        FLocationSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            CountryCode()
+            {}
+
+        FLocationSegmentFilter(const FLocationSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            CountryCode(src.CountryCode)
+            {}
+
+        FLocationSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLocationSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLocationSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentPushNotificationDevicePlatform
+    {
+        SegmentPushNotificationDevicePlatformApplePushNotificationService,
+        SegmentPushNotificationDevicePlatformGoogleCloudMessaging
+    };
+
+    PLAYFABCPP_API void writeSegmentPushNotificationDevicePlatformEnumJSON(SegmentPushNotificationDevicePlatform enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentPushNotificationDevicePlatform readSegmentPushNotificationDevicePlatformFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentPushNotificationDevicePlatform readSegmentPushNotificationDevicePlatformFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FPushNotificationSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Push notification device platform.
+        Boxed<SegmentPushNotificationDevicePlatform> PushNotificationDevicePlatform;
+
+        FPushNotificationSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            PushNotificationDevicePlatform()
+            {}
+
+        FPushNotificationSegmentFilter(const FPushNotificationSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            PushNotificationDevicePlatform(src.PushNotificationDevicePlatform)
+            {}
+
+        FPushNotificationSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPushNotificationSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPushNotificationSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FStatisticSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Statistic filter comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Statistic filter value.
+        FString FilterValue;
+
+        // [optional] Statistic name.
+        FString Name;
+
+        // [optional] Use current version of statistic?
+        Boxed<bool> UseCurrentVersion;
+
+        // [optional] Statistic version.
+        Boxed<int32> Version;
+
+        FStatisticSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            FilterValue(),
+            Name(),
+            UseCurrentVersion(),
+            Version()
+            {}
+
+        FStatisticSegmentFilter(const FStatisticSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            FilterValue(src.FilterValue),
+            Name(src.Name),
+            UseCurrentVersion(src.UseCurrentVersion),
+            Version(src.Version)
+            {}
+
+        FStatisticSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FStatisticSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStatisticSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTagSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Tag comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Tag value.
+        FString TagValue;
+
+        FTagSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            TagValue()
+            {}
+
+        FTagSegmentFilter(const FTagSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Comparison(src.Comparison),
+            TagValue(src.TagValue)
+            {}
+
+        FTagSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FTagSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTagSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTotalValueToDateInUSDSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Total value to date USD amount.
+        FString Amount;
+
+        // [optional] Total value to date USD comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        FTotalValueToDateInUSDSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            Comparison()
+            {}
+
+        FTotalValueToDateInUSDSegmentFilter(const FTotalValueToDateInUSDSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Amount(src.Amount),
+            Comparison(src.Comparison)
+            {}
+
+        FTotalValueToDateInUSDSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FTotalValueToDateInUSDSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTotalValueToDateInUSDSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUserOriginationSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] User login provider.
+        Boxed<SegmentLoginIdentityProvider> LoginProvider;
+
+        FUserOriginationSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            LoginProvider()
+            {}
+
+        FUserOriginationSegmentFilter(const FUserOriginationSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            LoginProvider(src.LoginProvider)
+            {}
+
+        FUserOriginationSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FUserOriginationSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserOriginationSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentCurrency
+    {
+        SegmentCurrencyAED,
+        SegmentCurrencyAFN,
+        SegmentCurrencyALL,
+        SegmentCurrencyAMD,
+        SegmentCurrencyANG,
+        SegmentCurrencyAOA,
+        SegmentCurrencyARS,
+        SegmentCurrencyAUD,
+        SegmentCurrencyAWG,
+        SegmentCurrencyAZN,
+        SegmentCurrencyBAM,
+        SegmentCurrencyBBD,
+        SegmentCurrencyBDT,
+        SegmentCurrencyBGN,
+        SegmentCurrencyBHD,
+        SegmentCurrencyBIF,
+        SegmentCurrencyBMD,
+        SegmentCurrencyBND,
+        SegmentCurrencyBOB,
+        SegmentCurrencyBRL,
+        SegmentCurrencyBSD,
+        SegmentCurrencyBTN,
+        SegmentCurrencyBWP,
+        SegmentCurrencyBYR,
+        SegmentCurrencyBZD,
+        SegmentCurrencyCAD,
+        SegmentCurrencyCDF,
+        SegmentCurrencyCHF,
+        SegmentCurrencyCLP,
+        SegmentCurrencyCNY,
+        SegmentCurrencyCOP,
+        SegmentCurrencyCRC,
+        SegmentCurrencyCUC,
+        SegmentCurrencyCUP,
+        SegmentCurrencyCVE,
+        SegmentCurrencyCZK,
+        SegmentCurrencyDJF,
+        SegmentCurrencyDKK,
+        SegmentCurrencyDOP,
+        SegmentCurrencyDZD,
+        SegmentCurrencyEGP,
+        SegmentCurrencyERN,
+        SegmentCurrencyETB,
+        SegmentCurrencyEUR,
+        SegmentCurrencyFJD,
+        SegmentCurrencyFKP,
+        SegmentCurrencyGBP,
+        SegmentCurrencyGEL,
+        SegmentCurrencyGGP,
+        SegmentCurrencyGHS,
+        SegmentCurrencyGIP,
+        SegmentCurrencyGMD,
+        SegmentCurrencyGNF,
+        SegmentCurrencyGTQ,
+        SegmentCurrencyGYD,
+        SegmentCurrencyHKD,
+        SegmentCurrencyHNL,
+        SegmentCurrencyHRK,
+        SegmentCurrencyHTG,
+        SegmentCurrencyHUF,
+        SegmentCurrencyIDR,
+        SegmentCurrencyILS,
+        SegmentCurrencyIMP,
+        SegmentCurrencyINR,
+        SegmentCurrencyIQD,
+        SegmentCurrencyIRR,
+        SegmentCurrencyISK,
+        SegmentCurrencyJEP,
+        SegmentCurrencyJMD,
+        SegmentCurrencyJOD,
+        SegmentCurrencyJPY,
+        SegmentCurrencyKES,
+        SegmentCurrencyKGS,
+        SegmentCurrencyKHR,
+        SegmentCurrencyKMF,
+        SegmentCurrencyKPW,
+        SegmentCurrencyKRW,
+        SegmentCurrencyKWD,
+        SegmentCurrencyKYD,
+        SegmentCurrencyKZT,
+        SegmentCurrencyLAK,
+        SegmentCurrencyLBP,
+        SegmentCurrencyLKR,
+        SegmentCurrencyLRD,
+        SegmentCurrencyLSL,
+        SegmentCurrencyLYD,
+        SegmentCurrencyMAD,
+        SegmentCurrencyMDL,
+        SegmentCurrencyMGA,
+        SegmentCurrencyMKD,
+        SegmentCurrencyMMK,
+        SegmentCurrencyMNT,
+        SegmentCurrencyMOP,
+        SegmentCurrencyMRO,
+        SegmentCurrencyMUR,
+        SegmentCurrencyMVR,
+        SegmentCurrencyMWK,
+        SegmentCurrencyMXN,
+        SegmentCurrencyMYR,
+        SegmentCurrencyMZN,
+        SegmentCurrencyNAD,
+        SegmentCurrencyNGN,
+        SegmentCurrencyNIO,
+        SegmentCurrencyNOK,
+        SegmentCurrencyNPR,
+        SegmentCurrencyNZD,
+        SegmentCurrencyOMR,
+        SegmentCurrencyPAB,
+        SegmentCurrencyPEN,
+        SegmentCurrencyPGK,
+        SegmentCurrencyPHP,
+        SegmentCurrencyPKR,
+        SegmentCurrencyPLN,
+        SegmentCurrencyPYG,
+        SegmentCurrencyQAR,
+        SegmentCurrencyRON,
+        SegmentCurrencyRSD,
+        SegmentCurrencyRUB,
+        SegmentCurrencyRWF,
+        SegmentCurrencySAR,
+        SegmentCurrencySBD,
+        SegmentCurrencySCR,
+        SegmentCurrencySDG,
+        SegmentCurrencySEK,
+        SegmentCurrencySGD,
+        SegmentCurrencySHP,
+        SegmentCurrencySLL,
+        SegmentCurrencySOS,
+        SegmentCurrencySPL,
+        SegmentCurrencySRD,
+        SegmentCurrencySTD,
+        SegmentCurrencySVC,
+        SegmentCurrencySYP,
+        SegmentCurrencySZL,
+        SegmentCurrencyTHB,
+        SegmentCurrencyTJS,
+        SegmentCurrencyTMT,
+        SegmentCurrencyTND,
+        SegmentCurrencyTOP,
+        SegmentCurrencyTRY,
+        SegmentCurrencyTTD,
+        SegmentCurrencyTVD,
+        SegmentCurrencyTWD,
+        SegmentCurrencyTZS,
+        SegmentCurrencyUAH,
+        SegmentCurrencyUGX,
+        SegmentCurrencyUSD,
+        SegmentCurrencyUYU,
+        SegmentCurrencyUZS,
+        SegmentCurrencyVEF,
+        SegmentCurrencyVND,
+        SegmentCurrencyVUV,
+        SegmentCurrencyWST,
+        SegmentCurrencyXAF,
+        SegmentCurrencyXCD,
+        SegmentCurrencyXDR,
+        SegmentCurrencyXOF,
+        SegmentCurrencyXPF,
+        SegmentCurrencyYER,
+        SegmentCurrencyZAR,
+        SegmentCurrencyZMW,
+        SegmentCurrencyZWD
+    };
+
+    PLAYFABCPP_API void writeSegmentCurrencyEnumJSON(SegmentCurrency enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentCurrency readSegmentCurrencyFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentCurrency readSegmentCurrencyFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FValueToDateSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Value to date amount.
+        FString Amount;
+
+        // [optional] Value to date comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Currency using for filter.
+        Boxed<SegmentCurrency> Currency;
+
+        FValueToDateSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            Comparison(),
+            Currency()
+            {}
+
+        FValueToDateSegmentFilter(const FValueToDateSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Amount(src.Amount),
+            Comparison(src.Comparison),
+            Currency(src.Currency)
+            {}
+
+        FValueToDateSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FValueToDateSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FValueToDateSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FVirtualCurrencyBalanceSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Total amount.
+        int32 Amount;
+
+        // [optional] Amount comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Currency code.
+        FString CurrencyCode;
+
+        FVirtualCurrencyBalanceSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            Comparison(),
+            CurrencyCode()
+            {}
+
+        FVirtualCurrencyBalanceSegmentFilter(const FVirtualCurrencyBalanceSegmentFilter& src) :
+            FPlayFabCppBaseModel(),
+            Amount(src.Amount),
+            Comparison(src.Comparison),
+            CurrencyCode(src.CurrencyCode)
+            {}
+
+        FVirtualCurrencyBalanceSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FVirtualCurrencyBalanceSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FVirtualCurrencyBalanceSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentAndDefinition : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Filter property for ad campaign filter.
+        TSharedPtr<FAdCampaignSegmentFilter> AdCampaignFilter;
+
+        // [optional] property for all player filter.
+        TSharedPtr<FAllPlayersSegmentFilter> AllPlayersFilter;
+
+        // [optional] Filter property for first login date.
+        TSharedPtr<FFirstLoginDateSegmentFilter> FirstLoginDateFilter;
+
+        // [optional] Filter property for first login timespan.
+        TSharedPtr<FFirstLoginTimespanSegmentFilter> FirstLoginFilter;
+
+        // [optional] Filter property for last login date.
+        TSharedPtr<FLastLoginDateSegmentFilter> LastLoginDateFilter;
+
+        // [optional] Filter property for last login timespan.
+        TSharedPtr<FLastLoginTimespanSegmentFilter> LastLoginFilter;
+
+        // [optional] Filter property for linked in user account.
+        TSharedPtr<FLinkedUserAccountSegmentFilter> LinkedUserAccountFilter;
+
+        // [optional] Filter property for linked in user account has email.
+        TSharedPtr<FLinkedUserAccountHasEmailSegmentFilter> LinkedUserAccountHasEmailFilter;
+
+        // [optional] Filter property for location.
+        TSharedPtr<FLocationSegmentFilter> LocationFilter;
+
+        // [optional] Filter property for push notification.
+        TSharedPtr<FPushNotificationSegmentFilter> PushNotificationFilter;
+
+        // [optional] Filter property for statistics.
+        TSharedPtr<FStatisticSegmentFilter> StatisticFilter;
+
+        // [optional] Filter property for tags.
+        TSharedPtr<FTagSegmentFilter> TagFilter;
+
+        // [optional] Filter property for total value to date in USD.
+        TSharedPtr<FTotalValueToDateInUSDSegmentFilter> TotalValueToDateInUSDFilter;
+
+        // [optional] Filter property for user origination.
+        TSharedPtr<FUserOriginationSegmentFilter> UserOriginationFilter;
+
+        // [optional] Filter property for value to date.
+        TSharedPtr<FValueToDateSegmentFilter> ValueToDateFilter;
+
+        // [optional] Filter property for virtual currency.
+        TSharedPtr<FVirtualCurrencyBalanceSegmentFilter> VirtualCurrencyBalanceFilter;
+
+        FSegmentAndDefinition() :
+            FPlayFabCppBaseModel(),
+            AdCampaignFilter(nullptr),
+            AllPlayersFilter(nullptr),
+            FirstLoginDateFilter(nullptr),
+            FirstLoginFilter(nullptr),
+            LastLoginDateFilter(nullptr),
+            LastLoginFilter(nullptr),
+            LinkedUserAccountFilter(nullptr),
+            LinkedUserAccountHasEmailFilter(nullptr),
+            LocationFilter(nullptr),
+            PushNotificationFilter(nullptr),
+            StatisticFilter(nullptr),
+            TagFilter(nullptr),
+            TotalValueToDateInUSDFilter(nullptr),
+            UserOriginationFilter(nullptr),
+            ValueToDateFilter(nullptr),
+            VirtualCurrencyBalanceFilter(nullptr)
+            {}
+
+        FSegmentAndDefinition(const FSegmentAndDefinition& src) :
+            FPlayFabCppBaseModel(),
+            AdCampaignFilter(src.AdCampaignFilter.IsValid() ? MakeShareable(new FAdCampaignSegmentFilter(*src.AdCampaignFilter)) : nullptr),
+            AllPlayersFilter(src.AllPlayersFilter.IsValid() ? MakeShareable(new FAllPlayersSegmentFilter(*src.AllPlayersFilter)) : nullptr),
+            FirstLoginDateFilter(src.FirstLoginDateFilter.IsValid() ? MakeShareable(new FFirstLoginDateSegmentFilter(*src.FirstLoginDateFilter)) : nullptr),
+            FirstLoginFilter(src.FirstLoginFilter.IsValid() ? MakeShareable(new FFirstLoginTimespanSegmentFilter(*src.FirstLoginFilter)) : nullptr),
+            LastLoginDateFilter(src.LastLoginDateFilter.IsValid() ? MakeShareable(new FLastLoginDateSegmentFilter(*src.LastLoginDateFilter)) : nullptr),
+            LastLoginFilter(src.LastLoginFilter.IsValid() ? MakeShareable(new FLastLoginTimespanSegmentFilter(*src.LastLoginFilter)) : nullptr),
+            LinkedUserAccountFilter(src.LinkedUserAccountFilter.IsValid() ? MakeShareable(new FLinkedUserAccountSegmentFilter(*src.LinkedUserAccountFilter)) : nullptr),
+            LinkedUserAccountHasEmailFilter(src.LinkedUserAccountHasEmailFilter.IsValid() ? MakeShareable(new FLinkedUserAccountHasEmailSegmentFilter(*src.LinkedUserAccountHasEmailFilter)) : nullptr),
+            LocationFilter(src.LocationFilter.IsValid() ? MakeShareable(new FLocationSegmentFilter(*src.LocationFilter)) : nullptr),
+            PushNotificationFilter(src.PushNotificationFilter.IsValid() ? MakeShareable(new FPushNotificationSegmentFilter(*src.PushNotificationFilter)) : nullptr),
+            StatisticFilter(src.StatisticFilter.IsValid() ? MakeShareable(new FStatisticSegmentFilter(*src.StatisticFilter)) : nullptr),
+            TagFilter(src.TagFilter.IsValid() ? MakeShareable(new FTagSegmentFilter(*src.TagFilter)) : nullptr),
+            TotalValueToDateInUSDFilter(src.TotalValueToDateInUSDFilter.IsValid() ? MakeShareable(new FTotalValueToDateInUSDSegmentFilter(*src.TotalValueToDateInUSDFilter)) : nullptr),
+            UserOriginationFilter(src.UserOriginationFilter.IsValid() ? MakeShareable(new FUserOriginationSegmentFilter(*src.UserOriginationFilter)) : nullptr),
+            ValueToDateFilter(src.ValueToDateFilter.IsValid() ? MakeShareable(new FValueToDateSegmentFilter(*src.ValueToDateFilter)) : nullptr),
+            VirtualCurrencyBalanceFilter(src.VirtualCurrencyBalanceFilter.IsValid() ? MakeShareable(new FVirtualCurrencyBalanceSegmentFilter(*src.VirtualCurrencyBalanceFilter)) : nullptr)
+            {}
+
+        FSegmentAndDefinition(const TSharedPtr<FJsonObject>& obj) : FSegmentAndDefinition()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentAndDefinition();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentOrDefinition : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] List of segment and definitions.
+        TArray<FSegmentAndDefinition> SegmentAndDefinitions;
+        FSegmentOrDefinition() :
+            FPlayFabCppBaseModel(),
+            SegmentAndDefinitions()
+            {}
+
+        FSegmentOrDefinition(const FSegmentOrDefinition& src) :
+            FPlayFabCppBaseModel(),
+            SegmentAndDefinitions(src.SegmentAndDefinitions)
+            {}
+
+        FSegmentOrDefinition(const TSharedPtr<FJsonObject>& obj) : FSegmentOrDefinition()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentOrDefinition();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentModel : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Segment description.
+        FString Description;
+
+        // [optional] Segment actions for current entered segment players.
+        TArray<FSegmentTrigger> EnteredSegmentActions;
+        // Segment last updated date time.
+        FDateTime LastUpdateTime;
+
+        // [optional] Segment actions for current left segment players.
+        TArray<FSegmentTrigger> LeftSegmentActions;
+        // [optional] Segment name.
+        FString Name;
+
+        // [optional] Segment id in hex.
+        FString SegmentId;
+
+        // [optional] Segment or definitions. This includes segment and definitions and filters.
+        TArray<FSegmentOrDefinition> SegmentOrDefinitions;
+        FSegmentModel() :
+            FPlayFabCppBaseModel(),
+            Description(),
+            EnteredSegmentActions(),
+            LastUpdateTime(0),
+            LeftSegmentActions(),
+            Name(),
+            SegmentId(),
+            SegmentOrDefinitions()
+            {}
+
+        FSegmentModel(const FSegmentModel& src) :
+            FPlayFabCppBaseModel(),
+            Description(src.Description),
+            EnteredSegmentActions(src.EnteredSegmentActions),
+            LastUpdateTime(src.LastUpdateTime),
+            LeftSegmentActions(src.LeftSegmentActions),
+            Name(src.Name),
+            SegmentId(src.SegmentId),
+            SegmentOrDefinitions(src.SegmentOrDefinitions)
+            {}
+
+        FSegmentModel(const TSharedPtr<FJsonObject>& obj) : FSegmentModel()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment model with all of the segment properties data.
+        FSegmentModel pfSegmentModel;
+
+        FCreateSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            pfSegmentModel()
+            {}
+
+        FCreateSegmentRequest(const FCreateSegmentRequest& src) :
+            FPlayFabCppRequestCommon(),
+            pfSegmentModel(src.pfSegmentModel)
+            {}
+
+        FCreateSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FCreateSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateSegmentResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        // [optional] Segment id.
+        FString SegmentId;
+
+        FCreateSegmentResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(),
+            SegmentId()
+            {}
+
+        FCreateSegmentResponse(const FCreateSegmentResponse& src) :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(src.ErrorMessage),
+            SegmentId(src.SegmentId)
+            {}
+
+        FCreateSegmentResponse(const TSharedPtr<FJsonObject>& obj) : FCreateSegmentResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateSegmentResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2854,6 +4460,58 @@ namespace AdminModels
         }
 
         ~FDeletePlayerSharedSecretResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment id.
+        FString SegmentId;
+
+        FDeleteSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentId()
+            {}
+
+        FDeleteSegmentRequest(const FDeleteSegmentRequest& src) :
+            FPlayFabCppRequestCommon(),
+            SegmentId(src.SegmentId)
+            {}
+
+        FDeleteSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteSegmentsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        FDeleteSegmentsResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage()
+            {}
+
+        FDeleteSegmentsResponse(const FDeleteSegmentsResponse& src) :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(src.ErrorMessage)
+            {}
+
+        FDeleteSegmentsResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteSegmentsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteSegmentsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -5662,6 +7320,61 @@ namespace AdminModels
         }
 
         ~FGetRandomResultTablesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetSegmentsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment ids to filter title segments.
+        TArray<FString> SegmentIds;
+        FGetSegmentsRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentIds()
+            {}
+
+        FGetSegmentsRequest(const FGetSegmentsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            SegmentIds(src.SegmentIds)
+            {}
+
+        FGetSegmentsRequest(const TSharedPtr<FJsonObject>& obj) : FGetSegmentsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetSegmentsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        // [optional] List of title segments.
+        TArray<FSegmentModel> Segments;
+        FGetSegmentsResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(),
+            Segments()
+            {}
+
+        FGetSegmentsResponse(const FGetSegmentsResponse& src) :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(src.ErrorMessage),
+            Segments(src.Segments)
+            {}
+
+        FGetSegmentsResponse(const TSharedPtr<FJsonObject>& obj) : FGetSegmentsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -10195,6 +11908,63 @@ namespace AdminModels
         }
 
         ~FUpdateRandomResultTablesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment model with all of the segment properties data.
+        FSegmentModel pfSegmentModel;
+
+        FUpdateSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            pfSegmentModel()
+            {}
+
+        FUpdateSegmentRequest(const FUpdateSegmentRequest& src) :
+            FPlayFabCppRequestCommon(),
+            pfSegmentModel(src.pfSegmentModel)
+            {}
+
+        FUpdateSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateSegmentResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        // [optional] Segment id.
+        FString SegmentId;
+
+        FUpdateSegmentResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(),
+            SegmentId()
+            {}
+
+        FUpdateSegmentResponse(const FUpdateSegmentResponse& src) :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(src.ErrorMessage),
+            SegmentId(src.SegmentId)
+            {}
+
+        FUpdateSegmentResponse(const TSharedPtr<FJsonObject>& obj) : FUpdateSegmentResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateSegmentResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

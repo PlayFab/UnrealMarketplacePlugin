@@ -1257,6 +1257,61 @@ public:
     ///////////////////////////////////////////////////////
     // Segments
     //////////////////////////////////////////////////////
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateSegment, FAdminCreateSegmentResponse, result, UObject*, customData);
+
+    /**
+     * Creates a new player segment by defining the conditions on player properties. Also, create actions to target the player
+     * segments for a title.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* CreateSegment(FAdminCreateSegmentRequest request,
+            FDelegateOnSuccessCreateSegment onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteSegment, FAdminDeleteSegmentsResponse, result, UObject*, customData);
+
+    /** Deletes an existing player segment and its associated action(s) for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteSegment(FAdminDeleteSegmentRequest request,
+            FDelegateOnSuccessDeleteSegment onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetSegments, FAdminGetSegmentsResponse, result, UObject*, customData);
+
+    /** Get detail information of a segment and its associated definition(s) and action(s) for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetSegments(FAdminGetSegmentsRequest request,
+            FDelegateOnSuccessGetSegments onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetSegments(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateSegment, FAdminUpdateSegmentResponse, result, UObject*, customData);
+
+    /** Updates an existing player segment and its associated definition(s) and action(s) for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* UpdateSegment(FAdminUpdateSegmentRequest request,
+            FDelegateOnSuccessUpdateSegment onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
     ///////////////////////////////////////////////////////
     // Server-Side Cloud Script
@@ -1737,6 +1792,10 @@ public:
     FDelegateOnSuccessGetTasks OnSuccessGetTasks;
     FDelegateOnSuccessRunTask OnSuccessRunTask;
     FDelegateOnSuccessUpdateTask OnSuccessUpdateTask;
+    FDelegateOnSuccessCreateSegment OnSuccessCreateSegment;
+    FDelegateOnSuccessDeleteSegment OnSuccessDeleteSegment;
+    FDelegateOnSuccessGetSegments OnSuccessGetSegments;
+    FDelegateOnSuccessUpdateSegment OnSuccessUpdateSegment;
     FDelegateOnSuccessGetCloudScriptRevision OnSuccessGetCloudScriptRevision;
     FDelegateOnSuccessGetCloudScriptVersions OnSuccessGetCloudScriptVersions;
     FDelegateOnSuccessSetPublishedRevision OnSuccessSetPublishedRevision;

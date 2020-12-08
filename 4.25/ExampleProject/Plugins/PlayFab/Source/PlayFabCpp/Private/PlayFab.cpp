@@ -32,8 +32,6 @@ class FPlayFabModule : public IPlayFabModuleInterface
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
 
-    FString GetTitleId() const override { return PlayFab::PlayFabSettings::GetTitleId(); };
-    
     PlayFabAdminPtr GetAdminAPI() const override { return AdminAPI; };
     PlayFabClientPtr GetClientAPI() const override { return ClientAPI; };
     PlayFabMatchmakerPtr GetMatchmakerAPI() const override { return MatchmakerAPI; };

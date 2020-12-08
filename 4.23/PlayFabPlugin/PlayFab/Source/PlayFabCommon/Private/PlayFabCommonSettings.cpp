@@ -7,18 +7,11 @@
 
 namespace PlayFabCommon
 {
-    const FString PlayFabCommonSettings::sdkVersion = "1.49.201027";
-    const FString PlayFabCommonSettings::buildIdentifier = "jbuild_unrealmarketplaceplugin__sdk-unrealslave-2_0";
-    const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.49.201027";
-    const FString PlayFabCommonSettings::verticalName = "";
-
-    FString PlayFabCommonSettings::serverURL;
-    FString PlayFabCommonSettings::productionEnvironmentURL = ".playfabapi.com";
-
-    FString PlayFabCommonSettings::titleId;
+    const FString PlayFabCommonSettings::sdkVersion = "1.50.201207";
+    const FString PlayFabCommonSettings::buildIdentifier = "jbuild_unrealmarketplaceplugin_sdk-unrealslave-2_0";
+    const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.50.201207";
 
     FString PlayFabCommonSettings::clientSessionTicket;
-    FString PlayFabCommonSettings::developerSecretKey;
     FString PlayFabCommonSettings::entityToken;
     FString PlayFabCommonSettings::advertisingIdType;
     FString PlayFabCommonSettings::advertisingIdValue;

@@ -96,10 +96,32 @@ Plugin 'PlayFab' failed to load because module 'PlayFab' could not be found.  Pl
 Your Unreal project is not set up to be a C++ project.  Here is a tutorial that will help fix this problem.
 http://idkudk.blogspot.com/2015/02/how-to-get-plugins-to-package-correctly.html
 
-
 General troubleshooting:
 
 For a complete list of available APIs, check out the [online documentation](http://api.playfab.com/Documentation/).
+
+## 4.b Known Issue:
+
+In Unreal 4.25, there is a step that is highly recommended:
+
+### Fix it in the Unreal Editor GUI:
+
+* Open Unreal Editor for your project
+* Edit -> Project Settings ... -> Engine -> Network
+* At the top of the Network section is the checkbox "Verify Peer".
+* Toggle it off.
+* Save All. (ctrl + shift +s)
+* Toggle it on.
+* Save All. (ctrl + shift +s)
+
+![Network Settings](images/NetworkSettings.png)
+
+### Fix it in the files:
+
+* {Project}/Config/DefaultEngine.ini
+* Add/Replace these lines:
+    * [/Script/Engine.NetworkSettings]
+    * n.VerifyPeer=True
 
 ## 5 Limitations
 

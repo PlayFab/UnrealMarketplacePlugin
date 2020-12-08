@@ -992,6 +992,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreateOpenIdConnection(FAdminCreateOpenIdCon
     } else {
         OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
     }
+    OutRestJsonObj->SetBoolField(TEXT("IgnoreNonce"), request.IgnoreNonce);
     if (request.IssuerDiscoveryUrl.IsEmpty() || request.IssuerDiscoveryUrl == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IssuerDiscoveryUrl"));
     } else {
@@ -5037,6 +5038,209 @@ void UPlayFabAdminAPI::HelperUpdateTask(FPlayFabBaseModel response, UObject* cus
 ///////////////////////////////////////////////////////
 // Segments
 //////////////////////////////////////////////////////
+/** Creates a new player segment by defining the conditions on player properties. Also, create actions to target the player segments for a title. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::CreateSegment(FAdminCreateSegmentRequest request,
+    FDelegateOnSuccessCreateSegment onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateSegment = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperCreateSegment);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/CreateSegment";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.SegmentModel != nullptr) OutRestJsonObj->SetObjectField(TEXT("SegmentModel"), request.SegmentModel);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperCreateSegment(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateSegment.IsBound())
+    {
+        FAdminCreateSegmentResponse ResultStruct = UPlayFabAdminModelDecoder::decodeCreateSegmentResponseResponse(response.responseData);
+        OnSuccessCreateSegment.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Deletes an existing player segment and its associated action(s) for a title. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteSegment(FAdminDeleteSegmentRequest request,
+    FDelegateOnSuccessDeleteSegment onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteSegment = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteSegment);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/DeleteSegment";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.SegmentId.IsEmpty() || request.SegmentId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SegmentId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SegmentId"), request.SegmentId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperDeleteSegment(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteSegment.IsBound())
+    {
+        FAdminDeleteSegmentsResponse ResultStruct = UPlayFabAdminModelDecoder::decodeDeleteSegmentsResponseResponse(response.responseData);
+        OnSuccessDeleteSegment.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Get detail information of a segment and its associated definition(s) and action(s) for a title. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::GetSegments(FAdminGetSegmentsRequest request,
+    FDelegateOnSuccessGetSegments onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetSegments = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperGetSegments);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/GetSegments";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.SegmentIds.IsEmpty() || request.SegmentIds == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SegmentIds"));
+    } else {
+        TArray<FString> SegmentIdsArray;
+        FString(request.SegmentIds).ParseIntoArray(SegmentIdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("SegmentIds"), SegmentIdsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperGetSegments(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetSegments.IsBound())
+    {
+        FAdminGetSegmentsResponse ResultStruct = UPlayFabAdminModelDecoder::decodeGetSegmentsResponseResponse(response.responseData);
+        OnSuccessGetSegments.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Updates an existing player segment and its associated definition(s) and action(s) for a title. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateSegment(FAdminUpdateSegmentRequest request,
+    FDelegateOnSuccessUpdateSegment onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateSegment = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperUpdateSegment);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/UpdateSegment";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.SegmentModel != nullptr) OutRestJsonObj->SetObjectField(TEXT("SegmentModel"), request.SegmentModel);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperUpdateSegment(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateSegment.IsBound())
+    {
+        FAdminUpdateSegmentResponse ResultStruct = UPlayFabAdminModelDecoder::decodeUpdateSegmentResponseResponse(response.responseData);
+        OnSuccessUpdateSegment.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 
 ///////////////////////////////////////////////////////
 // Server-Side Cloud Script
@@ -6664,7 +6868,7 @@ void UPlayFabAdminAPI::Activate()
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     FString RequestUrl;
-    RequestUrl = pfSettings->getUrl(PlayFabRequestURL);
+    RequestUrl = pfSettings->GeneratePfUrl(PlayFabRequestURL);
 
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
@@ -6677,7 +6881,7 @@ void UPlayFabAdminAPI::Activate()
     else if (useSessionTicket)
         HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
     else if (useSecretKey)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getDeveloperSecretKey());
+        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey);
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "PlayFabCommonSettings.h"
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "PlayFabAuthenticationContext.generated.h"
 
 /**
@@ -21,7 +22,7 @@ public:
     {
         ClientSessionTicket = PlayFabCommon::PlayFabCommonSettings::clientSessionTicket;
         EntityToken = PlayFabCommon::PlayFabCommonSettings::entityToken;
-        DeveloperSecretKey = PlayFabCommon::PlayFabCommonSettings::developerSecretKey;
+        DeveloperSecretKey = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
         ClientAdminSecurityCheck();
     }
 
@@ -68,7 +69,7 @@ public:
         EntityToken = InToken;
     }
 
-    // Get the developer secret key. These keys can be used in development environments.
+    // Get the developer secret key. These keys can be used in server environments.
     UFUNCTION(BlueprintCallable, BlueprintPure, Category = "PlayFab | Core")
         FString& GetDeveloperSecretKey()
     {
@@ -76,14 +77,14 @@ public:
         return DeveloperSecretKey;
     }
 
-    // Get the developer secret key. These keys can be used in development environments.
+    // Get the developer secret key. These keys can be used in server environments.
     const FString& GetDeveloperSecretKey() const
     {
         ClientAdminSecurityCheck();
         return DeveloperSecretKey;
     }
 
-    // Set the developer secret key. These keys can be used in development environments.
+    // Set the developer secret key. These keys can be used in server environments.
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
         void SetDeveloperSecretKey(FString InKey)
     {
@@ -125,7 +126,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Core")
     void ClientAdminSecurityCheck() const
     {
-        checkf(DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0, TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login"));
+        checkf(
+            DeveloperSecretKey.Len() == 0 || ClientSessionTicket.Len() == 0, // The condition is true/safe if one or the other is length zero
+            TEXT("For title security, you cannot set the DeveloperSecretKey on a process which uses a Client Login")
+        );
     }
 
 private: 
@@ -137,7 +141,7 @@ private:
     UPROPERTY()
     FString EntityToken;
 
-    // Developer secret key. These keys can be used in development environments.
+    // Developer secret key. These keys can be used in server environments.
     UPROPERTY()
     FString DeveloperSecretKey;
 

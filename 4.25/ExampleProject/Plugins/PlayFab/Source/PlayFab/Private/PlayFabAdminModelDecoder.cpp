@@ -850,6 +850,53 @@ FAdminRunTaskResult UPlayFabAdminModelDecoder::decodeRunTaskResultResponse(UPlay
 // Segments
 //////////////////////////////////////////////////////
 
+FAdminCreateSegmentResponse UPlayFabAdminModelDecoder::decodeCreateSegmentResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminCreateSegmentResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+    tempStruct.SegmentId = !(dataObj->HasField("SegmentId")) ? TEXT("") : dataObj->GetStringField("SegmentId");
+
+    return tempStruct;
+}
+
+FAdminDeleteSegmentsResponse UPlayFabAdminModelDecoder::decodeDeleteSegmentsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeleteSegmentsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+
+    return tempStruct;
+}
+
+FAdminGetSegmentsResponse UPlayFabAdminModelDecoder::decodeGetSegmentsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetSegmentsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+    tempStruct.Segments = !(dataObj->HasField("Segments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Segments");
+
+    return tempStruct;
+}
+
+FAdminUpdateSegmentResponse UPlayFabAdminModelDecoder::decodeUpdateSegmentResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminUpdateSegmentResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+    tempStruct.SegmentId = !(dataObj->HasField("SegmentId")) ? TEXT("") : dataObj->GetStringField("SegmentId");
+
+    return tempStruct;
+}
+
 
 
 ///////////////////////////////////////////////////////

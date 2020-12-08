@@ -497,6 +497,9 @@ public:
     /** A name for the connection that identifies it within the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString ConnectionId;
+    /** Ignore 'nonce' claim in identity tokens. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        bool IgnoreNonce = false;
     /**
      * The discovery document URL to read issuer information from. This must be the absolute URL to the JSON OpenId
      * Configuration document and must be accessible from the internet. If you don't know it, try your issuer URL followed by
@@ -2395,6 +2398,99 @@ public:
 ///////////////////////////////////////////////////////
 // Segments
 //////////////////////////////////////////////////////
+
+/** Send all the segment details part of CreateSegmentRequest */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminCreateSegmentRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Segment model with all of the segment properties data. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        UPlayFabJsonObject* SegmentModel = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminCreateSegmentResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Error message. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString ErrorMessage;
+    /** Segment id. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString SegmentId;
+};
+
+/** Send segment id planning to delete part of DeleteSegmentRequest object */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteSegmentRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Segment id. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString SegmentId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteSegmentsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Error message. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString ErrorMessage;
+};
+
+/** Given input segment ids, return list of segments. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetSegmentsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Segment ids to filter title segments. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString SegmentIds;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetSegmentsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Error message. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString ErrorMessage;
+    /** List of title segments. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        TArray<UPlayFabJsonObject*> Segments;
+};
+
+/** Update segment properties data which are planning to update */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminUpdateSegmentRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Segment model with all of the segment properties data. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        UPlayFabJsonObject* SegmentModel = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminUpdateSegmentResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Error message. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString ErrorMessage;
+    /** Segment id. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Segments Models")
+        FString SegmentId;
+};
 
 
 ///////////////////////////////////////////////////////

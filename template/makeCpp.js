@@ -41,7 +41,6 @@ function makeApi(api, copyright, sourceDir, apiOutputDir, subdir) {
         getRequestActions: getRequestActions,
         getCustomApiLogic: getCustomApiLogic,
         getResultActions: getResultActions,
-        getUrlAccessor: getUrlAccessor,
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
         hasRequest: hasRequest
     };
@@ -270,15 +269,15 @@ function getPropertySerializer(tabbing, api, datatype, property) {
         throw "getPropertySerializer: Unknown property type: " + property.actualtype + " for " + property.name + " in " + datatype.name;
 
     if (property.optional) {
-        return tabbing + "if (" + tester + ")\n"+tabbing+"{\n"+tabbing + tabbing + "writer->WriteIdentifierPrefix(TEXT(\"" + property.name + "\"));\n"+tabbing+tabbing+ writer + "\n"+tabbing+"}";
+        return tabbing + "if (" + tester + ")\n" + tabbing + "{\n" + tabbing + tabbing + "writer->WriteIdentifierPrefix(TEXT(\"" + property.name + "\"));\n" + tabbing + tabbing + writer + "\n" + tabbing + "}";
     }
     else {
         // this property is REQUIRED
         if (property.actualtype === "String") {
-            return tabbing + "if (!" + tester + ")\n"+tabbing+"{\n"+tabbing + tabbing+ "UE_LOG(LogTemp, Error, TEXT(\"This field is required: " + datatype.name + "::" + property.name + ", PlayFab calls may not work if it remains empty.\"));\n"+tabbing+"}\n"+tabbing+"else\n"+tabbing+"{\n"+tabbing +tabbing+"writer->WriteIdentifierPrefix(TEXT(\"" + property.name + "\"));\n" +tabbing+tabbing+ writer + "\n"+tabbing+"}";
+            return tabbing + "if (!" + tester + ")\n" + tabbing + "{\n" + tabbing + tabbing + "UE_LOG(LogTemp, Error, TEXT(\"This field is required: " + datatype.name + "::" + property.name + ", PlayFab calls may not work if it remains empty.\"));\n" + tabbing + "}\n" + tabbing + "else\n" + tabbing + "{\n" + tabbing + tabbing + "writer->WriteIdentifierPrefix(TEXT(\"" + property.name + "\"));\n" + tabbing + tabbing + writer + "\n" + tabbing + "}";
         }
         else {
-            return tabbing + "writer->WriteIdentifierPrefix(TEXT(\"" + property.name + "\"));\n"+tabbing + writer;
+            return tabbing + "writer->WriteIdentifierPrefix(TEXT(\"" + property.name + "\"));\n" + tabbing + writer;
         }
     }
 }
@@ -585,25 +584,29 @@ function addTypeAndDependencies(datatype, datatypes, orderedTypes, addedSet) {
     addedSet[datatype.name] = datatype;
 }
 
-function getAuthReference(isInstanceApi, getOrCreate)
-{
-    if(isInstanceApi && getOrCreate)
-        return "this->GetOrCreateAuthenticationContext()->";
-    else if(isInstanceApi)
-        return "this->authContext->";
-    else
+function getContextContainer(isInstanceApi, getOrCreate) {
+    if (isInstanceApi) {
+        return "GetOrCreateAuthenticationContext()->";
+    } else {
         return "PlayFabSettings::";
+    }
 }
 
 function getAuthParams(apiCall, isInstanceApi) {
     if (apiCall.url === "/Authentication/GetEntityToken")
         return "authKey, authValue";
-    else if (apiCall.auth === "EntityToken")
-        return "TEXT(\"X-EntityToken\"), !request.AuthenticationContext.IsValid() ? " + getAuthReference(isInstanceApi, true) + "GetEntityToken() : request.AuthenticationContext->GetEntityToken()";
-    else if (apiCall.auth === "SecretKey")
-        return "TEXT(\"X-SecretKey\"), !request.AuthenticationContext.IsValid() ? " + getAuthReference(isInstanceApi, true) + "GetDeveloperSecretKey() : request.AuthenticationContext->GetDeveloperSecretKey()";
-    else if (apiCall.auth === "SessionTicket")
-        return "TEXT(\"X-Authorization\"), !request.AuthenticationContext.IsValid() ? " + getAuthReference(isInstanceApi, true) + "GetClientSessionTicket() : request.AuthenticationContext->GetClientSessionTicket()";
+    else if (isInstanceApi && apiCall.auth === "EntityToken")
+        return "TEXT(\"X-EntityToken\"), context->GetEntityToken()";
+    else if (!isInstanceApi && apiCall.auth === "EntityToken")
+        return "TEXT(\"X-EntityToken\"), entityToken";
+    else if (isInstanceApi && apiCall.auth === "SecretKey")
+        return "TEXT(\"X-SecretKey\"), context->GetDeveloperSecretKey()";
+    else if (!isInstanceApi && apiCall.auth === "SecretKey")
+        return "TEXT(\"X-SecretKey\"), devSecretKey";
+    else if (isInstanceApi && apiCall.auth === "SessionTicket")
+        return "TEXT(\"X-Authorization\"), context->GetClientSessionTicket()";
+    else if (!isInstanceApi && apiCall.auth === "SessionTicket")
+        return "TEXT(\"X-Authorization\"), clientTicket";
     return "TEXT(\"\"), TEXT(\"\")";
 }
 
@@ -620,54 +623,51 @@ function getBaseType(datatype) {
 
 function getRequestActions(tabbing, apiCall, isInstanceApi) {
     if (apiCall.result === "LoginResult" || apiCall.request === "RegisterPlayFabUserRequest") {
-        if (isInstanceApi) {
-            return tabbing + "if (!this->settings.IsValid())\n"
-                + tabbing + "    request.TitleId = PlayFabSettings::GetTitleId();\n"
-                + tabbing + "else\n"
-                + tabbing + "    request.TitleId = this->settings->GetTitleId();\n";
-        }
-        else {
-            return tabbing + "if (PlayFabSettings::GetTitleId().Len() > 0)\n"
-                + tabbing + "    request.TitleId = PlayFabSettings::GetTitleId();\n";
-        }
-    }
-    else if (apiCall.url === "/Authentication/GetEntityToken")
+        return tabbing + "if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)\n"
+            + tabbing + "    request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;\n";
+    } else if (apiCall.url === "/Authentication/GetEntityToken") {
         return tabbing + "FString authKey; FString authValue;\n"
-            + tabbing + "if (request.AuthenticationContext.IsValid()) {\n"
-            + tabbing + "    if (request.AuthenticationContext->GetEntityToken().Len() > 0) {\n"
-            + tabbing + "        authKey = TEXT(\"X-EntityToken\"); authValue = request.AuthenticationContext->GetEntityToken();\n"
-            + tabbing + "    } else if (request.AuthenticationContext->GetClientSessionTicket().Len() > 0) {\n"
-            + tabbing + "        authKey = TEXT(\"X-Authorization\"); authValue = request.AuthenticationContext->GetClientSessionTicket();\n"
-            + tabbing + "    } else if (request.AuthenticationContext->GetDeveloperSecretKey().Len() > 0) {\n"
-            + tabbing + "        authKey = TEXT(\"X-SecretKey\"); authValue = request.AuthenticationContext->GetDeveloperSecretKey();\n"
-            + tabbing + "    }\n"
-            + tabbing + "}\n"
-            + tabbing + "else {\n"
-            + (isInstanceApi ? tabbing + "    this->GetOrCreateAuthenticationContext();\n" : "")
-            + tabbing + "    if (" + getAuthReference(isInstanceApi, false) + "GetEntityToken().Len() > 0) {\n"
-            + tabbing + "        authKey = TEXT(\"X-EntityToken\"); authValue = " + getAuthReference(isInstanceApi, false) + "GetEntityToken();\n"
-            + tabbing + "    } else if (" + getAuthReference(isInstanceApi, false) + "GetClientSessionTicket().Len() > 0) {\n"
-            + tabbing + "        authKey = TEXT(\"X-Authorization\"); authValue = " + getAuthReference(isInstanceApi, false) + "GetClientSessionTicket();\n"
-            + tabbing + "    } else if (" + getAuthReference(isInstanceApi, false) + "GetDeveloperSecretKey().Len() > 0) {\n"
-            + tabbing + "        authKey = TEXT(\"X-SecretKey\"); authValue = " + getAuthReference(isInstanceApi, false) + "GetDeveloperSecretKey();\n"
-            + tabbing + "    }\n"
+            + tabbing + "FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();\n"
+            + tabbing + "FString devSecretKey = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;\n"
+            + tabbing + "FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();\n"
+            + "\n"
+            + tabbing + "if (entityToken.Len() > 0) {\n"
+            + tabbing + "    authKey = TEXT(\"X-EntityToken\"); authValue = entityToken;\n"
+            + tabbing + "} else if (clientTicket.Len() > 0) {\n"
+            + tabbing + "    authKey = TEXT(\"X-Authorization\"); authValue = clientTicket;\n"
+            + tabbing + "} else if (GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey.Len() > 0) {\n"
+            + tabbing + "    authKey = TEXT(\"X-SecretKey\"); authValue = devSecretKey;\n"
             + tabbing + "}\n";
-    else if (apiCall.auth === "EntityToken")
-        return tabbing + "if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)\n"
-            + tabbing + "    || (!request.AuthenticationContext.IsValid() && " + getAuthReference(isInstanceApi, true) + "GetEntityToken().Len() == 0)) {\n"
+    } else if (isInstanceApi && apiCall.auth === "EntityToken") {
+        return tabbing + "if (context->GetEntityToken().Len() == 0) {\n"
             + tabbing + "    UE_LOG(LogPlayFabCpp, Error, TEXT(\"You must call GetEntityToken API Method before calling this function.\"));\n"
             + tabbing + "}\n";
-    else if (apiCall.auth === "SecretKey")
-        return tabbing + "if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetDeveloperSecretKey().Len() == 0)\n"
-            + tabbing + "    || (!request.AuthenticationContext.IsValid() && " + getAuthReference(isInstanceApi, true) + "GetDeveloperSecretKey().Len() == 0)){\n"
+    } else if (!isInstanceApi && apiCall.auth === "EntityToken") {
+        return tabbing + "FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();\n"
+            + tabbing + "if (entityToken.Len() == 0) {\n"
+            + tabbing + "    UE_LOG(LogPlayFabCpp, Error, TEXT(\"You must call GetEntityToken API Method before calling this function.\"));\n"
+            + tabbing + "}\n";
+    } else if (isInstanceApi && apiCall.auth === "SecretKey") {
+        return tabbing + "if(context->GetDeveloperSecretKey().Len() == 0) {\n"
             + tabbing + "    UE_LOG(LogPlayFabCpp, Error, TEXT(\"You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)\"));\n"
             + tabbing + "}\n";
-    else if (apiCall.auth === "SessionTicket")
-        return tabbing + "if((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetClientSessionTicket().Len() == 0)\n"
-            + tabbing + "    || (!request.AuthenticationContext.IsValid() && " + getAuthReference(isInstanceApi, true) + "GetClientSessionTicket().Len() == 0)) {\n"
+    } else if (!isInstanceApi && apiCall.auth === "SecretKey") {
+        return tabbing + "FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;\n"
+            + tabbing + "if (devSecretKey.Len() == 0) {\n"
+            + tabbing + "    UE_LOG(LogPlayFabCpp, Error, TEXT(\"You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)\"));\n"
+            + tabbing + "}\n";
+    } else if (isInstanceApi && apiCall.auth === "SessionTicket") {
+        return tabbing + "if (context->GetClientSessionTicket().Len() == 0) {\n"
             + tabbing + "    UE_LOG(LogPlayFabCpp, Error, TEXT(\"You must log in before calling this function\"));\n"
             + tabbing + "    return false;\n"
             + tabbing + "}\n";
+    } else if (!isInstanceApi && apiCall.auth === "SessionTicket") {
+        return tabbing + "FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();\n"
+            + tabbing + "if(clientTicket.Len() == 0) {\n"
+            + tabbing + "    UE_LOG(LogPlayFabCpp, Error, TEXT(\"You must log in before calling this function\"));\n"
+            + tabbing + "    return false;\n"
+            + tabbing + "}\n";
+    }
     return "";
 }
 
@@ -678,8 +678,7 @@ function getCustomApiLogic(tabbing, api, apiCall, isInstanceApi) {
             + tabbing + "{\n"
             + tabbing + "    FString endpoint = TEXT(\"" + apiCall.url + "\");\n"
             + tabbing + "    endpoint.RemoveFromStart(TEXT(\"/\"));\n"
-            + tabbing + "    FString url = localApiServer + endpoint;\n"
-            + tabbing + "    auto HttpRequest = PlayFabRequestHandler::SendRequest(url, request.toJSONString(), TEXT(\"X-EntityToken\"), !request.AuthenticationContext.IsValid() ? PlayFabSettings::GetEntityToken() : request.AuthenticationContext->GetEntityToken());\n"
+            + tabbing + "    auto HttpRequest = PlayFabRequestHandler::SendFullUrlRequest(localApiServer + endpoint, request.toJSONString(), TEXT(\"X-EntityToken\"), entityToken);\n"
             + tabbing + "    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFab" + api.name + (isInstanceApi ? "Instance" : "") + "API::On" + apiCall.name + "Result, SuccessDelegate, ErrorDelegate);\n"
             + tabbing + "    return HttpRequest->ProcessRequest();\n"
             + tabbing + "}\n"
@@ -688,16 +687,15 @@ function getCustomApiLogic(tabbing, api, apiCall, isInstanceApi) {
 function getResultActions(tabbing, apiCall, isInstanceApi) {
     if (apiCall.url === "/Authentication/GetEntityToken")
         return tabbing + "if (outResult.EntityToken.Len() > 0)\n"
-            + tabbing + "    " + getAuthReference(isInstanceApi, true) + "SetEntityToken(outResult.EntityToken);\n";
-    else if (apiCall.result === "LoginResult"){
+            + tabbing + "    " + getContextContainer(isInstanceApi, true) + "SetEntityToken(outResult.EntityToken);\n";
+    else if (apiCall.result === "LoginResult") {
         return tabbing + "outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();\n"
             + tabbing + "if (outResult.SessionTicket.Len() > 0) {\n"
-            + (isInstanceApi ? tabbing + "    " + "this->GetOrCreateAuthenticationContext();\n" : "")
-            + tabbing + "    " + getAuthReference(isInstanceApi, false) + "SetClientSessionTicket(outResult.SessionTicket);\n"
+            + tabbing + "    " + getContextContainer(isInstanceApi, false) + "SetClientSessionTicket(outResult.SessionTicket);\n"
             + tabbing + "    outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);\n"
             + tabbing + "}\n"
-            + tabbing + "if (outResult.EntityToken.IsValid()) {\n" 
-            + tabbing + "    " + getAuthReference(isInstanceApi, false) + "SetEntityToken(outResult.EntityToken->EntityToken);\n"
+            + tabbing + "if (outResult.EntityToken.IsValid()) {\n"
+            + tabbing + "    " + getContextContainer(isInstanceApi, false) + "SetEntityToken(outResult.EntityToken->EntityToken);\n"
             + tabbing + "    outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);\n"
             + tabbing + "}\n"
             + tabbing + "if (outResult.PlayFabId.Len() > 0) {\n"
@@ -708,26 +706,19 @@ function getResultActions(tabbing, apiCall, isInstanceApi) {
     }
     else if (apiCall.result === "RegisterPlayFabUserResult")
         return tabbing + "if (outResult.SessionTicket.Len() > 0)\n"
-            + tabbing + "    " + getAuthReference(isInstanceApi, true) + "SetClientSessionTicket(outResult.SessionTicket);\n"
+            + tabbing + "    " + getContextContainer(isInstanceApi, true) + "SetClientSessionTicket(outResult.SessionTicket);\n"
             + tabbing + "MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);\n\n";
-    else if (apiCall.result === "AttributeInstallResult"){
+    else if (apiCall.result === "AttributeInstallResult") {
         var commentLine = tabbing + "// Modify advertisingIdType:  Prevents us from sending the id multiple times, and allows automated tests to determine id was sent successfully\n";
-        if(isInstanceApi)
+        if (isInstanceApi)
             return commentLine
                 + tabbing + "if(!this->settings.IsValid())\n"
-                + tabbing + "    PlayFabSettings::SetAdvertisingIdType(PlayFabSettings::GetAdvertisingIdType() + \"_Successful\");\n" 
-                + tabbing + "else\n" 
+                + tabbing + "    PlayFabSettings::SetAdvertisingIdType(PlayFabSettings::GetAdvertisingIdType() + \"_Successful\");\n"
+                + tabbing + "else\n"
                 + tabbing + "    this->settings->SetAdvertisingIdType(this->settings->GetAdvertisingIdType() + \"_Successful\");\n\n";
         else
             return commentLine
                 + tabbing + "PlayFabSettings::SetAdvertisingIdType(PlayFabSettings::GetAdvertisingIdType() + \"_Successful\");\n\n";
     }
     return "";
-}
-
-function getUrlAccessor(apiCall, isInstanceApi) {
-    if(isInstanceApi)
-        return "!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT(\"" + apiCall.url + "\")) : this->settings->GetUrl(TEXT(\"" + apiCall.url + "\"))";
-    else
-        return "PlayFabSettings::GetUrl(TEXT(\"" + apiCall.url + "\"))";
 }

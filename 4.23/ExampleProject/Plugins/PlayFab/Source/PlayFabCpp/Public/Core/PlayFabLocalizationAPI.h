@@ -25,8 +25,6 @@ namespace PlayFab
 
         int GetPendingCalls() const;
         FString GetBuildIdentifier() const;
-        void SetTitleId(const FString& titleId);
-        void SetDevSecretKey(const FString& developerSecretKey);
 
         // ------------ Generated API calls
         // Retrieves the list of allowed languages, only accessible by title entities

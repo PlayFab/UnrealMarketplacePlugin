@@ -156,8 +156,6 @@ namespace PlayFab
 
         int GetPendingCalls() const;
         FString GetBuildIdentifier() const;
-        void SetTitleId(const FString& titleId);
-        void SetDevSecretKey(const FString& developerSecretKey);
 
         // ------------ Generated API calls
         // Increments the character's balance of the specified virtual currency by the stated amount

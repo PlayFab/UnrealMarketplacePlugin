@@ -368,6 +368,22 @@ public:
     // Segments
     //////////////////////////////////////////////////////
 
+    /** Decode the CreateSegmentResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminCreateSegmentResponse decodeCreateSegmentResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the DeleteSegmentsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminDeleteSegmentsResponse decodeDeleteSegmentsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetSegmentsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminGetSegmentsResponse decodeGetSegmentsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UpdateSegmentResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminUpdateSegmentResponse decodeUpdateSegmentResponseResponse(UPlayFabJsonObject* response);
+
 
 
     ///////////////////////////////////////////////////////

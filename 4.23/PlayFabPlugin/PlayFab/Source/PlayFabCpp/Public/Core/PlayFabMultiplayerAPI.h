@@ -57,6 +57,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListAssetSummariesDelegate, const MultiplayerModels::FListAssetSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildAliasesDelegate, const MultiplayerModels::FListBuildAliasesForTitleResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildSummariesDelegate, const MultiplayerModels::FListBuildSummariesResponse&);
+        DECLARE_DELEGATE_OneParam(FListBuildSummariesV2Delegate, const MultiplayerModels::FListBuildSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListCertificateSummariesDelegate, const MultiplayerModels::FListCertificateSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListContainerImagesDelegate, const MultiplayerModels::FListContainerImagesResponse&);
         DECLARE_DELEGATE_OneParam(FListContainerImageTagsDelegate, const MultiplayerModels::FListContainerImageTagsResponse&);
@@ -80,8 +81,6 @@ namespace PlayFab
 
         int GetPendingCalls() const;
         FString GetBuildIdentifier() const;
-        void SetTitleId(const FString& titleId);
-        void SetDevSecretKey(const FString& developerSecretKey);
 
         // ------------ Generated API calls
         /**
@@ -285,6 +284,12 @@ namespace PlayFab
          */
         bool ListBuildSummaries(MultiplayerModels::FListBuildSummariesRequest& request, const FListBuildSummariesDelegate& SuccessDelegate = FListBuildSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client
+         * access is enabled, allows game client to request list of builds with player entity token.
+         * Returns a list of summarized details of all multiplayer server builds for a title.
+         */
+        bool ListBuildSummariesV2(MultiplayerModels::FListBuildSummariesRequest& request, const FListBuildSummariesV2Delegate& SuccessDelegate = FListBuildSummariesV2Delegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Lists multiplayer server game certificates for a title.
          * Returns a list of multiplayer server game certificates for a title.
          */
@@ -413,6 +418,7 @@ namespace PlayFab
         void OnListAssetSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListAssetSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListBuildAliasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildAliasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListBuildSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListBuildSummariesV2Result(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildSummariesV2Delegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListCertificateSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListCertificateSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListContainerImagesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListContainerImagesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListContainerImageTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListContainerImageTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

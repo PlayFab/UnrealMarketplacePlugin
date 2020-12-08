@@ -37,11 +37,13 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FCreatePlayerSharedSecretDelegate, const AdminModels::FCreatePlayerSharedSecretResult&);
         DECLARE_DELEGATE_OneParam(FCreatePlayerStatisticDefinitionDelegate, const AdminModels::FCreatePlayerStatisticDefinitionResult&);
+        DECLARE_DELEGATE_OneParam(FCreateSegmentDelegate, const AdminModels::FCreateSegmentResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteContentDelegate, const AdminModels::FBlankResult&);
         DECLARE_DELEGATE_OneParam(FDeleteMasterPlayerAccountDelegate, const AdminModels::FDeleteMasterPlayerAccountResult&);
         DECLARE_DELEGATE_OneParam(FDeleteOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const AdminModels::FDeletePlayerResult&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerSharedSecretDelegate, const AdminModels::FDeletePlayerSharedSecretResult&);
+        DECLARE_DELEGATE_OneParam(FDeleteSegmentDelegate, const AdminModels::FDeleteSegmentsResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteStoreDelegate, const AdminModels::FDeleteStoreResult&);
         DECLARE_DELEGATE_OneParam(FDeleteTaskDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteTitleDelegate, const AdminModels::FDeleteTitleResult&);
@@ -70,6 +72,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPolicyDelegate, const AdminModels::FGetPolicyResponse&);
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const AdminModels::FGetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FGetRandomResultTablesDelegate, const AdminModels::FGetRandomResultTablesResult&);
+        DECLARE_DELEGATE_OneParam(FGetSegmentsDelegate, const AdminModels::FGetSegmentsResponse&);
         DECLARE_DELEGATE_OneParam(FGetServerBuildInfoDelegate, const AdminModels::FGetServerBuildInfoResult&);
         DECLARE_DELEGATE_OneParam(FGetServerBuildUploadUrlDelegate, const AdminModels::FGetServerBuildUploadURLResult&);
         DECLARE_DELEGATE_OneParam(FGetStoreItemsDelegate, const AdminModels::FGetStoreItemsResult&);
@@ -126,6 +129,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUpdatePlayerStatisticDefinitionDelegate, const AdminModels::FUpdatePlayerStatisticDefinitionResult&);
         DECLARE_DELEGATE_OneParam(FUpdatePolicyDelegate, const AdminModels::FUpdatePolicyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateRandomResultTablesDelegate, const AdminModels::FUpdateRandomResultTablesResult&);
+        DECLARE_DELEGATE_OneParam(FUpdateSegmentDelegate, const AdminModels::FUpdateSegmentResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateStoreItemsDelegate, const AdminModels::FUpdateStoreItemsResult&);
         DECLARE_DELEGATE_OneParam(FUpdateTaskDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateUserDataDelegate, const AdminModels::FUpdateUserDataResult&);
@@ -232,6 +236,12 @@ namespace PlayFab
          * Statistics are numeric values, with each statistic in the title also generating a leaderboard. The ResetInterval enables automatically resetting leaderboards on a specified interval. Upon reset, the statistic updates to a new version with no values (effectively removing all players from the leaderboard). The previous version's statistic values are also archived for retrieval, if needed (see GetPlayerStatisticVersions). Statistics not created via a call to CreatePlayerStatisticDefinition by default have a VersionChangeInterval of Never, meaning they do not reset on a schedule, but they can be set to do so via a call to UpdatePlayerStatisticDefinition. Once a statistic has been reset (sometimes referred to as versioned or incremented), the now-previous version can still be written to for up a short, pre-defined period (currently 10 seconds), to prevent issues with levels completing around the time of the reset. Also, once reset, the historical statistics for players in the title may be retrieved using the URL specified in the version information (GetPlayerStatisticVersions). The AggregationMethod determines what action is taken when a new statistic value is submitted - always update with the new value (Last), use the highest of the old and new values (Max), use the smallest (Min), or add them together (Sum).
          */
         bool CreatePlayerStatisticDefinition(AdminModels::FCreatePlayerStatisticDefinitionRequest& request, const FCreatePlayerStatisticDefinitionDelegate& SuccessDelegate = FCreatePlayerStatisticDefinitionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Creates a new player segment by defining the conditions on player properties. Also, create actions to target the player
+         * segments for a title.
+         * Send all the segment details part of CreateSegmentRequest
+         */
+        bool CreateSegment(AdminModels::FCreateSegmentRequest& request, const FCreateSegmentDelegate& SuccessDelegate = FCreateSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Delete a content file from the title. When deleting a file that does not exist, it returns success.
         bool DeleteContent(AdminModels::FDeleteContentRequest& request, const FDeleteContentDelegate& SuccessDelegate = FDeleteContentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -252,6 +262,11 @@ namespace PlayFab
          * Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when that API requires a signature header.
          */
         bool DeletePlayerSharedSecret(AdminModels::FDeletePlayerSharedSecretRequest& request, const FDeletePlayerSharedSecretDelegate& SuccessDelegate = FDeletePlayerSharedSecretDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Deletes an existing player segment and its associated action(s) for a title.
+         * Send segment id planning to delete part of DeleteSegmentRequest object
+         */
+        bool DeleteSegment(AdminModels::FDeleteSegmentRequest& request, const FDeleteSegmentDelegate& SuccessDelegate = FDeleteSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Deletes an existing virtual item store
          * This non-reversible operation will permanently delete the requested store.
@@ -408,6 +423,11 @@ namespace PlayFab
         bool GetPublisherData(AdminModels::FGetPublisherDataRequest& request, const FGetPublisherDataDelegate& SuccessDelegate = FGetPublisherDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the random drop table configuration for the title
         bool GetRandomResultTables(AdminModels::FGetRandomResultTablesRequest& request, const FGetRandomResultTablesDelegate& SuccessDelegate = FGetRandomResultTablesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Get detail information of a segment and its associated definition(s) and action(s) for a title.
+         * Send segment filter details part of GetSegmentsRequest object
+         */
+        bool GetSegments(AdminModels::FGetSegmentsRequest& request, const FGetSegmentsDelegate& SuccessDelegate = FGetSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the build details for the specified game server executable
         bool GetServerBuildInfo(AdminModels::FGetServerBuildInfoRequest& request, const FGetServerBuildInfoDelegate& SuccessDelegate = FGetServerBuildInfoDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -670,6 +690,11 @@ namespace PlayFab
          */
         bool UpdateRandomResultTables(AdminModels::FUpdateRandomResultTablesRequest& request, const FUpdateRandomResultTablesDelegate& SuccessDelegate = FUpdateRandomResultTablesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Updates an existing player segment and its associated definition(s) and action(s) for a title.
+         * Update segment properties data which are planning to update
+         */
+        bool UpdateSegment(AdminModels::FUpdateSegmentRequest& request, const FUpdateSegmentDelegate& SuccessDelegate = FUpdateSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Updates an existing virtual item store with new or modified items
          * This operation is additive. Items with ItemId values not currently in the store will be added, while those with ItemId values matching items currently in the catalog will overwrite those items with the given values. A store contains an array of references to items defined in the catalog, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
          */
@@ -732,11 +757,13 @@ namespace PlayFab
         void OnCreateOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreatePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreatePlayerStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreatePlayerStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteContentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteMasterPlayerAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMasterPlayerAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteStoreResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteStoreDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -765,6 +792,7 @@ namespace PlayFab
         void OnGetPolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetServerBuildInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerBuildInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetServerBuildUploadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerBuildUploadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStoreItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -821,6 +849,7 @@ namespace PlayFab
         void OnUpdatePlayerStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdatePolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateStoreItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateUserDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

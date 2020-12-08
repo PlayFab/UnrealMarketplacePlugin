@@ -82,13 +82,13 @@ bool UPlayFabExperimentationInstanceAPI::CreateExclusionGroup(
     const FCreateExclusionGroupDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/CreateExclusionGroup")) : this->settings->GetUrl(TEXT("/Experimentation/CreateExclusionGroup")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/CreateExclusionGroup"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnCreateExclusionGroupResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -112,13 +112,13 @@ bool UPlayFabExperimentationInstanceAPI::CreateExperiment(
     const FCreateExperimentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/CreateExperiment")) : this->settings->GetUrl(TEXT("/Experimentation/CreateExperiment")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/CreateExperiment"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnCreateExperimentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -142,13 +142,13 @@ bool UPlayFabExperimentationInstanceAPI::DeleteExclusionGroup(
     const FDeleteExclusionGroupDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/DeleteExclusionGroup")) : this->settings->GetUrl(TEXT("/Experimentation/DeleteExclusionGroup")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/DeleteExclusionGroup"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnDeleteExclusionGroupResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -172,13 +172,13 @@ bool UPlayFabExperimentationInstanceAPI::DeleteExperiment(
     const FDeleteExperimentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/DeleteExperiment")) : this->settings->GetUrl(TEXT("/Experimentation/DeleteExperiment")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/DeleteExperiment"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnDeleteExperimentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -202,13 +202,13 @@ bool UPlayFabExperimentationInstanceAPI::GetExclusionGroups(
     const FGetExclusionGroupsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/GetExclusionGroups")) : this->settings->GetUrl(TEXT("/Experimentation/GetExclusionGroups")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/GetExclusionGroups"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnGetExclusionGroupsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -232,13 +232,13 @@ bool UPlayFabExperimentationInstanceAPI::GetExclusionGroupTraffic(
     const FGetExclusionGroupTrafficDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/GetExclusionGroupTraffic")) : this->settings->GetUrl(TEXT("/Experimentation/GetExclusionGroupTraffic")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/GetExclusionGroupTraffic"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnGetExclusionGroupTrafficResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -262,13 +262,13 @@ bool UPlayFabExperimentationInstanceAPI::GetExperiments(
     const FGetExperimentsDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/GetExperiments")) : this->settings->GetUrl(TEXT("/Experimentation/GetExperiments")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/GetExperiments"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnGetExperimentsResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -292,13 +292,13 @@ bool UPlayFabExperimentationInstanceAPI::GetLatestScorecard(
     const FGetLatestScorecardDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/GetLatestScorecard")) : this->settings->GetUrl(TEXT("/Experimentation/GetLatestScorecard")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/GetLatestScorecard"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnGetLatestScorecardResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -322,13 +322,13 @@ bool UPlayFabExperimentationInstanceAPI::GetTreatmentAssignment(
     const FGetTreatmentAssignmentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/GetTreatmentAssignment")) : this->settings->GetUrl(TEXT("/Experimentation/GetTreatmentAssignment")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/GetTreatmentAssignment"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnGetTreatmentAssignmentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -352,13 +352,13 @@ bool UPlayFabExperimentationInstanceAPI::StartExperiment(
     const FStartExperimentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/StartExperiment")) : this->settings->GetUrl(TEXT("/Experimentation/StartExperiment")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/StartExperiment"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnStartExperimentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -382,13 +382,13 @@ bool UPlayFabExperimentationInstanceAPI::StopExperiment(
     const FStopExperimentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/StopExperiment")) : this->settings->GetUrl(TEXT("/Experimentation/StopExperiment")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/StopExperiment"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnStopExperimentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -412,13 +412,13 @@ bool UPlayFabExperimentationInstanceAPI::UpdateExclusionGroup(
     const FUpdateExclusionGroupDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/UpdateExclusionGroup")) : this->settings->GetUrl(TEXT("/Experimentation/UpdateExclusionGroup")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/UpdateExclusionGroup"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnUpdateExclusionGroupResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -442,13 +442,13 @@ bool UPlayFabExperimentationInstanceAPI::UpdateExperiment(
     const FUpdateExperimentDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
-    if ((request.AuthenticationContext.IsValid() && request.AuthenticationContext->GetEntityToken().Len() == 0)
-        || (!request.AuthenticationContext.IsValid() && this->GetOrCreateAuthenticationContext()->GetEntityToken().Len() == 0)) {
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
         UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
     }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(!this->settings.IsValid() ? PlayFabSettings::GetUrl(TEXT("/Experimentation/UpdateExperiment")) : this->settings->GetUrl(TEXT("/Experimentation/UpdateExperiment")), request.toJSONString(), TEXT("X-EntityToken"), !request.AuthenticationContext.IsValid() ? this->GetOrCreateAuthenticationContext()->GetEntityToken() : request.AuthenticationContext->GetEntityToken());
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Experimentation/UpdateExperiment"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabExperimentationInstanceAPI::OnUpdateExperimentResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

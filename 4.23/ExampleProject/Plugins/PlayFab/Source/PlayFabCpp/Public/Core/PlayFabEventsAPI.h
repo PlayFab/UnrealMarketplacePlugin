@@ -26,8 +26,6 @@ namespace PlayFab
 
         int GetPendingCalls() const;
         FString GetBuildIdentifier() const;
-        void SetTitleId(const FString& titleId);
-        void SetDevSecretKey(const FString& developerSecretKey);
 
         // ------------ Generated API calls
         // Write batches of entity based events to PlayStream. The namespace of the Event must be 'custom' or start with 'custom.'.

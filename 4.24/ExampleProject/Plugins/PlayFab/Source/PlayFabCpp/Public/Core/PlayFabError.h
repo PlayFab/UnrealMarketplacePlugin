@@ -594,6 +594,7 @@ namespace PlayFab
         PlayFabErrorExplorerBasicDeleteQueryError = 5111,
         PlayFabErrorExplorerBasicUpdateQueryError = 5112,
         PlayFabErrorExplorerBasicSavedQueriesLimit = 5113,
+        PlayFabErrorExplorerBasicSavedQueryNotFound = 5114,
         PlayFabErrorTitleNotEnabledForParty = 6000,
         PlayFabErrorPartyVersionNotFound = 6001,
         PlayFabErrorMultiplayerServerBuildReferencedByMatchmakingQueue = 6002,

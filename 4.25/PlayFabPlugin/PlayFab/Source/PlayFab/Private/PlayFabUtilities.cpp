@@ -619,6 +619,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5111: returnText = "ExplorerBasicDeleteQueryError"; break;
     case 5112: returnText = "ExplorerBasicUpdateQueryError"; break;
     case 5113: returnText = "ExplorerBasicSavedQueriesLimit"; break;
+    case 5114: returnText = "ExplorerBasicSavedQueryNotFound"; break;
     case 6000: returnText = "TitleNotEnabledForParty"; break;
     case 6001: returnText = "PartyVersionNotFound"; break;
     case 6002: returnText = "MultiplayerServerBuildReferencedByMatchmakingQueue"; break;

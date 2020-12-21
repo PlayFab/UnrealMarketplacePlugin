@@ -672,13 +672,13 @@ function getRequestActions(tabbing, apiCall, isInstanceApi) {
 }
 
 function getCustomApiLogic(tabbing, api, apiCall, isInstanceApi) {
-    if (api.name === "CloudScript" && apiCall.name === "ExecuteFunction")
+    if (apiCall.url === "/CloudScript/ExecuteFunction")
         return tabbing + "FString localApiServer = PlayFabSettings::GetLocalApiServer();\n"
             + tabbing + "if (!localApiServer.IsEmpty())\n"
             + tabbing + "{\n"
             + tabbing + "    FString endpoint = TEXT(\"" + apiCall.url + "\");\n"
             + tabbing + "    endpoint.RemoveFromStart(TEXT(\"/\"));\n"
-            + tabbing + "    auto HttpRequest = PlayFabRequestHandler::SendFullUrlRequest(localApiServer + endpoint, request.toJSONString(), TEXT(\"X-EntityToken\"), entityToken);\n"
+            + tabbing + "    auto HttpRequest = PlayFabRequestHandler::SendFullUrlRequest(localApiServer + endpoint, request.toJSONString(), " + getAuthParams(apiCall, isInstanceApi) + ");\n"
             + tabbing + "    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFab" + api.name + (isInstanceApi ? "Instance" : "") + "API::On" + apiCall.name + "Result, SuccessDelegate, ErrorDelegate);\n"
             + tabbing + "    return HttpRequest->ProcessRequest();\n"
             + tabbing + "}\n"

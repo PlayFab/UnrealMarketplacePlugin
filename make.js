@@ -34,7 +34,8 @@ class TargetVersion {
 const ueTargetVersions = [
     new TargetVersion(4, 23, 0),
     new TargetVersion(4, 24, 0),
-    new TargetVersion(4, 25, 0)
+    new TargetVersion(4, 25, 0),
+    new TargetVersion(4, 26, 0)
 ];
 exports.ueTargetVersions = ueTargetVersions;
 

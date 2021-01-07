@@ -17,8 +17,13 @@ namespace PlayFab
         static int pendingCalls;
     public:
         static int GetPendingCalls();
+#if ENGINE_MINOR_VERSION < 26
         static TSharedRef<IHttpRequest> SendRequest(TSharedPtr<UPlayFabAPISettings> settings, const FString& urlPath, const FString& callBody, const FString& authKey, const FString& authValue);
         static TSharedRef<IHttpRequest> SendFullUrlRequest(const FString& fullUrl, const FString& callBody, const FString& authKey, const FString& authValue);
+#else
+        static TSharedRef<IHttpRequest, ESPMode::ThreadSafe> SendRequest(TSharedPtr<UPlayFabAPISettings> settings, const FString& urlPath, const FString& callBody, const FString& authKey, const FString& authValue);
+        static TSharedRef<IHttpRequest, ESPMode::ThreadSafe> SendFullUrlRequest(const FString& fullUrl, const FString& callBody, const FString& authKey, const FString& authValue);
+#endif
         static bool DecodeRequest(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, PlayFab::FPlayFabCppBaseModel& OutResult, PlayFab::FPlayFabCppError& OutError);
         static bool DecodeError(TSharedPtr<FJsonObject> JsonObject, PlayFab::FPlayFabCppError& OutError);
     };

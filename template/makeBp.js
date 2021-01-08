@@ -23,8 +23,7 @@ function makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, libName, ueTa
         hasClientOptions: authMechanisms.includes("SessionTicket"),
         hasServerOptions: authMechanisms.includes("SecretKey"),
         libName: libName,
-        sdkVersion: sdkVersion,
-        ueTargetVersion: ueTargetVersion.targetVersionShort
+        sdkVersion: sdkVersion
     };
 
     // Make the variable api files

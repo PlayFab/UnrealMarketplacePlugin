@@ -4,12 +4,12 @@ var path = require("path");
 if (typeof (generateApiSummaryLines) === "undefined") generateApiSummaryLines = function () { };
 if (typeof (getCompiledTemplate) === "undefined") getCompiledTemplate = function () { };
 
-exports.makeBpCombinedAPI = function (apis, copyright, sourceDir, apiOutputDir, ueTargetVersion, sdkVersion, buildIdentifier) {
+exports.makeBpCombinedAPI = function (apis, copyright, sourceDir, apiOutputDir, ueTargetShortVersion, sdkVersion, buildIdentifier) {
     apiOutputDir = path.join(apiOutputDir, "PlayFabPlugin");
-    makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, "All", ueTargetVersion, sdkVersion, buildIdentifier);
+    makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, "All", ueTargetShortVersion, sdkVersion, buildIdentifier);
 }
 
-function makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, libName, ueTargetVersion, sdkVersion, buildIdentifier) {
+function makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, libName, ueTargetShortVersion, sdkVersion, buildIdentifier) {
     console.log("Generating Unreal Engine Blueprints module to " + apiOutputDir);
 
     var authMechanisms = getAuthMechanisms(apis);
@@ -24,16 +24,16 @@ function makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, libName, ueTa
         hasServerOptions: authMechanisms.includes("SecretKey"),
         libName: libName,
         sdkVersion: sdkVersion,
-        ueTargetVersion: ueTargetVersion
+        ueTargetVersion: ueTargetShortVersion
     };
 
     // Make the variable api files
     for (var a = 0; a < apis.length; a++)
-        makeApiFiles(apis[a], copyright, apiOutputDir, sourceDir, libName);
+        makeApiFiles(apis[a], copyright, apiOutputDir, sourceDir, libName, ueTargetShortVersion);
 }
 
 // Create Models, .h and .cpp files
-function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName) {
+function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName, ueTargetShortVersion) {
     var apiLocals = {
         api: api,
         copyright: copyright,
@@ -47,6 +47,7 @@ function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName) {
         getCustomApiAssignmentLogic: getCustomApiAssignmentLogic,
         getCustomApiActivationUrlLogic: getCustomApiActivationUrlLogic,
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
+        httpRequestDatatype: ueTargetShortVersion >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
         libName: libName,
         sdkVersion: sdkGlobals.sdkVersion
     };

@@ -23,17 +23,16 @@ function makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, libName, ueTa
         hasClientOptions: authMechanisms.includes("SessionTicket"),
         hasServerOptions: authMechanisms.includes("SecretKey"),
         libName: libName,
-        sdkVersion: sdkVersion,
-        ueTargetVersion: ueTargetVersion
+        sdkVersion: sdkVersion
     };
 
     // Make the variable api files
     for (var a = 0; a < apis.length; a++)
-        makeApiFiles(apis[a], copyright, apiOutputDir, sourceDir, libName);
+        makeApiFiles(apis[a], copyright, apiOutputDir, sourceDir, libName, ueTargetVersion);
 }
 
 // Create Models, .h and .cpp files
-function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName) {
+function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName, ueTargetVersion) {
     var apiLocals = {
         api: api,
         copyright: copyright,
@@ -47,6 +46,7 @@ function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName) {
         getCustomApiAssignmentLogic: getCustomApiAssignmentLogic,
         getCustomApiActivationUrlLogic: getCustomApiActivationUrlLogic,
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
+        httpRequestDatatype: ueTargetVersion.minor >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
         libName: libName,
         sdkVersion: sdkGlobals.sdkVersion
     };

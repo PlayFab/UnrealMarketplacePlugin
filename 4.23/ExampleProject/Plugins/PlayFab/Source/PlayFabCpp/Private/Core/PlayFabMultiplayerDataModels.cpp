@@ -9382,6 +9382,79 @@ bool PlayFab::MultiplayerModels::FUpdateBuildAliasRequest::readFromValue(const T
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FUpdateBuildNameRequest::~FUpdateBuildNameRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FUpdateBuildNameRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!BuildId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateBuildNameRequest::BuildId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildId"));
+        writer->WriteValue(BuildId);
+    }
+
+    if (!BuildName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateBuildNameRequest::BuildName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildName"));
+        writer->WriteValue(BuildName);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FUpdateBuildNameRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
+    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> BuildNameValue = obj->TryGetField(TEXT("BuildName"));
+    if (BuildNameValue.IsValid() && !BuildNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildNameValue->TryGetString(TmpValue)) { BuildName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FUpdateBuildRegionRequest::~FUpdateBuildRegionRequest()
 {
 

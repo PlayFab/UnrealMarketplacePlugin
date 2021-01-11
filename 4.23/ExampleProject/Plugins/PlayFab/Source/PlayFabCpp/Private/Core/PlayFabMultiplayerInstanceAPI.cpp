@@ -1694,6 +1694,36 @@ void UPlayFabMultiplayerInstanceAPI::OnUpdateBuildAliasResult(FHttpRequestPtr Ht
     }
 }
 
+bool UPlayFabMultiplayerInstanceAPI::UpdateBuildName(
+    MultiplayerModels::FUpdateBuildNameRequest& request,
+    const FUpdateBuildNameDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/MultiplayerServer/UpdateBuildName"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerInstanceAPI::OnUpdateBuildNameResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerInstanceAPI::OnUpdateBuildNameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildNameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerInstanceAPI::UpdateBuildRegion(
     MultiplayerModels::FUpdateBuildRegionRequest& request,
     const FUpdateBuildRegionDelegate& SuccessDelegate,

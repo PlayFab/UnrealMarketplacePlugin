@@ -943,6 +943,17 @@ FClientConsumeMicrosoftStoreEntitlementsResponse UPlayFabClientModelDecoder::dec
     return tempStruct;
 }
 
+FClientConsumePS5EntitlementsResult UPlayFabClientModelDecoder::decodeConsumePS5EntitlementsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientConsumePS5EntitlementsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Items = !(dataObj->HasField("Items")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Items");
+
+    return tempStruct;
+}
+
 FClientConsumePSNEntitlementsResult UPlayFabClientModelDecoder::decodeConsumePSNEntitlementsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

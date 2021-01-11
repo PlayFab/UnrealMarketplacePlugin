@@ -620,6 +620,7 @@ namespace PlayFab
         PlayFabErrorExperimentationExclusionGroupInsufficientCapacity = 7019,
         PlayFabErrorExperimentationExclusionGroupCannotDelete = 7020,
         PlayFabErrorExperimentationExclusionGroupInvalidTrafficAllocation = 7021,
+        PlayFabErrorExperimentationExclusionGroupInvalidName = 7022,
         PlayFabErrorMaxActionDepthExceeded = 8000,
         PlayFabErrorTitleNotOnUpdatedPricingPlan = 9000,
         PlayFabErrorSegmentManagementTitleNotInFlight = 10000,

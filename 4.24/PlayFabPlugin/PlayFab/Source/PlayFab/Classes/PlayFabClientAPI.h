@@ -1674,6 +1674,22 @@ public:
         void HelperConsumeMicrosoftStoreEntitlements(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConsumePS5Entitlements, FClientConsumePS5EntitlementsResult, result, UObject*, customData);
+
+    /**
+     * Checks for any new PS5 entitlements. If any are found, they are consumed (if they're consumables) and added as PlayFab
+     * items
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* ConsumePS5Entitlements(FClientConsumePS5EntitlementsRequest request,
+            FDelegateOnSuccessConsumePS5Entitlements onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperConsumePS5Entitlements(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConsumePSNEntitlements, FClientConsumePSNEntitlementsResult, result, UObject*, customData);
 
     /** Checks for any new consumable entitlements. If any are found, they are consumed and added as PlayFab items */
@@ -2632,6 +2648,7 @@ public:
     FDelegateOnSuccessStartGame OnSuccessStartGame;
     FDelegateOnSuccessAndroidDevicePushNotificationRegistration OnSuccessAndroidDevicePushNotificationRegistration;
     FDelegateOnSuccessConsumeMicrosoftStoreEntitlements OnSuccessConsumeMicrosoftStoreEntitlements;
+    FDelegateOnSuccessConsumePS5Entitlements OnSuccessConsumePS5Entitlements;
     FDelegateOnSuccessConsumePSNEntitlements OnSuccessConsumePSNEntitlements;
     FDelegateOnSuccessConsumeXboxEntitlements OnSuccessConsumeXboxEntitlements;
     FDelegateOnSuccessRefreshPSNAuthToken OnSuccessRefreshPSNAuthToken;

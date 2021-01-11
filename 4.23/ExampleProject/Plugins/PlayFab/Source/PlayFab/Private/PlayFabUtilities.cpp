@@ -645,6 +645,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7019: returnText = "ExperimentationExclusionGroupInsufficientCapacity"; break;
     case 7020: returnText = "ExperimentationExclusionGroupCannotDelete"; break;
     case 7021: returnText = "ExperimentationExclusionGroupInvalidTrafficAllocation"; break;
+    case 7022: returnText = "ExperimentationExclusionGroupInvalidName"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 10000: returnText = "SegmentManagementTitleNotInFlight"; break;

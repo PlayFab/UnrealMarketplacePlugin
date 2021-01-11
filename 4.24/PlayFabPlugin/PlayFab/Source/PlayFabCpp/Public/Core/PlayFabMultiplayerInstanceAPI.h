@@ -76,6 +76,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FShutdownMultiplayerServerDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUntagContainerImageDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
+        DECLARE_DELEGATE_OneParam(FUpdateBuildNameDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionsDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUploadCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
@@ -389,6 +390,11 @@ namespace PlayFab
          */
         bool UpdateBuildAlias(MultiplayerModels::FUpdateBuildAliasRequest& request, const FUpdateBuildAliasDelegate& SuccessDelegate = FUpdateBuildAliasDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Updates a multiplayer server build's name.
+         * Updates a multiplayer server build's name.
+         */
+        bool UpdateBuildName(MultiplayerModels::FUpdateBuildNameRequest& request, const FUpdateBuildNameDelegate& SuccessDelegate = FUpdateBuildNameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Updates a multiplayer server build's region. If the region is not yet created, it will be created
          * Updates a multiplayer server build's region.
          */
@@ -460,6 +466,7 @@ namespace PlayFab
         void OnShutdownMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FShutdownMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUntagContainerImageResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUntagContainerImageDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateBuildNameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildNameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildRegionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildRegionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUploadCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

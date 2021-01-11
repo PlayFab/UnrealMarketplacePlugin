@@ -791,6 +791,19 @@ public:
         void HelperUpdateBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildName, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Updates a multiplayer server build's name. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UpdateBuildName(FMultiplayerUpdateBuildNameRequest request,
+            FDelegateOnSuccessUpdateBuildName onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateBuildName(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildRegion, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Updates a multiplayer server build's region. If the region is not yet created, it will be created */
@@ -901,6 +914,7 @@ public:
     FDelegateOnSuccessShutdownMultiplayerServer OnSuccessShutdownMultiplayerServer;
     FDelegateOnSuccessUntagContainerImage OnSuccessUntagContainerImage;
     FDelegateOnSuccessUpdateBuildAlias OnSuccessUpdateBuildAlias;
+    FDelegateOnSuccessUpdateBuildName OnSuccessUpdateBuildName;
     FDelegateOnSuccessUpdateBuildRegion OnSuccessUpdateBuildRegion;
     FDelegateOnSuccessUpdateBuildRegions OnSuccessUpdateBuildRegions;
     FDelegateOnSuccessUploadCertificate OnSuccessUploadCertificate;

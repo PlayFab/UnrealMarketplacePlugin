@@ -469,6 +469,37 @@ void UPlayFabClientAPI::OnConsumeMicrosoftStoreEntitlementsResult(FHttpRequestPt
     }
 }
 
+bool UPlayFabClientAPI::ConsumePS5Entitlements(
+    ClientModels::FConsumePS5EntitlementsRequest& request,
+    const FConsumePS5EntitlementsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();
+    if(clientTicket.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/ConsumePS5Entitlements"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnConsumePS5EntitlementsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnConsumePS5EntitlementsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConsumePS5EntitlementsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FConsumePS5EntitlementsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::ConsumePSNEntitlements(
     ClientModels::FConsumePSNEntitlementsRequest& request,
     const FConsumePSNEntitlementsDelegate& SuccessDelegate,

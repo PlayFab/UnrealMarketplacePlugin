@@ -5099,6 +5099,41 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUpdateBuildNameRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The guid string ID of the build we want to update the name of.
+        FString BuildId;
+
+        // The build name.
+        FString BuildName;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        FUpdateBuildNameRequest() :
+            FPlayFabCppRequestCommon(),
+            BuildId(),
+            BuildName(),
+            CustomTags()
+            {}
+
+        FUpdateBuildNameRequest(const FUpdateBuildNameRequest& src) :
+            FPlayFabCppRequestCommon(),
+            BuildId(src.BuildId),
+            BuildName(src.BuildName),
+            CustomTags(src.CustomTags)
+            {}
+
+        FUpdateBuildNameRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBuildNameRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateBuildNameRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUpdateBuildRegionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string ID of the build we want to update regions for.

@@ -422,6 +422,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
         static FClientConsumeMicrosoftStoreEntitlementsResponse decodeConsumeMicrosoftStoreEntitlementsResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ConsumePS5EntitlementsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
+        static FClientConsumePS5EntitlementsResult decodeConsumePS5EntitlementsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the ConsumePSNEntitlementsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
         static FClientConsumePSNEntitlementsResult decodeConsumePSNEntitlementsResultResponse(UPlayFabJsonObject* response);

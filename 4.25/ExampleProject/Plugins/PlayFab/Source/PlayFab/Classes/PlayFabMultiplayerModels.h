@@ -2033,6 +2033,23 @@ public:
         UPlayFabJsonObject* CustomTags = nullptr;
 };
 
+/** Updates a multiplayer server build's name. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerUpdateBuildNameRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The guid string ID of the build we want to update the name of. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildId;
+    /** The build name. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildName;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+};
+
 /** Updates a multiplayer server build's region. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerUpdateBuildRegionRequest : public FPlayFabRequestCommon

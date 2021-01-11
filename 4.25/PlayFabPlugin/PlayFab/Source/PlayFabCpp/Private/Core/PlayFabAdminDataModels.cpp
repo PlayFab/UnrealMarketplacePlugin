@@ -5387,12 +5387,6 @@ void PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
-    if (Comparison.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Comparison"));
-        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
-    }
-
     if (LoginProvider.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("LoginProvider"));
@@ -5405,8 +5399,6 @@ void PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::writeJSON(JsonWriter
 bool PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
 
     LoginProvider = readSegmentLoginIdentityProviderFromValue(obj->TryGetField(TEXT("LoginProvider")));
 

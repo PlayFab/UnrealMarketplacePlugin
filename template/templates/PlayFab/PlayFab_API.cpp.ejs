@@ -306,7 +306,7 @@ void UPlayFab<%- api.name %>API::Activate()
     FString RequestUrl;
     <%- getCustomApiActivationUrlLogic(api) %>
 
-    TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+    <%- httpRequestDatatype %> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);
     HttpRequest->SetVerb(TEXT("POST"));
 

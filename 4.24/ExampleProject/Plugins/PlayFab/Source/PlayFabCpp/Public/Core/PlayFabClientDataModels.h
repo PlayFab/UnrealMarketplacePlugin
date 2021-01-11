@@ -1701,6 +1701,96 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPlayStation5Payload : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] An optional list of entitlement ids to query against PSN
+        TArray<FString> Ids;
+        // [optional] Id of the PSN service label to consume entitlements from
+        FString ServiceLabel;
+
+        FPlayStation5Payload() :
+            FPlayFabCppBaseModel(),
+            Ids(),
+            ServiceLabel()
+            {}
+
+        FPlayStation5Payload(const FPlayStation5Payload& src) :
+            FPlayFabCppBaseModel(),
+            Ids(src.Ids),
+            ServiceLabel(src.ServiceLabel)
+            {}
+
+        FPlayStation5Payload(const TSharedPtr<FJsonObject>& obj) : FPlayStation5Payload()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPlayStation5Payload();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FConsumePS5EntitlementsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Catalog version to use
+        FString CatalogVersion;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Marketplace specific payload containing details to fetch in app purchase transactions
+        FPlayStation5Payload MarketplaceSpecificData;
+
+        FConsumePS5EntitlementsRequest() :
+            FPlayFabCppRequestCommon(),
+            CatalogVersion(),
+            CustomTags(),
+            MarketplaceSpecificData()
+            {}
+
+        FConsumePS5EntitlementsRequest(const FConsumePS5EntitlementsRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CatalogVersion(src.CatalogVersion),
+            CustomTags(src.CustomTags),
+            MarketplaceSpecificData(src.MarketplaceSpecificData)
+            {}
+
+        FConsumePS5EntitlementsRequest(const TSharedPtr<FJsonObject>& obj) : FConsumePS5EntitlementsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConsumePS5EntitlementsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FConsumePS5EntitlementsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Details for the items purchased.
+        TArray<FItemInstance> Items;
+        FConsumePS5EntitlementsResult() :
+            FPlayFabCppResultCommon(),
+            Items()
+            {}
+
+        FConsumePS5EntitlementsResult(const FConsumePS5EntitlementsResult& src) :
+            FPlayFabCppResultCommon(),
+            Items(src.Items)
+            {}
+
+        FConsumePS5EntitlementsResult(const TSharedPtr<FJsonObject>& obj) : FConsumePS5EntitlementsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FConsumePS5EntitlementsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FConsumePSNEntitlementsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Which catalog to match granted entitlements against. If null, defaults to title default catalog

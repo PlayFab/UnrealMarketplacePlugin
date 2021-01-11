@@ -3181,6 +3181,32 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientConsumePS5EntitlementsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Catalog version to use */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        FString CatalogVersion;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Marketplace specific payload containing details to fetch in app purchase transactions */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        UPlayFabJsonObject* MarketplaceSpecificData = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientConsumePS5EntitlementsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Details for the items purchased. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
+        TArray<UPlayFabJsonObject*> Items;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientConsumePSNEntitlementsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

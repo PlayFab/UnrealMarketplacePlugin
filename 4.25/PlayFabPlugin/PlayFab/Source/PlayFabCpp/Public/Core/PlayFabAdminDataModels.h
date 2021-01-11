@@ -3068,21 +3068,16 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FLinkedUserAccountSegmentFilter : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Login provider comparison.
-        Boxed<SegmentFilterComparison> Comparison;
-
         // [optional] Login provider.
         Boxed<SegmentLoginIdentityProvider> LoginProvider;
 
         FLinkedUserAccountSegmentFilter() :
             FPlayFabCppBaseModel(),
-            Comparison(),
             LoginProvider()
             {}
 
         FLinkedUserAccountSegmentFilter(const FLinkedUserAccountSegmentFilter& src) :
             FPlayFabCppBaseModel(),
-            Comparison(src.Comparison),
             LoginProvider(src.LoginProvider)
             {}
 

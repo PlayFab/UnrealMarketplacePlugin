@@ -6672,6 +6672,60 @@ void UPlayFabClientAPI::HelperConsumeMicrosoftStoreEntitlements(FPlayFabBaseMode
     this->RemoveFromRoot();
 }
 
+/** Checks for any new PS5 entitlements. If any are found, they are consumed (if they're consumables) and added as PlayFab items */
+UPlayFabClientAPI* UPlayFabClientAPI::ConsumePS5Entitlements(FClientConsumePS5EntitlementsRequest request,
+    FDelegateOnSuccessConsumePS5Entitlements onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessConsumePS5Entitlements = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConsumePS5Entitlements);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/ConsumePS5Entitlements";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.MarketplaceSpecificData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MarketplaceSpecificData"), request.MarketplaceSpecificData);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperConsumePS5Entitlements(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessConsumePS5Entitlements.IsBound())
+    {
+        FClientConsumePS5EntitlementsResult ResultStruct = UPlayFabClientModelDecoder::decodeConsumePS5EntitlementsResultResponse(response.responseData);
+        OnSuccessConsumePS5Entitlements.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Checks for any new consumable entitlements. If any are found, they are consumed and added as PlayFab items */
 UPlayFabClientAPI* UPlayFabClientAPI::ConsumePSNEntitlements(FClientConsumePSNEntitlementsRequest request,
     FDelegateOnSuccessConsumePSNEntitlements onSuccess,

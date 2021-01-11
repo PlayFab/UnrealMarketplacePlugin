@@ -2962,6 +2962,146 @@ bool PlayFab::ClientModels::FConsumeMicrosoftStoreEntitlementsResponse::readFrom
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FPlayStation5Payload::~FPlayStation5Payload()
+{
+
+}
+
+void PlayFab::ClientModels::FPlayStation5Payload::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Ids.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Ids"));
+        for (const FString& item : Ids)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (ServiceLabel.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServiceLabel"));
+        writer->WriteValue(ServiceLabel);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FPlayStation5Payload::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("Ids"), Ids);
+
+    const TSharedPtr<FJsonValue> ServiceLabelValue = obj->TryGetField(TEXT("ServiceLabel"));
+    if (ServiceLabelValue.IsValid() && !ServiceLabelValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServiceLabelValue->TryGetString(TmpValue)) { ServiceLabel = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FConsumePS5EntitlementsRequest::~FConsumePS5EntitlementsRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FConsumePS5EntitlementsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CatalogVersion.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CatalogVersion"));
+        writer->WriteValue(CatalogVersion);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("MarketplaceSpecificData"));
+    MarketplaceSpecificData.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FConsumePS5EntitlementsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CatalogVersionValue = obj->TryGetField(TEXT("CatalogVersion"));
+    if (CatalogVersionValue.IsValid() && !CatalogVersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (CatalogVersionValue->TryGetString(TmpValue)) { CatalogVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> MarketplaceSpecificDataValue = obj->TryGetField(TEXT("MarketplaceSpecificData"));
+    if (MarketplaceSpecificDataValue.IsValid() && !MarketplaceSpecificDataValue->IsNull())
+    {
+        MarketplaceSpecificData = FPlayStation5Payload(MarketplaceSpecificDataValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FConsumePS5EntitlementsResult::~FConsumePS5EntitlementsResult()
+{
+
+}
+
+void PlayFab::ClientModels::FConsumePS5EntitlementsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Items.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Items"));
+        for (const FItemInstance& item : Items)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FConsumePS5EntitlementsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
+    for (int32 Idx = 0; Idx < ItemsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ItemsArray[Idx];
+        Items.Add(FItemInstance(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FConsumePSNEntitlementsRequest::~FConsumePSNEntitlementsRequest()
 {
 

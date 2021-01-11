@@ -15,8 +15,7 @@ exports.makeCppCombinedAPI = function (apis, copyright, sourceDir, baseApiOutput
         errorList: apis[0].errorList,
         errors: apis[0].errors,
         friendlyName: "PlayFab Cpp Module",
-        sdkVersion: sdkVersion,
-        ueTargetVersion: ueTargetVersion
+        sdkVersion: sdkVersion
     };
 
     var subFolders = ["PlayFabPlugin"]; // Raw plugin folder

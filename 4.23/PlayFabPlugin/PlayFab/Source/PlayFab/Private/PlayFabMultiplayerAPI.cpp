@@ -3255,6 +3255,65 @@ void UPlayFabMultiplayerAPI::HelperUpdateBuildAlias(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
+/** Updates a multiplayer server build's name. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildName(FMultiplayerUpdateBuildNameRequest request,
+    FDelegateOnSuccessUpdateBuildName onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateBuildName = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUpdateBuildName);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/UpdateBuildName";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.BuildId.IsEmpty() || request.BuildId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
+    }
+    if (request.BuildName.IsEmpty() || request.BuildName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BuildName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("BuildName"), request.BuildName);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperUpdateBuildName(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateBuildName.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateBuildName.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Updates a multiplayer server build's region. If the region is not yet created, it will be created */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateBuildRegion(FMultiplayerUpdateBuildRegionRequest request,
     FDelegateOnSuccessUpdateBuildRegion onSuccess,

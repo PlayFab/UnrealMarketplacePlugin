@@ -34,7 +34,8 @@ class TargetVersion {
 const ueTargetVersions = [
     new TargetVersion(4, 23, 0),
     new TargetVersion(4, 24, 0),
-    new TargetVersion(4, 25, 0)
+    new TargetVersion(4, 25, 0),
+    new TargetVersion(4, 26, 0)
 ];
 exports.ueTargetVersions = ueTargetVersions;
 
@@ -49,8 +50,8 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
         console.log("\nGenerating Unreal Plugin from:\n  - " + sourceDir + "\nto:\n  - " + apiOutputDir);
 
         // Create the Source folder in the plugin with all the modules
-        bpMakeJsPath.makeBpCombinedAPI(apis, copyright, sourceDir, apiOutputDir, ueTargetVersion.targetVersionShort, sdkGlobals.sdkVersion, sdkGlobals.buildIdentifier);
-        cppMakeJsPath.makeCppCombinedAPI(apis, copyright, sourceDir, apiOutputDir, ueTargetVersion.targetVersionShort, sdkGlobals.sdkVersion, sdkGlobals.buildIdentifier);
+        bpMakeJsPath.makeBpCombinedAPI(apis, copyright, sourceDir, apiOutputDir, ueTargetVersion, sdkGlobals.sdkVersion, sdkGlobals.buildIdentifier);
+        cppMakeJsPath.makeCppCombinedAPI(apis, copyright, sourceDir, apiOutputDir, ueTargetVersion, sdkGlobals.sdkVersion, sdkGlobals.buildIdentifier);
 
         var authMechanisms = getAuthMechanisms(apis);
         var locals = {
@@ -65,6 +66,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
             getDefaultVerticalName: getDefaultVerticalName,
             hasClientOptions: authMechanisms.includes("SessionTicket"),
             hasServerOptions: authMechanisms.includes("SecretKey"),
+            httpRequestDatatype: ueTargetVersion.minor >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
             sdkVersion: sdkGlobals.sdkVersion,
             ueTargetVersionMinor: ueTargetVersion.minor, // This is actually used
             ueTargetVersion: ueTargetVersion.targetVersionShort,

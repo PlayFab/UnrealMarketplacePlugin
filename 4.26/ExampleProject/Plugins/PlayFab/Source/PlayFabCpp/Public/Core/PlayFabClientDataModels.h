@@ -7249,7 +7249,7 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
@@ -9294,7 +9294,7 @@ namespace ClientModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // Redirect URI supplied to PSN when requesting an auth code
@@ -10668,7 +10668,7 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
@@ -11573,7 +11573,7 @@ namespace ClientModels
         // Auth code returned by PSN OAuth system.
         FString AuthCode;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // Redirect URI supplied to PSN when requesting an auth code

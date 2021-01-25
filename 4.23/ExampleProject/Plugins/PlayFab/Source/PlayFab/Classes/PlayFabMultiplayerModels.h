@@ -1052,6 +1052,45 @@ public:
         FString Username;
 };
 
+/** Creates a request to change a title's multiplayer server quotas. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A brief description of the requested changes. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ChangeDescription;
+    /** Changes to make to the titles cores quota. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> Changes;
+    /** Email to be contacted by our team about this request. Only required when a request is not approved. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString ContactEmail;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Additional information about this request that our team can use to better understand the requirements. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString Notes;
+    /** When these changes would need to be in effect. Only required when a request is not approved. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString StartDate;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Id of the change request that was created. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString RequestId;
+    /** Determines if the request was approved or not. When false, our team is reviewing and may respond within 2 business days. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool WasApproved = false;
+};
+
 /** Deletes a multiplayer server game asset for a title. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerDeleteAssetRequest : public FPlayFabRequestCommon
@@ -1528,6 +1567,30 @@ public:
         ETitleMultiplayerServerEnabledStatus Status;
 };
 
+/** Gets a title's server quota change request. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetTitleMultiplayerServersQuotaChangeRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Id of the change request to get. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString RequestId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetTitleMultiplayerServersQuotaChangeResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The change request for this title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* Change = nullptr;
+};
+
 /** Gets the quotas for a title in relation to multiplayer servers. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerGetTitleMultiplayerServersQuotasRequest : public FPlayFabRequestCommon
@@ -1823,6 +1886,27 @@ public:
     /** The skip token for the paged response. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SkipToken;
+};
+
+/** List all server quota change requests for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListTitleMultiplayerServersQuotaChangesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListTitleMultiplayerServersQuotaChangesResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** All change requests for this title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> Changes;
 };
 
 /** Returns a list of virtual machines for a title. */

@@ -127,7 +127,12 @@ namespace MultiplayerModels
         AzureRegionChinaNorth2,
         AzureRegionSouthAfricaNorth,
         AzureRegionCentralUsEuap,
-        AzureRegionWestCentralUs
+        AzureRegionWestCentralUs,
+        AzureRegionKoreaCentral,
+        AzureRegionFranceCentral,
+        AzureRegionWestUs2,
+        AzureRegionCentralIndia,
+        AzureRegionUaeNorth
     };
 
     PLAYFABCPP_API void writeAzureRegionEnumJSON(AzureRegion enumVal, JsonWriter& writer);
@@ -147,7 +152,9 @@ namespace MultiplayerModels
         AzureVmFamilyEav4,
         AzureVmFamilyEasv4,
         AzureVmFamilyEv4,
-        AzureVmFamilyEsv4
+        AzureVmFamilyEsv4,
+        AzureVmFamilyDsv3,
+        AzureVmFamilyDsv2
     };
 
     PLAYFABCPP_API void writeAzureVmFamilyEnumJSON(AzureVmFamily enumVal, JsonWriter& writer);
@@ -189,7 +196,24 @@ namespace MultiplayerModels
         AzureVmSizeStandard_D2a_v4,
         AzureVmSizeStandard_D4a_v4,
         AzureVmSizeStandard_D8a_v4,
-        AzureVmSizeStandard_D16a_v4
+        AzureVmSizeStandard_D16a_v4,
+        AzureVmSizeStandard_E2a_v4,
+        AzureVmSizeStandard_E4a_v4,
+        AzureVmSizeStandard_E8a_v4,
+        AzureVmSizeStandard_E16a_v4,
+        AzureVmSizeStandard_E2as_v4,
+        AzureVmSizeStandard_E4as_v4,
+        AzureVmSizeStandard_E8as_v4,
+        AzureVmSizeStandard_E16as_v4,
+        AzureVmSizeStandard_D2s_v3,
+        AzureVmSizeStandard_D4s_v3,
+        AzureVmSizeStandard_D8s_v3,
+        AzureVmSizeStandard_D16s_v3,
+        AzureVmSizeStandard_DS1_v2,
+        AzureVmSizeStandard_DS2_v2,
+        AzureVmSizeStandard_DS3_v2,
+        AzureVmSizeStandard_DS4_v2,
+        AzureVmSizeStandard_DS5_v2
     };
 
     PLAYFABCPP_API void writeAzureVmSizeEnumJSON(AzureVmSize enumVal, JsonWriter& writer);
@@ -1076,6 +1100,42 @@ namespace MultiplayerModels
         }
 
         ~FCoreCapacity();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCoreCapacityChange : public PlayFab::FPlayFabCppBaseModel
+    {
+        // New quota core limit for the given vm family/region.
+        int32 NewCoreLimit;
+
+        // Region to change.
+        FString Region;
+
+        // Virtual machine family to change.
+        AzureVmFamily VmFamily;
+
+        FCoreCapacityChange() :
+            FPlayFabCppBaseModel(),
+            NewCoreLimit(0),
+            Region(),
+            VmFamily()
+            {}
+
+        FCoreCapacityChange(const FCoreCapacityChange& src) :
+            FPlayFabCppBaseModel(),
+            NewCoreLimit(src.NewCoreLimit),
+            Region(src.Region),
+            VmFamily(src.VmFamily)
+            {}
+
+        FCoreCapacityChange(const TSharedPtr<FJsonObject>& obj) : FCoreCapacityChange()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCoreCapacityChange();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2355,6 +2415,86 @@ namespace MultiplayerModels
         }
 
         ~FCreateServerMatchmakingTicketRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateTitleMultiplayerServersQuotaChangeRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] A brief description of the requested changes.
+        FString ChangeDescription;
+
+        // Changes to make to the titles cores quota.
+        TArray<FCoreCapacityChange> Changes;
+        // [optional] Email to be contacted by our team about this request. Only required when a request is not approved.
+        FString ContactEmail;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Additional information about this request that our team can use to better understand the requirements.
+        FString Notes;
+
+        // [optional] When these changes would need to be in effect. Only required when a request is not approved.
+        Boxed<FDateTime> StartDate;
+
+        FCreateTitleMultiplayerServersQuotaChangeRequest() :
+            FPlayFabCppRequestCommon(),
+            ChangeDescription(),
+            Changes(),
+            ContactEmail(),
+            CustomTags(),
+            Notes(),
+            StartDate()
+            {}
+
+        FCreateTitleMultiplayerServersQuotaChangeRequest(const FCreateTitleMultiplayerServersQuotaChangeRequest& src) :
+            FPlayFabCppRequestCommon(),
+            ChangeDescription(src.ChangeDescription),
+            Changes(src.Changes),
+            ContactEmail(src.ContactEmail),
+            CustomTags(src.CustomTags),
+            Notes(src.Notes),
+            StartDate(src.StartDate)
+            {}
+
+        FCreateTitleMultiplayerServersQuotaChangeRequest(const TSharedPtr<FJsonObject>& obj) : FCreateTitleMultiplayerServersQuotaChangeRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateTitleMultiplayerServersQuotaChangeRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateTitleMultiplayerServersQuotaChangeResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Id of the change request that was created.
+        FString RequestId;
+
+        // Determines if the request was approved or not. When false, our team is reviewing and may respond within 2 business days.
+        bool WasApproved;
+
+        FCreateTitleMultiplayerServersQuotaChangeResponse() :
+            FPlayFabCppResultCommon(),
+            RequestId(),
+            WasApproved(false)
+            {}
+
+        FCreateTitleMultiplayerServersQuotaChangeResponse(const FCreateTitleMultiplayerServersQuotaChangeResponse& src) :
+            FPlayFabCppResultCommon(),
+            RequestId(src.RequestId),
+            WasApproved(src.WasApproved)
+            {}
+
+        FCreateTitleMultiplayerServersQuotaChangeResponse(const TSharedPtr<FJsonObject>& obj) : FCreateTitleMultiplayerServersQuotaChangeResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateTitleMultiplayerServersQuotaChangeResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -3721,6 +3861,117 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetTitleMultiplayerServersQuotaChangeRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Id of the change request to get.
+        FString RequestId;
+
+        FGetTitleMultiplayerServersQuotaChangeRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            RequestId()
+            {}
+
+        FGetTitleMultiplayerServersQuotaChangeRequest(const FGetTitleMultiplayerServersQuotaChangeRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
+            RequestId(src.RequestId)
+            {}
+
+        FGetTitleMultiplayerServersQuotaChangeRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitleMultiplayerServersQuotaChangeRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitleMultiplayerServersQuotaChangeRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FQuotaChange : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] A brief description of the requested changes.
+        FString ChangeDescription;
+
+        // [optional] Requested changes to make to the titles cores quota.
+        TArray<FCoreCapacityChange> Changes;
+        // Whether or not this request is pending a review.
+        bool IsPendingReview;
+
+        // [optional] Additional information about this request that our team can use to better understand the requirements.
+        FString Notes;
+
+        // [optional] Id of the change request.
+        FString RequestId;
+
+        // [optional] Comments by our team when a request is reviewed.
+        FString ReviewComments;
+
+        // Whether or not this request was approved.
+        bool WasApproved;
+
+        FQuotaChange() :
+            FPlayFabCppBaseModel(),
+            ChangeDescription(),
+            Changes(),
+            IsPendingReview(false),
+            Notes(),
+            RequestId(),
+            ReviewComments(),
+            WasApproved(false)
+            {}
+
+        FQuotaChange(const FQuotaChange& src) :
+            FPlayFabCppBaseModel(),
+            ChangeDescription(src.ChangeDescription),
+            Changes(src.Changes),
+            IsPendingReview(src.IsPendingReview),
+            Notes(src.Notes),
+            RequestId(src.RequestId),
+            ReviewComments(src.ReviewComments),
+            WasApproved(src.WasApproved)
+            {}
+
+        FQuotaChange(const TSharedPtr<FJsonObject>& obj) : FQuotaChange()
+        {
+            readFromValue(obj);
+        }
+
+        ~FQuotaChange();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetTitleMultiplayerServersQuotaChangeResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The change request for this title.
+        TSharedPtr<FQuotaChange> Change;
+
+        FGetTitleMultiplayerServersQuotaChangeResponse() :
+            FPlayFabCppResultCommon(),
+            Change(nullptr)
+            {}
+
+        FGetTitleMultiplayerServersQuotaChangeResponse(const FGetTitleMultiplayerServersQuotaChangeResponse& src) :
+            FPlayFabCppResultCommon(),
+            Change(src.Change.IsValid() ? MakeShareable(new FQuotaChange(*src.Change)) : nullptr)
+            {}
+
+        FGetTitleMultiplayerServersQuotaChangeResponse(const TSharedPtr<FJsonObject>& obj) : FGetTitleMultiplayerServersQuotaChangeResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitleMultiplayerServersQuotaChangeResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetTitleMultiplayerServersQuotasRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -4627,6 +4878,56 @@ namespace MultiplayerModels
         }
 
         ~FListServerBackfillTicketsForPlayerResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListTitleMultiplayerServersQuotaChangesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        FListTitleMultiplayerServersQuotaChangesRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags()
+            {}
+
+        FListTitleMultiplayerServersQuotaChangesRequest(const FListTitleMultiplayerServersQuotaChangesRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags)
+            {}
+
+        FListTitleMultiplayerServersQuotaChangesRequest(const TSharedPtr<FJsonObject>& obj) : FListTitleMultiplayerServersQuotaChangesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListTitleMultiplayerServersQuotaChangesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListTitleMultiplayerServersQuotaChangesResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] All change requests for this title.
+        TArray<FQuotaChange> Changes;
+        FListTitleMultiplayerServersQuotaChangesResponse() :
+            FPlayFabCppResultCommon(),
+            Changes()
+            {}
+
+        FListTitleMultiplayerServersQuotaChangesResponse(const FListTitleMultiplayerServersQuotaChangesResponse& src) :
+            FPlayFabCppResultCommon(),
+            Changes(src.Changes)
+            {}
+
+        FListTitleMultiplayerServersQuotaChangesResponse(const TSharedPtr<FJsonObject>& obj) : FListTitleMultiplayerServersQuotaChangesResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListTitleMultiplayerServersQuotaChangesResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

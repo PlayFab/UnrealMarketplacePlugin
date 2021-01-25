@@ -376,7 +376,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    /** Id of the PSN issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         int32 IssuerId = 0;
     /** Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers. */
@@ -795,7 +795,7 @@ public:
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
-    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    /** Id of the PSN issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         int32 IssuerId = 0;
     /** Redirect URI supplied to PSN when requesting an auth code */
@@ -2206,7 +2206,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    /** Id of the PSN issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         int32 IssuerId = 0;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
@@ -3266,7 +3266,7 @@ public:
     /** Auth code returned by PSN OAuth system. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString AuthCode;
-    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    /** Id of the PSN issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 IssuerId = 0;
     /** Redirect URI supplied to PSN when requesting an auth code */

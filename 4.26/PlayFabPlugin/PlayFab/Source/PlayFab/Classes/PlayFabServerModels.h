@@ -253,7 +253,7 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    /** Id of the PSN issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         int32 IssuerId = 0;
     /** Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers. */
@@ -402,7 +402,7 @@ public:
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         bool ForceLink = false;
-    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
+    /** Id of the PSN issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         int32 IssuerId = 0;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */

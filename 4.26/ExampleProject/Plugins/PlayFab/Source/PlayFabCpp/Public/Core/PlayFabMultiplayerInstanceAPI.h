@@ -34,6 +34,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateRemoteUserDelegate, const MultiplayerModels::FCreateRemoteUserResponse&);
         DECLARE_DELEGATE_OneParam(FCreateServerBackfillTicketDelegate, const MultiplayerModels::FCreateServerBackfillTicketResult&);
         DECLARE_DELEGATE_OneParam(FCreateServerMatchmakingTicketDelegate, const MultiplayerModels::FCreateMatchmakingTicketResult&);
+        DECLARE_DELEGATE_OneParam(FCreateTitleMultiplayerServersQuotaChangeDelegate, const MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteAssetDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteBuildDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteBuildAliasDelegate, const MultiplayerModels::FEmptyResponse&);
@@ -55,12 +56,12 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetRemoteLoginEndpointDelegate, const MultiplayerModels::FGetRemoteLoginEndpointResponse&);
         DECLARE_DELEGATE_OneParam(FGetServerBackfillTicketDelegate, const MultiplayerModels::FGetServerBackfillTicketResult&);
         DECLARE_DELEGATE_OneParam(FGetTitleEnabledForMultiplayerServersStatusDelegate, const MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResponse&);
+        DECLARE_DELEGATE_OneParam(FGetTitleMultiplayerServersQuotaChangeDelegate, const MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitleMultiplayerServersQuotasDelegate, const MultiplayerModels::FGetTitleMultiplayerServersQuotasResponse&);
         DECLARE_DELEGATE_OneParam(FJoinMatchmakingTicketDelegate, const MultiplayerModels::FJoinMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FListArchivedMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListAssetSummariesDelegate, const MultiplayerModels::FListAssetSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildAliasesDelegate, const MultiplayerModels::FListBuildAliasesForTitleResponse&);
-        DECLARE_DELEGATE_OneParam(FListBuildSummariesDelegate, const MultiplayerModels::FListBuildSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildSummariesV2Delegate, const MultiplayerModels::FListBuildSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListCertificateSummariesDelegate, const MultiplayerModels::FListCertificateSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListContainerImagesDelegate, const MultiplayerModels::FListContainerImagesResponse&);
@@ -70,6 +71,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListPartyQosServersDelegate, const MultiplayerModels::FListPartyQosServersResponse&);
         DECLARE_DELEGATE_OneParam(FListQosServersForTitleDelegate, const MultiplayerModels::FListQosServersForTitleResponse&);
         DECLARE_DELEGATE_OneParam(FListServerBackfillTicketsForPlayerDelegate, const MultiplayerModels::FListServerBackfillTicketsForPlayerResult&);
+        DECLARE_DELEGATE_OneParam(FListTitleMultiplayerServersQuotaChangesDelegate, const MultiplayerModels::FListTitleMultiplayerServersQuotaChangesResponse&);
         DECLARE_DELEGATE_OneParam(FListVirtualMachineSummariesDelegate, const MultiplayerModels::FListVirtualMachineSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FRequestMultiplayerServerDelegate, const MultiplayerModels::FRequestMultiplayerServerResponse&);
         DECLARE_DELEGATE_OneParam(FRolloverContainerRegistryCredentialsDelegate, const MultiplayerModels::FRolloverContainerRegistryCredentialsResponse&);
@@ -174,6 +176,11 @@ namespace PlayFab
          * The server specifies all the members and their attributes.
          */
         bool CreateServerMatchmakingTicket(MultiplayerModels::FCreateServerMatchmakingTicketRequest& request, const FCreateServerMatchmakingTicketDelegate& SuccessDelegate = FCreateServerMatchmakingTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Creates a request to change a title's multiplayer server quotas.
+         * Creates a request to change a title's multiplayer server quotas.
+         */
+        bool CreateTitleMultiplayerServersQuotaChange(MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeRequest& request, const FCreateTitleMultiplayerServersQuotaChangeDelegate& SuccessDelegate = FCreateTitleMultiplayerServersQuotaChangeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Deletes a multiplayer server game asset for a title.
          * Deletes a multiplayer server game asset for a title.
@@ -280,6 +287,11 @@ namespace PlayFab
          */
         bool GetTitleEnabledForMultiplayerServersStatus(MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusRequest& request, const FGetTitleEnabledForMultiplayerServersStatusDelegate& SuccessDelegate = FGetTitleEnabledForMultiplayerServersStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Gets a title's server quota change request.
+         * Gets a title's server quota change request.
+         */
+        bool GetTitleMultiplayerServersQuotaChange(MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeRequest& request, const FGetTitleMultiplayerServersQuotaChangeDelegate& SuccessDelegate = FGetTitleMultiplayerServersQuotaChangeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Gets the quotas for a title in relation to multiplayer servers.
          * Gets the quotas for a title in relation to multiplayer servers.
          */
@@ -305,12 +317,6 @@ namespace PlayFab
          * Returns a list of summarized details of all multiplayer server builds for a title.
          */
         bool ListBuildAliases(MultiplayerModels::FMultiplayerEmptyRequest& request, const FListBuildAliasesDelegate& SuccessDelegate = FListBuildAliasesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client
-         * access is enabled, allows game client to request list of builds with player entity token.
-         * Returns a list of summarized details of all multiplayer server builds for a title.
-         */
-        bool ListBuildSummaries(MultiplayerModels::FListBuildSummariesRequest& request, const FListBuildSummariesDelegate& SuccessDelegate = FListBuildSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client
          * access is enabled, allows game client to request list of builds with player entity token.
@@ -358,6 +364,11 @@ namespace PlayFab
          * List all server backfill ticket Ids the user is a member of.
          */
         bool ListServerBackfillTicketsForPlayer(MultiplayerModels::FListServerBackfillTicketsForPlayerRequest& request, const FListServerBackfillTicketsForPlayerDelegate& SuccessDelegate = FListServerBackfillTicketsForPlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * List all server quota change requests for a title.
+         * List all server quota change requests for a title.
+         */
+        bool ListTitleMultiplayerServersQuotaChanges(MultiplayerModels::FListTitleMultiplayerServersQuotaChangesRequest& request, const FListTitleMultiplayerServersQuotaChangesDelegate& SuccessDelegate = FListTitleMultiplayerServersQuotaChangesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists virtual machines for a title.
          * Returns a list of virtual machines for a title.
@@ -424,6 +435,7 @@ namespace PlayFab
         void OnCreateRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateServerMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateServerMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateTitleMultiplayerServersQuotaChangeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateTitleMultiplayerServersQuotaChangeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteAssetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteAssetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -445,12 +457,12 @@ namespace PlayFab
         void OnGetRemoteLoginEndpointResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRemoteLoginEndpointDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleEnabledForMultiplayerServersStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleEnabledForMultiplayerServersStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetTitleMultiplayerServersQuotaChangeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleMultiplayerServersQuotaChangeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleMultiplayerServersQuotasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleMultiplayerServersQuotasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnJoinMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListArchivedMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListArchivedMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListAssetSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListAssetSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListBuildAliasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildAliasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnListBuildSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListBuildSummariesV2Result(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildSummariesV2Delegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListCertificateSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListCertificateSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListContainerImagesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListContainerImagesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -460,6 +472,7 @@ namespace PlayFab
         void OnListPartyQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPartyQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQosServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListServerBackfillTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBackfillTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListTitleMultiplayerServersQuotaChangesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListTitleMultiplayerServersQuotaChangesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualMachineSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualMachineSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRequestMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRequestMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRolloverContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRolloverContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

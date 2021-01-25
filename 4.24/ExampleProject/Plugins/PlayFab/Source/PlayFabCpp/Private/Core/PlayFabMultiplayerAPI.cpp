@@ -387,6 +387,36 @@ void UPlayFabMultiplayerAPI::OnCreateServerMatchmakingTicketResult(FHttpRequestP
     }
 }
 
+bool UPlayFabMultiplayerAPI::CreateTitleMultiplayerServersQuotaChange(
+    MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeRequest& request,
+    const FCreateTitleMultiplayerServersQuotaChangeDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/MultiplayerServer/CreateTitleMultiplayerServersQuotaChange"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnCreateTitleMultiplayerServersQuotaChangeResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerAPI::OnCreateTitleMultiplayerServersQuotaChangeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateTitleMultiplayerServersQuotaChangeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerAPI::DeleteAsset(
     MultiplayerModels::FDeleteAssetRequest& request,
     const FDeleteAssetDelegate& SuccessDelegate,
@@ -1017,6 +1047,36 @@ void UPlayFabMultiplayerAPI::OnGetTitleEnabledForMultiplayerServersStatusResult(
     }
 }
 
+bool UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotaChange(
+    MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeRequest& request,
+    const FGetTitleMultiplayerServersQuotaChangeDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/MultiplayerServer/GetTitleMultiplayerServersQuotaChange"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnGetTitleMultiplayerServersQuotaChangeResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerAPI::OnGetTitleMultiplayerServersQuotaChangeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleMultiplayerServersQuotaChangeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerAPI::GetTitleMultiplayerServersQuotas(
     MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest& request,
     const FGetTitleMultiplayerServersQuotasDelegate& SuccessDelegate,
@@ -1156,36 +1216,6 @@ bool UPlayFabMultiplayerAPI::ListBuildAliases(
 void UPlayFabMultiplayerAPI::OnListBuildAliasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildAliasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MultiplayerModels::FListBuildAliasesForTitleResponse outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
-bool UPlayFabMultiplayerAPI::ListBuildSummaries(
-    MultiplayerModels::FListBuildSummariesRequest& request,
-    const FListBuildSummariesDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
-    if (entityToken.Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/MultiplayerServer/ListBuildSummaries"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnListBuildSummariesResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabMultiplayerAPI::OnListBuildSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    MultiplayerModels::FListBuildSummariesResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -1452,6 +1482,36 @@ bool UPlayFabMultiplayerAPI::ListServerBackfillTicketsForPlayer(
 void UPlayFabMultiplayerAPI::OnListServerBackfillTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBackfillTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     MultiplayerModels::FListServerBackfillTicketsForPlayerResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabMultiplayerAPI::ListTitleMultiplayerServersQuotaChanges(
+    MultiplayerModels::FListTitleMultiplayerServersQuotaChangesRequest& request,
+    const FListTitleMultiplayerServersQuotaChangesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/MultiplayerServer/ListTitleMultiplayerServersQuotaChanges"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnListTitleMultiplayerServersQuotaChangesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerAPI::OnListTitleMultiplayerServersQuotaChangesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListTitleMultiplayerServersQuotaChangesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FListTitleMultiplayerServersQuotaChangesResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

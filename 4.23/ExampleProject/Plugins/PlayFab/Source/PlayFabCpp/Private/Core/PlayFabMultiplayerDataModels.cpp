@@ -182,6 +182,11 @@ void PlayFab::MultiplayerModels::writeAzureRegionEnumJSON(AzureRegion enumVal, J
     case AzureRegionSouthAfricaNorth: writer->WriteValue(TEXT("SouthAfricaNorth")); break;
     case AzureRegionCentralUsEuap: writer->WriteValue(TEXT("CentralUsEuap")); break;
     case AzureRegionWestCentralUs: writer->WriteValue(TEXT("WestCentralUs")); break;
+    case AzureRegionKoreaCentral: writer->WriteValue(TEXT("KoreaCentral")); break;
+    case AzureRegionFranceCentral: writer->WriteValue(TEXT("FranceCentral")); break;
+    case AzureRegionWestUs2: writer->WriteValue(TEXT("WestUs2")); break;
+    case AzureRegionCentralIndia: writer->WriteValue(TEXT("CentralIndia")); break;
+    case AzureRegionUaeNorth: writer->WriteValue(TEXT("UaeNorth")); break;
     }
 }
 
@@ -216,6 +221,11 @@ MultiplayerModels::AzureRegion PlayFab::MultiplayerModels::readAzureRegionFromVa
         _AzureRegionMap.Add(TEXT("SouthAfricaNorth"), AzureRegionSouthAfricaNorth);
         _AzureRegionMap.Add(TEXT("CentralUsEuap"), AzureRegionCentralUsEuap);
         _AzureRegionMap.Add(TEXT("WestCentralUs"), AzureRegionWestCentralUs);
+        _AzureRegionMap.Add(TEXT("KoreaCentral"), AzureRegionKoreaCentral);
+        _AzureRegionMap.Add(TEXT("FranceCentral"), AzureRegionFranceCentral);
+        _AzureRegionMap.Add(TEXT("WestUs2"), AzureRegionWestUs2);
+        _AzureRegionMap.Add(TEXT("CentralIndia"), AzureRegionCentralIndia);
+        _AzureRegionMap.Add(TEXT("UaeNorth"), AzureRegionUaeNorth);
 
     }
 
@@ -246,6 +256,8 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyEasv4: writer->WriteValue(TEXT("Easv4")); break;
     case AzureVmFamilyEv4: writer->WriteValue(TEXT("Ev4")); break;
     case AzureVmFamilyEsv4: writer->WriteValue(TEXT("Esv4")); break;
+    case AzureVmFamilyDsv3: writer->WriteValue(TEXT("Dsv3")); break;
+    case AzureVmFamilyDsv2: writer->WriteValue(TEXT("Dsv2")); break;
     }
 }
 
@@ -272,6 +284,8 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("Easv4"), AzureVmFamilyEasv4);
         _AzureVmFamilyMap.Add(TEXT("Ev4"), AzureVmFamilyEv4);
         _AzureVmFamilyMap.Add(TEXT("Esv4"), AzureVmFamilyEsv4);
+        _AzureVmFamilyMap.Add(TEXT("Dsv3"), AzureVmFamilyDsv3);
+        _AzureVmFamilyMap.Add(TEXT("Dsv2"), AzureVmFamilyDsv2);
 
     }
 
@@ -324,6 +338,23 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_D4a_v4: writer->WriteValue(TEXT("Standard_D4a_v4")); break;
     case AzureVmSizeStandard_D8a_v4: writer->WriteValue(TEXT("Standard_D8a_v4")); break;
     case AzureVmSizeStandard_D16a_v4: writer->WriteValue(TEXT("Standard_D16a_v4")); break;
+    case AzureVmSizeStandard_E2a_v4: writer->WriteValue(TEXT("Standard_E2a_v4")); break;
+    case AzureVmSizeStandard_E4a_v4: writer->WriteValue(TEXT("Standard_E4a_v4")); break;
+    case AzureVmSizeStandard_E8a_v4: writer->WriteValue(TEXT("Standard_E8a_v4")); break;
+    case AzureVmSizeStandard_E16a_v4: writer->WriteValue(TEXT("Standard_E16a_v4")); break;
+    case AzureVmSizeStandard_E2as_v4: writer->WriteValue(TEXT("Standard_E2as_v4")); break;
+    case AzureVmSizeStandard_E4as_v4: writer->WriteValue(TEXT("Standard_E4as_v4")); break;
+    case AzureVmSizeStandard_E8as_v4: writer->WriteValue(TEXT("Standard_E8as_v4")); break;
+    case AzureVmSizeStandard_E16as_v4: writer->WriteValue(TEXT("Standard_E16as_v4")); break;
+    case AzureVmSizeStandard_D2s_v3: writer->WriteValue(TEXT("Standard_D2s_v3")); break;
+    case AzureVmSizeStandard_D4s_v3: writer->WriteValue(TEXT("Standard_D4s_v3")); break;
+    case AzureVmSizeStandard_D8s_v3: writer->WriteValue(TEXT("Standard_D8s_v3")); break;
+    case AzureVmSizeStandard_D16s_v3: writer->WriteValue(TEXT("Standard_D16s_v3")); break;
+    case AzureVmSizeStandard_DS1_v2: writer->WriteValue(TEXT("Standard_DS1_v2")); break;
+    case AzureVmSizeStandard_DS2_v2: writer->WriteValue(TEXT("Standard_DS2_v2")); break;
+    case AzureVmSizeStandard_DS3_v2: writer->WriteValue(TEXT("Standard_DS3_v2")); break;
+    case AzureVmSizeStandard_DS4_v2: writer->WriteValue(TEXT("Standard_DS4_v2")); break;
+    case AzureVmSizeStandard_DS5_v2: writer->WriteValue(TEXT("Standard_DS5_v2")); break;
     }
 }
 
@@ -372,6 +403,23 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_D4a_v4"), AzureVmSizeStandard_D4a_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D8a_v4"), AzureVmSizeStandard_D8a_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D16a_v4"), AzureVmSizeStandard_D16a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E2a_v4"), AzureVmSizeStandard_E2a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E4a_v4"), AzureVmSizeStandard_E4a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E8a_v4"), AzureVmSizeStandard_E8a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E16a_v4"), AzureVmSizeStandard_E16a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E2as_v4"), AzureVmSizeStandard_E2as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E4as_v4"), AzureVmSizeStandard_E4as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E8as_v4"), AzureVmSizeStandard_E8as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_E16as_v4"), AzureVmSizeStandard_E16as_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D2s_v3"), AzureVmSizeStandard_D2s_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_D4s_v3"), AzureVmSizeStandard_D4s_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_D8s_v3"), AzureVmSizeStandard_D8s_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_D16s_v3"), AzureVmSizeStandard_D16s_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_DS1_v2"), AzureVmSizeStandard_DS1_v2);
+        _AzureVmSizeMap.Add(TEXT("Standard_DS2_v2"), AzureVmSizeStandard_DS2_v2);
+        _AzureVmSizeMap.Add(TEXT("Standard_DS3_v2"), AzureVmSizeStandard_DS3_v2);
+        _AzureVmSizeMap.Add(TEXT("Standard_DS4_v2"), AzureVmSizeStandard_DS4_v2);
+        _AzureVmSizeMap.Add(TEXT("Standard_DS5_v2"), AzureVmSizeStandard_DS5_v2);
 
     }
 
@@ -1834,6 +1882,57 @@ bool PlayFab::MultiplayerModels::FCoreCapacity::readFromValue(const TSharedPtr<F
     {
         int32 TmpValue;
         if (TotalValue->TryGetNumber(TmpValue)) { Total = TmpValue; }
+    }
+
+    VmFamily = readAzureVmFamilyFromValue(obj->TryGetField(TEXT("VmFamily")));
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCoreCapacityChange::~FCoreCapacityChange()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCoreCapacityChange::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("NewCoreLimit"));
+    writer->WriteValue(NewCoreLimit);
+
+    if (!Region.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CoreCapacityChange::Region, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Region"));
+        writer->WriteValue(Region);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("VmFamily"));
+    writeAzureVmFamilyEnumJSON(VmFamily, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCoreCapacityChange::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NewCoreLimitValue = obj->TryGetField(TEXT("NewCoreLimit"));
+    if (NewCoreLimitValue.IsValid() && !NewCoreLimitValue->IsNull())
+    {
+        int32 TmpValue;
+        if (NewCoreLimitValue->TryGetNumber(TmpValue)) { NewCoreLimit = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
+    if (RegionValue.IsValid() && !RegionValue->IsNull())
+    {
+        FString TmpValue;
+        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
     }
 
     VmFamily = readAzureVmFamilyFromValue(obj->TryGetField(TEXT("VmFamily")));
@@ -4368,6 +4467,151 @@ bool PlayFab::MultiplayerModels::FCreateServerMatchmakingTicketRequest::readFrom
     {
         FString TmpValue;
         if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeRequest::~FCreateTitleMultiplayerServersQuotaChangeRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ChangeDescription.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChangeDescription"));
+        writer->WriteValue(ChangeDescription);
+    }
+
+    writer->WriteArrayStart(TEXT("Changes"));
+    for (const FCoreCapacityChange& item : Changes)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    if (ContactEmail.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContactEmail"));
+        writer->WriteValue(ContactEmail);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Notes.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Notes"));
+        writer->WriteValue(Notes);
+    }
+
+    if (StartDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("StartDate"));
+        writeDatetime(StartDate, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ChangeDescriptionValue = obj->TryGetField(TEXT("ChangeDescription"));
+    if (ChangeDescriptionValue.IsValid() && !ChangeDescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (ChangeDescriptionValue->TryGetString(TmpValue)) { ChangeDescription = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&ChangesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Changes"));
+    for (int32 Idx = 0; Idx < ChangesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ChangesArray[Idx];
+        Changes.Add(FCoreCapacityChange(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> ContactEmailValue = obj->TryGetField(TEXT("ContactEmail"));
+    if (ContactEmailValue.IsValid() && !ContactEmailValue->IsNull())
+    {
+        FString TmpValue;
+        if (ContactEmailValue->TryGetString(TmpValue)) { ContactEmail = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NotesValue = obj->TryGetField(TEXT("Notes"));
+    if (NotesValue.IsValid() && !NotesValue->IsNull())
+    {
+        FString TmpValue;
+        if (NotesValue->TryGetString(TmpValue)) { Notes = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StartDateValue = obj->TryGetField(TEXT("StartDate"));
+    if (StartDateValue.IsValid())
+        StartDate = readDatetime(StartDateValue);
+
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeResponse::~FCreateTitleMultiplayerServersQuotaChangeResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (RequestId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RequestId"));
+        writer->WriteValue(RequestId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("WasApproved"));
+    writer->WriteValue(WasApproved);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FCreateTitleMultiplayerServersQuotaChangeResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> RequestIdValue = obj->TryGetField(TEXT("RequestId"));
+    if (RequestIdValue.IsValid() && !RequestIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (RequestIdValue->TryGetString(TmpValue)) { RequestId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> WasApprovedValue = obj->TryGetField(TEXT("WasApproved"));
+    if (WasApprovedValue.IsValid() && !WasApprovedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasApprovedValue->TryGetBool(TmpValue)) { WasApproved = TmpValue; }
     }
 
     return HasSucceeded;
@@ -6920,6 +7164,202 @@ bool PlayFab::MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResp
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeRequest::~FGetTitleMultiplayerServersQuotaChangeRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!RequestId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetTitleMultiplayerServersQuotaChangeRequest::RequestId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RequestId"));
+        writer->WriteValue(RequestId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> RequestIdValue = obj->TryGetField(TEXT("RequestId"));
+    if (RequestIdValue.IsValid() && !RequestIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (RequestIdValue->TryGetString(TmpValue)) { RequestId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FQuotaChange::~FQuotaChange()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FQuotaChange::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ChangeDescription.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChangeDescription"));
+        writer->WriteValue(ChangeDescription);
+    }
+
+    if (Changes.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Changes"));
+        for (const FCoreCapacityChange& item : Changes)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("IsPendingReview"));
+    writer->WriteValue(IsPendingReview);
+
+    if (Notes.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Notes"));
+        writer->WriteValue(Notes);
+    }
+
+    if (RequestId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RequestId"));
+        writer->WriteValue(RequestId);
+    }
+
+    if (ReviewComments.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReviewComments"));
+        writer->WriteValue(ReviewComments);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("WasApproved"));
+    writer->WriteValue(WasApproved);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FQuotaChange::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ChangeDescriptionValue = obj->TryGetField(TEXT("ChangeDescription"));
+    if (ChangeDescriptionValue.IsValid() && !ChangeDescriptionValue->IsNull())
+    {
+        FString TmpValue;
+        if (ChangeDescriptionValue->TryGetString(TmpValue)) { ChangeDescription = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&ChangesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Changes"));
+    for (int32 Idx = 0; Idx < ChangesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ChangesArray[Idx];
+        Changes.Add(FCoreCapacityChange(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> IsPendingReviewValue = obj->TryGetField(TEXT("IsPendingReview"));
+    if (IsPendingReviewValue.IsValid() && !IsPendingReviewValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsPendingReviewValue->TryGetBool(TmpValue)) { IsPendingReview = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NotesValue = obj->TryGetField(TEXT("Notes"));
+    if (NotesValue.IsValid() && !NotesValue->IsNull())
+    {
+        FString TmpValue;
+        if (NotesValue->TryGetString(TmpValue)) { Notes = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RequestIdValue = obj->TryGetField(TEXT("RequestId"));
+    if (RequestIdValue.IsValid() && !RequestIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (RequestIdValue->TryGetString(TmpValue)) { RequestId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ReviewCommentsValue = obj->TryGetField(TEXT("ReviewComments"));
+    if (ReviewCommentsValue.IsValid() && !ReviewCommentsValue->IsNull())
+    {
+        FString TmpValue;
+        if (ReviewCommentsValue->TryGetString(TmpValue)) { ReviewComments = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> WasApprovedValue = obj->TryGetField(TEXT("WasApproved"));
+    if (WasApprovedValue.IsValid() && !WasApprovedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasApprovedValue->TryGetBool(TmpValue)) { WasApproved = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeResponse::~FGetTitleMultiplayerServersQuotaChangeResponse()
+{
+    //if (Change != nullptr) delete Change;
+
+}
+
+void PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Change.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Change"));
+        Change->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ChangeValue = obj->TryGetField(TEXT("Change"));
+    if (ChangeValue.IsValid() && !ChangeValue->IsNull())
+    {
+        Change = MakeShareable(new FQuotaChange(ChangeValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest::~FGetTitleMultiplayerServersQuotasRequest()
 {
 
@@ -8444,6 +8884,81 @@ bool PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerResult::read
     bool HasSucceeded = true;
 
     HasSucceeded &= obj->TryGetStringArrayField(TEXT("TicketIds"), TicketIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListTitleMultiplayerServersQuotaChangesRequest::~FListTitleMultiplayerServersQuotaChangesRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListTitleMultiplayerServersQuotaChangesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListTitleMultiplayerServersQuotaChangesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListTitleMultiplayerServersQuotaChangesResponse::~FListTitleMultiplayerServersQuotaChangesResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListTitleMultiplayerServersQuotaChangesResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Changes.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Changes"));
+        for (const FQuotaChange& item : Changes)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListTitleMultiplayerServersQuotaChangesResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ChangesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Changes"));
+    for (int32 Idx = 0; Idx < ChangesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ChangesArray[Idx];
+        Changes.Add(FQuotaChange(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }

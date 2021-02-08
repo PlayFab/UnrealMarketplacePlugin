@@ -558,6 +558,22 @@ public:
         void HelperLoginWithServerCustomId(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithSteamId, FServerServerLoginResult, result, UObject*, customData);
+
+    /**
+     * Signs the user in using an Steam ID, returning a session identifier that can subsequently be used for API calls which
+     * require an authenticated user
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LoginWithSteamId(FServerLoginWithSteamIdRequest request,
+            FDelegateOnSuccessLoginWithSteamId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithSteamId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithXbox, FServerServerLoginResult, result, UObject*, customData);
 
     /**
@@ -2006,6 +2022,7 @@ public:
     FDelegateOnSuccessWriteTitleEvent OnSuccessWriteTitleEvent;
     FDelegateOnSuccessAuthenticateSessionTicket OnSuccessAuthenticateSessionTicket;
     FDelegateOnSuccessLoginWithServerCustomId OnSuccessLoginWithServerCustomId;
+    FDelegateOnSuccessLoginWithSteamId OnSuccessLoginWithSteamId;
     FDelegateOnSuccessLoginWithXbox OnSuccessLoginWithXbox;
     FDelegateOnSuccessLoginWithXboxId OnSuccessLoginWithXboxId;
     FDelegateOnSuccessSetPlayerSecret OnSuccessSetPlayerSecret;

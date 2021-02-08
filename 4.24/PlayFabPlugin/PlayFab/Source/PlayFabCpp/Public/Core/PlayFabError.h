@@ -519,6 +519,8 @@ namespace PlayFab
         PlayFabErrorWasNotCreatedWithCloudRoot = 1510,
         PlayFabErrorLegacyMultiplayerServersDeprecated = 1511,
         PlayFabErrorVirtualCurrencyCurrentlyUnavailable = 1512,
+        PlayFabErrorSteamUserNotFound = 1513,
+        PlayFabErrorElasticSearchOperationFailed = 1514,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -543,6 +545,7 @@ namespace PlayFab
         PlayFabErrorTitleConfigNotFound = 3001,
         PlayFabErrorTitleConfigUpdateConflict = 3002,
         PlayFabErrorTitleConfigSerializationError = 3003,
+        PlayFabErrorCatalogApiNotImplemented = 4000,
         PlayFabErrorCatalogEntityInvalid = 4001,
         PlayFabErrorCatalogTitleIdMissing = 4002,
         PlayFabErrorCatalogPlayerIdMissing = 4003,
@@ -634,7 +637,8 @@ namespace PlayFab
         PlayFabErrorCreateSegmentRateLimitExceeded = 10008,
         PlayFabErrorUpdateSegmentRateLimitExceeded = 10009,
         PlayFabErrorGetSegmentsRateLimitExceeded = 10010,
-        PlayFabErrorSnapshotNotFound = 11000
+        PlayFabErrorSnapshotNotFound = 11000,
+        PlayFabErrorInventoryApiNotImplemented = 12000
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

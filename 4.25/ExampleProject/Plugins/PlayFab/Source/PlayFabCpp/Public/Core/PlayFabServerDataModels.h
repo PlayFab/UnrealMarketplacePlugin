@@ -8463,6 +8463,46 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLoginWithSteamIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // Unique Steam identifier for a user
+        FString SteamId;
+
+        FLoginWithSteamIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(),
+            CustomTags(),
+            InfoRequestParameters(nullptr),
+            SteamId()
+            {}
+
+        FLoginWithSteamIdRequest(const FLoginWithSteamIdRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(src.CreateAccount),
+            CustomTags(src.CustomTags),
+            InfoRequestParameters(src.InfoRequestParameters.IsValid() ? MakeShareable(new FGetPlayerCombinedInfoRequestParams(*src.InfoRequestParameters)) : nullptr),
+            SteamId(src.SteamId)
+            {}
+
+        FLoginWithSteamIdRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithSteamIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithSteamIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLoginWithXboxIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.

@@ -544,6 +544,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1510: returnText = "WasNotCreatedWithCloudRoot"; break;
     case 1511: returnText = "LegacyMultiplayerServersDeprecated"; break;
     case 1512: returnText = "VirtualCurrencyCurrentlyUnavailable"; break;
+    case 1513: returnText = "SteamUserNotFound"; break;
+    case 1514: returnText = "ElasticSearchOperationFailed"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -568,6 +570,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 3001: returnText = "TitleConfigNotFound"; break;
     case 3002: returnText = "TitleConfigUpdateConflict"; break;
     case 3003: returnText = "TitleConfigSerializationError"; break;
+    case 4000: returnText = "CatalogApiNotImplemented"; break;
     case 4001: returnText = "CatalogEntityInvalid"; break;
     case 4002: returnText = "CatalogTitleIdMissing"; break;
     case 4003: returnText = "CatalogPlayerIdMissing"; break;
@@ -660,6 +663,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10009: returnText = "UpdateSegmentRateLimitExceeded"; break;
     case 10010: returnText = "GetSegmentsRateLimitExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
+    case 12000: returnText = "InventoryApiNotImplemented"; break;
     }
 
     // Return the text

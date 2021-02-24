@@ -20,7 +20,7 @@ parameters:
 - name: SdkName
   displayName: SdkName
   type: string
-  default: UnrealMarketplaceplugin
+  default: UnrealMarketplacePlugin
 - name: ueVersion
   displayName: ueVersion
   type: string

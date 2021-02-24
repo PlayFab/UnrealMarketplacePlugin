@@ -18,10 +18,10 @@ resources:
       type: github
       endpoint: GitHub_PlayFab
       name: PlayFab/SdkGenerator
-    - repository: UnrealMarketplaceplugin
+    - repository: UnrealMarketplacePlugin
       endpoint: GitHub_PlayFab
       type: github
-      name: PlayFab/UnrealMarketplaceplugin
+      name: PlayFab/UnrealMarketplacePlugin
 
 jobs:
 - job: UnrealGdkResourceTemplate

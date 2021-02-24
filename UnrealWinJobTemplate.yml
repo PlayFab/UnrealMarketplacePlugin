@@ -1,0 +1,38 @@
+# JOB LEVEL TEMPLATE:
+# Used to build Unreal
+# Reusable
+# Meant to be run from the single UnrealTemplate pipeline (default), or
+#   from a multi-pipeline such as publishing (should specify alternate params)
+
+parameters:
+- name: ApiSpecSource
+  displayName: ApiSpecSource
+  type: string
+  default: -apiSpecGitUrl https://raw.githubusercontent.com/PlayFab/API_Specs/master/
+- name: CommitMessage
+  displayName: CommitMessage
+  type: string
+  default: Automated build from ADO Pipeline
+- name: GitDestBranch
+  displayName: GitDestBranch
+  type: string
+  default: doNotCommit
+- name: SelfTemplateResource
+  displayName: SelfTemplateResource
+  type: string
+  default: self
+
+jobs:
+- job: UnrealWinJobTemplate
+  steps:
+  - bash: echo UnrealWinJobTemplate
+- job: UnrealWinTemplate
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - template: UnrealWinStepTemplate.yml
+    parameters:
+      ApiSpecSource: ${{ parameters.ApiSpecSource }}
+      CommitMessage: ${{ parameters.CommitMessage }}
+      GitDestBranch: ${{ parameters.GitDestBranch }}
+      SelfTemplateResource: ${{ parameters.SelfTemplateResource }}

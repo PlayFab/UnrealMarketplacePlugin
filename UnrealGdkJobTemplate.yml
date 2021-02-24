@@ -1,0 +1,37 @@
+# JOB LEVEL TEMPLATE:
+# Used to build Unreal GDK
+# Reusable
+# Meant to be run from the single UnrealGdkTemplate pipeline (default), or
+#   from a multi-pipeline such as publishing (should specify alternate params)
+
+parameters:
+- name: ApiSpecSource
+  displayName: ApiSpecSource
+  type: string
+  default: -apiSpecGitUrl https://raw.githubusercontent.com/PlayFab/API_Specs/master/
+- name: CommitMessage
+  displayName: CommitMessage
+  type: string
+  default: Automated build from ADO Pipeline
+- name: GitDestBranch
+  displayName: GitDestBranch
+  type: string
+  default: doNotCommit
+- name: SelfTemplateResource
+  displayName: SelfTemplateResource
+  type: string
+  default: self
+
+jobs:
+- job: UnrealGdkJobTemplate
+  steps:
+  - bash: echo UnrealGdkJobTemplate
+- job: UnrealGdkTemplate
+  pool: UnrealGDK
+  steps:
+  - template: UnrealGdkStepTemplate.yml
+    parameters:
+      ApiSpecSource: ${{ parameters.ApiSpecSource }}
+      CommitMessage: ${{ parameters.CommitMessage }}
+      GitDestBranch: ${{ parameters.GitDestBranch }}
+      SelfTemplateResource: ${{ parameters.SelfTemplateResource }}

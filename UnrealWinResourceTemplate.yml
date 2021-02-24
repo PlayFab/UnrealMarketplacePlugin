@@ -1,0 +1,30 @@
+# TOP LEVEL TEMPLATE:
+# Can only be used to run the single UnrealWinTemplate pipeline.
+# Why: Resources can only be defined once.
+#      This determines the resources available to all "jobs" and "steps" no matter which templates are loaded after this
+#      If resources is ever defined again, it'll break so badly that the pipeline won't even parse
+
+resources:
+  repositories:
+    - repository: JenkinsSdkSetupScripts
+      type: github
+      endpoint: GitHub_PlayFab
+      name: PlayFab/JenkinsSdkSetupScripts
+    - repository: API_Specs
+      type: github
+      endpoint: GitHub_PlayFab
+      name: PlayFab/API_Specs
+    - repository: SdkGenerator
+      type: github
+      endpoint: GitHub_PlayFab
+      name: PlayFab/SdkGenerator
+    - repository: UnrealMarketplaceplugin
+      endpoint: GitHub_PlayFab
+      type: github
+      name: PlayFab/UnrealMarketplaceplugin
+
+jobs:
+- job: UnrealWinResourceTemplate
+  steps:
+  - bash: echo UnrealWinResourceTemplate
+- template: UnrealWinJobTemplate.yml

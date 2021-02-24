@@ -44,8 +44,7 @@ steps:
   clean: true
   submodules: true
   path: s/SdkGenerator/privateTemplates/UnrealMarketplacePlugin
-  persistCredentials: true
-- checkout: ${{ parameters.SelfTemplateResource }}
+- checkout: UnrealMarketplacePlugin
   clean: true
   submodules: true
   path: s/sdks/UnrealMarketplacePlugin

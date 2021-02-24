@@ -58,7 +58,7 @@ steps:
     # Hack attempt to get WORKSPACE into a sub-environment
     export WORKSPACE="$WORKSPACE"
 
-    cd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline"
+    cd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline"
     . ./testInit.sh
 
     . "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline/util.sh"

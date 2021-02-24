@@ -17,6 +17,10 @@ parameters:
   displayName: GitDestBranch
   type: string
   default: doNotCommit
+- name: ueVersion
+  displayName: ueVersion
+  type: string
+  default: 4.26
 - name: SelfTemplateResource
   displayName: SelfTemplateResource
   type: string
@@ -27,12 +31,12 @@ jobs:
   steps:
   - bash: echo UnrealWinJobTemplate
 - job: UnrealWinTemplate
-  pool:
-    vmImage: 'windows-latest'
+  pool: XPlatGDK
   steps:
   - template: UnrealWinStepTemplate.yml
     parameters:
       ApiSpecSource: ${{ parameters.ApiSpecSource }}
       CommitMessage: ${{ parameters.CommitMessage }}
       GitDestBranch: ${{ parameters.GitDestBranch }}
+      ueVersion: ${{ parameters.ueVersion }}
       SelfTemplateResource: ${{ parameters.SelfTemplateResource }}

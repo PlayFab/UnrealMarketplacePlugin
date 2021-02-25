@@ -74,9 +74,9 @@ steps:
     cp "$WORKSPACE/JenkinsSdkSetupScripts/Creds/testTitleData.json" "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/Content/TestTitleData/testTitleData.json"
 
     cd "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject"
-    echo ========== BUILDING WIN GDK ==========
+    echo ========== BUILDING WIN64 ==========
 
-    uePath="C:\Program Files (x86)\Epic Games"
+    uePath="C:\\Program Files (x86)\\Epic Games"
 
     uatPath=$uePath\\UE_$ueVersion\\Engine\\Build\\BatchFiles\\RunUAT.bat
 
@@ -86,15 +86,15 @@ steps:
 
     cmd <<< "$uatPath" BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
 
-    echo ======= RUNNING TESTS WIN GDK =======
+    echo ======= RUNNING TESTS WIN64 =======
 
     archivePath=Build\Win64
 
     # this is not the correct path to expect from archive (winGDK?)
-    cmd <<< "$WORKSPACE\$archivePath\WindowsNoEditor\ExampleProject.exe" -run=RunTests -NoShaderCompile
+    "$WORKSPACE\$archivePath\WindowsNoEditor\ExampleProject.exe" -run=RunTests -NoShaderCompile
 
     . "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline/sdkUtil.sh"
-    ListenCsJCU
+    # ListenCsJCU
 
   displayName: 'Build/Test/Report'
 - task: PublishTestResults@2

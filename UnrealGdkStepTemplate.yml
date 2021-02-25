@@ -57,6 +57,7 @@ steps:
     CommitMessage="${{ parameters.CommitMessage }}"
     GitDestBranch="${{ parameters.GitDestBranch }}"
     SdkName="${{ parameters.SdkName }}"
+    ueVersion="${{ parameters.ueVersion }}"
     WORKSPACE=$(pwd -W)
     # Hack attempt to get WORKSPACE into a sub-environment
     export WORKSPACE="$WORKSPACE"

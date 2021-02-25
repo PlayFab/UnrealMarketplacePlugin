@@ -90,6 +90,7 @@ steps:
     archivePath=Build/$targetPlatform
 
     # cmd <<< "$uatPath" BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    echo cmd <<< $uatPath -ScriptsForProject=$exampleProjectPath BuildCookRun -project=$exampleProjectPath -noP4 -clientconfig=Development -serverconfig=Development -utf8output -platform=$targetPlatform -targetplatform=$targetPlatform -ini:Game:[/Script/UnrealEd.ProjectPackagingSettings]:BlueprintNativizationMethod=Disabled -build -cookonthefly -map= -compressed -stage -deploy -cmdline=" -Messaging" -device=WinGDK@PF-GDK-UNREAL -addcmdline="-SessionId=816DB4BC4C4C48848A7C7A997A460E5C -SessionOwner='Administrator' -SessionName='PF-GDK-UNREAL (GDK)'  " -run -compile
     cmd <<< $uatPath -ScriptsForProject=$exampleProjectPath BuildCookRun -project=$exampleProjectPath -noP4 -clientconfig=Development -serverconfig=Development -utf8output -platform=$targetPlatform -targetplatform=$targetPlatform -ini:Game:[/Script/UnrealEd.ProjectPackagingSettings]:BlueprintNativizationMethod=Disabled -build -cookonthefly -map= -compressed -stage -deploy -cmdline=" -Messaging" -device=WinGDK@PF-GDK-UNREAL -addcmdline="-SessionId=816DB4BC4C4C48848A7C7A997A460E5C -SessionOwner='Administrator' -SessionName='PF-GDK-UNREAL (GDK)'  " -run -compile
 
     # cmd <<< "$ufePath" -RUN=PACKAGE

@@ -79,13 +79,13 @@ steps:
 
     uePath="C:/dev/UE4_GDK_PFP_MAIN"
 
-    uatPath=$uePath/Engine/Build/BatchFiles/RunUAT.sh
+    uatPath=$uePath/Engine/Build/BatchFiles/RunUAT.bat
 
     targetPlatform=WinGDK
 
     archivePath=Build/$targetPlatform
 
-    "$uatPath" BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    cmd <<< "$uatPath" BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
 
     echo ======= RUNNING TESTS WIN GDK =======
 

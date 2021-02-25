@@ -91,8 +91,8 @@ steps:
 
     archivePath=Build\Win64
 
-    # this is not the correct path to expect from archive (winGDK?)
-    "$WORKSPACE\$archivePath\WindowsNoEditor\ExampleProject.exe" -run=RunTests -NoShaderCompile
+    # this is not the correct path to expect from archive
+    "$WORKSPACE/$archivePath/WindowsNoEditor/ExampleProject.exe" -run=RunTests -NoShaderCompile
 
     . "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline/sdkUtil.sh"
     # ListenCsJCU

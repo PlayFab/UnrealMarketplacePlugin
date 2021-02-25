@@ -78,11 +78,11 @@ steps:
 
     uePath="C:\Program Files (x86)\Epic Games"
 
-    uatPath=$uePath\UE_$ueVersion\Engine\Build\BatchFiles\RunUAT.sh
+    uatPath=$uePath\\UE_$ueVersion\\Engine\\Build\\BatchFiles\\RunUAT.sh
 
     targetPlatform=Win64
 
-    archivePath=Build\$targetPlatform
+    archivePath=Build\\$targetPlatform
 
     "$uatPath" BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
 

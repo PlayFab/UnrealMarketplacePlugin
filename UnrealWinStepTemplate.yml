@@ -76,22 +76,22 @@ steps:
     cd "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject"
     echo ========== BUILDING WIN GDK ==========
 
-    uePath=C:\Program Files (x86)\Epic Games
+    uePath="C:\Program Files (x86)\Epic Games"
 
-    uatPath=%uePath%\UE_%ueVersion%\Engine\Build\BatchFiles\RunUAT.bat
+    uatPath=%uePath%\UE_%ueVersion%\Engine\Build\BatchFiles\RunUAT.sh
 
-    targetPlatform=WinGDK
+    targetPlatform=Win64
 
     archivePath=Build\%targetPlatform%
 
-    cmd <<< call "%uatPath%" BuildCookRun -rocket -installed -nop4 -nocompile -project="%~dp0ExampleProject.uproject" -cook -stage -archive -archivedirectory="%~dp0%archivePath%" -package -clientconfig=Development -Platform=%targetPlatform% -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    "%uatPath%" BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
 
     echo ======= RUNNING TESTS WIN GDK =======
 
     archivePath=Build\Win64
 
     # this is not the correct path to expect from archive (winGDK?)
-    cmd <<< call "%~dp0%archivePath%\WindowsNoEditor\ExampleProject.exe" -run=RunTests -NoShaderCompile
+    cmd <<< "$WORKSPACE\$archivePath\WindowsNoEditor\ExampleProject.exe" -run=RunTests -NoShaderCompile
 
     . "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline/sdkUtil.sh"
     ListenCsJCU

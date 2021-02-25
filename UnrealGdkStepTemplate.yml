@@ -70,7 +70,7 @@ steps:
     targetSrc="UnrealMarketplacePlugin"
     . ./shared_build.sh
 
-    cp "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsSdkSetupScripts/Creds/testTitleData.json" "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/Content/TestTitleData/testTitleData.json"
+    cp "$WORKSPACE/JenkinsSdkSetupScripts/Creds/testTitleData.json" "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/Content/TestTitleData/testTitleData.json"
 
     cd "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject"
     

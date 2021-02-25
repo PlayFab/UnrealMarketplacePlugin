@@ -76,7 +76,7 @@ steps:
     cd "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject"
     echo ========== BUILDING WIN64 ==========
 
-    uePath="C:\\Program Files (x86)\\Epic Games"
+    uePath="C:\\UE"
 
     uatPath=$uePath\\UE_$ueVersion\\Engine\\Build\\BatchFiles\\RunUAT.bat
 

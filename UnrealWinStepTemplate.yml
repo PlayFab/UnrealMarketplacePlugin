@@ -78,14 +78,16 @@ steps:
 
     uePath="C:\\UE"
 
-    uatPath=$uePath\\UE_$ueVersion\\Engine\\Build\\BatchFiles\\RunUAT.bat
+    uatPath=$uePath\\UE_$ueVersion\\Engine\\Build\\BatchFiles\\
 
     targetPlatform=Win64
 
     archivePath=Build\\$targetPlatform
 
-    echo $uatPath BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
-    cmd <<< $uatPath BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    echo $uatPath/RunUAT.bat BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    pushd $uatPath
+    ./RunUAT.bat BuildCookRun -rocket -installed -nop4 -nocompile -project="$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    popd
 
     echo ======= RUNNING TESTS WIN64 =======
 

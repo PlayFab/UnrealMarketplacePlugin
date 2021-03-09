@@ -79,7 +79,7 @@ steps:
 
     uePath="C:/dev/UE4_GDK_PFP_MAIN"
 
-    uatPath=$uePath/Engine/Build/BatchFiles/RunUAT.bat
+    uatPath=$uePath/RunUAT.bat
 
     ufePath=$uePath/Engine/Binaries/Win64/UnrealFrontEnd.exe
 

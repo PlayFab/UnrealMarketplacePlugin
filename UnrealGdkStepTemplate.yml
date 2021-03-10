@@ -86,7 +86,7 @@ steps:
     archivePath=Build/$targetPlatform
 
     pushd $uePath
-    ./RunUAT.bat BuildCookRun -rocket -installed -nop4 -nocompile -project="$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    ./RunUAT.bat BuildCookRun -rocket -nop4 -project="$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=Win64 -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
     popd
 
     echo ======= RUNNING TESTS WIN GDK =======

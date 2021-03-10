@@ -77,7 +77,7 @@ steps:
     
     echo ========== BUILDING WIN GDK ==========
 
-    uePath="C:/dev/UE4_GDK_PFP_MAIN"
+    uePath="C:/dev/UE4_GDK_PFP_MAIN/Engine/Build/BatchFiles"
 
     exampleProjectPath=$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/ExampleProject.uproject
 

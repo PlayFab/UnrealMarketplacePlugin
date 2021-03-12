@@ -91,7 +91,7 @@ steps:
 
     echo ======= RUNNING TESTS WIN GDK =======
 
-    "$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/ExampleProject/Binaries/$targetPlatform/ExampleProject.exe" -run=RunTests -NoShaderCompile
+    #"$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/ExampleProject/Binaries/$targetPlatform/ExampleProject.exe" -run=RunTests -NoShaderCompile
 
   displayName: 'Build/Test/Report'
 - task: PublishTestResults@2

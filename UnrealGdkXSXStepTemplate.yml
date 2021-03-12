@@ -1,0 +1,101 @@
+# STEPS LEVEL TEMPLATE:
+# Used to build Unreal Gdk for Xbox Series X
+# Reusable
+# Used to "hide" the additional variables specific to this SDK which shouldn't be set from a higher level, or
+#   shared from a multi-build pipeline like a publish
+
+parameters:
+- name: ApiSpecSource
+  displayName: ApiSpecSource
+  type: string
+  default: -apiSpecGitUrl https://raw.githubusercontent.com/PlayFab/API_Specs/master/
+- name: CommitMessage
+  displayName: CommitMessage
+  type: string
+  default: Automated build from ADO Pipeline
+- name: GitDestBranch
+  displayName: GitDestBranch
+  type: string
+  default: doNotCommit
+- name: SdkName
+  displayName: SdkName
+  type: string
+  default: UnrealMarketplacePlugin
+- name: ueVersion
+  displayName: ueVersion
+  type: string
+  default: 4.25
+- name: SelfTemplateResource
+  displayName: SelfTemplateResource
+  type: string
+  default: self
+
+steps:
+- checkout: JenkinsSdkSetupScripts
+  clean: true
+  path: s
+- checkout: API_Specs
+  clean: true
+  path: s/API_Specs
+- checkout: SdkGenerator
+  clean: true
+  path: s/SdkGenerator
+- checkout: ${{ parameters.SelfTemplateResource }}
+  clean: true
+  submodules: true
+  path: s/SdkGenerator/privateTemplates/UnrealMarketplacePlugin
+- checkout: UnrealMarketplacePlugin
+  clean: true
+  submodules: true
+  path: s/sdks/UnrealMarketplacePlugin
+  persistCredentials: true
+- bash: |
+    set -e
+
+    echo alias the ADO variables into local variables
+    ApiSpecSource="${{ parameters.ApiSpecSource }}"
+    CommitMessage="${{ parameters.CommitMessage }}"
+    GitDestBranch="${{ parameters.GitDestBranch }}"
+    SdkName="${{ parameters.SdkName }}"
+    ueVersion="${{ parameters.ueVersion }}"
+    WORKSPACE=$(pwd -W)
+    # Hack attempt to get WORKSPACE into a sub-environment
+    export WORKSPACE="$WORKSPACE"
+
+    cd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline"
+    . ./testInit.sh
+
+    . "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline/util.sh"
+
+    cd "$WORKSPACE/SDKGenerator/SDKBuildScripts"
+    targetSrc="UnrealMarketplacePlugin"
+    . ./shared_build.sh
+
+    cp "$WORKSPACE/JenkinsSdkSetupScripts/Creds/testTitleData.json" "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/Content/TestTitleData/testTitleData.json"
+
+    cd "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject"
+    
+    echo ========== BUILDING WIN GDK ==========
+
+    uePath="C:/dev/UE4_GDK_PFP_MAIN/Engine/Build/BatchFiles"
+
+    exampleProjectPath=$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/ExampleProject.uproject
+
+    targetPlatform=XSX
+
+    archivePath=Build/$targetPlatform
+
+    pushd $uePath
+    ./RunUAT.bat BuildCookRun -rocket -nop4 -project="$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    popd
+
+    echo ======= RUNNING TESTS WIN GDK =======
+
+    "$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/ExampleProject/Binaries/$targetPlatform/ExampleProject.exe" -run=RunTests -NoShaderCompile
+
+  displayName: 'Build/Test/Report'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '*.xml'
+    testRunTitle: UnrealGdkXSXTemplate

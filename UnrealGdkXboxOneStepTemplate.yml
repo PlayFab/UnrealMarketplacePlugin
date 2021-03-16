@@ -90,8 +90,28 @@ steps:
     popd
 
     echo ======= RUNNING TESTS WIN GDK ON DEVICE =======
+    XboxOneDeployPath=$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/
+    XboxOneAppId=ADDAPPID
+    XboxOneUninstallPath=UNINSTALLPATH
 
-    #"$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/ExampleProject/Binaries/$targetPlatform/ExampleProject.exe" -run=RunTests -NoShaderCompile
+    xbapp uninstall $XboxOneUninstallPath || true
+
+    echo copy expected file over
+    cp "C:\Program Files (x86)\Microsoft Durango XDK\180709\sideload\era.xvd" "$XboxOneDeployPath\era.xvd"
+
+    echo xbapp deploy $XboxOneDeployPath
+    cd $XboxOneDeployPath
+    ls
+    xbapp deploy $XboxOneDeployPath
+
+    echo xbcp test title data to device
+    xbcp "$WORKSPACE\JenkinsSdkSetupScripts\Creds\testTitleData.json" "xs:\shares\$XboxOneUninstallPath\ExampleProject\Content\TestTitleData"
+
+    echo xbapp launch $XboxOneAppId
+    xbapp launch $XboxOneAppId
+
+    echo ==== Wait for Unreal Test to complete on the console ====
+    sleep 60
 
   displayName: 'Build/Test/Report'
 - task: PublishTestResults@2

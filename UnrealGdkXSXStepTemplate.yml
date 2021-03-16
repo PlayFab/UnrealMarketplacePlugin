@@ -91,7 +91,28 @@ steps:
 
     echo ======= RUNNING TESTS WIN GDK =======
 
-    #"$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/ExampleProject/Binaries/$targetPlatform/ExampleProject.exe" -run=RunTests -NoShaderCompile
+    XSXDeployPath=$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/
+    XSXAppId=ADDAPPID
+    XSXUninstallPath=UNINSTALLPATH
+
+    xbapp uninstall $XSXUninstallPath || true
+
+    #is this required for scarllet devices?
+    #cp "C:\Program Files (x86)\Microsoft Durango XDK\180709\sideload\era.xvd" "$XSXDeployPath\era.xvd"
+
+    echo xbapp deploy $XSXDeployPath
+    cd $XSXDeployPath
+    ls
+    xbapp deploy $XSXDeployPath
+
+    echo xbcp test title data
+    xbcp "$WORKSPACE\JenkinsSdkSetupScripts\Creds\testTitleData.json" "xs:\shares\$XSXUninstallPath\ExampleProject\Content\TestTitleData"
+
+    echo xbapp launch $XSXAppId
+    xbapp launch $XSXAppId
+
+    echo ==== Wait for Unreal Test to complete on the console ====
+    sleep 60
 
   displayName: 'Build/Test/Report'
 - task: PublishTestResults@2

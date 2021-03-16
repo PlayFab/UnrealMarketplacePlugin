@@ -193,9 +193,6 @@ namespace ExperimentationModels
         // [optional] Description of the experiment.
         FString Description;
 
-        // [optional] The duration of the experiment, in days.
-        Boxed<uint32> Duration;
-
         // [optional] When experiment should end.
         Boxed<FDateTime> EndDate;
 
@@ -228,7 +225,6 @@ namespace ExperimentationModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             Description(),
-            Duration(),
             EndDate(),
             ExclusionGroupId(),
             ExclusionGroupTrafficAllocation(),
@@ -244,7 +240,6 @@ namespace ExperimentationModels
             FPlayFabCppRequestCommon(),
             CustomTags(src.CustomTags),
             Description(src.Description),
-            Duration(src.Duration),
             EndDate(src.EndDate),
             ExclusionGroupId(src.ExclusionGroupId),
             ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
@@ -453,9 +448,6 @@ namespace ExperimentationModels
         // [optional] Description of the experiment.
         FString Description;
 
-        // [optional] The duration of the experiment, in days.
-        Boxed<uint32> Duration;
-
         // [optional] When experiment should end/was ended.
         Boxed<FDateTime> EndDate;
 
@@ -493,7 +485,6 @@ namespace ExperimentationModels
         FExperiment() :
             FPlayFabCppBaseModel(),
             Description(),
-            Duration(),
             EndDate(),
             ExclusionGroupId(),
             ExclusionGroupTrafficAllocation(),
@@ -510,7 +501,6 @@ namespace ExperimentationModels
         FExperiment(const FExperiment& src) :
             FPlayFabCppBaseModel(),
             Description(src.Description),
-            Duration(src.Duration),
             EndDate(src.EndDate),
             ExclusionGroupId(src.ExclusionGroupId),
             ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
@@ -1160,9 +1150,6 @@ namespace ExperimentationModels
         // [optional] Description of the experiment.
         FString Description;
 
-        // [optional] The duration of the experiment, in days.
-        Boxed<uint32> Duration;
-
         // [optional] When experiment should end.
         Boxed<FDateTime> EndDate;
 
@@ -1198,7 +1185,6 @@ namespace ExperimentationModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             Description(),
-            Duration(),
             EndDate(),
             ExclusionGroupId(),
             ExclusionGroupTrafficAllocation(),
@@ -1215,7 +1201,6 @@ namespace ExperimentationModels
             FPlayFabCppRequestCommon(),
             CustomTags(src.CustomTags),
             Description(src.Description),
-            Duration(src.Duration),
             EndDate(src.EndDate),
             ExclusionGroupId(src.ExclusionGroupId),
             ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),

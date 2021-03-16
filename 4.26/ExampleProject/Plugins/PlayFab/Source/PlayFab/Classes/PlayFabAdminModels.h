@@ -615,6 +615,9 @@ public:
     /** The name of the policy read. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString PolicyName;
+    /** Policy version. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        int32 PolicyVersion = 0;
     /** The statements in the requested policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         TArray<UPlayFabJsonObject*> Statements;
@@ -717,7 +720,10 @@ public:
 /**
  * Updates permissions for your title. Policies affect what is allowed to happen on your title. Your policy is a collection
  * of statements that, together, govern particular area for your title. Today, the only allowed policy is called
- * 'ApiPolicy' and it governs what api calls are allowed.
+ * 'ApiPolicy' and it governs what API calls are allowed. To verify that you have the latest version always download the
+ * current policy from GetPolicy before uploading a new policy. PlayFab updates the base policy periodically and will
+ * automatically apply it to the uploaded policy. Overwriting the combined policy blindly may result in unexpected API
+ * errors.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminUpdatePolicyRequest : public FPlayFabRequestCommon
@@ -730,6 +736,9 @@ public:
     /** The name of the policy being updated. Only supported name is 'ApiPolicy' */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString PolicyName;
+    /** Version of the policy to update. Must be the latest (as returned by GetPolicy). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        int32 PolicyVersion = 0;
     /** The new statements to include in the policy. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         TArray<UPlayFabJsonObject*> Statements;

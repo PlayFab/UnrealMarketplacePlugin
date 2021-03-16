@@ -232,7 +232,7 @@ namespace DataModels
 
     struct PLAYFABCPP_API FGetFileMetadata : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Checksum value for the file
+        // [optional] Checksum value for the file, can be used to check if the file on the server has changed.
         FString Checksum;
 
         // [optional] Download URL where the file can be retrieved

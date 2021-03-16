@@ -163,7 +163,6 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::CreateExperiment(FExperi
     } else {
         OutRestJsonObj->SetStringField(TEXT("Description"), request.Description);
     }
-    OutRestJsonObj->SetNumberField(TEXT("Duration"), request.Duration);
     if (request.EndDate.IsEmpty() || request.EndDate == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EndDate"));
     } else {
@@ -789,7 +788,6 @@ UPlayFabExperimentationAPI* UPlayFabExperimentationAPI::UpdateExperiment(FExperi
     } else {
         OutRestJsonObj->SetStringField(TEXT("Description"), request.Description);
     }
-    OutRestJsonObj->SetNumberField(TEXT("Duration"), request.Duration);
     if (request.EndDate.IsEmpty() || request.EndDate == "") {
         OutRestJsonObj->SetFieldNull(TEXT("EndDate"));
     } else {

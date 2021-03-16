@@ -381,12 +381,6 @@ void PlayFab::ExperimentationModels::FCreateExperimentRequest::writeJSON(JsonWri
         writer->WriteValue(Description);
     }
 
-    if (Duration.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Duration"));
-        writer->WriteValue(static_cast<int64>(Duration));
-    }
-
     if (EndDate.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("EndDate"));
@@ -466,13 +460,6 @@ bool PlayFab::ExperimentationModels::FCreateExperimentRequest::readFromValue(con
     {
         FString TmpValue;
         if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> DurationValue = obj->TryGetField(TEXT("Duration"));
-    if (DurationValue.IsValid() && !DurationValue->IsNull())
-    {
-        uint32 TmpValue;
-        if (DurationValue->TryGetNumber(TmpValue)) { Duration = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> EndDateValue = obj->TryGetField(TEXT("EndDate"));
@@ -837,12 +824,6 @@ void PlayFab::ExperimentationModels::FExperiment::writeJSON(JsonWriter& writer) 
         writer->WriteValue(Description);
     }
 
-    if (Duration.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Duration"));
-        writer->WriteValue(static_cast<int64>(Duration));
-    }
-
     if (EndDate.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("EndDate"));
@@ -924,13 +905,6 @@ bool PlayFab::ExperimentationModels::FExperiment::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> DurationValue = obj->TryGetField(TEXT("Duration"));
-    if (DurationValue.IsValid() && !DurationValue->IsNull())
-    {
-        uint32 TmpValue;
-        if (DurationValue->TryGetNumber(TmpValue)) { Duration = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> EndDateValue = obj->TryGetField(TEXT("EndDate"));
@@ -2083,12 +2057,6 @@ void PlayFab::ExperimentationModels::FUpdateExperimentRequest::writeJSON(JsonWri
         writer->WriteValue(Description);
     }
 
-    if (Duration.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Duration"));
-        writer->WriteValue(static_cast<int64>(Duration));
-    }
-
     if (EndDate.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("EndDate"));
@@ -2178,13 +2146,6 @@ bool PlayFab::ExperimentationModels::FUpdateExperimentRequest::readFromValue(con
     {
         FString TmpValue;
         if (DescriptionValue->TryGetString(TmpValue)) { Description = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> DurationValue = obj->TryGetField(TEXT("Duration"));
-    if (DurationValue.IsValid() && !DurationValue->IsNull())
-    {
-        uint32 TmpValue;
-        if (DurationValue->TryGetNumber(TmpValue)) { Duration = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> EndDateValue = obj->TryGetField(TEXT("EndDate"));

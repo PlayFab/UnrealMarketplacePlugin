@@ -546,6 +546,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1512: returnText = "VirtualCurrencyCurrentlyUnavailable"; break;
     case 1513: returnText = "SteamUserNotFound"; break;
     case 1514: returnText = "ElasticSearchOperationFailed"; break;
+    case 1515: returnText = "NotImplemented"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

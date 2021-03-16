@@ -12179,6 +12179,9 @@ void PlayFab::AdminModels::FGetPolicyResponse::writeJSON(JsonWriter& writer) con
         writer->WriteValue(PolicyName);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("PolicyVersion"));
+    writer->WriteValue(PolicyVersion);
+
     if (Statements.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Statements"));
@@ -12200,6 +12203,13 @@ bool PlayFab::AdminModels::FGetPolicyResponse::readFromValue(const TSharedPtr<FJ
     {
         FString TmpValue;
         if (PolicyNameValue->TryGetString(TmpValue)) { PolicyName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PolicyVersionValue = obj->TryGetField(TEXT("PolicyVersion"));
+    if (PolicyVersionValue.IsValid() && !PolicyVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PolicyVersionValue->TryGetNumber(TmpValue)) { PolicyVersion = TmpValue; }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&StatementsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Statements"));
@@ -19742,6 +19752,9 @@ void PlayFab::AdminModels::FUpdatePolicyRequest::writeJSON(JsonWriter& writer) c
         writer->WriteValue(PolicyName);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("PolicyVersion"));
+    writer->WriteValue(PolicyVersion);
+
     writer->WriteArrayStart(TEXT("Statements"));
     for (const FPermissionStatement& item : Statements)
         item.writeJSON(writer);
@@ -19767,6 +19780,13 @@ bool PlayFab::AdminModels::FUpdatePolicyRequest::readFromValue(const TSharedPtr<
     {
         FString TmpValue;
         if (PolicyNameValue->TryGetString(TmpValue)) { PolicyName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PolicyVersionValue = obj->TryGetField(TEXT("PolicyVersion"));
+    if (PolicyVersionValue.IsValid() && !PolicyVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PolicyVersionValue->TryGetNumber(TmpValue)) { PolicyVersion = TmpValue; }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&StatementsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Statements"));

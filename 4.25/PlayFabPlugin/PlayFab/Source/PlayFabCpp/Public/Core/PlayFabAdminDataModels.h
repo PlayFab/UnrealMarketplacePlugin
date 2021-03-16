@@ -7113,17 +7113,22 @@ namespace AdminModels
         // [optional] The name of the policy read.
         FString PolicyName;
 
+        // Policy version.
+        int32 PolicyVersion;
+
         // [optional] The statements in the requested policy.
         TArray<FPermissionStatement> Statements;
         FGetPolicyResponse() :
             FPlayFabCppResultCommon(),
             PolicyName(),
+            PolicyVersion(0),
             Statements()
             {}
 
         FGetPolicyResponse(const FGetPolicyResponse& src) :
             FPlayFabCppResultCommon(),
             PolicyName(src.PolicyName),
+            PolicyVersion(src.PolicyVersion),
             Statements(src.Statements)
             {}
 
@@ -11793,12 +11798,16 @@ namespace AdminModels
         // The name of the policy being updated. Only supported name is 'ApiPolicy'
         FString PolicyName;
 
+        // Version of the policy to update. Must be the latest (as returned by GetPolicy).
+        int32 PolicyVersion;
+
         // The new statements to include in the policy.
         TArray<FPermissionStatement> Statements;
         FUpdatePolicyRequest() :
             FPlayFabCppRequestCommon(),
             OverwritePolicy(false),
             PolicyName(),
+            PolicyVersion(0),
             Statements()
             {}
 
@@ -11806,6 +11815,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon(),
             OverwritePolicy(src.OverwritePolicy),
             PolicyName(src.PolicyName),
+            PolicyVersion(src.PolicyVersion),
             Statements(src.Statements)
             {}
 

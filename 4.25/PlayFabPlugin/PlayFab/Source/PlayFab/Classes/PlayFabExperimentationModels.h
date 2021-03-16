@@ -69,9 +69,6 @@ public:
     /** Description of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;
-    /** The duration of the experiment, in days. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        int32 Duration = 0;
     /** When experiment should end. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString EndDate;
@@ -338,9 +335,6 @@ public:
     /** Description of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Description;
-    /** The duration of the experiment, in days. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        int32 Duration = 0;
     /** When experiment should end. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString EndDate;

@@ -92,27 +92,23 @@ steps:
     echo ======= RUNNING TESTS WIN GDK =======
 
     XSXDeployPath=$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/
-    XSXAppId=ADDAPPID
-    XSXUninstallPath=UNINSTALLPATH
 
-    echo === connect to console $UnrealGdkScarlettIP ===
-    echo === xbconnect $UnrealGdkScarlettIP ===
+    echo === connect to console: $UnrealGdkScarlettIP ===
     xbconnect $UnrealGdkScarlettIP
 
+    echo === xbapp uninstall $XSXUninstallPath === 
     xbapp uninstall $XSXUninstallPath || true
-
-    #is this required for scarllet devices?
-    #cp "C:\Program Files (x86)\Microsoft Durango XDK\180709\sideload\era.xvd" "$XSXDeployPath\era.xvd"
 
     echo xbapp deploy $XSXDeployPath
     cd $XSXDeployPath
     ls
+    echo === deploying ===
     xbapp deploy $XSXDeployPath
 
     echo xbcp test title data
-    xbcp "$WORKSPACE\JenkinsSdkSetupScripts\Creds\testTitleData.json" "xs:\shares\$XSXUninstallPath\ExampleProject\Content\TestTitleData"
+    echo xbcp "$WORKSPACE\JenkinsSdkSetupScripts\Creds\testTitleData.json" "xs:\shares\$XSXUninstallPath\ExampleProject\Content\TestTitleData"
 
-    echo xbapp launch $XSXAppId
+    echo === xbapp launch $XSXAppId ===
     xbapp launch $XSXAppId
 
     echo ==== Wait for Unreal Test to complete on the console ====

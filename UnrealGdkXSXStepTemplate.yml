@@ -95,6 +95,9 @@ steps:
     XSXAppId=ADDAPPID
     XSXUninstallPath=UNINSTALLPATH
 
+    echo === connect to console ===
+    xbconnect $UnrealGdkScarlettIP
+
     xbapp uninstall $XSXUninstallPath || true
 
     #is this required for scarllet devices?

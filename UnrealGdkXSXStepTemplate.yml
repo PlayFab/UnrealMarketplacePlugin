@@ -95,7 +95,8 @@ steps:
     XSXAppId=ADDAPPID
     XSXUninstallPath=UNINSTALLPATH
 
-    echo === connect to console ===
+    echo === connect to console $UnrealGdkScarlettIP ===
+    echo === xbconnect $UnrealGdkScarlettIP ===
     xbconnect $UnrealGdkScarlettIP
 
     xbapp uninstall $XSXUninstallPath || true

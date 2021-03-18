@@ -103,10 +103,7 @@ steps:
     cd $XSXDeployPath
     ls
     echo === deploying ===
-    xbapp deploy .
-
-    echo xbcp test title data
-    echo xbcp "$WORKSPACE\JenkinsSdkSetupScripts\Creds\testTitleData.json" "xs:\shares\$XSXUninstallPath\ExampleProject\Content\TestTitleData"
+    xbapp deploy . || true
 
     echo === xbapp launch $XSXAppId ===
     xbapp launch $XSXAppId

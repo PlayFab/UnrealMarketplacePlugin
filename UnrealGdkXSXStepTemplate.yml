@@ -91,25 +91,11 @@ steps:
 
     echo ======= RUNNING TESTS WIN GDK =======
 
-    XSXDeployPath=$WORKSPACE/sdks/UnrealMarketplacePlugin/$ueVersion/ExampleProject/Saved/StagedBuilds/$targetPlatform/
+    pushd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Consoles/xbox/"
+    . ./ue_gdk_xsx.sh
+    popd
 
-    echo === connect to console: $UnrealGdkScarlettIP ===
-    xbconnect $UnrealGdkScarlettIP
-
-    echo === xbapp uninstall $XSXUninstallPath === 
-    xbapp uninstall $XSXUninstallPath || true
-
-    echo xbapp deploy $XSXDeployPath
-    cd $XSXDeployPath
-    ls
-    echo === deploying ===
-    xbapp deploy . || true
-
-    echo === xbapp launch $XSXAppId ===
-    xbapp launch $XSXAppId
-
-    echo ==== Wait for Unreal Test to complete on the console ====
-    sleep 60
+    echo === END TEST ===
 
   displayName: 'Build/Test/Report'
 - task: PublishTestResults@2

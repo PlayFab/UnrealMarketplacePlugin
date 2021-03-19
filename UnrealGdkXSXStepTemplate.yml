@@ -92,6 +92,7 @@ steps:
     echo ======= RUNNING TESTS WIN GDK =======
 
     pushd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Consoles/xbox"
+    git checkout tb/what-the-fix
     pwd
     ls
     . ./ue_gdk_xsx.sh

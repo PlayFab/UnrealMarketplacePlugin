@@ -91,7 +91,9 @@ steps:
 
     echo ======= RUNNING TESTS WIN GDK =======
 
-    pushd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Consoles/xbox/"
+    pushd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Consoles/xbox"
+    pwd
+    ls
     . ./ue_gdk_xsx.sh
     popd
 

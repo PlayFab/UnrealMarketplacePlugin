@@ -505,15 +505,6 @@ void PlayFab::MultiplayerModels::FBuildAliasDetailsResponse::writeJSON(JsonWrite
     }
 
 
-    writer->WriteIdentifierPrefix(TEXT("PageSize"));
-    writer->WriteValue(PageSize);
-
-    if (SkipToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
-        writer->WriteValue(SkipToken);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -542,20 +533,6 @@ bool PlayFab::MultiplayerModels::FBuildAliasDetailsResponse::readFromValue(const
         BuildSelectionCriteria.Add(FBuildSelectionCriterion(CurrentItem->AsObject()));
     }
 
-
-    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
-    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
-    {
-        int32 TmpValue;
-        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
-    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
-    }
 
     return HasSucceeded;
 }
@@ -4212,6 +4189,12 @@ void PlayFab::MultiplayerModels::FServerDetails::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (Fqdn.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Fqdn"));
+        writer->WriteValue(Fqdn);
+    }
+
     if (IPV4Address.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IPV4Address"));
@@ -4239,6 +4222,13 @@ void PlayFab::MultiplayerModels::FServerDetails::writeJSON(JsonWriter& writer) c
 bool PlayFab::MultiplayerModels::FServerDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> FqdnValue = obj->TryGetField(TEXT("Fqdn"));
+    if (FqdnValue.IsValid() && !FqdnValue->IsNull())
+    {
+        FString TmpValue;
+        if (FqdnValue->TryGetString(TmpValue)) { Fqdn = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IPV4AddressValue = obj->TryGetField(TEXT("IPV4Address"));
     if (IPV4AddressValue.IsValid() && !IPV4AddressValue->IsNull())
@@ -6298,6 +6288,12 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::writeJSON
 {
     writer->WriteObjectStart();
 
+    if (BuildId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildId"));
+        writer->WriteValue(BuildId);
+    }
+
     if (ConnectedPlayers.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("ConnectedPlayers"));
@@ -6370,6 +6366,13 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::writeJSON
 bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
+    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&ConnectedPlayersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ConnectedPlayers"));
     for (int32 Idx = 0; Idx < ConnectedPlayersArray.Num(); Idx++)
@@ -7694,12 +7697,77 @@ bool PlayFab::MultiplayerModels::FListAssetSummariesResponse::readFromValue(cons
     return HasSucceeded;
 }
 
-PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::~FListBuildAliasesForTitleResponse()
+PlayFab::MultiplayerModels::FListBuildAliasesRequest::~FListBuildAliasesRequest()
 {
 
 }
 
-void PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::writeJSON(JsonWriter& writer) const
+void PlayFab::MultiplayerModels::FListBuildAliasesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (PageSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PageSize"));
+        writer->WriteValue(PageSize);
+    }
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListBuildAliasesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListBuildAliasesResponse::~FListBuildAliasesResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListBuildAliasesResponse::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
@@ -7712,10 +7780,19 @@ void PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::writeJSON(Js
     }
 
 
+    writer->WriteIdentifierPrefix(TEXT("PageSize"));
+    writer->WriteValue(PageSize);
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::MultiplayerModels::FListBuildAliasesResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -7726,6 +7803,20 @@ bool PlayFab::MultiplayerModels::FListBuildAliasesForTitleResponse::readFromValu
         BuildAliases.Add(FBuildAliasDetailsResponse(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -9181,45 +9272,6 @@ bool PlayFab::MultiplayerModels::FListVirtualMachineSummariesResponse::readFromV
     return HasSucceeded;
 }
 
-PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::~FMultiplayerEmptyRequest()
-{
-
-}
-
-void PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::MultiplayerModels::FMultiplayerEmptyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    return HasSucceeded;
-}
-
 void PlayFab::MultiplayerModels::writeOsPlatformEnumJSON(OsPlatform enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -9379,6 +9431,12 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::writeJSON(Js
 {
     writer->WriteObjectStart();
 
+    if (BuildId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BuildId"));
+        writer->WriteValue(BuildId);
+    }
+
     if (ConnectedPlayers.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("ConnectedPlayers"));
@@ -9451,6 +9509,13 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::writeJSON(Js
 bool PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
+    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&ConnectedPlayersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ConnectedPlayers"));
     for (int32 Idx = 0; Idx < ConnectedPlayersArray.Num(); Idx++)

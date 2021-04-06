@@ -529,7 +529,12 @@ namespace PlayFab
         bool LinkFacebookAccount(ClientModels::FLinkFacebookAccountRequest& request, const FLinkFacebookAccountDelegate& SuccessDelegate = FLinkFacebookAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Facebook Instant Games Id to the user's PlayFab account
         bool LinkFacebookInstantGamesId(ClientModels::FLinkFacebookInstantGamesIdRequest& request, const FLinkFacebookInstantGamesIdDelegate& SuccessDelegate = FLinkFacebookInstantGamesIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Links the Game Center account associated with the provided Game Center ID to the user's PlayFab account
+        /**
+         * Links the Game Center account associated with the provided Game Center ID to the user's PlayFab account. Logging in with
+         * a Game Center ID is insecure if you do not include the optional PublicKeyUrl, Salt, Signature, and Timestamp parameters
+         * in this request. It is recommended you require these parameters on all Game Center calls by going to the Apple Add-ons
+         * page in the PlayFab Game Manager and enabling the 'Require secure authentication only for this app' option.
+         */
         bool LinkGameCenterAccount(ClientModels::FLinkGameCenterAccountRequest& request, const FLinkGameCenterAccountDelegate& SuccessDelegate = FLinkGameCenterAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Links the currently signed-in user account to their Google account, using their Google account credentials
@@ -600,7 +605,10 @@ namespace PlayFab
         bool LoginWithFacebookInstantGamesId(ClientModels::FLoginWithFacebookInstantGamesIdRequest& request, const FLoginWithFacebookInstantGamesIdDelegate& SuccessDelegate = FLoginWithFacebookInstantGamesIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Signs the user in using an iOS Game Center player identifier, returning a session identifier that can subsequently be
-         * used for API calls which require an authenticated user
+         * used for API calls which require an authenticated user. Logging in with a Game Center ID is insecure if you do not
+         * include the optional PublicKeyUrl, Salt, Signature, and Timestamp parameters in this request. It is recommended you
+         * require these parameters on all Game Center calls by going to the Apple Add-ons page in the PlayFab Game Manager and
+         * enabling the 'Require secure authentication only for this app' option.
          * The Game Center player identifier (https://developer.apple.com/library/ios/documentation/Accounts/Reference/ACAccountClassRef/index.html#//apple_ref/occ/instp/ACAccount/identifier) is a generated string which is stored on the local device. As with device identifiers, care must be taken to never expose a player's Game Center identifier to end users, as that could result in a user's account being compromised. If this is the first time a user has signed in with Game Center and CreateAccount is set to true, a new PlayFab account will be created and linked to the Game Center identifier. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Game Center account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
          */
         bool LoginWithGameCenter(ClientModels::FLoginWithGameCenterRequest& request, const FLoginWithGameCenterDelegate& SuccessDelegate = FLoginWithGameCenterDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

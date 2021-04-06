@@ -61,7 +61,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FJoinMatchmakingTicketDelegate, const MultiplayerModels::FJoinMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FListArchivedMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListAssetSummariesDelegate, const MultiplayerModels::FListAssetSummariesResponse&);
-        DECLARE_DELEGATE_OneParam(FListBuildAliasesDelegate, const MultiplayerModels::FListBuildAliasesForTitleResponse&);
+        DECLARE_DELEGATE_OneParam(FListBuildAliasesDelegate, const MultiplayerModels::FListBuildAliasesResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildSummariesV2Delegate, const MultiplayerModels::FListBuildSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListCertificateSummariesDelegate, const MultiplayerModels::FListCertificateSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListContainerImagesDelegate, const MultiplayerModels::FListContainerImagesResponse&);
@@ -316,7 +316,7 @@ namespace PlayFab
          * game client to request list of builds with player entity token.
          * Returns a list of summarized details of all multiplayer server builds for a title.
          */
-        bool ListBuildAliases(MultiplayerModels::FMultiplayerEmptyRequest& request, const FListBuildAliasesDelegate& SuccessDelegate = FListBuildAliasesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        bool ListBuildAliases(MultiplayerModels::FListBuildAliasesRequest& request, const FListBuildAliasesDelegate& SuccessDelegate = FListBuildAliasesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists summarized details of all multiplayer server builds for a title. Accepts tokens for title and if game client
          * access is enabled, allows game client to request list of builds with player entity token.

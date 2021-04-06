@@ -196,8 +196,6 @@ FMultiplayerBuildAliasDetailsResponse UPlayFabMultiplayerModelDecoder::decodeBui
     tempStruct.AliasId = !(dataObj->HasField("AliasId")) ? TEXT("") : dataObj->GetStringField("AliasId");
     tempStruct.AliasName = !(dataObj->HasField("AliasName")) ? TEXT("") : dataObj->GetStringField("AliasName");
     tempStruct.BuildSelectionCriteria = !(dataObj->HasField("BuildSelectionCriteria")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("BuildSelectionCriteria");
-    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
-    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
 
     return tempStruct;
 }
@@ -393,6 +391,7 @@ FMultiplayerGetMultiplayerServerDetailsResponse UPlayFabMultiplayerModelDecoder:
     FMultiplayerGetMultiplayerServerDetailsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
     tempStruct.ConnectedPlayers = !(dataObj->HasField("ConnectedPlayers")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("ConnectedPlayers");
     tempStruct.FQDN = !(dataObj->HasField("FQDN")) ? TEXT("") : dataObj->GetStringField("FQDN");
     tempStruct.IPV4Address = !(dataObj->HasField("IPV4Address")) ? TEXT("") : dataObj->GetStringField("IPV4Address");
@@ -489,13 +488,15 @@ FMultiplayerListAssetSummariesResponse UPlayFabMultiplayerModelDecoder::decodeLi
     return tempStruct;
 }
 
-FMultiplayerListBuildAliasesForTitleResponse UPlayFabMultiplayerModelDecoder::decodeListBuildAliasesForTitleResponseResponse(UPlayFabJsonObject* response)
+FMultiplayerListBuildAliasesResponse UPlayFabMultiplayerModelDecoder::decodeListBuildAliasesResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
-    FMultiplayerListBuildAliasesForTitleResponse tempStruct;
+    FMultiplayerListBuildAliasesResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.BuildAliases = !(dataObj->HasField("BuildAliases")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("BuildAliases");
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
 
     return tempStruct;
 }
@@ -606,6 +607,7 @@ FMultiplayerRequestMultiplayerServerResponse UPlayFabMultiplayerModelDecoder::de
     FMultiplayerRequestMultiplayerServerResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
     tempStruct.ConnectedPlayers = !(dataObj->HasField("ConnectedPlayers")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("ConnectedPlayers");
     tempStruct.FQDN = !(dataObj->HasField("FQDN")) ? TEXT("") : dataObj->GetStringField("FQDN");
     tempStruct.IPV4Address = !(dataObj->HasField("IPV4Address")) ? TEXT("") : dataObj->GetStringField("IPV4Address");

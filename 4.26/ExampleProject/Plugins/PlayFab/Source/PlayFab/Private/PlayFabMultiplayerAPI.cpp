@@ -2524,7 +2524,7 @@ void UPlayFabMultiplayerAPI::HelperListAssetSummaries(FPlayFabBaseModel response
 }
 
 /** Lists details of all build aliases for a title. Accepts tokens for title and if game client access is enabled, allows game client to request list of builds with player entity token. */
-UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildAliases(FMultiplayerMultiplayerEmptyRequest request,
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildAliases(FMultiplayerListBuildAliasesRequest request,
     FDelegateOnSuccessListBuildAliases onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
     UObject* customData)
@@ -2548,6 +2548,12 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListBuildAliases(FMultiplayerMul
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
+    if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SkipToken"), request.SkipToken);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2565,7 +2571,7 @@ void UPlayFabMultiplayerAPI::HelperListBuildAliases(FPlayFabBaseModel response, 
     }
     else if (!error.hasError && OnSuccessListBuildAliases.IsBound())
     {
-        FMultiplayerListBuildAliasesForTitleResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListBuildAliasesForTitleResponseResponse(response.responseData);
+        FMultiplayerListBuildAliasesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListBuildAliasesResponseResponse(response.responseData);
         OnSuccessListBuildAliases.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();

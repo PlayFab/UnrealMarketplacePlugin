@@ -1198,7 +1198,7 @@ void UPlayFabMultiplayerAPI::OnListAssetSummariesResult(FHttpRequestPtr HttpRequ
 }
 
 bool UPlayFabMultiplayerAPI::ListBuildAliases(
-    MultiplayerModels::FMultiplayerEmptyRequest& request,
+    MultiplayerModels::FListBuildAliasesRequest& request,
     const FListBuildAliasesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
@@ -1215,7 +1215,7 @@ bool UPlayFabMultiplayerAPI::ListBuildAliases(
 
 void UPlayFabMultiplayerAPI::OnListBuildAliasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildAliasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
-    MultiplayerModels::FListBuildAliasesForTitleResponse outResult;
+    MultiplayerModels::FListBuildAliasesResponse outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

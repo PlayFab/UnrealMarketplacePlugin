@@ -562,12 +562,6 @@ public:
     /** Array of build selection criteria. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
-    /** The page size on the response. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        int32 PageSize = 0;
-    /** The skip token for the paged response. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString SkipToken;
 };
 
 /** Creates a multiplayer server build alias and returns the created alias. */
@@ -1434,6 +1428,9 @@ struct PLAYFAB_API FMultiplayerGetMultiplayerServerDetailsResponse : public FPla
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The identity of the build in which the server was allocated. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildId;
     /** The connected players in the multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> ConnectedPlayers;
@@ -1684,25 +1681,37 @@ public:
         FString SkipToken;
 };
 
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListBuildAliasesForTitleResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The list of build aliases for the title */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        TArray<UPlayFabJsonObject*> BuildAliases;
-};
-
 /** Returns a list of summarized details of all multiplayer server builds for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerMultiplayerEmptyRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FMultiplayerListBuildAliasesRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** The page size for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListBuildAliasesResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of build aliases for the title */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> BuildAliases;
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
 };
 
 /** Returns a list of summarized details of all multiplayer server builds for a title. */
@@ -1991,6 +2000,9 @@ struct PLAYFAB_API FMultiplayerRequestMultiplayerServerResponse : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The identity of the build in which the server was allocated. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString BuildId;
     /** The connected players in the multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> ConnectedPlayers;

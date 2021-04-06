@@ -256,28 +256,18 @@ namespace MultiplayerModels
 
         // [optional] Array of build selection criteria.
         TArray<FBuildSelectionCriterion> BuildSelectionCriteria;
-        // The page size on the response.
-        int32 PageSize;
-
-        // [optional] The skip token for the paged response.
-        FString SkipToken;
-
         FBuildAliasDetailsResponse() :
             FPlayFabCppResultCommon(),
             AliasId(),
             AliasName(),
-            BuildSelectionCriteria(),
-            PageSize(0),
-            SkipToken()
+            BuildSelectionCriteria()
             {}
 
         FBuildAliasDetailsResponse(const FBuildAliasDetailsResponse& src) :
             FPlayFabCppResultCommon(),
             AliasId(src.AliasId),
             AliasName(src.AliasName),
-            BuildSelectionCriteria(src.BuildSelectionCriteria),
-            PageSize(src.PageSize),
-            SkipToken(src.SkipToken)
+            BuildSelectionCriteria(src.BuildSelectionCriteria)
             {}
 
         FBuildAliasDetailsResponse(const TSharedPtr<FJsonObject>& obj) : FBuildAliasDetailsResponse()
@@ -2279,6 +2269,9 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FServerDetails : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The fully qualified domain name of the virtual machine that is hosting this multiplayer server.
+        FString Fqdn;
+
         // [optional] The IPv4 address of the virtual machine that is hosting this multiplayer server.
         FString IPV4Address;
 
@@ -2289,6 +2282,7 @@ namespace MultiplayerModels
 
         FServerDetails() :
             FPlayFabCppBaseModel(),
+            Fqdn(),
             IPV4Address(),
             Ports(),
             Region()
@@ -2296,6 +2290,7 @@ namespace MultiplayerModels
 
         FServerDetails(const FServerDetails& src) :
             FPlayFabCppBaseModel(),
+            Fqdn(src.Fqdn),
             IPV4Address(src.IPV4Address),
             Ports(src.Ports),
             Region(src.Region)
@@ -3377,6 +3372,9 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerServerDetailsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] The identity of the build in which the server was allocated.
+        FString BuildId;
+
         // [optional] The connected players in the multiplayer server.
         TArray<FConnectedPlayer> ConnectedPlayers;
         // [optional] The fully qualified domain name of the virtual machine that is hosting this multiplayer server.
@@ -3407,6 +3405,7 @@ namespace MultiplayerModels
 
         FGetMultiplayerServerDetailsResponse() :
             FPlayFabCppResultCommon(),
+            BuildId(),
             ConnectedPlayers(),
             FQDN(),
             IPV4Address(),
@@ -3421,6 +3420,7 @@ namespace MultiplayerModels
 
         FGetMultiplayerServerDetailsResponse(const FGetMultiplayerServerDetailsResponse& src) :
             FPlayFabCppResultCommon(),
+            BuildId(src.BuildId),
             ConnectedPlayers(src.ConnectedPlayers),
             FQDN(src.FQDN),
             IPV4Address(src.IPV4Address),
@@ -4180,26 +4180,71 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FListBuildAliasesForTitleResponse : public PlayFab::FPlayFabCppResultCommon
+    struct PLAYFABCPP_API FListBuildAliasesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The list of build aliases for the title
-        TArray<FBuildAliasDetailsResponse> BuildAliases;
-        FListBuildAliasesForTitleResponse() :
-            FPlayFabCppResultCommon(),
-            BuildAliases()
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The page size for the request.
+        Boxed<int32> PageSize;
+
+        // [optional] The skip token for the paged request.
+        FString SkipToken;
+
+        FListBuildAliasesRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            PageSize(),
+            SkipToken()
             {}
 
-        FListBuildAliasesForTitleResponse(const FListBuildAliasesForTitleResponse& src) :
-            FPlayFabCppResultCommon(),
-            BuildAliases(src.BuildAliases)
+        FListBuildAliasesRequest(const FListBuildAliasesRequest& src) :
+            FPlayFabCppRequestCommon(),
+            CustomTags(src.CustomTags),
+            PageSize(src.PageSize),
+            SkipToken(src.SkipToken)
             {}
 
-        FListBuildAliasesForTitleResponse(const TSharedPtr<FJsonObject>& obj) : FListBuildAliasesForTitleResponse()
+        FListBuildAliasesRequest(const TSharedPtr<FJsonObject>& obj) : FListBuildAliasesRequest()
         {
             readFromValue(obj);
         }
 
-        ~FListBuildAliasesForTitleResponse();
+        ~FListBuildAliasesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListBuildAliasesResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of build aliases for the title
+        TArray<FBuildAliasDetailsResponse> BuildAliases;
+        // The page size on the response.
+        int32 PageSize;
+
+        // [optional] The skip token for the paged response.
+        FString SkipToken;
+
+        FListBuildAliasesResponse() :
+            FPlayFabCppResultCommon(),
+            BuildAliases(),
+            PageSize(0),
+            SkipToken()
+            {}
+
+        FListBuildAliasesResponse(const FListBuildAliasesResponse& src) :
+            FPlayFabCppResultCommon(),
+            BuildAliases(src.BuildAliases),
+            PageSize(src.PageSize),
+            SkipToken(src.SkipToken)
+            {}
+
+        FListBuildAliasesResponse(const TSharedPtr<FJsonObject>& obj) : FListBuildAliasesResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListBuildAliasesResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -5050,31 +5095,6 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FMultiplayerEmptyRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        FMultiplayerEmptyRequest() :
-            FPlayFabCppRequestCommon(),
-            CustomTags()
-            {}
-
-        FMultiplayerEmptyRequest(const FMultiplayerEmptyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
-
-        FMultiplayerEmptyRequest(const TSharedPtr<FJsonObject>& obj) : FMultiplayerEmptyRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FMultiplayerEmptyRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     enum OsPlatform
     {
         OsPlatformWindows,
@@ -5149,6 +5169,9 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FRequestMultiplayerServerResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] The identity of the build in which the server was allocated.
+        FString BuildId;
+
         // [optional] The connected players in the multiplayer server.
         TArray<FConnectedPlayer> ConnectedPlayers;
         // [optional] The fully qualified domain name of the virtual machine that is hosting this multiplayer server.
@@ -5179,6 +5202,7 @@ namespace MultiplayerModels
 
         FRequestMultiplayerServerResponse() :
             FPlayFabCppResultCommon(),
+            BuildId(),
             ConnectedPlayers(),
             FQDN(),
             IPV4Address(),
@@ -5193,6 +5217,7 @@ namespace MultiplayerModels
 
         FRequestMultiplayerServerResponse(const FRequestMultiplayerServerResponse& src) :
             FPlayFabCppResultCommon(),
+            BuildId(src.BuildId),
             ConnectedPlayers(src.ConnectedPlayers),
             FQDN(src.FQDN),
             IPV4Address(src.IPV4Address),

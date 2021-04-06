@@ -607,14 +607,14 @@ public:
         void HelperListAssetSummaries(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildAliases, FMultiplayerListBuildAliasesForTitleResponse, result, UObject*, customData);
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildAliases, FMultiplayerListBuildAliasesResponse, result, UObject*, customData);
 
     /**
      * Lists details of all build aliases for a title. Accepts tokens for title and if game client access is enabled, allows
      * game client to request list of builds with player entity token.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* ListBuildAliases(FMultiplayerMultiplayerEmptyRequest request,
+        static UPlayFabMultiplayerAPI* ListBuildAliases(FMultiplayerListBuildAliasesRequest request,
             FDelegateOnSuccessListBuildAliases onSuccess,
             FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 

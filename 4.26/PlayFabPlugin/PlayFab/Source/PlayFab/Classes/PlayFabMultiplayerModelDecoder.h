@@ -176,9 +176,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerListAssetSummariesResponse decodeListAssetSummariesResponseResponse(UPlayFabJsonObject* response);
 
-    /** Decode the ListBuildAliasesForTitleResponse response object*/
+    /** Decode the ListBuildAliasesResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        static FMultiplayerListBuildAliasesForTitleResponse decodeListBuildAliasesForTitleResponseResponse(UPlayFabJsonObject* response);
+        static FMultiplayerListBuildAliasesResponse decodeListBuildAliasesResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the ListBuildSummariesResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")

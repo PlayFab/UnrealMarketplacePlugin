@@ -1363,7 +1363,7 @@ enum class EIdentifiedDeviceType : uint8
 /** TriggerType */
 
 UENUM(BlueprintType)
-enum class ETriggerType : uint8
+enum class EPlayFabTriggerType : uint8
 {
     pfenum_HTTP UMETA(DisplayName = "HTTP"),
     pfenum_Queue UMETA(DisplayName = "Queue"),

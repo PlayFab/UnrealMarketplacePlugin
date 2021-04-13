@@ -72,7 +72,7 @@ function getDataTypeSafeName(apiElement, attrName) {
     var pfTypeName = apiElement[attrName];
     if (pfTypeName === "SourceType") // In Unreal, the Enum ESourceType exists in the Android builder and conflicts with our ESourceType enum
         return "PfSourceType";
-    if (pfTypeName === "TriggerType")
+    if (pfTypeName === "TriggerType") // In Unreal, the Enum ETriggerType exists in the Enhanced Input plugin and conflicts with our ETriggerType enum
         return "PfTriggerType"
     return pfTypeName;
 }

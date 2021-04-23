@@ -311,41 +311,41 @@ void UPlayFab<%- api.name %>API::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-	// Only set one of the potential authentication headers.
-	bool AuthSet = false;
-    
-	if (useEntityToken && !AuthSet)
-	{
-		FString AuthValue =
-			CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken();
-		if (!AuthValue.IsEmpty())
-		{
-			HttpRequest->SetHeader(TEXT("X-EntityToken"), AuthValue);
-			AuthSet = true;
-		}
-	}
-    
+    // Only set one of the potential authentication headers.
+    bool AuthSet = false;
+
+    if (useEntityToken && !AuthSet)
+    {
+        FString AuthValue =
+        CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-EntityToken"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
     if (useSessionTicket && !AuthSet)
-	{
-		FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket()
-																 : pfSettings->getSessionTicket();
-		if (!AuthValue.IsEmpty())
-		{
-			HttpRequest->SetHeader(TEXT("X-Authorization"), AuthValue);
-			AuthSet = true;
-		}
-	}
-    
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket()
+                                                                 : pfSettings->getSessionTicket();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-Authorization"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
     if (useSecretKey && !AuthSet)
-	{
-		FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey()
-																 : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
-		if (!AuthValue.IsEmpty())
-		{
-			HttpRequest->SetHeader(TEXT("X-SecretKey"), AuthValue);
-			AuthSet = true;
-		}
-	}
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey()
+                                                                 : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-SecretKey"), AuthValue);
+            AuthSet = true;
+        }
+    }
 
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());

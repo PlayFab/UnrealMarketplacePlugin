@@ -1807,7 +1807,7 @@ namespace AdminModels
         FDateTime LastModified;
 
         // Size of the content in bytes
-        uint32 Size;
+        double Size;
 
         FContentInfo() :
             FPlayFabCppBaseModel(),

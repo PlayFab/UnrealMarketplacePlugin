@@ -3188,7 +3188,7 @@ void PlayFab::AdminModels::FContentInfo::writeJSON(JsonWriter& writer) const
     writeDatetime(LastModified, writer);
 
     writer->WriteIdentifierPrefix(TEXT("Size"));
-    writer->WriteValue(static_cast<int64>(Size));
+    writer->WriteValue(Size);
 
     writer->WriteObjectEnd();
 }
@@ -3212,7 +3212,7 @@ bool PlayFab::AdminModels::FContentInfo::readFromValue(const TSharedPtr<FJsonObj
     const TSharedPtr<FJsonValue> SizeValue = obj->TryGetField(TEXT("Size"));
     if (SizeValue.IsValid() && !SizeValue->IsNull())
     {
-        uint32 TmpValue;
+        double TmpValue;
         if (SizeValue->TryGetNumber(TmpValue)) { Size = TmpValue; }
     }
 

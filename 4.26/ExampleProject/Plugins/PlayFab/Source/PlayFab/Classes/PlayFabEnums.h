@@ -1363,7 +1363,7 @@ enum class EIdentifiedDeviceType : uint8
 /** TriggerType */
 
 UENUM(BlueprintType)
-enum class ETriggerType : uint8
+enum class EPfTriggerType : uint8
 {
     pfenum_HTTP UMETA(DisplayName = "HTTP"),
     pfenum_Queue UMETA(DisplayName = "Queue"),
@@ -1434,10 +1434,7 @@ enum class EAzureRegion : uint8
     pfenum_SoutheastAsia UMETA(DisplayName = "SoutheastAsia"),
     pfenum_WestEurope UMETA(DisplayName = "WestEurope"),
     pfenum_WestUs UMETA(DisplayName = "WestUs"),
-    pfenum_ChinaEast2 UMETA(DisplayName = "ChinaEast2"),
-    pfenum_ChinaNorth2 UMETA(DisplayName = "ChinaNorth2"),
     pfenum_SouthAfricaNorth UMETA(DisplayName = "SouthAfricaNorth"),
-    pfenum_CentralUsEuap UMETA(DisplayName = "CentralUsEuap"),
     pfenum_WestCentralUs UMETA(DisplayName = "WestCentralUs"),
     pfenum_KoreaCentral UMETA(DisplayName = "KoreaCentral"),
     pfenum_FranceCentral UMETA(DisplayName = "FranceCentral"),

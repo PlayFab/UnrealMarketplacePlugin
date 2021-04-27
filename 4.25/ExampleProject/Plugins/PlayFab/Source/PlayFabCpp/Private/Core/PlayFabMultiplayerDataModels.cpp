@@ -177,10 +177,7 @@ void PlayFab::MultiplayerModels::writeAzureRegionEnumJSON(AzureRegion enumVal, J
     case AzureRegionSoutheastAsia: writer->WriteValue(TEXT("SoutheastAsia")); break;
     case AzureRegionWestEurope: writer->WriteValue(TEXT("WestEurope")); break;
     case AzureRegionWestUs: writer->WriteValue(TEXT("WestUs")); break;
-    case AzureRegionChinaEast2: writer->WriteValue(TEXT("ChinaEast2")); break;
-    case AzureRegionChinaNorth2: writer->WriteValue(TEXT("ChinaNorth2")); break;
     case AzureRegionSouthAfricaNorth: writer->WriteValue(TEXT("SouthAfricaNorth")); break;
-    case AzureRegionCentralUsEuap: writer->WriteValue(TEXT("CentralUsEuap")); break;
     case AzureRegionWestCentralUs: writer->WriteValue(TEXT("WestCentralUs")); break;
     case AzureRegionKoreaCentral: writer->WriteValue(TEXT("KoreaCentral")); break;
     case AzureRegionFranceCentral: writer->WriteValue(TEXT("FranceCentral")); break;
@@ -217,10 +214,7 @@ MultiplayerModels::AzureRegion PlayFab::MultiplayerModels::readAzureRegionFromVa
         _AzureRegionMap.Add(TEXT("SoutheastAsia"), AzureRegionSoutheastAsia);
         _AzureRegionMap.Add(TEXT("WestEurope"), AzureRegionWestEurope);
         _AzureRegionMap.Add(TEXT("WestUs"), AzureRegionWestUs);
-        _AzureRegionMap.Add(TEXT("ChinaEast2"), AzureRegionChinaEast2);
-        _AzureRegionMap.Add(TEXT("ChinaNorth2"), AzureRegionChinaNorth2);
         _AzureRegionMap.Add(TEXT("SouthAfricaNorth"), AzureRegionSouthAfricaNorth);
-        _AzureRegionMap.Add(TEXT("CentralUsEuap"), AzureRegionCentralUsEuap);
         _AzureRegionMap.Add(TEXT("WestCentralUs"), AzureRegionWestCentralUs);
         _AzureRegionMap.Add(TEXT("KoreaCentral"), AzureRegionKoreaCentral);
         _AzureRegionMap.Add(TEXT("FranceCentral"), AzureRegionFranceCentral);

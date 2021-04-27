@@ -551,12 +551,42 @@ void UPlayFabDataAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    if (useEntityToken)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
-    else if (useSessionTicket)
-        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
-    else if (useSecretKey)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey);
+    // Only set one of the potential authentication headers.
+    bool AuthSet = false;
+
+    if (useEntityToken && !AuthSet)
+    {
+        FString AuthValue =
+        CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-EntityToken"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSessionTicket && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket()
+                                                                 : pfSettings->getSessionTicket();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-Authorization"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSecretKey && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey()
+                                                                 : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-SecretKey"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

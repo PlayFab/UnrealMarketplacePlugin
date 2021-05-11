@@ -602,6 +602,7 @@ namespace PlayFab
         PlayFabErrorTitleNotEnabledForParty = 6000,
         PlayFabErrorPartyVersionNotFound = 6001,
         PlayFabErrorMultiplayerServerBuildReferencedByMatchmakingQueue = 6002,
+        PlayFabErrorMultiplayerServerBuildReferencedByBuildAlias = 6003,
         PlayFabErrorExperimentationExperimentStopped = 7000,
         PlayFabErrorExperimentationExperimentRunning = 7001,
         PlayFabErrorExperimentationExperimentNotFound = 7002,

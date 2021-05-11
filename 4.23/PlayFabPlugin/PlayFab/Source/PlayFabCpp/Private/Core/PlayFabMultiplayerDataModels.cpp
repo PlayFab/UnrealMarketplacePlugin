@@ -254,6 +254,7 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyEsv4: writer->WriteValue(TEXT("Esv4")); break;
     case AzureVmFamilyDsv3: writer->WriteValue(TEXT("Dsv3")); break;
     case AzureVmFamilyDsv2: writer->WriteValue(TEXT("Dsv2")); break;
+    case AzureVmFamilyNCasT4_v3: writer->WriteValue(TEXT("NCasT4_v3")); break;
     }
 }
 
@@ -282,6 +283,7 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("Esv4"), AzureVmFamilyEsv4);
         _AzureVmFamilyMap.Add(TEXT("Dsv3"), AzureVmFamilyDsv3);
         _AzureVmFamilyMap.Add(TEXT("Dsv2"), AzureVmFamilyDsv2);
+        _AzureVmFamilyMap.Add(TEXT("NCasT4_v3"), AzureVmFamilyNCasT4_v3);
 
     }
 
@@ -351,6 +353,7 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_DS3_v2: writer->WriteValue(TEXT("Standard_DS3_v2")); break;
     case AzureVmSizeStandard_DS4_v2: writer->WriteValue(TEXT("Standard_DS4_v2")); break;
     case AzureVmSizeStandard_DS5_v2: writer->WriteValue(TEXT("Standard_DS5_v2")); break;
+    case AzureVmSizeStandard_NC4as_T4_v3: writer->WriteValue(TEXT("Standard_NC4as_T4_v3")); break;
     }
 }
 
@@ -416,6 +419,7 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_DS3_v2"), AzureVmSizeStandard_DS3_v2);
         _AzureVmSizeMap.Add(TEXT("Standard_DS4_v2"), AzureVmSizeStandard_DS4_v2);
         _AzureVmSizeMap.Add(TEXT("Standard_DS5_v2"), AzureVmSizeStandard_DS5_v2);
+        _AzureVmSizeMap.Add(TEXT("Standard_NC4as_T4_v3"), AzureVmSizeStandard_NC4as_T4_v3);
 
     }
 

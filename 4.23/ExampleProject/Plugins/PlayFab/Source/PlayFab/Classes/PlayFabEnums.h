@@ -1463,6 +1463,7 @@ enum class EAzureVmFamily : uint8
     pfenum_Esv4 UMETA(DisplayName = "Esv4"),
     pfenum_Dsv3 UMETA(DisplayName = "Dsv3"),
     pfenum_Dsv2 UMETA(DisplayName = "Dsv2"),
+    pfenum_NCasT4_v3 UMETA(DisplayName = "NCasT4_v3"),
 };
 
 /** AzureVmSize */
@@ -1521,6 +1522,7 @@ enum class EAzureVmSize : uint8
     pfenum_Standard_DS3_v2 UMETA(DisplayName = "Standard_DS3_v2"),
     pfenum_Standard_DS4_v2 UMETA(DisplayName = "Standard_DS4_v2"),
     pfenum_Standard_DS5_v2 UMETA(DisplayName = "Standard_DS5_v2"),
+    pfenum_Standard_NC4as_T4_v3 UMETA(DisplayName = "Standard_NC4as_T4_v3"),
 };
 
 /** CancellationReason */

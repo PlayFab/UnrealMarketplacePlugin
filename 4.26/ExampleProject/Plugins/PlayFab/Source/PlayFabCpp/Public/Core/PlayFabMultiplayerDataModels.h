@@ -152,7 +152,8 @@ namespace MultiplayerModels
         AzureVmFamilyEv4,
         AzureVmFamilyEsv4,
         AzureVmFamilyDsv3,
-        AzureVmFamilyDsv2
+        AzureVmFamilyDsv2,
+        AzureVmFamilyNCasT4_v3
     };
 
     PLAYFABCPP_API void writeAzureVmFamilyEnumJSON(AzureVmFamily enumVal, JsonWriter& writer);
@@ -211,7 +212,8 @@ namespace MultiplayerModels
         AzureVmSizeStandard_DS2_v2,
         AzureVmSizeStandard_DS3_v2,
         AzureVmSizeStandard_DS4_v2,
-        AzureVmSizeStandard_DS5_v2
+        AzureVmSizeStandard_DS5_v2,
+        AzureVmSizeStandard_NC4as_T4_v3
     };
 
     PLAYFABCPP_API void writeAzureVmSizeEnumJSON(AzureVmSize enumVal, JsonWriter& writer);

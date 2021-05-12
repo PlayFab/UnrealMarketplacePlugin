@@ -250,10 +250,6 @@ public:
     // Advertising
     //////////////////////////////////////////////////////
 
-    /** Decode the AttributeInstallResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising Models")
-        static FClientAttributeInstallResult decodeAttributeInstallResultResponse(UPlayFabJsonObject* response);
-
     /** Decode the GetAdPlacementsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising Models")
         static FClientGetAdPlacementsResult decodeGetAdPlacementsResultResponse(UPlayFabJsonObject* response);

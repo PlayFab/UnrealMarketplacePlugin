@@ -765,58 +765,6 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAttributeInstallRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The adid for this device.
-        FString Adid;
-
-        // [optional] The IdentifierForAdvertisers for iOS Devices.
-        FString Idfa;
-
-        FAttributeInstallRequest() :
-            FPlayFabCppRequestCommon(),
-            Adid(),
-            Idfa()
-            {}
-
-        FAttributeInstallRequest(const FAttributeInstallRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Adid(src.Adid),
-            Idfa(src.Idfa)
-            {}
-
-        FAttributeInstallRequest(const TSharedPtr<FJsonObject>& obj) : FAttributeInstallRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FAttributeInstallRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FAttributeInstallResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FAttributeInstallResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FAttributeInstallResult(const FAttributeInstallResult& src) :
-            FPlayFabCppResultCommon()
-            {}
-
-        FAttributeInstallResult(const TSharedPtr<FJsonObject>& obj) : FAttributeInstallResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FAttributeInstallResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FCancelTradeRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Trade identifier.

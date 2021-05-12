@@ -3188,62 +3188,6 @@ void UPlayFabClientAPI::HelperUpdateUserTitleDisplayName(FPlayFabBaseModel respo
 ///////////////////////////////////////////////////////
 // Advertising
 //////////////////////////////////////////////////////
-/** Attributes an install for advertisment. */
-UPlayFabClientAPI* UPlayFabClientAPI::AttributeInstall(FClientAttributeInstallRequest request,
-    FDelegateOnSuccessAttributeInstall onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessAttributeInstall = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperAttributeInstall);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Client/AttributeInstall";
-    manager->useSessionTicket = true;
-
-
-    // Serialize all the request properties to json
-    if (request.Adid.IsEmpty() || request.Adid == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("Adid"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("Adid"), request.Adid);
-    }
-    if (request.Idfa.IsEmpty() || request.Idfa == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("Idfa"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("Idfa"), request.Idfa);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabClientRequestCompleted
-void UPlayFabClientAPI::HelperAttributeInstall(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessAttributeInstall.IsBound())
-    {
-        FClientAttributeInstallResult ResultStruct = UPlayFabClientModelDecoder::decodeAttributeInstallResultResponse(response.responseData);
-        OnSuccessAttributeInstall.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
 
 /** Returns a list of ad placements and a reward for each */
 UPlayFabClientAPI* UPlayFabClientAPI::GetAdPlacements(FClientGetAdPlacementsRequest request,
@@ -10086,26 +10030,6 @@ void UPlayFabClientAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpR
             CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
         }
 
-        // IDFA Attribution when relevant
-        bool needsAttribution = myResponse.responseData->GetObjectField("data")->GetBoolField("SessionTicket");
-        if (needsAttribution && !pfSettings->getDisableAdvertising() && !pfSettings->getAdvertisingIdType().IsEmpty() && !pfSettings->getAdvertisingIdValue().IsEmpty())
-        {
-            FClientAttributeInstallRequest request;
-            bool makeAttrCall = true;
-            if (pfSettings->getAdvertisingIdType() == pfSettings->getAD_TYPE_IDFA())
-                request.Idfa = pfSettings->getAdvertisingIdValue();
-            else if (pfSettings->getAdvertisingIdType() == pfSettings->getAD_TYPE_ANDROID_ID())
-                request.Adid = pfSettings->getAdvertisingIdValue();
-            else
-                makeAttrCall = false;
-            if (makeAttrCall)
-            {
-                FDelegateOnSuccessAttributeInstall onSuccess;
-                FDelegateOnFailurePlayFabError onFailure;
-                UPlayFabClientAPI* callObj = AttributeInstall(request, onSuccess, onFailure, mCustomData);
-                callObj->Activate();
-            }
-        }
     }
 
     if (returnsEntityToken)

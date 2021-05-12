@@ -26,7 +26,6 @@ namespace PlayFab
 %>        bool SetAdvertId(const FString& typeId, const FString& advertisingIdValue);
         bool AdvertIdSuccessful();
         bool IsClientLoggedIn() const;
-        void MultiStepClientLogin(bool needsAttribution);
 <% } %>
         // ------------ Generated API calls
 <% for(var i in api.calls) { var apiCall = api.calls[i];

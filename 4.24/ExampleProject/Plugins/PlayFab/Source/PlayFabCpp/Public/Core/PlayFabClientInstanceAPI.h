@@ -30,7 +30,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FAddUsernamePasswordDelegate, const ClientModels::FAddUsernamePasswordResult&);
         DECLARE_DELEGATE_OneParam(FAddUserVirtualCurrencyDelegate, const ClientModels::FModifyUserVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FAndroidDevicePushNotificationRegistrationDelegate, const ClientModels::FAndroidDevicePushNotificationRegistrationResult&);
-        DECLARE_DELEGATE_OneParam(FAttributeInstallDelegate, const ClientModels::FAttributeInstallResult&);
         DECLARE_DELEGATE_OneParam(FCancelTradeDelegate, const ClientModels::FCancelTradeResponse&);
         DECLARE_DELEGATE_OneParam(FConfirmPurchaseDelegate, const ClientModels::FConfirmPurchaseResult&);
         DECLARE_DELEGATE_OneParam(FConsumeItemDelegate, const ClientModels::FConsumeItemResult&);
@@ -220,7 +219,6 @@ namespace PlayFab
 
         // Public, Client-Specific
         bool IsClientLoggedIn();
-        void MultiStepClientLogin(bool needsAttribution);
 
 
         // ------------ Generated API calls
@@ -267,11 +265,6 @@ namespace PlayFab
          * More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart.
          */
         bool AndroidDevicePushNotificationRegistration(ClientModels::FAndroidDevicePushNotificationRegistrationRequest& request, const FAndroidDevicePushNotificationRegistrationDelegate& SuccessDelegate = FAndroidDevicePushNotificationRegistrationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Attributes an install for advertisment.
-         * If you have an ad attribution partner enabled, this will post an install to their service to track the device. It uses the given device id to match based on clicks on ads.
-         */
-        bool AttributeInstall(ClientModels::FAttributeInstallRequest& request, const FAttributeInstallDelegate& SuccessDelegate = FAttributeInstallDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Cancels an open trade (one that has not yet been accepted or cancelled). Note that only the player who created the trade
          * can cancel it via this API call, to prevent griefing of the trade system (cancelling trades in order to prevent other
@@ -975,7 +968,6 @@ namespace PlayFab
         void OnAddUsernamePasswordResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddUsernamePasswordDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAddUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnAndroidDevicePushNotificationRegistrationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAndroidDevicePushNotificationRegistrationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnAttributeInstallResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAttributeInstallDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCancelTradeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCancelTradeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnConfirmPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConfirmPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnConsumeItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FConsumeItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

@@ -48,21 +48,6 @@ bool UPlayFabClientAPI::IsClientLoggedIn() const
     return !PlayFabSettings::GetClientSessionTicket().IsEmpty();
 }
 
-void UPlayFabClientAPI::MultiStepClientLogin(bool needsAttribution)
-{
-    if (needsAttribution && !PlayFabSettings::GetDisableAdvertising() && !PlayFabSettings::GetAdvertisingIdType().IsEmpty() && !PlayFabSettings::GetAdvertisingIdValue().IsEmpty())
-    {
-        PlayFab::ClientModels::FAttributeInstallRequest request{};
-        if (PlayFabSettings::GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_IDFA)
-            request.Idfa = PlayFabSettings::GetAdvertisingIdValue();
-        else if (PlayFabSettings::GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_ANDROID_ID)
-            request.Adid = PlayFabSettings::GetAdvertisingIdValue();
-        else
-            return;
-        AttributeInstall(request);
-    }
-}
-
 bool UPlayFabClientAPI::AcceptTrade(
     ClientModels::FAcceptTradeRequest& request,
     const FAcceptTradeDelegate& SuccessDelegate,
@@ -303,40 +288,6 @@ void UPlayFabClientAPI::OnAndroidDevicePushNotificationRegistrationResult(FHttpR
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
-bool UPlayFabClientAPI::AttributeInstall(
-    ClientModels::FAttributeInstallRequest& request,
-    const FAttributeInstallDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();
-    if(clientTicket.Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
-        return false;
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/AttributeInstall"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnAttributeInstallResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabClientAPI::OnAttributeInstallResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAttributeInstallDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ClientModels::FAttributeInstallResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        // Modify advertisingIdType:  Prevents us from sending the id multiple times, and allows automated tests to determine id was sent successfully
-        PlayFabSettings::SetAdvertisingIdType(PlayFabSettings::GetAdvertisingIdType() + "_Successful");
-
         SuccessDelegate.ExecuteIfBound(outResult);
     }
     else
@@ -2894,7 +2845,6 @@ void UPlayFabClientAPI::OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr HttpReq
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -2936,7 +2886,6 @@ void UPlayFabClientAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpRequest, FHtt
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -2978,7 +2927,6 @@ void UPlayFabClientAPI::OnLoginWithCustomIDResult(FHttpRequestPtr HttpRequest, F
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3020,7 +2968,6 @@ void UPlayFabClientAPI::OnLoginWithEmailAddressResult(FHttpRequestPtr HttpReques
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3062,7 +3009,6 @@ void UPlayFabClientAPI::OnLoginWithFacebookResult(FHttpRequestPtr HttpRequest, F
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3104,7 +3050,6 @@ void UPlayFabClientAPI::OnLoginWithFacebookInstantGamesIdResult(FHttpRequestPtr 
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3146,7 +3091,7 @@ void UPlayFabClientAPI::OnLoginWithGameCenterResult(FHttpRequestPtr HttpRequest,
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3188,7 +3133,7 @@ void UPlayFabClientAPI::OnLoginWithGoogleAccountResult(FHttpRequestPtr HttpReque
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3230,7 +3175,7 @@ void UPlayFabClientAPI::OnLoginWithIOSDeviceIDResult(FHttpRequestPtr HttpRequest
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3272,7 +3217,7 @@ void UPlayFabClientAPI::OnLoginWithKongregateResult(FHttpRequestPtr HttpRequest,
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3314,7 +3259,7 @@ void UPlayFabClientAPI::OnLoginWithNintendoServiceAccountResult(FHttpRequestPtr 
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3356,7 +3301,7 @@ void UPlayFabClientAPI::OnLoginWithNintendoSwitchDeviceIdResult(FHttpRequestPtr 
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3398,7 +3343,7 @@ void UPlayFabClientAPI::OnLoginWithOpenIdConnectResult(FHttpRequestPtr HttpReque
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3440,7 +3385,7 @@ void UPlayFabClientAPI::OnLoginWithPlayFabResult(FHttpRequestPtr HttpRequest, FH
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3482,7 +3427,7 @@ void UPlayFabClientAPI::OnLoginWithPSNResult(FHttpRequestPtr HttpRequest, FHttpR
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3524,7 +3469,7 @@ void UPlayFabClientAPI::OnLoginWithSteamResult(FHttpRequestPtr HttpRequest, FHtt
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3566,7 +3511,7 @@ void UPlayFabClientAPI::OnLoginWithTwitchResult(FHttpRequestPtr HttpRequest, FHt
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3608,7 +3553,7 @@ void UPlayFabClientAPI::OnLoginWithWindowsHelloResult(FHttpRequestPtr HttpReques
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3650,7 +3595,7 @@ void UPlayFabClientAPI::OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttp
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3899,7 +3844,7 @@ void UPlayFabClientAPI::OnRegisterPlayFabUserResult(FHttpRequestPtr HttpRequest,
     {
         if (outResult.SessionTicket.Len() > 0)
             PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }
@@ -3941,7 +3886,7 @@ void UPlayFabClientAPI::OnRegisterWithWindowsHelloResult(FHttpRequestPtr HttpReq
         if (outResult.PlayFabId.Len() > 0) {
             outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
         }
-        MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);
+        
 
         SuccessDelegate.ExecuteIfBound(outResult);
     }

@@ -35,30 +35,12 @@ bool UPlayFabClientAPI::SetAdvertId(const FString& advertisingIdType, const FStr
     return valid;
 }
 
-bool UPlayFabClientAPI::AdvertIdSuccessful()
-{
-    return PlayFabSettings::GetAdvertisingIdType().EndsWith("_Successful");
-}
-
 bool UPlayFabClientAPI::IsClientLoggedIn() const
 {
     return !PlayFabSettings::GetClientSessionTicket().IsEmpty();
 }
 
-void UPlayFabClientAPI::MultiStepClientLogin(bool needsAttribution)
-{
-    if (needsAttribution && !PlayFabSettings::GetDisableAdvertising() && !PlayFabSettings::GetAdvertisingIdType().IsEmpty() && !PlayFabSettings::GetAdvertisingIdValue().IsEmpty())
-    {
-        PlayFab::ClientModels::FAttributeInstallRequest request{};
-        if (PlayFabSettings::GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_IDFA)
-            request.Idfa = PlayFabSettings::GetAdvertisingIdValue();
-        else if (PlayFabSettings::GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_ANDROID_ID)
-            request.Adid = PlayFabSettings::GetAdvertisingIdValue();
-        else
-            return;
-        AttributeInstall(request);
-    }
-}<% } %><% for(var i in api.calls) { var apiCall = api.calls[i];%>
+<% } %><% for(var i in api.calls) { var apiCall = api.calls[i];%>
 <% if (!hasRequest(apiCall, api)) { %>
 bool UPlayFab<%- api.name %>API::<%- apiCall.name %>(
     const F<%- apiCall.name %>Delegate& SuccessDelegate,

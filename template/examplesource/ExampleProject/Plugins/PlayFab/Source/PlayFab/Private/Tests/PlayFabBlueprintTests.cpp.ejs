@@ -132,36 +132,6 @@ void UPlayFabBlueprintTests::OnLoginOrRegister(FClientLoginResult result, UObjec
 
 /// <summary>
 /// CLIENT API
-/// Test that the login call sequence sends the AdvertisingId when set
-/// </summary>
-void UPlayFabBlueprintTests::LoginWithAdvertisingId(UPlayFabTestContext* testContext)
-{
-    IPlayFab* playFabSettings = &(IPlayFab::Get());
-    playFabSettings->setAdvertisingIdType(playFabSettings->getAD_TYPE_ANDROID_ID());
-    playFabSettings->setAdvertisingIdValue(TEXT("PlayFabTestId"));
-
-    FClientLoginWithCustomIDRequest request;
-    request.CustomId = playFabSettings->getBuildIdentifier();
-    request.CreateAccount = true;
-    request.InfoRequestParameters = nullptr;
-    UPlayFabClientAPI::FDelegateOnSuccessLoginWithCustomID onSuccess;
-    onSuccess.BindUFunction(this, "OnLoginWithAdvertisingId");
-    UPlayFabClientAPI::FDelegateOnFailurePlayFabError onError;
-    onError.BindUFunction(this, "OnSharedError");
-    UPlayFabClientAPI* callObj = UPlayFabClientAPI::LoginWithCustomID(request, onSuccess, onError, testContext);
-    callObj->Activate();
-}
-
-void UPlayFabBlueprintTests::OnLoginWithAdvertisingId(FClientLoginResult result, UObject* customData)
-{
-    IPlayFab* playFabSettings = &(IPlayFab::Get());
-    // TODO: Need to wait for the NEXT api call to complete, and then test playFabSettings->AdvertisingIdType (Oh right... need to actually change AdvertisingIdType too...
-    UPlayFabTestContext* testContext = static_cast<UPlayFabTestContext*>(customData);
-    testContext->EndTest(PlayFabApiTestFinishState::PASSED, "");
-}
-
-/// <summary>
-/// CLIENT API
 /// Test a sequence of calls that modifies saved data,
 ///   and verifies that the next sequential API call contains updated data.
 /// Verify that the data is correctly modified on the next call.

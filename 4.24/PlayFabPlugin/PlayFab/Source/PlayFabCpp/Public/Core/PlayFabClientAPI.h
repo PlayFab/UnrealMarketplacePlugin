@@ -190,8 +190,6 @@ namespace PlayFab
 
         int GetPendingCalls() const;
         FString GetBuildIdentifier() const;
-        bool SetAdvertId(const FString& typeId, const FString& advertisingIdValue);
-        bool AdvertIdSuccessful();
         bool IsClientLoggedIn() const;
 
         // ------------ Generated API calls

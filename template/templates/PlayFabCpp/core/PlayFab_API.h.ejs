@@ -23,9 +23,7 @@ namespace PlayFab
         int GetPendingCalls() const;
         FString GetBuildIdentifier() const;
 <% if (hasClientOptions) {
-%>        bool SetAdvertId(const FString& typeId, const FString& advertisingIdValue);
-        bool AdvertIdSuccessful();
-        bool IsClientLoggedIn() const;
+%>        bool IsClientLoggedIn() const;
 <% } %>
         // ------------ Generated API calls
 <% for(var i in api.calls) { var apiCall = api.calls[i];

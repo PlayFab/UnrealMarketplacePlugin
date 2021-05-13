@@ -73,36 +73,6 @@ public:
         return IPlayFabCommonModuleInterface::Get().GetBuildIdentifier();
     }
 
-    inline FString getAD_TYPE_ANDROID_ID() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAD_TYPE_ANDROID_ID();
-    }
-
-    inline FString getAD_TYPE_IDFA() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAD_TYPE_IDFA();
-    }
-
-    inline FString getAdvertisingIdType() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAdvertisingIdType();
-    }
-
-    inline void setAdvertisingIdType(FString advertisingIdType)
-    {
-        return IPlayFabCommonModuleInterface::Get().SetAdvertisingIdType(advertisingIdType);
-    }
-
-    inline FString getAdvertisingIdValue() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAdvertisingIdValue();
-    }
-
-    inline void setAdvertisingIdValue(FString advertisingIdValue)
-    {
-        return IPlayFabCommonModuleInterface::Get().SetAdvertisingIdValue(advertisingIdValue);
-    }
-
     inline FString getPhotonRealtimeAppId() const
     {
         return IPlayFabCommonModuleInterface::Get().GetPhotonRealtimeAppId();
@@ -131,11 +101,6 @@ public:
     inline void setPhotonChatAppId(const FString& photonChatAppId)
     {
         IPlayFabCommonModuleInterface::Get().SetPhotonChatAppId(photonChatAppId);
-    }
-
-    inline bool getDisableAdvertising() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetDisableAdvertising();
     }
 
     inline FString GeneratePfUrl(const FString& urlPath) const

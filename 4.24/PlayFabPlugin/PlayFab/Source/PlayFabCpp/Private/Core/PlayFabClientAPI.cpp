@@ -26,23 +26,6 @@ FString UPlayFabClientAPI::GetBuildIdentifier() const
     return PlayFabSettings::buildIdentifier;
 }
 
-bool UPlayFabClientAPI::SetAdvertId(const FString& advertisingIdType, const FString& advertisingIdValue)
-{
-    // TODO: Work on exposing PlayFabSettings::AD_TYPE_X vars, for now, just validate against them
-    bool valid = advertisingIdType == PlayFabSettings::AD_TYPE_IDFA || advertisingIdType == PlayFabSettings::AD_TYPE_ANDROID_ID;
-    if (valid)
-    {
-        PlayFabSettings::SetAdvertisingIdType(advertisingIdType);
-        PlayFabSettings::SetAdvertisingIdValue(advertisingIdValue);
-    }
-    return valid;
-}
-
-bool UPlayFabClientAPI::AdvertIdSuccessful()
-{
-    return PlayFabSettings::GetAdvertisingIdType().EndsWith("_Successful");
-}
-
 bool UPlayFabClientAPI::IsClientLoggedIn() const
 {
     return !PlayFabSettings::GetClientSessionTicket().IsEmpty();

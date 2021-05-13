@@ -20,10 +20,6 @@ void UPlayFabCppTests::SetTestTitleData(const UTestTitleDataLoader& testTitleDat
 
 void UPlayFabCppTests::ClassSetUp()
 {
-    IPlayFab* playFabSettings = &(IPlayFab::Get());
-    playFabSettings->setAdvertisingIdType(TEXT(""));
-    playFabSettings->setAdvertisingIdValue(TEXT(""));
-
     ClientAPI = IPlayFabModuleInterface::Get().GetClientAPI();
     ServerAPI = IPlayFabModuleInterface::Get().GetServerAPI();
     DataAPI = IPlayFabModuleInterface::Get().GetDataAPI();

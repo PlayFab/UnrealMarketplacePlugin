@@ -13,9 +13,6 @@ namespace PlayFab
     FString PlayFabSettings::buildIdentifier;
     FString PlayFabSettings::versionString;
 
-    FString PlayFabSettings::AD_TYPE_IDFA;
-    FString PlayFabSettings::AD_TYPE_ANDROID_ID;
-
     // Getters
     FString PlayFabSettings::GetClientSessionTicket()
     {
@@ -24,18 +21,6 @@ namespace PlayFab
     FString PlayFabSettings::GetEntityToken()
     {
         return IPlayFabCommonModuleInterface::Get().GetEntityToken();
-    }
-    FString PlayFabSettings::GetAdvertisingIdType()
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAdvertisingIdType();
-    }
-    FString PlayFabSettings::GetAdvertisingIdValue()
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAdvertisingIdValue();
-    }
-    bool PlayFabSettings::GetDisableAdvertising()
-    {
-        return IPlayFabCommonModuleInterface::Get().GetDisableAdvertising();
     }
     FString PlayFabSettings::GeneratePfUrl(const FString& urlPath)
     {
@@ -54,17 +39,5 @@ namespace PlayFab
     void PlayFabSettings::SetEntityToken(const FString&  entityToken)
     {
         IPlayFabCommonModuleInterface::Get().SetEntityToken(entityToken);
-    }
-    void PlayFabSettings::SetAdvertisingIdType(const FString&  advertisingIdType)
-    {
-        IPlayFabCommonModuleInterface::Get().SetAdvertisingIdType(advertisingIdType);
-    }
-    void PlayFabSettings::SetAdvertisingIdValue(const FString&  advertisingIdValue)
-    {
-        IPlayFabCommonModuleInterface::Get().SetAdvertisingIdValue(advertisingIdValue);
-    }
-    void PlayFabSettings::SetDisableAdvertising(bool disableAdvertising)
-    {
-        IPlayFabCommonModuleInterface::Get().SetDisableAdvertising(disableAdvertising);
     }
 }

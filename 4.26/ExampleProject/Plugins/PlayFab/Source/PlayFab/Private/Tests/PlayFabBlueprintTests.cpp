@@ -20,9 +20,6 @@ void UPlayFabBlueprintTests::SetTestTitleData(const UTestTitleDataLoader& testTi
 
 void UPlayFabBlueprintTests::ClassSetUp()
 {
-    IPlayFab* playFabSettings = &(IPlayFab::Get());
-    playFabSettings->setAdvertisingIdType(TEXT(""));
-    playFabSettings->setAdvertisingIdValue(TEXT(""));
 }
 
 

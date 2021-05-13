@@ -20,10 +20,6 @@ void UPlayFabCppTests::SetTestTitleData(const UTestTitleDataLoader& testTitleDat
 
 void UPlayFabCppTests::ClassSetUp()
 {
-    IPlayFab* playFabSettings = &(IPlayFab::Get());
-    playFabSettings->setAdvertisingIdType(TEXT(""));
-    playFabSettings->setAdvertisingIdValue(TEXT(""));
-
     ClientAPI = IPlayFabModuleInterface::Get().GetClientAPI();
     ServerAPI = IPlayFabModuleInterface::Get().GetServerAPI();
     DataAPI = IPlayFabModuleInterface::Get().GetDataAPI();
@@ -110,30 +106,6 @@ void UPlayFabCppTests::LoginOrRegister_Success(const PlayFab::ClientModels::FLog
     CurrentTestContext->EndTest();
 }
 
-
-void UPlayFabCppTests::LoginWithAdvertisingID()
-{
-    ClientAPI->SetAdvertId(TEXT("Adid"), TEXT("PlayFabTestId"));
-
-    PlayFab::ClientModels::FLoginWithCustomIDRequest Request;
-    Request.CustomId = ClientAPI->GetBuildIdentifier();
-    Request.CreateAccount = true;
-
-    ClientAPI->LoginWithCustomID(
-        Request,
-        PlayFab::UPlayFabClientAPI::FLoginWithCustomIDDelegate::CreateUObject(this, &UPlayFabCppTests::LoginWithAdvertisingID_Success),
-        PlayFab::FPlayFabErrorDelegate::CreateUObject(this, &UPlayFabCppTests::OnSharedError)
-    );
-}
-
-void UPlayFabCppTests::LoginWithAdvertisingID_Success(const PlayFab::ClientModels::FLoginResult& result)
-{
-    PlayFabId = result.PlayFabId;
-    UE_LOG(LogPlayFabTests, Log, TEXT("PlayFab login successful: %s, %s"), *PlayFabId, *ClientAPI->GetBuildIdentifier());
-
-    CurrentTestContext->EndTest();
-}
-
 void UPlayFabCppTests::CheckIfLoggedIn()
 {
     IPlayFab* playFabSettings = &(IPlayFab::Get());
@@ -142,7 +114,6 @@ void UPlayFabCppTests::CheckIfLoggedIn()
         CurrentTestContext->EndTest(PlayFabApiTestFinishState::SKIPPED, "Earlier tests failed to log in");
     }
 }
-
 
 void UPlayFabCppTests::UserDataAPI()
 {

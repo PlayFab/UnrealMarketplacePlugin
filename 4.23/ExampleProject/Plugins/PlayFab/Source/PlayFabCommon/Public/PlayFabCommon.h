@@ -43,20 +43,11 @@ public:
     virtual FString GetBuildIdentifier() const = 0;
     virtual FString GetVersionString() const = 0;
 
-    virtual FString GetAD_TYPE_IDFA() const = 0;
-    virtual FString GetAD_TYPE_ANDROID_ID() const = 0;
-
     virtual FString GetClientSessionTicket() const = 0;
     virtual FString GetEntityToken() const = 0;
-    virtual FString GetAdvertisingIdType() const = 0;
-    virtual FString GetAdvertisingIdValue() const = 0;
-    virtual bool GetDisableAdvertising() const = 0;
 
     virtual void SetClientSessionTicket(const FString& clientSessionTicket) = 0;
     virtual void SetEntityToken(const FString& entityToken) = 0;
-    virtual void SetAdvertisingIdType(const FString& advertisingIdType) = 0;
-    virtual void SetAdvertisingIdValue(const FString& advertisingIdValue) = 0;
-    virtual void SetDisableAdvertising(bool disableAdvertising) = 0;
 
     virtual FString GetPhotonRealtimeAppId() const = 0;
     virtual void SetPhotonRealtimeAppId(const FString & photonRealtimeAppId) = 0;

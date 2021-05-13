@@ -530,15 +530,6 @@ FClientUpdateUserTitleDisplayNameResult UPlayFabClientModelDecoder::decodeUpdate
 // Advertising
 //////////////////////////////////////////////////////
 
-FClientAttributeInstallResult UPlayFabClientModelDecoder::decodeAttributeInstallResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientAttributeInstallResult tempStruct;
-
-
-    return tempStruct;
-}
-
 FClientGetAdPlacementsResult UPlayFabClientModelDecoder::decodeGetAdPlacementsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

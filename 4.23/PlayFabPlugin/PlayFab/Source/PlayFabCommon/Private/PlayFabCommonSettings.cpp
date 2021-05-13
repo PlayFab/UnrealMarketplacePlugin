@@ -16,10 +16,6 @@ namespace PlayFabCommon
     FString PlayFabCommonSettings::advertisingIdType;
     FString PlayFabCommonSettings::advertisingIdValue;
 
-    bool PlayFabCommonSettings::disableAdvertising = false;
-    const FString PlayFabCommonSettings::AD_TYPE_IDFA = "Idfa";
-    const FString PlayFabCommonSettings::AD_TYPE_ANDROID_ID = "Adid";
-
     FString PlayFabCommonSettings::photonRealtimeAppId;
     FString PlayFabCommonSettings::photonTurnbasedAppId;
     FString PlayFabCommonSettings::photonChatAppId;

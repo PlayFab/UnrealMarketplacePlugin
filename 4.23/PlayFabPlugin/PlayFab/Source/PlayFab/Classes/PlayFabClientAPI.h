@@ -853,19 +853,6 @@ public:
     // Advertising
     //////////////////////////////////////////////////////
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAttributeInstall, FClientAttributeInstallResult, result, UObject*, customData);
-
-    /** Attributes an install for advertisment. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* AttributeInstall(FClientAttributeInstallRequest request,
-            FDelegateOnSuccessAttributeInstall onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Advertising ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperAttributeInstall(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetAdPlacements, FClientGetAdPlacementsResult, result, UObject*, customData);
 
     /** Returns a list of ad placements and a reward for each */
@@ -2602,7 +2589,6 @@ public:
     FDelegateOnSuccessUnlinkXboxAccount OnSuccessUnlinkXboxAccount;
     FDelegateOnSuccessUpdateAvatarUrl OnSuccessUpdateAvatarUrl;
     FDelegateOnSuccessUpdateUserTitleDisplayName OnSuccessUpdateUserTitleDisplayName;
-    FDelegateOnSuccessAttributeInstall OnSuccessAttributeInstall;
     FDelegateOnSuccessGetAdPlacements OnSuccessGetAdPlacements;
     FDelegateOnSuccessReportAdActivity OnSuccessReportAdActivity;
     FDelegateOnSuccessRewardAdActivity OnSuccessRewardAdActivity;

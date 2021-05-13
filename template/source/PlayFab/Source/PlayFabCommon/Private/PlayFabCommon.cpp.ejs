@@ -28,20 +28,11 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
     FString GetBuildIdentifier() const override { return PlayFabCommon::PlayFabCommonSettings::buildIdentifier; }
     FString GetVersionString() const override { return PlayFabCommon::PlayFabCommonSettings::versionString; }
 
-    FString GetAD_TYPE_IDFA() const override { return PlayFabCommon::PlayFabCommonSettings::AD_TYPE_IDFA; }
-    FString GetAD_TYPE_ANDROID_ID() const override { return PlayFabCommon::PlayFabCommonSettings::AD_TYPE_ANDROID_ID; }
-
     FString GetClientSessionTicket() const override { return PlayFabCommon::PlayFabCommonSettings::clientSessionTicket; }
     FString GetEntityToken() const override { return PlayFabCommon::PlayFabCommonSettings::entityToken; }
-    FString GetAdvertisingIdType() const override { return PlayFabCommon::PlayFabCommonSettings::advertisingIdType; }
-    FString GetAdvertisingIdValue() const override { return PlayFabCommon::PlayFabCommonSettings::advertisingIdValue; }
-    bool GetDisableAdvertising() const override { return PlayFabCommon::PlayFabCommonSettings::disableAdvertising; }
 
     void SetClientSessionTicket(const FString& clientSessionTicket) override { PlayFabCommon::PlayFabCommonSettings::clientSessionTicket = clientSessionTicket; }
     void SetEntityToken(const FString& entityToken) override { PlayFabCommon::PlayFabCommonSettings::entityToken = entityToken; }
-    void SetAdvertisingIdType(const FString& advertisingIdType) override { PlayFabCommon::PlayFabCommonSettings::advertisingIdType = advertisingIdType; }
-    void SetAdvertisingIdValue(const FString& advertisingIdValue) override { PlayFabCommon::PlayFabCommonSettings::advertisingIdValue = advertisingIdValue; }
-    void SetDisableAdvertising(bool disableAdvertising) override { PlayFabCommon::PlayFabCommonSettings::disableAdvertising = disableAdvertising; }
 
     FString GetPhotonRealtimeAppId() const override { return PlayFabCommon::PlayFabCommonSettings::photonRealtimeAppId; }
     void SetPhotonRealtimeAppId(const FString & photonRealtimeAppId) override { PlayFabCommon::PlayFabCommonSettings::photonRealtimeAppId = photonRealtimeAppId; }

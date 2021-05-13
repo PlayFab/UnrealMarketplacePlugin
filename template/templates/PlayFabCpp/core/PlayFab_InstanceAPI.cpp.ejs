@@ -78,34 +78,6 @@ bool UPlayFabClientInstanceAPI::IsClientLoggedIn()
 {
     return !this->GetOrCreateAuthenticationContext()->GetClientSessionTicket().IsEmpty();
 }
-
-void UPlayFabClientInstanceAPI::MultiStepClientLogin(bool needsAttribution)
-{
-    if (!this->settings.IsValid()) {
-        if (needsAttribution && !PlayFabSettings::GetDisableAdvertising() && !PlayFabSettings::GetAdvertisingIdType().IsEmpty() && !PlayFabSettings::GetAdvertisingIdValue().IsEmpty()) {
-            PlayFab::ClientModels::FAttributeInstallRequest request{};
-            if (PlayFabSettings::GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_IDFA)
-                request.Idfa = PlayFabSettings::GetAdvertisingIdValue();
-            else if (PlayFabSettings::GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_ANDROID_ID)
-                request.Adid = PlayFabSettings::GetAdvertisingIdValue();
-            else
-                return;
-            AttributeInstall(request);
-        }
-    }
-    else {
-        if (needsAttribution && !settings->GetDisableAdvertising() && settings->GetAdvertisingIdType().Len() > 0 && settings->GetAdvertisingIdValue().Len() > 0) {
-            PlayFab::ClientModels::FAttributeInstallRequest request{};
-            if (settings->GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_IDFA)
-                request.Idfa = settings->GetAdvertisingIdValue();
-            else if (settings->GetAdvertisingIdType() == PlayFabSettings::AD_TYPE_ANDROID_ID)
-                request.Adid = settings->GetAdvertisingIdValue();
-            else
-                return;
-            AttributeInstall(request, nullptr, nullptr);
-        }
-    }
-}
 <% } %><% for(var i in api.calls) { var apiCall = api.calls[i];%><% if (!hasRequest(apiCall, api)) { %>
 bool UPlayFab<%- api.name %>InstanceAPI::<%- apiCall.name %>(
     const F<%- apiCall.name %>Delegate& SuccessDelegate,

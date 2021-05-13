@@ -1366,30 +1366,6 @@ public:
 // Advertising
 //////////////////////////////////////////////////////
 
-/**
- * If you have an ad attribution partner enabled, this will post an install to their service to track the device. It uses
- * the given device id to match based on clicks on ads.
- */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAttributeInstallRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The adid for this device. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        FString Adid;
-    /** The IdentifierForAdvertisers for iOS Devices. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        FString Idfa;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientAttributeInstallResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
 /** Using an AppId to return a list of valid ad placements for a player. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetAdPlacementsRequest : public FPlayFabRequestCommon

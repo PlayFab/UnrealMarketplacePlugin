@@ -71,9 +71,6 @@ void FPlayFabModule::StartupModule()
     PlayFab::PlayFabSettings::buildIdentifier = IPlayFabCommonModuleInterface::Get().GetBuildIdentifier();
     PlayFab::PlayFabSettings::versionString = IPlayFabCommonModuleInterface::Get().GetVersionString();
 
-    PlayFab::PlayFabSettings::AD_TYPE_IDFA = IPlayFabCommonModuleInterface::Get().GetAD_TYPE_IDFA();
-    PlayFab::PlayFabSettings::AD_TYPE_ANDROID_ID = IPlayFabCommonModuleInterface::Get().GetAD_TYPE_ANDROID_ID();
-
     // create the API
 	
         AdminAPI = MakeShareable(new PlayFab::UPlayFabAdminAPI());

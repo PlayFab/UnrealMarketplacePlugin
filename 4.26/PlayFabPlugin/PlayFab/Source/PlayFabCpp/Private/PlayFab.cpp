@@ -72,6 +72,7 @@ void FPlayFabModule::StartupModule()
     PlayFab::PlayFabSettings::versionString = IPlayFabCommonModuleInterface::Get().GetVersionString();
 
     // create the API
+    
     AdminAPI = MakeShareable(new PlayFab::UPlayFabAdminAPI());
     ClientAPI = MakeShareable(new PlayFab::UPlayFabClientAPI());
     MatchmakerAPI = MakeShareable(new PlayFab::UPlayFabMatchmakerAPI());

@@ -72,21 +72,21 @@ void FPlayFabModule::StartupModule()
     PlayFab::PlayFabSettings::versionString = IPlayFabCommonModuleInterface::Get().GetVersionString();
 
     // create the API
-	
-        AdminAPI = MakeShareable(new PlayFab::UPlayFabAdminAPI());
-        ClientAPI = MakeShareable(new PlayFab::UPlayFabClientAPI());
-        MatchmakerAPI = MakeShareable(new PlayFab::UPlayFabMatchmakerAPI());
-        ServerAPI = MakeShareable(new PlayFab::UPlayFabServerAPI());
-        AuthenticationAPI = MakeShareable(new PlayFab::UPlayFabAuthenticationAPI());
-        CloudScriptAPI = MakeShareable(new PlayFab::UPlayFabCloudScriptAPI());
-        DataAPI = MakeShareable(new PlayFab::UPlayFabDataAPI());
-        EventsAPI = MakeShareable(new PlayFab::UPlayFabEventsAPI());
-        ExperimentationAPI = MakeShareable(new PlayFab::UPlayFabExperimentationAPI());
-        InsightsAPI = MakeShareable(new PlayFab::UPlayFabInsightsAPI());
-        GroupsAPI = MakeShareable(new PlayFab::UPlayFabGroupsAPI());
-        LocalizationAPI = MakeShareable(new PlayFab::UPlayFabLocalizationAPI());
-        MultiplayerAPI = MakeShareable(new PlayFab::UPlayFabMultiplayerAPI());
-        ProfilesAPI = MakeShareable(new PlayFab::UPlayFabProfilesAPI());
+    
+    AdminAPI = MakeShareable(new PlayFab::UPlayFabAdminAPI());
+    ClientAPI = MakeShareable(new PlayFab::UPlayFabClientAPI());
+    MatchmakerAPI = MakeShareable(new PlayFab::UPlayFabMatchmakerAPI());
+    ServerAPI = MakeShareable(new PlayFab::UPlayFabServerAPI());
+    AuthenticationAPI = MakeShareable(new PlayFab::UPlayFabAuthenticationAPI());
+    CloudScriptAPI = MakeShareable(new PlayFab::UPlayFabCloudScriptAPI());
+    DataAPI = MakeShareable(new PlayFab::UPlayFabDataAPI());
+    EventsAPI = MakeShareable(new PlayFab::UPlayFabEventsAPI());
+    ExperimentationAPI = MakeShareable(new PlayFab::UPlayFabExperimentationAPI());
+    InsightsAPI = MakeShareable(new PlayFab::UPlayFabInsightsAPI());
+    GroupsAPI = MakeShareable(new PlayFab::UPlayFabGroupsAPI());
+    LocalizationAPI = MakeShareable(new PlayFab::UPlayFabLocalizationAPI());
+    MultiplayerAPI = MakeShareable(new PlayFab::UPlayFabMultiplayerAPI());
+    ProfilesAPI = MakeShareable(new PlayFab::UPlayFabProfilesAPI());
 }
 
 void FPlayFabModule::ShutdownModule()

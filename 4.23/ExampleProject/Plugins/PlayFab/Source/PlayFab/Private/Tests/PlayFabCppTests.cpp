@@ -115,6 +115,7 @@ void UPlayFabCppTests::CheckIfLoggedIn()
     }
 }
 
+
 void UPlayFabCppTests::UserDataAPI()
 {
     CheckIfLoggedIn();

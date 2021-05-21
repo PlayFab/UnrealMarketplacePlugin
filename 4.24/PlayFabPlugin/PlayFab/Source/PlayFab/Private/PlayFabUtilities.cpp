@@ -665,6 +665,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10009: returnText = "UpdateSegmentRateLimitExceeded"; break;
     case 10010: returnText = "GetSegmentsRateLimitExceeded"; break;
     case 10011: returnText = "AsyncExportNotInFlight"; break;
+    case 10012: returnText = "AsyncExportNotFound"; break;
+    case 10013: returnText = "AsyncExportRateLimitExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     case 12000: returnText = "InventoryApiNotImplemented"; break;
     }

@@ -701,23 +701,11 @@ function getResultActions(tabbing, apiCall, isInstanceApi) {
             + (isInstanceApi ? tabbing + "    this->authContext->SetPlayFabId(outResult.PlayFabId);\n" : "")
             + tabbing + "    outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);\n"
             + tabbing + "}\n"
-            + tabbing + "MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);\n\n";
+            + tabbing + "\n\n";
     }
     else if (apiCall.result === "RegisterPlayFabUserResult")
         return tabbing + "if (outResult.SessionTicket.Len() > 0)\n"
             + tabbing + "    " + getContextContainer(isInstanceApi, true) + "SetClientSessionTicket(outResult.SessionTicket);\n"
-            + tabbing + "MultiStepClientLogin(outResult.SettingsForUser->NeedsAttribution);\n\n";
-    else if (apiCall.result === "AttributeInstallResult") {
-        var commentLine = tabbing + "// Modify advertisingIdType:  Prevents us from sending the id multiple times, and allows automated tests to determine id was sent successfully\n";
-        if (isInstanceApi)
-            return commentLine
-                + tabbing + "if(!this->settings.IsValid())\n"
-                + tabbing + "    PlayFabSettings::SetAdvertisingIdType(PlayFabSettings::GetAdvertisingIdType() + \"_Successful\");\n"
-                + tabbing + "else\n"
-                + tabbing + "    this->settings->SetAdvertisingIdType(this->settings->GetAdvertisingIdType() + \"_Successful\");\n\n";
-        else
-            return commentLine
-                + tabbing + "PlayFabSettings::SetAdvertisingIdType(PlayFabSettings::GetAdvertisingIdType() + \"_Successful\");\n\n";
-    }
+            + tabbing + "\n\n";
     return "";
 }

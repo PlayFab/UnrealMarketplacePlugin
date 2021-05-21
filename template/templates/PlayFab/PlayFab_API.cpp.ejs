@@ -261,27 +261,6 @@ void UPlayFab<%- api.name %>API::OnProcessRequestComplete(FHttpRequestPtr Reques
             // which is responsible for forming response JSON into a semantic struct, and passing it to user code
             CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
         }
-
-        // IDFA Attribution when relevant
-        bool needsAttribution = myResponse.responseData->GetObjectField("data")->GetBoolField("SessionTicket");
-        if (needsAttribution && !pfSettings->getDisableAdvertising() && !pfSettings->getAdvertisingIdType().IsEmpty() && !pfSettings->getAdvertisingIdValue().IsEmpty())
-        {
-            FClientAttributeInstallRequest request;
-            bool makeAttrCall = true;
-            if (pfSettings->getAdvertisingIdType() == pfSettings->getAD_TYPE_IDFA())
-                request.Idfa = pfSettings->getAdvertisingIdValue();
-            else if (pfSettings->getAdvertisingIdType() == pfSettings->getAD_TYPE_ANDROID_ID())
-                request.Adid = pfSettings->getAdvertisingIdValue();
-            else
-                makeAttrCall = false;
-            if (makeAttrCall)
-            {
-                FDelegateOnSuccessAttributeInstall onSuccess;
-                FDelegateOnFailurePlayFabError onFailure;
-                UPlayFabClientAPI* callObj = AttributeInstall(request, onSuccess, onFailure, mCustomData);
-                callObj->Activate();
-            }
-        }
     }
 <% } %>
     if (returnsEntityToken)

@@ -322,15 +322,6 @@ FClientLinkTwitchAccountResult UPlayFabClientModelDecoder::decodeLinkTwitchAccou
     return tempStruct;
 }
 
-FClientLinkWindowsHelloAccountResponse UPlayFabClientModelDecoder::decodeLinkWindowsHelloAccountResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientLinkWindowsHelloAccountResponse tempStruct;
-
-
-    return tempStruct;
-}
-
 FClientLinkXboxAccountResult UPlayFabClientModelDecoder::decodeLinkXboxAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -495,15 +486,6 @@ FClientUnlinkTwitchAccountResult UPlayFabClientModelDecoder::decodeUnlinkTwitchA
     return tempStruct;
 }
 
-FClientUnlinkWindowsHelloAccountResponse UPlayFabClientModelDecoder::decodeUnlinkWindowsHelloAccountResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientUnlinkWindowsHelloAccountResponse tempStruct;
-
-
-    return tempStruct;
-}
-
 FClientUnlinkXboxAccountResult UPlayFabClientModelDecoder::decodeUnlinkXboxAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -617,17 +599,6 @@ FClientGetTitlePublicKeyResult UPlayFabClientModelDecoder::decodeGetTitlePublicK
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.RSAPublicKey = !(dataObj->HasField("RSAPublicKey")) ? TEXT("") : dataObj->GetStringField("RSAPublicKey");
-
-    return tempStruct;
-}
-
-FClientGetWindowsHelloChallengeResponse UPlayFabClientModelDecoder::decodeGetWindowsHelloChallengeResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientGetWindowsHelloChallengeResponse tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.Challenge = !(dataObj->HasField("Challenge")) ? TEXT("") : dataObj->GetStringField("Challenge");
 
     return tempStruct;
 }

@@ -511,19 +511,6 @@ public:
         void HelperLinkTwitch(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkWindowsHello, FClientLinkWindowsHelloAccountResponse, result, UObject*, customData);
-
-    /** Link Windows Hello authentication to the current PlayFab Account */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* LinkWindowsHello(FClientLinkWindowsHelloAccountRequest request,
-            FDelegateOnSuccessLinkWindowsHello onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperLinkWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkXboxAccount, FClientLinkXboxAccountResult, result, UObject*, customData);
 
     /** Links the Xbox Live account associated with the provided access code to the user's PlayFab account */
@@ -797,19 +784,6 @@ public:
         void HelperUnlinkTwitch(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkWindowsHello, FClientUnlinkWindowsHelloAccountResponse, result, UObject*, customData);
-
-    /** Unlink Windows Hello authentication from the current PlayFab Account */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* UnlinkWindowsHello(FClientUnlinkWindowsHelloAccountRequest request,
-            FDelegateOnSuccessUnlinkWindowsHello onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperUnlinkWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkXboxAccount, FClientUnlinkXboxAccountResult, result, UObject*, customData);
 
     /** Unlinks the related Xbox Live account from the user's PlayFab account */
@@ -995,19 +969,6 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetTitlePublicKey(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetWindowsHelloChallenge, FClientGetWindowsHelloChallengeResponse, result, UObject*, customData);
-
-    /** Requests a challenge from the server to be signed by Windows Hello Passport service to authenticate. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* GetWindowsHelloChallenge(FClientGetWindowsHelloChallengeRequest request,
-            FDelegateOnSuccessGetWindowsHelloChallenge onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetWindowsHelloChallenge(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithAndroidDeviceID, FClientLoginResult, result, UObject*, customData);
@@ -1274,24 +1235,6 @@ public:
         void HelperLoginWithTwitch(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithWindowsHello, FClientLoginResult, result, UObject*, customData);
-
-    /**
-     * Completes the Windows Hello login flow by returning the signed value of the challange from GetWindowsHelloChallenge.
-     * Windows Hello has a 2 step client to server authentication scheme. Step one is to request from the server a challenge
-     * string. Step two is to request the user sign the string via Windows Hello and then send the signed value back to the
-     * server.
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* LoginWithWindowsHello(FClientLoginWithWindowsHelloRequest request,
-            FDelegateOnSuccessLoginWithWindowsHello onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperLoginWithWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithXbox, FClientLoginResult, result, UObject*, customData);
 
     /**
@@ -1322,22 +1265,6 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperRegisterPlayFabUser(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRegisterWithWindowsHello, FClientLoginResult, result, UObject*, customData);
-
-    /**
-     * Registers a new PlayFab user account using Windows Hello authentication, returning a session ticket that can
-     * subsequently be used for API calls which require an authenticated user
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* RegisterWithWindowsHello(FClientRegisterWithWindowsHelloRequest request,
-            FDelegateOnSuccessRegisterWithWindowsHello onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperRegisterWithWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetPlayerSecret, FClientSetPlayerSecretResult, result, UObject*, customData);
@@ -2577,7 +2504,6 @@ public:
     FDelegateOnSuccessLinkPSNAccount OnSuccessLinkPSNAccount;
     FDelegateOnSuccessLinkSteamAccount OnSuccessLinkSteamAccount;
     FDelegateOnSuccessLinkTwitch OnSuccessLinkTwitch;
-    FDelegateOnSuccessLinkWindowsHello OnSuccessLinkWindowsHello;
     FDelegateOnSuccessLinkXboxAccount OnSuccessLinkXboxAccount;
     FDelegateOnSuccessRemoveContactEmail OnSuccessRemoveContactEmail;
     FDelegateOnSuccessRemoveGenericID OnSuccessRemoveGenericID;
@@ -2598,7 +2524,6 @@ public:
     FDelegateOnSuccessUnlinkPSNAccount OnSuccessUnlinkPSNAccount;
     FDelegateOnSuccessUnlinkSteamAccount OnSuccessUnlinkSteamAccount;
     FDelegateOnSuccessUnlinkTwitch OnSuccessUnlinkTwitch;
-    FDelegateOnSuccessUnlinkWindowsHello OnSuccessUnlinkWindowsHello;
     FDelegateOnSuccessUnlinkXboxAccount OnSuccessUnlinkXboxAccount;
     FDelegateOnSuccessUpdateAvatarUrl OnSuccessUpdateAvatarUrl;
     FDelegateOnSuccessUpdateUserTitleDisplayName OnSuccessUpdateUserTitleDisplayName;
@@ -2612,7 +2537,6 @@ public:
     FDelegateOnSuccessWriteTitleEvent OnSuccessWriteTitleEvent;
     FDelegateOnSuccessGetPhotonAuthenticationToken OnSuccessGetPhotonAuthenticationToken;
     FDelegateOnSuccessGetTitlePublicKey OnSuccessGetTitlePublicKey;
-    FDelegateOnSuccessGetWindowsHelloChallenge OnSuccessGetWindowsHelloChallenge;
     FDelegateOnSuccessLoginWithAndroidDeviceID OnSuccessLoginWithAndroidDeviceID;
     FDelegateOnSuccessLoginWithApple OnSuccessLoginWithApple;
     FDelegateOnSuccessLoginWithCustomID OnSuccessLoginWithCustomID;
@@ -2630,10 +2554,8 @@ public:
     FDelegateOnSuccessLoginWithPSN OnSuccessLoginWithPSN;
     FDelegateOnSuccessLoginWithSteam OnSuccessLoginWithSteam;
     FDelegateOnSuccessLoginWithTwitch OnSuccessLoginWithTwitch;
-    FDelegateOnSuccessLoginWithWindowsHello OnSuccessLoginWithWindowsHello;
     FDelegateOnSuccessLoginWithXbox OnSuccessLoginWithXbox;
     FDelegateOnSuccessRegisterPlayFabUser OnSuccessRegisterPlayFabUser;
-    FDelegateOnSuccessRegisterWithWindowsHello OnSuccessRegisterWithWindowsHello;
     FDelegateOnSuccessSetPlayerSecret OnSuccessSetPlayerSecret;
     FDelegateOnSuccessGetCharacterData OnSuccessGetCharacterData;
     FDelegateOnSuccessGetCharacterReadOnlyData OnSuccessGetCharacterReadOnlyData;

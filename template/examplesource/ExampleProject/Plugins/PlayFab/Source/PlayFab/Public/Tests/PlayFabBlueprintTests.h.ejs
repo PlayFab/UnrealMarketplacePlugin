@@ -36,7 +36,6 @@ public:
         InOutTests.ADD_TEST(Invalid Login (Blueprint), InvalidLogin);
         InOutTests.ADD_TEST(Invalid Registration (Blueprint), InvalidRegistration);
         InOutTests.ADD_TEST(Login Or Register(Blueprint), LoginOrRegister);
-        InOutTests.ADD_TEST(Login With Advertising ID (Blueprint), LoginWithAdvertisingId);
         InOutTests.ADD_TEST(User Data API (Blueprint), UserDataApi);
         InOutTests.ADD_TEST(Player Statistics API (Blueprint), PlayerStatisticsApi);
         InOutTests.ADD_TEST(LeaderBoard (Blueprint), LeaderBoard);
@@ -97,15 +96,6 @@ if (hasServerOptions) { %>
     void LoginOrRegister(UPlayFabTestContext* testContext);
     UFUNCTION()
     void OnLoginOrRegister(FClientLoginResult result, UObject* customData);
-
-    /// <summary>
-    /// CLIENT API
-    /// Test that the login call sequence sends the AdvertisingId when set
-    /// </summary>
-    UFUNCTION()
-    void LoginWithAdvertisingId(UPlayFabTestContext* testContext);
-    UFUNCTION()
-    void OnLoginWithAdvertisingId(FClientLoginResult result, UObject* customData);
 
     /// <summary>
     /// CLIENT API

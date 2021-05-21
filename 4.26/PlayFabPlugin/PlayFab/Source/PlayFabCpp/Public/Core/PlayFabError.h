@@ -640,6 +640,8 @@ namespace PlayFab
         PlayFabErrorUpdateSegmentRateLimitExceeded = 10009,
         PlayFabErrorGetSegmentsRateLimitExceeded = 10010,
         PlayFabErrorAsyncExportNotInFlight = 10011,
+        PlayFabErrorAsyncExportNotFound = 10012,
+        PlayFabErrorAsyncExportRateLimitExceeded = 10013,
         PlayFabErrorSnapshotNotFound = 11000,
         PlayFabErrorInventoryApiNotImplemented = 12000
     };

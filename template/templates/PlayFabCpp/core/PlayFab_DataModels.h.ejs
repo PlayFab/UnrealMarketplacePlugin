@@ -31,10 +31,7 @@ namespace <%- api.name %>Models
             <%- getPropertySafeName(property) %>(<%- getPropertyDefaultValue(api, datatype, property) %>)<% } %>
             {}
 
-        F<%- datatype.name %>(const F<%- datatype.name %>& src) :
-            <%- getBaseType(datatype) %>()<% for(var i in datatype.properties) { var property = datatype.properties[i] %>,
-            <%- getPropertySafeName(property) %>(<%- getPropertyCopyValue(property) %>)<% } %>
-            {}
+        F<%- datatype.name %>(const F<%- datatype.name %>& src) = default;
 
         F<%- datatype.name %>(const TSharedPtr<FJsonObject>& obj) : F<%- datatype.name %>()
         {

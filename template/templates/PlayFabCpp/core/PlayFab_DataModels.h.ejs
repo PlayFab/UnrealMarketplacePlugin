@@ -32,7 +32,7 @@ namespace <%- api.name %>Models
             {}
 
         F<%- datatype.name %>(const F<%- datatype.name %>& src) :
-            <%- getBaseType(datatype) %>()<% for(var i in datatype.properties) { var property = datatype.properties[i] %>,
+            <%- getBaseType(datatype) %>(src)<% for(var i in datatype.properties) { var property = datatype.properties[i] %>,
             <%- getPropertySafeName(property) %>(<%- getPropertyCopyValue(property) %>)<% } %>
             {}
 

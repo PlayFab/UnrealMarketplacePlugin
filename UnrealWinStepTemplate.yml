@@ -1,0 +1,107 @@
+# STEPS LEVEL TEMPLATE:
+# Used to build UnrealWin
+# Reusable
+# Used to "hide" the additional variables specific to this SDK which shouldn't be set from a higher level, or
+#   shared from a multi-build pipeline like a publish
+
+parameters:
+- name: ApiSpecSource
+  displayName: ApiSpecSource
+  type: string
+  default: -apiSpecGitUrl https://raw.githubusercontent.com/PlayFab/API_Specs/master/
+- name: CommitMessage
+  displayName: CommitMessage
+  type: string
+  default: Automated build from ADO Pipeline
+- name: GitDestBranch
+  displayName: GitDestBranch
+  type: string
+  default: doNotCommit
+- name: SdkName
+  displayName: SdkName
+  type: string
+  default: UnrealMarketplacePlugin
+- name: ueVersion
+  displayName: ueVersion
+  type: string
+  default: 4.26
+- name: SelfTemplateResource
+  displayName: SelfTemplateResource
+  type: string
+  default: self
+
+steps:
+- checkout: JenkinsSdkSetupScripts
+  clean: true
+  path: s
+- checkout: API_Specs
+  clean: true
+  path: s/API_Specs
+- checkout: SdkGenerator
+  clean: true
+  path: s/SdkGenerator
+- checkout: ${{ parameters.SelfTemplateResource }}
+  clean: true
+  submodules: true
+  path: s/SdkGenerator/privateTemplates/UnrealMarketplacePlugin
+- checkout: UnrealMarketplacePlugin
+  clean: true
+  submodules: true
+  path: s/sdks/UnrealMarketplacePlugin
+  persistCredentials: true
+- bash: |
+    set -e
+    
+    echo alias the ADO variables into local variables
+    ApiSpecSource="${{ parameters.ApiSpecSource }}"
+    CommitMessage="${{ parameters.CommitMessage }}"
+    GitDestBranch="${{ parameters.GitDestBranch }}"
+    SdkName="${{ parameters.SdkName }}"
+    ueVersion="${{ parameters.ueVersion }}"
+    WORKSPACE=$(pwd -W)
+    # Hack attempt to get WORKSPACE into a sub-environment
+    export WORKSPACE="$WORKSPACE"
+
+    cd "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline"
+    . ./testInit.sh
+
+    . "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline/util.sh"
+
+    cd "$WORKSPACE/SDKGenerator/SDKBuildScripts"
+    targetSrc="UnrealMarketplacePlugin"
+    . ./shared_build.sh
+
+    cp "$WORKSPACE/JenkinsSdkSetupScripts/Creds/testTitleData.json" "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/Content/TestTitleData/testTitleData.json"
+
+    cd "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject"
+    echo ========== BUILDING WIN64 ==========
+
+    uePath="C:\\UE"
+
+    uatPath=$uePath\\UE_$ueVersion\\Engine\\Build\\BatchFiles\\
+
+    targetPlatform=Win64
+
+    archivePath=Build\\$targetPlatform
+
+    echo $uatPath/RunUAT.bat BuildCookRun -rocket -installed -nop4 -nocompile -project="ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    pushd $uatPath
+    ./RunUAT.bat BuildCookRun -rocket -installed -nop4 -nocompile -project="$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/ExampleProject.uproject" -cook -stage -archive -archivedirectory="$archivePath" -package -clientconfig=Development -Platform=$targetPlatform -compressed -CookAll -pak -prereqs -build -utf8output -editorrecompile
+    popd
+
+    echo ======= RUNNING TESTS WIN64 =======
+
+    archivePath=Build\Win64
+
+    # this is not the correct path to expect from archive
+    "$WORKSPACE/sdks/$SdkName/$ueVersion/ExampleProject/Saved/StagedBuilds/WindowsNoEditor/ExampleProject.exe" -run=RunTests -NoShaderCompile
+
+    . "$WORKSPACE/JenkinsSdkSetupScripts/JenkinsScripts/Pipeline/sdkUtil.sh"
+    # ListenCsJCU
+
+  displayName: 'Build/Test/Report'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '*.xml'
+    testRunTitle: UnrealWinTemplate

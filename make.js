@@ -67,7 +67,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
             getDefaultVerticalName: getDefaultVerticalName,
             hasClientOptions: authMechanisms.includes("SessionTicket"),
             hasServerOptions: authMechanisms.includes("SecretKey"),
-            httpRequestDatatype: ueTargetVersion.minor >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
+            httpRequestDatatype: ueTargetVersion.minor >= 26 || ueTargetVersion.major >= 5 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
             sdkVersion: sdkGlobals.sdkVersion,
             ueTargetVersionMinor: ueTargetVersion.minor, // This is actually used
             ueTargetVersion: ueTargetVersion.targetVersionShort,

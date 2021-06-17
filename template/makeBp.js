@@ -46,7 +46,7 @@ function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName, ueTarget
         getCustomApiAssignmentLogic: getCustomApiAssignmentLogic,
         getCustomApiActivationUrlLogic: getCustomApiActivationUrlLogic,
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
-        httpRequestDatatype: ueTargetVersion.minor >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
+        httpRequestDatatype: ueTargetVersion.minor >= 26 || ueTargetVersion.major >= 5? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
         libName: libName,
         sdkVersion: sdkGlobals.sdkVersion
     };

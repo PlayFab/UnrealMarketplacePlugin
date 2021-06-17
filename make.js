@@ -71,6 +71,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
             hasServerOptions: authMechanisms.includes("SecretKey"),
             httpRequestDatatype: ueTargetVersion.minor >= 26 || ueTargetVersion.major >= 5 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
             sdkVersion: sdkGlobals.sdkVersion,
+            ueTargetVersionMajor: ueTargetVersion.major,
             ueTargetVersionMinor: ueTargetVersion.minor, // This is actually used
             ueTargetVersion: ueTargetVersion.targetVersionShort,
             ueTargetVersionLong: ueTargetVersion.targetVersionLong,

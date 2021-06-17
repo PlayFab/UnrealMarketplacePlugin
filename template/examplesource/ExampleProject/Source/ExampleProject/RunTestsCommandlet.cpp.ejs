@@ -49,7 +49,7 @@ FString& URunTestsCommandlet::GetCachedSummary()
 
 int32 URunTestsCommandlet::Main(const FString& Params)
 {
-#if ENGINE_MINOR_VERSION < 24
+#if ENGINE_MINOR_VERSION < 24 && ENGINE_MAJOR_VERSION == 4
     GIsRequestingExit = false; // Global used by Unreal to indicate that the commandlet should exit.
 #endif
 

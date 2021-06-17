@@ -97,7 +97,7 @@ void ACloudScriptTestResultUploader::UploadToCloudscript(const TArray<class UPla
 // A minor hack to make the Android test project auto-close, so the automated tests complete
 void CloseForAndroid() {
 #if PLATFORM_ANDROID
-#if ENGINE_MINOR_VERSION < 24	
+#if ENGINE_MINOR_VERSION < 24 && ENGINE_MAJOR_VERSION == 4
     GIsRequestingExit = true;
 #else	
     RequestEngineExit("Invalid PlayFab Test UnrealEngine Instance");

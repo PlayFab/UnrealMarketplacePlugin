@@ -10,7 +10,7 @@ public class ExampleProjectEditorTarget : TargetRules
     public ExampleProjectEditorTarget(TargetInfo Target) : base(Target)
     {
         Type = TargetType.Editor;
-        ExtraModuleNames.AddRange(new string[] { "ExampleProject" });<% if (ueTargetVersionMinor > 23 && ueTargetVersionMajor == 4) { %>
+        ExtraModuleNames.AddRange(new string[] { "ExampleProject" });<% if (ueTargetVersionMajor == 5 || (ueTargetVersionMinor > 23 && ueTargetVersionMajor == 4)) { %>
         DefaultBuildSettings = BuildSettingsVersion.V2;<% } %>
     }
 }

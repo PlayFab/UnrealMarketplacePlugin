@@ -3188,7 +3188,7 @@ void PlayFab::AdminModels::FContentInfo::writeJSON(JsonWriter& writer) const
     writeDatetime(LastModified, writer);
 
     writer->WriteIdentifierPrefix(TEXT("Size"));
-    writer->WriteValue(Size);
+    writer->WriteValue(static_cast<int64>(Size));
 
     writer->WriteObjectEnd();
 }
@@ -3212,7 +3212,7 @@ bool PlayFab::AdminModels::FContentInfo::readFromValue(const TSharedPtr<FJsonObj
     const TSharedPtr<FJsonValue> SizeValue = obj->TryGetField(TEXT("Size"));
     if (SizeValue.IsValid() && !SizeValue->IsNull())
     {
-        double TmpValue;
+        uint32 TmpValue;
         if (SizeValue->TryGetNumber(TmpValue)) { Size = TmpValue; }
     }
 
@@ -5387,6 +5387,12 @@ void PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
     if (LoginProvider.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("LoginProvider"));
@@ -5399,6 +5405,8 @@ void PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::writeJSON(JsonWriter
 bool PlayFab::AdminModels::FLinkedUserAccountSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
 
     LoginProvider = readSegmentLoginIdentityProviderFromValue(obj->TryGetField(TEXT("LoginProvider")));
 
@@ -12179,9 +12187,6 @@ void PlayFab::AdminModels::FGetPolicyResponse::writeJSON(JsonWriter& writer) con
         writer->WriteValue(PolicyName);
     }
 
-    writer->WriteIdentifierPrefix(TEXT("PolicyVersion"));
-    writer->WriteValue(PolicyVersion);
-
     if (Statements.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Statements"));
@@ -12203,13 +12208,6 @@ bool PlayFab::AdminModels::FGetPolicyResponse::readFromValue(const TSharedPtr<FJ
     {
         FString TmpValue;
         if (PolicyNameValue->TryGetString(TmpValue)) { PolicyName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> PolicyVersionValue = obj->TryGetField(TEXT("PolicyVersion"));
-    if (PolicyVersionValue.IsValid() && !PolicyVersionValue->IsNull())
-    {
-        int32 TmpValue;
-        if (PolicyVersionValue->TryGetNumber(TmpValue)) { PolicyVersion = TmpValue; }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&StatementsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Statements"));
@@ -18874,7 +18872,11 @@ void PlayFab::AdminModels::FSetupPushNotificationRequest::writeJSON(JsonWriter& 
         writer->WriteValue(Key);
     }
 
-    if (Name.IsEmpty() == false)
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SetupPushNotificationRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
     {
         writer->WriteIdentifierPrefix(TEXT("Name"));
         writer->WriteValue(Name);
@@ -19748,9 +19750,6 @@ void PlayFab::AdminModels::FUpdatePolicyRequest::writeJSON(JsonWriter& writer) c
         writer->WriteValue(PolicyName);
     }
 
-    writer->WriteIdentifierPrefix(TEXT("PolicyVersion"));
-    writer->WriteValue(PolicyVersion);
-
     writer->WriteArrayStart(TEXT("Statements"));
     for (const FPermissionStatement& item : Statements)
         item.writeJSON(writer);
@@ -19776,13 +19775,6 @@ bool PlayFab::AdminModels::FUpdatePolicyRequest::readFromValue(const TSharedPtr<
     {
         FString TmpValue;
         if (PolicyNameValue->TryGetString(TmpValue)) { PolicyName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> PolicyVersionValue = obj->TryGetField(TEXT("PolicyVersion"));
-    if (PolicyVersionValue.IsValid() && !PolicyVersionValue->IsNull())
-    {
-        int32 TmpValue;
-        if (PolicyVersionValue->TryGetNumber(TmpValue)) { PolicyVersion = TmpValue; }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&StatementsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Statements"));

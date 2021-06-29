@@ -1434,14 +1434,11 @@ enum class EAzureRegion : uint8
     pfenum_SoutheastAsia UMETA(DisplayName = "SoutheastAsia"),
     pfenum_WestEurope UMETA(DisplayName = "WestEurope"),
     pfenum_WestUs UMETA(DisplayName = "WestUs"),
+    pfenum_ChinaEast2 UMETA(DisplayName = "ChinaEast2"),
+    pfenum_ChinaNorth2 UMETA(DisplayName = "ChinaNorth2"),
     pfenum_SouthAfricaNorth UMETA(DisplayName = "SouthAfricaNorth"),
+    pfenum_CentralUsEuap UMETA(DisplayName = "CentralUsEuap"),
     pfenum_WestCentralUs UMETA(DisplayName = "WestCentralUs"),
-    pfenum_KoreaCentral UMETA(DisplayName = "KoreaCentral"),
-    pfenum_FranceCentral UMETA(DisplayName = "FranceCentral"),
-    pfenum_WestUs2 UMETA(DisplayName = "WestUs2"),
-    pfenum_CentralIndia UMETA(DisplayName = "CentralIndia"),
-    pfenum_UaeNorth UMETA(DisplayName = "UaeNorth"),
-    pfenum_UkSouth UMETA(DisplayName = "UkSouth"),
 };
 
 /** AzureVmFamily */
@@ -1461,9 +1458,6 @@ enum class EAzureVmFamily : uint8
     pfenum_Easv4 UMETA(DisplayName = "Easv4"),
     pfenum_Ev4 UMETA(DisplayName = "Ev4"),
     pfenum_Esv4 UMETA(DisplayName = "Esv4"),
-    pfenum_Dsv3 UMETA(DisplayName = "Dsv3"),
-    pfenum_Dsv2 UMETA(DisplayName = "Dsv2"),
-    pfenum_NCasT4_v3 UMETA(DisplayName = "NCasT4_v3"),
 };
 
 /** AzureVmSize */
@@ -1505,24 +1499,6 @@ enum class EAzureVmSize : uint8
     pfenum_Standard_D4a_v4 UMETA(DisplayName = "Standard_D4a_v4"),
     pfenum_Standard_D8a_v4 UMETA(DisplayName = "Standard_D8a_v4"),
     pfenum_Standard_D16a_v4 UMETA(DisplayName = "Standard_D16a_v4"),
-    pfenum_Standard_E2a_v4 UMETA(DisplayName = "Standard_E2a_v4"),
-    pfenum_Standard_E4a_v4 UMETA(DisplayName = "Standard_E4a_v4"),
-    pfenum_Standard_E8a_v4 UMETA(DisplayName = "Standard_E8a_v4"),
-    pfenum_Standard_E16a_v4 UMETA(DisplayName = "Standard_E16a_v4"),
-    pfenum_Standard_E2as_v4 UMETA(DisplayName = "Standard_E2as_v4"),
-    pfenum_Standard_E4as_v4 UMETA(DisplayName = "Standard_E4as_v4"),
-    pfenum_Standard_E8as_v4 UMETA(DisplayName = "Standard_E8as_v4"),
-    pfenum_Standard_E16as_v4 UMETA(DisplayName = "Standard_E16as_v4"),
-    pfenum_Standard_D2s_v3 UMETA(DisplayName = "Standard_D2s_v3"),
-    pfenum_Standard_D4s_v3 UMETA(DisplayName = "Standard_D4s_v3"),
-    pfenum_Standard_D8s_v3 UMETA(DisplayName = "Standard_D8s_v3"),
-    pfenum_Standard_D16s_v3 UMETA(DisplayName = "Standard_D16s_v3"),
-    pfenum_Standard_DS1_v2 UMETA(DisplayName = "Standard_DS1_v2"),
-    pfenum_Standard_DS2_v2 UMETA(DisplayName = "Standard_DS2_v2"),
-    pfenum_Standard_DS3_v2 UMETA(DisplayName = "Standard_DS3_v2"),
-    pfenum_Standard_DS4_v2 UMETA(DisplayName = "Standard_DS4_v2"),
-    pfenum_Standard_DS5_v2 UMETA(DisplayName = "Standard_DS5_v2"),
-    pfenum_Standard_NC4as_T4_v3 UMETA(DisplayName = "Standard_NC4as_T4_v3"),
 };
 
 /** CancellationReason */

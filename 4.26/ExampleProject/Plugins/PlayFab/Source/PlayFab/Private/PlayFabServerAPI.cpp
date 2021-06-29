@@ -2142,62 +2142,6 @@ void UPlayFabServerAPI::HelperLoginWithServerCustomId(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Signs the user in using an Steam ID, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
-UPlayFabServerAPI* UPlayFabServerAPI::LoginWithSteamId(FServerLoginWithSteamIdRequest request,
-    FDelegateOnSuccessLoginWithSteamId onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessLoginWithSteamId = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithSteamId);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/LoginWithSteamId";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
-    if (request.SteamId.IsEmpty() || request.SteamId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("SteamId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("SteamId"), request.SteamId);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperLoginWithSteamId(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessLoginWithSteamId.IsBound())
-    {
-        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
-        ResultStruct.Request = RequestJsonObj;
-        OnSuccessLoginWithSteamId.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
 /** Signs the user in using a Xbox Live Token from an external server backend, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
 UPlayFabServerAPI* UPlayFabServerAPI::LoginWithXbox(FServerLoginWithXboxRequest request,
     FDelegateOnSuccessLoginWithXbox onSuccess,

@@ -92,7 +92,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkServerCustomIdDelegate, const ServerModels::FLinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
-        DECLARE_DELEGATE_OneParam(FLoginWithSteamIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FModifyItemUsesDelegate, const ServerModels::FModifyItemUsesResult&);
@@ -485,12 +484,6 @@ namespace PlayFab
          */
         bool LoginWithServerCustomId(ServerModels::FLoginWithServerCustomIdRequest& request, const FLoginWithServerCustomIdDelegate& SuccessDelegate = FLoginWithServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Signs the user in using an Steam ID, returning a session identifier that can subsequently be used for API calls which
-         * require an authenticated user
-         * If this is the first time a user has signed in with the Steam ID and CreateAccount is set to true, a new PlayFab account will be created and linked to the Steam account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Steam account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account. Steam users that are not logged into the Steam Client app will only have their Steam username synced, other data, such as currency and country will not be available until they login while the Client is open.
-         */
-        bool LoginWithSteamId(ServerModels::FLoginWithSteamIdRequest& request, const FLoginWithSteamIdDelegate& SuccessDelegate = FLoginWithSteamIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
          * Signs the user in using a Xbox Live Token from an external server backend, returning a session identifier that can
          * subsequently be used for API calls which require an authenticated user
          * If this is the first time a user has signed in with the Xbox Live account and CreateAccount is set to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
@@ -834,7 +827,6 @@ namespace PlayFab
         void OnLinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnLoginWithSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnModifyItemUsesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyItemUsesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

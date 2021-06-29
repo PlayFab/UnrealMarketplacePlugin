@@ -1567,7 +1567,7 @@ namespace AdminModels
         FDateTime LastModified;
 
         // Size of the content in bytes
-        double Size;
+        uint32 Size;
 
         FContentInfo() :
             FPlayFabCppBaseModel(),
@@ -2697,11 +2697,15 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FLinkedUserAccountSegmentFilter : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Login provider comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
         // [optional] Login provider.
         Boxed<SegmentLoginIdentityProvider> LoginProvider;
 
         FLinkedUserAccountSegmentFilter() :
             FPlayFabCppBaseModel(),
+            Comparison(),
             LoginProvider()
             {}
 
@@ -6281,15 +6285,11 @@ namespace AdminModels
         // [optional] The name of the policy read.
         FString PolicyName;
 
-        // Policy version.
-        int32 PolicyVersion;
-
         // [optional] The statements in the requested policy.
         TArray<FPermissionStatement> Statements;
         FGetPolicyResponse() :
             FPlayFabCppResultCommon(),
             PolicyName(),
-            PolicyVersion(0),
             Statements()
             {}
 
@@ -9885,7 +9885,10 @@ namespace AdminModels
         // [optional] for APNS, this is the PlatformPrincipal (SSL Certificate)
         FString Key;
 
-        // [optional] This field is deprecated and any usage of this will cause the API to fail.
+        /**
+         * name of the application sending the message (application names must be made up of only uppercase and lowercase ASCII
+         * letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long)
+         */
         FString Name;
 
         /**
@@ -10355,16 +10358,12 @@ namespace AdminModels
         // The name of the policy being updated. Only supported name is 'ApiPolicy'
         FString PolicyName;
 
-        // Version of the policy to update. Must be the latest (as returned by GetPolicy).
-        int32 PolicyVersion;
-
         // The new statements to include in the policy.
         TArray<FPermissionStatement> Statements;
         FUpdatePolicyRequest() :
             FPlayFabCppRequestCommon(),
             OverwritePolicy(false),
             PolicyName(),
-            PolicyVersion(0),
             Statements()
             {}
 

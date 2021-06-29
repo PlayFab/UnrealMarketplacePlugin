@@ -5613,7 +5613,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
         Boxed<int32> IssuerId;
 
         // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
@@ -7096,7 +7096,7 @@ namespace ServerModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
         Boxed<int32> IssuerId;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -7358,40 +7358,6 @@ namespace ServerModels
         }
 
         ~FLoginWithServerCustomIdRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FLoginWithSteamIdRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
-        Boxed<bool> CreateAccount;
-
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        // [optional] Flags for which pieces of info to return for the user.
-        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
-
-        // Unique Steam identifier for a user
-        FString SteamId;
-
-        FLoginWithSteamIdRequest() :
-            FPlayFabCppRequestCommon(),
-            CreateAccount(),
-            CustomTags(),
-            InfoRequestParameters(nullptr),
-            SteamId()
-            {}
-
-        FLoginWithSteamIdRequest(const FLoginWithSteamIdRequest& src) = default;
-
-        FLoginWithSteamIdRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithSteamIdRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FLoginWithSteamIdRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

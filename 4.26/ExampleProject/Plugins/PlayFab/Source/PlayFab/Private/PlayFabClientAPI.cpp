@@ -1302,7 +1302,7 @@ void UPlayFabClientAPI::HelperLinkFacebookInstantGamesId(FPlayFabBaseModel respo
     this->RemoveFromRoot();
 }
 
-/** Links the Game Center account associated with the provided Game Center ID to the user's PlayFab account. Logging in with a Game Center ID is insecure if you do not include the optional PublicKeyUrl, Salt, Signature, and Timestamp parameters in this request. It is recommended you require these parameters on all Game Center calls by going to the Apple Add-ons page in the PlayFab Game Manager and enabling the 'Require secure authentication only for this app' option. */
+/** Links the Game Center account associated with the provided Game Center ID to the user's PlayFab account */
 UPlayFabClientAPI* UPlayFabClientAPI::LinkGameCenterAccount(FClientLinkGameCenterAccountRequest request,
     FDelegateOnSuccessLinkGameCenterAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1886,6 +1886,70 @@ void UPlayFabClientAPI::HelperLinkTwitch(FPlayFabBaseModel response, UObject* cu
     {
         FClientLinkTwitchAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkTwitchAccountResultResponse(response.responseData);
         OnSuccessLinkTwitch.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Link Windows Hello authentication to the current PlayFab Account */
+UPlayFabClientAPI* UPlayFabClientAPI::LinkWindowsHello(FClientLinkWindowsHelloAccountRequest request,
+    FDelegateOnSuccessLinkWindowsHello onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkWindowsHello = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkWindowsHello);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/LinkWindowsHello";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.DeviceName.IsEmpty() || request.DeviceName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("DeviceName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("DeviceName"), request.DeviceName);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.PublicKey.IsEmpty() || request.PublicKey == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PublicKey"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PublicKey"), request.PublicKey);
+    }
+    if (request.UserName.IsEmpty() || request.UserName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("UserName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("UserName"), request.UserName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLinkWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkWindowsHello.IsBound())
+    {
+        FClientLinkWindowsHelloAccountResponse ResultStruct = UPlayFabClientModelDecoder::decodeLinkWindowsHelloAccountResponseResponse(response.responseData);
+        OnSuccessLinkWindowsHello.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2913,6 +2977,59 @@ void UPlayFabClientAPI::HelperUnlinkTwitch(FPlayFabBaseModel response, UObject* 
     this->RemoveFromRoot();
 }
 
+/** Unlink Windows Hello authentication from the current PlayFab Account */
+UPlayFabClientAPI* UPlayFabClientAPI::UnlinkWindowsHello(FClientUnlinkWindowsHelloAccountRequest request,
+    FDelegateOnSuccessUnlinkWindowsHello onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkWindowsHello = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkWindowsHello);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/UnlinkWindowsHello";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PublicKeyHint"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PublicKeyHint"), request.PublicKeyHint);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperUnlinkWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkWindowsHello.IsBound())
+    {
+        FClientUnlinkWindowsHelloAccountResponse ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkWindowsHelloAccountResponseResponse(response.responseData);
+        OnSuccessUnlinkWindowsHello.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Unlinks the related Xbox Live account from the user's PlayFab account */
 UPlayFabClientAPI* UPlayFabClientAPI::UnlinkXboxAccount(FClientUnlinkXboxAccountRequest request,
     FDelegateOnSuccessUnlinkXboxAccount onSuccess,
@@ -3645,6 +3762,58 @@ void UPlayFabClientAPI::HelperGetTitlePublicKey(FPlayFabBaseModel response, UObj
     this->RemoveFromRoot();
 }
 
+/** Requests a challenge from the server to be signed by Windows Hello Passport service to authenticate. */
+UPlayFabClientAPI* UPlayFabClientAPI::GetWindowsHelloChallenge(FClientGetWindowsHelloChallengeRequest request,
+    FDelegateOnSuccessGetWindowsHelloChallenge onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetWindowsHelloChallenge = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetWindowsHelloChallenge);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/GetWindowsHelloChallenge";
+
+
+    // Serialize all the request properties to json
+    if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PublicKeyHint"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PublicKeyHint"), request.PublicKeyHint);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperGetWindowsHelloChallenge(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetWindowsHelloChallenge.IsBound())
+    {
+        FClientGetWindowsHelloChallengeResponse ResultStruct = UPlayFabClientModelDecoder::decodeGetWindowsHelloChallengeResponseResponse(response.responseData);
+        OnSuccessGetWindowsHelloChallenge.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Signs the user in using the Android device identifier, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
 UPlayFabClientAPI* UPlayFabClientAPI::LoginWithAndroidDeviceID(FClientLoginWithAndroidDeviceIDRequest request,
     FDelegateOnSuccessLoginWithAndroidDeviceID onSuccess,
@@ -4060,7 +4229,7 @@ void UPlayFabClientAPI::HelperLoginWithFacebookInstantGamesId(FPlayFabBaseModel 
     this->RemoveFromRoot();
 }
 
-/** Signs the user in using an iOS Game Center player identifier, returning a session identifier that can subsequently be used for API calls which require an authenticated user. Logging in with a Game Center ID is insecure if you do not include the optional PublicKeyUrl, Salt, Signature, and Timestamp parameters in this request. It is recommended you require these parameters on all Game Center calls by going to the Apple Add-ons page in the PlayFab Game Manager and enabling the 'Require secure authentication only for this app' option. */
+/** Signs the user in using an iOS Game Center player identifier, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
 UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGameCenter(FClientLoginWithGameCenterRequest request,
     FDelegateOnSuccessLoginWithGameCenter onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -4859,6 +5028,69 @@ void UPlayFabClientAPI::HelperLoginWithTwitch(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
+/** Completes the Windows Hello login flow by returning the signed value of the challange from GetWindowsHelloChallenge. Windows Hello has a 2 step client to server authentication scheme. Step one is to request from the server a challenge string. Step two is to request the user sign the string via Windows Hello and then send the signed value back to the server.  */
+UPlayFabClientAPI* UPlayFabClientAPI::LoginWithWindowsHello(FClientLoginWithWindowsHelloRequest request,
+    FDelegateOnSuccessLoginWithWindowsHello onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithWindowsHello = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithWindowsHello);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/LoginWithWindowsHello";
+    manager->returnsSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ChallengeSignature.IsEmpty() || request.ChallengeSignature == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ChallengeSignature"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ChallengeSignature"), request.ChallengeSignature);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.PublicKeyHint.IsEmpty() || request.PublicKeyHint == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PublicKeyHint"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PublicKeyHint"), request.PublicKeyHint);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLoginWithWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithWindowsHello.IsBound())
+    {
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithWindowsHello.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Signs the user in using a Xbox Live Token, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
 UPlayFabClientAPI* UPlayFabClientAPI::LoginWithXbox(FClientLoginWithXboxRequest request,
     FDelegateOnSuccessLoginWithXbox onSuccess,
@@ -5005,6 +5237,84 @@ void UPlayFabClientAPI::HelperRegisterPlayFabUser(FPlayFabBaseModel response, UO
     {
         FClientRegisterPlayFabUserResult ResultStruct = UPlayFabClientModelDecoder::decodeRegisterPlayFabUserResultResponse(response.responseData);
         OnSuccessRegisterPlayFabUser.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Registers a new PlayFab user account using Windows Hello authentication, returning a session ticket that can subsequently be used for API calls which require an authenticated user */
+UPlayFabClientAPI* UPlayFabClientAPI::RegisterWithWindowsHello(FClientRegisterWithWindowsHelloRequest request,
+    FDelegateOnSuccessRegisterWithWindowsHello onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRegisterWithWindowsHello = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperRegisterWithWindowsHello);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/RegisterWithWindowsHello";
+    manager->returnsSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.DeviceName.IsEmpty() || request.DeviceName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("DeviceName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("DeviceName"), request.DeviceName);
+    }
+    if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
+    }
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
+    }
+    if (request.PublicKey.IsEmpty() || request.PublicKey == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PublicKey"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PublicKey"), request.PublicKey);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+    if (request.UserName.IsEmpty() || request.UserName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("UserName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("UserName"), request.UserName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperRegisterWithWindowsHello(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRegisterWithWindowsHello.IsBound())
+    {
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessRegisterWithWindowsHello.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6358,60 +6668,6 @@ void UPlayFabClientAPI::HelperConsumeMicrosoftStoreEntitlements(FPlayFabBaseMode
     {
         FClientConsumeMicrosoftStoreEntitlementsResponse ResultStruct = UPlayFabClientModelDecoder::decodeConsumeMicrosoftStoreEntitlementsResponseResponse(response.responseData);
         OnSuccessConsumeMicrosoftStoreEntitlements.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Checks for any new PS5 entitlements. If any are found, they are consumed (if they're consumables) and added as PlayFab items */
-UPlayFabClientAPI* UPlayFabClientAPI::ConsumePS5Entitlements(FClientConsumePS5EntitlementsRequest request,
-    FDelegateOnSuccessConsumePS5Entitlements onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessConsumePS5Entitlements = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperConsumePS5Entitlements);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Client/ConsumePS5Entitlements";
-    manager->useSessionTicket = true;
-
-
-    // Serialize all the request properties to json
-    if (request.CatalogVersion.IsEmpty() || request.CatalogVersion == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("CatalogVersion"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("CatalogVersion"), request.CatalogVersion);
-    }
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.MarketplaceSpecificData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MarketplaceSpecificData"), request.MarketplaceSpecificData);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabClientRequestCompleted
-void UPlayFabClientAPI::HelperConsumePS5Entitlements(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessConsumePS5Entitlements.IsBound())
-    {
-        FClientConsumePS5EntitlementsResult ResultStruct = UPlayFabClientModelDecoder::decodeConsumePS5EntitlementsResultResponse(response.responseData);
-        OnSuccessConsumePS5Entitlements.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

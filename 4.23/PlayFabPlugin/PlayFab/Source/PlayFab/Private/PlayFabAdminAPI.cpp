@@ -1539,7 +1539,6 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdatePolicy(FAdminUpdatePolicyRequest reque
     } else {
         OutRestJsonObj->SetStringField(TEXT("PolicyName"), request.PolicyName);
     }
-    OutRestJsonObj->SetNumberField(TEXT("PolicyVersion"), request.PolicyVersion);
     if (request.Statements.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Statements"));
     } else {

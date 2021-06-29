@@ -321,19 +321,6 @@ public:
         void HelperCreateRemoteUser(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateTitleMultiplayerServersQuotaChange, FMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse, result, UObject*, customData);
-
-    /** Creates a request to change a title's multiplayer server quotas. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* CreateTitleMultiplayerServersQuotaChange(FMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest request,
-            FDelegateOnSuccessCreateTitleMultiplayerServersQuotaChange onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperCreateTitleMultiplayerServersQuotaChange(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteAsset, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Deletes a multiplayer server game asset for a title. */
@@ -438,28 +425,9 @@ public:
         void HelperEnableMultiplayerServersForTitle(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetAssetDownloadUrl, FMultiplayerGetAssetDownloadUrlResponse, result, UObject*, customData);
-
-    /**
-     * Gets a URL that can be used to download the specified asset. A sample pre-authenticated url -
-     * https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* GetAssetDownloadUrl(FMultiplayerGetAssetDownloadUrlRequest request,
-            FDelegateOnSuccessGetAssetDownloadUrl onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetAssetDownloadUrl(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetAssetUploadUrl, FMultiplayerGetAssetUploadUrlResponse, result, UObject*, customData);
 
-    /**
-     * Gets the URL to upload assets to. A sample pre-authenticated url -
-     * https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
-     */
+    /** Gets the URL to upload assets to. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabMultiplayerAPI* GetAssetUploadUrl(FMultiplayerGetAssetUploadUrlRequest request,
             FDelegateOnSuccessGetAssetUploadUrl onSuccess,
@@ -574,19 +542,6 @@ public:
         void HelperGetTitleEnabledForMultiplayerServersStatus(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTitleMultiplayerServersQuotaChange, FMultiplayerGetTitleMultiplayerServersQuotaChangeResponse, result, UObject*, customData);
-
-    /** Gets a title's server quota change request. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* GetTitleMultiplayerServersQuotaChange(FMultiplayerGetTitleMultiplayerServersQuotaChangeRequest request,
-            FDelegateOnSuccessGetTitleMultiplayerServersQuotaChange onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetTitleMultiplayerServersQuotaChange(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTitleMultiplayerServersQuotas, FMultiplayerGetTitleMultiplayerServersQuotasResponse, result, UObject*, customData);
 
     /** Gets the quotas for a title in relation to multiplayer servers. */
@@ -626,14 +581,14 @@ public:
         void HelperListAssetSummaries(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildAliases, FMultiplayerListBuildAliasesResponse, result, UObject*, customData);
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListBuildAliases, FMultiplayerListBuildAliasesForTitleResponse, result, UObject*, customData);
 
     /**
      * Lists details of all build aliases for a title. Accepts tokens for title and if game client access is enabled, allows
      * game client to request list of builds with player entity token.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* ListBuildAliases(FMultiplayerListBuildAliasesRequest request,
+        static UPlayFabMultiplayerAPI* ListBuildAliases(FMultiplayerMultiplayerEmptyRequest request,
             FDelegateOnSuccessListBuildAliases onSuccess,
             FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 
@@ -739,19 +694,6 @@ public:
         void HelperListQosServersForTitle(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListTitleMultiplayerServersQuotaChanges, FMultiplayerListTitleMultiplayerServersQuotaChangesResponse, result, UObject*, customData);
-
-    /** List all server quota change requests for a title. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* ListTitleMultiplayerServersQuotaChanges(FMultiplayerListTitleMultiplayerServersQuotaChangesRequest request,
-            FDelegateOnSuccessListTitleMultiplayerServersQuotaChanges onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperListTitleMultiplayerServersQuotaChanges(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListVirtualMachineSummaries, FMultiplayerListVirtualMachineSummariesResponse, result, UObject*, customData);
 
     /** Lists virtual machines for a title. */
@@ -833,19 +775,6 @@ public:
         void HelperUpdateBuildAlias(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildName, FMultiplayerEmptyResponse, result, UObject*, customData);
-
-    /** Updates a multiplayer server build's name. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMultiplayerAPI* UpdateBuildName(FMultiplayerUpdateBuildNameRequest request,
-            FDelegateOnSuccessUpdateBuildName onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMultiplayerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperUpdateBuildName(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBuildRegion, FMultiplayerEmptyResponse, result, UObject*, customData);
 
     /** Updates a multiplayer server build's region. If the region is not yet created, it will be created */
@@ -921,7 +850,6 @@ public:
     FDelegateOnSuccessCreateBuildWithManagedContainer OnSuccessCreateBuildWithManagedContainer;
     FDelegateOnSuccessCreateBuildWithProcessBasedServer OnSuccessCreateBuildWithProcessBasedServer;
     FDelegateOnSuccessCreateRemoteUser OnSuccessCreateRemoteUser;
-    FDelegateOnSuccessCreateTitleMultiplayerServersQuotaChange OnSuccessCreateTitleMultiplayerServersQuotaChange;
     FDelegateOnSuccessDeleteAsset OnSuccessDeleteAsset;
     FDelegateOnSuccessDeleteBuild OnSuccessDeleteBuild;
     FDelegateOnSuccessDeleteBuildAlias OnSuccessDeleteBuildAlias;
@@ -930,7 +858,6 @@ public:
     FDelegateOnSuccessDeleteContainerImageRepository OnSuccessDeleteContainerImageRepository;
     FDelegateOnSuccessDeleteRemoteUser OnSuccessDeleteRemoteUser;
     FDelegateOnSuccessEnableMultiplayerServersForTitle OnSuccessEnableMultiplayerServersForTitle;
-    FDelegateOnSuccessGetAssetDownloadUrl OnSuccessGetAssetDownloadUrl;
     FDelegateOnSuccessGetAssetUploadUrl OnSuccessGetAssetUploadUrl;
     FDelegateOnSuccessGetBuild OnSuccessGetBuild;
     FDelegateOnSuccessGetBuildAlias OnSuccessGetBuildAlias;
@@ -940,7 +867,6 @@ public:
     FDelegateOnSuccessGetMultiplayerSessionLogsBySessionId OnSuccessGetMultiplayerSessionLogsBySessionId;
     FDelegateOnSuccessGetRemoteLoginEndpoint OnSuccessGetRemoteLoginEndpoint;
     FDelegateOnSuccessGetTitleEnabledForMultiplayerServersStatus OnSuccessGetTitleEnabledForMultiplayerServersStatus;
-    FDelegateOnSuccessGetTitleMultiplayerServersQuotaChange OnSuccessGetTitleMultiplayerServersQuotaChange;
     FDelegateOnSuccessGetTitleMultiplayerServersQuotas OnSuccessGetTitleMultiplayerServersQuotas;
     FDelegateOnSuccessListArchivedMultiplayerServers OnSuccessListArchivedMultiplayerServers;
     FDelegateOnSuccessListAssetSummaries OnSuccessListAssetSummaries;
@@ -952,14 +878,12 @@ public:
     FDelegateOnSuccessListMultiplayerServers OnSuccessListMultiplayerServers;
     FDelegateOnSuccessListPartyQosServers OnSuccessListPartyQosServers;
     FDelegateOnSuccessListQosServersForTitle OnSuccessListQosServersForTitle;
-    FDelegateOnSuccessListTitleMultiplayerServersQuotaChanges OnSuccessListTitleMultiplayerServersQuotaChanges;
     FDelegateOnSuccessListVirtualMachineSummaries OnSuccessListVirtualMachineSummaries;
     FDelegateOnSuccessRequestMultiplayerServer OnSuccessRequestMultiplayerServer;
     FDelegateOnSuccessRolloverContainerRegistryCredentials OnSuccessRolloverContainerRegistryCredentials;
     FDelegateOnSuccessShutdownMultiplayerServer OnSuccessShutdownMultiplayerServer;
     FDelegateOnSuccessUntagContainerImage OnSuccessUntagContainerImage;
     FDelegateOnSuccessUpdateBuildAlias OnSuccessUpdateBuildAlias;
-    FDelegateOnSuccessUpdateBuildName OnSuccessUpdateBuildName;
     FDelegateOnSuccessUpdateBuildRegion OnSuccessUpdateBuildRegion;
     FDelegateOnSuccessUpdateBuildRegions OnSuccessUpdateBuildRegions;
     FDelegateOnSuccessUploadCertificate OnSuccessUploadCertificate;

@@ -253,7 +253,7 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         int32 IssuerId = 0;
     /** Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers. */
@@ -402,7 +402,7 @@ public:
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         bool ForceLink = false;
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PSN issuer environment. If null, defaults to 256 (production) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         int32 IssuerId = 0;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
@@ -984,33 +984,6 @@ public:
     /** The experimentation treatments for this user at the time of login. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* TreatmentAssignment = nullptr;
-};
-
-/**
- * If this is the first time a user has signed in with the Steam ID and CreateAccount is set to true, a new PlayFab account
- * will be created and linked to the Steam account. In this case, no email or username will be associated with the PlayFab
- * account. Otherwise, if no PlayFab account is linked to the Steam account, an error indicating this will be returned, so
- * that the title can guide the user through creation of a PlayFab account. Steam users that are not logged into the Steam
- * Client app will only have their Steam username synced, other data, such as currency and country will not be available
- * until they login while the Client is open.
- */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerLoginWithSteamIdRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
-        bool CreateAccount = false;
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** Flags for which pieces of info to return for the user. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
-        UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Unique Steam identifier for a user */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
-        FString SteamId;
 };
 
 /**

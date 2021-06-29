@@ -562,6 +562,12 @@ public:
     /** Array of build selection criteria. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
 };
 
 /** Creates a multiplayer server build alias and returns the created alias. */
@@ -1046,45 +1052,6 @@ public:
         FString Username;
 };
 
-/** Creates a request to change a title's multiplayer server quotas. */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** A brief description of the requested changes. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString ChangeDescription;
-    /** Changes to make to the titles cores quota. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        TArray<UPlayFabJsonObject*> Changes;
-    /** Email to be contacted by our team about this request. Only required when a request is not approved. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString ContactEmail;
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** Additional information about this request that our team can use to better understand the requirements. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString Notes;
-    /** When these changes would need to be in effect. Only required when a request is not approved. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString StartDate;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Id of the change request that was created. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString RequestId;
-    /** Determines if the request was approved or not. When false, our team is reviewing and may respond within 2 business days. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool WasApproved = false;
-};
-
 /** Deletes a multiplayer server game asset for a title. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerDeleteAssetRequest : public FPlayFabRequestCommon
@@ -1231,33 +1198,6 @@ public:
     /** The enabled status for the multiplayer server features for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         ETitleMultiplayerServerEnabledStatus Status;
-};
-
-/** Gets a URL that can be used to download the specified asset. */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetAssetDownloadUrlRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** The asset's file name to get the download URL for. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString FileName;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetAssetDownloadUrlResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The asset's download URL. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString AssetDownloadUrl;
-    /** The asset's file name to get the download URL for. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString FileName;
 };
 
 /** Gets the URL to upload assets to. */
@@ -1455,9 +1395,6 @@ struct PLAYFAB_API FMultiplayerGetMultiplayerServerDetailsResponse : public FPla
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The identity of the build in which the server was allocated. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString BuildId;
     /** The connected players in the multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> ConnectedPlayers;
@@ -1591,30 +1528,6 @@ public:
         ETitleMultiplayerServerEnabledStatus Status;
 };
 
-/** Gets a title's server quota change request. */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetTitleMultiplayerServersQuotaChangeRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** Id of the change request to get. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString RequestId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerGetTitleMultiplayerServersQuotaChangeResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The change request for this title. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* Change = nullptr;
-};
-
 /** Gets the quotas for a title in relation to multiplayer servers. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerGetTitleMultiplayerServersQuotasRequest : public FPlayFabRequestCommon
@@ -1708,37 +1621,25 @@ public:
         FString SkipToken;
 };
 
-/** Returns a list of summarized details of all multiplayer server builds for a title. */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListBuildAliasesRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** The page size for the request. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        int32 PageSize = 0;
-    /** The skip token for the paged request. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString SkipToken;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListBuildAliasesResponse : public FPlayFabResultCommon
+struct PLAYFAB_API FMultiplayerListBuildAliasesForTitleResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
     /** The list of build aliases for the title */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildAliases;
-    /** The page size on the response. */
+};
+
+/** Returns a list of summarized details of all multiplayer server builds for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerMultiplayerEmptyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        int32 PageSize = 0;
-    /** The skip token for the paged response. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString SkipToken;
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 /** Returns a list of summarized details of all multiplayer server builds for a title. */
@@ -1924,27 +1825,6 @@ public:
         FString SkipToken;
 };
 
-/** List all server quota change requests for a title. */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListTitleMultiplayerServersQuotaChangesRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerListTitleMultiplayerServersQuotaChangesResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** All change requests for this title. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        TArray<UPlayFabJsonObject*> Changes;
-};
-
 /** Returns a list of virtual machines for a title. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerListVirtualMachineSummariesRequest : public FPlayFabRequestCommon
@@ -2027,9 +1907,6 @@ struct PLAYFAB_API FMultiplayerRequestMultiplayerServerResponse : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The identity of the build in which the server was allocated. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString BuildId;
     /** The connected players in the multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> ConnectedPlayers;
@@ -2151,23 +2028,6 @@ public:
     /** Array of build selection criteria. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> BuildSelectionCriteria;
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-};
-
-/** Updates a multiplayer server build's name. */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMultiplayerUpdateBuildNameRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The guid string ID of the build we want to update the name of. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString BuildId;
-    /** The build name. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString BuildName;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;

@@ -5186,6 +5186,107 @@ bool PlayFab::MultiplayerModels::FEnableMultiplayerServersForTitleResponse::read
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FGetAssetDownloadUrlRequest::~FGetAssetDownloadUrlRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetAssetDownloadUrlRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!FileName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetAssetDownloadUrlRequest::FileName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FileName"));
+        writer->WriteValue(FileName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetAssetDownloadUrlRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> FileNameValue = obj->TryGetField(TEXT("FileName"));
+    if (FileNameValue.IsValid() && !FileNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (FileNameValue->TryGetString(TmpValue)) { FileName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGetAssetDownloadUrlResponse::~FGetAssetDownloadUrlResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGetAssetDownloadUrlResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AssetDownloadUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AssetDownloadUrl"));
+        writer->WriteValue(AssetDownloadUrl);
+    }
+
+    if (FileName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FileName"));
+        writer->WriteValue(FileName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGetAssetDownloadUrlResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AssetDownloadUrlValue = obj->TryGetField(TEXT("AssetDownloadUrl"));
+    if (AssetDownloadUrlValue.IsValid() && !AssetDownloadUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (AssetDownloadUrlValue->TryGetString(TmpValue)) { AssetDownloadUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> FileNameValue = obj->TryGetField(TEXT("FileName"));
+    if (FileNameValue.IsValid() && !FileNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (FileNameValue->TryGetString(TmpValue)) { FileName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FGetAssetUploadUrlRequest::~FGetAssetUploadUrlRequest()
 {
 

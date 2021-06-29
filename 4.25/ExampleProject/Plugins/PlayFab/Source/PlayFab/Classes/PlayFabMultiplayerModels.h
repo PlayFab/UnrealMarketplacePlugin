@@ -1233,6 +1233,33 @@ public:
         ETitleMultiplayerServerEnabledStatus Status;
 };
 
+/** Gets a URL that can be used to download the specified asset. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetAssetDownloadUrlRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The asset's file name to get the download URL for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString FileName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetAssetDownloadUrlResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The asset's download URL. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString AssetDownloadUrl;
+    /** The asset's file name to get the download URL for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString FileName;
+};
+
 /** Gets the URL to upload assets to. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerGetAssetUploadUrlRequest : public FPlayFabRequestCommon

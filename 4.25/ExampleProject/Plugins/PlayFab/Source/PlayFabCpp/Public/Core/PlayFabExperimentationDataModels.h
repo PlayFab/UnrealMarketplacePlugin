@@ -46,12 +46,7 @@ namespace ExperimentationModels
             Name()
             {}
 
-        FCreateExclusionGroupRequest(const FCreateExclusionGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            Name(src.Name)
-            {}
+        FCreateExclusionGroupRequest(const FCreateExclusionGroupRequest& src) = default;
 
         FCreateExclusionGroupRequest(const TSharedPtr<FJsonObject>& obj) : FCreateExclusionGroupRequest()
         {
@@ -74,10 +69,7 @@ namespace ExperimentationModels
             ExclusionGroupId()
             {}
 
-        FCreateExclusionGroupResult(const FCreateExclusionGroupResult& src) :
-            FPlayFabCppResultCommon(),
-            ExclusionGroupId(src.ExclusionGroupId)
-            {}
+        FCreateExclusionGroupResult(const FCreateExclusionGroupResult& src) = default;
 
         FCreateExclusionGroupResult(const TSharedPtr<FJsonObject>& obj) : FCreateExclusionGroupResult()
         {
@@ -114,11 +106,7 @@ namespace ExperimentationModels
             Value()
             {}
 
-        FVariable(const FVariable& src) :
-            FPlayFabCppBaseModel(),
-            Name(src.Name),
-            Value(src.Value)
-            {}
+        FVariable(const FVariable& src) = default;
 
         FVariable(const TSharedPtr<FJsonObject>& obj) : FVariable()
         {
@@ -164,16 +152,7 @@ namespace ExperimentationModels
             Variables()
             {}
 
-        FVariant(const FVariant& src) :
-            FPlayFabCppBaseModel(),
-            Description(src.Description),
-            Id(src.Id),
-            IsControl(src.IsControl),
-            Name(src.Name),
-            TitleDataOverrideLabel(src.TitleDataOverrideLabel),
-            TrafficPercentage(src.TrafficPercentage),
-            Variables(src.Variables)
-            {}
+        FVariant(const FVariant& src) = default;
 
         FVariant(const TSharedPtr<FJsonObject>& obj) : FVariant()
         {
@@ -236,20 +215,7 @@ namespace ExperimentationModels
             Variants()
             {}
 
-        FCreateExperimentRequest(const FCreateExperimentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            EndDate(src.EndDate),
-            ExclusionGroupId(src.ExclusionGroupId),
-            ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
-            pfExperimentType(src.pfExperimentType),
-            Name(src.Name),
-            SegmentId(src.SegmentId),
-            StartDate(src.StartDate),
-            TitlePlayerAccountTestIds(src.TitlePlayerAccountTestIds),
-            Variants(src.Variants)
-            {}
+        FCreateExperimentRequest(const FCreateExperimentRequest& src) = default;
 
         FCreateExperimentRequest(const TSharedPtr<FJsonObject>& obj) : FCreateExperimentRequest()
         {
@@ -272,10 +238,7 @@ namespace ExperimentationModels
             ExperimentId()
             {}
 
-        FCreateExperimentResult(const FCreateExperimentResult& src) :
-            FPlayFabCppResultCommon(),
-            ExperimentId(src.ExperimentId)
-            {}
+        FCreateExperimentResult(const FCreateExperimentResult& src) = default;
 
         FCreateExperimentResult(const TSharedPtr<FJsonObject>& obj) : FCreateExperimentResult()
         {
@@ -301,11 +264,7 @@ namespace ExperimentationModels
             ExclusionGroupId()
             {}
 
-        FDeleteExclusionGroupRequest(const FDeleteExclusionGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            ExclusionGroupId(src.ExclusionGroupId)
-            {}
+        FDeleteExclusionGroupRequest(const FDeleteExclusionGroupRequest& src) = default;
 
         FDeleteExclusionGroupRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteExclusionGroupRequest()
         {
@@ -331,11 +290,7 @@ namespace ExperimentationModels
             ExperimentId()
             {}
 
-        FDeleteExperimentRequest(const FDeleteExperimentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            ExperimentId(src.ExperimentId)
-            {}
+        FDeleteExperimentRequest(const FDeleteExperimentRequest& src) = default;
 
         FDeleteExperimentRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteExperimentRequest()
         {
@@ -354,9 +309,7 @@ namespace ExperimentationModels
             FPlayFabCppResultCommon()
             {}
 
-        FEmptyResponse(const FEmptyResponse& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FEmptyResponse(const FEmptyResponse& src) = default;
 
         FEmptyResponse(const TSharedPtr<FJsonObject>& obj) : FEmptyResponse()
         {
@@ -383,11 +336,7 @@ namespace ExperimentationModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -414,11 +363,7 @@ namespace ExperimentationModels
             TrafficAllocation(0)
             {}
 
-        FExclusionGroupTrafficAllocation(const FExclusionGroupTrafficAllocation& src) :
-            FPlayFabCppBaseModel(),
-            ExperimentId(src.ExperimentId),
-            TrafficAllocation(src.TrafficAllocation)
-            {}
+        FExclusionGroupTrafficAllocation(const FExclusionGroupTrafficAllocation& src) = default;
 
         FExclusionGroupTrafficAllocation(const TSharedPtr<FJsonObject>& obj) : FExclusionGroupTrafficAllocation()
         {
@@ -498,21 +443,7 @@ namespace ExperimentationModels
             Variants()
             {}
 
-        FExperiment(const FExperiment& src) :
-            FPlayFabCppBaseModel(),
-            Description(src.Description),
-            EndDate(src.EndDate),
-            ExclusionGroupId(src.ExclusionGroupId),
-            ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
-            pfExperimentType(src.pfExperimentType),
-            Id(src.Id),
-            Name(src.Name),
-            SegmentId(src.SegmentId),
-            StartDate(src.StartDate),
-            State(src.State),
-            TitlePlayerAccountTestIds(src.TitlePlayerAccountTestIds),
-            Variants(src.Variants)
-            {}
+        FExperiment(const FExperiment& src) = default;
 
         FExperiment(const TSharedPtr<FJsonObject>& obj) : FExperiment()
         {
@@ -543,12 +474,7 @@ namespace ExperimentationModels
             Name()
             {}
 
-        FExperimentExclusionGroup(const FExperimentExclusionGroup& src) :
-            FPlayFabCppBaseModel(),
-            Description(src.Description),
-            ExclusionGroupId(src.ExclusionGroupId),
-            Name(src.Name)
-            {}
+        FExperimentExclusionGroup(const FExperimentExclusionGroup& src) = default;
 
         FExperimentExclusionGroup(const TSharedPtr<FJsonObject>& obj) : FExperimentExclusionGroup()
         {
@@ -570,10 +496,7 @@ namespace ExperimentationModels
             CustomTags()
             {}
 
-        FGetExclusionGroupsRequest(const FGetExclusionGroupsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
+        FGetExclusionGroupsRequest(const FGetExclusionGroupsRequest& src) = default;
 
         FGetExclusionGroupsRequest(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupsRequest()
         {
@@ -595,10 +518,7 @@ namespace ExperimentationModels
             ExclusionGroups()
             {}
 
-        FGetExclusionGroupsResult(const FGetExclusionGroupsResult& src) :
-            FPlayFabCppResultCommon(),
-            ExclusionGroups(src.ExclusionGroups)
-            {}
+        FGetExclusionGroupsResult(const FGetExclusionGroupsResult& src) = default;
 
         FGetExclusionGroupsResult(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupsResult()
         {
@@ -624,11 +544,7 @@ namespace ExperimentationModels
             ExclusionGroupId()
             {}
 
-        FGetExclusionGroupTrafficRequest(const FGetExclusionGroupTrafficRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            ExclusionGroupId(src.ExclusionGroupId)
-            {}
+        FGetExclusionGroupTrafficRequest(const FGetExclusionGroupTrafficRequest& src) = default;
 
         FGetExclusionGroupTrafficRequest(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupTrafficRequest()
         {
@@ -650,10 +566,7 @@ namespace ExperimentationModels
             TrafficAllocations()
             {}
 
-        FGetExclusionGroupTrafficResult(const FGetExclusionGroupTrafficResult& src) :
-            FPlayFabCppResultCommon(),
-            TrafficAllocations(src.TrafficAllocations)
-            {}
+        FGetExclusionGroupTrafficResult(const FGetExclusionGroupTrafficResult& src) = default;
 
         FGetExclusionGroupTrafficResult(const TSharedPtr<FJsonObject>& obj) : FGetExclusionGroupTrafficResult()
         {
@@ -675,10 +588,7 @@ namespace ExperimentationModels
             CustomTags()
             {}
 
-        FGetExperimentsRequest(const FGetExperimentsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
+        FGetExperimentsRequest(const FGetExperimentsRequest& src) = default;
 
         FGetExperimentsRequest(const TSharedPtr<FJsonObject>& obj) : FGetExperimentsRequest()
         {
@@ -700,10 +610,7 @@ namespace ExperimentationModels
             Experiments()
             {}
 
-        FGetExperimentsResult(const FGetExperimentsResult& src) :
-            FPlayFabCppResultCommon(),
-            Experiments(src.Experiments)
-            {}
+        FGetExperimentsResult(const FGetExperimentsResult& src) = default;
 
         FGetExperimentsResult(const TSharedPtr<FJsonObject>& obj) : FGetExperimentsResult()
         {
@@ -729,11 +636,7 @@ namespace ExperimentationModels
             ExperimentId()
             {}
 
-        FGetLatestScorecardRequest(const FGetLatestScorecardRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            ExperimentId(src.ExperimentId)
-            {}
+        FGetLatestScorecardRequest(const FGetLatestScorecardRequest& src) = default;
 
         FGetLatestScorecardRequest(const TSharedPtr<FJsonObject>& obj) : FGetLatestScorecardRequest()
         {
@@ -804,22 +707,7 @@ namespace ExperimentationModels
             Value(0)
             {}
 
-        FMetricData(const FMetricData& src) :
-            FPlayFabCppBaseModel(),
-            ConfidenceIntervalEnd(src.ConfidenceIntervalEnd),
-            ConfidenceIntervalStart(src.ConfidenceIntervalStart),
-            DeltaAbsoluteChange(src.DeltaAbsoluteChange),
-            DeltaRelativeChange(src.DeltaRelativeChange),
-            InternalName(src.InternalName),
-            Movement(src.Movement),
-            Name(src.Name),
-            PMove(src.PMove),
-            PValue(src.PValue),
-            PValueThreshold(src.PValueThreshold),
-            StatSigLevel(src.StatSigLevel),
-            StdDev(src.StdDev),
-            Value(src.Value)
-            {}
+        FMetricData(const FMetricData& src) = default;
 
         FMetricData(const TSharedPtr<FJsonObject>& obj) : FMetricData()
         {
@@ -853,13 +741,7 @@ namespace ExperimentationModels
             VariantName()
             {}
 
-        FScorecardDataRow(const FScorecardDataRow& src) :
-            FPlayFabCppBaseModel(),
-            IsControl(src.IsControl),
-            MetricDataRows(src.MetricDataRows),
-            PlayerCount(src.PlayerCount),
-            VariantName(src.VariantName)
-            {}
+        FScorecardDataRow(const FScorecardDataRow& src) = default;
 
         FScorecardDataRow(const TSharedPtr<FJsonObject>& obj) : FScorecardDataRow()
         {
@@ -909,17 +791,7 @@ namespace ExperimentationModels
             ScorecardDataRows()
             {}
 
-        FScorecard(const FScorecard& src) :
-            FPlayFabCppBaseModel(),
-            DateGenerated(src.DateGenerated),
-            Duration(src.Duration),
-            EventsProcessed(src.EventsProcessed),
-            ExperimentId(src.ExperimentId),
-            ExperimentName(src.ExperimentName),
-            LatestJobStatus(src.LatestJobStatus),
-            SampleRatioMismatch(src.SampleRatioMismatch),
-            ScorecardDataRows(src.ScorecardDataRows)
-            {}
+        FScorecard(const FScorecard& src) = default;
 
         FScorecard(const TSharedPtr<FJsonObject>& obj) : FScorecard()
         {
@@ -942,10 +814,7 @@ namespace ExperimentationModels
             pfScorecard(nullptr)
             {}
 
-        FGetLatestScorecardResult(const FGetLatestScorecardResult& src) :
-            FPlayFabCppResultCommon(),
-            pfScorecard(src.pfScorecard.IsValid() ? MakeShareable(new FScorecard(*src.pfScorecard)) : nullptr)
-            {}
+        FGetLatestScorecardResult(const FGetLatestScorecardResult& src) = default;
 
         FGetLatestScorecardResult(const TSharedPtr<FJsonObject>& obj) : FGetLatestScorecardResult()
         {
@@ -971,11 +840,7 @@ namespace ExperimentationModels
             Entity(nullptr)
             {}
 
-        FGetTreatmentAssignmentRequest(const FGetTreatmentAssignmentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
-            {}
+        FGetTreatmentAssignmentRequest(const FGetTreatmentAssignmentRequest& src) = default;
 
         FGetTreatmentAssignmentRequest(const TSharedPtr<FJsonObject>& obj) : FGetTreatmentAssignmentRequest()
         {
@@ -1000,11 +865,7 @@ namespace ExperimentationModels
             Variants()
             {}
 
-        FTreatmentAssignment(const FTreatmentAssignment& src) :
-            FPlayFabCppBaseModel(),
-            Variables(src.Variables),
-            Variants(src.Variants)
-            {}
+        FTreatmentAssignment(const FTreatmentAssignment& src) = default;
 
         FTreatmentAssignment(const TSharedPtr<FJsonObject>& obj) : FTreatmentAssignment()
         {
@@ -1027,10 +888,7 @@ namespace ExperimentationModels
             pfTreatmentAssignment(nullptr)
             {}
 
-        FGetTreatmentAssignmentResult(const FGetTreatmentAssignmentResult& src) :
-            FPlayFabCppResultCommon(),
-            pfTreatmentAssignment(src.pfTreatmentAssignment.IsValid() ? MakeShareable(new FTreatmentAssignment(*src.pfTreatmentAssignment)) : nullptr)
-            {}
+        FGetTreatmentAssignmentResult(const FGetTreatmentAssignmentResult& src) = default;
 
         FGetTreatmentAssignmentResult(const TSharedPtr<FJsonObject>& obj) : FGetTreatmentAssignmentResult()
         {
@@ -1056,11 +914,7 @@ namespace ExperimentationModels
             ExperimentId()
             {}
 
-        FStartExperimentRequest(const FStartExperimentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            ExperimentId(src.ExperimentId)
-            {}
+        FStartExperimentRequest(const FStartExperimentRequest& src) = default;
 
         FStartExperimentRequest(const TSharedPtr<FJsonObject>& obj) : FStartExperimentRequest()
         {
@@ -1086,11 +940,7 @@ namespace ExperimentationModels
             ExperimentId()
             {}
 
-        FStopExperimentRequest(const FStopExperimentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            ExperimentId(src.ExperimentId)
-            {}
+        FStopExperimentRequest(const FStopExperimentRequest& src) = default;
 
         FStopExperimentRequest(const TSharedPtr<FJsonObject>& obj) : FStopExperimentRequest()
         {
@@ -1124,13 +974,7 @@ namespace ExperimentationModels
             Name()
             {}
 
-        FUpdateExclusionGroupRequest(const FUpdateExclusionGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            ExclusionGroupId(src.ExclusionGroupId),
-            Name(src.Name)
-            {}
+        FUpdateExclusionGroupRequest(const FUpdateExclusionGroupRequest& src) = default;
 
         FUpdateExclusionGroupRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateExclusionGroupRequest()
         {
@@ -1197,21 +1041,7 @@ namespace ExperimentationModels
             Variants()
             {}
 
-        FUpdateExperimentRequest(const FUpdateExperimentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            EndDate(src.EndDate),
-            ExclusionGroupId(src.ExclusionGroupId),
-            ExclusionGroupTrafficAllocation(src.ExclusionGroupTrafficAllocation),
-            pfExperimentType(src.pfExperimentType),
-            Id(src.Id),
-            Name(src.Name),
-            SegmentId(src.SegmentId),
-            StartDate(src.StartDate),
-            TitlePlayerAccountTestIds(src.TitlePlayerAccountTestIds),
-            Variants(src.Variants)
-            {}
+        FUpdateExperimentRequest(const FUpdateExperimentRequest& src) = default;
 
         FUpdateExperimentRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateExperimentRequest()
         {

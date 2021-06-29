@@ -330,6 +330,18 @@ FMultiplayerEnableMultiplayerServersForTitleResponse UPlayFabMultiplayerModelDec
     return tempStruct;
 }
 
+FMultiplayerGetAssetDownloadUrlResponse UPlayFabMultiplayerModelDecoder::decodeGetAssetDownloadUrlResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetAssetDownloadUrlResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.AssetDownloadUrl = !(dataObj->HasField("AssetDownloadUrl")) ? TEXT("") : dataObj->GetStringField("AssetDownloadUrl");
+    tempStruct.FileName = !(dataObj->HasField("FileName")) ? TEXT("") : dataObj->GetStringField("FileName");
+
+    return tempStruct;
+}
+
 FMultiplayerGetAssetUploadUrlResponse UPlayFabMultiplayerModelDecoder::decodeGetAssetUploadUrlResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

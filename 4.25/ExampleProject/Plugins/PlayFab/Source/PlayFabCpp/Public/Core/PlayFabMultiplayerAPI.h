@@ -39,6 +39,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteContainerImageRepositoryDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteRemoteUserDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FEnableMultiplayerServersForTitleDelegate, const MultiplayerModels::FEnableMultiplayerServersForTitleResponse&);
+        DECLARE_DELEGATE_OneParam(FGetAssetDownloadUrlDelegate, const MultiplayerModels::FGetAssetDownloadUrlResponse&);
         DECLARE_DELEGATE_OneParam(FGetAssetUploadUrlDelegate, const MultiplayerModels::FGetAssetUploadUrlResponse&);
         DECLARE_DELEGATE_OneParam(FGetBuildDelegate, const MultiplayerModels::FGetBuildResponse&);
         DECLARE_DELEGATE_OneParam(FGetBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
@@ -195,7 +196,14 @@ namespace PlayFab
          */
         bool EnableMultiplayerServersForTitle(MultiplayerModels::FEnableMultiplayerServersForTitleRequest& request, const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate = FEnableMultiplayerServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Gets the URL to upload assets to.
+         * Gets a URL that can be used to download the specified asset. A sample pre-authenticated url -
+         * https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
+         * Gets a URL that can be used to download the specified asset.
+         */
+        bool GetAssetDownloadUrl(MultiplayerModels::FGetAssetDownloadUrlRequest& request, const FGetAssetDownloadUrlDelegate& SuccessDelegate = FGetAssetDownloadUrlDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Gets the URL to upload assets to. A sample pre-authenticated url -
+         * https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
          * Gets the URL to upload assets to.
          */
         bool GetAssetUploadUrl(MultiplayerModels::FGetAssetUploadUrlRequest& request, const FGetAssetUploadUrlDelegate& SuccessDelegate = FGetAssetUploadUrlDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -417,6 +425,7 @@ namespace PlayFab
         void OnDeleteContainerImageRepositoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContainerImageRepositoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEnableMultiplayerServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEnableMultiplayerServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetAssetDownloadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetDownloadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAssetUploadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetUploadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

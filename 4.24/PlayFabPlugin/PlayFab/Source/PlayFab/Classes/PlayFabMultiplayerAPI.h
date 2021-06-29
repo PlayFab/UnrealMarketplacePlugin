@@ -438,9 +438,28 @@ public:
         void HelperEnableMultiplayerServersForTitle(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetAssetDownloadUrl, FMultiplayerGetAssetDownloadUrlResponse, result, UObject*, customData);
+
+    /**
+     * Gets a URL that can be used to download the specified asset. A sample pre-authenticated url -
+     * https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetAssetDownloadUrl(FMultiplayerGetAssetDownloadUrlRequest request,
+            FDelegateOnSuccessGetAssetDownloadUrl onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetAssetDownloadUrl(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetAssetUploadUrl, FMultiplayerGetAssetUploadUrlResponse, result, UObject*, customData);
 
-    /** Gets the URL to upload assets to. */
+    /**
+     * Gets the URL to upload assets to. A sample pre-authenticated url -
+     * https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabMultiplayerAPI* GetAssetUploadUrl(FMultiplayerGetAssetUploadUrlRequest request,
             FDelegateOnSuccessGetAssetUploadUrl onSuccess,
@@ -911,6 +930,7 @@ public:
     FDelegateOnSuccessDeleteContainerImageRepository OnSuccessDeleteContainerImageRepository;
     FDelegateOnSuccessDeleteRemoteUser OnSuccessDeleteRemoteUser;
     FDelegateOnSuccessEnableMultiplayerServersForTitle OnSuccessEnableMultiplayerServersForTitle;
+    FDelegateOnSuccessGetAssetDownloadUrl OnSuccessGetAssetDownloadUrl;
     FDelegateOnSuccessGetAssetUploadUrl OnSuccessGetAssetUploadUrl;
     FDelegateOnSuccessGetBuild OnSuccessGetBuild;
     FDelegateOnSuccessGetBuildAlias OnSuccessGetBuildAlias;

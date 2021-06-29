@@ -1815,7 +1815,60 @@ void UPlayFabMultiplayerAPI::HelperEnableMultiplayerServersForTitle(FPlayFabBase
     this->RemoveFromRoot();
 }
 
-/** Gets the URL to upload assets to. */
+/** Gets a URL that can be used to download the specified asset. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29 */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetAssetDownloadUrl(FMultiplayerGetAssetDownloadUrlRequest request,
+    FDelegateOnSuccessGetAssetDownloadUrl onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetAssetDownloadUrl = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetAssetDownloadUrl);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/GetAssetDownloadUrl";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.FileName.IsEmpty() || request.FileName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("FileName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("FileName"), request.FileName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperGetAssetDownloadUrl(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetAssetDownloadUrl.IsBound())
+    {
+        FMultiplayerGetAssetDownloadUrlResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetAssetDownloadUrlResponseResponse(response.responseData);
+        OnSuccessGetAssetDownloadUrl.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets the URL to upload assets to. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29 */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetAssetUploadUrl(FMultiplayerGetAssetUploadUrlRequest request,
     FDelegateOnSuccessGetAssetUploadUrl onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

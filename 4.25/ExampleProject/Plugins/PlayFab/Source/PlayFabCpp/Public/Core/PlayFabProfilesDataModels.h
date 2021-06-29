@@ -42,12 +42,7 @@ namespace ProfilesModels
             ObjectName()
             {}
 
-        FEntityDataObject(const FEntityDataObject& src) :
-            FPlayFabCppBaseModel(),
-            DataObject(src.DataObject),
-            EscapedDataObject(src.EscapedDataObject),
-            ObjectName(src.ObjectName)
-            {}
+        FEntityDataObject(const FEntityDataObject& src) = default;
 
         FEntityDataObject(const TSharedPtr<FJsonObject>& obj) : FEntityDataObject()
         {
@@ -74,11 +69,7 @@ namespace ProfilesModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -121,15 +112,7 @@ namespace ProfilesModels
             TitlePlayerAccountId()
             {}
 
-        FEntityLineage(const FEntityLineage& src) :
-            FPlayFabCppBaseModel(),
-            CharacterId(src.CharacterId),
-            GroupId(src.GroupId),
-            MasterPlayerAccountId(src.MasterPlayerAccountId),
-            NamespaceId(src.NamespaceId),
-            TitleId(src.TitleId),
-            TitlePlayerAccountId(src.TitlePlayerAccountId)
-            {}
+        FEntityLineage(const FEntityLineage& src) = default;
 
         FEntityLineage(const TSharedPtr<FJsonObject>& obj) : FEntityLineage()
         {
@@ -172,15 +155,7 @@ namespace ProfilesModels
             Resource()
             {}
 
-        FEntityPermissionStatement(const FEntityPermissionStatement& src) :
-            FPlayFabCppBaseModel(),
-            Action(src.Action),
-            Comment(src.Comment),
-            Condition(src.Condition),
-            Effect(src.Effect),
-            Principal(src.Principal),
-            Resource(src.Resource)
-            {}
+        FEntityPermissionStatement(const FEntityPermissionStatement& src) = default;
 
         FEntityPermissionStatement(const TSharedPtr<FJsonObject>& obj) : FEntityPermissionStatement()
         {
@@ -215,13 +190,7 @@ namespace ProfilesModels
             Size(0)
             {}
 
-        FEntityProfileFileMetadata(const FEntityProfileFileMetadata& src) :
-            FPlayFabCppBaseModel(),
-            Checksum(src.Checksum),
-            FileName(src.FileName),
-            LastModified(src.LastModified),
-            Size(src.Size)
-            {}
+        FEntityProfileFileMetadata(const FEntityProfileFileMetadata& src) = default;
 
         FEntityProfileFileMetadata(const TSharedPtr<FJsonObject>& obj) : FEntityProfileFileMetadata()
         {
@@ -252,12 +221,7 @@ namespace ProfilesModels
             Value(0)
             {}
 
-        FEntityStatisticChildValue(const FEntityStatisticChildValue& src) :
-            FPlayFabCppBaseModel(),
-            ChildName(src.ChildName),
-            Metadata(src.Metadata),
-            Value(src.Value)
-            {}
+        FEntityStatisticChildValue(const FEntityStatisticChildValue& src) = default;
 
         FEntityStatisticChildValue(const TSharedPtr<FJsonObject>& obj) : FEntityStatisticChildValue()
         {
@@ -295,14 +259,7 @@ namespace ProfilesModels
             Version(0)
             {}
 
-        FEntityStatisticValue(const FEntityStatisticValue& src) :
-            FPlayFabCppBaseModel(),
-            ChildStatistics(src.ChildStatistics),
-            Metadata(src.Metadata),
-            Name(src.Name),
-            Value(src.Value),
-            Version(src.Version)
-            {}
+        FEntityStatisticValue(const FEntityStatisticValue& src) = default;
 
         FEntityStatisticValue(const TSharedPtr<FJsonObject>& obj) : FEntityStatisticValue()
         {
@@ -381,23 +338,7 @@ namespace ProfilesModels
             VersionNumber(0)
             {}
 
-        FEntityProfileBody(const FEntityProfileBody& src) :
-            FPlayFabCppBaseModel(),
-            AvatarUrl(src.AvatarUrl),
-            Created(src.Created),
-            DisplayName(src.DisplayName),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            EntityChain(src.EntityChain),
-            ExperimentVariants(src.ExperimentVariants),
-            Files(src.Files),
-            Language(src.Language),
-            LeaderboardMetadata(src.LeaderboardMetadata),
-            Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr),
-            Objects(src.Objects),
-            Permissions(src.Permissions),
-            Statistics(src.Statistics),
-            VersionNumber(src.VersionNumber)
-            {}
+        FEntityProfileBody(const FEntityProfileBody& src) = default;
 
         FEntityProfileBody(const TSharedPtr<FJsonObject>& obj) : FEntityProfileBody()
         {
@@ -430,12 +371,7 @@ namespace ProfilesModels
             Entity(nullptr)
             {}
 
-        FGetEntityProfileRequest(const FGetEntityProfileRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            DataAsObject(src.DataAsObject),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
-            {}
+        FGetEntityProfileRequest(const FGetEntityProfileRequest& src) = default;
 
         FGetEntityProfileRequest(const TSharedPtr<FJsonObject>& obj) : FGetEntityProfileRequest()
         {
@@ -458,10 +394,7 @@ namespace ProfilesModels
             Profile(nullptr)
             {}
 
-        FGetEntityProfileResponse(const FGetEntityProfileResponse& src) :
-            FPlayFabCppResultCommon(),
-            Profile(src.Profile.IsValid() ? MakeShareable(new FEntityProfileBody(*src.Profile)) : nullptr)
-            {}
+        FGetEntityProfileResponse(const FGetEntityProfileResponse& src) = default;
 
         FGetEntityProfileResponse(const TSharedPtr<FJsonObject>& obj) : FGetEntityProfileResponse()
         {
@@ -493,12 +426,7 @@ namespace ProfilesModels
             Entities()
             {}
 
-        FGetEntityProfilesRequest(const FGetEntityProfilesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            DataAsObject(src.DataAsObject),
-            Entities(src.Entities)
-            {}
+        FGetEntityProfilesRequest(const FGetEntityProfilesRequest& src) = default;
 
         FGetEntityProfilesRequest(const TSharedPtr<FJsonObject>& obj) : FGetEntityProfilesRequest()
         {
@@ -520,10 +448,7 @@ namespace ProfilesModels
             Profiles()
             {}
 
-        FGetEntityProfilesResponse(const FGetEntityProfilesResponse& src) :
-            FPlayFabCppResultCommon(),
-            Profiles(src.Profiles)
-            {}
+        FGetEntityProfilesResponse(const FGetEntityProfilesResponse& src) = default;
 
         FGetEntityProfilesResponse(const TSharedPtr<FJsonObject>& obj) : FGetEntityProfilesResponse()
         {
@@ -545,10 +470,7 @@ namespace ProfilesModels
             CustomTags()
             {}
 
-        FGetGlobalPolicyRequest(const FGetGlobalPolicyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
+        FGetGlobalPolicyRequest(const FGetGlobalPolicyRequest& src) = default;
 
         FGetGlobalPolicyRequest(const TSharedPtr<FJsonObject>& obj) : FGetGlobalPolicyRequest()
         {
@@ -570,10 +492,7 @@ namespace ProfilesModels
             Permissions()
             {}
 
-        FGetGlobalPolicyResponse(const FGetGlobalPolicyResponse& src) :
-            FPlayFabCppResultCommon(),
-            Permissions(src.Permissions)
-            {}
+        FGetGlobalPolicyResponse(const FGetGlobalPolicyResponse& src) = default;
 
         FGetGlobalPolicyResponse(const TSharedPtr<FJsonObject>& obj) : FGetGlobalPolicyResponse()
         {
@@ -602,12 +521,7 @@ namespace ProfilesModels
             TitleId()
             {}
 
-        FGetTitlePlayersFromMasterPlayerAccountIdsRequest(const FGetTitlePlayersFromMasterPlayerAccountIdsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            MasterPlayerAccountIds(src.MasterPlayerAccountIds),
-            TitleId(src.TitleId)
-            {}
+        FGetTitlePlayersFromMasterPlayerAccountIdsRequest(const FGetTitlePlayersFromMasterPlayerAccountIdsRequest& src) = default;
 
         FGetTitlePlayersFromMasterPlayerAccountIdsRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitlePlayersFromMasterPlayerAccountIdsRequest()
         {
@@ -633,11 +547,7 @@ namespace ProfilesModels
             TitlePlayerAccounts()
             {}
 
-        FGetTitlePlayersFromMasterPlayerAccountIdsResponse(const FGetTitlePlayersFromMasterPlayerAccountIdsResponse& src) :
-            FPlayFabCppResultCommon(),
-            TitleId(src.TitleId),
-            TitlePlayerAccounts(src.TitlePlayerAccounts)
-            {}
+        FGetTitlePlayersFromMasterPlayerAccountIdsResponse(const FGetTitlePlayersFromMasterPlayerAccountIdsResponse& src) = default;
 
         FGetTitlePlayersFromMasterPlayerAccountIdsResponse(const TSharedPtr<FJsonObject>& obj) : FGetTitlePlayersFromMasterPlayerAccountIdsResponse()
         {
@@ -678,12 +588,7 @@ namespace ProfilesModels
             Statements()
             {}
 
-        FSetEntityProfilePolicyRequest(const FSetEntityProfilePolicyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Statements(src.Statements)
-            {}
+        FSetEntityProfilePolicyRequest(const FSetEntityProfilePolicyRequest& src) = default;
 
         FSetEntityProfilePolicyRequest(const TSharedPtr<FJsonObject>& obj) : FSetEntityProfilePolicyRequest()
         {
@@ -708,10 +613,7 @@ namespace ProfilesModels
             Permissions()
             {}
 
-        FSetEntityProfilePolicyResponse(const FSetEntityProfilePolicyResponse& src) :
-            FPlayFabCppResultCommon(),
-            Permissions(src.Permissions)
-            {}
+        FSetEntityProfilePolicyResponse(const FSetEntityProfilePolicyResponse& src) = default;
 
         FSetEntityProfilePolicyResponse(const TSharedPtr<FJsonObject>& obj) : FSetEntityProfilePolicyResponse()
         {
@@ -736,11 +638,7 @@ namespace ProfilesModels
             Permissions()
             {}
 
-        FSetGlobalPolicyRequest(const FSetGlobalPolicyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Permissions(src.Permissions)
-            {}
+        FSetGlobalPolicyRequest(const FSetGlobalPolicyRequest& src) = default;
 
         FSetGlobalPolicyRequest(const TSharedPtr<FJsonObject>& obj) : FSetGlobalPolicyRequest()
         {
@@ -759,9 +657,7 @@ namespace ProfilesModels
             FPlayFabCppResultCommon()
             {}
 
-        FSetGlobalPolicyResponse(const FSetGlobalPolicyResponse& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FSetGlobalPolicyResponse(const FSetGlobalPolicyResponse& src) = default;
 
         FSetGlobalPolicyResponse(const TSharedPtr<FJsonObject>& obj) : FSetGlobalPolicyResponse()
         {
@@ -795,13 +691,7 @@ namespace ProfilesModels
             Language()
             {}
 
-        FSetProfileLanguageRequest(const FSetProfileLanguageRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            ExpectedVersion(src.ExpectedVersion),
-            Language(src.Language)
-            {}
+        FSetProfileLanguageRequest(const FSetProfileLanguageRequest& src) = default;
 
         FSetProfileLanguageRequest(const TSharedPtr<FJsonObject>& obj) : FSetProfileLanguageRequest()
         {
@@ -828,11 +718,7 @@ namespace ProfilesModels
             VersionNumber()
             {}
 
-        FSetProfileLanguageResponse(const FSetProfileLanguageResponse& src) :
-            FPlayFabCppResultCommon(),
-            OperationResult(src.OperationResult),
-            VersionNumber(src.VersionNumber)
-            {}
+        FSetProfileLanguageResponse(const FSetProfileLanguageResponse& src) = default;
 
         FSetProfileLanguageResponse(const TSharedPtr<FJsonObject>& obj) : FSetProfileLanguageResponse()
         {

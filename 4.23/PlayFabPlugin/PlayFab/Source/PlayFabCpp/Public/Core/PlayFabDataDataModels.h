@@ -28,11 +28,7 @@ namespace DataModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -68,13 +64,7 @@ namespace DataModels
             ProfileVersion()
             {}
 
-        FAbortFileUploadsRequest(const FAbortFileUploadsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            FileNames(src.FileNames),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FAbortFileUploadsRequest(const FAbortFileUploadsRequest& src) = default;
 
         FAbortFileUploadsRequest(const TSharedPtr<FJsonObject>& obj) : FAbortFileUploadsRequest()
         {
@@ -101,11 +91,7 @@ namespace DataModels
             ProfileVersion(0)
             {}
 
-        FAbortFileUploadsResponse(const FAbortFileUploadsResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FAbortFileUploadsResponse(const FAbortFileUploadsResponse& src) = default;
 
         FAbortFileUploadsResponse(const TSharedPtr<FJsonObject>& obj) : FAbortFileUploadsResponse()
         {
@@ -141,13 +127,7 @@ namespace DataModels
             ProfileVersion()
             {}
 
-        FDeleteFilesRequest(const FDeleteFilesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            FileNames(src.FileNames),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FDeleteFilesRequest(const FDeleteFilesRequest& src) = default;
 
         FDeleteFilesRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteFilesRequest()
         {
@@ -174,11 +154,7 @@ namespace DataModels
             ProfileVersion(0)
             {}
 
-        FDeleteFilesResponse(const FDeleteFilesResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FDeleteFilesResponse(const FDeleteFilesResponse& src) = default;
 
         FDeleteFilesResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteFilesResponse()
         {
@@ -211,13 +187,7 @@ namespace DataModels
             ProfileVersion(0)
             {}
 
-        FFinalizeFileUploadsRequest(const FFinalizeFileUploadsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            FileNames(src.FileNames),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FFinalizeFileUploadsRequest(const FFinalizeFileUploadsRequest& src) = default;
 
         FFinalizeFileUploadsRequest(const TSharedPtr<FJsonObject>& obj) : FFinalizeFileUploadsRequest()
         {
@@ -256,14 +226,7 @@ namespace DataModels
             Size(0)
             {}
 
-        FGetFileMetadata(const FGetFileMetadata& src) :
-            FPlayFabCppBaseModel(),
-            Checksum(src.Checksum),
-            DownloadUrl(src.DownloadUrl),
-            FileName(src.FileName),
-            LastModified(src.LastModified),
-            Size(src.Size)
-            {}
+        FGetFileMetadata(const FGetFileMetadata& src) = default;
 
         FGetFileMetadata(const TSharedPtr<FJsonObject>& obj) : FGetFileMetadata()
         {
@@ -293,12 +256,7 @@ namespace DataModels
             ProfileVersion(0)
             {}
 
-        FFinalizeFileUploadsResponse(const FFinalizeFileUploadsResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            Metadata(src.Metadata),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FFinalizeFileUploadsResponse(const FFinalizeFileUploadsResponse& src) = default;
 
         FFinalizeFileUploadsResponse(const TSharedPtr<FJsonObject>& obj) : FFinalizeFileUploadsResponse()
         {
@@ -324,11 +282,7 @@ namespace DataModels
             Entity()
             {}
 
-        FGetFilesRequest(const FGetFilesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity)
-            {}
+        FGetFilesRequest(const FGetFilesRequest& src) = default;
 
         FGetFilesRequest(const TSharedPtr<FJsonObject>& obj) : FGetFilesRequest()
         {
@@ -358,12 +312,7 @@ namespace DataModels
             ProfileVersion(0)
             {}
 
-        FGetFilesResponse(const FGetFilesResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            Metadata(src.Metadata),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FGetFilesResponse(const FGetFilesResponse& src) = default;
 
         FGetFilesResponse(const TSharedPtr<FJsonObject>& obj) : FGetFilesResponse()
         {
@@ -396,12 +345,7 @@ namespace DataModels
             EscapeObject()
             {}
 
-        FGetObjectsRequest(const FGetObjectsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            EscapeObject(src.EscapeObject)
-            {}
+        FGetObjectsRequest(const FGetObjectsRequest& src) = default;
 
         FGetObjectsRequest(const TSharedPtr<FJsonObject>& obj) : FGetObjectsRequest()
         {
@@ -432,12 +376,7 @@ namespace DataModels
             ObjectName()
             {}
 
-        FObjectResult(const FObjectResult& src) :
-            FPlayFabCppBaseModel(),
-            DataObject(src.DataObject),
-            EscapedDataObject(src.EscapedDataObject),
-            ObjectName(src.ObjectName)
-            {}
+        FObjectResult(const FObjectResult& src) = default;
 
         FObjectResult(const TSharedPtr<FJsonObject>& obj) : FObjectResult()
         {
@@ -467,12 +406,7 @@ namespace DataModels
             ProfileVersion(0)
             {}
 
-        FGetObjectsResponse(const FGetObjectsResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            Objects(src.Objects),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FGetObjectsResponse(const FGetObjectsResponse& src) = default;
 
         FGetObjectsResponse(const TSharedPtr<FJsonObject>& obj) : FGetObjectsResponse()
         {
@@ -499,11 +433,7 @@ namespace DataModels
             UploadUrl()
             {}
 
-        FInitiateFileUploadMetadata(const FInitiateFileUploadMetadata& src) :
-            FPlayFabCppBaseModel(),
-            FileName(src.FileName),
-            UploadUrl(src.UploadUrl)
-            {}
+        FInitiateFileUploadMetadata(const FInitiateFileUploadMetadata& src) = default;
 
         FInitiateFileUploadMetadata(const TSharedPtr<FJsonObject>& obj) : FInitiateFileUploadMetadata()
         {
@@ -539,13 +469,7 @@ namespace DataModels
             ProfileVersion()
             {}
 
-        FInitiateFileUploadsRequest(const FInitiateFileUploadsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            FileNames(src.FileNames),
-            ProfileVersion(src.ProfileVersion)
-            {}
+        FInitiateFileUploadsRequest(const FInitiateFileUploadsRequest& src) = default;
 
         FInitiateFileUploadsRequest(const TSharedPtr<FJsonObject>& obj) : FInitiateFileUploadsRequest()
         {
@@ -575,12 +499,7 @@ namespace DataModels
             UploadDetails()
             {}
 
-        FInitiateFileUploadsResponse(const FInitiateFileUploadsResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            ProfileVersion(src.ProfileVersion),
-            UploadDetails(src.UploadDetails)
-            {}
+        FInitiateFileUploadsResponse(const FInitiateFileUploadsResponse& src) = default;
 
         FInitiateFileUploadsResponse(const TSharedPtr<FJsonObject>& obj) : FInitiateFileUploadsResponse()
         {
@@ -633,13 +552,7 @@ namespace DataModels
             ObjectName()
             {}
 
-        FSetObject(const FSetObject& src) :
-            FPlayFabCppBaseModel(),
-            DataObject(src.DataObject),
-            DeleteObject(src.DeleteObject),
-            EscapedDataObject(src.EscapedDataObject),
-            ObjectName(src.ObjectName)
-            {}
+        FSetObject(const FSetObject& src) = default;
 
         FSetObject(const TSharedPtr<FJsonObject>& obj) : FSetObject()
         {
@@ -670,12 +583,7 @@ namespace DataModels
             SetResult()
             {}
 
-        FSetObjectInfo(const FSetObjectInfo& src) :
-            FPlayFabCppBaseModel(),
-            ObjectName(src.ObjectName),
-            OperationReason(src.OperationReason),
-            SetResult(src.SetResult)
-            {}
+        FSetObjectInfo(const FSetObjectInfo& src) = default;
 
         FSetObjectInfo(const TSharedPtr<FJsonObject>& obj) : FSetObjectInfo()
         {
@@ -712,13 +620,7 @@ namespace DataModels
             Objects()
             {}
 
-        FSetObjectsRequest(const FSetObjectsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            ExpectedProfileVersion(src.ExpectedProfileVersion),
-            Objects(src.Objects)
-            {}
+        FSetObjectsRequest(const FSetObjectsRequest& src) = default;
 
         FSetObjectsRequest(const TSharedPtr<FJsonObject>& obj) : FSetObjectsRequest()
         {
@@ -744,11 +646,7 @@ namespace DataModels
             SetResults()
             {}
 
-        FSetObjectsResponse(const FSetObjectsResponse& src) :
-            FPlayFabCppResultCommon(),
-            ProfileVersion(src.ProfileVersion),
-            SetResults(src.SetResults)
-            {}
+        FSetObjectsResponse(const FSetObjectsResponse& src) = default;
 
         FSetObjectsResponse(const TSharedPtr<FJsonObject>& obj) : FSetObjectsResponse()
         {

@@ -28,11 +28,7 @@ namespace AuthenticationModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -75,15 +71,7 @@ namespace AuthenticationModels
             TitlePlayerAccountId()
             {}
 
-        FEntityLineage(const FEntityLineage& src) :
-            FPlayFabCppBaseModel(),
-            CharacterId(src.CharacterId),
-            GroupId(src.GroupId),
-            MasterPlayerAccountId(src.MasterPlayerAccountId),
-            NamespaceId(src.NamespaceId),
-            TitleId(src.TitleId),
-            TitlePlayerAccountId(src.TitlePlayerAccountId)
-            {}
+        FEntityLineage(const FEntityLineage& src) = default;
 
         FEntityLineage(const TSharedPtr<FJsonObject>& obj) : FEntityLineage()
         {
@@ -109,11 +97,7 @@ namespace AuthenticationModels
             Entity(nullptr)
             {}
 
-        FGetEntityTokenRequest(const FGetEntityTokenRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
-            {}
+        FGetEntityTokenRequest(const FGetEntityTokenRequest& src) = default;
 
         FGetEntityTokenRequest(const TSharedPtr<FJsonObject>& obj) : FGetEntityTokenRequest()
         {
@@ -144,12 +128,7 @@ namespace AuthenticationModels
             TokenExpiration()
             {}
 
-        FGetEntityTokenResponse(const FGetEntityTokenResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            EntityToken(src.EntityToken),
-            TokenExpiration(src.TokenExpiration)
-            {}
+        FGetEntityTokenResponse(const FGetEntityTokenResponse& src) = default;
 
         FGetEntityTokenResponse(const TSharedPtr<FJsonObject>& obj) : FGetEntityTokenResponse()
         {
@@ -215,11 +194,7 @@ namespace AuthenticationModels
             EntityToken()
             {}
 
-        FValidateEntityTokenRequest(const FValidateEntityTokenRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            EntityToken(src.EntityToken)
-            {}
+        FValidateEntityTokenRequest(const FValidateEntityTokenRequest& src) = default;
 
         FValidateEntityTokenRequest(const TSharedPtr<FJsonObject>& obj) : FValidateEntityTokenRequest()
         {
@@ -254,13 +229,7 @@ namespace AuthenticationModels
             Lineage(nullptr)
             {}
 
-        FValidateEntityTokenResponse(const FValidateEntityTokenResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            pfIdentifiedDeviceType(src.pfIdentifiedDeviceType),
-            IdentityProvider(src.IdentityProvider),
-            Lineage(src.Lineage.IsValid() ? MakeShareable(new FEntityLineage(*src.Lineage)) : nullptr)
-            {}
+        FValidateEntityTokenResponse(const FValidateEntityTokenResponse& src) = default;
 
         FValidateEntityTokenResponse(const TSharedPtr<FJsonObject>& obj) : FValidateEntityTokenResponse()
         {

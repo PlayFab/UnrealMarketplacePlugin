@@ -18874,11 +18874,7 @@ void PlayFab::AdminModels::FSetupPushNotificationRequest::writeJSON(JsonWriter& 
         writer->WriteValue(Key);
     }
 
-    if (!Name.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: SetupPushNotificationRequest::Name, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (Name.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Name"));
         writer->WriteValue(Name);

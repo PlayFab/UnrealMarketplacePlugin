@@ -657,6 +657,36 @@ void UPlayFabMultiplayerAPI::OnEnableMultiplayerServersForTitleResult(FHttpReque
     }
 }
 
+bool UPlayFabMultiplayerAPI::GetAssetDownloadUrl(
+    MultiplayerModels::FGetAssetDownloadUrlRequest& request,
+    const FGetAssetDownloadUrlDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/MultiplayerServer/GetAssetDownloadUrl"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabMultiplayerAPI::OnGetAssetDownloadUrlResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabMultiplayerAPI::OnGetAssetDownloadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetDownloadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    MultiplayerModels::FGetAssetDownloadUrlResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabMultiplayerAPI::GetAssetUploadUrl(
     MultiplayerModels::FGetAssetUploadUrlRequest& request,
     const FGetAssetUploadUrlDelegate& SuccessDelegate,

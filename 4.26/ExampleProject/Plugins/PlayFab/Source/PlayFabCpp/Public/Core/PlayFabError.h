@@ -599,6 +599,7 @@ namespace PlayFab
         PlayFabErrorExplorerBasicUpdateQueryError = 5112,
         PlayFabErrorExplorerBasicSavedQueriesLimit = 5113,
         PlayFabErrorExplorerBasicSavedQueryNotFound = 5114,
+        PlayFabErrorTenantShardMapperShardNotFound = 5500,
         PlayFabErrorTitleNotEnabledForParty = 6000,
         PlayFabErrorPartyVersionNotFound = 6001,
         PlayFabErrorMultiplayerServerBuildReferencedByMatchmakingQueue = 6002,

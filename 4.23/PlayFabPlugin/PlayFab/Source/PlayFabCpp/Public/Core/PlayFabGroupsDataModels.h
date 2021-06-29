@@ -28,11 +28,7 @@ namespace GroupsModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -65,12 +61,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FAcceptGroupApplicationRequest(const FAcceptGroupApplicationRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Group(src.Group)
-            {}
+        FAcceptGroupApplicationRequest(const FAcceptGroupApplicationRequest& src) = default;
 
         FAcceptGroupApplicationRequest(const TSharedPtr<FJsonObject>& obj) : FAcceptGroupApplicationRequest()
         {
@@ -100,12 +91,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FAcceptGroupInvitationRequest(const FAcceptGroupInvitationRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            Group(src.Group)
-            {}
+        FAcceptGroupInvitationRequest(const FAcceptGroupInvitationRequest& src) = default;
 
         FAcceptGroupInvitationRequest(const TSharedPtr<FJsonObject>& obj) : FAcceptGroupInvitationRequest()
         {
@@ -141,13 +127,7 @@ namespace GroupsModels
             RoleId()
             {}
 
-        FAddMembersRequest(const FAddMembersRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group),
-            Members(src.Members),
-            RoleId(src.RoleId)
-            {}
+        FAddMembersRequest(const FAddMembersRequest& src) = default;
 
         FAddMembersRequest(const TSharedPtr<FJsonObject>& obj) : FAddMembersRequest()
         {
@@ -181,13 +161,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FApplyToGroupRequest(const FApplyToGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            AutoAcceptOutstandingInvite(src.AutoAcceptOutstandingInvite),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            Group(src.Group)
-            {}
+        FApplyToGroupRequest(const FApplyToGroupRequest& src) = default;
 
         FApplyToGroupRequest(const TSharedPtr<FJsonObject>& obj) : FApplyToGroupRequest()
         {
@@ -213,11 +187,7 @@ namespace GroupsModels
             Lineage()
             {}
 
-        FEntityWithLineage(const FEntityWithLineage& src) :
-            FPlayFabCppBaseModel(),
-            Key(src.Key.IsValid() ? MakeShareable(new FEntityKey(*src.Key)) : nullptr),
-            Lineage(src.Lineage)
-            {}
+        FEntityWithLineage(const FEntityWithLineage& src) = default;
 
         FEntityWithLineage(const TSharedPtr<FJsonObject>& obj) : FEntityWithLineage()
         {
@@ -248,12 +218,7 @@ namespace GroupsModels
             Group(nullptr)
             {}
 
-        FApplyToGroupResponse(const FApplyToGroupResponse& src) :
-            FPlayFabCppResultCommon(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.Entity)) : nullptr),
-            Expires(src.Expires),
-            Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr)
-            {}
+        FApplyToGroupResponse(const FApplyToGroupResponse& src) = default;
 
         FApplyToGroupResponse(const TSharedPtr<FJsonObject>& obj) : FApplyToGroupResponse()
         {
@@ -283,12 +248,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FBlockEntityRequest(const FBlockEntityRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Group(src.Group)
-            {}
+        FBlockEntityRequest(const FBlockEntityRequest& src) = default;
 
         FBlockEntityRequest(const TSharedPtr<FJsonObject>& obj) : FBlockEntityRequest()
         {
@@ -331,14 +291,7 @@ namespace GroupsModels
             OriginRoleId()
             {}
 
-        FChangeMemberRoleRequest(const FChangeMemberRoleRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            DestinationRoleId(src.DestinationRoleId),
-            Group(src.Group),
-            Members(src.Members),
-            OriginRoleId(src.OriginRoleId)
-            {}
+        FChangeMemberRoleRequest(const FChangeMemberRoleRequest& src) = default;
 
         FChangeMemberRoleRequest(const TSharedPtr<FJsonObject>& obj) : FChangeMemberRoleRequest()
         {
@@ -368,12 +321,7 @@ namespace GroupsModels
             GroupName()
             {}
 
-        FCreateGroupRequest(const FCreateGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            GroupName(src.GroupName)
-            {}
+        FCreateGroupRequest(const FCreateGroupRequest& src) = default;
 
         FCreateGroupRequest(const TSharedPtr<FJsonObject>& obj) : FCreateGroupRequest()
         {
@@ -419,16 +367,7 @@ namespace GroupsModels
             Roles()
             {}
 
-        FCreateGroupResponse(const FCreateGroupResponse& src) :
-            FPlayFabCppResultCommon(),
-            AdminRoleId(src.AdminRoleId),
-            Created(src.Created),
-            Group(src.Group),
-            GroupName(src.GroupName),
-            MemberRoleId(src.MemberRoleId),
-            ProfileVersion(src.ProfileVersion),
-            Roles(src.Roles)
-            {}
+        FCreateGroupResponse(const FCreateGroupResponse& src) = default;
 
         FCreateGroupResponse(const TSharedPtr<FJsonObject>& obj) : FCreateGroupResponse()
         {
@@ -468,13 +407,7 @@ namespace GroupsModels
             RoleName()
             {}
 
-        FCreateGroupRoleRequest(const FCreateGroupRoleRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group),
-            RoleId(src.RoleId),
-            RoleName(src.RoleName)
-            {}
+        FCreateGroupRoleRequest(const FCreateGroupRoleRequest& src) = default;
 
         FCreateGroupRoleRequest(const TSharedPtr<FJsonObject>& obj) : FCreateGroupRoleRequest()
         {
@@ -505,12 +438,7 @@ namespace GroupsModels
             RoleName()
             {}
 
-        FCreateGroupRoleResponse(const FCreateGroupRoleResponse& src) :
-            FPlayFabCppResultCommon(),
-            ProfileVersion(src.ProfileVersion),
-            RoleId(src.RoleId),
-            RoleName(src.RoleName)
-            {}
+        FCreateGroupRoleResponse(const FCreateGroupRoleResponse& src) = default;
 
         FCreateGroupRoleResponse(const TSharedPtr<FJsonObject>& obj) : FCreateGroupRoleResponse()
         {
@@ -536,11 +464,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FDeleteGroupRequest(const FDeleteGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group)
-            {}
+        FDeleteGroupRequest(const FDeleteGroupRequest& src) = default;
 
         FDeleteGroupRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteGroupRequest()
         {
@@ -570,12 +494,7 @@ namespace GroupsModels
             RoleId()
             {}
 
-        FDeleteRoleRequest(const FDeleteRoleRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group),
-            RoleId(src.RoleId)
-            {}
+        FDeleteRoleRequest(const FDeleteRoleRequest& src) = default;
 
         FDeleteRoleRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteRoleRequest()
         {
@@ -594,9 +513,7 @@ namespace GroupsModels
             FPlayFabCppResultCommon()
             {}
 
-        FEmptyResponse(const FEmptyResponse& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FEmptyResponse(const FEmptyResponse& src) = default;
 
         FEmptyResponse(const TSharedPtr<FJsonObject>& obj) : FEmptyResponse()
         {
@@ -626,12 +543,7 @@ namespace GroupsModels
             RoleName()
             {}
 
-        FEntityMemberRole(const FEntityMemberRole& src) :
-            FPlayFabCppBaseModel(),
-            Members(src.Members),
-            RoleId(src.RoleId),
-            RoleName(src.RoleName)
-            {}
+        FEntityMemberRole(const FEntityMemberRole& src) = default;
 
         FEntityMemberRole(const TSharedPtr<FJsonObject>& obj) : FEntityMemberRole()
         {
@@ -661,12 +573,7 @@ namespace GroupsModels
             GroupName()
             {}
 
-        FGetGroupRequest(const FGetGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr),
-            GroupName(src.GroupName)
-            {}
+        FGetGroupRequest(const FGetGroupRequest& src) = default;
 
         FGetGroupRequest(const TSharedPtr<FJsonObject>& obj) : FGetGroupRequest()
         {
@@ -712,16 +619,7 @@ namespace GroupsModels
             Roles()
             {}
 
-        FGetGroupResponse(const FGetGroupResponse& src) :
-            FPlayFabCppResultCommon(),
-            AdminRoleId(src.AdminRoleId),
-            Created(src.Created),
-            Group(src.Group),
-            GroupName(src.GroupName),
-            MemberRoleId(src.MemberRoleId),
-            ProfileVersion(src.ProfileVersion),
-            Roles(src.Roles)
-            {}
+        FGetGroupResponse(const FGetGroupResponse& src) = default;
 
         FGetGroupResponse(const TSharedPtr<FJsonObject>& obj) : FGetGroupResponse()
         {
@@ -752,12 +650,7 @@ namespace GroupsModels
             Group(nullptr)
             {}
 
-        FGroupApplication(const FGroupApplication& src) :
-            FPlayFabCppBaseModel(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.Entity)) : nullptr),
-            Expires(src.Expires),
-            Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr)
-            {}
+        FGroupApplication(const FGroupApplication& src) = default;
 
         FGroupApplication(const TSharedPtr<FJsonObject>& obj) : FGroupApplication()
         {
@@ -784,11 +677,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FGroupBlock(const FGroupBlock& src) :
-            FPlayFabCppBaseModel(),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.Entity)) : nullptr),
-            Group(src.Group)
-            {}
+        FGroupBlock(const FGroupBlock& src) = default;
 
         FGroupBlock(const TSharedPtr<FJsonObject>& obj) : FGroupBlock()
         {
@@ -827,14 +716,7 @@ namespace GroupsModels
             RoleId()
             {}
 
-        FGroupInvitation(const FGroupInvitation& src) :
-            FPlayFabCppBaseModel(),
-            Expires(src.Expires),
-            Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr),
-            InvitedByEntity(src.InvitedByEntity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.InvitedByEntity)) : nullptr),
-            InvitedEntity(src.InvitedEntity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.InvitedEntity)) : nullptr),
-            RoleId(src.RoleId)
-            {}
+        FGroupInvitation(const FGroupInvitation& src) = default;
 
         FGroupInvitation(const TSharedPtr<FJsonObject>& obj) : FGroupInvitation()
         {
@@ -861,11 +743,7 @@ namespace GroupsModels
             RoleName()
             {}
 
-        FGroupRole(const FGroupRole& src) :
-            FPlayFabCppBaseModel(),
-            RoleId(src.RoleId),
-            RoleName(src.RoleName)
-            {}
+        FGroupRole(const FGroupRole& src) = default;
 
         FGroupRole(const TSharedPtr<FJsonObject>& obj) : FGroupRole()
         {
@@ -899,13 +777,7 @@ namespace GroupsModels
             Roles()
             {}
 
-        FGroupWithRoles(const FGroupWithRoles& src) :
-            FPlayFabCppBaseModel(),
-            Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr),
-            GroupName(src.GroupName),
-            ProfileVersion(src.ProfileVersion),
-            Roles(src.Roles)
-            {}
+        FGroupWithRoles(const FGroupWithRoles& src) = default;
 
         FGroupWithRoles(const TSharedPtr<FJsonObject>& obj) : FGroupWithRoles()
         {
@@ -946,14 +818,7 @@ namespace GroupsModels
             RoleId()
             {}
 
-        FInviteToGroupRequest(const FInviteToGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            AutoAcceptOutstandingApplication(src.AutoAcceptOutstandingApplication),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Group(src.Group),
-            RoleId(src.RoleId)
-            {}
+        FInviteToGroupRequest(const FInviteToGroupRequest& src) = default;
 
         FInviteToGroupRequest(const TSharedPtr<FJsonObject>& obj) : FInviteToGroupRequest()
         {
@@ -992,14 +857,7 @@ namespace GroupsModels
             RoleId()
             {}
 
-        FInviteToGroupResponse(const FInviteToGroupResponse& src) :
-            FPlayFabCppResultCommon(),
-            Expires(src.Expires),
-            Group(src.Group.IsValid() ? MakeShareable(new FEntityKey(*src.Group)) : nullptr),
-            InvitedByEntity(src.InvitedByEntity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.InvitedByEntity)) : nullptr),
-            InvitedEntity(src.InvitedEntity.IsValid() ? MakeShareable(new FEntityWithLineage(*src.InvitedEntity)) : nullptr),
-            RoleId(src.RoleId)
-            {}
+        FInviteToGroupResponse(const FInviteToGroupResponse& src) = default;
 
         FInviteToGroupResponse(const TSharedPtr<FJsonObject>& obj) : FInviteToGroupResponse()
         {
@@ -1036,13 +894,7 @@ namespace GroupsModels
             RoleId()
             {}
 
-        FIsMemberRequest(const FIsMemberRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Group(src.Group),
-            RoleId(src.RoleId)
-            {}
+        FIsMemberRequest(const FIsMemberRequest& src) = default;
 
         FIsMemberRequest(const TSharedPtr<FJsonObject>& obj) : FIsMemberRequest()
         {
@@ -1065,10 +917,7 @@ namespace GroupsModels
             IsMember(false)
             {}
 
-        FIsMemberResponse(const FIsMemberResponse& src) :
-            FPlayFabCppResultCommon(),
-            IsMember(src.IsMember)
-            {}
+        FIsMemberResponse(const FIsMemberResponse& src) = default;
 
         FIsMemberResponse(const TSharedPtr<FJsonObject>& obj) : FIsMemberResponse()
         {
@@ -1094,11 +943,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FListGroupApplicationsRequest(const FListGroupApplicationsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group)
-            {}
+        FListGroupApplicationsRequest(const FListGroupApplicationsRequest& src) = default;
 
         FListGroupApplicationsRequest(const TSharedPtr<FJsonObject>& obj) : FListGroupApplicationsRequest()
         {
@@ -1120,10 +965,7 @@ namespace GroupsModels
             Applications()
             {}
 
-        FListGroupApplicationsResponse(const FListGroupApplicationsResponse& src) :
-            FPlayFabCppResultCommon(),
-            Applications(src.Applications)
-            {}
+        FListGroupApplicationsResponse(const FListGroupApplicationsResponse& src) = default;
 
         FListGroupApplicationsResponse(const TSharedPtr<FJsonObject>& obj) : FListGroupApplicationsResponse()
         {
@@ -1149,11 +991,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FListGroupBlocksRequest(const FListGroupBlocksRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group)
-            {}
+        FListGroupBlocksRequest(const FListGroupBlocksRequest& src) = default;
 
         FListGroupBlocksRequest(const TSharedPtr<FJsonObject>& obj) : FListGroupBlocksRequest()
         {
@@ -1175,10 +1013,7 @@ namespace GroupsModels
             BlockedEntities()
             {}
 
-        FListGroupBlocksResponse(const FListGroupBlocksResponse& src) :
-            FPlayFabCppResultCommon(),
-            BlockedEntities(src.BlockedEntities)
-            {}
+        FListGroupBlocksResponse(const FListGroupBlocksResponse& src) = default;
 
         FListGroupBlocksResponse(const TSharedPtr<FJsonObject>& obj) : FListGroupBlocksResponse()
         {
@@ -1204,11 +1039,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FListGroupInvitationsRequest(const FListGroupInvitationsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group)
-            {}
+        FListGroupInvitationsRequest(const FListGroupInvitationsRequest& src) = default;
 
         FListGroupInvitationsRequest(const TSharedPtr<FJsonObject>& obj) : FListGroupInvitationsRequest()
         {
@@ -1230,10 +1061,7 @@ namespace GroupsModels
             Invitations()
             {}
 
-        FListGroupInvitationsResponse(const FListGroupInvitationsResponse& src) :
-            FPlayFabCppResultCommon(),
-            Invitations(src.Invitations)
-            {}
+        FListGroupInvitationsResponse(const FListGroupInvitationsResponse& src) = default;
 
         FListGroupInvitationsResponse(const TSharedPtr<FJsonObject>& obj) : FListGroupInvitationsResponse()
         {
@@ -1259,11 +1087,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FListGroupMembersRequest(const FListGroupMembersRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group)
-            {}
+        FListGroupMembersRequest(const FListGroupMembersRequest& src) = default;
 
         FListGroupMembersRequest(const TSharedPtr<FJsonObject>& obj) : FListGroupMembersRequest()
         {
@@ -1285,10 +1109,7 @@ namespace GroupsModels
             Members()
             {}
 
-        FListGroupMembersResponse(const FListGroupMembersResponse& src) :
-            FPlayFabCppResultCommon(),
-            Members(src.Members)
-            {}
+        FListGroupMembersResponse(const FListGroupMembersResponse& src) = default;
 
         FListGroupMembersResponse(const TSharedPtr<FJsonObject>& obj) : FListGroupMembersResponse()
         {
@@ -1314,11 +1135,7 @@ namespace GroupsModels
             Entity(nullptr)
             {}
 
-        FListMembershipOpportunitiesRequest(const FListMembershipOpportunitiesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
-            {}
+        FListMembershipOpportunitiesRequest(const FListMembershipOpportunitiesRequest& src) = default;
 
         FListMembershipOpportunitiesRequest(const TSharedPtr<FJsonObject>& obj) : FListMembershipOpportunitiesRequest()
         {
@@ -1343,11 +1160,7 @@ namespace GroupsModels
             Invitations()
             {}
 
-        FListMembershipOpportunitiesResponse(const FListMembershipOpportunitiesResponse& src) :
-            FPlayFabCppResultCommon(),
-            Applications(src.Applications),
-            Invitations(src.Invitations)
-            {}
+        FListMembershipOpportunitiesResponse(const FListMembershipOpportunitiesResponse& src) = default;
 
         FListMembershipOpportunitiesResponse(const TSharedPtr<FJsonObject>& obj) : FListMembershipOpportunitiesResponse()
         {
@@ -1373,11 +1186,7 @@ namespace GroupsModels
             Entity(nullptr)
             {}
 
-        FListMembershipRequest(const FListMembershipRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr)
-            {}
+        FListMembershipRequest(const FListMembershipRequest& src) = default;
 
         FListMembershipRequest(const TSharedPtr<FJsonObject>& obj) : FListMembershipRequest()
         {
@@ -1399,10 +1208,7 @@ namespace GroupsModels
             Groups()
             {}
 
-        FListMembershipResponse(const FListMembershipResponse& src) :
-            FPlayFabCppResultCommon(),
-            Groups(src.Groups)
-            {}
+        FListMembershipResponse(const FListMembershipResponse& src) = default;
 
         FListMembershipResponse(const TSharedPtr<FJsonObject>& obj) : FListMembershipResponse()
         {
@@ -1444,12 +1250,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FRemoveGroupApplicationRequest(const FRemoveGroupApplicationRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Group(src.Group)
-            {}
+        FRemoveGroupApplicationRequest(const FRemoveGroupApplicationRequest& src) = default;
 
         FRemoveGroupApplicationRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveGroupApplicationRequest()
         {
@@ -1479,12 +1280,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FRemoveGroupInvitationRequest(const FRemoveGroupInvitationRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Group(src.Group)
-            {}
+        FRemoveGroupInvitationRequest(const FRemoveGroupInvitationRequest& src) = default;
 
         FRemoveGroupInvitationRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveGroupInvitationRequest()
         {
@@ -1517,13 +1313,7 @@ namespace GroupsModels
             RoleId()
             {}
 
-        FRemoveMembersRequest(const FRemoveMembersRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Group(src.Group),
-            Members(src.Members),
-            RoleId(src.RoleId)
-            {}
+        FRemoveMembersRequest(const FRemoveMembersRequest& src) = default;
 
         FRemoveMembersRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveMembersRequest()
         {
@@ -1553,12 +1343,7 @@ namespace GroupsModels
             Group()
             {}
 
-        FUnblockEntityRequest(const FUnblockEntityRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            Group(src.Group)
-            {}
+        FUnblockEntityRequest(const FUnblockEntityRequest& src) = default;
 
         FUnblockEntityRequest(const TSharedPtr<FJsonObject>& obj) : FUnblockEntityRequest()
         {
@@ -1604,15 +1389,7 @@ namespace GroupsModels
             MemberRoleId()
             {}
 
-        FUpdateGroupRequest(const FUpdateGroupRequest& src) :
-            FPlayFabCppRequestCommon(),
-            AdminRoleId(src.AdminRoleId),
-            CustomTags(src.CustomTags),
-            ExpectedProfileVersion(src.ExpectedProfileVersion),
-            Group(src.Group),
-            GroupName(src.GroupName),
-            MemberRoleId(src.MemberRoleId)
-            {}
+        FUpdateGroupRequest(const FUpdateGroupRequest& src) = default;
 
         FUpdateGroupRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateGroupRequest()
         {
@@ -1643,12 +1420,7 @@ namespace GroupsModels
             SetResult()
             {}
 
-        FUpdateGroupResponse(const FUpdateGroupResponse& src) :
-            FPlayFabCppResultCommon(),
-            OperationReason(src.OperationReason),
-            ProfileVersion(src.ProfileVersion),
-            SetResult(src.SetResult)
-            {}
+        FUpdateGroupResponse(const FUpdateGroupResponse& src) = default;
 
         FUpdateGroupResponse(const TSharedPtr<FJsonObject>& obj) : FUpdateGroupResponse()
         {
@@ -1690,14 +1462,7 @@ namespace GroupsModels
             RoleName()
             {}
 
-        FUpdateGroupRoleRequest(const FUpdateGroupRoleRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            ExpectedProfileVersion(src.ExpectedProfileVersion),
-            Group(src.Group),
-            RoleId(src.RoleId),
-            RoleName(src.RoleName)
-            {}
+        FUpdateGroupRoleRequest(const FUpdateGroupRoleRequest& src) = default;
 
         FUpdateGroupRoleRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateGroupRoleRequest()
         {
@@ -1728,12 +1493,7 @@ namespace GroupsModels
             SetResult()
             {}
 
-        FUpdateGroupRoleResponse(const FUpdateGroupRoleResponse& src) :
-            FPlayFabCppResultCommon(),
-            OperationReason(src.OperationReason),
-            ProfileVersion(src.ProfileVersion),
-            SetResult(src.SetResult)
-            {}
+        FUpdateGroupRoleResponse(const FUpdateGroupRoleResponse& src) = default;
 
         FUpdateGroupRoleResponse(const TSharedPtr<FJsonObject>& obj) : FUpdateGroupRoleResponse()
         {

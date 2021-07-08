@@ -19,7 +19,7 @@ namespace PlayFab
     typedef TSharedRef< TJsonReader<TCHAR> > JsonReader;
 
     template <typename BoxedType>
-    class PLAYFABCPP_API Boxed
+    class Boxed
     {
     public:
         BoxedType mValue;

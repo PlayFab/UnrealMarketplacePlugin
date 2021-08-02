@@ -95,6 +95,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ExecuteEntityCloudScript(FCloudS
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/CloudScript/ExecuteEntityCloudScript";
+    manager->useEntityToken = true;
 
 
     // Serialize all the request properties to json
@@ -154,6 +155,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ExecuteFunction(FCloudScriptExec
     // Setup the request
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/CloudScript/ExecuteFunction";
+    manager->useEntityToken = true;
 
     // Check for local debugging
     FString localApiServer = PlayFabCommon::PlayFabCommonUtils::GetLocalSettingsFileProperty(TEXT("LocalApiServer"));

@@ -1567,7 +1567,7 @@ namespace AdminModels
         FDateTime LastModified;
 
         // Size of the content in bytes
-        uint32 Size;
+        double Size;
 
         FContentInfo() :
             FPlayFabCppBaseModel(),
@@ -2697,15 +2697,11 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FLinkedUserAccountSegmentFilter : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Login provider comparison.
-        Boxed<SegmentFilterComparison> Comparison;
-
         // [optional] Login provider.
         Boxed<SegmentLoginIdentityProvider> LoginProvider;
 
         FLinkedUserAccountSegmentFilter() :
             FPlayFabCppBaseModel(),
-            Comparison(),
             LoginProvider()
             {}
 
@@ -5483,7 +5479,11 @@ namespace AdminModels
         // [optional] Player display name
         FString DisplayName;
 
-        // [optional] List of experiment variants for the player.
+        /**
+         * [optional] List of experiment variants for the player. Note that these variants are not guaranteed to be up-to-date when returned
+         * during login because the player profile is updated only after login. Instead, use the LoginResult.TreatmentAssignment
+         * property during login to get the correct variants and variables.
+         */
         TArray<FString> ExperimentVariants;
         // [optional] UTC time when the player most recently logged in to the title
         Boxed<FDateTime> LastLogin;
@@ -6285,11 +6285,15 @@ namespace AdminModels
         // [optional] The name of the policy read.
         FString PolicyName;
 
+        // Policy version.
+        int32 PolicyVersion;
+
         // [optional] The statements in the requested policy.
         TArray<FPermissionStatement> Statements;
         FGetPolicyResponse() :
             FPlayFabCppResultCommon(),
             PolicyName(),
+            PolicyVersion(0),
             Statements()
             {}
 
@@ -8358,7 +8362,6 @@ namespace AdminModels
         UserOriginationXboxLive,
         UserOriginationParse,
         UserOriginationTwitch,
-        UserOriginationWindowsHello,
         UserOriginationServerCustomId,
         UserOriginationNintendoSwitchDeviceId,
         UserOriginationFacebookInstantGamesId,
@@ -8455,33 +8458,6 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUserWindowsHelloInfo : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Windows Hello Device Name
-        FString WindowsHelloDeviceName;
-
-        // [optional] Windows Hello Public Key Hash
-        FString WindowsHelloPublicKeyHash;
-
-        FUserWindowsHelloInfo() :
-            FPlayFabCppBaseModel(),
-            WindowsHelloDeviceName(),
-            WindowsHelloPublicKeyHash()
-            {}
-
-        FUserWindowsHelloInfo(const FUserWindowsHelloInfo& src) = default;
-
-        FUserWindowsHelloInfo(const TSharedPtr<FJsonObject>& obj) : FUserWindowsHelloInfo()
-        {
-            readFromValue(obj);
-        }
-
-        ~FUserWindowsHelloInfo();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FUserXboxInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] XBox user ID
@@ -8566,9 +8542,6 @@ namespace AdminModels
         // [optional] User account name in the PlayFab service
         FString Username;
 
-        // [optional] Windows Hello account information, if a Windows Hello account has been linked
-        TSharedPtr<FUserWindowsHelloInfo> WindowsHelloInfo;
-
         // [optional] User XBox account information, if a XBox account has been linked
         TSharedPtr<FUserXboxInfo> XboxInfo;
 
@@ -8594,7 +8567,6 @@ namespace AdminModels
             TitleInfo(nullptr),
             TwitchInfo(nullptr),
             Username(),
-            WindowsHelloInfo(nullptr),
             XboxInfo(nullptr)
             {}
 
@@ -9885,10 +9857,7 @@ namespace AdminModels
         // [optional] for APNS, this is the PlatformPrincipal (SSL Certificate)
         FString Key;
 
-        /**
-         * name of the application sending the message (application names must be made up of only uppercase and lowercase ASCII
-         * letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long)
-         */
+        // [optional] This field is deprecated and any usage of this will cause the API to fail.
         FString Name;
 
         /**
@@ -10358,12 +10327,16 @@ namespace AdminModels
         // The name of the policy being updated. Only supported name is 'ApiPolicy'
         FString PolicyName;
 
+        // Version of the policy to update. Must be the latest (as returned by GetPolicy).
+        int32 PolicyVersion;
+
         // The new statements to include in the policy.
         TArray<FPermissionStatement> Statements;
         FUpdatePolicyRequest() :
             FPlayFabCppRequestCommon(),
             OverwritePolicy(false),
             PolicyName(),
+            PolicyVersion(0),
             Statements()
             {}
 

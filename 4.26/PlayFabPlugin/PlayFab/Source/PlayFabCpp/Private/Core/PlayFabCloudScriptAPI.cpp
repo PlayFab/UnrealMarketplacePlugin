@@ -32,9 +32,13 @@ bool UPlayFabCloudScriptAPI::ExecuteEntityCloudScript(
     const FExecuteEntityCloudScriptDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
 
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/CloudScript/ExecuteEntityCloudScript"), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/CloudScript/ExecuteEntityCloudScript"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabCloudScriptAPI::OnExecuteEntityCloudScriptResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }
@@ -58,18 +62,22 @@ bool UPlayFabCloudScriptAPI::ExecuteFunction(
     const FExecuteFunctionDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
 {
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
 
     FString localApiServer = PlayFabSettings::GetLocalApiServer();
     if (!localApiServer.IsEmpty())
     {
         FString endpoint = TEXT("/CloudScript/ExecuteFunction");
         endpoint.RemoveFromStart(TEXT("/"));
-        auto HttpRequest = PlayFabRequestHandler::SendFullUrlRequest(localApiServer + endpoint, request.toJSONString(), TEXT(""), TEXT(""));
+        auto HttpRequest = PlayFabRequestHandler::SendFullUrlRequest(localApiServer + endpoint, request.toJSONString(), TEXT("X-EntityToken"), entityToken);
         HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabCloudScriptAPI::OnExecuteFunctionResult, SuccessDelegate, ErrorDelegate);
         return HttpRequest->ProcessRequest();
     }
 
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/CloudScript/ExecuteFunction"), request.toJSONString(), TEXT(""), TEXT(""));
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/CloudScript/ExecuteFunction"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
     HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabCloudScriptAPI::OnExecuteFunctionResult, SuccessDelegate, ErrorDelegate);
     return HttpRequest->ProcessRequest();
 }

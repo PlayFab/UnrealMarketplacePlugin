@@ -1007,7 +1007,6 @@ namespace ServerModels
         UserOriginationXboxLive,
         UserOriginationParse,
         UserOriginationTwitch,
-        UserOriginationWindowsHello,
         UserOriginationServerCustomId,
         UserOriginationNintendoSwitchDeviceId,
         UserOriginationFacebookInstantGamesId,
@@ -1131,33 +1130,6 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FUserWindowsHelloInfo : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Windows Hello Device Name
-        FString WindowsHelloDeviceName;
-
-        // [optional] Windows Hello Public Key Hash
-        FString WindowsHelloPublicKeyHash;
-
-        FUserWindowsHelloInfo() :
-            FPlayFabCppBaseModel(),
-            WindowsHelloDeviceName(),
-            WindowsHelloPublicKeyHash()
-            {}
-
-        FUserWindowsHelloInfo(const FUserWindowsHelloInfo& src) = default;
-
-        FUserWindowsHelloInfo(const TSharedPtr<FJsonObject>& obj) : FUserWindowsHelloInfo()
-        {
-            readFromValue(obj);
-        }
-
-        ~FUserWindowsHelloInfo();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FUserXboxInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] XBox user ID
@@ -1242,9 +1214,6 @@ namespace ServerModels
         // [optional] User account name in the PlayFab service
         FString Username;
 
-        // [optional] Windows Hello account information, if a Windows Hello account has been linked
-        TSharedPtr<FUserWindowsHelloInfo> WindowsHelloInfo;
-
         // [optional] User XBox account information, if a XBox account has been linked
         TSharedPtr<FUserXboxInfo> XboxInfo;
 
@@ -1270,7 +1239,6 @@ namespace ServerModels
             TitleInfo(nullptr),
             TwitchInfo(nullptr),
             Username(),
-            WindowsHelloInfo(nullptr),
             XboxInfo(nullptr)
             {}
 
@@ -3318,7 +3286,11 @@ namespace ServerModels
         // [optional] Player display name
         FString DisplayName;
 
-        // [optional] List of experiment variants for the player.
+        /**
+         * [optional] List of experiment variants for the player. Note that these variants are not guaranteed to be up-to-date when returned
+         * during login because the player profile is updated only after login. Instead, use the LoginResult.TreatmentAssignment
+         * property during login to get the correct variants and variables.
+         */
         TArray<FString> ExperimentVariants;
         // [optional] UTC time when the player most recently logged in to the title
         Boxed<FDateTime> LastLogin;
@@ -4401,8 +4373,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetLeaderboardForUsersCharactersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Maximum number of entries to retrieve.
-        int32 MaxResultsCount;
+        // [optional] Maximum number of entries to retrieve.
+        Boxed<int32> MaxResultsCount;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
@@ -4412,7 +4384,7 @@ namespace ServerModels
 
         FGetLeaderboardForUsersCharactersRequest() :
             FPlayFabCppRequestCommon(),
-            MaxResultsCount(0),
+            MaxResultsCount(),
             PlayFabId(),
             StatisticName()
             {}
@@ -5613,7 +5585,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
@@ -7096,7 +7068,7 @@ namespace ServerModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to 256 (production)
+        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
@@ -7358,6 +7330,40 @@ namespace ServerModels
         }
 
         ~FLoginWithServerCustomIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithSteamIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // Unique Steam identifier for a user
+        FString SteamId;
+
+        FLoginWithSteamIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(),
+            CustomTags(),
+            InfoRequestParameters(nullptr),
+            SteamId()
+            {}
+
+        FLoginWithSteamIdRequest(const FLoginWithSteamIdRequest& src) = default;
+
+        FLoginWithSteamIdRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithSteamIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithSteamIdRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

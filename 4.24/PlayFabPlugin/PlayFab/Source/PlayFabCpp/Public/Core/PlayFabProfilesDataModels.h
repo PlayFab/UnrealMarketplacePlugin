@@ -170,7 +170,7 @@ namespace ProfilesModels
 
     struct PLAYFABCPP_API FEntityProfileFileMetadata : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Checksum value for the file
+        // [optional] Checksum value for the file, can be used to check if the file on the server has changed.
         FString Checksum;
 
         // [optional] Name of the file

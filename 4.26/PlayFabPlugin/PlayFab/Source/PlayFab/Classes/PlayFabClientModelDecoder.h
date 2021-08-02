@@ -156,10 +156,6 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientLinkTwitchAccountResult decodeLinkTwitchAccountResultResponse(UPlayFabJsonObject* response);
 
-    /** Decode the LinkWindowsHelloAccountResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
-        static FClientLinkWindowsHelloAccountResponse decodeLinkWindowsHelloAccountResponseResponse(UPlayFabJsonObject* response);
-
     /** Decode the LinkXboxAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientLinkXboxAccountResult decodeLinkXboxAccountResultResponse(UPlayFabJsonObject* response);
@@ -232,10 +228,6 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientUnlinkTwitchAccountResult decodeUnlinkTwitchAccountResultResponse(UPlayFabJsonObject* response);
 
-    /** Decode the UnlinkWindowsHelloAccountResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
-        static FClientUnlinkWindowsHelloAccountResponse decodeUnlinkWindowsHelloAccountResponseResponse(UPlayFabJsonObject* response);
-
     /** Decode the UnlinkXboxAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientUnlinkXboxAccountResult decodeUnlinkXboxAccountResultResponse(UPlayFabJsonObject* response);
@@ -289,10 +281,6 @@ public:
     /** Decode the GetTitlePublicKeyResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication Models")
         static FClientGetTitlePublicKeyResult decodeGetTitlePublicKeyResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the GetWindowsHelloChallengeResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication Models")
-        static FClientGetWindowsHelloChallengeResponse decodeGetWindowsHelloChallengeResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the LoginResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication Models")
@@ -421,6 +409,10 @@ public:
     /** Decode the ConsumeMicrosoftStoreEntitlementsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
         static FClientConsumeMicrosoftStoreEntitlementsResponse decodeConsumeMicrosoftStoreEntitlementsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ConsumePS5EntitlementsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")
+        static FClientConsumePS5EntitlementsResult decodeConsumePS5EntitlementsResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the ConsumePSNEntitlementsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods Models")

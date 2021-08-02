@@ -1285,7 +1285,11 @@ namespace CloudScriptModels
         // [optional] Player display name
         FString DisplayName;
 
-        // [optional] List of experiment variants for the player.
+        /**
+         * [optional] List of experiment variants for the player. Note that these variants are not guaranteed to be up-to-date when returned
+         * during login because the player profile is updated only after login. Instead, use the LoginResult.TreatmentAssignment
+         * property during login to get the correct variants and variables.
+         */
         TArray<FString> ExperimentVariants;
         // [optional] UTC time when the player most recently logged in to the title
         Boxed<FDateTime> LastLogin;

@@ -1826,7 +1826,6 @@ void PlayFab::ServerModels::writeUserOriginationEnumJSON(UserOrigination enumVal
     case UserOriginationXboxLive: writer->WriteValue(TEXT("XboxLive")); break;
     case UserOriginationParse: writer->WriteValue(TEXT("Parse")); break;
     case UserOriginationTwitch: writer->WriteValue(TEXT("Twitch")); break;
-    case UserOriginationWindowsHello: writer->WriteValue(TEXT("WindowsHello")); break;
     case UserOriginationServerCustomId: writer->WriteValue(TEXT("ServerCustomId")); break;
     case UserOriginationNintendoSwitchDeviceId: writer->WriteValue(TEXT("NintendoSwitchDeviceId")); break;
     case UserOriginationFacebookInstantGamesId: writer->WriteValue(TEXT("FacebookInstantGamesId")); break;
@@ -1864,7 +1863,6 @@ ServerModels::UserOrigination PlayFab::ServerModels::readUserOriginationFromValu
         _UserOriginationMap.Add(TEXT("XboxLive"), UserOriginationXboxLive);
         _UserOriginationMap.Add(TEXT("Parse"), UserOriginationParse);
         _UserOriginationMap.Add(TEXT("Twitch"), UserOriginationTwitch);
-        _UserOriginationMap.Add(TEXT("WindowsHello"), UserOriginationWindowsHello);
         _UserOriginationMap.Add(TEXT("ServerCustomId"), UserOriginationServerCustomId);
         _UserOriginationMap.Add(TEXT("NintendoSwitchDeviceId"), UserOriginationNintendoSwitchDeviceId);
         _UserOriginationMap.Add(TEXT("FacebookInstantGamesId"), UserOriginationFacebookInstantGamesId);
@@ -2087,51 +2085,6 @@ bool PlayFab::ServerModels::FUserTwitchInfo::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
-PlayFab::ServerModels::FUserWindowsHelloInfo::~FUserWindowsHelloInfo()
-{
-
-}
-
-void PlayFab::ServerModels::FUserWindowsHelloInfo::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (WindowsHelloDeviceName.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("WindowsHelloDeviceName"));
-        writer->WriteValue(WindowsHelloDeviceName);
-    }
-
-    if (WindowsHelloPublicKeyHash.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("WindowsHelloPublicKeyHash"));
-        writer->WriteValue(WindowsHelloPublicKeyHash);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::ServerModels::FUserWindowsHelloInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> WindowsHelloDeviceNameValue = obj->TryGetField(TEXT("WindowsHelloDeviceName"));
-    if (WindowsHelloDeviceNameValue.IsValid() && !WindowsHelloDeviceNameValue->IsNull())
-    {
-        FString TmpValue;
-        if (WindowsHelloDeviceNameValue->TryGetString(TmpValue)) { WindowsHelloDeviceName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> WindowsHelloPublicKeyHashValue = obj->TryGetField(TEXT("WindowsHelloPublicKeyHash"));
-    if (WindowsHelloPublicKeyHashValue.IsValid() && !WindowsHelloPublicKeyHashValue->IsNull())
-    {
-        FString TmpValue;
-        if (WindowsHelloPublicKeyHashValue->TryGetString(TmpValue)) { WindowsHelloPublicKeyHash = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
 PlayFab::ServerModels::FUserXboxInfo::~FUserXboxInfo()
 {
 
@@ -2182,7 +2135,6 @@ PlayFab::ServerModels::FUserAccountInfo::~FUserAccountInfo()
     //if (SteamInfo != nullptr) delete SteamInfo;
     //if (TitleInfo != nullptr) delete TitleInfo;
     //if (TwitchInfo != nullptr) delete TwitchInfo;
-    //if (WindowsHelloInfo != nullptr) delete WindowsHelloInfo;
     //if (XboxInfo != nullptr) delete XboxInfo;
 
 }
@@ -2309,12 +2261,6 @@ void PlayFab::ServerModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
     {
         writer->WriteIdentifierPrefix(TEXT("Username"));
         writer->WriteValue(Username);
-    }
-
-    if (WindowsHelloInfo.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("WindowsHelloInfo"));
-        WindowsHelloInfo->writeJSON(writer);
     }
 
     if (XboxInfo.IsValid())
@@ -2451,12 +2397,6 @@ bool PlayFab::ServerModels::FUserAccountInfo::readFromValue(const TSharedPtr<FJs
     {
         FString TmpValue;
         if (UsernameValue->TryGetString(TmpValue)) { Username = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> WindowsHelloInfoValue = obj->TryGetField(TEXT("WindowsHelloInfo"));
-    if (WindowsHelloInfoValue.IsValid() && !WindowsHelloInfoValue->IsNull())
-    {
-        WindowsHelloInfo = MakeShareable(new FUserWindowsHelloInfo(WindowsHelloInfoValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> XboxInfoValue = obj->TryGetField(TEXT("XboxInfo"));
@@ -8782,8 +8722,11 @@ void PlayFab::ServerModels::FGetLeaderboardForUsersCharactersRequest::writeJSON(
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
-    writer->WriteValue(MaxResultsCount);
+    if (MaxResultsCount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
+        writer->WriteValue(MaxResultsCount);
+    }
 
     if (!PlayFabId.IsEmpty() == false)
     {
@@ -14666,6 +14609,88 @@ bool PlayFab::ServerModels::FLoginWithServerCustomIdRequest::readFromValue(const
     {
         FString TmpValue;
         if (ServerCustomIdValue->TryGetString(TmpValue)) { ServerCustomId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLoginWithSteamIdRequest::~FLoginWithSteamIdRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ServerModels::FLoginWithSteamIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    if (!SteamId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithSteamIdRequest::SteamId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamId"));
+        writer->WriteValue(SteamId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLoginWithSteamIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> SteamIdValue = obj->TryGetField(TEXT("SteamId"));
+    if (SteamIdValue.IsValid() && !SteamIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SteamIdValue->TryGetString(TmpValue)) { SteamId = TmpValue; }
     }
 
     return HasSucceeded;

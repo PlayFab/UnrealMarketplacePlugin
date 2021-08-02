@@ -243,6 +243,7 @@ FAdminGetPolicyResponse UPlayFabAdminModelDecoder::decodeGetPolicyResponseRespon
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.PolicyName = !(dataObj->HasField("PolicyName")) ? TEXT("") : dataObj->GetStringField("PolicyName");
+    tempStruct.PolicyVersion = !(dataObj->HasField("PolicyVersion")) ? 0 : int(dataObj->GetNumberField("PolicyVersion"));
     tempStruct.Statements = !(dataObj->HasField("Statements")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Statements");
 
     return tempStruct;

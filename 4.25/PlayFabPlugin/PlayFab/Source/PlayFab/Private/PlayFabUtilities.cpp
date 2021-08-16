@@ -547,6 +547,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1513: returnText = "SteamUserNotFound"; break;
     case 1514: returnText = "ElasticSearchOperationFailed"; break;
     case 1515: returnText = "NotImplemented"; break;
+    case 1516: returnText = "PublisherNotFound"; break;
+    case 1517: returnText = "PublisherDeleted"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -568,6 +570,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 2057: returnText = "MatchmakingQueueLimitExceeded"; break;
     case 2058: returnText = "MatchmakingRequestTypeMismatch"; break;
     case 2059: returnText = "MatchmakingBadRequest"; break;
+    case 2500: returnText = "PubSubFeatureNotEnabledForTitle"; break;
+    case 2501: returnText = "PubSubTooManyRequests"; break;
     case 3001: returnText = "TitleConfigNotFound"; break;
     case 3002: returnText = "TitleConfigUpdateConflict"; break;
     case 3003: returnText = "TitleConfigSerializationError"; break;

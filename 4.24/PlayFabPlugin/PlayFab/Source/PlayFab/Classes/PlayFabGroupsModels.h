@@ -43,8 +43,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* CustomTags = nullptr;
     /**
-     * Optional. Type of the entity to accept as. If specified, must be the same entity as the claimant or an entity that is a
-     * child of the claimant entity. Defaults to the claimant entity.
+     * Type of the entity to accept as. Must be the same entity as the claimant or an entity that is a child of the claimant
+     * entity.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
         UPlayFabJsonObject* Entity = nullptr;

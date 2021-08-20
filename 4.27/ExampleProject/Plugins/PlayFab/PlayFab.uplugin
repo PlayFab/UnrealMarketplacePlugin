@@ -1,0 +1,34 @@
+{
+    "FileVersion": 3,
+    "FriendlyName": "PlayFab Marketplace Plugin",
+    "Version": 0,
+    "EngineVersion": "4.27.0",
+    "VersionName": "1.62.210820",
+    "CreatedBy": "PlayFab and Phoenix Labs",
+    "CreatedByURL": "https://playfab.com/",
+    "DocsURL": "https://docs.microsoft.com/en-us/gaming/playfab/api-references/",
+    "SupportURL": "https://community.playfab.com/index.html",
+    "Category": "PlayFab",
+    "Description": "PlayFab Marketplace plugin for Unreal Engine 4.27 Current API version: 1.62.210820",
+    "MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/217fdf581b784571af03d3fb6580368f",
+    "Modules": [
+      {
+        "Name": "PlayFabCpp",
+        "Type": "Runtime",
+        "LoadingPhase": "PreDefault",
+        "WhitelistPlatforms": [ "Win64", "Win32", "Mac", "IOS", "Android", "PS4", "XboxOne", "Switch" ]
+      },
+      {
+        "Name": "PlayFab",
+        "Type": "Runtime",
+        "LoadingPhase": "PreDefault",
+        "WhitelistPlatforms": [ "Win64", "Win32", "Mac", "IOS", "Android", "PS4", "XboxOne", "Switch" ]
+      },
+      {
+        "Name": "PlayFabCommon",
+        "Type": "Runtime",
+        "LoadingPhase": "PreDefault",
+        "WhitelistPlatforms": [ "Win64", "Win32", "Mac", "IOS", "Android", "PS4", "XboxOne", "Switch" ]
+      }
+    ]
+}

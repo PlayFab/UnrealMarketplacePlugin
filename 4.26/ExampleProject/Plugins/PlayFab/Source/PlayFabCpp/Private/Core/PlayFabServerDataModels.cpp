@@ -8722,12 +8722,6 @@ void PlayFab::ServerModels::FGetLeaderboardForUsersCharactersRequest::writeJSON(
 {
     writer->WriteObjectStart();
 
-    if (MaxResultsCount.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
-        writer->WriteValue(MaxResultsCount);
-    }
-
     if (!PlayFabId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetLeaderboardForUsersCharactersRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
@@ -8754,13 +8748,6 @@ void PlayFab::ServerModels::FGetLeaderboardForUsersCharactersRequest::writeJSON(
 bool PlayFab::ServerModels::FGetLeaderboardForUsersCharactersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> MaxResultsCountValue = obj->TryGetField(TEXT("MaxResultsCount"));
-    if (MaxResultsCountValue.IsValid() && !MaxResultsCountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (MaxResultsCountValue->TryGetNumber(TmpValue)) { MaxResultsCount = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
     if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())

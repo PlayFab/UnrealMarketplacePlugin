@@ -257,6 +257,7 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyNCasT4_v3: writer->WriteValue(TEXT("NCasT4_v3")); break;
     case AzureVmFamilyDdv4: writer->WriteValue(TEXT("Ddv4")); break;
     case AzureVmFamilyDdsv4: writer->WriteValue(TEXT("Ddsv4")); break;
+    case AzureVmFamilyHBv3: writer->WriteValue(TEXT("HBv3")); break;
     }
 }
 
@@ -288,6 +289,7 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("NCasT4_v3"), AzureVmFamilyNCasT4_v3);
         _AzureVmFamilyMap.Add(TEXT("Ddv4"), AzureVmFamilyDdv4);
         _AzureVmFamilyMap.Add(TEXT("Ddsv4"), AzureVmFamilyDdsv4);
+        _AzureVmFamilyMap.Add(TEXT("HBv3"), AzureVmFamilyHBv3);
 
     }
 
@@ -366,6 +368,11 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_D4ds_v4: writer->WriteValue(TEXT("Standard_D4ds_v4")); break;
     case AzureVmSizeStandard_D8ds_v4: writer->WriteValue(TEXT("Standard_D8ds_v4")); break;
     case AzureVmSizeStandard_D16ds_v4: writer->WriteValue(TEXT("Standard_D16ds_v4")); break;
+    case AzureVmSizeStandard_HB120_16rs_v3: writer->WriteValue(TEXT("Standard_HB120_16rs_v3")); break;
+    case AzureVmSizeStandard_HB120_32rs_v3: writer->WriteValue(TEXT("Standard_HB120_32rs_v3")); break;
+    case AzureVmSizeStandard_HB120_64rs_v3: writer->WriteValue(TEXT("Standard_HB120_64rs_v3")); break;
+    case AzureVmSizeStandard_HB120_96rs_v3: writer->WriteValue(TEXT("Standard_HB120_96rs_v3")); break;
+    case AzureVmSizeStandard_HB120rs_v3: writer->WriteValue(TEXT("Standard_HB120rs_v3")); break;
     }
 }
 
@@ -440,6 +447,11 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_D4ds_v4"), AzureVmSizeStandard_D4ds_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D8ds_v4"), AzureVmSizeStandard_D8ds_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D16ds_v4"), AzureVmSizeStandard_D16ds_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_HB120_16rs_v3"), AzureVmSizeStandard_HB120_16rs_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_HB120_32rs_v3"), AzureVmSizeStandard_HB120_32rs_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_HB120_64rs_v3"), AzureVmSizeStandard_HB120_64rs_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_HB120_96rs_v3"), AzureVmSizeStandard_HB120_96rs_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_HB120rs_v3"), AzureVmSizeStandard_HB120rs_v3);
 
     }
 

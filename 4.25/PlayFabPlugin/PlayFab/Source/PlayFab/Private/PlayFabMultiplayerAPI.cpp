@@ -1815,7 +1815,7 @@ void UPlayFabMultiplayerAPI::HelperEnableMultiplayerServersForTitle(FPlayFabBase
     this->RemoveFromRoot();
 }
 
-/** Gets a URL that can be used to download the specified asset. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29 */
+/** Gets a URL that can be used to download the specified asset. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=startDate&se=endDate&spr=https&sig=sampleSig&api-version=2017-07-29 */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetAssetDownloadUrl(FMultiplayerGetAssetDownloadUrlRequest request,
     FDelegateOnSuccessGetAssetDownloadUrl onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1868,7 +1868,7 @@ void UPlayFabMultiplayerAPI::HelperGetAssetDownloadUrl(FPlayFabBaseModel respons
     this->RemoveFromRoot();
 }
 
-/** Gets the URL to upload assets to. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29 */
+/** Gets the URL to upload assets to. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=startDate&se=endDate&spr=https&sig=sampleSig&api-version=2017-07-29 */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetAssetUploadUrl(FMultiplayerGetAssetUploadUrlRequest request,
     FDelegateOnSuccessGetAssetUploadUrl onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

@@ -524,6 +524,8 @@ namespace PlayFab
         PlayFabErrorNotImplemented = 1515,
         PlayFabErrorPublisherNotFound = 1516,
         PlayFabErrorPublisherDeleted = 1517,
+        PlayFabErrorApiDisabledForMigration = 1518,
+        PlayFabErrorResourceNameUpdateNotAllowed = 1519,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -662,8 +664,9 @@ namespace PlayFab
         PlayFabErrorLobbyCurrentOwnerStillConnected = 13010,
         PlayFabErrorLobbyMemberIsNotOwner = 13011,
         PlayFabErrorEventSamplingInvalidRatio = 14000,
-        PlayFabErrorEventSamplingInvalidEventName = 14001,
-        PlayFabErrorEventSamplingRatioNotFound = 14002
+        PlayFabErrorEventSamplingInvalidEventNamespace = 14001,
+        PlayFabErrorEventSamplingInvalidEventName = 14002,
+        PlayFabErrorEventSamplingRatioNotFound = 14003
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

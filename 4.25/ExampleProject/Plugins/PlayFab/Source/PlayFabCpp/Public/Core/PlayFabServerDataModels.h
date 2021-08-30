@@ -4373,9 +4373,6 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetLeaderboardForUsersCharactersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Maximum number of entries to retrieve.
-        Boxed<int32> MaxResultsCount;
-
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -4384,7 +4381,6 @@ namespace ServerModels
 
         FGetLeaderboardForUsersCharactersRequest() :
             FPlayFabCppRequestCommon(),
-            MaxResultsCount(),
             PlayFabId(),
             StatisticName()
             {}

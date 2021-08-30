@@ -1361,9 +1361,6 @@ struct PLAYFAB_API FServerGetLeaderboardForUsersCharactersRequest : public FPlay
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Maximum number of entries to retrieve. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
-        int32 MaxResultsCount = 0;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
         FString PlayFabId;

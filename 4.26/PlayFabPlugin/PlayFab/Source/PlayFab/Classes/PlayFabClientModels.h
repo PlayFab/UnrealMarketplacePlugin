@@ -2557,9 +2557,6 @@ struct PLAYFAB_API FClientGetLeaderboardForUsersCharactersRequest : public FPlay
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Maximum number of entries to retrieve. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        int32 MaxResultsCount = 0;
     /** Unique identifier for the title-specific statistic for the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
         FString StatisticName;
@@ -3414,11 +3411,7 @@ public:
         FString XboxToken;
 };
 
-/**
- * Note that the Position of the user in the results is for the overall leaderboard. If Facebook friends are included, make
- * sure the access token from previous LoginWithFacebook call is still valid and not expired. If Xbox Live friends are
- * included, make sure the access token from the previous LoginWithXbox call is still valid and not expired.
- */
+/** Note: the user's Position is relative to the overall leaderboard. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetLeaderboardResult : public FPlayFabResultCommon
 {

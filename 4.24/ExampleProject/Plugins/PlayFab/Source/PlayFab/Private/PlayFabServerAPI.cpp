@@ -3111,7 +3111,6 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardForUserCharacters(FServerGet
 
 
     // Serialize all the request properties to json
-    OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
     } else {

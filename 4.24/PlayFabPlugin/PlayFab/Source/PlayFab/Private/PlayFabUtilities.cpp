@@ -549,6 +549,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1515: returnText = "NotImplemented"; break;
     case 1516: returnText = "PublisherNotFound"; break;
     case 1517: returnText = "PublisherDeleted"; break;
+    case 1518: returnText = "ApiDisabledForMigration"; break;
+    case 1519: returnText = "ResourceNameUpdateNotAllowed"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -687,8 +689,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 13010: returnText = "LobbyCurrentOwnerStillConnected"; break;
     case 13011: returnText = "LobbyMemberIsNotOwner"; break;
     case 14000: returnText = "EventSamplingInvalidRatio"; break;
-    case 14001: returnText = "EventSamplingInvalidEventName"; break;
-    case 14002: returnText = "EventSamplingRatioNotFound"; break;
+    case 14001: returnText = "EventSamplingInvalidEventNamespace"; break;
+    case 14002: returnText = "EventSamplingInvalidEventName"; break;
+    case 14003: returnText = "EventSamplingRatioNotFound"; break;
     }
 
     // Return the text

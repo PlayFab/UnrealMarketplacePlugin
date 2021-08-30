@@ -5522,7 +5522,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardForUserCharacters(FClientGet
 
 
     // Serialize all the request properties to json
-    OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("StatisticName"));
     } else {

@@ -5040,15 +5040,11 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetLeaderboardForUsersCharactersRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Maximum number of entries to retrieve.
-        Boxed<int32> MaxResultsCount;
-
         // Unique identifier for the title-specific statistic for the leaderboard.
         FString StatisticName;
 
         FGetLeaderboardForUsersCharactersRequest() :
             FPlayFabCppRequestCommon(),
-            MaxResultsCount(),
             StatisticName()
             {}
 

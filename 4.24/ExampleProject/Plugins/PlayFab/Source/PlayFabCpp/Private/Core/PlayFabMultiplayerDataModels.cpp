@@ -911,6 +911,12 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
     writer->WriteIdentifierPrefix(TEXT("MaxServers"));
     writer->WriteValue(MaxServers);
 
+    if (MultiplayerServerCountPerVm.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
+        writer->WriteValue(MultiplayerServerCountPerVm);
+    }
+
     if (Region.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Region"));
@@ -930,6 +936,12 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
     {
         writer->WriteIdentifierPrefix(TEXT("Status"));
         writer->WriteValue(Status);
+    }
+
+    if (VmSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmSize"));
+        writeAzureVmSizeEnumJSON(VmSize, writer);
     }
 
     writer->WriteObjectEnd();
@@ -956,6 +968,13 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
     {
         int32 TmpValue;
         if (MaxServersValue->TryGetNumber(TmpValue)) { MaxServers = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
+    if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
+    {
+        int32 TmpValue;
+        if (MultiplayerServerCountPerVmValue->TryGetNumber(TmpValue)) { MultiplayerServerCountPerVm = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
@@ -985,6 +1004,8 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
         if (StatusValue->TryGetString(TmpValue)) { Status = TmpValue; }
     }
 
+    VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
+
     return HasSucceeded;
 }
 
@@ -1008,6 +1029,12 @@ void PlayFab::MultiplayerModels::FBuildRegionParams::writeJSON(JsonWriter& write
     writer->WriteIdentifierPrefix(TEXT("MaxServers"));
     writer->WriteValue(MaxServers);
 
+    if (MultiplayerServerCountPerVm.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
+        writer->WriteValue(MultiplayerServerCountPerVm);
+    }
+
     if (!Region.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: BuildRegionParams::Region, PlayFab calls may not work if it remains empty."));
@@ -1026,6 +1053,12 @@ void PlayFab::MultiplayerModels::FBuildRegionParams::writeJSON(JsonWriter& write
 
     writer->WriteIdentifierPrefix(TEXT("StandbyServers"));
     writer->WriteValue(StandbyServers);
+
+    if (VmSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmSize"));
+        writeAzureVmSizeEnumJSON(VmSize, writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -1047,6 +1080,13 @@ bool PlayFab::MultiplayerModels::FBuildRegionParams::readFromValue(const TShared
         if (MaxServersValue->TryGetNumber(TmpValue)) { MaxServers = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
+    if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
+    {
+        int32 TmpValue;
+        if (MultiplayerServerCountPerVmValue->TryGetNumber(TmpValue)) { MultiplayerServerCountPerVm = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
     if (RegionValue.IsValid() && !RegionValue->IsNull())
     {
@@ -1066,6 +1106,8 @@ bool PlayFab::MultiplayerModels::FBuildRegionParams::readFromValue(const TShared
         int32 TmpValue;
         if (StandbyServersValue->TryGetNumber(TmpValue)) { StandbyServers = TmpValue; }
     }
+
+    VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
     return HasSucceeded;
 }

@@ -477,6 +477,9 @@ namespace MultiplayerModels
         // The maximum number of multiplayer servers for the region.
         int32 MaxServers;
 
+        // [optional] Regional override for the number of multiplayer servers to host on a single VM of the build.
+        Boxed<int32> MultiplayerServerCountPerVm;
+
         // [optional] The build region.
         FString Region;
 
@@ -492,15 +495,20 @@ namespace MultiplayerModels
          */
         FString Status;
 
+        // [optional] Regional override for the VM size the build was created on.
+        Boxed<AzureVmSize> VmSize;
+
         FBuildRegion() :
             FPlayFabCppBaseModel(),
             pfCurrentServerStats(nullptr),
             pfDynamicStandbySettings(nullptr),
             MaxServers(0),
+            MultiplayerServerCountPerVm(),
             Region(),
             pfScheduledStandbySettings(nullptr),
             StandbyServers(0),
-            Status()
+            Status(),
+            VmSize()
             {}
 
         FBuildRegion(const FBuildRegion& src) = default;
@@ -524,6 +532,9 @@ namespace MultiplayerModels
         // The maximum number of multiplayer servers for the region.
         int32 MaxServers;
 
+        // [optional] Regional override for the number of multiplayer servers to host on a single VM of the build.
+        Boxed<int32> MultiplayerServerCountPerVm;
+
         // The build region.
         FString Region;
 
@@ -533,13 +544,18 @@ namespace MultiplayerModels
         // The number of standby multiplayer servers for the region.
         int32 StandbyServers;
 
+        // [optional] Regional override for the VM size the build was created on.
+        Boxed<AzureVmSize> VmSize;
+
         FBuildRegionParams() :
             FPlayFabCppBaseModel(),
             pfDynamicStandbySettings(nullptr),
             MaxServers(0),
+            MultiplayerServerCountPerVm(),
             Region(),
             pfScheduledStandbySettings(nullptr),
-            StandbyServers(0)
+            StandbyServers(0),
+            VmSize()
             {}
 
         FBuildRegionParams(const FBuildRegionParams& src) = default;

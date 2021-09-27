@@ -9918,12 +9918,6 @@ void PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::writeJSON(Js
 {
     writer->WriteObjectStart();
 
-    if (BuildId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("BuildId"));
-        writer->WriteValue(BuildId);
-    }
-
     if (CustomTags.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("CustomTags"));
@@ -9933,12 +9927,6 @@ void PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::writeJSON(Js
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
-    }
-
-    if (Region.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Region"));
-        writer->WriteValue(Region);
     }
 
     if (!SessionId.IsEmpty() == false)
@@ -9958,13 +9946,6 @@ bool PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::readFromValu
 {
     bool HasSucceeded = true;
 
-    const TSharedPtr<FJsonValue> BuildIdValue = obj->TryGetField(TEXT("BuildId"));
-    if (BuildIdValue.IsValid() && !BuildIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (BuildIdValue->TryGetString(TmpValue)) { BuildId = TmpValue; }
-    }
-
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
@@ -9972,13 +9953,6 @@ bool PlayFab::MultiplayerModels::FShutdownMultiplayerServerRequest::readFromValu
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
-    }
-
-    const TSharedPtr<FJsonValue> RegionValue = obj->TryGetField(TEXT("Region"));
-    if (RegionValue.IsValid() && !RegionValue->IsNull())
-    {
-        FString TmpValue;
-        if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> SessionIdValue = obj->TryGetField(TEXT("SessionId"));

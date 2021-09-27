@@ -2102,15 +2102,9 @@ struct PLAYFAB_API FMultiplayerShutdownMultiplayerServerRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The guid string build ID of the multiplayer server to delete. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString BuildId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The region of the multiplayer server to shut down. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString Region;
     /** A guid string session ID of the multiplayer server to shut down. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString SessionId;

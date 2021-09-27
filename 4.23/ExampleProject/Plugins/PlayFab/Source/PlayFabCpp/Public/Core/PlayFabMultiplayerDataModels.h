@@ -4668,22 +4668,14 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FShutdownMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The guid string build ID of the multiplayer server to delete.
-        FString BuildId;
-
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The region of the multiplayer server to shut down.
-        FString Region;
-
         // A guid string session ID of the multiplayer server to shut down.
         FString SessionId;
 
         FShutdownMultiplayerServerRequest() :
             FPlayFabCppRequestCommon(),
-            BuildId(),
             CustomTags(),
-            Region(),
             SessionId()
             {}
 

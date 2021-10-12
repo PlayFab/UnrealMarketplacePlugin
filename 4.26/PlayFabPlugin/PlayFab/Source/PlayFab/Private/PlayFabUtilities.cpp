@@ -556,6 +556,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1522: returnText = "AzureTitleCreationInProgress"; break;
     case 1523: returnText = "DuplicateAzureResourceId"; break;
     case 1524: returnText = "TitleContraintsPublisherDeletion"; break;
+    case 1525: returnText = "InvalidPlayerAccountPoolId"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -579,6 +580,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 2059: returnText = "MatchmakingBadRequest"; break;
     case 2500: returnText = "PubSubFeatureNotEnabledForTitle"; break;
     case 2501: returnText = "PubSubTooManyRequests"; break;
+    case 2502: returnText = "PubSubConnectionHandleAccessDenied"; break;
+    case 2503: returnText = "PubSubConnectionHandleInvalid"; break;
+    case 2504: returnText = "PubSubSubscriptionLimitExceeded"; break;
     case 3001: returnText = "TitleConfigNotFound"; break;
     case 3002: returnText = "TitleConfigUpdateConflict"; break;
     case 3003: returnText = "TitleConfigSerializationError"; break;
@@ -697,6 +701,10 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 14001: returnText = "EventSamplingInvalidEventNamespace"; break;
     case 14002: returnText = "EventSamplingInvalidEventName"; break;
     case 14003: returnText = "EventSamplingRatioNotFound"; break;
+    case 15000: returnText = "EventSinkConnectionInvalid"; break;
+    case 15001: returnText = "EventSinkConnectionUnauthorized"; break;
+    case 15002: returnText = "EventSinkRegionInvalid"; break;
+    case 16000: returnText = "OperationCanceled"; break;
     }
 
     // Return the text

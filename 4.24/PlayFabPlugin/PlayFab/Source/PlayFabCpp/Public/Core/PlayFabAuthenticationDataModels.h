@@ -218,6 +218,9 @@ namespace AuthenticationModels
         // [optional] The identity provider for this entity, for the given login
         Boxed<LoginIdentityProvider> IdentityProvider;
 
+        // [optional] The ID issued by the identity provider, e.g. a XUID on Xbox Live
+        FString IdentityProviderIssuedId;
+
         // [optional] The lineage of this profile.
         TSharedPtr<FEntityLineage> Lineage;
 
@@ -226,6 +229,7 @@ namespace AuthenticationModels
             Entity(nullptr),
             pfIdentifiedDeviceType(),
             IdentityProvider(),
+            IdentityProviderIssuedId(),
             Lineage(nullptr)
             {}
 

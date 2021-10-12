@@ -3513,6 +3513,9 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSegmentModel : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] ResourceId of Segment resource
+        FString AzureResourceId;
+
         // [optional] Segment description.
         FString Description;
 
@@ -3533,6 +3536,7 @@ namespace AdminModels
         TArray<FSegmentOrDefinition> SegmentOrDefinitions;
         FSegmentModel() :
             FPlayFabCppBaseModel(),
+            AzureResourceId(),
             Description(),
             EnteredSegmentActions(),
             LastUpdateTime(0),
@@ -3872,6 +3876,59 @@ namespace AdminModels
         }
 
         ~FDeleteMasterPlayerAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteMembershipSubscriptionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Id of the membership to apply the override expiration date to.
+        FString MembershipId;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        // Id of the subscription that should be deleted from the membership.
+        FString SubscriptionId;
+
+        FDeleteMembershipSubscriptionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            MembershipId(),
+            PlayFabId(),
+            SubscriptionId()
+            {}
+
+        FDeleteMembershipSubscriptionRequest(const FDeleteMembershipSubscriptionRequest& src) = default;
+
+        FDeleteMembershipSubscriptionRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteMembershipSubscriptionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteMembershipSubscriptionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteMembershipSubscriptionResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FDeleteMembershipSubscriptionResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeleteMembershipSubscriptionResult(const FDeleteMembershipSubscriptionResult& src) = default;
+
+        FDeleteMembershipSubscriptionResult(const TSharedPtr<FJsonObject>& obj) : FDeleteMembershipSubscriptionResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteMembershipSubscriptionResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -9578,6 +9635,59 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FSetMembershipOverrideRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Expiration time for the membership in DateTime format, will override any subscription expirations.
+        FDateTime ExpirationTime;
+
+        // Id of the membership to apply the override expiration date to.
+        FString MembershipId;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FSetMembershipOverrideRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ExpirationTime(0),
+            MembershipId(),
+            PlayFabId()
+            {}
+
+        FSetMembershipOverrideRequest(const FSetMembershipOverrideRequest& src) = default;
+
+        FSetMembershipOverrideRequest(const TSharedPtr<FJsonObject>& obj) : FSetMembershipOverrideRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetMembershipOverrideRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetMembershipOverrideResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FSetMembershipOverrideResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FSetMembershipOverrideResult(const FSetMembershipOverrideResult& src) = default;
+
+        FSetMembershipOverrideResult(const TSharedPtr<FJsonObject>& obj) : FSetMembershipOverrideResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetMembershipOverrideResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSetPlayerSecretRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
@@ -9802,18 +9912,32 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] Id of azure resource
+        FString AzureResourceId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
          * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
          */
         FString Key;
 
+        /**
+         * [optional] Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+         * title has been selected.
+         */
+        FString TitleId;
+
         // [optional] new value to set. Set to null to remove a value
         FString Value;
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
+            AzureResourceId(),
+            CustomTags(),
             Key(),
+            TitleId(),
             Value()
             {}
 
@@ -9832,8 +9956,12 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Id of azure resource
+        FString AzureResourceId;
+
         FSetTitleDataResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            AzureResourceId()
             {}
 
         FSetTitleDataResult(const FSetTitleDataResult& src) = default;

@@ -99,6 +99,9 @@ public:
     /** The identity provider for this entity, for the given login */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         ELoginIdentityProvider IdentityProvider;
+    /** The ID issued by the identity provider, e.g. a XUID on Xbox Live */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        FString IdentityProviderIssuedId;
     /** The lineage of this profile. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         UPlayFabJsonObject* Lineage = nullptr;

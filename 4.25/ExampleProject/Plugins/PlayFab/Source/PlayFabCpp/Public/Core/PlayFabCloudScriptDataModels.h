@@ -755,6 +755,71 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the function to register
+        FString FunctionName;
+
+        // [optional] The Id of the parent Title
+        FString TitleId;
+
+        FGetFunctionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            FunctionName(),
+            TitleId()
+            {}
+
+        FGetFunctionRequest(const FGetFunctionRequest& src) = default;
+
+        FGetFunctionRequest(const TSharedPtr<FJsonObject>& obj) : FGetFunctionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetFunctionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetFunctionResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The connection string for the storage account containing the queue for a queue trigger Azure Function.
+        FString ConnectionString;
+
+        // [optional] The URL to be invoked to execute an HTTP triggered function.
+        FString FunctionUrl;
+
+        // [optional] The name of the queue for a queue trigger Azure Function.
+        FString QueueName;
+
+        // [optional] The trigger type for the function.
+        FString TriggerType;
+
+        FGetFunctionResult() :
+            FPlayFabCppResultCommon(),
+            ConnectionString(),
+            FunctionUrl(),
+            QueueName(),
+            TriggerType()
+            {}
+
+        FGetFunctionResult(const FGetFunctionResult& src) = default;
+
+        FGetFunctionResult(const TSharedPtr<FJsonObject>& obj) : FGetFunctionResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetFunctionResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FHttpFunctionModel : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The name the function was registered under.
@@ -1540,6 +1605,9 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FRegisterHttpFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The Id of the Azure Resource
+        FString AzureResourceId;
+
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         // The name of the function to register
@@ -1548,11 +1616,16 @@ namespace CloudScriptModels
         // Full URL for Azure Function that implements the function.
         FString FunctionUrl;
 
+        // [optional] The Id of the parent Title
+        FString TitleId;
+
         FRegisterHttpFunctionRequest() :
             FPlayFabCppRequestCommon(),
+            AzureResourceId(),
             CustomTags(),
             FunctionName(),
-            FunctionUrl()
+            FunctionUrl(),
+            TitleId()
             {}
 
         FRegisterHttpFunctionRequest(const FRegisterHttpFunctionRequest& src) = default;
@@ -1570,6 +1643,9 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FRegisterQueuedFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The Id of the Azure Resource
+        FString AzureResourceId;
+
         // A connection string for the storage account that hosts the queue for the Azure Function.
         FString ConnectionString;
 
@@ -1581,12 +1657,17 @@ namespace CloudScriptModels
         // The name of the queue for the Azure Function.
         FString QueueName;
 
+        // [optional] The Id of the parent Title
+        FString TitleId;
+
         FRegisterQueuedFunctionRequest() :
             FPlayFabCppRequestCommon(),
+            AzureResourceId(),
             ConnectionString(),
             CustomTags(),
             FunctionName(),
-            QueueName()
+            QueueName(),
+            TitleId()
             {}
 
         FRegisterQueuedFunctionRequest(const FRegisterQueuedFunctionRequest& src) = default;
@@ -1616,13 +1697,17 @@ namespace CloudScriptModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // The name of the function to unregister
+        // The name of the function to register
         FString FunctionName;
+
+        // [optional] The Id of the parent Title
+        FString TitleId;
 
         FUnregisterFunctionRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            FunctionName()
+            FunctionName(),
+            TitleId()
             {}
 
         FUnregisterFunctionRequest(const FUnregisterFunctionRequest& src) = default;

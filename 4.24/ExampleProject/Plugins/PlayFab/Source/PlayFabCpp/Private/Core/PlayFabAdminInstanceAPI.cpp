@@ -617,6 +617,36 @@ void UPlayFabAdminInstanceAPI::OnDeleteMasterPlayerAccountResult(FHttpRequestPtr
     }
 }
 
+bool UPlayFabAdminInstanceAPI::DeleteMembershipSubscription(
+    AdminModels::FDeleteMembershipSubscriptionRequest& request,
+    const FDeleteMembershipSubscriptionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if(context->GetDeveloperSecretKey().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Admin/DeleteMembershipSubscription"), request.toJSONString(), TEXT("X-SecretKey"), context->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminInstanceAPI::OnDeleteMembershipSubscriptionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminInstanceAPI::OnDeleteMembershipSubscriptionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMembershipSubscriptionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FDeleteMembershipSubscriptionResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAdminInstanceAPI::DeleteOpenIdConnection(
     AdminModels::FDeleteOpenIdConnectionRequest& request,
     const FDeleteOpenIdConnectionDelegate& SuccessDelegate,
@@ -2830,6 +2860,36 @@ bool UPlayFabAdminInstanceAPI::SetCatalogItems(
 void UPlayFabAdminInstanceAPI::OnSetCatalogItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetCatalogItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AdminModels::FUpdateCatalogItemsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabAdminInstanceAPI::SetMembershipOverride(
+    AdminModels::FSetMembershipOverrideRequest& request,
+    const FSetMembershipOverrideDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if(context->GetDeveloperSecretKey().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Admin/SetMembershipOverride"), request.toJSONString(), TEXT("X-SecretKey"), context->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminInstanceAPI::OnSetMembershipOverrideResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminInstanceAPI::OnSetMembershipOverrideResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetMembershipOverrideDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FSetMembershipOverrideResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

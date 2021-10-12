@@ -200,6 +200,60 @@ void UPlayFabCloudScriptAPI::HelperExecuteFunction(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
+/** Gets registered Azure Functions for a given title id and function name. */
+UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::GetFunction(FCloudScriptGetFunctionRequest request,
+    FDelegateOnSuccessGetFunction onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabCloudScriptAPI* manager = NewObject<UPlayFabCloudScriptAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetFunction = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabCloudScriptAPI::HelperGetFunction);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/CloudScript/GetFunction";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("FunctionName"), request.FunctionName);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabCloudScriptRequestCompleted
+void UPlayFabCloudScriptAPI::HelperGetFunction(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetFunction.IsBound())
+    {
+        FCloudScriptGetFunctionResult ResultStruct = UPlayFabCloudScriptModelDecoder::decodeGetFunctionResultResponse(response.responseData);
+        OnSuccessGetFunction.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Lists all currently registered Azure Functions for a given title. */
 UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListFunctions(FCloudScriptListFunctionsRequest request,
     FDelegateOnSuccessListFunctions onSuccess,
@@ -574,6 +628,11 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
@@ -585,6 +644,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionUrl"), request.FunctionUrl);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -633,6 +693,11 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
     if (request.ConnectionString.IsEmpty() || request.ConnectionString == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ConnectionString"));
     } else {
@@ -649,6 +714,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
     } else {
         OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -703,6 +769,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::UnregisterFunction(FCloudScriptU
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionName"), request.FunctionName);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

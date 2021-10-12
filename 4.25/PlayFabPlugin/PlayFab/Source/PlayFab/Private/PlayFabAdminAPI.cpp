@@ -185,6 +185,69 @@ void UPlayFabAdminAPI::HelperDeleteMasterPlayerAccount(FPlayFabBaseModel respons
     this->RemoveFromRoot();
 }
 
+/** Deletes a player's subscription */
+UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteMembershipSubscription(FAdminDeleteMembershipSubscriptionRequest request,
+    FDelegateOnSuccessDeleteMembershipSubscription onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteMembershipSubscription = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteMembershipSubscription);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/DeleteMembershipSubscription";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.MembershipId.IsEmpty() || request.MembershipId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("MembershipId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("MembershipId"), request.MembershipId);
+    }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.SubscriptionId.IsEmpty() || request.SubscriptionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SubscriptionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SubscriptionId"), request.SubscriptionId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperDeleteMembershipSubscription(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteMembershipSubscription.IsBound())
+    {
+        FAdminDeleteMembershipSubscriptionResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeleteMembershipSubscriptionResultResponse(response.responseData);
+        OnSuccessDeleteMembershipSubscription.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Removes a user's player account from a title and deletes all associated data */
 UPlayFabAdminAPI* UPlayFabAdminAPI::DeletePlayer(FAdminDeletePlayerRequest request,
     FDelegateOnSuccessDeletePlayer onSuccess,
@@ -835,6 +898,69 @@ void UPlayFabAdminAPI::HelperSendAccountRecoveryEmail(FPlayFabBaseModel response
     {
         FAdminSendAccountRecoveryEmailResult ResultStruct = UPlayFabAdminModelDecoder::decodeSendAccountRecoveryEmailResultResponse(response.responseData);
         OnSuccessSendAccountRecoveryEmail.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Sets the override expiration for a membership subscription */
+UPlayFabAdminAPI* UPlayFabAdminAPI::SetMembershipOverride(FAdminSetMembershipOverrideRequest request,
+    FDelegateOnSuccessSetMembershipOverride onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSetMembershipOverride = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetMembershipOverride);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/SetMembershipOverride";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.ExpirationTime.IsEmpty() || request.ExpirationTime == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ExpirationTime"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ExpirationTime"), request.ExpirationTime);
+    }
+    if (request.MembershipId.IsEmpty() || request.MembershipId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("MembershipId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("MembershipId"), request.MembershipId);
+    }
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperSetMembershipOverride(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSetMembershipOverride.IsBound())
+    {
+        FAdminSetMembershipOverrideResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetMembershipOverrideResultResponse(response.responseData);
+        OnSuccessSetMembershipOverride.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -6394,11 +6520,18 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleData(FAdminSetTitleDataRequest reque
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Key.IsEmpty() || request.Key == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Key"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));
     } else {
@@ -6508,11 +6641,18 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleInternalData(FAdminSetTitleDataReque
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Key.IsEmpty() || request.Key == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Key"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));
     } else {

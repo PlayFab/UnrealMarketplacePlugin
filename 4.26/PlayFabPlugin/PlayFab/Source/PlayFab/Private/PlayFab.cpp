@@ -21,6 +21,7 @@
 #include "PlayFabAuthenticationAPI.h" 
 #include "PlayFabCloudScriptAPI.h" 
 #include "PlayFabDataAPI.h" 
+#include "PlayFabEconomyAPI.h" 
 #include "PlayFabEventsAPI.h" 
 #include "PlayFabExperimentationAPI.h" 
 #include "PlayFabInsightsAPI.h" 
@@ -45,6 +46,7 @@ class FPlayFab : public IPlayFab
         UPlayFabAuthenticationAPI::StaticClass();
         UPlayFabCloudScriptAPI::StaticClass();
         UPlayFabDataAPI::StaticClass();
+        UPlayFabEconomyAPI::StaticClass();
         UPlayFabEventsAPI::StaticClass();
         UPlayFabExperimentationAPI::StaticClass();
         UPlayFabInsightsAPI::StaticClass();

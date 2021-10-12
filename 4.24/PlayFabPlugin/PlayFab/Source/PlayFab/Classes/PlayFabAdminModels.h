@@ -97,6 +97,33 @@ public:
         FString TitleIds;
 };
 
+/** This API lets developers delete a membership subscription. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteMembershipSubscriptionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Id of the membership to apply the override expiration date to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString MembershipId;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString PlayFabId;
+    /** Id of the subscription that should be deleted from the membership. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString SubscriptionId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteMembershipSubscriptionResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
 /**
  * Deletes all data associated with the player, including statistics, custom data, inventory, purchases, virtual currency
  * balances, characters and shared group memberships. Removes the player from all leaderboards and player search indexes.
@@ -418,6 +445,33 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminSendAccountRecoveryEmailResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/** This API lets developers set overrides for membership expirations, independent of any subscriptions setting it. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminSetMembershipOverrideRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Expiration time for the membership in DateTime format, will override any subscription expirations. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString ExpirationTime;
+    /** Id of the membership to apply the override expiration date to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString MembershipId;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminSetMembershipOverrideResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3037,6 +3091,12 @@ struct PLAYFAB_API FAdminSetTitleDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Id of azure resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString AzureResourceId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
      * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
@@ -3053,6 +3113,9 @@ struct PLAYFAB_API FAdminSetTitleDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Id of azure resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
+        FString AzureResourceId;
 };
 
 /**

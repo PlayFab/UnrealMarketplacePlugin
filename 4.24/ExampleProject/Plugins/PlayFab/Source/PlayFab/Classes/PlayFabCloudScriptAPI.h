@@ -91,6 +91,19 @@ public:
         void HelperExecuteFunction(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetFunction, FCloudScriptGetFunctionResult, result, UObject*, customData);
+
+    /** Gets registered Azure Functions for a given title id and function name. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabCloudScriptAPI* GetFunction(FCloudScriptGetFunctionRequest request,
+            FDelegateOnSuccessGetFunction onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabCloudScriptRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetFunction(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListFunctions, FCloudScriptListFunctionsResult, result, UObject*, customData);
 
     /** Lists all currently registered Azure Functions for a given title. */
@@ -241,6 +254,7 @@ public:
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessExecuteEntityCloudScript OnSuccessExecuteEntityCloudScript;
     FDelegateOnSuccessExecuteFunction OnSuccessExecuteFunction;
+    FDelegateOnSuccessGetFunction OnSuccessGetFunction;
     FDelegateOnSuccessListFunctions OnSuccessListFunctions;
     FDelegateOnSuccessListHttpFunctions OnSuccessListHttpFunctions;
     FDelegateOnSuccessListQueuedFunctions OnSuccessListQueuedFunctions;

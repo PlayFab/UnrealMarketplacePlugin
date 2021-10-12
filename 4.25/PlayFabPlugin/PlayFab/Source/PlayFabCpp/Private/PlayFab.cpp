@@ -16,6 +16,7 @@
 #include "Core/PlayFabAuthenticationAPI.h"
 #include "Core/PlayFabCloudScriptAPI.h"
 #include "Core/PlayFabDataAPI.h"
+#include "Core/PlayFabEconomyAPI.h"
 #include "Core/PlayFabEventsAPI.h"
 #include "Core/PlayFabExperimentationAPI.h"
 #include "Core/PlayFabInsightsAPI.h"
@@ -39,6 +40,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabAuthenticationPtr GetAuthenticationAPI() const override { return AuthenticationAPI; };
     PlayFabCloudScriptPtr GetCloudScriptAPI() const override { return CloudScriptAPI; };
     PlayFabDataPtr GetDataAPI() const override { return DataAPI; };
+    PlayFabEconomyPtr GetEconomyAPI() const override { return EconomyAPI; };
     PlayFabEventsPtr GetEventsAPI() const override { return EventsAPI; };
     PlayFabExperimentationPtr GetExperimentationAPI() const override { return ExperimentationAPI; };
     PlayFabInsightsPtr GetInsightsAPI() const override { return InsightsAPI; };
@@ -54,6 +56,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabAuthenticationPtr AuthenticationAPI;
     PlayFabCloudScriptPtr CloudScriptAPI;
     PlayFabDataPtr DataAPI;
+    PlayFabEconomyPtr EconomyAPI;
     PlayFabEventsPtr EventsAPI;
     PlayFabExperimentationPtr ExperimentationAPI;
     PlayFabInsightsPtr InsightsAPI;
@@ -80,6 +83,7 @@ void FPlayFabModule::StartupModule()
     AuthenticationAPI = MakeShareable(new PlayFab::UPlayFabAuthenticationAPI());
     CloudScriptAPI = MakeShareable(new PlayFab::UPlayFabCloudScriptAPI());
     DataAPI = MakeShareable(new PlayFab::UPlayFabDataAPI());
+    EconomyAPI = MakeShareable(new PlayFab::UPlayFabEconomyAPI());
     EventsAPI = MakeShareable(new PlayFab::UPlayFabEventsAPI());
     ExperimentationAPI = MakeShareable(new PlayFab::UPlayFabExperimentationAPI());
     InsightsAPI = MakeShareable(new PlayFab::UPlayFabInsightsAPI());

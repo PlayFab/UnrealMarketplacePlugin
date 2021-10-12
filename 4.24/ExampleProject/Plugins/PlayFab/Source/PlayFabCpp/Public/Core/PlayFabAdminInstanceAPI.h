@@ -40,6 +40,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateSegmentDelegate, const AdminModels::FCreateSegmentResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteContentDelegate, const AdminModels::FBlankResult&);
         DECLARE_DELEGATE_OneParam(FDeleteMasterPlayerAccountDelegate, const AdminModels::FDeleteMasterPlayerAccountResult&);
+        DECLARE_DELEGATE_OneParam(FDeleteMembershipSubscriptionDelegate, const AdminModels::FDeleteMembershipSubscriptionResult&);
         DECLARE_DELEGATE_OneParam(FDeleteOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const AdminModels::FDeletePlayerResult&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerSharedSecretDelegate, const AdminModels::FDeletePlayerSharedSecretResult&);
@@ -112,6 +113,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FRunTaskDelegate, const AdminModels::FRunTaskResult&);
         DECLARE_DELEGATE_OneParam(FSendAccountRecoveryEmailDelegate, const AdminModels::FSendAccountRecoveryEmailResult&);
         DECLARE_DELEGATE_OneParam(FSetCatalogItemsDelegate, const AdminModels::FUpdateCatalogItemsResult&);
+        DECLARE_DELEGATE_OneParam(FSetMembershipOverrideDelegate, const AdminModels::FSetMembershipOverrideResult&);
         DECLARE_DELEGATE_OneParam(FSetPlayerSecretDelegate, const AdminModels::FSetPlayerSecretResult&);
         DECLARE_DELEGATE_OneParam(FSetPublishedRevisionDelegate, const AdminModels::FSetPublishedRevisionResult&);
         DECLARE_DELEGATE_OneParam(FSetPublisherDataDelegate, const AdminModels::FSetPublisherDataResult&);
@@ -249,6 +251,11 @@ namespace PlayFab
          * Deletes all data associated with the master player account, including data from all titles the player has played, such as statistics, custom data, inventory, purchases, virtual currency balances, characters, group memberships, publisher data, credential data, account linkages, friends list and PlayStream event history. Removes the player from all leaderboards and player search indexes. Note, this API queues the player for deletion and returns a receipt immediately. Record the receipt ID for future reference. It may take some time before all player data is fully deleted. Upon completion of the deletion, an email will be sent to the notification email address configured for the title confirming the deletion. Until the player data is fully deleted, attempts to recreate the player with the same user account in the same title will fail with the 'AccountDeleted' error. It is highly recommended to know the impact of the deletion by calling GetPlayedTitleList, before calling this API.
          */
         bool DeleteMasterPlayerAccount(AdminModels::FDeleteMasterPlayerAccountRequest& request, const FDeleteMasterPlayerAccountDelegate& SuccessDelegate = FDeleteMasterPlayerAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Deletes a player's subscription
+         * This API lets developers delete a membership subscription.
+         */
+        bool DeleteMembershipSubscription(AdminModels::FDeleteMembershipSubscriptionRequest& request, const FDeleteMembershipSubscriptionDelegate& SuccessDelegate = FDeleteMembershipSubscriptionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Removes a relationship between a title and an OpenID Connect provider.
         bool DeleteOpenIdConnection(AdminModels::FDeleteOpenIdConnectionRequest& request, const FDeleteOpenIdConnectionDelegate& SuccessDelegate = FDeleteOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -611,6 +618,11 @@ namespace PlayFab
          */
         bool SetCatalogItems(AdminModels::FUpdateCatalogItemsRequest& request, const FSetCatalogItemsDelegate& SuccessDelegate = FSetCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Sets the override expiration for a membership subscription
+         * This API lets developers set overrides for membership expirations, independent of any subscriptions setting it.
+         */
+        bool SetMembershipOverride(AdminModels::FSetMembershipOverrideRequest& request, const FSetMembershipOverrideDelegate& SuccessDelegate = FSetMembershipOverrideDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Sets or resets the player's secret. Player secrets are used to sign API requests.
          * APIs that require signatures require that the player have a configured Player Secret Key that is used to sign all requests. Players that don't have a secret will be blocked from making API calls until it is configured. To create a signature header add a SHA256 hashed string containing UTF8 encoded JSON body as it will be sent to the server, the current time in UTC formatted to ISO 8601, and the players secret formatted as 'body.date.secret'. Place the resulting hash into the header X-PlayFab-Signature, along with a header X-PlayFab-Timestamp of the same UTC timestamp used in the signature.
          */
@@ -760,6 +772,7 @@ namespace PlayFab
         void OnCreateSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteContentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteMasterPlayerAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMasterPlayerAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteMembershipSubscriptionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMembershipSubscriptionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -832,6 +845,7 @@ namespace PlayFab
         void OnRunTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRunTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSendAccountRecoveryEmailResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendAccountRecoveryEmailDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetCatalogItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetCatalogItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSetMembershipOverrideResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetMembershipOverrideDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPlayerSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPlayerSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPublishedRevisionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPublishedRevisionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

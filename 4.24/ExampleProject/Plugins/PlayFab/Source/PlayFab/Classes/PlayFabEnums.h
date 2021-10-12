@@ -1379,6 +1379,68 @@ enum class EOperationTypes : uint8
     pfenum_None UMETA(DisplayName = "None"),
 };
 
+/** ConcernCategory */
+
+UENUM(BlueprintType)
+enum class EConcernCategory : uint8
+{
+    pfenum_None UMETA(DisplayName = "None"),
+    pfenum_OffensiveContent UMETA(DisplayName = "OffensiveContent"),
+    pfenum_ChildExploitation UMETA(DisplayName = "ChildExploitation"),
+    pfenum_MalwareOrVirus UMETA(DisplayName = "MalwareOrVirus"),
+    pfenum_PrivacyConcerns UMETA(DisplayName = "PrivacyConcerns"),
+    pfenum_MisleadingApp UMETA(DisplayName = "MisleadingApp"),
+    pfenum_PoorPerformance UMETA(DisplayName = "PoorPerformance"),
+    pfenum_ReviewResponse UMETA(DisplayName = "ReviewResponse"),
+    pfenum_SpamAdvertising UMETA(DisplayName = "SpamAdvertising"),
+    pfenum_Profanity UMETA(DisplayName = "Profanity"),
+};
+
+/** DisplayPropertyType */
+
+UENUM(BlueprintType)
+enum class EDisplayPropertyType : uint8
+{
+    pfenum_None UMETA(DisplayName = "None"),
+    pfenum_QueryDateTime UMETA(DisplayName = "QueryDateTime"),
+    pfenum_QueryDouble UMETA(DisplayName = "QueryDouble"),
+    pfenum_QueryString UMETA(DisplayName = "QueryString"),
+    pfenum_SearchString UMETA(DisplayName = "SearchString"),
+};
+
+/** HelpfulnessVote */
+
+UENUM(BlueprintType)
+enum class EHelpfulnessVote : uint8
+{
+    pfenum_None UMETA(DisplayName = "None"),
+    pfenum_UnHelpful UMETA(DisplayName = "UnHelpful"),
+    pfenum_Helpful UMETA(DisplayName = "Helpful"),
+};
+
+/** ModerationStatus */
+
+UENUM(BlueprintType)
+enum class EModerationStatus : uint8
+{
+    pfenum_Unknown UMETA(DisplayName = "Unknown"),
+    pfenum_AwaitingModeration UMETA(DisplayName = "AwaitingModeration"),
+    pfenum_Approved UMETA(DisplayName = "Approved"),
+    pfenum_Rejected UMETA(DisplayName = "Rejected"),
+};
+
+/** PublishResult */
+
+UENUM(BlueprintType)
+enum class EPublishResult : uint8
+{
+    pfenum_Unknown UMETA(DisplayName = "Unknown"),
+    pfenum_Pending UMETA(DisplayName = "Pending"),
+    pfenum_Succeeded UMETA(DisplayName = "Succeeded"),
+    pfenum_Failed UMETA(DisplayName = "Failed"),
+    pfenum_Canceled UMETA(DisplayName = "Canceled"),
+};
+
 /** AnalysisTaskState */
 
 UENUM(BlueprintType)

@@ -44,6 +44,15 @@ FAdminDeleteMasterPlayerAccountResult UPlayFabAdminModelDecoder::decodeDeleteMas
     return tempStruct;
 }
 
+FAdminDeleteMembershipSubscriptionResult UPlayFabAdminModelDecoder::decodeDeleteMembershipSubscriptionResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeleteMembershipSubscriptionResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminDeletePlayerResult UPlayFabAdminModelDecoder::decodeDeletePlayerResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -163,6 +172,15 @@ FAdminSendAccountRecoveryEmailResult UPlayFabAdminModelDecoder::decodeSendAccoun
 {
     // Temp ustruct
     FAdminSendAccountRecoveryEmailResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FAdminSetMembershipOverrideResult UPlayFabAdminModelDecoder::decodeSetMembershipOverrideResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminSetMembershipOverrideResult tempStruct;
 
 
     return tempStruct;
@@ -1102,7 +1120,9 @@ FAdminSetTitleDataResult UPlayFabAdminModelDecoder::decodeSetTitleDataResultResp
 {
     // Temp ustruct
     FAdminSetTitleDataResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.AzureResourceId = !(dataObj->HasField("AzureResourceId")) ? TEXT("") : dataObj->GetStringField("AzureResourceId");
 
     return tempStruct;
 }

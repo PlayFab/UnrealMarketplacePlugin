@@ -85,6 +85,19 @@ public:
         void HelperDeleteMasterPlayerAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteMembershipSubscription, FAdminDeleteMembershipSubscriptionResult, result, UObject*, customData);
+
+    /** Deletes a player's subscription */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteMembershipSubscription(FAdminDeleteMembershipSubscriptionRequest request,
+            FDelegateOnSuccessDeleteMembershipSubscription onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteMembershipSubscription(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeletePlayer, FAdminDeletePlayerResult, result, UObject*, customData);
 
     /** Removes a user's player account from a title and deletes all associated data */
@@ -243,6 +256,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperSendAccountRecoveryEmail(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetMembershipOverride, FAdminSetMembershipOverrideResult, result, UObject*, customData);
+
+    /** Sets the override expiration for a membership subscription */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* SetMembershipOverride(FAdminSetMembershipOverrideRequest request,
+            FDelegateOnSuccessSetMembershipOverride onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetMembershipOverride(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBans, FAdminUpdateBansResult, result, UObject*, customData);
@@ -1708,6 +1734,7 @@ public:
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessBanUsers OnSuccessBanUsers;
     FDelegateOnSuccessDeleteMasterPlayerAccount OnSuccessDeleteMasterPlayerAccount;
+    FDelegateOnSuccessDeleteMembershipSubscription OnSuccessDeleteMembershipSubscription;
     FDelegateOnSuccessDeletePlayer OnSuccessDeletePlayer;
     FDelegateOnSuccessDeleteTitle OnSuccessDeleteTitle;
     FDelegateOnSuccessExportMasterPlayerData OnSuccessExportMasterPlayerData;
@@ -1720,6 +1747,7 @@ public:
     FDelegateOnSuccessRevokeAllBansForUser OnSuccessRevokeAllBansForUser;
     FDelegateOnSuccessRevokeBans OnSuccessRevokeBans;
     FDelegateOnSuccessSendAccountRecoveryEmail OnSuccessSendAccountRecoveryEmail;
+    FDelegateOnSuccessSetMembershipOverride OnSuccessSetMembershipOverride;
     FDelegateOnSuccessUpdateBans OnSuccessUpdateBans;
     FDelegateOnSuccessUpdateUserTitleDisplayName OnSuccessUpdateUserTitleDisplayName;
     FDelegateOnSuccessCreateOpenIdConnection OnSuccessCreateOpenIdConnection;

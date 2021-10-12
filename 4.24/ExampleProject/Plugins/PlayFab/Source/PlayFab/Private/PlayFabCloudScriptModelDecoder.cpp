@@ -58,6 +58,20 @@ FCloudScriptExecuteFunctionResult UPlayFabCloudScriptModelDecoder::decodeExecute
     return tempStruct;
 }
 
+FCloudScriptGetFunctionResult UPlayFabCloudScriptModelDecoder::decodeGetFunctionResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FCloudScriptGetFunctionResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ConnectionString = !(dataObj->HasField("ConnectionString")) ? TEXT("") : dataObj->GetStringField("ConnectionString");
+    tempStruct.FunctionUrl = !(dataObj->HasField("FunctionUrl")) ? TEXT("") : dataObj->GetStringField("FunctionUrl");
+    tempStruct.QueueName = !(dataObj->HasField("QueueName")) ? TEXT("") : dataObj->GetStringField("QueueName");
+    tempStruct.TriggerType = !(dataObj->HasField("TriggerType")) ? TEXT("") : dataObj->GetStringField("TriggerType");
+
+    return tempStruct;
+}
+
 FCloudScriptListFunctionsResult UPlayFabCloudScriptModelDecoder::decodeListFunctionsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

@@ -462,6 +462,12 @@ void PlayFab::AuthenticationModels::FValidateEntityTokenResponse::writeJSON(Json
         writeLoginIdentityProviderEnumJSON(IdentityProvider, writer);
     }
 
+    if (IdentityProviderIssuedId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentityProviderIssuedId"));
+        writer->WriteValue(IdentityProviderIssuedId);
+    }
+
     if (Lineage.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Lineage"));
@@ -484,6 +490,13 @@ bool PlayFab::AuthenticationModels::FValidateEntityTokenResponse::readFromValue(
     pfIdentifiedDeviceType = readIdentifiedDeviceTypeFromValue(obj->TryGetField(TEXT("IdentifiedDeviceType")));
 
     IdentityProvider = readLoginIdentityProviderFromValue(obj->TryGetField(TEXT("IdentityProvider")));
+
+    const TSharedPtr<FJsonValue> IdentityProviderIssuedIdValue = obj->TryGetField(TEXT("IdentityProviderIssuedId"));
+    if (IdentityProviderIssuedIdValue.IsValid() && !IdentityProviderIssuedIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdentityProviderIssuedIdValue->TryGetString(TmpValue)) { IdentityProviderIssuedId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> LineageValue = obj->TryGetField(TEXT("Lineage"));
     if (LineageValue.IsValid() && !LineageValue->IsNull())

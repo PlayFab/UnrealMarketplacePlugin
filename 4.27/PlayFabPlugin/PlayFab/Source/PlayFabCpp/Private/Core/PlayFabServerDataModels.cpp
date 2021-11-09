@@ -18168,6 +18168,23 @@ void PlayFab::ServerModels::FSetTitleDataRequest::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
+    if (AzureResourceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureResourceId"));
+        writer->WriteValue(AzureResourceId);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (!Key.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: SetTitleDataRequest::Key, PlayFab calls may not work if it remains empty."));
@@ -18176,6 +18193,12 @@ void PlayFab::ServerModels::FSetTitleDataRequest::writeJSON(JsonWriter& writer) 
     {
         writer->WriteIdentifierPrefix(TEXT("Key"));
         writer->WriteValue(Key);
+    }
+
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
     }
 
     if (Value.IsEmpty() == false)
@@ -18191,11 +18214,34 @@ bool PlayFab::ServerModels::FSetTitleDataRequest::readFromValue(const TSharedPtr
 {
     bool HasSucceeded = true;
 
+    const TSharedPtr<FJsonValue> AzureResourceIdValue = obj->TryGetField(TEXT("AzureResourceId"));
+    if (AzureResourceIdValue.IsValid() && !AzureResourceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AzureResourceIdValue->TryGetString(TmpValue)) { AzureResourceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
     const TSharedPtr<FJsonValue> KeyValue = obj->TryGetField(TEXT("Key"));
     if (KeyValue.IsValid() && !KeyValue->IsNull())
     {
         FString TmpValue;
         if (KeyValue->TryGetString(TmpValue)) { Key = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
@@ -18217,12 +18263,25 @@ void PlayFab::ServerModels::FSetTitleDataResult::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (AzureResourceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureResourceId"));
+        writer->WriteValue(AzureResourceId);
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::ServerModels::FSetTitleDataResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AzureResourceIdValue = obj->TryGetField(TEXT("AzureResourceId"));
+    if (AzureResourceIdValue.IsValid() && !AzureResourceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AzureResourceIdValue->TryGetString(TmpValue)) { AzureResourceId = TmpValue; }
+    }
 
     return HasSucceeded;
 }

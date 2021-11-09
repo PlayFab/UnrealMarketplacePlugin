@@ -602,7 +602,10 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** If another user is already linked to the account, unlink the other user and re-link. */
+    /**
+     * If another user is already linked to the account, unlink the other user and re-link. If the current user is already
+     * linked, link both accounts
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
     /** Game Center identifier for the player account to be linked. */
@@ -644,7 +647,10 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** If another user is already linked to the account, unlink the other user and re-link. */
+    /**
+     * If another user is already linked to the account, unlink the other user and re-link. If the current user is already
+     * linked, link both accounts
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
     /**

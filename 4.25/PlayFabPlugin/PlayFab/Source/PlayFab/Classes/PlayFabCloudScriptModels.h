@@ -194,6 +194,9 @@ public:
     /** The name of the queue for a queue trigger Azure Function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString QueueName;
+    /** System Data of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* SystemData = nullptr;
     /** The trigger type for the function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString TriggerType;
@@ -340,6 +343,9 @@ public:
     /** Full URL for Azure Function that implements the function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString FunctionUrl;
+    /** System Data of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* SystemData = nullptr;
 };
 
 /**
@@ -366,6 +372,9 @@ public:
     /** The name of the queue for the Azure Function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString QueueName;
+    /** System Data of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* SystemData = nullptr;
 };
 
 USTRUCT(BlueprintType)

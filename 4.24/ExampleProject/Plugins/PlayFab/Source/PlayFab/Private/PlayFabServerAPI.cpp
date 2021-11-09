@@ -8006,11 +8006,18 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleData(FServerSetTitleDataRequest re
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Key.IsEmpty() || request.Key == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Key"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));
     } else {
@@ -8063,11 +8070,18 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleInternalData(FServerSetTitleDataRe
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Key.IsEmpty() || request.Key == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Key"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));
     } else {

@@ -555,8 +555,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1521: returnText = "DuplicateTitleNameForPublisher"; break;
     case 1522: returnText = "AzureTitleCreationInProgress"; break;
     case 1523: returnText = "DuplicateAzureResourceId"; break;
-    case 1524: returnText = "TitleContraintsPublisherDeletion"; break;
+    case 1524: returnText = "TitleConstraintsPublisherDeletion"; break;
     case 1525: returnText = "InvalidPlayerAccountPoolId"; break;
+    case 1526: returnText = "PlayerAccountPoolNotFound"; break;
+    case 1527: returnText = "PlayerAccountPoolDeleted"; break;
+    case 1528: returnText = "TitleCleanupInProgress"; break;
+    case 1531: returnText = "AzureResourceManagerNotSupportedInStamp"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

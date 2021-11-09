@@ -279,6 +279,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListFunctions(FCloudScriptListFu
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -327,6 +328,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListHttpFunctions(FCloudScriptLi
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -375,6 +377,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListQueuedFunctions(FCloudScript
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -644,6 +647,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionUrl"), request.FunctionUrl);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
@@ -714,6 +718,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
     } else {
         OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager

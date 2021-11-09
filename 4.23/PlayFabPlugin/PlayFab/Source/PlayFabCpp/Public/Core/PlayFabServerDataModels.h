@@ -9204,18 +9204,32 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] Id of azure resource
+        FString AzureResourceId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
          * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
          */
         FString Key;
 
+        /**
+         * [optional] Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+         * title has been selected.
+         */
+        FString TitleId;
+
         // [optional] new value to set. Set to null to remove a value
         FString Value;
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
+            AzureResourceId(),
+            CustomTags(),
             Key(),
+            TitleId(),
             Value()
             {}
 
@@ -9234,8 +9248,12 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Id of azure resource
+        FString AzureResourceId;
+
         FSetTitleDataResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            AzureResourceId()
             {}
 
         FSetTitleDataResult(const FSetTitleDataResult& src) = default;

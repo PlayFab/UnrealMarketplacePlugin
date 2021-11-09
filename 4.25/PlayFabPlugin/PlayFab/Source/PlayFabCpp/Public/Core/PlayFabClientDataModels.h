@@ -7665,7 +7665,10 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        /**
+         * [optional] If another user is already linked to the account, unlink the other user and re-link. If the current user is already
+         * linked, link both accounts
+         */
         Boxed<bool> ForceLink;
 
         // Game Center identifier for the player account to be linked.
@@ -7733,7 +7736,10 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        /**
+         * [optional] If another user is already linked to the account, unlink the other user and re-link. If the current user is already
+         * linked, link both accounts
+         */
         Boxed<bool> ForceLink;
 
         /**

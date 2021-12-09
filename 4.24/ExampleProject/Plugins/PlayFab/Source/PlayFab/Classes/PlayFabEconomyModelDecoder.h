@@ -92,6 +92,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog Models")
         static FEconomyGetItemReviewSummaryResponse decodeGetItemReviewSummaryResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog Models")
+        static FEconomyGetItemsResponse decodeGetItemsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the PublishDraftItemResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog Models")
         static FEconomyPublishDraftItemResponse decodePublishDraftItemResponseResponse(UPlayFabJsonObject* response);

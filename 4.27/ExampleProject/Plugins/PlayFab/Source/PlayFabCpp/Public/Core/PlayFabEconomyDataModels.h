@@ -1413,6 +1413,60 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] List of item alternate IDs.
+        TArray<FCatalogAlternateId> AlternateIds;
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] List of Item Ids.
+        TArray<FString> Ids;
+        FGetItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            AlternateIds(),
+            CustomTags(),
+            Entity(nullptr),
+            Ids()
+            {}
+
+        FGetItemsRequest(const FGetItemsRequest& src) = default;
+
+        FGetItemsRequest(const TSharedPtr<FJsonObject>& obj) : FGetItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Metadata of set of items.
+        TArray<FCatalogItem> Items;
+        FGetItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Items()
+            {}
+
+        FGetItemsResponse(const FGetItemsResponse& src) = default;
+
+        FGetItemsResponse(const TSharedPtr<FJsonObject>& obj) : FGetItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum HelpfulnessVote
     {
         HelpfulnessVoteNone,

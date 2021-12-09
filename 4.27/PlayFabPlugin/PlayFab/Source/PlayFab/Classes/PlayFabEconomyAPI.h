@@ -241,6 +241,19 @@ public:
         void HelperGetItemReviewSummary(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetItems, FEconomyGetItemsResponse, result, UObject*, customData);
+
+    /** Retrieves items from the public catalog. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* GetItems(FEconomyGetItemsRequest request,
+            FDelegateOnSuccessGetItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessPublishDraftItem, FEconomyPublishDraftItemResponse, result, UObject*, customData);
 
     /** Initiates a publish of an item from the working catalog to the public catalog. */
@@ -409,6 +422,7 @@ public:
     FDelegateOnSuccessGetItemPublishStatus OnSuccessGetItemPublishStatus;
     FDelegateOnSuccessGetItemReviews OnSuccessGetItemReviews;
     FDelegateOnSuccessGetItemReviewSummary OnSuccessGetItemReviewSummary;
+    FDelegateOnSuccessGetItems OnSuccessGetItems;
     FDelegateOnSuccessPublishDraftItem OnSuccessPublishDraftItem;
     FDelegateOnSuccessReportItem OnSuccessReportItem;
     FDelegateOnSuccessReportItemReview OnSuccessReportItemReview;

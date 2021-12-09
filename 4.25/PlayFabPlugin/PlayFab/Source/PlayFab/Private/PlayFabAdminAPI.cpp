@@ -6531,6 +6531,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleData(FAdminSetTitleDataRequest reque
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));
@@ -6652,6 +6653,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleInternalData(FAdminSetTitleDataReque
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));

@@ -497,6 +497,36 @@ void UPlayFabEconomyInstanceAPI::OnGetItemReviewSummaryResult(FHttpRequestPtr Ht
     }
 }
 
+bool UPlayFabEconomyInstanceAPI::GetItems(
+    EconomyModels::FGetItemsRequest& request,
+    const FGetItemsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Catalog/GetItems"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEconomyInstanceAPI::OnGetItemsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEconomyInstanceAPI::OnGetItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EconomyModels::FGetItemsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabEconomyInstanceAPI::PublishDraftItem(
     EconomyModels::FPublishDraftItemRequest& request,
     const FPublishDraftItemDelegate& SuccessDelegate,

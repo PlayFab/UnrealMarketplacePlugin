@@ -995,6 +995,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     }
     if (request.LinuxInstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("LinuxInstrumentationConfiguration"), request.LinuxInstrumentationConfiguration);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
+    if (request.MonitoringApplicationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("MonitoringApplicationConfiguration"), request.MonitoringApplicationConfiguration);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
     if (request.Ports.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Ports"));
@@ -1084,6 +1085,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     }
     if (request.InstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("InstrumentationConfiguration"), request.InstrumentationConfiguration);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
+    if (request.MonitoringApplicationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("MonitoringApplicationConfiguration"), request.MonitoringApplicationConfiguration);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
     if (request.Ports.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("Ports"));
@@ -1176,6 +1178,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithProcessBasedServe
     if (request.InstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("InstrumentationConfiguration"), request.InstrumentationConfiguration);
     OutRestJsonObj->SetBoolField(TEXT("IsOSPreview"), request.IsOSPreview);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
+    if (request.MonitoringApplicationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("MonitoringApplicationConfiguration"), request.MonitoringApplicationConfiguration);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);
     if (request.OsPlatform.IsEmpty() || request.OsPlatform == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OsPlatform"));

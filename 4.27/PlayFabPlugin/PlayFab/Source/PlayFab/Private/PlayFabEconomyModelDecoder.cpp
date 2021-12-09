@@ -179,6 +179,17 @@ FEconomyGetItemReviewSummaryResponse UPlayFabEconomyModelDecoder::decodeGetItemR
     return tempStruct;
 }
 
+FEconomyGetItemsResponse UPlayFabEconomyModelDecoder::decodeGetItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyGetItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Items = !(dataObj->HasField("Items")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Items");
+
+    return tempStruct;
+}
+
 FEconomyPublishDraftItemResponse UPlayFabEconomyModelDecoder::decodePublishDraftItemResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

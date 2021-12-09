@@ -33,9 +33,11 @@ class FPlayFabCommonModule : public IPlayFabCommonModuleInterface
 
     FString GetClientSessionTicket() const override { return PlayFabCommon::PlayFabCommonSettings::clientSessionTicket; }
     FString GetEntityToken() const override { return PlayFabCommon::PlayFabCommonSettings::entityToken; }
+    FString GetConnectionString() const override { return PlayFabCommon::PlayFabCommonSettings::connectionString; }
 
     void SetClientSessionTicket(const FString& clientSessionTicket) override { PlayFabCommon::PlayFabCommonSettings::clientSessionTicket = clientSessionTicket; }
     void SetEntityToken(const FString& entityToken) override { PlayFabCommon::PlayFabCommonSettings::entityToken = entityToken; }
+    void SetConnectionString(const FString& connectionStr) const override { PlayFabCommon::PlayFabCommonSettings::connectionString = connectionStr; }
 
     FString GetPhotonRealtimeAppId() const override { return PlayFabCommon::PlayFabCommonSettings::photonRealtimeAppId; }
     void SetPhotonRealtimeAppId(const FString & photonRealtimeAppId) override { PlayFabCommon::PlayFabCommonSettings::photonRealtimeAppId = photonRealtimeAppId; }

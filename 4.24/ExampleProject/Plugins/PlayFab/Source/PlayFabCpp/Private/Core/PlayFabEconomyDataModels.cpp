@@ -2902,6 +2902,122 @@ bool PlayFab::EconomyModels::FGetItemReviewSummaryResponse::readFromValue(const 
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FGetItemsRequest::~FGetItemsRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EconomyModels::FGetItemsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AlternateIds.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("AlternateIds"));
+        for (const FCatalogAlternateId& item : AlternateIds)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (Ids.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Ids"));
+        for (const FString& item : Ids)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FGetItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&AlternateIdsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("AlternateIds"));
+    for (int32 Idx = 0; Idx < AlternateIdsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = AlternateIdsArray[Idx];
+        AlternateIds.Add(FCatalogAlternateId(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    obj->TryGetStringArrayField(TEXT("Ids"), Ids);
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FGetItemsResponse::~FGetItemsResponse()
+{
+
+}
+
+void PlayFab::EconomyModels::FGetItemsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Items.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Items"));
+        for (const FCatalogItem& item : Items)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FGetItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
+    for (int32 Idx = 0; Idx < ItemsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ItemsArray[Idx];
+        Items.Add(FCatalogItem(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 void PlayFab::EconomyModels::writeHelpfulnessVoteEnumJSON(HelpfulnessVote enumVal, JsonWriter& writer)
 {
     switch (enumVal)

@@ -1117,6 +1117,41 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FMonitoringApplicationConfigurationParams : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Asset which contains the monitoring application files and scripts.
+        FAssetReferenceParams AssetReference;
+
+        // Execution script name, this will be the main executable for the monitoring application.
+        FString ExecutionScriptName;
+
+        // [optional] Installation script name, this will be run before the ExecutionScript.
+        FString InstallationScriptName;
+
+        // [optional] Timespan the monitoring application will be kept alive when running from the start of the VM
+        Boxed<double> OnStartRuntimeInMinutes;
+
+        FMonitoringApplicationConfigurationParams() :
+            FPlayFabCppBaseModel(),
+            AssetReference(),
+            ExecutionScriptName(),
+            InstallationScriptName(),
+            OnStartRuntimeInMinutes()
+            {}
+
+        FMonitoringApplicationConfigurationParams(const FMonitoringApplicationConfigurationParams& src) = default;
+
+        FMonitoringApplicationConfigurationParams(const TSharedPtr<FJsonObject>& obj) : FMonitoringApplicationConfigurationParams()
+        {
+            readFromValue(obj);
+        }
+
+        ~FMonitoringApplicationConfigurationParams();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum ProtocolType
     {
         ProtocolTypeTCP,
@@ -1192,6 +1227,9 @@ namespace MultiplayerModels
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
+        // [optional] The configuration for the monitoring application on the build
+        TSharedPtr<FMonitoringApplicationConfigurationParams> MonitoringApplicationConfiguration;
+
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
 
@@ -1220,6 +1258,7 @@ namespace MultiplayerModels
             GameCertificateReferences(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
+            MonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             Ports(),
             RegionConfigurations(),
@@ -1274,6 +1313,41 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FMonitoringApplicationConfiguration : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Asset which contains the monitoring application files and scripts.
+        FAssetReference pfAssetReference;
+
+        // Execution script name, this will be the main executable for the monitoring application.
+        FString ExecutionScriptName;
+
+        // [optional] Installation script name, this will be run before the ExecutionScript.
+        FString InstallationScriptName;
+
+        // [optional] Timespan the monitoring application will be kept alive when running from the start of the VM
+        Boxed<double> OnStartRuntimeInMinutes;
+
+        FMonitoringApplicationConfiguration() :
+            FPlayFabCppBaseModel(),
+            pfAssetReference(),
+            ExecutionScriptName(),
+            InstallationScriptName(),
+            OnStartRuntimeInMinutes()
+            {}
+
+        FMonitoringApplicationConfiguration(const FMonitoringApplicationConfiguration& src) = default;
+
+        FMonitoringApplicationConfiguration(const TSharedPtr<FJsonObject>& obj) : FMonitoringApplicationConfiguration()
+        {
+            readFromValue(obj);
+        }
+
+        ~FMonitoringApplicationConfiguration();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateBuildWithCustomContainerResponse : public PlayFab::FPlayFabCppResultCommon
     {
         /**
@@ -1309,6 +1383,9 @@ namespace MultiplayerModels
 
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
+        // [optional] The configuration for the monitoring application for the build
+        TSharedPtr<FMonitoringApplicationConfiguration> pfMonitoringApplicationConfiguration;
+
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
@@ -1344,6 +1421,7 @@ namespace MultiplayerModels
             GameCertificateReferences(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
+            pfMonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),
@@ -1430,6 +1508,9 @@ namespace MultiplayerModels
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
+        // [optional] The configuration for the monitoring application on the build
+        TSharedPtr<FMonitoringApplicationConfigurationParams> MonitoringApplicationConfiguration;
+
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
 
@@ -1460,6 +1541,7 @@ namespace MultiplayerModels
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
+            MonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             Ports(),
             RegionConfigurations(),
@@ -1516,6 +1598,9 @@ namespace MultiplayerModels
 
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
+        // [optional] The configuration for the monitoring application for the build
+        TSharedPtr<FMonitoringApplicationConfiguration> pfMonitoringApplicationConfiguration;
+
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
@@ -1553,6 +1638,7 @@ namespace MultiplayerModels
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
+            pfMonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),
@@ -1613,6 +1699,9 @@ namespace MultiplayerModels
          * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
          */
         TMap<FString, FString> Metadata;
+        // [optional] The configuration for the monitoring application on the build
+        TSharedPtr<FMonitoringApplicationConfigurationParams> MonitoringApplicationConfiguration;
+
         // The number of multiplayer servers to host on a single VM.
         int32 MultiplayerServerCountPerVm;
 
@@ -1649,6 +1738,7 @@ namespace MultiplayerModels
             pfInstrumentationConfiguration(nullptr),
             IsOSPreview(),
             Metadata(),
+            MonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),
@@ -1712,6 +1802,9 @@ namespace MultiplayerModels
 
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
+        // [optional] The configuration for the monitoring application for the build
+        TSharedPtr<FMonitoringApplicationConfiguration> pfMonitoringApplicationConfiguration;
+
         // The number of multiplayer servers to host on a single VM of the build.
         int32 MultiplayerServerCountPerVm;
 
@@ -1753,6 +1846,7 @@ namespace MultiplayerModels
             pfInstrumentationConfiguration(nullptr),
             IsOSPreview(),
             Metadata(),
+            pfMonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
             OsPlatform(),
             Ports(),

@@ -560,7 +560,13 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1526: returnText = "PlayerAccountPoolNotFound"; break;
     case 1527: returnText = "PlayerAccountPoolDeleted"; break;
     case 1528: returnText = "TitleCleanupInProgress"; break;
+    case 1529: returnText = "AzureResourceConcurrentOperationInProgress"; break;
+    case 1530: returnText = "TitlePublisherUpdateNotAllowed"; break;
     case 1531: returnText = "AzureResourceManagerNotSupportedInStamp"; break;
+    case 1532: returnText = "ApiNotIncludedInAzurePlayFabFeatureSet"; break;
+    case 1533: returnText = "GoogleServiceAccountFailedAuth"; break;
+    case 1534: returnText = "GoogleAPIServiceUnavailable"; break;
+    case 1535: returnText = "GoogleAPIServiceUnknownError"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

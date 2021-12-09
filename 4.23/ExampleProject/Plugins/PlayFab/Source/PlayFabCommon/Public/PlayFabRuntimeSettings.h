@@ -30,4 +30,7 @@ public:
     // Secret Key, Do not add this to the clients!
     UPROPERTY(EditAnywhere, config, Category = Settings)
     FString DeveloperSecretKey;
+
+    UPROPERTY(EditAnywhere, config, Category = Settings)
+    FString ConnectionString;
 };

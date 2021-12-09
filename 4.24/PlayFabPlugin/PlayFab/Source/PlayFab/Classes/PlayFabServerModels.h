@@ -3669,6 +3669,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
         FString Key;
+    /** System Data of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
+        UPlayFabJsonObject* SystemData = nullptr;
     /** new value to set. Set to null to remove a value */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
         FString Value;

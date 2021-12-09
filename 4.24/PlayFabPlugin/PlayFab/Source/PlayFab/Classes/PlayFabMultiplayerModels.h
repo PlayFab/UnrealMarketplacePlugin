@@ -623,6 +623,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
+    /** The configuration for the monitoring application on the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -684,6 +687,9 @@ public:
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
+    /** The configuration for the monitoring application for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -752,6 +758,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
+    /** The configuration for the monitoring application on the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -816,6 +825,9 @@ public:
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
+    /** The configuration for the monitoring application for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -893,6 +905,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
+    /** The configuration for the monitoring application on the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;
@@ -969,6 +984,9 @@ public:
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;
+    /** The configuration for the monitoring application for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* MonitoringApplicationConfiguration = nullptr;
     /** The number of multiplayer servers to host on a single VM of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         int32 MultiplayerServerCountPerVm = 0;

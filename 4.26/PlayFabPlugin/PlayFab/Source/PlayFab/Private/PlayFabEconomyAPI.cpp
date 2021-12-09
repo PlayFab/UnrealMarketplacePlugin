@@ -840,6 +840,68 @@ void UPlayFabEconomyAPI::HelperGetItemReviewSummary(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
+/** Retrieves items from the public catalog. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItems(FEconomyGetItemsRequest request,
+    FDelegateOnSuccessGetItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Catalog/GetItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AlternateIds.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("AlternateIds"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("AlternateIds"), request.AlternateIds);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    // Check to see if string is empty
+    if (request.Ids.IsEmpty() || request.Ids == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Ids"));
+    } else {
+        TArray<FString> IdsArray;
+        FString(request.Ids).ParseIntoArray(IdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("Ids"), IdsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperGetItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetItems.IsBound())
+    {
+        FEconomyGetItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetItemsResponseResponse(response.responseData);
+        OnSuccessGetItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Initiates a publish of an item from the working catalog to the public catalog. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::PublishDraftItem(FEconomyPublishDraftItemRequest request,
     FDelegateOnSuccessPublishDraftItem onSuccess,

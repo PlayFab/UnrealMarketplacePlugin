@@ -8017,6 +8017,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleData(FServerSetTitleDataRequest re
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));
@@ -8081,6 +8082,7 @@ UPlayFabServerAPI* UPlayFabServerAPI::SetTitleInternalData(FServerSetTitleDataRe
     } else {
         OutRestJsonObj->SetStringField(TEXT("Key"), request.Key);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
     if (request.Value.IsEmpty() || request.Value == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Value"));

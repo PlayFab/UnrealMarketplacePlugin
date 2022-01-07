@@ -7,25 +7,13 @@
 
 namespace PlayFabCommon
 {
-    const FString PlayFabCommonSettings::sdkVersion = "1.46.200914";
-    const FString PlayFabCommonSettings::buildIdentifier = "jbuild_unrealmarketplaceplugin__sdk-unrealslave-2_0";
-    const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.46.200914";
-    const FString PlayFabCommonSettings::verticalName = "";
-
-    FString PlayFabCommonSettings::serverURL;
-    FString PlayFabCommonSettings::productionEnvironmentURL = ".playfabapi.com";
-
-    FString PlayFabCommonSettings::titleId;
+    const FString PlayFabCommonSettings::sdkVersion = "1.70.211209";
+    const FString PlayFabCommonSettings::buildIdentifier = "jbuild_unrealmarketplaceplugin_sdk-unrealslave-6_0";
+    const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.70.211209";
 
     FString PlayFabCommonSettings::clientSessionTicket;
-    FString PlayFabCommonSettings::developerSecretKey;
     FString PlayFabCommonSettings::entityToken;
-    FString PlayFabCommonSettings::advertisingIdType;
-    FString PlayFabCommonSettings::advertisingIdValue;
-
-    bool PlayFabCommonSettings::disableAdvertising = false;
-    const FString PlayFabCommonSettings::AD_TYPE_IDFA = "Idfa";
-    const FString PlayFabCommonSettings::AD_TYPE_ANDROID_ID = "Adid";
+    FString PlayFabCommonSettings::connectionString;
 
     FString PlayFabCommonSettings::photonRealtimeAppId;
     FString PlayFabCommonSettings::photonTurnbasedAppId;

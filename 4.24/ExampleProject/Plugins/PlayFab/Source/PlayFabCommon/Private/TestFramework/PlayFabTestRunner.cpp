@@ -7,6 +7,7 @@
 
 #include "PlayFab/Public/IPlayFab.h"
 #include "PlayFab/Private/PlayFabPrivate.h"
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "TestFramework/PlayFabTestCase.h"
 #include "TestFramework/PlayFabTestContext.h"
 
@@ -84,8 +85,7 @@ bool UTestTitleDataLoader::LoadFromFile()
 void UTestTitleDataLoader::ApplyToSettings()
 {
     // Settings are globally shared
-    IPlayFab* playFabSettings = &(IPlayFab::Get());
-    playFabSettings->setGameTitleId(titleId);
+    GetMutableDefault<UPlayFabRuntimeSettings>()->TitleId = titleId;
 }
 
 bool UTestTitleDataLoader::LoadTestTitleData()

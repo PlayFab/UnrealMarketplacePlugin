@@ -167,6 +167,41 @@ public:
         bool FunctionResultTooLarge = false;
 };
 
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptGetFunctionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The name of the function to register */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptGetFunctionResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The connection string for the storage account containing the queue for a queue trigger Azure Function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString ConnectionString;
+    /** The URL to be invoked to execute an HTTP triggered function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionUrl;
+    /** The name of the queue for a queue trigger Azure Function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString QueueName;
+    /** System Data of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* SystemData = nullptr;
+    /** The trigger type for the function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString TriggerType;
+};
+
 /**
  * A title can have many functions, ListHttpFunctions will return a list of all the currently registered HTTP triggered
  * functions for a given title.
@@ -296,6 +331,9 @@ struct PLAYFAB_API FCloudScriptRegisterHttpFunctionRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The Id of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString AzureResourceId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -305,6 +343,9 @@ public:
     /** Full URL for Azure Function that implements the function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString FunctionUrl;
+    /** System Data of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* SystemData = nullptr;
 };
 
 /**
@@ -316,6 +357,9 @@ struct PLAYFAB_API FCloudScriptRegisterQueuedFunctionRequest : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The Id of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString AzureResourceId;
     /** A connection string for the storage account that hosts the queue for the Azure Function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString ConnectionString;
@@ -328,6 +372,9 @@ public:
     /** The name of the queue for the Azure Function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString QueueName;
+    /** System Data of the Azure Resource */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* SystemData = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -338,7 +385,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The name of the function to unregister */
+    /** The name of the function to register */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         FString FunctionName;
 };

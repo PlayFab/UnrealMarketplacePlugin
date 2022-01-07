@@ -23,10 +23,7 @@ namespace LocalizationModels
             CustomTags()
             {}
 
-        FGetLanguageListRequest(const FGetLanguageListRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
+        FGetLanguageListRequest(const FGetLanguageListRequest& src) = default;
 
         FGetLanguageListRequest(const TSharedPtr<FJsonObject>& obj) : FGetLanguageListRequest()
         {
@@ -48,10 +45,7 @@ namespace LocalizationModels
             LanguageList()
             {}
 
-        FGetLanguageListResponse(const FGetLanguageListResponse& src) :
-            FPlayFabCppResultCommon(),
-            LanguageList(src.LanguageList)
-            {}
+        FGetLanguageListResponse(const FGetLanguageListResponse& src) = default;
 
         FGetLanguageListResponse(const TSharedPtr<FJsonObject>& obj) : FGetLanguageListResponse()
         {

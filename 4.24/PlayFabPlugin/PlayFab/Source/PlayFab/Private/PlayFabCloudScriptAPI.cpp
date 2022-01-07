@@ -200,6 +200,60 @@ void UPlayFabCloudScriptAPI::HelperExecuteFunction(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
+/** Gets registered Azure Functions for a given title id and function name. */
+UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::GetFunction(FCloudScriptGetFunctionRequest request,
+    FDelegateOnSuccessGetFunction onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabCloudScriptAPI* manager = NewObject<UPlayFabCloudScriptAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetFunction = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabCloudScriptAPI::HelperGetFunction);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/CloudScript/GetFunction";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("FunctionName"), request.FunctionName);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabCloudScriptRequestCompleted
+void UPlayFabCloudScriptAPI::HelperGetFunction(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetFunction.IsBound())
+    {
+        FCloudScriptGetFunctionResult ResultStruct = UPlayFabCloudScriptModelDecoder::decodeGetFunctionResultResponse(response.responseData);
+        OnSuccessGetFunction.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Lists all currently registered Azure Functions for a given title. */
 UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListFunctions(FCloudScriptListFunctionsRequest request,
     FDelegateOnSuccessListFunctions onSuccess,
@@ -225,6 +279,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListFunctions(FCloudScriptListFu
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -273,6 +328,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListHttpFunctions(FCloudScriptLi
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -321,6 +377,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListQueuedFunctions(FCloudScript
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -574,6 +631,11 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
@@ -585,6 +647,8 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionUrl"), request.FunctionUrl);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -633,6 +697,11 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
 
 
     // Serialize all the request properties to json
+    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
+    }
     if (request.ConnectionString.IsEmpty() || request.ConnectionString == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ConnectionString"));
     } else {
@@ -649,6 +718,8 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
     } else {
         OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
     }
+    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -703,6 +774,7 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::UnregisterFunction(FCloudScriptU
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionName"), request.FunctionName);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -805,7 +877,7 @@ void UPlayFabCloudScriptAPI::Activate()
     IPlayFab* pfSettings = &(IPlayFab::Get());
 
     FString RequestUrl;
-    RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->getUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;
+    RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->GeneratePfUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;
 
 
     TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
@@ -813,12 +885,42 @@ void UPlayFabCloudScriptAPI::Activate()
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    if (useEntityToken)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
-    else if (useSessionTicket)
-        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
-    else if (useSecretKey)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getDeveloperSecretKey());
+    // Only set one of the potential authentication headers.
+    bool AuthSet = false;
+
+    if (useEntityToken && !AuthSet)
+    {
+        FString AuthValue =
+        CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-EntityToken"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSessionTicket && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket()
+                                                                 : pfSettings->getSessionTicket();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-Authorization"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSecretKey && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey()
+                                                                 : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-SecretKey"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

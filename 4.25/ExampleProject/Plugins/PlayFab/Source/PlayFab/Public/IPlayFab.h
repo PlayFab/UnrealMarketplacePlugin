@@ -41,15 +41,6 @@ public:
         return FModuleManager::Get().IsModuleLoaded("PlayFab");
     }
 
-    inline FString getGameTitleId() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetTitleId();
-    }
-    inline void setGameTitleId(const FString& NewGameTitleId)
-    {
-        IPlayFabCommonModuleInterface::Get().SetTitleId(NewGameTitleId);
-    }
-
     inline bool IsClientLoggedIn() const
     {
         return getSessionTicket().Len() > 0;
@@ -72,58 +63,14 @@ public:
         IPlayFabCommonModuleInterface::Get().SetEntityToken(NewEntityToken);
     }
 
-    inline FString getDeveloperSecretKey() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetDeveloperSecretKey();
-    }
-    inline void setDeveloperSecretKey(const FString& NewSecretApiKey)
-    {
-        IPlayFabCommonModuleInterface::Get().SetDeveloperSecretKey(NewSecretApiKey);
-    }
-
     inline FString getVersionString() const
     {
         return IPlayFabCommonModuleInterface::Get().GetVersionString();
     }
 
-    inline FString getVerticalName() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetVerticalName();
-    }
-
     inline FString getBuildIdentifier() const
     {
         return IPlayFabCommonModuleInterface::Get().GetBuildIdentifier();
-    }
-
-    inline FString getAD_TYPE_ANDROID_ID() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAD_TYPE_ANDROID_ID();
-    }
-
-    inline FString getAD_TYPE_IDFA() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAD_TYPE_IDFA();
-    }
-
-    inline FString getAdvertisingIdType() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAdvertisingIdType();
-    }
-
-    inline void setAdvertisingIdType(FString advertisingIdType)
-    {
-        return IPlayFabCommonModuleInterface::Get().SetAdvertisingIdType(advertisingIdType);
-    }
-
-    inline FString getAdvertisingIdValue() const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetAdvertisingIdValue();
-    }
-
-    inline void setAdvertisingIdValue(FString advertisingIdValue)
-    {
-        return IPlayFabCommonModuleInterface::Get().SetAdvertisingIdValue(advertisingIdValue);
     }
 
     inline FString getPhotonRealtimeAppId() const
@@ -156,14 +103,9 @@ public:
         IPlayFabCommonModuleInterface::Get().SetPhotonChatAppId(photonChatAppId);
     }
 
-    inline bool getDisableAdvertising() const
+    inline FString GeneratePfUrl(const FString& urlPath) const
     {
-        return IPlayFabCommonModuleInterface::Get().GetDisableAdvertising();
-    }
-
-    inline FString getUrl(const FString& callPath) const
-    {
-        return IPlayFabCommonModuleInterface::Get().GetUrl(callPath);
+        return IPlayFabCommonModuleInterface::Get().GeneratePfUrl(urlPath);
     }
 
     inline int32 GetPendingCallCount()

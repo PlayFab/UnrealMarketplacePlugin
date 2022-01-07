@@ -27,11 +27,7 @@ namespace AdminModels
             TaskInstanceId()
             {}
 
-        FAbortTaskInstanceRequest(const FAbortTaskInstanceRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            TaskInstanceId(src.TaskInstanceId)
-            {}
+        FAbortTaskInstanceRequest(const FAbortTaskInstanceRequest& src) = default;
 
         FAbortTaskInstanceRequest(const TSharedPtr<FJsonObject>& obj) : FAbortTaskInstanceRequest()
         {
@@ -58,11 +54,7 @@ namespace AdminModels
             SegmentId()
             {}
 
-        FActionsOnPlayersInSegmentTaskParameter(const FActionsOnPlayersInSegmentTaskParameter& src) :
-            FPlayFabCppBaseModel(),
-            ActionId(src.ActionId),
-            SegmentId(src.SegmentId)
-            {}
+        FActionsOnPlayersInSegmentTaskParameter(const FActionsOnPlayersInSegmentTaskParameter& src) = default;
 
         FActionsOnPlayersInSegmentTaskParameter(const TSharedPtr<FJsonObject>& obj) : FActionsOnPlayersInSegmentTaskParameter()
         {
@@ -103,11 +95,7 @@ namespace AdminModels
             Name()
             {}
 
-        FNameIdentifier(const FNameIdentifier& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Name(src.Name)
-            {}
+        FNameIdentifier(const FNameIdentifier& src) = default;
 
         FNameIdentifier(const TSharedPtr<FJsonObject>& obj) : FNameIdentifier()
         {
@@ -174,21 +162,7 @@ namespace AdminModels
             TotalPlayersProcessed()
             {}
 
-        FActionsOnPlayersInSegmentTaskSummary(const FActionsOnPlayersInSegmentTaskSummary& src) :
-            FPlayFabCppBaseModel(),
-            CompletedAt(src.CompletedAt),
-            ErrorMessage(src.ErrorMessage),
-            ErrorWasFatal(src.ErrorWasFatal),
-            EstimatedSecondsRemaining(src.EstimatedSecondsRemaining),
-            PercentComplete(src.PercentComplete),
-            ScheduledByUserId(src.ScheduledByUserId),
-            StartedAt(src.StartedAt),
-            Status(src.Status),
-            TaskIdentifier(src.TaskIdentifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.TaskIdentifier)) : nullptr),
-            TaskInstanceId(src.TaskInstanceId),
-            TotalPlayersInSegment(src.TotalPlayersInSegment),
-            TotalPlayersProcessed(src.TotalPlayersProcessed)
-            {}
+        FActionsOnPlayersInSegmentTaskSummary(const FActionsOnPlayersInSegmentTaskSummary& src) = default;
 
         FActionsOnPlayersInSegmentTaskSummary(const TSharedPtr<FJsonObject>& obj) : FActionsOnPlayersInSegmentTaskSummary()
         {
@@ -219,12 +193,7 @@ namespace AdminModels
             Platform()
             {}
 
-        FAdCampaignAttribution(const FAdCampaignAttribution& src) :
-            FPlayFabCppBaseModel(),
-            AttributedAt(src.AttributedAt),
-            CampaignId(src.CampaignId),
-            Platform(src.Platform)
-            {}
+        FAdCampaignAttribution(const FAdCampaignAttribution& src) = default;
 
         FAdCampaignAttribution(const TSharedPtr<FJsonObject>& obj) : FAdCampaignAttribution()
         {
@@ -255,12 +224,7 @@ namespace AdminModels
             Platform()
             {}
 
-        FAdCampaignAttributionModel(const FAdCampaignAttributionModel& src) :
-            FPlayFabCppBaseModel(),
-            AttributedAt(src.AttributedAt),
-            CampaignId(src.CampaignId),
-            Platform(src.Platform)
-            {}
+        FAdCampaignAttributionModel(const FAdCampaignAttributionModel& src) = default;
 
         FAdCampaignAttributionModel(const TSharedPtr<FJsonObject>& obj) : FAdCampaignAttributionModel()
         {
@@ -268,6 +232,54 @@ namespace AdminModels
         }
 
         ~FAdCampaignAttributionModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentFilterComparison
+    {
+        SegmentFilterComparisonGreaterThan,
+        SegmentFilterComparisonLessThan,
+        SegmentFilterComparisonEqualTo,
+        SegmentFilterComparisonNotEqualTo,
+        SegmentFilterComparisonGreaterThanOrEqual,
+        SegmentFilterComparisonLessThanOrEqual,
+        SegmentFilterComparisonExists,
+        SegmentFilterComparisonContains,
+        SegmentFilterComparisonNotContains
+    };
+
+    PLAYFABCPP_API void writeSegmentFilterComparisonEnumJSON(SegmentFilterComparison enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentFilterComparison readSegmentFilterComparisonFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentFilterComparison readSegmentFilterComparisonFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FAdCampaignSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Campaign id.
+        FString CampaignId;
+
+        // [optional] Campaign source.
+        FString CampaignSource;
+
+        // [optional] Campaign comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        FAdCampaignSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            CampaignId(),
+            CampaignSource(),
+            Comparison()
+            {}
+
+        FAdCampaignSegmentFilter(const FAdCampaignSegmentFilter& src) = default;
+
+        FAdCampaignSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FAdCampaignSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAdCampaignSegmentFilter();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -298,14 +310,7 @@ namespace AdminModels
             Title()
             {}
 
-        FAddLocalizedNewsRequest(const FAddLocalizedNewsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Body(src.Body),
-            CustomTags(src.CustomTags),
-            Language(src.Language),
-            NewsId(src.NewsId),
-            Title(src.Title)
-            {}
+        FAddLocalizedNewsRequest(const FAddLocalizedNewsRequest& src) = default;
 
         FAddLocalizedNewsRequest(const TSharedPtr<FJsonObject>& obj) : FAddLocalizedNewsRequest()
         {
@@ -324,9 +329,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FAddLocalizedNewsResult(const FAddLocalizedNewsResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FAddLocalizedNewsResult(const FAddLocalizedNewsResult& src) = default;
 
         FAddLocalizedNewsResult(const TSharedPtr<FJsonObject>& obj) : FAddLocalizedNewsResult()
         {
@@ -360,13 +363,7 @@ namespace AdminModels
             Title()
             {}
 
-        FAddNewsRequest(const FAddNewsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Body(src.Body),
-            CustomTags(src.CustomTags),
-            Timestamp(src.Timestamp),
-            Title(src.Title)
-            {}
+        FAddNewsRequest(const FAddNewsRequest& src) = default;
 
         FAddNewsRequest(const TSharedPtr<FJsonObject>& obj) : FAddNewsRequest()
         {
@@ -389,10 +386,7 @@ namespace AdminModels
             NewsId()
             {}
 
-        FAddNewsResult(const FAddNewsResult& src) :
-            FPlayFabCppResultCommon(),
-            NewsId(src.NewsId)
-            {}
+        FAddNewsResult(const FAddNewsResult& src) = default;
 
         FAddNewsResult(const TSharedPtr<FJsonObject>& obj) : FAddNewsResult()
         {
@@ -422,12 +416,7 @@ namespace AdminModels
             TagName()
             {}
 
-        FAddPlayerTagRequest(const FAddPlayerTagRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId),
-            TagName(src.TagName)
-            {}
+        FAddPlayerTagRequest(const FAddPlayerTagRequest& src) = default;
 
         FAddPlayerTagRequest(const TSharedPtr<FJsonObject>& obj) : FAddPlayerTagRequest()
         {
@@ -446,9 +435,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FAddPlayerTagResult(const FAddPlayerTagResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FAddPlayerTagResult(const FAddPlayerTagResult& src) = default;
 
         FAddPlayerTagResult(const TSharedPtr<FJsonObject>& obj) : FAddPlayerTagResult()
         {
@@ -515,17 +502,7 @@ namespace AdminModels
             MinFreeGameSlots(0)
             {}
 
-        FAddServerBuildRequest(const FAddServerBuildRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ActiveRegions(src.ActiveRegions),
-            BuildId(src.BuildId),
-            CommandLineTemplate(src.CommandLineTemplate),
-            Comment(src.Comment),
-            CustomTags(src.CustomTags),
-            ExecutablePath(src.ExecutablePath),
-            MaxGamesPerHost(src.MaxGamesPerHost),
-            MinFreeGameSlots(src.MinFreeGameSlots)
-            {}
+        FAddServerBuildRequest(const FAddServerBuildRequest& src) = default;
 
         FAddServerBuildRequest(const TSharedPtr<FJsonObject>& obj) : FAddServerBuildRequest()
         {
@@ -602,19 +579,7 @@ namespace AdminModels
             TitleId()
             {}
 
-        FAddServerBuildResult(const FAddServerBuildResult& src) :
-            FPlayFabCppResultCommon(),
-            ActiveRegions(src.ActiveRegions),
-            BuildId(src.BuildId),
-            CommandLineTemplate(src.CommandLineTemplate),
-            Comment(src.Comment),
-            ExecutablePath(src.ExecutablePath),
-            MaxGamesPerHost(src.MaxGamesPerHost),
-            MinFreeGameSlots(src.MinFreeGameSlots),
-            Status(src.Status),
-            Timestamp(src.Timestamp),
-            TitleId(src.TitleId)
-            {}
+        FAddServerBuildResult(const FAddServerBuildResult& src) = default;
 
         FAddServerBuildResult(const TSharedPtr<FJsonObject>& obj) : FAddServerBuildResult()
         {
@@ -651,13 +616,7 @@ namespace AdminModels
             VirtualCurrency()
             {}
 
-        FAddUserVirtualCurrencyRequest(const FAddUserVirtualCurrencyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Amount(src.Amount),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId),
-            VirtualCurrency(src.VirtualCurrency)
-            {}
+        FAddUserVirtualCurrencyRequest(const FAddUserVirtualCurrencyRequest& src) = default;
 
         FAddUserVirtualCurrencyRequest(const TSharedPtr<FJsonObject>& obj) : FAddUserVirtualCurrencyRequest()
         {
@@ -696,14 +655,7 @@ namespace AdminModels
             RechargeRate()
             {}
 
-        FVirtualCurrencyData(const FVirtualCurrencyData& src) :
-            FPlayFabCppBaseModel(),
-            CurrencyCode(src.CurrencyCode),
-            DisplayName(src.DisplayName),
-            InitialDeposit(src.InitialDeposit),
-            RechargeMax(src.RechargeMax),
-            RechargeRate(src.RechargeRate)
-            {}
+        FVirtualCurrencyData(const FVirtualCurrencyData& src) = default;
 
         FVirtualCurrencyData(const TSharedPtr<FJsonObject>& obj) : FVirtualCurrencyData()
         {
@@ -728,10 +680,7 @@ namespace AdminModels
             VirtualCurrencies()
             {}
 
-        FAddVirtualCurrencyTypesRequest(const FAddVirtualCurrencyTypesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            VirtualCurrencies(src.VirtualCurrencies)
-            {}
+        FAddVirtualCurrencyTypesRequest(const FAddVirtualCurrencyTypesRequest& src) = default;
 
         FAddVirtualCurrencyTypesRequest(const TSharedPtr<FJsonObject>& obj) : FAddVirtualCurrencyTypesRequest()
         {
@@ -739,6 +688,25 @@ namespace AdminModels
         }
 
         ~FAddVirtualCurrencyTypesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAllPlayersSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        FAllPlayersSegmentFilter() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FAllPlayersSegmentFilter(const FAllPlayersSegmentFilter& src) = default;
+
+        FAllPlayersSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FAllPlayersSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAllPlayersSegmentFilter();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -765,10 +733,7 @@ namespace AdminModels
             HasSignatureOrEncryption()
             {}
 
-        FApiCondition(const FApiCondition& src) :
-            FPlayFabCppBaseModel(),
-            HasSignatureOrEncryption(src.HasSignatureOrEncryption)
-            {}
+        FApiCondition(const FApiCondition& src) = default;
 
         FApiCondition(const TSharedPtr<FJsonObject>& obj) : FApiCondition()
         {
@@ -789,6 +754,49 @@ namespace AdminModels
     PLAYFABCPP_API void writeAuthTokenTypeEnumJSON(AuthTokenType enumVal, JsonWriter& writer);
     PLAYFABCPP_API AuthTokenType readAuthTokenTypeFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API AuthTokenType readAuthTokenTypeFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FAzureResourceSystemData : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The timestamp of resource creation (UTC)
+        Boxed<FDateTime> CreatedAt;
+
+        // [optional] The identity that created the resource
+        FString CreatedBy;
+
+        // [optional] The type of identity that created the resource
+        FString CreatedByType;
+
+        // [optional] The type of identity that last modified the resource
+        Boxed<FDateTime> LastModifiedAt;
+
+        // [optional] The identity that last modified the resource
+        FString LastModifiedBy;
+
+        // [optional] The type of identity that last modified the resource
+        FString LastModifiedByType;
+
+        FAzureResourceSystemData() :
+            FPlayFabCppBaseModel(),
+            CreatedAt(),
+            CreatedBy(),
+            CreatedByType(),
+            LastModifiedAt(),
+            LastModifiedBy(),
+            LastModifiedByType()
+            {}
+
+        FAzureResourceSystemData(const FAzureResourceSystemData& src) = default;
+
+        FAzureResourceSystemData(const TSharedPtr<FJsonObject>& obj) : FAzureResourceSystemData()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAzureResourceSystemData();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
 
     struct PLAYFABCPP_API FBanInfo : public PlayFab::FPlayFabCppBaseModel
     {
@@ -828,17 +836,7 @@ namespace AdminModels
             Reason()
             {}
 
-        FBanInfo(const FBanInfo& src) :
-            FPlayFabCppBaseModel(),
-            Active(src.Active),
-            BanId(src.BanId),
-            Created(src.Created),
-            Expires(src.Expires),
-            IPAddress(src.IPAddress),
-            MACAddress(src.MACAddress),
-            PlayFabId(src.PlayFabId),
-            Reason(src.Reason)
-            {}
+        FBanInfo(const FBanInfo& src) = default;
 
         FBanInfo(const TSharedPtr<FJsonObject>& obj) : FBanInfo()
         {
@@ -846,6 +844,33 @@ namespace AdminModels
         }
 
         ~FBanInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FBanPlayerSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Ban hours duration.
+        Boxed<uint32> BanHours;
+
+        // [optional] Reason for ban.
+        FString ReasonForBan;
+
+        FBanPlayerSegmentAction() :
+            FPlayFabCppBaseModel(),
+            BanHours(),
+            ReasonForBan()
+            {}
+
+        FBanPlayerSegmentAction(const FBanPlayerSegmentAction& src) = default;
+
+        FBanPlayerSegmentAction(const TSharedPtr<FJsonObject>& obj) : FBanPlayerSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FBanPlayerSegmentAction();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -877,14 +902,7 @@ namespace AdminModels
             Reason()
             {}
 
-        FBanRequest(const FBanRequest& src) :
-            FPlayFabCppBaseModel(),
-            DurationInHours(src.DurationInHours),
-            IPAddress(src.IPAddress),
-            MACAddress(src.MACAddress),
-            PlayFabId(src.PlayFabId),
-            Reason(src.Reason)
-            {}
+        FBanRequest(const FBanRequest& src) = default;
 
         FBanRequest(const TSharedPtr<FJsonObject>& obj) : FBanRequest()
         {
@@ -909,11 +927,7 @@ namespace AdminModels
             CustomTags()
             {}
 
-        FBanUsersRequest(const FBanUsersRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Bans(src.Bans),
-            CustomTags(src.CustomTags)
-            {}
+        FBanUsersRequest(const FBanUsersRequest& src) = default;
 
         FBanUsersRequest(const TSharedPtr<FJsonObject>& obj) : FBanUsersRequest()
         {
@@ -935,10 +949,7 @@ namespace AdminModels
             BanData()
             {}
 
-        FBanUsersResult(const FBanUsersResult& src) :
-            FPlayFabCppResultCommon(),
-            BanData(src.BanData)
-            {}
+        FBanUsersResult(const FBanUsersResult& src) = default;
 
         FBanUsersResult(const TSharedPtr<FJsonObject>& obj) : FBanUsersResult()
         {
@@ -957,9 +968,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FBlankResult(const FBlankResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FBlankResult(const FBlankResult& src) = default;
 
         FBlankResult(const TSharedPtr<FJsonObject>& obj) : FBlankResult()
         {
@@ -990,12 +999,7 @@ namespace AdminModels
             BundledVirtualCurrencies()
             {}
 
-        FCatalogItemBundleInfo(const FCatalogItemBundleInfo& src) :
-            FPlayFabCppBaseModel(),
-            BundledItems(src.BundledItems),
-            BundledResultTables(src.BundledResultTables),
-            BundledVirtualCurrencies(src.BundledVirtualCurrencies)
-            {}
+        FCatalogItemBundleInfo(const FCatalogItemBundleInfo& src) = default;
 
         FCatalogItemBundleInfo(const TSharedPtr<FJsonObject>& obj) : FCatalogItemBundleInfo()
         {
@@ -1033,12 +1037,7 @@ namespace AdminModels
             UsagePeriodGroup()
             {}
 
-        FCatalogItemConsumableInfo(const FCatalogItemConsumableInfo& src) :
-            FPlayFabCppBaseModel(),
-            UsageCount(src.UsageCount),
-            UsagePeriod(src.UsagePeriod),
-            UsagePeriodGroup(src.UsagePeriodGroup)
-            {}
+        FCatalogItemConsumableInfo(const FCatalogItemConsumableInfo& src) = default;
 
         FCatalogItemConsumableInfo(const TSharedPtr<FJsonObject>& obj) : FCatalogItemConsumableInfo()
         {
@@ -1076,13 +1075,7 @@ namespace AdminModels
             VirtualCurrencyContents()
             {}
 
-        FCatalogItemContainerInfo(const FCatalogItemContainerInfo& src) :
-            FPlayFabCppBaseModel(),
-            ItemContents(src.ItemContents),
-            KeyItemId(src.KeyItemId),
-            ResultTableContents(src.ResultTableContents),
-            VirtualCurrencyContents(src.VirtualCurrencyContents)
-            {}
+        FCatalogItemContainerInfo(const FCatalogItemContainerInfo& src) = default;
 
         FCatalogItemContainerInfo(const TSharedPtr<FJsonObject>& obj) : FCatalogItemContainerInfo()
         {
@@ -1188,27 +1181,7 @@ namespace AdminModels
             VirtualCurrencyPrices()
             {}
 
-        FCatalogItem(const FCatalogItem& src) :
-            FPlayFabCppBaseModel(),
-            Bundle(src.Bundle.IsValid() ? MakeShareable(new FCatalogItemBundleInfo(*src.Bundle)) : nullptr),
-            CanBecomeCharacter(src.CanBecomeCharacter),
-            CatalogVersion(src.CatalogVersion),
-            Consumable(src.Consumable.IsValid() ? MakeShareable(new FCatalogItemConsumableInfo(*src.Consumable)) : nullptr),
-            Container(src.Container.IsValid() ? MakeShareable(new FCatalogItemContainerInfo(*src.Container)) : nullptr),
-            CustomData(src.CustomData),
-            Description(src.Description),
-            DisplayName(src.DisplayName),
-            InitialLimitedEditionCount(src.InitialLimitedEditionCount),
-            IsLimitedEdition(src.IsLimitedEdition),
-            IsStackable(src.IsStackable),
-            IsTradable(src.IsTradable),
-            ItemClass(src.ItemClass),
-            ItemId(src.ItemId),
-            ItemImageUrl(src.ItemImageUrl),
-            RealCurrencyPrices(src.RealCurrencyPrices),
-            Tags(src.Tags),
-            VirtualCurrencyPrices(src.VirtualCurrencyPrices)
-            {}
+        FCatalogItem(const FCatalogItem& src) = default;
 
         FCatalogItem(const TSharedPtr<FJsonObject>& obj) : FCatalogItem()
         {
@@ -1235,11 +1208,7 @@ namespace AdminModels
             ItemId()
             {}
 
-        FCheckLimitedEditionItemAvailabilityRequest(const FCheckLimitedEditionItemAvailabilityRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion),
-            ItemId(src.ItemId)
-            {}
+        FCheckLimitedEditionItemAvailabilityRequest(const FCheckLimitedEditionItemAvailabilityRequest& src) = default;
 
         FCheckLimitedEditionItemAvailabilityRequest(const TSharedPtr<FJsonObject>& obj) : FCheckLimitedEditionItemAvailabilityRequest()
         {
@@ -1262,10 +1231,7 @@ namespace AdminModels
             Amount(0)
             {}
 
-        FCheckLimitedEditionItemAvailabilityResult(const FCheckLimitedEditionItemAvailabilityResult& src) :
-            FPlayFabCppResultCommon(),
-            Amount(src.Amount)
-            {}
+        FCheckLimitedEditionItemAvailabilityResult(const FCheckLimitedEditionItemAvailabilityResult& src) = default;
 
         FCheckLimitedEditionItemAvailabilityResult(const TSharedPtr<FJsonObject>& obj) : FCheckLimitedEditionItemAvailabilityResult()
         {
@@ -1295,11 +1261,7 @@ namespace AdminModels
             Filename()
             {}
 
-        FCloudScriptFile(const FCloudScriptFile& src) :
-            FPlayFabCppBaseModel(),
-            FileContents(src.FileContents),
-            Filename(src.Filename)
-            {}
+        FCloudScriptFile(const FCloudScriptFile& src) = default;
 
         FCloudScriptFile(const TSharedPtr<FJsonObject>& obj) : FCloudScriptFile()
         {
@@ -1326,11 +1288,7 @@ namespace AdminModels
             FunctionName()
             {}
 
-        FCloudScriptTaskParameter(const FCloudScriptTaskParameter& src) :
-            FPlayFabCppBaseModel(),
-            Argument(src.Argument),
-            FunctionName(src.FunctionName)
-            {}
+        FCloudScriptTaskParameter(const FCloudScriptTaskParameter& src) = default;
 
         FCloudScriptTaskParameter(const TSharedPtr<FJsonObject>& obj) : FCloudScriptTaskParameter()
         {
@@ -1364,12 +1322,7 @@ namespace AdminModels
             StackTrace()
             {}
 
-        FScriptExecutionError(const FScriptExecutionError& src) :
-            FPlayFabCppBaseModel(),
-            Error(src.Error),
-            Message(src.Message),
-            StackTrace(src.StackTrace)
-            {}
+        FScriptExecutionError(const FScriptExecutionError& src) = default;
 
         FScriptExecutionError(const TSharedPtr<FJsonObject>& obj) : FScriptExecutionError()
         {
@@ -1400,12 +1353,7 @@ namespace AdminModels
             Message()
             {}
 
-        FLogStatement(const FLogStatement& src) :
-            FPlayFabCppBaseModel(),
-            Data(src.Data),
-            Level(src.Level),
-            Message(src.Message)
-            {}
+        FLogStatement(const FLogStatement& src) = default;
 
         FLogStatement(const TSharedPtr<FJsonObject>& obj) : FLogStatement()
         {
@@ -1481,21 +1429,7 @@ namespace AdminModels
             Revision(0)
             {}
 
-        FExecuteCloudScriptResult(const FExecuteCloudScriptResult& src) :
-            FPlayFabCppBaseModel(),
-            APIRequestsIssued(src.APIRequestsIssued),
-            Error(src.Error.IsValid() ? MakeShareable(new FScriptExecutionError(*src.Error)) : nullptr),
-            ExecutionTimeSeconds(src.ExecutionTimeSeconds),
-            FunctionName(src.FunctionName),
-            FunctionResult(src.FunctionResult),
-            FunctionResultTooLarge(src.FunctionResultTooLarge),
-            HttpRequestsIssued(src.HttpRequestsIssued),
-            Logs(src.Logs),
-            LogsTooLarge(src.LogsTooLarge),
-            MemoryConsumedBytes(src.MemoryConsumedBytes),
-            ProcessorTimeSeconds(src.ProcessorTimeSeconds),
-            Revision(src.Revision)
-            {}
+        FExecuteCloudScriptResult(const FExecuteCloudScriptResult& src) = default;
 
         FExecuteCloudScriptResult(const TSharedPtr<FJsonObject>& obj) : FExecuteCloudScriptResult()
         {
@@ -1550,18 +1484,7 @@ namespace AdminModels
             TaskInstanceId()
             {}
 
-        FCloudScriptTaskSummary(const FCloudScriptTaskSummary& src) :
-            FPlayFabCppBaseModel(),
-            CompletedAt(src.CompletedAt),
-            EstimatedSecondsRemaining(src.EstimatedSecondsRemaining),
-            PercentComplete(src.PercentComplete),
-            Result(src.Result.IsValid() ? MakeShareable(new FExecuteCloudScriptResult(*src.Result)) : nullptr),
-            ScheduledByUserId(src.ScheduledByUserId),
-            StartedAt(src.StartedAt),
-            Status(src.Status),
-            TaskIdentifier(src.TaskIdentifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.TaskIdentifier)) : nullptr),
-            TaskInstanceId(src.TaskInstanceId)
-            {}
+        FCloudScriptTaskSummary(const FCloudScriptTaskSummary& src) = default;
 
         FCloudScriptTaskSummary(const TSharedPtr<FJsonObject>& obj) : FCloudScriptTaskSummary()
         {
@@ -1592,12 +1515,7 @@ namespace AdminModels
             Version(0)
             {}
 
-        FCloudScriptVersionStatus(const FCloudScriptVersionStatus& src) :
-            FPlayFabCppBaseModel(),
-            LatestRevision(src.LatestRevision),
-            PublishedRevision(src.PublishedRevision),
-            Version(src.Version)
-            {}
+        FCloudScriptVersionStatus(const FCloudScriptVersionStatus& src) = default;
 
         FCloudScriptVersionStatus(const TSharedPtr<FJsonObject>& obj) : FCloudScriptVersionStatus()
         {
@@ -1639,12 +1557,7 @@ namespace AdminModels
             VerificationStatus()
             {}
 
-        FContactEmailInfo(const FContactEmailInfo& src) :
-            FPlayFabCppBaseModel(),
-            EmailAddress(src.EmailAddress),
-            Name(src.Name),
-            VerificationStatus(src.VerificationStatus)
-            {}
+        FContactEmailInfo(const FContactEmailInfo& src) = default;
 
         FContactEmailInfo(const TSharedPtr<FJsonObject>& obj) : FContactEmailInfo()
         {
@@ -1675,12 +1588,7 @@ namespace AdminModels
             VerificationStatus()
             {}
 
-        FContactEmailInfoModel(const FContactEmailInfoModel& src) :
-            FPlayFabCppBaseModel(),
-            EmailAddress(src.EmailAddress),
-            Name(src.Name),
-            VerificationStatus(src.VerificationStatus)
-            {}
+        FContactEmailInfoModel(const FContactEmailInfoModel& src) = default;
 
         FContactEmailInfoModel(const TSharedPtr<FJsonObject>& obj) : FContactEmailInfoModel()
         {
@@ -1702,7 +1610,7 @@ namespace AdminModels
         FDateTime LastModified;
 
         // Size of the content in bytes
-        uint32 Size;
+        double Size;
 
         FContentInfo() :
             FPlayFabCppBaseModel(),
@@ -1711,12 +1619,7 @@ namespace AdminModels
             Size(0)
             {}
 
-        FContentInfo(const FContentInfo& src) :
-            FPlayFabCppBaseModel(),
-            Key(src.Key),
-            LastModified(src.LastModified),
-            Size(src.Size)
-            {}
+        FContentInfo(const FContentInfo& src) = default;
 
         FContentInfo(const TSharedPtr<FJsonObject>& obj) : FContentInfo()
         {
@@ -2030,15 +1933,7 @@ namespace AdminModels
             Schedule()
             {}
 
-        FCreateActionsOnPlayerSegmentTaskRequest(const FCreateActionsOnPlayerSegmentTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            IsActive(src.IsActive),
-            Name(src.Name),
-            Parameter(src.Parameter),
-            Schedule(src.Schedule)
-            {}
+        FCreateActionsOnPlayerSegmentTaskRequest(const FCreateActionsOnPlayerSegmentTaskRequest& src) = default;
 
         FCreateActionsOnPlayerSegmentTaskRequest(const TSharedPtr<FJsonObject>& obj) : FCreateActionsOnPlayerSegmentTaskRequest()
         {
@@ -2080,15 +1975,7 @@ namespace AdminModels
             Schedule()
             {}
 
-        FCreateCloudScriptTaskRequest(const FCreateCloudScriptTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            IsActive(src.IsActive),
-            Name(src.Name),
-            Parameter(src.Parameter),
-            Schedule(src.Schedule)
-            {}
+        FCreateCloudScriptTaskRequest(const FCreateCloudScriptTaskRequest& src) = default;
 
         FCreateCloudScriptTaskRequest(const TSharedPtr<FJsonObject>& obj) : FCreateCloudScriptTaskRequest()
         {
@@ -2111,10 +1998,7 @@ namespace AdminModels
             Level(0)
             {}
 
-        FInsightsScalingTaskParameter(const FInsightsScalingTaskParameter& src) :
-            FPlayFabCppBaseModel(),
-            Level(src.Level)
-            {}
+        FInsightsScalingTaskParameter(const FInsightsScalingTaskParameter& src) = default;
 
         FInsightsScalingTaskParameter(const TSharedPtr<FJsonObject>& obj) : FInsightsScalingTaskParameter()
         {
@@ -2156,15 +2040,7 @@ namespace AdminModels
             Schedule()
             {}
 
-        FCreateInsightsScheduledScalingTaskRequest(const FCreateInsightsScheduledScalingTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            IsActive(src.IsActive),
-            Name(src.Name),
-            Parameter(src.Parameter),
-            Schedule(src.Schedule)
-            {}
+        FCreateInsightsScheduledScalingTaskRequest(const FCreateInsightsScheduledScalingTaskRequest& src) = default;
 
         FCreateInsightsScheduledScalingTaskRequest(const TSharedPtr<FJsonObject>& obj) : FCreateInsightsScheduledScalingTaskRequest()
         {
@@ -2199,13 +2075,7 @@ namespace AdminModels
             TokenUrl()
             {}
 
-        FOpenIdIssuerInformation(const FOpenIdIssuerInformation& src) :
-            FPlayFabCppBaseModel(),
-            AuthorizationUrl(src.AuthorizationUrl),
-            Issuer(src.Issuer),
-            JsonWebKeySet(src.JsonWebKeySet),
-            TokenUrl(src.TokenUrl)
-            {}
+        FOpenIdIssuerInformation(const FOpenIdIssuerInformation& src) = default;
 
         FOpenIdIssuerInformation(const TSharedPtr<FJsonObject>& obj) : FOpenIdIssuerInformation()
         {
@@ -2229,6 +2099,9 @@ namespace AdminModels
         // A name for the connection that identifies it within the title.
         FString ConnectionId;
 
+        // [optional] Ignore 'nonce' claim in identity tokens.
+        Boxed<bool> IgnoreNonce;
+
         /**
          * [optional] The discovery document URL to read issuer information from. This must be the absolute URL to the JSON OpenId
          * Configuration document and must be accessible from the internet. If you don't know it, try your issuer URL followed by
@@ -2245,18 +2118,12 @@ namespace AdminModels
             ClientId(),
             ClientSecret(),
             ConnectionId(),
+            IgnoreNonce(),
             IssuerDiscoveryUrl(),
             IssuerInformation(nullptr)
             {}
 
-        FCreateOpenIdConnectionRequest(const FCreateOpenIdConnectionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ClientId(src.ClientId),
-            ClientSecret(src.ClientSecret),
-            ConnectionId(src.ConnectionId),
-            IssuerDiscoveryUrl(src.IssuerDiscoveryUrl),
-            IssuerInformation(src.IssuerInformation.IsValid() ? MakeShareable(new FOpenIdIssuerInformation(*src.IssuerInformation)) : nullptr)
-            {}
+        FCreateOpenIdConnectionRequest(const FCreateOpenIdConnectionRequest& src) = default;
 
         FCreateOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FCreateOpenIdConnectionRequest()
         {
@@ -2279,10 +2146,7 @@ namespace AdminModels
             FriendlyName()
             {}
 
-        FCreatePlayerSharedSecretRequest(const FCreatePlayerSharedSecretRequest& src) :
-            FPlayFabCppRequestCommon(),
-            FriendlyName(src.FriendlyName)
-            {}
+        FCreatePlayerSharedSecretRequest(const FCreatePlayerSharedSecretRequest& src) = default;
 
         FCreatePlayerSharedSecretRequest(const TSharedPtr<FJsonObject>& obj) : FCreatePlayerSharedSecretRequest()
         {
@@ -2305,10 +2169,7 @@ namespace AdminModels
             SecretKey()
             {}
 
-        FCreatePlayerSharedSecretResult(const FCreatePlayerSharedSecretResult& src) :
-            FPlayFabCppResultCommon(),
-            SecretKey(src.SecretKey)
-            {}
+        FCreatePlayerSharedSecretResult(const FCreatePlayerSharedSecretResult& src) = default;
 
         FCreatePlayerSharedSecretResult(const TSharedPtr<FJsonObject>& obj) : FCreatePlayerSharedSecretResult()
         {
@@ -2367,13 +2228,7 @@ namespace AdminModels
             VersionChangeInterval()
             {}
 
-        FCreatePlayerStatisticDefinitionRequest(const FCreatePlayerStatisticDefinitionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            AggregationMethod(src.AggregationMethod),
-            CustomTags(src.CustomTags),
-            StatisticName(src.StatisticName),
-            VersionChangeInterval(src.VersionChangeInterval)
-            {}
+        FCreatePlayerStatisticDefinitionRequest(const FCreatePlayerStatisticDefinitionRequest& src) = default;
 
         FCreatePlayerStatisticDefinitionRequest(const TSharedPtr<FJsonObject>& obj) : FCreatePlayerStatisticDefinitionRequest()
         {
@@ -2408,13 +2263,7 @@ namespace AdminModels
             VersionChangeInterval()
             {}
 
-        FPlayerStatisticDefinition(const FPlayerStatisticDefinition& src) :
-            FPlayFabCppBaseModel(),
-            AggregationMethod(src.AggregationMethod),
-            CurrentVersion(src.CurrentVersion),
-            StatisticName(src.StatisticName),
-            VersionChangeInterval(src.VersionChangeInterval)
-            {}
+        FPlayerStatisticDefinition(const FPlayerStatisticDefinition& src) = default;
 
         FPlayerStatisticDefinition(const TSharedPtr<FJsonObject>& obj) : FPlayerStatisticDefinition()
         {
@@ -2437,10 +2286,7 @@ namespace AdminModels
             Statistic(nullptr)
             {}
 
-        FCreatePlayerStatisticDefinitionResult(const FCreatePlayerStatisticDefinitionResult& src) :
-            FPlayFabCppResultCommon(),
-            Statistic(src.Statistic.IsValid() ? MakeShareable(new FPlayerStatisticDefinition(*src.Statistic)) : nullptr)
-            {}
+        FCreatePlayerStatisticDefinitionResult(const FCreatePlayerStatisticDefinitionResult& src) = default;
 
         FCreatePlayerStatisticDefinitionResult(const TSharedPtr<FJsonObject>& obj) : FCreatePlayerStatisticDefinitionResult()
         {
@@ -2448,6 +2294,1359 @@ namespace AdminModels
         }
 
         ~FCreatePlayerStatisticDefinitionResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePlayerSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        FDeletePlayerSegmentAction() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FDeletePlayerSegmentAction(const FDeletePlayerSegmentAction& src) = default;
+
+        FDeletePlayerSegmentAction(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePlayerStatisticSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Statistic name.
+        FString StatisticName;
+
+        FDeletePlayerStatisticSegmentAction() :
+            FPlayFabCppBaseModel(),
+            StatisticName()
+            {}
+
+        FDeletePlayerStatisticSegmentAction(const FDeletePlayerStatisticSegmentAction& src) = default;
+
+        FDeletePlayerStatisticSegmentAction(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerStatisticSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerStatisticSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEmailNotificationSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Email template id.
+        FString EmailTemplateId;
+
+        // [optional] Email template name.
+        FString EmailTemplateName;
+
+        FEmailNotificationSegmentAction() :
+            FPlayFabCppBaseModel(),
+            EmailTemplateId(),
+            EmailTemplateName()
+            {}
+
+        FEmailNotificationSegmentAction(const FEmailNotificationSegmentAction& src) = default;
+
+        FEmailNotificationSegmentAction(const TSharedPtr<FJsonObject>& obj) : FEmailNotificationSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEmailNotificationSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExecuteAzureFunctionSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Azure function.
+        FString AzureFunction;
+
+        // [optional] Azure function parameter.
+        FJsonKeeper FunctionParameter;
+
+        // Generate play stream event.
+        bool GenerateFunctionExecutedEvents;
+
+        FExecuteAzureFunctionSegmentAction() :
+            FPlayFabCppBaseModel(),
+            AzureFunction(),
+            FunctionParameter(),
+            GenerateFunctionExecutedEvents(false)
+            {}
+
+        FExecuteAzureFunctionSegmentAction(const FExecuteAzureFunctionSegmentAction& src) = default;
+
+        FExecuteAzureFunctionSegmentAction(const TSharedPtr<FJsonObject>& obj) : FExecuteAzureFunctionSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteAzureFunctionSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExecuteCloudScriptSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Cloud script function.
+        FString CloudScriptFunction;
+
+        // Generate play stream event.
+        bool CloudScriptPublishResultsToPlayStream;
+
+        // [optional] Cloud script function parameter.
+        FJsonKeeper FunctionParameter;
+
+        // [optional] Cloud script function parameter json text.
+        FString FunctionParameterJson;
+
+        FExecuteCloudScriptSegmentAction() :
+            FPlayFabCppBaseModel(),
+            CloudScriptFunction(),
+            CloudScriptPublishResultsToPlayStream(false),
+            FunctionParameter(),
+            FunctionParameterJson()
+            {}
+
+        FExecuteCloudScriptSegmentAction(const FExecuteCloudScriptSegmentAction& src) = default;
+
+        FExecuteCloudScriptSegmentAction(const TSharedPtr<FJsonObject>& obj) : FExecuteCloudScriptSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteCloudScriptSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGrantItemSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Item catalog id.
+        FString CatelogId;
+
+        // [optional] Item id.
+        FString ItemId;
+
+        // Item quantity.
+        uint32 Quantity;
+
+        FGrantItemSegmentAction() :
+            FPlayFabCppBaseModel(),
+            CatelogId(),
+            ItemId(),
+            Quantity(0)
+            {}
+
+        FGrantItemSegmentAction(const FGrantItemSegmentAction& src) = default;
+
+        FGrantItemSegmentAction(const TSharedPtr<FJsonObject>& obj) : FGrantItemSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGrantItemSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGrantVirtualCurrencySegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Virtual currency amount.
+        int32 Amount;
+
+        // [optional] Virtual currency code.
+        FString CurrencyCode;
+
+        FGrantVirtualCurrencySegmentAction() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            CurrencyCode()
+            {}
+
+        FGrantVirtualCurrencySegmentAction(const FGrantVirtualCurrencySegmentAction& src) = default;
+
+        FGrantVirtualCurrencySegmentAction(const TSharedPtr<FJsonObject>& obj) : FGrantVirtualCurrencySegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGrantVirtualCurrencySegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FIncrementPlayerStatisticSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Increment value.
+        int32 IncrementValue;
+
+        // [optional] Statistic name.
+        FString StatisticName;
+
+        FIncrementPlayerStatisticSegmentAction() :
+            FPlayFabCppBaseModel(),
+            IncrementValue(0),
+            StatisticName()
+            {}
+
+        FIncrementPlayerStatisticSegmentAction(const FIncrementPlayerStatisticSegmentAction& src) = default;
+
+        FIncrementPlayerStatisticSegmentAction(const TSharedPtr<FJsonObject>& obj) : FIncrementPlayerStatisticSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FIncrementPlayerStatisticSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPushNotificationSegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Push notification template id.
+        FString PushNotificationTemplateId;
+
+        FPushNotificationSegmentAction() :
+            FPlayFabCppBaseModel(),
+            PushNotificationTemplateId()
+            {}
+
+        FPushNotificationSegmentAction(const FPushNotificationSegmentAction& src) = default;
+
+        FPushNotificationSegmentAction(const TSharedPtr<FJsonObject>& obj) : FPushNotificationSegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPushNotificationSegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentTrigger : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Ban player segment trigger action.
+        TSharedPtr<FBanPlayerSegmentAction> BanPlayerAction;
+
+        // [optional] Delete player segment trigger action.
+        TSharedPtr<FDeletePlayerSegmentAction> DeletePlayerAction;
+
+        // [optional] Delete player statistic segment trigger action.
+        TSharedPtr<FDeletePlayerStatisticSegmentAction> DeletePlayerStatisticAction;
+
+        // [optional] Email notification segment trigger action.
+        TSharedPtr<FEmailNotificationSegmentAction> EmailNotificationAction;
+
+        // [optional] Execute azure function segment trigger action.
+        TSharedPtr<FExecuteAzureFunctionSegmentAction> ExecuteAzureFunctionAction;
+
+        // [optional] Execute cloud script segment trigger action.
+        TSharedPtr<FExecuteCloudScriptSegmentAction> ExecuteCloudScriptAction;
+
+        // [optional] Grant item segment trigger action.
+        TSharedPtr<FGrantItemSegmentAction> GrantItemAction;
+
+        // [optional] Grant virtual currency segment trigger action.
+        TSharedPtr<FGrantVirtualCurrencySegmentAction> GrantVirtualCurrencyAction;
+
+        // [optional] Increment player statistic segment trigger action.
+        TSharedPtr<FIncrementPlayerStatisticSegmentAction> IncrementPlayerStatisticAction;
+
+        // [optional] Push notification segment trigger action.
+        TSharedPtr<FPushNotificationSegmentAction> PushNotificationAction;
+
+        FSegmentTrigger() :
+            FPlayFabCppBaseModel(),
+            BanPlayerAction(nullptr),
+            DeletePlayerAction(nullptr),
+            DeletePlayerStatisticAction(nullptr),
+            EmailNotificationAction(nullptr),
+            ExecuteAzureFunctionAction(nullptr),
+            ExecuteCloudScriptAction(nullptr),
+            GrantItemAction(nullptr),
+            GrantVirtualCurrencyAction(nullptr),
+            IncrementPlayerStatisticAction(nullptr),
+            PushNotificationAction(nullptr)
+            {}
+
+        FSegmentTrigger(const FSegmentTrigger& src) = default;
+
+        FSegmentTrigger(const TSharedPtr<FJsonObject>& obj) : FSegmentTrigger()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentTrigger();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFirstLoginDateSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] First player login date comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // First player login date.
+        FDateTime LogInDate;
+
+        FFirstLoginDateSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            LogInDate(0)
+            {}
+
+        FFirstLoginDateSegmentFilter(const FFirstLoginDateSegmentFilter& src) = default;
+
+        FFirstLoginDateSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FFirstLoginDateSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFirstLoginDateSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFirstLoginTimespanSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] First player login duration comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // First player login duration.
+        double DurationInMinutes;
+
+        FFirstLoginTimespanSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            DurationInMinutes(0)
+            {}
+
+        FFirstLoginTimespanSegmentFilter(const FFirstLoginTimespanSegmentFilter& src) = default;
+
+        FFirstLoginTimespanSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FFirstLoginTimespanSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFirstLoginTimespanSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLastLoginDateSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Last player login date comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // Last player login date.
+        FDateTime LogInDate;
+
+        FLastLoginDateSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            LogInDate(0)
+            {}
+
+        FLastLoginDateSegmentFilter(const FLastLoginDateSegmentFilter& src) = default;
+
+        FLastLoginDateSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLastLoginDateSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLastLoginDateSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLastLoginTimespanSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Last player login duration comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // Last player login duration.
+        double DurationInMinutes;
+
+        FLastLoginTimespanSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            DurationInMinutes(0)
+            {}
+
+        FLastLoginTimespanSegmentFilter(const FLastLoginTimespanSegmentFilter& src) = default;
+
+        FLastLoginTimespanSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLastLoginTimespanSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLastLoginTimespanSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentLoginIdentityProvider
+    {
+        SegmentLoginIdentityProviderUnknown,
+        SegmentLoginIdentityProviderPlayFab,
+        SegmentLoginIdentityProviderCustom,
+        SegmentLoginIdentityProviderGameCenter,
+        SegmentLoginIdentityProviderGooglePlay,
+        SegmentLoginIdentityProviderSteam,
+        SegmentLoginIdentityProviderXBoxLive,
+        SegmentLoginIdentityProviderPSN,
+        SegmentLoginIdentityProviderKongregate,
+        SegmentLoginIdentityProviderFacebook,
+        SegmentLoginIdentityProviderIOSDevice,
+        SegmentLoginIdentityProviderAndroidDevice,
+        SegmentLoginIdentityProviderTwitch,
+        SegmentLoginIdentityProviderWindowsHello,
+        SegmentLoginIdentityProviderGameServer,
+        SegmentLoginIdentityProviderCustomServer,
+        SegmentLoginIdentityProviderNintendoSwitch,
+        SegmentLoginIdentityProviderFacebookInstantGames,
+        SegmentLoginIdentityProviderOpenIdConnect,
+        SegmentLoginIdentityProviderApple,
+        SegmentLoginIdentityProviderNintendoSwitchAccount
+    };
+
+    PLAYFABCPP_API void writeSegmentLoginIdentityProviderEnumJSON(SegmentLoginIdentityProvider enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentLoginIdentityProvider readSegmentLoginIdentityProviderFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentLoginIdentityProvider readSegmentLoginIdentityProviderFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FLinkedUserAccountSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Login provider.
+        Boxed<SegmentLoginIdentityProvider> LoginProvider;
+
+        FLinkedUserAccountSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            LoginProvider()
+            {}
+
+        FLinkedUserAccountSegmentFilter(const FLinkedUserAccountSegmentFilter& src) = default;
+
+        FLinkedUserAccountSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLinkedUserAccountSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkedUserAccountSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkedUserAccountHasEmailSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Login provider comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Login provider.
+        Boxed<SegmentLoginIdentityProvider> LoginProvider;
+
+        FLinkedUserAccountHasEmailSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            LoginProvider()
+            {}
+
+        FLinkedUserAccountHasEmailSegmentFilter(const FLinkedUserAccountHasEmailSegmentFilter& src) = default;
+
+        FLinkedUserAccountHasEmailSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLinkedUserAccountHasEmailSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkedUserAccountHasEmailSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentCountryCode
+    {
+        SegmentCountryCodeAF,
+        SegmentCountryCodeAX,
+        SegmentCountryCodeAL,
+        SegmentCountryCodeDZ,
+        SegmentCountryCodeAS,
+        SegmentCountryCodeAD,
+        SegmentCountryCodeAO,
+        SegmentCountryCodeAI,
+        SegmentCountryCodeAQ,
+        SegmentCountryCodeAG,
+        SegmentCountryCodeAR,
+        SegmentCountryCodeAM,
+        SegmentCountryCodeAW,
+        SegmentCountryCodeAU,
+        SegmentCountryCodeAT,
+        SegmentCountryCodeAZ,
+        SegmentCountryCodeBS,
+        SegmentCountryCodeBH,
+        SegmentCountryCodeBD,
+        SegmentCountryCodeBB,
+        SegmentCountryCodeBY,
+        SegmentCountryCodeBE,
+        SegmentCountryCodeBZ,
+        SegmentCountryCodeBJ,
+        SegmentCountryCodeBM,
+        SegmentCountryCodeBT,
+        SegmentCountryCodeBO,
+        SegmentCountryCodeBQ,
+        SegmentCountryCodeBA,
+        SegmentCountryCodeBW,
+        SegmentCountryCodeBV,
+        SegmentCountryCodeBR,
+        SegmentCountryCodeIO,
+        SegmentCountryCodeBN,
+        SegmentCountryCodeBG,
+        SegmentCountryCodeBF,
+        SegmentCountryCodeBI,
+        SegmentCountryCodeKH,
+        SegmentCountryCodeCM,
+        SegmentCountryCodeCA,
+        SegmentCountryCodeCV,
+        SegmentCountryCodeKY,
+        SegmentCountryCodeCF,
+        SegmentCountryCodeTD,
+        SegmentCountryCodeCL,
+        SegmentCountryCodeCN,
+        SegmentCountryCodeCX,
+        SegmentCountryCodeCC,
+        SegmentCountryCodeCO,
+        SegmentCountryCodeKM,
+        SegmentCountryCodeCG,
+        SegmentCountryCodeCD,
+        SegmentCountryCodeCK,
+        SegmentCountryCodeCR,
+        SegmentCountryCodeCI,
+        SegmentCountryCodeHR,
+        SegmentCountryCodeCU,
+        SegmentCountryCodeCW,
+        SegmentCountryCodeCY,
+        SegmentCountryCodeCZ,
+        SegmentCountryCodeDK,
+        SegmentCountryCodeDJ,
+        SegmentCountryCodeDM,
+        SegmentCountryCodeDO,
+        SegmentCountryCodeEC,
+        SegmentCountryCodeEG,
+        SegmentCountryCodeSV,
+        SegmentCountryCodeGQ,
+        SegmentCountryCodeER,
+        SegmentCountryCodeEE,
+        SegmentCountryCodeET,
+        SegmentCountryCodeFK,
+        SegmentCountryCodeFO,
+        SegmentCountryCodeFJ,
+        SegmentCountryCodeFI,
+        SegmentCountryCodeFR,
+        SegmentCountryCodeGF,
+        SegmentCountryCodePF,
+        SegmentCountryCodeTF,
+        SegmentCountryCodeGA,
+        SegmentCountryCodeGM,
+        SegmentCountryCodeGE,
+        SegmentCountryCodeDE,
+        SegmentCountryCodeGH,
+        SegmentCountryCodeGI,
+        SegmentCountryCodeGR,
+        SegmentCountryCodeGL,
+        SegmentCountryCodeGD,
+        SegmentCountryCodeGP,
+        SegmentCountryCodeGU,
+        SegmentCountryCodeGT,
+        SegmentCountryCodeGG,
+        SegmentCountryCodeGN,
+        SegmentCountryCodeGW,
+        SegmentCountryCodeGY,
+        SegmentCountryCodeHT,
+        SegmentCountryCodeHM,
+        SegmentCountryCodeVA,
+        SegmentCountryCodeHN,
+        SegmentCountryCodeHK,
+        SegmentCountryCodeHU,
+        SegmentCountryCodeIS,
+        SegmentCountryCodeIN,
+        SegmentCountryCodeID,
+        SegmentCountryCodeIR,
+        SegmentCountryCodeIQ,
+        SegmentCountryCodeIE,
+        SegmentCountryCodeIM,
+        SegmentCountryCodeIL,
+        SegmentCountryCodeIT,
+        SegmentCountryCodeJM,
+        SegmentCountryCodeJP,
+        SegmentCountryCodeJE,
+        SegmentCountryCodeJO,
+        SegmentCountryCodeKZ,
+        SegmentCountryCodeKE,
+        SegmentCountryCodeKI,
+        SegmentCountryCodeKP,
+        SegmentCountryCodeKR,
+        SegmentCountryCodeKW,
+        SegmentCountryCodeKG,
+        SegmentCountryCodeLA,
+        SegmentCountryCodeLV,
+        SegmentCountryCodeLB,
+        SegmentCountryCodeLS,
+        SegmentCountryCodeLR,
+        SegmentCountryCodeLY,
+        SegmentCountryCodeLI,
+        SegmentCountryCodeLT,
+        SegmentCountryCodeLU,
+        SegmentCountryCodeMO,
+        SegmentCountryCodeMK,
+        SegmentCountryCodeMG,
+        SegmentCountryCodeMW,
+        SegmentCountryCodeMY,
+        SegmentCountryCodeMV,
+        SegmentCountryCodeML,
+        SegmentCountryCodeMT,
+        SegmentCountryCodeMH,
+        SegmentCountryCodeMQ,
+        SegmentCountryCodeMR,
+        SegmentCountryCodeMU,
+        SegmentCountryCodeYT,
+        SegmentCountryCodeMX,
+        SegmentCountryCodeFM,
+        SegmentCountryCodeMD,
+        SegmentCountryCodeMC,
+        SegmentCountryCodeMN,
+        SegmentCountryCodeME,
+        SegmentCountryCodeMS,
+        SegmentCountryCodeMA,
+        SegmentCountryCodeMZ,
+        SegmentCountryCodeMM,
+        SegmentCountryCodeNA,
+        SegmentCountryCodeNR,
+        SegmentCountryCodeNP,
+        SegmentCountryCodeNL,
+        SegmentCountryCodeNC,
+        SegmentCountryCodeNZ,
+        SegmentCountryCodeNI,
+        SegmentCountryCodeNE,
+        SegmentCountryCodeNG,
+        SegmentCountryCodeNU,
+        SegmentCountryCodeNF,
+        SegmentCountryCodeMP,
+        SegmentCountryCodeNO,
+        SegmentCountryCodeOM,
+        SegmentCountryCodePK,
+        SegmentCountryCodePW,
+        SegmentCountryCodePS,
+        SegmentCountryCodePA,
+        SegmentCountryCodePG,
+        SegmentCountryCodePY,
+        SegmentCountryCodePE,
+        SegmentCountryCodePH,
+        SegmentCountryCodePN,
+        SegmentCountryCodePL,
+        SegmentCountryCodePT,
+        SegmentCountryCodePR,
+        SegmentCountryCodeQA,
+        SegmentCountryCodeRE,
+        SegmentCountryCodeRO,
+        SegmentCountryCodeRU,
+        SegmentCountryCodeRW,
+        SegmentCountryCodeBL,
+        SegmentCountryCodeSH,
+        SegmentCountryCodeKN,
+        SegmentCountryCodeLC,
+        SegmentCountryCodeMF,
+        SegmentCountryCodePM,
+        SegmentCountryCodeVC,
+        SegmentCountryCodeWS,
+        SegmentCountryCodeSM,
+        SegmentCountryCodeST,
+        SegmentCountryCodeSA,
+        SegmentCountryCodeSN,
+        SegmentCountryCodeRS,
+        SegmentCountryCodeSC,
+        SegmentCountryCodeSL,
+        SegmentCountryCodeSG,
+        SegmentCountryCodeSX,
+        SegmentCountryCodeSK,
+        SegmentCountryCodeSI,
+        SegmentCountryCodeSB,
+        SegmentCountryCodeSO,
+        SegmentCountryCodeZA,
+        SegmentCountryCodeGS,
+        SegmentCountryCodeSS,
+        SegmentCountryCodeES,
+        SegmentCountryCodeLK,
+        SegmentCountryCodeSD,
+        SegmentCountryCodeSR,
+        SegmentCountryCodeSJ,
+        SegmentCountryCodeSZ,
+        SegmentCountryCodeSE,
+        SegmentCountryCodeCH,
+        SegmentCountryCodeSY,
+        SegmentCountryCodeTW,
+        SegmentCountryCodeTJ,
+        SegmentCountryCodeTZ,
+        SegmentCountryCodeTH,
+        SegmentCountryCodeTL,
+        SegmentCountryCodeTG,
+        SegmentCountryCodeTK,
+        SegmentCountryCodeTO,
+        SegmentCountryCodeTT,
+        SegmentCountryCodeTN,
+        SegmentCountryCodeTR,
+        SegmentCountryCodeTM,
+        SegmentCountryCodeTC,
+        SegmentCountryCodeTV,
+        SegmentCountryCodeUG,
+        SegmentCountryCodeUA,
+        SegmentCountryCodeAE,
+        SegmentCountryCodeGB,
+        SegmentCountryCodeUS,
+        SegmentCountryCodeUM,
+        SegmentCountryCodeUY,
+        SegmentCountryCodeUZ,
+        SegmentCountryCodeVU,
+        SegmentCountryCodeVE,
+        SegmentCountryCodeVN,
+        SegmentCountryCodeVG,
+        SegmentCountryCodeVI,
+        SegmentCountryCodeWF,
+        SegmentCountryCodeEH,
+        SegmentCountryCodeYE,
+        SegmentCountryCodeZM,
+        SegmentCountryCodeZW
+    };
+
+    PLAYFABCPP_API void writeSegmentCountryCodeEnumJSON(SegmentCountryCode enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentCountryCode readSegmentCountryCodeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentCountryCode readSegmentCountryCodeFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FLocationSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Segment country code.
+        Boxed<SegmentCountryCode> CountryCode;
+
+        FLocationSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            CountryCode()
+            {}
+
+        FLocationSegmentFilter(const FLocationSegmentFilter& src) = default;
+
+        FLocationSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FLocationSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLocationSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentPushNotificationDevicePlatform
+    {
+        SegmentPushNotificationDevicePlatformApplePushNotificationService,
+        SegmentPushNotificationDevicePlatformGoogleCloudMessaging
+    };
+
+    PLAYFABCPP_API void writeSegmentPushNotificationDevicePlatformEnumJSON(SegmentPushNotificationDevicePlatform enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentPushNotificationDevicePlatform readSegmentPushNotificationDevicePlatformFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentPushNotificationDevicePlatform readSegmentPushNotificationDevicePlatformFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FPushNotificationSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Push notification device platform.
+        Boxed<SegmentPushNotificationDevicePlatform> PushNotificationDevicePlatform;
+
+        FPushNotificationSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            PushNotificationDevicePlatform()
+            {}
+
+        FPushNotificationSegmentFilter(const FPushNotificationSegmentFilter& src) = default;
+
+        FPushNotificationSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPushNotificationSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPushNotificationSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FStatisticSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Statistic filter comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Statistic filter value.
+        FString FilterValue;
+
+        // [optional] Statistic name.
+        FString Name;
+
+        // [optional] Use current version of statistic?
+        Boxed<bool> UseCurrentVersion;
+
+        // [optional] Statistic version.
+        Boxed<int32> Version;
+
+        FStatisticSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            FilterValue(),
+            Name(),
+            UseCurrentVersion(),
+            Version()
+            {}
+
+        FStatisticSegmentFilter(const FStatisticSegmentFilter& src) = default;
+
+        FStatisticSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FStatisticSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStatisticSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTagSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Tag comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Tag value.
+        FString TagValue;
+
+        FTagSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            TagValue()
+            {}
+
+        FTagSegmentFilter(const FTagSegmentFilter& src) = default;
+
+        FTagSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FTagSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTagSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTotalValueToDateInUSDSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Total value to date USD amount.
+        FString Amount;
+
+        // [optional] Total value to date USD comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        FTotalValueToDateInUSDSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            Comparison()
+            {}
+
+        FTotalValueToDateInUSDSegmentFilter(const FTotalValueToDateInUSDSegmentFilter& src) = default;
+
+        FTotalValueToDateInUSDSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FTotalValueToDateInUSDSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTotalValueToDateInUSDSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUserOriginationSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] User login provider.
+        Boxed<SegmentLoginIdentityProvider> LoginProvider;
+
+        FUserOriginationSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            LoginProvider()
+            {}
+
+        FUserOriginationSegmentFilter(const FUserOriginationSegmentFilter& src) = default;
+
+        FUserOriginationSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FUserOriginationSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserOriginationSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum SegmentCurrency
+    {
+        SegmentCurrencyAED,
+        SegmentCurrencyAFN,
+        SegmentCurrencyALL,
+        SegmentCurrencyAMD,
+        SegmentCurrencyANG,
+        SegmentCurrencyAOA,
+        SegmentCurrencyARS,
+        SegmentCurrencyAUD,
+        SegmentCurrencyAWG,
+        SegmentCurrencyAZN,
+        SegmentCurrencyBAM,
+        SegmentCurrencyBBD,
+        SegmentCurrencyBDT,
+        SegmentCurrencyBGN,
+        SegmentCurrencyBHD,
+        SegmentCurrencyBIF,
+        SegmentCurrencyBMD,
+        SegmentCurrencyBND,
+        SegmentCurrencyBOB,
+        SegmentCurrencyBRL,
+        SegmentCurrencyBSD,
+        SegmentCurrencyBTN,
+        SegmentCurrencyBWP,
+        SegmentCurrencyBYR,
+        SegmentCurrencyBZD,
+        SegmentCurrencyCAD,
+        SegmentCurrencyCDF,
+        SegmentCurrencyCHF,
+        SegmentCurrencyCLP,
+        SegmentCurrencyCNY,
+        SegmentCurrencyCOP,
+        SegmentCurrencyCRC,
+        SegmentCurrencyCUC,
+        SegmentCurrencyCUP,
+        SegmentCurrencyCVE,
+        SegmentCurrencyCZK,
+        SegmentCurrencyDJF,
+        SegmentCurrencyDKK,
+        SegmentCurrencyDOP,
+        SegmentCurrencyDZD,
+        SegmentCurrencyEGP,
+        SegmentCurrencyERN,
+        SegmentCurrencyETB,
+        SegmentCurrencyEUR,
+        SegmentCurrencyFJD,
+        SegmentCurrencyFKP,
+        SegmentCurrencyGBP,
+        SegmentCurrencyGEL,
+        SegmentCurrencyGGP,
+        SegmentCurrencyGHS,
+        SegmentCurrencyGIP,
+        SegmentCurrencyGMD,
+        SegmentCurrencyGNF,
+        SegmentCurrencyGTQ,
+        SegmentCurrencyGYD,
+        SegmentCurrencyHKD,
+        SegmentCurrencyHNL,
+        SegmentCurrencyHRK,
+        SegmentCurrencyHTG,
+        SegmentCurrencyHUF,
+        SegmentCurrencyIDR,
+        SegmentCurrencyILS,
+        SegmentCurrencyIMP,
+        SegmentCurrencyINR,
+        SegmentCurrencyIQD,
+        SegmentCurrencyIRR,
+        SegmentCurrencyISK,
+        SegmentCurrencyJEP,
+        SegmentCurrencyJMD,
+        SegmentCurrencyJOD,
+        SegmentCurrencyJPY,
+        SegmentCurrencyKES,
+        SegmentCurrencyKGS,
+        SegmentCurrencyKHR,
+        SegmentCurrencyKMF,
+        SegmentCurrencyKPW,
+        SegmentCurrencyKRW,
+        SegmentCurrencyKWD,
+        SegmentCurrencyKYD,
+        SegmentCurrencyKZT,
+        SegmentCurrencyLAK,
+        SegmentCurrencyLBP,
+        SegmentCurrencyLKR,
+        SegmentCurrencyLRD,
+        SegmentCurrencyLSL,
+        SegmentCurrencyLYD,
+        SegmentCurrencyMAD,
+        SegmentCurrencyMDL,
+        SegmentCurrencyMGA,
+        SegmentCurrencyMKD,
+        SegmentCurrencyMMK,
+        SegmentCurrencyMNT,
+        SegmentCurrencyMOP,
+        SegmentCurrencyMRO,
+        SegmentCurrencyMUR,
+        SegmentCurrencyMVR,
+        SegmentCurrencyMWK,
+        SegmentCurrencyMXN,
+        SegmentCurrencyMYR,
+        SegmentCurrencyMZN,
+        SegmentCurrencyNAD,
+        SegmentCurrencyNGN,
+        SegmentCurrencyNIO,
+        SegmentCurrencyNOK,
+        SegmentCurrencyNPR,
+        SegmentCurrencyNZD,
+        SegmentCurrencyOMR,
+        SegmentCurrencyPAB,
+        SegmentCurrencyPEN,
+        SegmentCurrencyPGK,
+        SegmentCurrencyPHP,
+        SegmentCurrencyPKR,
+        SegmentCurrencyPLN,
+        SegmentCurrencyPYG,
+        SegmentCurrencyQAR,
+        SegmentCurrencyRON,
+        SegmentCurrencyRSD,
+        SegmentCurrencyRUB,
+        SegmentCurrencyRWF,
+        SegmentCurrencySAR,
+        SegmentCurrencySBD,
+        SegmentCurrencySCR,
+        SegmentCurrencySDG,
+        SegmentCurrencySEK,
+        SegmentCurrencySGD,
+        SegmentCurrencySHP,
+        SegmentCurrencySLL,
+        SegmentCurrencySOS,
+        SegmentCurrencySPL,
+        SegmentCurrencySRD,
+        SegmentCurrencySTD,
+        SegmentCurrencySVC,
+        SegmentCurrencySYP,
+        SegmentCurrencySZL,
+        SegmentCurrencyTHB,
+        SegmentCurrencyTJS,
+        SegmentCurrencyTMT,
+        SegmentCurrencyTND,
+        SegmentCurrencyTOP,
+        SegmentCurrencyTRY,
+        SegmentCurrencyTTD,
+        SegmentCurrencyTVD,
+        SegmentCurrencyTWD,
+        SegmentCurrencyTZS,
+        SegmentCurrencyUAH,
+        SegmentCurrencyUGX,
+        SegmentCurrencyUSD,
+        SegmentCurrencyUYU,
+        SegmentCurrencyUZS,
+        SegmentCurrencyVEF,
+        SegmentCurrencyVND,
+        SegmentCurrencyVUV,
+        SegmentCurrencyWST,
+        SegmentCurrencyXAF,
+        SegmentCurrencyXCD,
+        SegmentCurrencyXDR,
+        SegmentCurrencyXOF,
+        SegmentCurrencyXPF,
+        SegmentCurrencyYER,
+        SegmentCurrencyZAR,
+        SegmentCurrencyZMW,
+        SegmentCurrencyZWD
+    };
+
+    PLAYFABCPP_API void writeSegmentCurrencyEnumJSON(SegmentCurrency enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SegmentCurrency readSegmentCurrencyFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SegmentCurrency readSegmentCurrencyFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FValueToDateSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Value to date amount.
+        FString Amount;
+
+        // [optional] Value to date comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Currency using for filter.
+        Boxed<SegmentCurrency> Currency;
+
+        FValueToDateSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            Comparison(),
+            Currency()
+            {}
+
+        FValueToDateSegmentFilter(const FValueToDateSegmentFilter& src) = default;
+
+        FValueToDateSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FValueToDateSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FValueToDateSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FVirtualCurrencyBalanceSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Total amount.
+        int32 Amount;
+
+        // [optional] Amount comparison.
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] Currency code.
+        FString CurrencyCode;
+
+        FVirtualCurrencyBalanceSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            Comparison(),
+            CurrencyCode()
+            {}
+
+        FVirtualCurrencyBalanceSegmentFilter(const FVirtualCurrencyBalanceSegmentFilter& src) = default;
+
+        FVirtualCurrencyBalanceSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FVirtualCurrencyBalanceSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FVirtualCurrencyBalanceSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentAndDefinition : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Filter property for ad campaign filter.
+        TSharedPtr<FAdCampaignSegmentFilter> AdCampaignFilter;
+
+        // [optional] property for all player filter.
+        TSharedPtr<FAllPlayersSegmentFilter> AllPlayersFilter;
+
+        // [optional] Filter property for first login date.
+        TSharedPtr<FFirstLoginDateSegmentFilter> FirstLoginDateFilter;
+
+        // [optional] Filter property for first login timespan.
+        TSharedPtr<FFirstLoginTimespanSegmentFilter> FirstLoginFilter;
+
+        // [optional] Filter property for last login date.
+        TSharedPtr<FLastLoginDateSegmentFilter> LastLoginDateFilter;
+
+        // [optional] Filter property for last login timespan.
+        TSharedPtr<FLastLoginTimespanSegmentFilter> LastLoginFilter;
+
+        // [optional] Filter property for linked in user account.
+        TSharedPtr<FLinkedUserAccountSegmentFilter> LinkedUserAccountFilter;
+
+        // [optional] Filter property for linked in user account has email.
+        TSharedPtr<FLinkedUserAccountHasEmailSegmentFilter> LinkedUserAccountHasEmailFilter;
+
+        // [optional] Filter property for location.
+        TSharedPtr<FLocationSegmentFilter> LocationFilter;
+
+        // [optional] Filter property for push notification.
+        TSharedPtr<FPushNotificationSegmentFilter> PushNotificationFilter;
+
+        // [optional] Filter property for statistics.
+        TSharedPtr<FStatisticSegmentFilter> StatisticFilter;
+
+        // [optional] Filter property for tags.
+        TSharedPtr<FTagSegmentFilter> TagFilter;
+
+        // [optional] Filter property for total value to date in USD.
+        TSharedPtr<FTotalValueToDateInUSDSegmentFilter> TotalValueToDateInUSDFilter;
+
+        // [optional] Filter property for user origination.
+        TSharedPtr<FUserOriginationSegmentFilter> UserOriginationFilter;
+
+        // [optional] Filter property for value to date.
+        TSharedPtr<FValueToDateSegmentFilter> ValueToDateFilter;
+
+        // [optional] Filter property for virtual currency.
+        TSharedPtr<FVirtualCurrencyBalanceSegmentFilter> VirtualCurrencyBalanceFilter;
+
+        FSegmentAndDefinition() :
+            FPlayFabCppBaseModel(),
+            AdCampaignFilter(nullptr),
+            AllPlayersFilter(nullptr),
+            FirstLoginDateFilter(nullptr),
+            FirstLoginFilter(nullptr),
+            LastLoginDateFilter(nullptr),
+            LastLoginFilter(nullptr),
+            LinkedUserAccountFilter(nullptr),
+            LinkedUserAccountHasEmailFilter(nullptr),
+            LocationFilter(nullptr),
+            PushNotificationFilter(nullptr),
+            StatisticFilter(nullptr),
+            TagFilter(nullptr),
+            TotalValueToDateInUSDFilter(nullptr),
+            UserOriginationFilter(nullptr),
+            ValueToDateFilter(nullptr),
+            VirtualCurrencyBalanceFilter(nullptr)
+            {}
+
+        FSegmentAndDefinition(const FSegmentAndDefinition& src) = default;
+
+        FSegmentAndDefinition(const TSharedPtr<FJsonObject>& obj) : FSegmentAndDefinition()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentAndDefinition();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentOrDefinition : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] List of segment and definitions.
+        TArray<FSegmentAndDefinition> SegmentAndDefinitions;
+        FSegmentOrDefinition() :
+            FPlayFabCppBaseModel(),
+            SegmentAndDefinitions()
+            {}
+
+        FSegmentOrDefinition(const FSegmentOrDefinition& src) = default;
+
+        FSegmentOrDefinition(const TSharedPtr<FJsonObject>& obj) : FSegmentOrDefinition()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentOrDefinition();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSegmentModel : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] ResourceId of Segment resource
+        FString AzureResourceId;
+
+        // [optional] Segment description.
+        FString Description;
+
+        // [optional] Segment actions for current entered segment players.
+        TArray<FSegmentTrigger> EnteredSegmentActions;
+        // Segment last updated date time.
+        FDateTime LastUpdateTime;
+
+        // [optional] Segment actions for current left segment players.
+        TArray<FSegmentTrigger> LeftSegmentActions;
+        // [optional] Segment name.
+        FString Name;
+
+        // [optional] Segment id in hex.
+        FString SegmentId;
+
+        // [optional] Segment or definitions. This includes segment and definitions and filters.
+        TArray<FSegmentOrDefinition> SegmentOrDefinitions;
+        FSegmentModel() :
+            FPlayFabCppBaseModel(),
+            AzureResourceId(),
+            Description(),
+            EnteredSegmentActions(),
+            LastUpdateTime(0),
+            LeftSegmentActions(),
+            Name(),
+            SegmentId(),
+            SegmentOrDefinitions()
+            {}
+
+        FSegmentModel(const FSegmentModel& src) = default;
+
+        FSegmentModel(const TSharedPtr<FJsonObject>& obj) : FSegmentModel()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSegmentModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment model with all of the segment properties data.
+        FSegmentModel pfSegmentModel;
+
+        FCreateSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            pfSegmentModel()
+            {}
+
+        FCreateSegmentRequest(const FCreateSegmentRequest& src) = default;
+
+        FCreateSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FCreateSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateSegmentResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        // [optional] Segment id.
+        FString SegmentId;
+
+        FCreateSegmentResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(),
+            SegmentId()
+            {}
+
+        FCreateSegmentResponse(const FCreateSegmentResponse& src) = default;
+
+        FCreateSegmentResponse(const TSharedPtr<FJsonObject>& obj) : FCreateSegmentResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateSegmentResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2463,10 +3662,7 @@ namespace AdminModels
             TaskId()
             {}
 
-        FCreateTaskResult(const FCreateTaskResult& src) :
-            FPlayFabCppResultCommon(),
-            TaskId(src.TaskId)
-            {}
+        FCreateTaskResult(const FCreateTaskResult& src) = default;
 
         FCreateTaskResult(const TSharedPtr<FJsonObject>& obj) : FCreateTaskResult()
         {
@@ -2659,10 +3855,7 @@ namespace AdminModels
             Key()
             {}
 
-        FDeleteContentRequest(const FDeleteContentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Key(src.Key)
-            {}
+        FDeleteContentRequest(const FDeleteContentRequest& src) = default;
 
         FDeleteContentRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteContentRequest()
         {
@@ -2689,11 +3882,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FDeleteMasterPlayerAccountRequest(const FDeleteMasterPlayerAccountRequest& src) :
-            FPlayFabCppRequestCommon(),
-            MetaData(src.MetaData),
-            PlayFabId(src.PlayFabId)
-            {}
+        FDeleteMasterPlayerAccountRequest(const FDeleteMasterPlayerAccountRequest& src) = default;
 
         FDeleteMasterPlayerAccountRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteMasterPlayerAccountRequest()
         {
@@ -2722,11 +3911,7 @@ namespace AdminModels
             TitleIds()
             {}
 
-        FDeleteMasterPlayerAccountResult(const FDeleteMasterPlayerAccountResult& src) :
-            FPlayFabCppResultCommon(),
-            JobReceiptId(src.JobReceiptId),
-            TitleIds(src.TitleIds)
-            {}
+        FDeleteMasterPlayerAccountResult(const FDeleteMasterPlayerAccountResult& src) = default;
 
         FDeleteMasterPlayerAccountResult(const TSharedPtr<FJsonObject>& obj) : FDeleteMasterPlayerAccountResult()
         {
@@ -2734,6 +3919,59 @@ namespace AdminModels
         }
 
         ~FDeleteMasterPlayerAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteMembershipSubscriptionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Id of the membership to apply the override expiration date to.
+        FString MembershipId;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        // Id of the subscription that should be deleted from the membership.
+        FString SubscriptionId;
+
+        FDeleteMembershipSubscriptionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            MembershipId(),
+            PlayFabId(),
+            SubscriptionId()
+            {}
+
+        FDeleteMembershipSubscriptionRequest(const FDeleteMembershipSubscriptionRequest& src) = default;
+
+        FDeleteMembershipSubscriptionRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteMembershipSubscriptionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteMembershipSubscriptionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteMembershipSubscriptionResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FDeleteMembershipSubscriptionResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeleteMembershipSubscriptionResult(const FDeleteMembershipSubscriptionResult& src) = default;
+
+        FDeleteMembershipSubscriptionResult(const TSharedPtr<FJsonObject>& obj) : FDeleteMembershipSubscriptionResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteMembershipSubscriptionResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2749,10 +3987,7 @@ namespace AdminModels
             ConnectionId()
             {}
 
-        FDeleteOpenIdConnectionRequest(const FDeleteOpenIdConnectionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ConnectionId(src.ConnectionId)
-            {}
+        FDeleteOpenIdConnectionRequest(const FDeleteOpenIdConnectionRequest& src) = default;
 
         FDeleteOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteOpenIdConnectionRequest()
         {
@@ -2775,10 +4010,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FDeletePlayerRequest(const FDeletePlayerRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PlayFabId(src.PlayFabId)
-            {}
+        FDeletePlayerRequest(const FDeletePlayerRequest& src) = default;
 
         FDeletePlayerRequest(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerRequest()
         {
@@ -2797,9 +4029,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FDeletePlayerResult(const FDeletePlayerResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FDeletePlayerResult(const FDeletePlayerResult& src) = default;
 
         FDeletePlayerResult(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerResult()
         {
@@ -2822,10 +4052,7 @@ namespace AdminModels
             SecretKey()
             {}
 
-        FDeletePlayerSharedSecretRequest(const FDeletePlayerSharedSecretRequest& src) :
-            FPlayFabCppRequestCommon(),
-            SecretKey(src.SecretKey)
-            {}
+        FDeletePlayerSharedSecretRequest(const FDeletePlayerSharedSecretRequest& src) = default;
 
         FDeletePlayerSharedSecretRequest(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerSharedSecretRequest()
         {
@@ -2844,9 +4071,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FDeletePlayerSharedSecretResult(const FDeletePlayerSharedSecretResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FDeletePlayerSharedSecretResult(const FDeletePlayerSharedSecretResult& src) = default;
 
         FDeletePlayerSharedSecretResult(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerSharedSecretResult()
         {
@@ -2854,6 +4079,52 @@ namespace AdminModels
         }
 
         ~FDeletePlayerSharedSecretResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment id.
+        FString SegmentId;
+
+        FDeleteSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentId()
+            {}
+
+        FDeleteSegmentRequest(const FDeleteSegmentRequest& src) = default;
+
+        FDeleteSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteSegmentsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        FDeleteSegmentsResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage()
+            {}
+
+        FDeleteSegmentsResponse(const FDeleteSegmentsResponse& src) = default;
+
+        FDeleteSegmentsResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteSegmentsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteSegmentsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2876,12 +4147,7 @@ namespace AdminModels
             StoreId()
             {}
 
-        FDeleteStoreRequest(const FDeleteStoreRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion),
-            CustomTags(src.CustomTags),
-            StoreId(src.StoreId)
-            {}
+        FDeleteStoreRequest(const FDeleteStoreRequest& src) = default;
 
         FDeleteStoreRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteStoreRequest()
         {
@@ -2900,9 +4166,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FDeleteStoreResult(const FDeleteStoreResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FDeleteStoreResult(const FDeleteStoreResult& src) = default;
 
         FDeleteStoreResult(const TSharedPtr<FJsonObject>& obj) : FDeleteStoreResult()
         {
@@ -2925,10 +4189,7 @@ namespace AdminModels
             Identifier(nullptr)
             {}
 
-        FDeleteTaskRequest(const FDeleteTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Identifier(src.Identifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.Identifier)) : nullptr)
-            {}
+        FDeleteTaskRequest(const FDeleteTaskRequest& src) = default;
 
         FDeleteTaskRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteTaskRequest()
         {
@@ -2951,10 +4212,7 @@ namespace AdminModels
             OverrideLabel()
             {}
 
-        FDeleteTitleDataOverrideRequest(const FDeleteTitleDataOverrideRequest& src) :
-            FPlayFabCppRequestCommon(),
-            OverrideLabel(src.OverrideLabel)
-            {}
+        FDeleteTitleDataOverrideRequest(const FDeleteTitleDataOverrideRequest& src) = default;
 
         FDeleteTitleDataOverrideRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteTitleDataOverrideRequest()
         {
@@ -2973,9 +4231,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FDeleteTitleDataOverrideResult(const FDeleteTitleDataOverrideResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FDeleteTitleDataOverrideResult(const FDeleteTitleDataOverrideResult& src) = default;
 
         FDeleteTitleDataOverrideResult(const TSharedPtr<FJsonObject>& obj) : FDeleteTitleDataOverrideResult()
         {
@@ -2994,9 +4250,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FDeleteTitleRequest(const FDeleteTitleRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FDeleteTitleRequest(const FDeleteTitleRequest& src) = default;
 
         FDeleteTitleRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteTitleRequest()
         {
@@ -3015,9 +4269,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FDeleteTitleResult(const FDeleteTitleResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FDeleteTitleResult(const FDeleteTitleResult& src) = default;
 
         FDeleteTitleResult(const TSharedPtr<FJsonObject>& obj) : FDeleteTitleResult()
         {
@@ -3046,9 +4298,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FEmptyResponse(const FEmptyResponse& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FEmptyResponse(const FEmptyResponse& src) = default;
 
         FEmptyResponse(const TSharedPtr<FJsonObject>& obj) : FEmptyResponse()
         {
@@ -3075,11 +4325,7 @@ namespace AdminModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -3102,10 +4348,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FExportMasterPlayerDataRequest(const FExportMasterPlayerDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PlayFabId(src.PlayFabId)
-            {}
+        FExportMasterPlayerDataRequest(const FExportMasterPlayerDataRequest& src) = default;
 
         FExportMasterPlayerDataRequest(const TSharedPtr<FJsonObject>& obj) : FExportMasterPlayerDataRequest()
         {
@@ -3131,10 +4374,7 @@ namespace AdminModels
             JobReceiptId()
             {}
 
-        FExportMasterPlayerDataResult(const FExportMasterPlayerDataResult& src) :
-            FPlayFabCppResultCommon(),
-            JobReceiptId(src.JobReceiptId)
-            {}
+        FExportMasterPlayerDataResult(const FExportMasterPlayerDataResult& src) = default;
 
         FExportMasterPlayerDataResult(const TSharedPtr<FJsonObject>& obj) : FExportMasterPlayerDataResult()
         {
@@ -3169,13 +4409,7 @@ namespace AdminModels
             StartOpen()
             {}
 
-        FGameModeInfo(const FGameModeInfo& src) :
-            FPlayFabCppBaseModel(),
-            Gamemode(src.Gamemode),
-            MaxPlayerCount(src.MaxPlayerCount),
-            MinPlayerCount(src.MinPlayerCount),
-            StartOpen(src.StartOpen)
-            {}
+        FGameModeInfo(const FGameModeInfo& src) = default;
 
         FGameModeInfo(const TSharedPtr<FJsonObject>& obj) : FGameModeInfo()
         {
@@ -3202,11 +4436,7 @@ namespace AdminModels
             Summary(nullptr)
             {}
 
-        FGetActionsOnPlayersInSegmentTaskInstanceResult(const FGetActionsOnPlayersInSegmentTaskInstanceResult& src) :
-            FPlayFabCppResultCommon(),
-            Parameter(src.Parameter.IsValid() ? MakeShareable(new FActionsOnPlayersInSegmentTaskParameter(*src.Parameter)) : nullptr),
-            Summary(src.Summary.IsValid() ? MakeShareable(new FActionsOnPlayersInSegmentTaskSummary(*src.Summary)) : nullptr)
-            {}
+        FGetActionsOnPlayersInSegmentTaskInstanceResult(const FGetActionsOnPlayersInSegmentTaskInstanceResult& src) = default;
 
         FGetActionsOnPlayersInSegmentTaskInstanceResult(const TSharedPtr<FJsonObject>& obj) : FGetActionsOnPlayersInSegmentTaskInstanceResult()
         {
@@ -3225,9 +4455,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FGetAllSegmentsRequest(const FGetAllSegmentsRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FGetAllSegmentsRequest(const FGetAllSegmentsRequest& src) = default;
 
         FGetAllSegmentsRequest(const TSharedPtr<FJsonObject>& obj) : FGetAllSegmentsRequest()
         {
@@ -3258,12 +4486,7 @@ namespace AdminModels
             Name()
             {}
 
-        FGetSegmentResult(const FGetSegmentResult& src) :
-            FPlayFabCppBaseModel(),
-            ABTestParent(src.ABTestParent),
-            Id(src.Id),
-            Name(src.Name)
-            {}
+        FGetSegmentResult(const FGetSegmentResult& src) = default;
 
         FGetSegmentResult(const TSharedPtr<FJsonObject>& obj) : FGetSegmentResult()
         {
@@ -3285,10 +4508,7 @@ namespace AdminModels
             Segments()
             {}
 
-        FGetAllSegmentsResult(const FGetAllSegmentsResult& src) :
-            FPlayFabCppResultCommon(),
-            Segments(src.Segments)
-            {}
+        FGetAllSegmentsResult(const FGetAllSegmentsResult& src) = default;
 
         FGetAllSegmentsResult(const TSharedPtr<FJsonObject>& obj) : FGetAllSegmentsResult()
         {
@@ -3311,10 +4531,7 @@ namespace AdminModels
             CatalogVersion()
             {}
 
-        FGetCatalogItemsRequest(const FGetCatalogItemsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion)
-            {}
+        FGetCatalogItemsRequest(const FGetCatalogItemsRequest& src) = default;
 
         FGetCatalogItemsRequest(const TSharedPtr<FJsonObject>& obj) : FGetCatalogItemsRequest()
         {
@@ -3336,10 +4553,7 @@ namespace AdminModels
             Catalog()
             {}
 
-        FGetCatalogItemsResult(const FGetCatalogItemsResult& src) :
-            FPlayFabCppResultCommon(),
-            Catalog(src.Catalog)
-            {}
+        FGetCatalogItemsResult(const FGetCatalogItemsResult& src) = default;
 
         FGetCatalogItemsResult(const TSharedPtr<FJsonObject>& obj) : FGetCatalogItemsResult()
         {
@@ -3366,11 +4580,7 @@ namespace AdminModels
             Version()
             {}
 
-        FGetCloudScriptRevisionRequest(const FGetCloudScriptRevisionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Revision(src.Revision),
-            Version(src.Version)
-            {}
+        FGetCloudScriptRevisionRequest(const FGetCloudScriptRevisionRequest& src) = default;
 
         FGetCloudScriptRevisionRequest(const TSharedPtr<FJsonObject>& obj) : FGetCloudScriptRevisionRequest()
         {
@@ -3408,14 +4618,7 @@ namespace AdminModels
             Version(0)
             {}
 
-        FGetCloudScriptRevisionResult(const FGetCloudScriptRevisionResult& src) :
-            FPlayFabCppResultCommon(),
-            CreatedAt(src.CreatedAt),
-            Files(src.Files),
-            IsPublished(src.IsPublished),
-            Revision(src.Revision),
-            Version(src.Version)
-            {}
+        FGetCloudScriptRevisionResult(const FGetCloudScriptRevisionResult& src) = default;
 
         FGetCloudScriptRevisionResult(const TSharedPtr<FJsonObject>& obj) : FGetCloudScriptRevisionResult()
         {
@@ -3442,11 +4645,7 @@ namespace AdminModels
             Summary(nullptr)
             {}
 
-        FGetCloudScriptTaskInstanceResult(const FGetCloudScriptTaskInstanceResult& src) :
-            FPlayFabCppResultCommon(),
-            Parameter(src.Parameter.IsValid() ? MakeShareable(new FCloudScriptTaskParameter(*src.Parameter)) : nullptr),
-            Summary(src.Summary.IsValid() ? MakeShareable(new FCloudScriptTaskSummary(*src.Summary)) : nullptr)
-            {}
+        FGetCloudScriptTaskInstanceResult(const FGetCloudScriptTaskInstanceResult& src) = default;
 
         FGetCloudScriptTaskInstanceResult(const TSharedPtr<FJsonObject>& obj) : FGetCloudScriptTaskInstanceResult()
         {
@@ -3465,9 +4664,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FGetCloudScriptVersionsRequest(const FGetCloudScriptVersionsRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FGetCloudScriptVersionsRequest(const FGetCloudScriptVersionsRequest& src) = default;
 
         FGetCloudScriptVersionsRequest(const TSharedPtr<FJsonObject>& obj) : FGetCloudScriptVersionsRequest()
         {
@@ -3489,10 +4686,7 @@ namespace AdminModels
             Versions()
             {}
 
-        FGetCloudScriptVersionsResult(const FGetCloudScriptVersionsResult& src) :
-            FPlayFabCppResultCommon(),
-            Versions(src.Versions)
-            {}
+        FGetCloudScriptVersionsResult(const FGetCloudScriptVersionsResult& src) = default;
 
         FGetCloudScriptVersionsResult(const TSharedPtr<FJsonObject>& obj) : FGetCloudScriptVersionsResult()
         {
@@ -3518,10 +4712,7 @@ namespace AdminModels
             Prefix()
             {}
 
-        FGetContentListRequest(const FGetContentListRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Prefix(src.Prefix)
-            {}
+        FGetContentListRequest(const FGetContentListRequest& src) = default;
 
         FGetContentListRequest(const TSharedPtr<FJsonObject>& obj) : FGetContentListRequest()
         {
@@ -3551,12 +4742,7 @@ namespace AdminModels
             TotalSize(0)
             {}
 
-        FGetContentListResult(const FGetContentListResult& src) :
-            FPlayFabCppResultCommon(),
-            Contents(src.Contents),
-            ItemCount(src.ItemCount),
-            TotalSize(src.TotalSize)
-            {}
+        FGetContentListResult(const FGetContentListResult& src) = default;
 
         FGetContentListResult(const TSharedPtr<FJsonObject>& obj) : FGetContentListResult()
         {
@@ -3586,11 +4772,7 @@ namespace AdminModels
             Key()
             {}
 
-        FGetContentUploadUrlRequest(const FGetContentUploadUrlRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ContentType(src.ContentType),
-            Key(src.Key)
-            {}
+        FGetContentUploadUrlRequest(const FGetContentUploadUrlRequest& src) = default;
 
         FGetContentUploadUrlRequest(const TSharedPtr<FJsonObject>& obj) : FGetContentUploadUrlRequest()
         {
@@ -3605,7 +4787,10 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FGetContentUploadUrlResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] URL for uploading content via HTTP PUT method. The URL will expire in approximately one hour.
+        /**
+         * [optional] URL for uploading content via HTTP PUT method. The URL requires the 'x-ms-blob-type' header to have the value
+         * 'BlockBlob'. The URL will expire in approximately one hour.
+         */
         FString URL;
 
         FGetContentUploadUrlResult() :
@@ -3613,10 +4798,7 @@ namespace AdminModels
             URL()
             {}
 
-        FGetContentUploadUrlResult(const FGetContentUploadUrlResult& src) :
-            FPlayFabCppResultCommon(),
-            URL(src.URL)
-            {}
+        FGetContentUploadUrlResult(const FGetContentUploadUrlResult& src) = default;
 
         FGetContentUploadUrlResult(const TSharedPtr<FJsonObject>& obj) : FGetContentUploadUrlResult()
         {
@@ -3651,13 +4833,7 @@ namespace AdminModels
             Year(0)
             {}
 
-        FGetDataReportRequest(const FGetDataReportRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Day(src.Day),
-            Month(src.Month),
-            ReportName(src.ReportName),
-            Year(src.Year)
-            {}
+        FGetDataReportRequest(const FGetDataReportRequest& src) = default;
 
         FGetDataReportRequest(const TSharedPtr<FJsonObject>& obj) : FGetDataReportRequest()
         {
@@ -3683,10 +4859,7 @@ namespace AdminModels
             DownloadUrl()
             {}
 
-        FGetDataReportResult(const FGetDataReportResult& src) :
-            FPlayFabCppResultCommon(),
-            DownloadUrl(src.DownloadUrl)
-            {}
+        FGetDataReportResult(const FGetDataReportResult& src) = default;
 
         FGetDataReportResult(const TSharedPtr<FJsonObject>& obj) : FGetDataReportResult()
         {
@@ -3709,10 +4882,7 @@ namespace AdminModels
             LobbyId()
             {}
 
-        FGetMatchmakerGameInfoRequest(const FGetMatchmakerGameInfoRequest& src) :
-            FPlayFabCppRequestCommon(),
-            LobbyId(src.LobbyId)
-            {}
+        FGetMatchmakerGameInfoRequest(const FGetMatchmakerGameInfoRequest& src) = default;
 
         FGetMatchmakerGameInfoRequest(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakerGameInfoRequest()
         {
@@ -3778,21 +4948,7 @@ namespace AdminModels
             TitleId()
             {}
 
-        FGetMatchmakerGameInfoResult(const FGetMatchmakerGameInfoResult& src) :
-            FPlayFabCppResultCommon(),
-            BuildVersion(src.BuildVersion),
-            EndTime(src.EndTime),
-            LobbyId(src.LobbyId),
-            Mode(src.Mode),
-            Players(src.Players),
-            pfRegion(src.pfRegion),
-            ServerIPV4Address(src.ServerIPV4Address),
-            ServerIPV6Address(src.ServerIPV6Address),
-            ServerPort(src.ServerPort),
-            ServerPublicDNSName(src.ServerPublicDNSName),
-            StartTime(src.StartTime),
-            TitleId(src.TitleId)
-            {}
+        FGetMatchmakerGameInfoResult(const FGetMatchmakerGameInfoResult& src) = default;
 
         FGetMatchmakerGameInfoResult(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakerGameInfoResult()
         {
@@ -3815,10 +4971,7 @@ namespace AdminModels
             BuildVersion()
             {}
 
-        FGetMatchmakerGameModesRequest(const FGetMatchmakerGameModesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            BuildVersion(src.BuildVersion)
-            {}
+        FGetMatchmakerGameModesRequest(const FGetMatchmakerGameModesRequest& src) = default;
 
         FGetMatchmakerGameModesRequest(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakerGameModesRequest()
         {
@@ -3840,10 +4993,7 @@ namespace AdminModels
             GameModes()
             {}
 
-        FGetMatchmakerGameModesResult(const FGetMatchmakerGameModesResult& src) :
-            FPlayFabCppResultCommon(),
-            GameModes(src.GameModes)
-            {}
+        FGetMatchmakerGameModesResult(const FGetMatchmakerGameModesResult& src) = default;
 
         FGetMatchmakerGameModesResult(const TSharedPtr<FJsonObject>& obj) : FGetMatchmakerGameModesResult()
         {
@@ -3866,10 +5016,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetPlayedTitleListRequest(const FGetPlayedTitleListRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetPlayedTitleListRequest(const FGetPlayedTitleListRequest& src) = default;
 
         FGetPlayedTitleListRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayedTitleListRequest()
         {
@@ -3891,10 +5038,7 @@ namespace AdminModels
             TitleIds()
             {}
 
-        FGetPlayedTitleListResult(const FGetPlayedTitleListResult& src) :
-            FPlayFabCppResultCommon(),
-            TitleIds(src.TitleIds)
-            {}
+        FGetPlayedTitleListResult(const FGetPlayedTitleListResult& src) = default;
 
         FGetPlayedTitleListResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayedTitleListResult()
         {
@@ -3921,11 +5065,7 @@ namespace AdminModels
             TokenType()
             {}
 
-        FGetPlayerIdFromAuthTokenRequest(const FGetPlayerIdFromAuthTokenRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Token(src.Token),
-            TokenType(src.TokenType)
-            {}
+        FGetPlayerIdFromAuthTokenRequest(const FGetPlayerIdFromAuthTokenRequest& src) = default;
 
         FGetPlayerIdFromAuthTokenRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayerIdFromAuthTokenRequest()
         {
@@ -3948,10 +5088,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetPlayerIdFromAuthTokenResult(const FGetPlayerIdFromAuthTokenResult& src) :
-            FPlayFabCppResultCommon(),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetPlayerIdFromAuthTokenResult(const FGetPlayerIdFromAuthTokenResult& src) = default;
 
         FGetPlayerIdFromAuthTokenResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerIdFromAuthTokenResult()
         {
@@ -4038,26 +5175,7 @@ namespace AdminModels
             ShowValuesToDate(false)
             {}
 
-        FPlayerProfileViewConstraints(const FPlayerProfileViewConstraints& src) :
-            FPlayFabCppBaseModel(),
-            ShowAvatarUrl(src.ShowAvatarUrl),
-            ShowBannedUntil(src.ShowBannedUntil),
-            ShowCampaignAttributions(src.ShowCampaignAttributions),
-            ShowContactEmailAddresses(src.ShowContactEmailAddresses),
-            ShowCreated(src.ShowCreated),
-            ShowDisplayName(src.ShowDisplayName),
-            ShowExperimentVariants(src.ShowExperimentVariants),
-            ShowLastLogin(src.ShowLastLogin),
-            ShowLinkedAccounts(src.ShowLinkedAccounts),
-            ShowLocations(src.ShowLocations),
-            ShowMemberships(src.ShowMemberships),
-            ShowOrigination(src.ShowOrigination),
-            ShowPushNotificationRegistrations(src.ShowPushNotificationRegistrations),
-            ShowStatistics(src.ShowStatistics),
-            ShowTags(src.ShowTags),
-            ShowTotalValueToDateInUsd(src.ShowTotalValueToDateInUsd),
-            ShowValuesToDate(src.ShowValuesToDate)
-            {}
+        FPlayerProfileViewConstraints(const FPlayerProfileViewConstraints& src) = default;
 
         FPlayerProfileViewConstraints(const TSharedPtr<FJsonObject>& obj) : FPlayerProfileViewConstraints()
         {
@@ -4091,12 +5209,7 @@ namespace AdminModels
             ProfileConstraints(nullptr)
             {}
 
-        FGetPlayerProfileRequest(const FGetPlayerProfileRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId),
-            ProfileConstraints(src.ProfileConstraints.IsValid() ? MakeShareable(new FPlayerProfileViewConstraints(*src.ProfileConstraints)) : nullptr)
-            {}
+        FGetPlayerProfileRequest(const FGetPlayerProfileRequest& src) = default;
 
         FGetPlayerProfileRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayerProfileRequest()
         {
@@ -4160,13 +5273,7 @@ namespace AdminModels
             Username()
             {}
 
-        FLinkedPlatformAccountModel(const FLinkedPlatformAccountModel& src) :
-            FPlayFabCppBaseModel(),
-            Email(src.Email),
-            Platform(src.Platform),
-            PlatformUserId(src.PlatformUserId),
-            Username(src.Username)
-            {}
+        FLinkedPlatformAccountModel(const FLinkedPlatformAccountModel& src) = default;
 
         FLinkedPlatformAccountModel(const TSharedPtr<FJsonObject>& obj) : FLinkedPlatformAccountModel()
         {
@@ -4205,14 +5312,7 @@ namespace AdminModels
             Longitude()
             {}
 
-        FLocationModel(const FLocationModel& src) :
-            FPlayFabCppBaseModel(),
-            City(src.City),
-            pfContinentCode(src.pfContinentCode),
-            pfCountryCode(src.pfCountryCode),
-            Latitude(src.Latitude),
-            Longitude(src.Longitude)
-            {}
+        FLocationModel(const FLocationModel& src) = default;
 
         FLocationModel(const TSharedPtr<FJsonObject>& obj) : FLocationModel()
         {
@@ -4275,16 +5375,7 @@ namespace AdminModels
             SubscriptionProvider()
             {}
 
-        FSubscriptionModel(const FSubscriptionModel& src) :
-            FPlayFabCppBaseModel(),
-            Expiration(src.Expiration),
-            InitialSubscriptionTime(src.InitialSubscriptionTime),
-            IsActive(src.IsActive),
-            Status(src.Status),
-            SubscriptionId(src.SubscriptionId),
-            SubscriptionItemId(src.SubscriptionItemId),
-            SubscriptionProvider(src.SubscriptionProvider)
-            {}
+        FSubscriptionModel(const FSubscriptionModel& src) = default;
 
         FSubscriptionModel(const TSharedPtr<FJsonObject>& obj) : FSubscriptionModel()
         {
@@ -4329,15 +5420,7 @@ namespace AdminModels
             Subscriptions()
             {}
 
-        FMembershipModel(const FMembershipModel& src) :
-            FPlayFabCppBaseModel(),
-            IsActive(src.IsActive),
-            MembershipExpiration(src.MembershipExpiration),
-            MembershipId(src.MembershipId),
-            OverrideExpiration(src.OverrideExpiration),
-            OverrideIsSet(src.OverrideIsSet),
-            Subscriptions(src.Subscriptions)
-            {}
+        FMembershipModel(const FMembershipModel& src) = default;
 
         FMembershipModel(const TSharedPtr<FJsonObject>& obj) : FMembershipModel()
         {
@@ -4374,11 +5457,7 @@ namespace AdminModels
             Platform()
             {}
 
-        FPushNotificationRegistrationModel(const FPushNotificationRegistrationModel& src) :
-            FPlayFabCppBaseModel(),
-            NotificationEndpointARN(src.NotificationEndpointARN),
-            Platform(src.Platform)
-            {}
+        FPushNotificationRegistrationModel(const FPushNotificationRegistrationModel& src) = default;
 
         FPushNotificationRegistrationModel(const TSharedPtr<FJsonObject>& obj) : FPushNotificationRegistrationModel()
         {
@@ -4409,12 +5488,7 @@ namespace AdminModels
             Version(0)
             {}
 
-        FStatisticModel(const FStatisticModel& src) :
-            FPlayFabCppBaseModel(),
-            Name(src.Name),
-            Value(src.Value),
-            Version(src.Version)
-            {}
+        FStatisticModel(const FStatisticModel& src) = default;
 
         FStatisticModel(const TSharedPtr<FJsonObject>& obj) : FStatisticModel()
         {
@@ -4437,10 +5511,7 @@ namespace AdminModels
             TagValue()
             {}
 
-        FTagModel(const FTagModel& src) :
-            FPlayFabCppBaseModel(),
-            TagValue(src.TagValue)
-            {}
+        FTagModel(const FTagModel& src) = default;
 
         FTagModel(const TSharedPtr<FJsonObject>& obj) : FTagModel()
         {
@@ -4477,12 +5548,7 @@ namespace AdminModels
             TotalValueAsDecimal()
             {}
 
-        FValueToDateModel(const FValueToDateModel& src) :
-            FPlayFabCppBaseModel(),
-            Currency(src.Currency),
-            TotalValue(src.TotalValue),
-            TotalValueAsDecimal(src.TotalValueAsDecimal)
-            {}
+        FValueToDateModel(const FValueToDateModel& src) = default;
 
         FValueToDateModel(const TSharedPtr<FJsonObject>& obj) : FValueToDateModel()
         {
@@ -4513,7 +5579,11 @@ namespace AdminModels
         // [optional] Player display name
         FString DisplayName;
 
-        // [optional] List of experiment variants for the player.
+        /**
+         * [optional] List of experiment variants for the player. Note that these variants are not guaranteed to be up-to-date when returned
+         * during login because the player profile is updated only after login. Instead, use the LoginResult.TreatmentAssignment
+         * property during login to get the correct variants and variables.
+         */
         TArray<FString> ExperimentVariants;
         // [optional] UTC time when the player most recently logged in to the title
         Boxed<FDateTime> LastLogin;
@@ -4574,29 +5644,7 @@ namespace AdminModels
             ValuesToDate()
             {}
 
-        FPlayerProfileModel(const FPlayerProfileModel& src) :
-            FPlayFabCppBaseModel(),
-            AdCampaignAttributions(src.AdCampaignAttributions),
-            AvatarUrl(src.AvatarUrl),
-            BannedUntil(src.BannedUntil),
-            ContactEmailAddresses(src.ContactEmailAddresses),
-            Created(src.Created),
-            DisplayName(src.DisplayName),
-            ExperimentVariants(src.ExperimentVariants),
-            LastLogin(src.LastLogin),
-            LinkedAccounts(src.LinkedAccounts),
-            Locations(src.Locations),
-            Memberships(src.Memberships),
-            Origination(src.Origination),
-            PlayerId(src.PlayerId),
-            PublisherId(src.PublisherId),
-            PushNotificationRegistrations(src.PushNotificationRegistrations),
-            Statistics(src.Statistics),
-            Tags(src.Tags),
-            TitleId(src.TitleId),
-            TotalValueToDateInUSD(src.TotalValueToDateInUSD),
-            ValuesToDate(src.ValuesToDate)
-            {}
+        FPlayerProfileModel(const FPlayerProfileModel& src) = default;
 
         FPlayerProfileModel(const TSharedPtr<FJsonObject>& obj) : FPlayerProfileModel()
         {
@@ -4622,10 +5670,7 @@ namespace AdminModels
             PlayerProfile(nullptr)
             {}
 
-        FGetPlayerProfileResult(const FGetPlayerProfileResult& src) :
-            FPlayFabCppResultCommon(),
-            PlayerProfile(src.PlayerProfile.IsValid() ? MakeShareable(new FPlayerProfileModel(*src.PlayerProfile)) : nullptr)
-            {}
+        FGetPlayerProfileResult(const FGetPlayerProfileResult& src) = default;
 
         FGetPlayerProfileResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerProfileResult()
         {
@@ -4647,10 +5692,7 @@ namespace AdminModels
             Segments()
             {}
 
-        FGetPlayerSegmentsResult(const FGetPlayerSegmentsResult& src) :
-            FPlayFabCppResultCommon(),
-            Segments(src.Segments)
-            {}
+        FGetPlayerSegmentsResult(const FGetPlayerSegmentsResult& src) = default;
 
         FGetPlayerSegmentsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerSegmentsResult()
         {
@@ -4669,9 +5711,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FGetPlayerSharedSecretsRequest(const FGetPlayerSharedSecretsRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FGetPlayerSharedSecretsRequest(const FGetPlayerSharedSecretsRequest& src) = default;
 
         FGetPlayerSharedSecretsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayerSharedSecretsRequest()
         {
@@ -4702,12 +5742,7 @@ namespace AdminModels
             SecretKey()
             {}
 
-        FSharedSecret(const FSharedSecret& src) :
-            FPlayFabCppBaseModel(),
-            Disabled(src.Disabled),
-            FriendlyName(src.FriendlyName),
-            SecretKey(src.SecretKey)
-            {}
+        FSharedSecret(const FSharedSecret& src) = default;
 
         FSharedSecret(const TSharedPtr<FJsonObject>& obj) : FSharedSecret()
         {
@@ -4729,10 +5764,7 @@ namespace AdminModels
             SharedSecrets()
             {}
 
-        FGetPlayerSharedSecretsResult(const FGetPlayerSharedSecretsResult& src) :
-            FPlayFabCppResultCommon(),
-            SharedSecrets(src.SharedSecrets)
-            {}
+        FGetPlayerSharedSecretsResult(const FGetPlayerSharedSecretsResult& src) = default;
 
         FGetPlayerSharedSecretsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerSharedSecretsResult()
         {
@@ -4773,14 +5805,7 @@ namespace AdminModels
             SegmentId()
             {}
 
-        FGetPlayersInSegmentRequest(const FGetPlayersInSegmentRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ContinuationToken(src.ContinuationToken),
-            CustomTags(src.CustomTags),
-            MaxBatchSize(src.MaxBatchSize),
-            SecondsToLive(src.SecondsToLive),
-            SegmentId(src.SegmentId)
-            {}
+        FGetPlayersInSegmentRequest(const FGetPlayersInSegmentRequest& src) = default;
 
         FGetPlayersInSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentRequest()
         {
@@ -4815,13 +5840,7 @@ namespace AdminModels
             Username()
             {}
 
-        FPlayerLinkedAccount(const FPlayerLinkedAccount& src) :
-            FPlayFabCppBaseModel(),
-            Email(src.Email),
-            Platform(src.Platform),
-            PlatformUserId(src.PlatformUserId),
-            Username(src.Username)
-            {}
+        FPlayerLinkedAccount(const FPlayerLinkedAccount& src) = default;
 
         FPlayerLinkedAccount(const TSharedPtr<FJsonObject>& obj) : FPlayerLinkedAccount()
         {
@@ -4860,14 +5879,7 @@ namespace AdminModels
             Longitude()
             {}
 
-        FPlayerLocation(const FPlayerLocation& src) :
-            FPlayFabCppBaseModel(),
-            City(src.City),
-            pfContinentCode(src.pfContinentCode),
-            pfCountryCode(src.pfCountryCode),
-            Latitude(src.Latitude),
-            Longitude(src.Longitude)
-            {}
+        FPlayerLocation(const FPlayerLocation& src) = default;
 
         FPlayerLocation(const TSharedPtr<FJsonObject>& obj) : FPlayerLocation()
         {
@@ -4902,13 +5914,7 @@ namespace AdminModels
             StatisticVersion(0)
             {}
 
-        FPlayerStatistic(const FPlayerStatistic& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Name(src.Name),
-            StatisticValue(src.StatisticValue),
-            StatisticVersion(src.StatisticVersion)
-            {}
+        FPlayerStatistic(const FPlayerStatistic& src) = default;
 
         FPlayerStatistic(const TSharedPtr<FJsonObject>& obj) : FPlayerStatistic()
         {
@@ -4935,11 +5941,7 @@ namespace AdminModels
             Platform()
             {}
 
-        FPushNotificationRegistration(const FPushNotificationRegistration& src) :
-            FPlayFabCppBaseModel(),
-            NotificationEndpointARN(src.NotificationEndpointARN),
-            Platform(src.Platform)
-            {}
+        FPushNotificationRegistration(const FPushNotificationRegistration& src) = default;
 
         FPushNotificationRegistration(const TSharedPtr<FJsonObject>& obj) : FPushNotificationRegistration()
         {
@@ -5031,30 +6033,7 @@ namespace AdminModels
             VirtualCurrencyBalances()
             {}
 
-        FPlayerProfile(const FPlayerProfile& src) :
-            FPlayFabCppBaseModel(),
-            AdCampaignAttributions(src.AdCampaignAttributions),
-            AvatarUrl(src.AvatarUrl),
-            BannedUntil(src.BannedUntil),
-            ContactEmailAddresses(src.ContactEmailAddresses),
-            Created(src.Created),
-            DisplayName(src.DisplayName),
-            LastLogin(src.LastLogin),
-            LinkedAccounts(src.LinkedAccounts),
-            Locations(src.Locations),
-            Origination(src.Origination),
-            PlayerExperimentVariants(src.PlayerExperimentVariants),
-            PlayerId(src.PlayerId),
-            PlayerStatistics(src.PlayerStatistics),
-            PublisherId(src.PublisherId),
-            PushNotificationRegistrations(src.PushNotificationRegistrations),
-            Statistics(src.Statistics),
-            Tags(src.Tags),
-            TitleId(src.TitleId),
-            TotalValueToDateInUSD(src.TotalValueToDateInUSD),
-            ValuesToDate(src.ValuesToDate),
-            VirtualCurrencyBalances(src.VirtualCurrencyBalances)
-            {}
+        FPlayerProfile(const FPlayerProfile& src) = default;
 
         FPlayerProfile(const TSharedPtr<FJsonObject>& obj) : FPlayerProfile()
         {
@@ -5084,12 +6063,7 @@ namespace AdminModels
             ProfilesInSegment(0)
             {}
 
-        FGetPlayersInSegmentResult(const FGetPlayersInSegmentResult& src) :
-            FPlayFabCppResultCommon(),
-            ContinuationToken(src.ContinuationToken),
-            PlayerProfiles(src.PlayerProfiles),
-            ProfilesInSegment(src.ProfilesInSegment)
-            {}
+        FGetPlayersInSegmentResult(const FGetPlayersInSegmentResult& src) = default;
 
         FGetPlayersInSegmentResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentResult()
         {
@@ -5115,11 +6089,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetPlayersSegmentsRequest(const FGetPlayersSegmentsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetPlayersSegmentsRequest(const FGetPlayersSegmentsRequest& src) = default;
 
         FGetPlayersSegmentsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayersSegmentsRequest()
         {
@@ -5138,9 +6108,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FGetPlayerStatisticDefinitionsRequest(const FGetPlayerStatisticDefinitionsRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FGetPlayerStatisticDefinitionsRequest(const FGetPlayerStatisticDefinitionsRequest& src) = default;
 
         FGetPlayerStatisticDefinitionsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayerStatisticDefinitionsRequest()
         {
@@ -5162,10 +6130,7 @@ namespace AdminModels
             Statistics()
             {}
 
-        FGetPlayerStatisticDefinitionsResult(const FGetPlayerStatisticDefinitionsResult& src) :
-            FPlayFabCppResultCommon(),
-            Statistics(src.Statistics)
-            {}
+        FGetPlayerStatisticDefinitionsResult(const FGetPlayerStatisticDefinitionsResult& src) = default;
 
         FGetPlayerStatisticDefinitionsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerStatisticDefinitionsResult()
         {
@@ -5191,11 +6156,7 @@ namespace AdminModels
             StatisticName()
             {}
 
-        FGetPlayerStatisticVersionsRequest(const FGetPlayerStatisticVersionsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            StatisticName(src.StatisticName)
-            {}
+        FGetPlayerStatisticVersionsRequest(const FGetPlayerStatisticVersionsRequest& src) = default;
 
         FGetPlayerStatisticVersionsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayerStatisticVersionsRequest()
         {
@@ -5259,17 +6220,7 @@ namespace AdminModels
             Version(0)
             {}
 
-        FPlayerStatisticVersion(const FPlayerStatisticVersion& src) :
-            FPlayFabCppBaseModel(),
-            ActivationTime(src.ActivationTime),
-            ArchiveDownloadUrl(src.ArchiveDownloadUrl),
-            DeactivationTime(src.DeactivationTime),
-            ScheduledActivationTime(src.ScheduledActivationTime),
-            ScheduledDeactivationTime(src.ScheduledDeactivationTime),
-            StatisticName(src.StatisticName),
-            Status(src.Status),
-            Version(src.Version)
-            {}
+        FPlayerStatisticVersion(const FPlayerStatisticVersion& src) = default;
 
         FPlayerStatisticVersion(const TSharedPtr<FJsonObject>& obj) : FPlayerStatisticVersion()
         {
@@ -5291,10 +6242,7 @@ namespace AdminModels
             StatisticVersions()
             {}
 
-        FGetPlayerStatisticVersionsResult(const FGetPlayerStatisticVersionsResult& src) :
-            FPlayFabCppResultCommon(),
-            StatisticVersions(src.StatisticVersions)
-            {}
+        FGetPlayerStatisticVersionsResult(const FGetPlayerStatisticVersionsResult& src) = default;
 
         FGetPlayerStatisticVersionsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerStatisticVersionsResult()
         {
@@ -5324,12 +6272,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetPlayerTagsRequest(const FGetPlayerTagsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Namespace(src.Namespace),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetPlayerTagsRequest(const FGetPlayerTagsRequest& src) = default;
 
         FGetPlayerTagsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayerTagsRequest()
         {
@@ -5355,11 +6298,7 @@ namespace AdminModels
             Tags()
             {}
 
-        FGetPlayerTagsResult(const FGetPlayerTagsResult& src) :
-            FPlayFabCppResultCommon(),
-            PlayFabId(src.PlayFabId),
-            Tags(src.Tags)
-            {}
+        FGetPlayerTagsResult(const FGetPlayerTagsResult& src) = default;
 
         FGetPlayerTagsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerTagsResult()
         {
@@ -5382,10 +6321,7 @@ namespace AdminModels
             PolicyName()
             {}
 
-        FGetPolicyRequest(const FGetPolicyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PolicyName(src.PolicyName)
-            {}
+        FGetPolicyRequest(const FGetPolicyRequest& src) = default;
 
         FGetPolicyRequest(const TSharedPtr<FJsonObject>& obj) : FGetPolicyRequest()
         {
@@ -5431,15 +6367,7 @@ namespace AdminModels
             Resource()
             {}
 
-        FPermissionStatement(const FPermissionStatement& src) :
-            FPlayFabCppBaseModel(),
-            Action(src.Action),
-            ApiConditions(src.ApiConditions.IsValid() ? MakeShareable(new FApiCondition(*src.ApiConditions)) : nullptr),
-            Comment(src.Comment),
-            Effect(src.Effect),
-            Principal(src.Principal),
-            Resource(src.Resource)
-            {}
+        FPermissionStatement(const FPermissionStatement& src) = default;
 
         FPermissionStatement(const TSharedPtr<FJsonObject>& obj) : FPermissionStatement()
         {
@@ -5457,19 +6385,19 @@ namespace AdminModels
         // [optional] The name of the policy read.
         FString PolicyName;
 
+        // Policy version.
+        int32 PolicyVersion;
+
         // [optional] The statements in the requested policy.
         TArray<FPermissionStatement> Statements;
         FGetPolicyResponse() :
             FPlayFabCppResultCommon(),
             PolicyName(),
+            PolicyVersion(0),
             Statements()
             {}
 
-        FGetPolicyResponse(const FGetPolicyResponse& src) :
-            FPlayFabCppResultCommon(),
-            PolicyName(src.PolicyName),
-            Statements(src.Statements)
-            {}
+        FGetPolicyResponse(const FGetPolicyResponse& src) = default;
 
         FGetPolicyResponse(const TSharedPtr<FJsonObject>& obj) : FGetPolicyResponse()
         {
@@ -5491,10 +6419,7 @@ namespace AdminModels
             Keys()
             {}
 
-        FGetPublisherDataRequest(const FGetPublisherDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Keys(src.Keys)
-            {}
+        FGetPublisherDataRequest(const FGetPublisherDataRequest& src) = default;
 
         FGetPublisherDataRequest(const TSharedPtr<FJsonObject>& obj) : FGetPublisherDataRequest()
         {
@@ -5516,10 +6441,7 @@ namespace AdminModels
             Data()
             {}
 
-        FGetPublisherDataResult(const FGetPublisherDataResult& src) :
-            FPlayFabCppResultCommon(),
-            Data(src.Data)
-            {}
+        FGetPublisherDataResult(const FGetPublisherDataResult& src) = default;
 
         FGetPublisherDataResult(const TSharedPtr<FJsonObject>& obj) : FGetPublisherDataResult()
         {
@@ -5542,10 +6464,7 @@ namespace AdminModels
             CatalogVersion()
             {}
 
-        FGetRandomResultTablesRequest(const FGetRandomResultTablesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion)
-            {}
+        FGetRandomResultTablesRequest(const FGetRandomResultTablesRequest& src) = default;
 
         FGetRandomResultTablesRequest(const TSharedPtr<FJsonObject>& obj) : FGetRandomResultTablesRequest()
         {
@@ -5586,12 +6505,7 @@ namespace AdminModels
             Weight(0)
             {}
 
-        FResultTableNode(const FResultTableNode& src) :
-            FPlayFabCppBaseModel(),
-            ResultItem(src.ResultItem),
-            ResultItemType(src.ResultItemType),
-            Weight(src.Weight)
-            {}
+        FResultTableNode(const FResultTableNode& src) = default;
 
         FResultTableNode(const TSharedPtr<FJsonObject>& obj) : FResultTableNode()
         {
@@ -5621,12 +6535,7 @@ namespace AdminModels
             TableId()
             {}
 
-        FRandomResultTableListing(const FRandomResultTableListing& src) :
-            FPlayFabCppBaseModel(),
-            CatalogVersion(src.CatalogVersion),
-            Nodes(src.Nodes),
-            TableId(src.TableId)
-            {}
+        FRandomResultTableListing(const FRandomResultTableListing& src) = default;
 
         FRandomResultTableListing(const TSharedPtr<FJsonObject>& obj) : FRandomResultTableListing()
         {
@@ -5648,10 +6557,7 @@ namespace AdminModels
             Tables()
             {}
 
-        FGetRandomResultTablesResult(const FGetRandomResultTablesResult& src) :
-            FPlayFabCppResultCommon(),
-            Tables(src.Tables)
-            {}
+        FGetRandomResultTablesResult(const FGetRandomResultTablesResult& src) = default;
 
         FGetRandomResultTablesResult(const TSharedPtr<FJsonObject>& obj) : FGetRandomResultTablesResult()
         {
@@ -5659,6 +6565,54 @@ namespace AdminModels
         }
 
         ~FGetRandomResultTablesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetSegmentsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment ids to filter title segments.
+        TArray<FString> SegmentIds;
+        FGetSegmentsRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentIds()
+            {}
+
+        FGetSegmentsRequest(const FGetSegmentsRequest& src) = default;
+
+        FGetSegmentsRequest(const TSharedPtr<FJsonObject>& obj) : FGetSegmentsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetSegmentsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        // [optional] List of title segments.
+        TArray<FSegmentModel> Segments;
+        FGetSegmentsResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(),
+            Segments()
+            {}
+
+        FGetSegmentsResponse(const FGetSegmentsResponse& src) = default;
+
+        FGetSegmentsResponse(const TSharedPtr<FJsonObject>& obj) : FGetSegmentsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetSegmentsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -5674,10 +6628,7 @@ namespace AdminModels
             BuildId()
             {}
 
-        FGetServerBuildInfoRequest(const FGetServerBuildInfoRequest& src) :
-            FPlayFabCppRequestCommon(),
-            BuildId(src.BuildId)
-            {}
+        FGetServerBuildInfoRequest(const FGetServerBuildInfoRequest& src) = default;
 
         FGetServerBuildInfoRequest(const TSharedPtr<FJsonObject>& obj) : FGetServerBuildInfoRequest()
         {
@@ -5737,18 +6688,7 @@ namespace AdminModels
             TitleId()
             {}
 
-        FGetServerBuildInfoResult(const FGetServerBuildInfoResult& src) :
-            FPlayFabCppResultCommon(),
-            ActiveRegions(src.ActiveRegions),
-            BuildId(src.BuildId),
-            Comment(src.Comment),
-            ErrorMessage(src.ErrorMessage),
-            MaxGamesPerHost(src.MaxGamesPerHost),
-            MinFreeGameSlots(src.MinFreeGameSlots),
-            Status(src.Status),
-            Timestamp(src.Timestamp),
-            TitleId(src.TitleId)
-            {}
+        FGetServerBuildInfoResult(const FGetServerBuildInfoResult& src) = default;
 
         FGetServerBuildInfoResult(const TSharedPtr<FJsonObject>& obj) : FGetServerBuildInfoResult()
         {
@@ -5771,10 +6711,7 @@ namespace AdminModels
             BuildId()
             {}
 
-        FGetServerBuildUploadURLRequest(const FGetServerBuildUploadURLRequest& src) :
-            FPlayFabCppRequestCommon(),
-            BuildId(src.BuildId)
-            {}
+        FGetServerBuildUploadURLRequest(const FGetServerBuildUploadURLRequest& src) = default;
 
         FGetServerBuildUploadURLRequest(const TSharedPtr<FJsonObject>& obj) : FGetServerBuildUploadURLRequest()
         {
@@ -5797,10 +6734,7 @@ namespace AdminModels
             URL()
             {}
 
-        FGetServerBuildUploadURLResult(const FGetServerBuildUploadURLResult& src) :
-            FPlayFabCppResultCommon(),
-            URL(src.URL)
-            {}
+        FGetServerBuildUploadURLResult(const FGetServerBuildUploadURLResult& src) = default;
 
         FGetServerBuildUploadURLResult(const TSharedPtr<FJsonObject>& obj) : FGetServerBuildUploadURLResult()
         {
@@ -5827,11 +6761,7 @@ namespace AdminModels
             StoreId()
             {}
 
-        FGetStoreItemsRequest(const FGetStoreItemsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion),
-            StoreId(src.StoreId)
-            {}
+        FGetStoreItemsRequest(const FGetStoreItemsRequest& src) = default;
 
         FGetStoreItemsRequest(const TSharedPtr<FJsonObject>& obj) : FGetStoreItemsRequest()
         {
@@ -5862,12 +6792,7 @@ namespace AdminModels
             Metadata()
             {}
 
-        FStoreMarketingModel(const FStoreMarketingModel& src) :
-            FPlayFabCppBaseModel(),
-            Description(src.Description),
-            DisplayName(src.DisplayName),
-            Metadata(src.Metadata)
-            {}
+        FStoreMarketingModel(const FStoreMarketingModel& src) = default;
 
         FStoreMarketingModel(const TSharedPtr<FJsonObject>& obj) : FStoreMarketingModel()
         {
@@ -5922,14 +6847,7 @@ namespace AdminModels
             VirtualCurrencyPrices()
             {}
 
-        FStoreItem(const FStoreItem& src) :
-            FPlayFabCppBaseModel(),
-            CustomData(src.CustomData),
-            DisplayPosition(src.DisplayPosition),
-            ItemId(src.ItemId),
-            RealCurrencyPrices(src.RealCurrencyPrices),
-            VirtualCurrencyPrices(src.VirtualCurrencyPrices)
-            {}
+        FStoreItem(const FStoreItem& src) = default;
 
         FStoreItem(const TSharedPtr<FJsonObject>& obj) : FStoreItem()
         {
@@ -5967,14 +6885,7 @@ namespace AdminModels
             StoreId()
             {}
 
-        FGetStoreItemsResult(const FGetStoreItemsResult& src) :
-            FPlayFabCppResultCommon(),
-            CatalogVersion(src.CatalogVersion),
-            MarketingData(src.MarketingData.IsValid() ? MakeShareable(new FStoreMarketingModel(*src.MarketingData)) : nullptr),
-            Source(src.Source),
-            Store(src.Store),
-            StoreId(src.StoreId)
-            {}
+        FGetStoreItemsResult(const FGetStoreItemsResult& src) = default;
 
         FGetStoreItemsResult(const TSharedPtr<FJsonObject>& obj) : FGetStoreItemsResult()
         {
@@ -5997,10 +6908,7 @@ namespace AdminModels
             TaskInstanceId()
             {}
 
-        FGetTaskInstanceRequest(const FGetTaskInstanceRequest& src) :
-            FPlayFabCppRequestCommon(),
-            TaskInstanceId(src.TaskInstanceId)
-            {}
+        FGetTaskInstanceRequest(const FGetTaskInstanceRequest& src) = default;
 
         FGetTaskInstanceRequest(const TSharedPtr<FJsonObject>& obj) : FGetTaskInstanceRequest()
         {
@@ -6038,13 +6946,7 @@ namespace AdminModels
             TaskIdentifier(nullptr)
             {}
 
-        FGetTaskInstancesRequest(const FGetTaskInstancesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            StartedAtRangeFrom(src.StartedAtRangeFrom),
-            StartedAtRangeTo(src.StartedAtRangeTo),
-            StatusFilter(src.StatusFilter),
-            TaskIdentifier(src.TaskIdentifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.TaskIdentifier)) : nullptr)
-            {}
+        FGetTaskInstancesRequest(const FGetTaskInstancesRequest& src) = default;
 
         FGetTaskInstancesRequest(const TSharedPtr<FJsonObject>& obj) : FGetTaskInstancesRequest()
         {
@@ -6115,19 +7017,7 @@ namespace AdminModels
             Type()
             {}
 
-        FTaskInstanceBasicSummary(const FTaskInstanceBasicSummary& src) :
-            FPlayFabCppBaseModel(),
-            CompletedAt(src.CompletedAt),
-            ErrorMessage(src.ErrorMessage),
-            EstimatedSecondsRemaining(src.EstimatedSecondsRemaining),
-            PercentComplete(src.PercentComplete),
-            ScheduledByUserId(src.ScheduledByUserId),
-            StartedAt(src.StartedAt),
-            Status(src.Status),
-            TaskIdentifier(src.TaskIdentifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.TaskIdentifier)) : nullptr),
-            TaskInstanceId(src.TaskInstanceId),
-            Type(src.Type)
-            {}
+        FTaskInstanceBasicSummary(const FTaskInstanceBasicSummary& src) = default;
 
         FTaskInstanceBasicSummary(const TSharedPtr<FJsonObject>& obj) : FTaskInstanceBasicSummary()
         {
@@ -6153,10 +7043,7 @@ namespace AdminModels
             Summaries()
             {}
 
-        FGetTaskInstancesResult(const FGetTaskInstancesResult& src) :
-            FPlayFabCppResultCommon(),
-            Summaries(src.Summaries)
-            {}
+        FGetTaskInstancesResult(const FGetTaskInstancesResult& src) = default;
 
         FGetTaskInstancesResult(const TSharedPtr<FJsonObject>& obj) : FGetTaskInstancesResult()
         {
@@ -6179,10 +7066,7 @@ namespace AdminModels
             Identifier(nullptr)
             {}
 
-        FGetTasksRequest(const FGetTasksRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Identifier(src.Identifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.Identifier)) : nullptr)
-            {}
+        FGetTasksRequest(const FGetTasksRequest& src) = default;
 
         FGetTasksRequest(const TSharedPtr<FJsonObject>& obj) : FGetTasksRequest()
         {
@@ -6240,18 +7124,7 @@ namespace AdminModels
             Type()
             {}
 
-        FScheduledTask(const FScheduledTask& src) :
-            FPlayFabCppBaseModel(),
-            Description(src.Description),
-            IsActive(src.IsActive),
-            LastRunTime(src.LastRunTime),
-            Name(src.Name),
-            NextRunTime(src.NextRunTime),
-            Parameter(src.Parameter),
-            Schedule(src.Schedule),
-            TaskId(src.TaskId),
-            Type(src.Type)
-            {}
+        FScheduledTask(const FScheduledTask& src) = default;
 
         FScheduledTask(const TSharedPtr<FJsonObject>& obj) : FScheduledTask()
         {
@@ -6273,10 +7146,7 @@ namespace AdminModels
             Tasks()
             {}
 
-        FGetTasksResult(const FGetTasksResult& src) :
-            FPlayFabCppResultCommon(),
-            Tasks(src.Tasks)
-            {}
+        FGetTasksResult(const FGetTasksResult& src) = default;
 
         FGetTasksResult(const TSharedPtr<FJsonObject>& obj) : FGetTasksResult()
         {
@@ -6294,8 +7164,8 @@ namespace AdminModels
         // [optional] Specific keys to search for in the title data (leave null to get all keys)
         TArray<FString> Keys;
         /**
-         * [optional] Name of the override. This value is ignored when used by the game client; otherwise, the overrides are applied
-         * automatically to the title data.
+         * [optional] Optional field that specifies the name of an override. This value is ignored when used by the game client; otherwise,
+         * the overrides are applied automatically to the title data.
          */
         FString OverrideLabel;
 
@@ -6305,11 +7175,7 @@ namespace AdminModels
             OverrideLabel()
             {}
 
-        FGetTitleDataRequest(const FGetTitleDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Keys(src.Keys),
-            OverrideLabel(src.OverrideLabel)
-            {}
+        FGetTitleDataRequest(const FGetTitleDataRequest& src) = default;
 
         FGetTitleDataRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitleDataRequest()
         {
@@ -6331,10 +7197,7 @@ namespace AdminModels
             Data()
             {}
 
-        FGetTitleDataResult(const FGetTitleDataResult& src) :
-            FPlayFabCppResultCommon(),
-            Data(src.Data)
-            {}
+        FGetTitleDataResult(const FGetTitleDataResult& src) = default;
 
         FGetTitleDataResult(const TSharedPtr<FJsonObject>& obj) : FGetTitleDataResult()
         {
@@ -6357,10 +7220,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetUserBansRequest(const FGetUserBansRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetUserBansRequest(const FGetUserBansRequest& src) = default;
 
         FGetUserBansRequest(const TSharedPtr<FJsonObject>& obj) : FGetUserBansRequest()
         {
@@ -6382,10 +7242,7 @@ namespace AdminModels
             BanData()
             {}
 
-        FGetUserBansResult(const FGetUserBansResult& src) :
-            FPlayFabCppResultCommon(),
-            BanData(src.BanData)
-            {}
+        FGetUserBansResult(const FGetUserBansResult& src) = default;
 
         FGetUserBansResult(const TSharedPtr<FJsonObject>& obj) : FGetUserBansResult()
         {
@@ -6418,12 +7275,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetUserDataRequest(const FGetUserDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            IfChangedFromDataVersion(src.IfChangedFromDataVersion),
-            Keys(src.Keys),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetUserDataRequest(const FGetUserDataRequest& src) = default;
 
         FGetUserDataRequest(const TSharedPtr<FJsonObject>& obj) : FGetUserDataRequest()
         {
@@ -6467,12 +7319,7 @@ namespace AdminModels
             Value()
             {}
 
-        FUserDataRecord(const FUserDataRecord& src) :
-            FPlayFabCppBaseModel(),
-            LastUpdated(src.LastUpdated),
-            Permission(src.Permission),
-            Value(src.Value)
-            {}
+        FUserDataRecord(const FUserDataRecord& src) = default;
 
         FUserDataRecord(const TSharedPtr<FJsonObject>& obj) : FUserDataRecord()
         {
@@ -6505,12 +7352,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetUserDataResult(const FGetUserDataResult& src) :
-            FPlayFabCppResultCommon(),
-            Data(src.Data),
-            DataVersion(src.DataVersion),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetUserDataResult(const FGetUserDataResult& src) = default;
 
         FGetUserDataResult(const TSharedPtr<FJsonObject>& obj) : FGetUserDataResult()
         {
@@ -6536,11 +7378,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FGetUserInventoryRequest(const FGetUserInventoryRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId)
-            {}
+        FGetUserInventoryRequest(const FGetUserInventoryRequest& src) = default;
 
         FGetUserInventoryRequest(const TSharedPtr<FJsonObject>& obj) : FGetUserInventoryRequest()
         {
@@ -6623,24 +7461,7 @@ namespace AdminModels
             UsesIncrementedBy()
             {}
 
-        FItemInstance(const FItemInstance& src) :
-            FPlayFabCppBaseModel(),
-            Annotation(src.Annotation),
-            BundleContents(src.BundleContents),
-            BundleParent(src.BundleParent),
-            CatalogVersion(src.CatalogVersion),
-            CustomData(src.CustomData),
-            DisplayName(src.DisplayName),
-            Expiration(src.Expiration),
-            ItemClass(src.ItemClass),
-            ItemId(src.ItemId),
-            ItemInstanceId(src.ItemInstanceId),
-            PurchaseDate(src.PurchaseDate),
-            RemainingUses(src.RemainingUses),
-            UnitCurrency(src.UnitCurrency),
-            UnitPrice(src.UnitPrice),
-            UsesIncrementedBy(src.UsesIncrementedBy)
-            {}
+        FItemInstance(const FItemInstance& src) = default;
 
         FItemInstance(const TSharedPtr<FJsonObject>& obj) : FItemInstance()
         {
@@ -6675,12 +7496,7 @@ namespace AdminModels
             SecondsToRecharge(0)
             {}
 
-        FVirtualCurrencyRechargeTime(const FVirtualCurrencyRechargeTime& src) :
-            FPlayFabCppBaseModel(),
-            RechargeMax(src.RechargeMax),
-            RechargeTime(src.RechargeTime),
-            SecondsToRecharge(src.SecondsToRecharge)
-            {}
+        FVirtualCurrencyRechargeTime(const FVirtualCurrencyRechargeTime& src) = default;
 
         FVirtualCurrencyRechargeTime(const TSharedPtr<FJsonObject>& obj) : FVirtualCurrencyRechargeTime()
         {
@@ -6712,13 +7528,7 @@ namespace AdminModels
             VirtualCurrencyRechargeTimes()
             {}
 
-        FGetUserInventoryResult(const FGetUserInventoryResult& src) :
-            FPlayFabCppResultCommon(),
-            Inventory(src.Inventory),
-            PlayFabId(src.PlayFabId),
-            VirtualCurrency(src.VirtualCurrency),
-            VirtualCurrencyRechargeTimes(src.VirtualCurrencyRechargeTimes)
-            {}
+        FGetUserInventoryResult(const FGetUserInventoryResult& src) = default;
 
         FGetUserInventoryResult(const TSharedPtr<FJsonObject>& obj) : FGetUserInventoryResult()
         {
@@ -6813,27 +7623,7 @@ namespace AdminModels
             UsesIncrementedBy()
             {}
 
-        FGrantedItemInstance(const FGrantedItemInstance& src) :
-            FPlayFabCppBaseModel(),
-            Annotation(src.Annotation),
-            BundleContents(src.BundleContents),
-            BundleParent(src.BundleParent),
-            CatalogVersion(src.CatalogVersion),
-            CharacterId(src.CharacterId),
-            CustomData(src.CustomData),
-            DisplayName(src.DisplayName),
-            Expiration(src.Expiration),
-            ItemClass(src.ItemClass),
-            ItemId(src.ItemId),
-            ItemInstanceId(src.ItemInstanceId),
-            PlayFabId(src.PlayFabId),
-            PurchaseDate(src.PurchaseDate),
-            RemainingUses(src.RemainingUses),
-            Result(src.Result),
-            UnitCurrency(src.UnitCurrency),
-            UnitPrice(src.UnitPrice),
-            UsesIncrementedBy(src.UsesIncrementedBy)
-            {}
+        FGrantedItemInstance(const FGrantedItemInstance& src) = default;
 
         FGrantedItemInstance(const TSharedPtr<FJsonObject>& obj) : FGrantedItemInstance()
         {
@@ -6880,15 +7670,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FItemGrant(const FItemGrant& src) :
-            FPlayFabCppBaseModel(),
-            Annotation(src.Annotation),
-            CharacterId(src.CharacterId),
-            Data(src.Data),
-            ItemId(src.ItemId),
-            KeysToRemove(src.KeysToRemove),
-            PlayFabId(src.PlayFabId)
-            {}
+        FItemGrant(const FItemGrant& src) = default;
 
         FItemGrant(const TSharedPtr<FJsonObject>& obj) : FItemGrant()
         {
@@ -6917,12 +7699,7 @@ namespace AdminModels
             ItemGrants()
             {}
 
-        FGrantItemsToUsersRequest(const FGrantItemsToUsersRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion),
-            CustomTags(src.CustomTags),
-            ItemGrants(src.ItemGrants)
-            {}
+        FGrantItemsToUsersRequest(const FGrantItemsToUsersRequest& src) = default;
 
         FGrantItemsToUsersRequest(const TSharedPtr<FJsonObject>& obj) : FGrantItemsToUsersRequest()
         {
@@ -6944,10 +7721,7 @@ namespace AdminModels
             ItemGrantResults()
             {}
 
-        FGrantItemsToUsersResult(const FGrantItemsToUsersResult& src) :
-            FPlayFabCppResultCommon(),
-            ItemGrantResults(src.ItemGrantResults)
-            {}
+        FGrantItemsToUsersResult(const FGrantItemsToUsersResult& src) = default;
 
         FGrantItemsToUsersResult(const TSharedPtr<FJsonObject>& obj) : FGrantItemsToUsersResult()
         {
@@ -6981,13 +7755,7 @@ namespace AdminModels
             ItemId()
             {}
 
-        FIncrementLimitedEditionItemAvailabilityRequest(const FIncrementLimitedEditionItemAvailabilityRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Amount(src.Amount),
-            CatalogVersion(src.CatalogVersion),
-            CustomTags(src.CustomTags),
-            ItemId(src.ItemId)
-            {}
+        FIncrementLimitedEditionItemAvailabilityRequest(const FIncrementLimitedEditionItemAvailabilityRequest& src) = default;
 
         FIncrementLimitedEditionItemAvailabilityRequest(const TSharedPtr<FJsonObject>& obj) : FIncrementLimitedEditionItemAvailabilityRequest()
         {
@@ -7006,9 +7774,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FIncrementLimitedEditionItemAvailabilityResult(const FIncrementLimitedEditionItemAvailabilityResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FIncrementLimitedEditionItemAvailabilityResult(const FIncrementLimitedEditionItemAvailabilityResult& src) = default;
 
         FIncrementLimitedEditionItemAvailabilityResult(const TSharedPtr<FJsonObject>& obj) : FIncrementLimitedEditionItemAvailabilityResult()
         {
@@ -7034,11 +7800,7 @@ namespace AdminModels
             StatisticName()
             {}
 
-        FIncrementPlayerStatisticVersionRequest(const FIncrementPlayerStatisticVersionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            StatisticName(src.StatisticName)
-            {}
+        FIncrementPlayerStatisticVersionRequest(const FIncrementPlayerStatisticVersionRequest& src) = default;
 
         FIncrementPlayerStatisticVersionRequest(const TSharedPtr<FJsonObject>& obj) : FIncrementPlayerStatisticVersionRequest()
         {
@@ -7061,10 +7823,7 @@ namespace AdminModels
             StatisticVersion(nullptr)
             {}
 
-        FIncrementPlayerStatisticVersionResult(const FIncrementPlayerStatisticVersionResult& src) :
-            FPlayFabCppResultCommon(),
-            StatisticVersion(src.StatisticVersion.IsValid() ? MakeShareable(new FPlayerStatisticVersion(*src.StatisticVersion)) : nullptr)
-            {}
+        FIncrementPlayerStatisticVersionResult(const FIncrementPlayerStatisticVersionResult& src) = default;
 
         FIncrementPlayerStatisticVersionResult(const TSharedPtr<FJsonObject>& obj) : FIncrementPlayerStatisticVersionResult()
         {
@@ -7083,9 +7842,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FListBuildsRequest(const FListBuildsRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FListBuildsRequest(const FListBuildsRequest& src) = default;
 
         FListBuildsRequest(const TSharedPtr<FJsonObject>& obj) : FListBuildsRequest()
         {
@@ -7107,10 +7864,7 @@ namespace AdminModels
             Builds()
             {}
 
-        FListBuildsResult(const FListBuildsResult& src) :
-            FPlayFabCppResultCommon(),
-            Builds(src.Builds)
-            {}
+        FListBuildsResult(const FListBuildsResult& src) = default;
 
         FListBuildsResult(const TSharedPtr<FJsonObject>& obj) : FListBuildsResult()
         {
@@ -7129,9 +7883,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FListOpenIdConnectionRequest(const FListOpenIdConnectionRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FListOpenIdConnectionRequest(const FListOpenIdConnectionRequest& src) = default;
 
         FListOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FListOpenIdConnectionRequest()
         {
@@ -7170,14 +7922,7 @@ namespace AdminModels
             IssuerInformation(nullptr)
             {}
 
-        FOpenIdConnection(const FOpenIdConnection& src) :
-            FPlayFabCppBaseModel(),
-            ClientId(src.ClientId),
-            ClientSecret(src.ClientSecret),
-            ConnectionId(src.ConnectionId),
-            DiscoverConfiguration(src.DiscoverConfiguration),
-            IssuerInformation(src.IssuerInformation.IsValid() ? MakeShareable(new FOpenIdIssuerInformation(*src.IssuerInformation)) : nullptr)
-            {}
+        FOpenIdConnection(const FOpenIdConnection& src) = default;
 
         FOpenIdConnection(const TSharedPtr<FJsonObject>& obj) : FOpenIdConnection()
         {
@@ -7199,10 +7944,7 @@ namespace AdminModels
             Connections()
             {}
 
-        FListOpenIdConnectionResponse(const FListOpenIdConnectionResponse& src) :
-            FPlayFabCppResultCommon(),
-            Connections(src.Connections)
-            {}
+        FListOpenIdConnectionResponse(const FListOpenIdConnectionResponse& src) = default;
 
         FListOpenIdConnectionResponse(const TSharedPtr<FJsonObject>& obj) : FListOpenIdConnectionResponse()
         {
@@ -7221,9 +7963,7 @@ namespace AdminModels
             FPlayFabCppRequestCommon()
             {}
 
-        FListVirtualCurrencyTypesRequest(const FListVirtualCurrencyTypesRequest& src) :
-            FPlayFabCppRequestCommon()
-            {}
+        FListVirtualCurrencyTypesRequest(const FListVirtualCurrencyTypesRequest& src) = default;
 
         FListVirtualCurrencyTypesRequest(const TSharedPtr<FJsonObject>& obj) : FListVirtualCurrencyTypesRequest()
         {
@@ -7245,10 +7985,7 @@ namespace AdminModels
             VirtualCurrencies()
             {}
 
-        FListVirtualCurrencyTypesResult(const FListVirtualCurrencyTypesResult& src) :
-            FPlayFabCppResultCommon(),
-            VirtualCurrencies(src.VirtualCurrencies)
-            {}
+        FListVirtualCurrencyTypesResult(const FListVirtualCurrencyTypesResult& src) = default;
 
         FListVirtualCurrencyTypesResult(const TSharedPtr<FJsonObject>& obj) : FListVirtualCurrencyTypesResult()
         {
@@ -7283,13 +8020,7 @@ namespace AdminModels
             Username()
             {}
 
-        FLookupUserAccountInfoRequest(const FLookupUserAccountInfoRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Email(src.Email),
-            PlayFabId(src.PlayFabId),
-            TitleDisplayName(src.TitleDisplayName),
-            Username(src.Username)
-            {}
+        FLookupUserAccountInfoRequest(const FLookupUserAccountInfoRequest& src) = default;
 
         FLookupUserAccountInfoRequest(const TSharedPtr<FJsonObject>& obj) : FLookupUserAccountInfoRequest()
         {
@@ -7312,10 +8043,7 @@ namespace AdminModels
             AndroidDeviceId()
             {}
 
-        FUserAndroidDeviceInfo(const FUserAndroidDeviceInfo& src) :
-            FPlayFabCppBaseModel(),
-            AndroidDeviceId(src.AndroidDeviceId)
-            {}
+        FUserAndroidDeviceInfo(const FUserAndroidDeviceInfo& src) = default;
 
         FUserAndroidDeviceInfo(const TSharedPtr<FJsonObject>& obj) : FUserAndroidDeviceInfo()
         {
@@ -7338,10 +8066,7 @@ namespace AdminModels
             AppleSubjectId()
             {}
 
-        FUserAppleIdInfo(const FUserAppleIdInfo& src) :
-            FPlayFabCppBaseModel(),
-            AppleSubjectId(src.AppleSubjectId)
-            {}
+        FUserAppleIdInfo(const FUserAppleIdInfo& src) = default;
 
         FUserAppleIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserAppleIdInfo()
         {
@@ -7364,10 +8089,7 @@ namespace AdminModels
             CustomId()
             {}
 
-        FUserCustomIdInfo(const FUserCustomIdInfo& src) :
-            FPlayFabCppBaseModel(),
-            CustomId(src.CustomId)
-            {}
+        FUserCustomIdInfo(const FUserCustomIdInfo& src) = default;
 
         FUserCustomIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserCustomIdInfo()
         {
@@ -7394,11 +8116,7 @@ namespace AdminModels
             FullName()
             {}
 
-        FUserFacebookInfo(const FUserFacebookInfo& src) :
-            FPlayFabCppBaseModel(),
-            FacebookId(src.FacebookId),
-            FullName(src.FullName)
-            {}
+        FUserFacebookInfo(const FUserFacebookInfo& src) = default;
 
         FUserFacebookInfo(const TSharedPtr<FJsonObject>& obj) : FUserFacebookInfo()
         {
@@ -7421,10 +8139,7 @@ namespace AdminModels
             FacebookInstantGamesId()
             {}
 
-        FUserFacebookInstantGamesIdInfo(const FUserFacebookInstantGamesIdInfo& src) :
-            FPlayFabCppBaseModel(),
-            FacebookInstantGamesId(src.FacebookInstantGamesId)
-            {}
+        FUserFacebookInstantGamesIdInfo(const FUserFacebookInstantGamesIdInfo& src) = default;
 
         FUserFacebookInstantGamesIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserFacebookInstantGamesIdInfo()
         {
@@ -7447,10 +8162,7 @@ namespace AdminModels
             GameCenterId()
             {}
 
-        FUserGameCenterInfo(const FUserGameCenterInfo& src) :
-            FPlayFabCppBaseModel(),
-            GameCenterId(src.GameCenterId)
-            {}
+        FUserGameCenterInfo(const FUserGameCenterInfo& src) = default;
 
         FUserGameCenterInfo(const TSharedPtr<FJsonObject>& obj) : FUserGameCenterInfo()
         {
@@ -7489,14 +8201,7 @@ namespace AdminModels
             GoogleName()
             {}
 
-        FUserGoogleInfo(const FUserGoogleInfo& src) :
-            FPlayFabCppBaseModel(),
-            GoogleEmail(src.GoogleEmail),
-            GoogleGender(src.GoogleGender),
-            GoogleId(src.GoogleId),
-            GoogleLocale(src.GoogleLocale),
-            GoogleName(src.GoogleName)
-            {}
+        FUserGoogleInfo(const FUserGoogleInfo& src) = default;
 
         FUserGoogleInfo(const TSharedPtr<FJsonObject>& obj) : FUserGoogleInfo()
         {
@@ -7519,10 +8224,7 @@ namespace AdminModels
             IosDeviceId()
             {}
 
-        FUserIosDeviceInfo(const FUserIosDeviceInfo& src) :
-            FPlayFabCppBaseModel(),
-            IosDeviceId(src.IosDeviceId)
-            {}
+        FUserIosDeviceInfo(const FUserIosDeviceInfo& src) = default;
 
         FUserIosDeviceInfo(const TSharedPtr<FJsonObject>& obj) : FUserIosDeviceInfo()
         {
@@ -7549,11 +8251,7 @@ namespace AdminModels
             KongregateName()
             {}
 
-        FUserKongregateInfo(const FUserKongregateInfo& src) :
-            FPlayFabCppBaseModel(),
-            KongregateId(src.KongregateId),
-            KongregateName(src.KongregateName)
-            {}
+        FUserKongregateInfo(const FUserKongregateInfo& src) = default;
 
         FUserKongregateInfo(const TSharedPtr<FJsonObject>& obj) : FUserKongregateInfo()
         {
@@ -7576,10 +8274,7 @@ namespace AdminModels
             NintendoSwitchAccountSubjectId()
             {}
 
-        FUserNintendoSwitchAccountIdInfo(const FUserNintendoSwitchAccountIdInfo& src) :
-            FPlayFabCppBaseModel(),
-            NintendoSwitchAccountSubjectId(src.NintendoSwitchAccountSubjectId)
-            {}
+        FUserNintendoSwitchAccountIdInfo(const FUserNintendoSwitchAccountIdInfo& src) = default;
 
         FUserNintendoSwitchAccountIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserNintendoSwitchAccountIdInfo()
         {
@@ -7602,10 +8297,7 @@ namespace AdminModels
             NintendoSwitchDeviceId()
             {}
 
-        FUserNintendoSwitchDeviceIdInfo(const FUserNintendoSwitchDeviceIdInfo& src) :
-            FPlayFabCppBaseModel(),
-            NintendoSwitchDeviceId(src.NintendoSwitchDeviceId)
-            {}
+        FUserNintendoSwitchDeviceIdInfo(const FUserNintendoSwitchDeviceIdInfo& src) = default;
 
         FUserNintendoSwitchDeviceIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserNintendoSwitchDeviceIdInfo()
         {
@@ -7636,12 +8328,7 @@ namespace AdminModels
             Subject()
             {}
 
-        FUserOpenIdInfo(const FUserOpenIdInfo& src) :
-            FPlayFabCppBaseModel(),
-            ConnectionId(src.ConnectionId),
-            Issuer(src.Issuer),
-            Subject(src.Subject)
-            {}
+        FUserOpenIdInfo(const FUserOpenIdInfo& src) = default;
 
         FUserOpenIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserOpenIdInfo()
         {
@@ -7664,10 +8351,7 @@ namespace AdminModels
             Email()
             {}
 
-        FUserPrivateAccountInfo(const FUserPrivateAccountInfo& src) :
-            FPlayFabCppBaseModel(),
-            Email(src.Email)
-            {}
+        FUserPrivateAccountInfo(const FUserPrivateAccountInfo& src) = default;
 
         FUserPrivateAccountInfo(const TSharedPtr<FJsonObject>& obj) : FUserPrivateAccountInfo()
         {
@@ -7694,11 +8378,7 @@ namespace AdminModels
             PsnOnlineId()
             {}
 
-        FUserPsnInfo(const FUserPsnInfo& src) :
-            FPlayFabCppBaseModel(),
-            PsnAccountId(src.PsnAccountId),
-            PsnOnlineId(src.PsnOnlineId)
-            {}
+        FUserPsnInfo(const FUserPsnInfo& src) = default;
 
         FUserPsnInfo(const TSharedPtr<FJsonObject>& obj) : FUserPsnInfo()
         {
@@ -7750,14 +8430,7 @@ namespace AdminModels
             SteamName()
             {}
 
-        FUserSteamInfo(const FUserSteamInfo& src) :
-            FPlayFabCppBaseModel(),
-            SteamActivationStatus(src.SteamActivationStatus),
-            SteamCountry(src.SteamCountry),
-            SteamCurrency(src.SteamCurrency),
-            SteamId(src.SteamId),
-            SteamName(src.SteamName)
-            {}
+        FUserSteamInfo(const FUserSteamInfo& src) = default;
 
         FUserSteamInfo(const TSharedPtr<FJsonObject>& obj) : FUserSteamInfo()
         {
@@ -7789,7 +8462,6 @@ namespace AdminModels
         UserOriginationXboxLive,
         UserOriginationParse,
         UserOriginationTwitch,
-        UserOriginationWindowsHello,
         UserOriginationServerCustomId,
         UserOriginationNintendoSwitchDeviceId,
         UserOriginationFacebookInstantGamesId,
@@ -7846,17 +8518,7 @@ namespace AdminModels
             TitlePlayerAccount(nullptr)
             {}
 
-        FUserTitleInfo(const FUserTitleInfo& src) :
-            FPlayFabCppBaseModel(),
-            AvatarUrl(src.AvatarUrl),
-            Created(src.Created),
-            DisplayName(src.DisplayName),
-            FirstLogin(src.FirstLogin),
-            isBanned(src.isBanned),
-            LastLogin(src.LastLogin),
-            Origination(src.Origination),
-            TitlePlayerAccount(src.TitlePlayerAccount.IsValid() ? MakeShareable(new FEntityKey(*src.TitlePlayerAccount)) : nullptr)
-            {}
+        FUserTitleInfo(const FUserTitleInfo& src) = default;
 
         FUserTitleInfo(const TSharedPtr<FJsonObject>& obj) : FUserTitleInfo()
         {
@@ -7883,11 +8545,7 @@ namespace AdminModels
             TwitchUserName()
             {}
 
-        FUserTwitchInfo(const FUserTwitchInfo& src) :
-            FPlayFabCppBaseModel(),
-            TwitchId(src.TwitchId),
-            TwitchUserName(src.TwitchUserName)
-            {}
+        FUserTwitchInfo(const FUserTwitchInfo& src) = default;
 
         FUserTwitchInfo(const TSharedPtr<FJsonObject>& obj) : FUserTwitchInfo()
         {
@@ -7895,37 +8553,6 @@ namespace AdminModels
         }
 
         ~FUserTwitchInfo();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FUserWindowsHelloInfo : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Windows Hello Device Name
-        FString WindowsHelloDeviceName;
-
-        // [optional] Windows Hello Public Key Hash
-        FString WindowsHelloPublicKeyHash;
-
-        FUserWindowsHelloInfo() :
-            FPlayFabCppBaseModel(),
-            WindowsHelloDeviceName(),
-            WindowsHelloPublicKeyHash()
-            {}
-
-        FUserWindowsHelloInfo(const FUserWindowsHelloInfo& src) :
-            FPlayFabCppBaseModel(),
-            WindowsHelloDeviceName(src.WindowsHelloDeviceName),
-            WindowsHelloPublicKeyHash(src.WindowsHelloPublicKeyHash)
-            {}
-
-        FUserWindowsHelloInfo(const TSharedPtr<FJsonObject>& obj) : FUserWindowsHelloInfo()
-        {
-            readFromValue(obj);
-        }
-
-        ~FUserWindowsHelloInfo();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -7941,10 +8568,7 @@ namespace AdminModels
             XboxUserId()
             {}
 
-        FUserXboxInfo(const FUserXboxInfo& src) :
-            FPlayFabCppBaseModel(),
-            XboxUserId(src.XboxUserId)
-            {}
+        FUserXboxInfo(const FUserXboxInfo& src) = default;
 
         FUserXboxInfo(const TSharedPtr<FJsonObject>& obj) : FUserXboxInfo()
         {
@@ -8018,9 +8642,6 @@ namespace AdminModels
         // [optional] User account name in the PlayFab service
         FString Username;
 
-        // [optional] Windows Hello account information, if a Windows Hello account has been linked
-        TSharedPtr<FUserWindowsHelloInfo> WindowsHelloInfo;
-
         // [optional] User XBox account information, if a XBox account has been linked
         TSharedPtr<FUserXboxInfo> XboxInfo;
 
@@ -8046,35 +8667,10 @@ namespace AdminModels
             TitleInfo(nullptr),
             TwitchInfo(nullptr),
             Username(),
-            WindowsHelloInfo(nullptr),
             XboxInfo(nullptr)
             {}
 
-        FUserAccountInfo(const FUserAccountInfo& src) :
-            FPlayFabCppBaseModel(),
-            AndroidDeviceInfo(src.AndroidDeviceInfo.IsValid() ? MakeShareable(new FUserAndroidDeviceInfo(*src.AndroidDeviceInfo)) : nullptr),
-            AppleAccountInfo(src.AppleAccountInfo.IsValid() ? MakeShareable(new FUserAppleIdInfo(*src.AppleAccountInfo)) : nullptr),
-            Created(src.Created),
-            CustomIdInfo(src.CustomIdInfo.IsValid() ? MakeShareable(new FUserCustomIdInfo(*src.CustomIdInfo)) : nullptr),
-            FacebookInfo(src.FacebookInfo.IsValid() ? MakeShareable(new FUserFacebookInfo(*src.FacebookInfo)) : nullptr),
-            FacebookInstantGamesIdInfo(src.FacebookInstantGamesIdInfo.IsValid() ? MakeShareable(new FUserFacebookInstantGamesIdInfo(*src.FacebookInstantGamesIdInfo)) : nullptr),
-            GameCenterInfo(src.GameCenterInfo.IsValid() ? MakeShareable(new FUserGameCenterInfo(*src.GameCenterInfo)) : nullptr),
-            GoogleInfo(src.GoogleInfo.IsValid() ? MakeShareable(new FUserGoogleInfo(*src.GoogleInfo)) : nullptr),
-            IosDeviceInfo(src.IosDeviceInfo.IsValid() ? MakeShareable(new FUserIosDeviceInfo(*src.IosDeviceInfo)) : nullptr),
-            KongregateInfo(src.KongregateInfo.IsValid() ? MakeShareable(new FUserKongregateInfo(*src.KongregateInfo)) : nullptr),
-            NintendoSwitchAccountInfo(src.NintendoSwitchAccountInfo.IsValid() ? MakeShareable(new FUserNintendoSwitchAccountIdInfo(*src.NintendoSwitchAccountInfo)) : nullptr),
-            NintendoSwitchDeviceIdInfo(src.NintendoSwitchDeviceIdInfo.IsValid() ? MakeShareable(new FUserNintendoSwitchDeviceIdInfo(*src.NintendoSwitchDeviceIdInfo)) : nullptr),
-            OpenIdInfo(src.OpenIdInfo),
-            PlayFabId(src.PlayFabId),
-            PrivateInfo(src.PrivateInfo.IsValid() ? MakeShareable(new FUserPrivateAccountInfo(*src.PrivateInfo)) : nullptr),
-            PsnInfo(src.PsnInfo.IsValid() ? MakeShareable(new FUserPsnInfo(*src.PsnInfo)) : nullptr),
-            SteamInfo(src.SteamInfo.IsValid() ? MakeShareable(new FUserSteamInfo(*src.SteamInfo)) : nullptr),
-            TitleInfo(src.TitleInfo.IsValid() ? MakeShareable(new FUserTitleInfo(*src.TitleInfo)) : nullptr),
-            TwitchInfo(src.TwitchInfo.IsValid() ? MakeShareable(new FUserTwitchInfo(*src.TwitchInfo)) : nullptr),
-            Username(src.Username),
-            WindowsHelloInfo(src.WindowsHelloInfo.IsValid() ? MakeShareable(new FUserWindowsHelloInfo(*src.WindowsHelloInfo)) : nullptr),
-            XboxInfo(src.XboxInfo.IsValid() ? MakeShareable(new FUserXboxInfo(*src.XboxInfo)) : nullptr)
-            {}
+        FUserAccountInfo(const FUserAccountInfo& src) = default;
 
         FUserAccountInfo(const TSharedPtr<FJsonObject>& obj) : FUserAccountInfo()
         {
@@ -8097,10 +8693,7 @@ namespace AdminModels
             UserInfo(nullptr)
             {}
 
-        FLookupUserAccountInfoResult(const FLookupUserAccountInfoResult& src) :
-            FPlayFabCppResultCommon(),
-            UserInfo(src.UserInfo.IsValid() ? MakeShareable(new FUserAccountInfo(*src.UserInfo)) : nullptr)
-            {}
+        FLookupUserAccountInfoResult(const FLookupUserAccountInfoResult& src) = default;
 
         FLookupUserAccountInfoResult(const TSharedPtr<FJsonObject>& obj) : FLookupUserAccountInfoResult()
         {
@@ -8126,11 +8719,7 @@ namespace AdminModels
             GameModes()
             {}
 
-        FModifyMatchmakerGameModesRequest(const FModifyMatchmakerGameModesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            BuildVersion(src.BuildVersion),
-            GameModes(src.GameModes)
-            {}
+        FModifyMatchmakerGameModesRequest(const FModifyMatchmakerGameModesRequest& src) = default;
 
         FModifyMatchmakerGameModesRequest(const TSharedPtr<FJsonObject>& obj) : FModifyMatchmakerGameModesRequest()
         {
@@ -8149,9 +8738,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FModifyMatchmakerGameModesResult(const FModifyMatchmakerGameModesResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FModifyMatchmakerGameModesResult(const FModifyMatchmakerGameModesResult& src) = default;
 
         FModifyMatchmakerGameModesResult(const TSharedPtr<FJsonObject>& obj) : FModifyMatchmakerGameModesResult()
         {
@@ -8207,18 +8794,7 @@ namespace AdminModels
             Timestamp()
             {}
 
-        FModifyServerBuildRequest(const FModifyServerBuildRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ActiveRegions(src.ActiveRegions),
-            BuildId(src.BuildId),
-            CommandLineTemplate(src.CommandLineTemplate),
-            Comment(src.Comment),
-            CustomTags(src.CustomTags),
-            ExecutablePath(src.ExecutablePath),
-            MaxGamesPerHost(src.MaxGamesPerHost),
-            MinFreeGameSlots(src.MinFreeGameSlots),
-            Timestamp(src.Timestamp)
-            {}
+        FModifyServerBuildRequest(const FModifyServerBuildRequest& src) = default;
 
         FModifyServerBuildRequest(const TSharedPtr<FJsonObject>& obj) : FModifyServerBuildRequest()
         {
@@ -8282,19 +8858,7 @@ namespace AdminModels
             TitleId()
             {}
 
-        FModifyServerBuildResult(const FModifyServerBuildResult& src) :
-            FPlayFabCppResultCommon(),
-            ActiveRegions(src.ActiveRegions),
-            BuildId(src.BuildId),
-            CommandLineTemplate(src.CommandLineTemplate),
-            Comment(src.Comment),
-            ExecutablePath(src.ExecutablePath),
-            MaxGamesPerHost(src.MaxGamesPerHost),
-            MinFreeGameSlots(src.MinFreeGameSlots),
-            Status(src.Status),
-            Timestamp(src.Timestamp),
-            TitleId(src.TitleId)
-            {}
+        FModifyServerBuildResult(const FModifyServerBuildResult& src) = default;
 
         FModifyServerBuildResult(const TSharedPtr<FJsonObject>& obj) : FModifyServerBuildResult()
         {
@@ -8332,13 +8896,7 @@ namespace AdminModels
             VirtualCurrency()
             {}
 
-        FModifyUserVirtualCurrencyResult(const FModifyUserVirtualCurrencyResult& src) :
-            FPlayFabCppResultCommon(),
-            Balance(src.Balance),
-            BalanceChange(src.BalanceChange),
-            PlayFabId(src.PlayFabId),
-            VirtualCurrency(src.VirtualCurrency)
-            {}
+        FModifyUserVirtualCurrencyResult(const FModifyUserVirtualCurrencyResult& src) = default;
 
         FModifyUserVirtualCurrencyResult(const TSharedPtr<FJsonObject>& obj) : FModifyUserVirtualCurrencyResult()
         {
@@ -8375,11 +8933,7 @@ namespace AdminModels
             TableId()
             {}
 
-        FRandomResultTable(const FRandomResultTable& src) :
-            FPlayFabCppBaseModel(),
-            Nodes(src.Nodes),
-            TableId(src.TableId)
-            {}
+        FRandomResultTable(const FRandomResultTable& src) = default;
 
         FRandomResultTable(const TSharedPtr<FJsonObject>& obj) : FRandomResultTable()
         {
@@ -8414,12 +8968,7 @@ namespace AdminModels
             Reason()
             {}
 
-        FRefundPurchaseRequest(const FRefundPurchaseRequest& src) :
-            FPlayFabCppRequestCommon(),
-            OrderId(src.OrderId),
-            PlayFabId(src.PlayFabId),
-            Reason(src.Reason)
-            {}
+        FRefundPurchaseRequest(const FRefundPurchaseRequest& src) = default;
 
         FRefundPurchaseRequest(const TSharedPtr<FJsonObject>& obj) : FRefundPurchaseRequest()
         {
@@ -8442,10 +8991,7 @@ namespace AdminModels
             PurchaseStatus()
             {}
 
-        FRefundPurchaseResponse(const FRefundPurchaseResponse& src) :
-            FPlayFabCppResultCommon(),
-            PurchaseStatus(src.PurchaseStatus)
-            {}
+        FRefundPurchaseResponse(const FRefundPurchaseResponse& src) = default;
 
         FRefundPurchaseResponse(const TSharedPtr<FJsonObject>& obj) : FRefundPurchaseResponse()
         {
@@ -8475,12 +9021,7 @@ namespace AdminModels
             TagName()
             {}
 
-        FRemovePlayerTagRequest(const FRemovePlayerTagRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId),
-            TagName(src.TagName)
-            {}
+        FRemovePlayerTagRequest(const FRemovePlayerTagRequest& src) = default;
 
         FRemovePlayerTagRequest(const TSharedPtr<FJsonObject>& obj) : FRemovePlayerTagRequest()
         {
@@ -8499,9 +9040,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FRemovePlayerTagResult(const FRemovePlayerTagResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FRemovePlayerTagResult(const FRemovePlayerTagResult& src) = default;
 
         FRemovePlayerTagResult(const TSharedPtr<FJsonObject>& obj) : FRemovePlayerTagResult()
         {
@@ -8524,10 +9063,7 @@ namespace AdminModels
             BuildId()
             {}
 
-        FRemoveServerBuildRequest(const FRemoveServerBuildRequest& src) :
-            FPlayFabCppRequestCommon(),
-            BuildId(src.BuildId)
-            {}
+        FRemoveServerBuildRequest(const FRemoveServerBuildRequest& src) = default;
 
         FRemoveServerBuildRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveServerBuildRequest()
         {
@@ -8546,9 +9082,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FRemoveServerBuildResult(const FRemoveServerBuildResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FRemoveServerBuildResult(const FRemoveServerBuildResult& src) = default;
 
         FRemoveServerBuildResult(const TSharedPtr<FJsonObject>& obj) : FRemoveServerBuildResult()
         {
@@ -8570,10 +9104,7 @@ namespace AdminModels
             VirtualCurrencies()
             {}
 
-        FRemoveVirtualCurrencyTypesRequest(const FRemoveVirtualCurrencyTypesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            VirtualCurrencies(src.VirtualCurrencies)
-            {}
+        FRemoveVirtualCurrencyTypesRequest(const FRemoveVirtualCurrencyTypesRequest& src) = default;
 
         FRemoveVirtualCurrencyTypesRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveVirtualCurrencyTypesRequest()
         {
@@ -8603,12 +9134,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FResetCharacterStatisticsRequest(const FResetCharacterStatisticsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CharacterId(src.CharacterId),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId)
-            {}
+        FResetCharacterStatisticsRequest(const FResetCharacterStatisticsRequest& src) = default;
 
         FResetCharacterStatisticsRequest(const TSharedPtr<FJsonObject>& obj) : FResetCharacterStatisticsRequest()
         {
@@ -8627,9 +9153,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FResetCharacterStatisticsResult(const FResetCharacterStatisticsResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FResetCharacterStatisticsResult(const FResetCharacterStatisticsResult& src) = default;
 
         FResetCharacterStatisticsResult(const TSharedPtr<FJsonObject>& obj) : FResetCharacterStatisticsResult()
         {
@@ -8659,12 +9183,7 @@ namespace AdminModels
             Token()
             {}
 
-        FResetPasswordRequest(const FResetPasswordRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Password(src.Password),
-            Token(src.Token)
-            {}
+        FResetPasswordRequest(const FResetPasswordRequest& src) = default;
 
         FResetPasswordRequest(const TSharedPtr<FJsonObject>& obj) : FResetPasswordRequest()
         {
@@ -8683,9 +9202,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FResetPasswordResult(const FResetPasswordResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FResetPasswordResult(const FResetPasswordResult& src) = default;
 
         FResetPasswordResult(const TSharedPtr<FJsonObject>& obj) : FResetPasswordResult()
         {
@@ -8711,11 +9228,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FResetUserStatisticsRequest(const FResetUserStatisticsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId)
-            {}
+        FResetUserStatisticsRequest(const FResetUserStatisticsRequest& src) = default;
 
         FResetUserStatisticsRequest(const TSharedPtr<FJsonObject>& obj) : FResetUserStatisticsRequest()
         {
@@ -8734,9 +9247,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FResetUserStatisticsResult(const FResetUserStatisticsResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FResetUserStatisticsResult(const FResetUserStatisticsResult& src) = default;
 
         FResetUserStatisticsResult(const TSharedPtr<FJsonObject>& obj) : FResetUserStatisticsResult()
         {
@@ -8789,13 +9300,7 @@ namespace AdminModels
             Reason()
             {}
 
-        FResolvePurchaseDisputeRequest(const FResolvePurchaseDisputeRequest& src) :
-            FPlayFabCppRequestCommon(),
-            OrderId(src.OrderId),
-            Outcome(src.Outcome),
-            PlayFabId(src.PlayFabId),
-            Reason(src.Reason)
-            {}
+        FResolvePurchaseDisputeRequest(const FResolvePurchaseDisputeRequest& src) = default;
 
         FResolvePurchaseDisputeRequest(const TSharedPtr<FJsonObject>& obj) : FResolvePurchaseDisputeRequest()
         {
@@ -8818,10 +9323,7 @@ namespace AdminModels
             PurchaseStatus()
             {}
 
-        FResolvePurchaseDisputeResponse(const FResolvePurchaseDisputeResponse& src) :
-            FPlayFabCppResultCommon(),
-            PurchaseStatus(src.PurchaseStatus)
-            {}
+        FResolvePurchaseDisputeResponse(const FResolvePurchaseDisputeResponse& src) = default;
 
         FResolvePurchaseDisputeResponse(const TSharedPtr<FJsonObject>& obj) : FResolvePurchaseDisputeResponse()
         {
@@ -8844,10 +9346,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FRevokeAllBansForUserRequest(const FRevokeAllBansForUserRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PlayFabId(src.PlayFabId)
-            {}
+        FRevokeAllBansForUserRequest(const FRevokeAllBansForUserRequest& src) = default;
 
         FRevokeAllBansForUserRequest(const TSharedPtr<FJsonObject>& obj) : FRevokeAllBansForUserRequest()
         {
@@ -8869,10 +9368,7 @@ namespace AdminModels
             BanData()
             {}
 
-        FRevokeAllBansForUserResult(const FRevokeAllBansForUserResult& src) :
-            FPlayFabCppResultCommon(),
-            BanData(src.BanData)
-            {}
+        FRevokeAllBansForUserResult(const FRevokeAllBansForUserResult& src) = default;
 
         FRevokeAllBansForUserResult(const TSharedPtr<FJsonObject>& obj) : FRevokeAllBansForUserResult()
         {
@@ -8894,10 +9390,7 @@ namespace AdminModels
             BanIds()
             {}
 
-        FRevokeBansRequest(const FRevokeBansRequest& src) :
-            FPlayFabCppRequestCommon(),
-            BanIds(src.BanIds)
-            {}
+        FRevokeBansRequest(const FRevokeBansRequest& src) = default;
 
         FRevokeBansRequest(const TSharedPtr<FJsonObject>& obj) : FRevokeBansRequest()
         {
@@ -8919,10 +9412,7 @@ namespace AdminModels
             BanData()
             {}
 
-        FRevokeBansResult(const FRevokeBansResult& src) :
-            FPlayFabCppResultCommon(),
-            BanData(src.BanData)
-            {}
+        FRevokeBansResult(const FRevokeBansResult& src) = default;
 
         FRevokeBansResult(const TSharedPtr<FJsonObject>& obj) : FRevokeBansResult()
         {
@@ -8953,12 +9443,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FRevokeInventoryItem(const FRevokeInventoryItem& src) :
-            FPlayFabCppBaseModel(),
-            CharacterId(src.CharacterId),
-            ItemInstanceId(src.ItemInstanceId),
-            PlayFabId(src.PlayFabId)
-            {}
+        FRevokeInventoryItem(const FRevokeInventoryItem& src) = default;
 
         FRevokeInventoryItem(const TSharedPtr<FJsonObject>& obj) : FRevokeInventoryItem()
         {
@@ -8989,12 +9474,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FRevokeInventoryItemRequest(const FRevokeInventoryItemRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CharacterId(src.CharacterId),
-            ItemInstanceId(src.ItemInstanceId),
-            PlayFabId(src.PlayFabId)
-            {}
+        FRevokeInventoryItemRequest(const FRevokeInventoryItemRequest& src) = default;
 
         FRevokeInventoryItemRequest(const TSharedPtr<FJsonObject>& obj) : FRevokeInventoryItemRequest()
         {
@@ -9016,10 +9496,7 @@ namespace AdminModels
             Items()
             {}
 
-        FRevokeInventoryItemsRequest(const FRevokeInventoryItemsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Items(src.Items)
-            {}
+        FRevokeInventoryItemsRequest(const FRevokeInventoryItemsRequest& src) = default;
 
         FRevokeInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRevokeInventoryItemsRequest()
         {
@@ -9046,11 +9523,7 @@ namespace AdminModels
             Item(nullptr)
             {}
 
-        FRevokeItemError(const FRevokeItemError& src) :
-            FPlayFabCppBaseModel(),
-            Error(src.Error),
-            Item(src.Item.IsValid() ? MakeShareable(new FRevokeInventoryItem(*src.Item)) : nullptr)
-            {}
+        FRevokeItemError(const FRevokeItemError& src) = default;
 
         FRevokeItemError(const TSharedPtr<FJsonObject>& obj) : FRevokeItemError()
         {
@@ -9072,10 +9545,7 @@ namespace AdminModels
             Errors()
             {}
 
-        FRevokeInventoryItemsResult(const FRevokeInventoryItemsResult& src) :
-            FPlayFabCppResultCommon(),
-            Errors(src.Errors)
-            {}
+        FRevokeInventoryItemsResult(const FRevokeInventoryItemsResult& src) = default;
 
         FRevokeInventoryItemsResult(const TSharedPtr<FJsonObject>& obj) : FRevokeInventoryItemsResult()
         {
@@ -9094,9 +9564,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FRevokeInventoryResult(const FRevokeInventoryResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FRevokeInventoryResult(const FRevokeInventoryResult& src) = default;
 
         FRevokeInventoryResult(const TSharedPtr<FJsonObject>& obj) : FRevokeInventoryResult()
         {
@@ -9122,11 +9590,7 @@ namespace AdminModels
             Identifier(nullptr)
             {}
 
-        FRunTaskRequest(const FRunTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Identifier(src.Identifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.Identifier)) : nullptr)
-            {}
+        FRunTaskRequest(const FRunTaskRequest& src) = default;
 
         FRunTaskRequest(const TSharedPtr<FJsonObject>& obj) : FRunTaskRequest()
         {
@@ -9152,10 +9616,7 @@ namespace AdminModels
             TaskInstanceId()
             {}
 
-        FRunTaskResult(const FRunTaskResult& src) :
-            FPlayFabCppResultCommon(),
-            TaskInstanceId(src.TaskInstanceId)
-            {}
+        FRunTaskResult(const FRunTaskResult& src) = default;
 
         FRunTaskResult(const TSharedPtr<FJsonObject>& obj) : FRunTaskResult()
         {
@@ -9185,12 +9646,7 @@ namespace AdminModels
             EmailTemplateId()
             {}
 
-        FSendAccountRecoveryEmailRequest(const FSendAccountRecoveryEmailRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Email(src.Email),
-            EmailTemplateId(src.EmailTemplateId)
-            {}
+        FSendAccountRecoveryEmailRequest(const FSendAccountRecoveryEmailRequest& src) = default;
 
         FSendAccountRecoveryEmailRequest(const TSharedPtr<FJsonObject>& obj) : FSendAccountRecoveryEmailRequest()
         {
@@ -9209,9 +9665,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FSendAccountRecoveryEmailResult(const FSendAccountRecoveryEmailResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FSendAccountRecoveryEmailResult(const FSendAccountRecoveryEmailResult& src) = default;
 
         FSendAccountRecoveryEmailResult(const TSharedPtr<FJsonObject>& obj) : FSendAccountRecoveryEmailResult()
         {
@@ -9219,6 +9673,59 @@ namespace AdminModels
         }
 
         ~FSendAccountRecoveryEmailResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetMembershipOverrideRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Expiration time for the membership in DateTime format, will override any subscription expirations.
+        FDateTime ExpirationTime;
+
+        // Id of the membership to apply the override expiration date to.
+        FString MembershipId;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FSetMembershipOverrideRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ExpirationTime(0),
+            MembershipId(),
+            PlayFabId()
+            {}
+
+        FSetMembershipOverrideRequest(const FSetMembershipOverrideRequest& src) = default;
+
+        FSetMembershipOverrideRequest(const TSharedPtr<FJsonObject>& obj) : FSetMembershipOverrideRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetMembershipOverrideRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetMembershipOverrideResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FSetMembershipOverrideResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FSetMembershipOverrideResult(const FSetMembershipOverrideResult& src) = default;
+
+        FSetMembershipOverrideResult(const TSharedPtr<FJsonObject>& obj) : FSetMembershipOverrideResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetMembershipOverrideResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -9238,11 +9745,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FSetPlayerSecretRequest(const FSetPlayerSecretRequest& src) :
-            FPlayFabCppRequestCommon(),
-            PlayerSecret(src.PlayerSecret),
-            PlayFabId(src.PlayFabId)
-            {}
+        FSetPlayerSecretRequest(const FSetPlayerSecretRequest& src) = default;
 
         FSetPlayerSecretRequest(const TSharedPtr<FJsonObject>& obj) : FSetPlayerSecretRequest()
         {
@@ -9261,9 +9764,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FSetPlayerSecretResult(const FSetPlayerSecretResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FSetPlayerSecretResult(const FSetPlayerSecretResult& src) = default;
 
         FSetPlayerSecretResult(const TSharedPtr<FJsonObject>& obj) : FSetPlayerSecretResult()
         {
@@ -9293,12 +9794,7 @@ namespace AdminModels
             Version(0)
             {}
 
-        FSetPublishedRevisionRequest(const FSetPublishedRevisionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Revision(src.Revision),
-            Version(src.Version)
-            {}
+        FSetPublishedRevisionRequest(const FSetPublishedRevisionRequest& src) = default;
 
         FSetPublishedRevisionRequest(const TSharedPtr<FJsonObject>& obj) : FSetPublishedRevisionRequest()
         {
@@ -9317,9 +9813,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FSetPublishedRevisionResult(const FSetPublishedRevisionResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FSetPublishedRevisionResult(const FSetPublishedRevisionResult& src) = default;
 
         FSetPublishedRevisionResult(const TSharedPtr<FJsonObject>& obj) : FSetPublishedRevisionResult()
         {
@@ -9349,11 +9843,7 @@ namespace AdminModels
             Value()
             {}
 
-        FSetPublisherDataRequest(const FSetPublisherDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Key(src.Key),
-            Value(src.Value)
-            {}
+        FSetPublisherDataRequest(const FSetPublisherDataRequest& src) = default;
 
         FSetPublisherDataRequest(const TSharedPtr<FJsonObject>& obj) : FSetPublisherDataRequest()
         {
@@ -9372,9 +9862,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FSetPublisherDataResult(const FSetPublisherDataResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FSetPublisherDataResult(const FSetPublisherDataResult& src) = default;
 
         FSetPublisherDataResult(const TSharedPtr<FJsonObject>& obj) : FSetPublisherDataResult()
         {
@@ -9404,11 +9892,7 @@ namespace AdminModels
             Value()
             {}
 
-        FTitleDataKeyValue(const FTitleDataKeyValue& src) :
-            FPlayFabCppBaseModel(),
-            Key(src.Key),
-            Value(src.Value)
-            {}
+        FTitleDataKeyValue(const FTitleDataKeyValue& src) = default;
 
         FTitleDataKeyValue(const TSharedPtr<FJsonObject>& obj) : FTitleDataKeyValue()
         {
@@ -9437,11 +9921,7 @@ namespace AdminModels
             OverrideLabel()
             {}
 
-        FSetTitleDataAndOverridesRequest(const FSetTitleDataAndOverridesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            KeyValues(src.KeyValues),
-            OverrideLabel(src.OverrideLabel)
-            {}
+        FSetTitleDataAndOverridesRequest(const FSetTitleDataAndOverridesRequest& src) = default;
 
         FSetTitleDataAndOverridesRequest(const TSharedPtr<FJsonObject>& obj) : FSetTitleDataAndOverridesRequest()
         {
@@ -9460,9 +9940,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FSetTitleDataAndOverridesResult(const FSetTitleDataAndOverridesResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FSetTitleDataAndOverridesResult(const FSetTitleDataAndOverridesResult& src) = default;
 
         FSetTitleDataAndOverridesResult(const TSharedPtr<FJsonObject>& obj) : FSetTitleDataAndOverridesResult()
         {
@@ -9477,26 +9955,40 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] Id of azure resource
+        FString AzureResourceId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
         /**
          * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
          * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
          */
         FString Key;
 
+        // [optional] System Data of the Azure Resource
+        TSharedPtr<FAzureResourceSystemData> SystemData;
+
+        /**
+         * [optional] Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+         * title has been selected.
+         */
+        FString TitleId;
+
         // [optional] new value to set. Set to null to remove a value
         FString Value;
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
+            AzureResourceId(),
+            CustomTags(),
             Key(),
+            SystemData(nullptr),
+            TitleId(),
             Value()
             {}
 
-        FSetTitleDataRequest(const FSetTitleDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Key(src.Key),
-            Value(src.Value)
-            {}
+        FSetTitleDataRequest(const FSetTitleDataRequest& src) = default;
 
         FSetTitleDataRequest(const TSharedPtr<FJsonObject>& obj) : FSetTitleDataRequest()
         {
@@ -9511,13 +10003,15 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] Id of azure resource
+        FString AzureResourceId;
+
         FSetTitleDataResult() :
-            FPlayFabCppResultCommon()
+            FPlayFabCppResultCommon(),
+            AzureResourceId()
             {}
 
-        FSetTitleDataResult(const FSetTitleDataResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FSetTitleDataResult(const FSetTitleDataResult& src) = default;
 
         FSetTitleDataResult(const TSharedPtr<FJsonObject>& obj) : FSetTitleDataResult()
         {
@@ -9538,10 +10032,7 @@ namespace AdminModels
         // [optional] for APNS, this is the PlatformPrincipal (SSL Certificate)
         FString Key;
 
-        /**
-         * name of the application sending the message (application names must be made up of only uppercase and lowercase ASCII
-         * letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long)
-         */
+        // [optional] This field is deprecated and any usage of this will cause the API to fail.
         FString Name;
 
         /**
@@ -9565,14 +10056,7 @@ namespace AdminModels
             Platform()
             {}
 
-        FSetupPushNotificationRequest(const FSetupPushNotificationRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Credential(src.Credential),
-            Key(src.Key),
-            Name(src.Name),
-            OverwriteOldARN(src.OverwriteOldARN),
-            Platform(src.Platform)
-            {}
+        FSetupPushNotificationRequest(const FSetupPushNotificationRequest& src) = default;
 
         FSetupPushNotificationRequest(const TSharedPtr<FJsonObject>& obj) : FSetupPushNotificationRequest()
         {
@@ -9595,10 +10079,7 @@ namespace AdminModels
             ARN()
             {}
 
-        FSetupPushNotificationResult(const FSetupPushNotificationResult& src) :
-            FPlayFabCppResultCommon(),
-            ARN(src.ARN)
-            {}
+        FSetupPushNotificationResult(const FSetupPushNotificationResult& src) = default;
 
         FSetupPushNotificationResult(const TSharedPtr<FJsonObject>& obj) : FSetupPushNotificationResult()
         {
@@ -9645,13 +10126,7 @@ namespace AdminModels
             VirtualCurrency()
             {}
 
-        FSubtractUserVirtualCurrencyRequest(const FSubtractUserVirtualCurrencyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Amount(src.Amount),
-            CustomTags(src.CustomTags),
-            PlayFabId(src.PlayFabId),
-            VirtualCurrency(src.VirtualCurrency)
-            {}
+        FSubtractUserVirtualCurrencyRequest(const FSubtractUserVirtualCurrencyRequest& src) = default;
 
         FSubtractUserVirtualCurrencyRequest(const TSharedPtr<FJsonObject>& obj) : FSubtractUserVirtualCurrencyRequest()
         {
@@ -9698,16 +10173,7 @@ namespace AdminModels
             Reason()
             {}
 
-        FUpdateBanRequest(const FUpdateBanRequest& src) :
-            FPlayFabCppBaseModel(),
-            Active(src.Active),
-            BanId(src.BanId),
-            Expires(src.Expires),
-            IPAddress(src.IPAddress),
-            MACAddress(src.MACAddress),
-            Permanent(src.Permanent),
-            Reason(src.Reason)
-            {}
+        FUpdateBanRequest(const FUpdateBanRequest& src) = default;
 
         FUpdateBanRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBanRequest()
         {
@@ -9729,10 +10195,7 @@ namespace AdminModels
             Bans()
             {}
 
-        FUpdateBansRequest(const FUpdateBansRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Bans(src.Bans)
-            {}
+        FUpdateBansRequest(const FUpdateBansRequest& src) = default;
 
         FUpdateBansRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateBansRequest()
         {
@@ -9754,10 +10217,7 @@ namespace AdminModels
             BanData()
             {}
 
-        FUpdateBansResult(const FUpdateBansResult& src) :
-            FPlayFabCppResultCommon(),
-            BanData(src.BanData)
-            {}
+        FUpdateBansResult(const FUpdateBansResult& src) = default;
 
         FUpdateBansResult(const TSharedPtr<FJsonObject>& obj) : FUpdateBansResult()
         {
@@ -9796,13 +10256,7 @@ namespace AdminModels
             SetAsDefaultCatalog()
             {}
 
-        FUpdateCatalogItemsRequest(const FUpdateCatalogItemsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Catalog(src.Catalog),
-            CatalogVersion(src.CatalogVersion),
-            CustomTags(src.CustomTags),
-            SetAsDefaultCatalog(src.SetAsDefaultCatalog)
-            {}
+        FUpdateCatalogItemsRequest(const FUpdateCatalogItemsRequest& src) = default;
 
         FUpdateCatalogItemsRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateCatalogItemsRequest()
         {
@@ -9821,9 +10275,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FUpdateCatalogItemsResult(const FUpdateCatalogItemsResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FUpdateCatalogItemsResult(const FUpdateCatalogItemsResult& src) = default;
 
         FUpdateCatalogItemsResult(const TSharedPtr<FJsonObject>& obj) : FUpdateCatalogItemsResult()
         {
@@ -9856,13 +10308,7 @@ namespace AdminModels
             Publish(false)
             {}
 
-        FUpdateCloudScriptRequest(const FUpdateCloudScriptRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            DeveloperPlayFabId(src.DeveloperPlayFabId),
-            Files(src.Files),
-            Publish(src.Publish)
-            {}
+        FUpdateCloudScriptRequest(const FUpdateCloudScriptRequest& src) = default;
 
         FUpdateCloudScriptRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateCloudScriptRequest()
         {
@@ -9889,11 +10335,7 @@ namespace AdminModels
             Version(0)
             {}
 
-        FUpdateCloudScriptResult(const FUpdateCloudScriptResult& src) :
-            FPlayFabCppResultCommon(),
-            Revision(src.Revision),
-            Version(src.Version)
-            {}
+        FUpdateCloudScriptResult(const FUpdateCloudScriptResult& src) = default;
 
         FUpdateCloudScriptResult(const TSharedPtr<FJsonObject>& obj) : FUpdateCloudScriptResult()
         {
@@ -9932,14 +10374,7 @@ namespace AdminModels
             IssuerInformation(nullptr)
             {}
 
-        FUpdateOpenIdConnectionRequest(const FUpdateOpenIdConnectionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ClientId(src.ClientId),
-            ClientSecret(src.ClientSecret),
-            ConnectionId(src.ConnectionId),
-            IssuerDiscoveryUrl(src.IssuerDiscoveryUrl),
-            IssuerInformation(src.IssuerInformation.IsValid() ? MakeShareable(new FOpenIdIssuerInformation(*src.IssuerInformation)) : nullptr)
-            {}
+        FUpdateOpenIdConnectionRequest(const FUpdateOpenIdConnectionRequest& src) = default;
 
         FUpdateOpenIdConnectionRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateOpenIdConnectionRequest()
         {
@@ -9970,12 +10405,7 @@ namespace AdminModels
             SecretKey()
             {}
 
-        FUpdatePlayerSharedSecretRequest(const FUpdatePlayerSharedSecretRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Disabled(src.Disabled),
-            FriendlyName(src.FriendlyName),
-            SecretKey(src.SecretKey)
-            {}
+        FUpdatePlayerSharedSecretRequest(const FUpdatePlayerSharedSecretRequest& src) = default;
 
         FUpdatePlayerSharedSecretRequest(const TSharedPtr<FJsonObject>& obj) : FUpdatePlayerSharedSecretRequest()
         {
@@ -9994,9 +10424,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FUpdatePlayerSharedSecretResult(const FUpdatePlayerSharedSecretResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FUpdatePlayerSharedSecretResult(const FUpdatePlayerSharedSecretResult& src) = default;
 
         FUpdatePlayerSharedSecretResult(const TSharedPtr<FJsonObject>& obj) : FUpdatePlayerSharedSecretResult()
         {
@@ -10030,12 +10458,7 @@ namespace AdminModels
             VersionChangeInterval()
             {}
 
-        FUpdatePlayerStatisticDefinitionRequest(const FUpdatePlayerStatisticDefinitionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            AggregationMethod(src.AggregationMethod),
-            StatisticName(src.StatisticName),
-            VersionChangeInterval(src.VersionChangeInterval)
-            {}
+        FUpdatePlayerStatisticDefinitionRequest(const FUpdatePlayerStatisticDefinitionRequest& src) = default;
 
         FUpdatePlayerStatisticDefinitionRequest(const TSharedPtr<FJsonObject>& obj) : FUpdatePlayerStatisticDefinitionRequest()
         {
@@ -10058,10 +10481,7 @@ namespace AdminModels
             Statistic(nullptr)
             {}
 
-        FUpdatePlayerStatisticDefinitionResult(const FUpdatePlayerStatisticDefinitionResult& src) :
-            FPlayFabCppResultCommon(),
-            Statistic(src.Statistic.IsValid() ? MakeShareable(new FPlayerStatisticDefinition(*src.Statistic)) : nullptr)
-            {}
+        FUpdatePlayerStatisticDefinitionResult(const FUpdatePlayerStatisticDefinitionResult& src) = default;
 
         FUpdatePlayerStatisticDefinitionResult(const TSharedPtr<FJsonObject>& obj) : FUpdatePlayerStatisticDefinitionResult()
         {
@@ -10082,21 +10502,20 @@ namespace AdminModels
         // The name of the policy being updated. Only supported name is 'ApiPolicy'
         FString PolicyName;
 
+        // Version of the policy to update. Must be the latest (as returned by GetPolicy).
+        int32 PolicyVersion;
+
         // The new statements to include in the policy.
         TArray<FPermissionStatement> Statements;
         FUpdatePolicyRequest() :
             FPlayFabCppRequestCommon(),
             OverwritePolicy(false),
             PolicyName(),
+            PolicyVersion(0),
             Statements()
             {}
 
-        FUpdatePolicyRequest(const FUpdatePolicyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            OverwritePolicy(src.OverwritePolicy),
-            PolicyName(src.PolicyName),
-            Statements(src.Statements)
-            {}
+        FUpdatePolicyRequest(const FUpdatePolicyRequest& src) = default;
 
         FUpdatePolicyRequest(const TSharedPtr<FJsonObject>& obj) : FUpdatePolicyRequest()
         {
@@ -10122,11 +10541,7 @@ namespace AdminModels
             Statements()
             {}
 
-        FUpdatePolicyResponse(const FUpdatePolicyResponse& src) :
-            FPlayFabCppResultCommon(),
-            PolicyName(src.PolicyName),
-            Statements(src.Statements)
-            {}
+        FUpdatePolicyResponse(const FUpdatePolicyResponse& src) = default;
 
         FUpdatePolicyResponse(const TSharedPtr<FJsonObject>& obj) : FUpdatePolicyResponse()
         {
@@ -10158,12 +10573,7 @@ namespace AdminModels
             Tables()
             {}
 
-        FUpdateRandomResultTablesRequest(const FUpdateRandomResultTablesRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion),
-            CustomTags(src.CustomTags),
-            Tables(src.Tables)
-            {}
+        FUpdateRandomResultTablesRequest(const FUpdateRandomResultTablesRequest& src) = default;
 
         FUpdateRandomResultTablesRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateRandomResultTablesRequest()
         {
@@ -10182,9 +10592,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FUpdateRandomResultTablesResult(const FUpdateRandomResultTablesResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FUpdateRandomResultTablesResult(const FUpdateRandomResultTablesResult& src) = default;
 
         FUpdateRandomResultTablesResult(const TSharedPtr<FJsonObject>& obj) : FUpdateRandomResultTablesResult()
         {
@@ -10192,6 +10600,56 @@ namespace AdminModels
         }
 
         ~FUpdateRandomResultTablesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Segment model with all of the segment properties data.
+        FSegmentModel pfSegmentModel;
+
+        FUpdateSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            pfSegmentModel()
+            {}
+
+        FUpdateSegmentRequest(const FUpdateSegmentRequest& src) = default;
+
+        FUpdateSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateSegmentResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Error message.
+        FString ErrorMessage;
+
+        // [optional] Segment id.
+        FString SegmentId;
+
+        FUpdateSegmentResponse() :
+            FPlayFabCppResultCommon(),
+            ErrorMessage(),
+            SegmentId()
+            {}
+
+        FUpdateSegmentResponse(const FUpdateSegmentResponse& src) = default;
+
+        FUpdateSegmentResponse(const TSharedPtr<FJsonObject>& obj) : FUpdateSegmentResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateSegmentResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -10221,14 +10679,7 @@ namespace AdminModels
             StoreId()
             {}
 
-        FUpdateStoreItemsRequest(const FUpdateStoreItemsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CatalogVersion(src.CatalogVersion),
-            CustomTags(src.CustomTags),
-            MarketingData(src.MarketingData.IsValid() ? MakeShareable(new FStoreMarketingModel(*src.MarketingData)) : nullptr),
-            Store(src.Store),
-            StoreId(src.StoreId)
-            {}
+        FUpdateStoreItemsRequest(const FUpdateStoreItemsRequest& src) = default;
 
         FUpdateStoreItemsRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateStoreItemsRequest()
         {
@@ -10247,9 +10698,7 @@ namespace AdminModels
             FPlayFabCppResultCommon()
             {}
 
-        FUpdateStoreItemsResult(const FUpdateStoreItemsResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FUpdateStoreItemsResult(const FUpdateStoreItemsResult& src) = default;
 
         FUpdateStoreItemsResult(const TSharedPtr<FJsonObject>& obj) : FUpdateStoreItemsResult()
         {
@@ -10299,17 +10748,7 @@ namespace AdminModels
             Type()
             {}
 
-        FUpdateTaskRequest(const FUpdateTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Description(src.Description),
-            Identifier(src.Identifier.IsValid() ? MakeShareable(new FNameIdentifier(*src.Identifier)) : nullptr),
-            IsActive(src.IsActive),
-            Name(src.Name),
-            Parameter(src.Parameter),
-            Schedule(src.Schedule),
-            Type(src.Type)
-            {}
+        FUpdateTaskRequest(const FUpdateTaskRequest& src) = default;
 
         FUpdateTaskRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateTaskRequest()
         {
@@ -10351,14 +10790,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FUpdateUserDataRequest(const FUpdateUserDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Data(src.Data),
-            KeysToRemove(src.KeysToRemove),
-            Permission(src.Permission),
-            PlayFabId(src.PlayFabId)
-            {}
+        FUpdateUserDataRequest(const FUpdateUserDataRequest& src) = default;
 
         FUpdateUserDataRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateUserDataRequest()
         {
@@ -10384,10 +10816,7 @@ namespace AdminModels
             DataVersion(0)
             {}
 
-        FUpdateUserDataResult(const FUpdateUserDataResult& src) :
-            FPlayFabCppResultCommon(),
-            DataVersion(src.DataVersion)
-            {}
+        FUpdateUserDataResult(const FUpdateUserDataResult& src) = default;
 
         FUpdateUserDataResult(const TSharedPtr<FJsonObject>& obj) : FUpdateUserDataResult()
         {
@@ -10425,13 +10854,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FUpdateUserInternalDataRequest(const FUpdateUserInternalDataRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Data(src.Data),
-            KeysToRemove(src.KeysToRemove),
-            PlayFabId(src.PlayFabId)
-            {}
+        FUpdateUserInternalDataRequest(const FUpdateUserInternalDataRequest& src) = default;
 
         FUpdateUserInternalDataRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateUserInternalDataRequest()
         {
@@ -10461,12 +10884,7 @@ namespace AdminModels
             PlayFabId()
             {}
 
-        FUpdateUserTitleDisplayNameRequest(const FUpdateUserTitleDisplayNameRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            DisplayName(src.DisplayName),
-            PlayFabId(src.PlayFabId)
-            {}
+        FUpdateUserTitleDisplayNameRequest(const FUpdateUserTitleDisplayNameRequest& src) = default;
 
         FUpdateUserTitleDisplayNameRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateUserTitleDisplayNameRequest()
         {
@@ -10489,10 +10907,7 @@ namespace AdminModels
             DisplayName()
             {}
 
-        FUpdateUserTitleDisplayNameResult(const FUpdateUserTitleDisplayNameResult& src) :
-            FPlayFabCppResultCommon(),
-            DisplayName(src.DisplayName)
-            {}
+        FUpdateUserTitleDisplayNameResult(const FUpdateUserTitleDisplayNameResult& src) = default;
 
         FUpdateUserTitleDisplayNameResult(const TSharedPtr<FJsonObject>& obj) : FUpdateUserTitleDisplayNameResult()
         {

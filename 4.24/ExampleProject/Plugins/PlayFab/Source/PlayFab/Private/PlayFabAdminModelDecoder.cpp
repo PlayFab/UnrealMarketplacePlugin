@@ -44,6 +44,15 @@ FAdminDeleteMasterPlayerAccountResult UPlayFabAdminModelDecoder::decodeDeleteMas
     return tempStruct;
 }
 
+FAdminDeleteMembershipSubscriptionResult UPlayFabAdminModelDecoder::decodeDeleteMembershipSubscriptionResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeleteMembershipSubscriptionResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminDeletePlayerResult UPlayFabAdminModelDecoder::decodeDeletePlayerResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -168,6 +177,15 @@ FAdminSendAccountRecoveryEmailResult UPlayFabAdminModelDecoder::decodeSendAccoun
     return tempStruct;
 }
 
+FAdminSetMembershipOverrideResult UPlayFabAdminModelDecoder::decodeSetMembershipOverrideResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminSetMembershipOverrideResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminUpdateBansResult UPlayFabAdminModelDecoder::decodeUpdateBansResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -243,6 +261,7 @@ FAdminGetPolicyResponse UPlayFabAdminModelDecoder::decodeGetPolicyResponseRespon
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.PolicyName = !(dataObj->HasField("PolicyName")) ? TEXT("") : dataObj->GetStringField("PolicyName");
+    tempStruct.PolicyVersion = !(dataObj->HasField("PolicyVersion")) ? 0 : int(dataObj->GetNumberField("PolicyVersion"));
     tempStruct.Statements = !(dataObj->HasField("Statements")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Statements");
 
     return tempStruct;
@@ -847,6 +866,59 @@ FAdminRunTaskResult UPlayFabAdminModelDecoder::decodeRunTaskResultResponse(UPlay
 
 
 ///////////////////////////////////////////////////////
+// Segments
+//////////////////////////////////////////////////////
+
+FAdminCreateSegmentResponse UPlayFabAdminModelDecoder::decodeCreateSegmentResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminCreateSegmentResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+    tempStruct.SegmentId = !(dataObj->HasField("SegmentId")) ? TEXT("") : dataObj->GetStringField("SegmentId");
+
+    return tempStruct;
+}
+
+FAdminDeleteSegmentsResponse UPlayFabAdminModelDecoder::decodeDeleteSegmentsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeleteSegmentsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+
+    return tempStruct;
+}
+
+FAdminGetSegmentsResponse UPlayFabAdminModelDecoder::decodeGetSegmentsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetSegmentsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+    tempStruct.Segments = !(dataObj->HasField("Segments")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Segments");
+
+    return tempStruct;
+}
+
+FAdminUpdateSegmentResponse UPlayFabAdminModelDecoder::decodeUpdateSegmentResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminUpdateSegmentResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
+    tempStruct.SegmentId = !(dataObj->HasField("SegmentId")) ? TEXT("") : dataObj->GetStringField("SegmentId");
+
+    return tempStruct;
+}
+
+
+
+///////////////////////////////////////////////////////
 // Server-Side Cloud Script
 //////////////////////////////////////////////////////
 
@@ -1048,7 +1120,9 @@ FAdminSetTitleDataResult UPlayFabAdminModelDecoder::decodeSetTitleDataResultResp
 {
     // Temp ustruct
     FAdminSetTitleDataResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.AzureResourceId = !(dataObj->HasField("AzureResourceId")) ? TEXT("") : dataObj->GetStringField("AzureResourceId");
 
     return tempStruct;
 }

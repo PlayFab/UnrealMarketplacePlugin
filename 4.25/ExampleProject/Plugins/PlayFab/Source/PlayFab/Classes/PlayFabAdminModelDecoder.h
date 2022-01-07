@@ -44,6 +44,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminDeleteMasterPlayerAccountResult decodeDeleteMasterPlayerAccountResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the DeleteMembershipSubscriptionResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminDeleteMembershipSubscriptionResult decodeDeleteMembershipSubscriptionResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the DeletePlayerResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminDeletePlayerResult decodeDeletePlayerResultResponse(UPlayFabJsonObject* response);
@@ -91,6 +95,10 @@ public:
     /** Decode the SendAccountRecoveryEmailResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminSendAccountRecoveryEmailResult decodeSendAccountRecoveryEmailResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SetMembershipOverrideResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminSetMembershipOverrideResult decodeSetMembershipOverrideResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UpdateBansResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
@@ -361,6 +369,28 @@ public:
     /** Decode the RunTaskResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | ScheduledTask Models")
         static FAdminRunTaskResult decodeRunTaskResultResponse(UPlayFabJsonObject* response);
+
+
+
+    ///////////////////////////////////////////////////////
+    // Segments
+    //////////////////////////////////////////////////////
+
+    /** Decode the CreateSegmentResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminCreateSegmentResponse decodeCreateSegmentResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the DeleteSegmentsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminDeleteSegmentsResponse decodeDeleteSegmentsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetSegmentsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminGetSegmentsResponse decodeGetSegmentsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UpdateSegmentResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments Models")
+        static FAdminUpdateSegmentResponse decodeUpdateSegmentResponseResponse(UPlayFabJsonObject* response);
 
 
 

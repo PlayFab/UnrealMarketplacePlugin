@@ -36,6 +36,10 @@ public:
     // Experimentation
     //////////////////////////////////////////////////////
 
+    /** Decode the CreateExclusionGroupResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation Models")
+        static FExperimentationCreateExclusionGroupResult decodeCreateExclusionGroupResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the CreateExperimentResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation Models")
         static FExperimentationCreateExperimentResult decodeCreateExperimentResultResponse(UPlayFabJsonObject* response);
@@ -43,6 +47,14 @@ public:
     /** Decode the EmptyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation Models")
         static FExperimentationEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetExclusionGroupsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation Models")
+        static FExperimentationGetExclusionGroupsResult decodeGetExclusionGroupsResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetExclusionGroupTrafficResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation Models")
+        static FExperimentationGetExclusionGroupTrafficResult decodeGetExclusionGroupTrafficResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetExperimentsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Experimentation | Experimentation Models")

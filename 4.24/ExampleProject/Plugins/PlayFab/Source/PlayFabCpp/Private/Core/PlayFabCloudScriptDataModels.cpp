@@ -64,6 +64,99 @@ bool PlayFab::CloudScriptModels::FAdCampaignAttributionModel::readFromValue(cons
     return HasSucceeded;
 }
 
+PlayFab::CloudScriptModels::FAzureResourceSystemData::~FAzureResourceSystemData()
+{
+
+}
+
+void PlayFab::CloudScriptModels::FAzureResourceSystemData::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreatedAt.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreatedAt"));
+        writeDatetime(CreatedAt, writer);
+    }
+
+    if (CreatedBy.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreatedBy"));
+        writer->WriteValue(CreatedBy);
+    }
+
+    if (CreatedByType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreatedByType"));
+        writer->WriteValue(CreatedByType);
+    }
+
+    if (LastModifiedAt.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastModifiedAt"));
+        writeDatetime(LastModifiedAt, writer);
+    }
+
+    if (LastModifiedBy.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastModifiedBy"));
+        writer->WriteValue(LastModifiedBy);
+    }
+
+    if (LastModifiedByType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastModifiedByType"));
+        writer->WriteValue(LastModifiedByType);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::CloudScriptModels::FAzureResourceSystemData::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreatedAtValue = obj->TryGetField(TEXT("CreatedAt"));
+    if (CreatedAtValue.IsValid())
+        CreatedAt = readDatetime(CreatedAtValue);
+
+
+    const TSharedPtr<FJsonValue> CreatedByValue = obj->TryGetField(TEXT("CreatedBy"));
+    if (CreatedByValue.IsValid() && !CreatedByValue->IsNull())
+    {
+        FString TmpValue;
+        if (CreatedByValue->TryGetString(TmpValue)) { CreatedBy = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CreatedByTypeValue = obj->TryGetField(TEXT("CreatedByType"));
+    if (CreatedByTypeValue.IsValid() && !CreatedByTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (CreatedByTypeValue->TryGetString(TmpValue)) { CreatedByType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LastModifiedAtValue = obj->TryGetField(TEXT("LastModifiedAt"));
+    if (LastModifiedAtValue.IsValid())
+        LastModifiedAt = readDatetime(LastModifiedAtValue);
+
+
+    const TSharedPtr<FJsonValue> LastModifiedByValue = obj->TryGetField(TEXT("LastModifiedBy"));
+    if (LastModifiedByValue.IsValid() && !LastModifiedByValue->IsNull())
+    {
+        FString TmpValue;
+        if (LastModifiedByValue->TryGetString(TmpValue)) { LastModifiedBy = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LastModifiedByTypeValue = obj->TryGetField(TEXT("LastModifiedByType"));
+    if (LastModifiedByTypeValue.IsValid() && !LastModifiedByTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (LastModifiedByTypeValue->TryGetString(TmpValue)) { LastModifiedByType = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::CloudScriptModels::writeCloudScriptRevisionOptionEnumJSON(CloudScriptRevisionOption enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -1517,8 +1610,162 @@ bool PlayFab::CloudScriptModels::FFunctionModel::readFromValue(const TSharedPtr<
     return HasSucceeded;
 }
 
+PlayFab::CloudScriptModels::FGetFunctionRequest::~FGetFunctionRequest()
+{
+
+}
+
+void PlayFab::CloudScriptModels::FGetFunctionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!FunctionName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetFunctionRequest::FunctionName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionName"));
+        writer->WriteValue(FunctionName);
+    }
+
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::CloudScriptModels::FGetFunctionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> FunctionNameValue = obj->TryGetField(TEXT("FunctionName"));
+    if (FunctionNameValue.IsValid() && !FunctionNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (FunctionNameValue->TryGetString(TmpValue)) { FunctionName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::CloudScriptModels::FGetFunctionResult::~FGetFunctionResult()
+{
+    //if (SystemData != nullptr) delete SystemData;
+
+}
+
+void PlayFab::CloudScriptModels::FGetFunctionResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ConnectionString.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionString"));
+        writer->WriteValue(ConnectionString);
+    }
+
+    if (FunctionUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionUrl"));
+        writer->WriteValue(FunctionUrl);
+    }
+
+    if (QueueName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("QueueName"));
+        writer->WriteValue(QueueName);
+    }
+
+    if (SystemData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SystemData"));
+        SystemData->writeJSON(writer);
+    }
+
+    if (TriggerType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TriggerType"));
+        writer->WriteValue(TriggerType);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::CloudScriptModels::FGetFunctionResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ConnectionStringValue = obj->TryGetField(TEXT("ConnectionString"));
+    if (ConnectionStringValue.IsValid() && !ConnectionStringValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionStringValue->TryGetString(TmpValue)) { ConnectionString = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> FunctionUrlValue = obj->TryGetField(TEXT("FunctionUrl"));
+    if (FunctionUrlValue.IsValid() && !FunctionUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (FunctionUrlValue->TryGetString(TmpValue)) { FunctionUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> QueueNameValue = obj->TryGetField(TEXT("QueueName"));
+    if (QueueNameValue.IsValid() && !QueueNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SystemDataValue = obj->TryGetField(TEXT("SystemData"));
+    if (SystemDataValue.IsValid() && !SystemDataValue->IsNull())
+    {
+        SystemData = MakeShareable(new FAzureResourceSystemData(SystemDataValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TriggerTypeValue = obj->TryGetField(TEXT("TriggerType"));
+    if (TriggerTypeValue.IsValid() && !TriggerTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (TriggerTypeValue->TryGetString(TmpValue)) { TriggerType = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::CloudScriptModels::FHttpFunctionModel::~FHttpFunctionModel()
 {
+    //if (SystemData != nullptr) delete SystemData;
 
 }
 
@@ -1536,6 +1783,12 @@ void PlayFab::CloudScriptModels::FHttpFunctionModel::writeJSON(JsonWriter& write
     {
         writer->WriteIdentifierPrefix(TEXT("FunctionUrl"));
         writer->WriteValue(FunctionUrl);
+    }
+
+    if (SystemData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SystemData"));
+        SystemData->writeJSON(writer);
     }
 
     writer->WriteObjectEnd();
@@ -1557,6 +1810,12 @@ bool PlayFab::CloudScriptModels::FHttpFunctionModel::readFromValue(const TShared
     {
         FString TmpValue;
         if (FunctionUrlValue->TryGetString(TmpValue)) { FunctionUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SystemDataValue = obj->TryGetField(TEXT("SystemData"));
+    if (SystemDataValue.IsValid() && !SystemDataValue->IsNull())
+    {
+        SystemData = MakeShareable(new FAzureResourceSystemData(SystemDataValue->AsObject()));
     }
 
     return HasSucceeded;
@@ -1722,6 +1981,12 @@ void PlayFab::CloudScriptModels::FListFunctionsRequest::writeJSON(JsonWriter& wr
         writer->WriteObjectEnd();
     }
 
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -1736,6 +2001,13 @@ bool PlayFab::CloudScriptModels::FListFunctionsRequest::readFromValue(const TSha
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -1815,6 +2087,7 @@ bool PlayFab::CloudScriptModels::FListHttpFunctionsResult::readFromValue(const T
 
 PlayFab::CloudScriptModels::FQueuedFunctionModel::~FQueuedFunctionModel()
 {
+    //if (SystemData != nullptr) delete SystemData;
 
 }
 
@@ -1838,6 +2111,12 @@ void PlayFab::CloudScriptModels::FQueuedFunctionModel::writeJSON(JsonWriter& wri
     {
         writer->WriteIdentifierPrefix(TEXT("QueueName"));
         writer->WriteValue(QueueName);
+    }
+
+    if (SystemData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SystemData"));
+        SystemData->writeJSON(writer);
     }
 
     writer->WriteObjectEnd();
@@ -1866,6 +2145,12 @@ bool PlayFab::CloudScriptModels::FQueuedFunctionModel::readFromValue(const TShar
     {
         FString TmpValue;
         if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SystemDataValue = obj->TryGetField(TEXT("SystemData"));
+    if (SystemDataValue.IsValid() && !SystemDataValue->IsNull())
+    {
+        SystemData = MakeShareable(new FAzureResourceSystemData(SystemDataValue->AsObject()));
     }
 
     return HasSucceeded;
@@ -3136,12 +3421,19 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::rea
 
 PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::~FRegisterHttpFunctionRequest()
 {
+    //if (SystemData != nullptr) delete SystemData;
 
 }
 
 void PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (AzureResourceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureResourceId"));
+        writer->WriteValue(AzureResourceId);
+    }
 
     if (CustomTags.Num() != 0)
     {
@@ -3174,12 +3466,31 @@ void PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::writeJSON(JsonWri
         writer->WriteValue(FunctionUrl);
     }
 
+    if (SystemData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SystemData"));
+        SystemData->writeJSON(writer);
+    }
+
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AzureResourceIdValue = obj->TryGetField(TEXT("AzureResourceId"));
+    if (AzureResourceIdValue.IsValid() && !AzureResourceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AzureResourceIdValue->TryGetString(TmpValue)) { AzureResourceId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
@@ -3204,17 +3515,37 @@ bool PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::readFromValue(con
         if (FunctionUrlValue->TryGetString(TmpValue)) { FunctionUrl = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> SystemDataValue = obj->TryGetField(TEXT("SystemData"));
+    if (SystemDataValue.IsValid() && !SystemDataValue->IsNull())
+    {
+        SystemData = MakeShareable(new FAzureResourceSystemData(SystemDataValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
     return HasSucceeded;
 }
 
 PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::~FRegisterQueuedFunctionRequest()
 {
+    //if (SystemData != nullptr) delete SystemData;
 
 }
 
 void PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (AzureResourceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AzureResourceId"));
+        writer->WriteValue(AzureResourceId);
+    }
 
     if (!ConnectionString.IsEmpty() == false)
     {
@@ -3257,12 +3588,31 @@ void PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::writeJSON(JsonW
         writer->WriteValue(QueueName);
     }
 
+    if (SystemData.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SystemData"));
+        SystemData->writeJSON(writer);
+    }
+
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AzureResourceIdValue = obj->TryGetField(TEXT("AzureResourceId"));
+    if (AzureResourceIdValue.IsValid() && !AzureResourceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AzureResourceIdValue->TryGetString(TmpValue)) { AzureResourceId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> ConnectionStringValue = obj->TryGetField(TEXT("ConnectionString"));
     if (ConnectionStringValue.IsValid() && !ConnectionStringValue->IsNull())
@@ -3292,6 +3642,19 @@ bool PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::readFromValue(c
     {
         FString TmpValue;
         if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SystemDataValue = obj->TryGetField(TEXT("SystemData"));
+    if (SystemDataValue.IsValid() && !SystemDataValue->IsNull())
+    {
+        SystemData = MakeShareable(new FAzureResourceSystemData(SystemDataValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -3363,6 +3726,12 @@ void PlayFab::CloudScriptModels::FUnregisterFunctionRequest::writeJSON(JsonWrite
         writer->WriteValue(FunctionName);
     }
 
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3384,6 +3753,13 @@ bool PlayFab::CloudScriptModels::FUnregisterFunctionRequest::readFromValue(const
     {
         FString TmpValue;
         if (FunctionNameValue->TryGetString(TmpValue)) { FunctionName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;

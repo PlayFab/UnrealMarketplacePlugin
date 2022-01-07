@@ -24,10 +24,7 @@ namespace MatchmakerModels
             AuthorizationTicket()
             {}
 
-        FAuthUserRequest(const FAuthUserRequest& src) :
-            FPlayFabCppRequestCommon(),
-            AuthorizationTicket(src.AuthorizationTicket)
-            {}
+        FAuthUserRequest(const FAuthUserRequest& src) = default;
 
         FAuthUserRequest(const TSharedPtr<FJsonObject>& obj) : FAuthUserRequest()
         {
@@ -54,11 +51,7 @@ namespace MatchmakerModels
             PlayFabId()
             {}
 
-        FAuthUserResponse(const FAuthUserResponse& src) :
-            FPlayFabCppResultCommon(),
-            Authorized(src.Authorized),
-            PlayFabId(src.PlayFabId)
-            {}
+        FAuthUserResponse(const FAuthUserResponse& src) = default;
 
         FAuthUserResponse(const TSharedPtr<FJsonObject>& obj) : FAuthUserResponse()
         {
@@ -141,24 +134,7 @@ namespace MatchmakerModels
             UsesIncrementedBy()
             {}
 
-        FItemInstance(const FItemInstance& src) :
-            FPlayFabCppBaseModel(),
-            Annotation(src.Annotation),
-            BundleContents(src.BundleContents),
-            BundleParent(src.BundleParent),
-            CatalogVersion(src.CatalogVersion),
-            CustomData(src.CustomData),
-            DisplayName(src.DisplayName),
-            Expiration(src.Expiration),
-            ItemClass(src.ItemClass),
-            ItemId(src.ItemId),
-            ItemInstanceId(src.ItemInstanceId),
-            PurchaseDate(src.PurchaseDate),
-            RemainingUses(src.RemainingUses),
-            UnitCurrency(src.UnitCurrency),
-            UnitPrice(src.UnitPrice),
-            UsesIncrementedBy(src.UsesIncrementedBy)
-            {}
+        FItemInstance(const FItemInstance& src) = default;
 
         FItemInstance(const TSharedPtr<FJsonObject>& obj) : FItemInstance()
         {
@@ -191,12 +167,7 @@ namespace MatchmakerModels
             PlayFabId()
             {}
 
-        FPlayerJoinedRequest(const FPlayerJoinedRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            LobbyId(src.LobbyId),
-            PlayFabId(src.PlayFabId)
-            {}
+        FPlayerJoinedRequest(const FPlayerJoinedRequest& src) = default;
 
         FPlayerJoinedRequest(const TSharedPtr<FJsonObject>& obj) : FPlayerJoinedRequest()
         {
@@ -215,9 +186,7 @@ namespace MatchmakerModels
             FPlayFabCppResultCommon()
             {}
 
-        FPlayerJoinedResponse(const FPlayerJoinedResponse& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FPlayerJoinedResponse(const FPlayerJoinedResponse& src) = default;
 
         FPlayerJoinedResponse(const TSharedPtr<FJsonObject>& obj) : FPlayerJoinedResponse()
         {
@@ -250,12 +219,7 @@ namespace MatchmakerModels
             PlayFabId()
             {}
 
-        FPlayerLeftRequest(const FPlayerLeftRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            LobbyId(src.LobbyId),
-            PlayFabId(src.PlayFabId)
-            {}
+        FPlayerLeftRequest(const FPlayerLeftRequest& src) = default;
 
         FPlayerLeftRequest(const TSharedPtr<FJsonObject>& obj) : FPlayerLeftRequest()
         {
@@ -274,9 +238,7 @@ namespace MatchmakerModels
             FPlayFabCppResultCommon()
             {}
 
-        FPlayerLeftResponse(const FPlayerLeftResponse& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FPlayerLeftResponse(const FPlayerLeftResponse& src) = default;
 
         FPlayerLeftResponse(const TSharedPtr<FJsonObject>& obj) : FPlayerLeftResponse()
         {
@@ -337,15 +299,7 @@ namespace MatchmakerModels
             pfRegion()
             {}
 
-        FStartGameRequest(const FStartGameRequest& src) :
-            FPlayFabCppRequestCommon(),
-            Build(src.Build),
-            CustomCommandLineData(src.CustomCommandLineData),
-            CustomTags(src.CustomTags),
-            ExternalMatchmakerEventEndpoint(src.ExternalMatchmakerEventEndpoint),
-            GameMode(src.GameMode),
-            pfRegion(src.pfRegion)
-            {}
+        FStartGameRequest(const FStartGameRequest& src) = default;
 
         FStartGameRequest(const TSharedPtr<FJsonObject>& obj) : FStartGameRequest()
         {
@@ -384,14 +338,7 @@ namespace MatchmakerModels
             ServerPublicDNSName()
             {}
 
-        FStartGameResponse(const FStartGameResponse& src) :
-            FPlayFabCppResultCommon(),
-            GameID(src.GameID),
-            ServerIPV4Address(src.ServerIPV4Address),
-            ServerIPV6Address(src.ServerIPV6Address),
-            ServerPort(src.ServerPort),
-            ServerPublicDNSName(src.ServerPublicDNSName)
-            {}
+        FStartGameResponse(const FStartGameResponse& src) = default;
 
         FStartGameResponse(const TSharedPtr<FJsonObject>& obj) : FStartGameResponse()
         {
@@ -424,12 +371,7 @@ namespace MatchmakerModels
             PlayFabId()
             {}
 
-        FUserInfoRequest(const FUserInfoRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            MinCatalogVersion(src.MinCatalogVersion),
-            PlayFabId(src.PlayFabId)
-            {}
+        FUserInfoRequest(const FUserInfoRequest& src) = default;
 
         FUserInfoRequest(const TSharedPtr<FJsonObject>& obj) : FUserInfoRequest()
         {
@@ -464,12 +406,7 @@ namespace MatchmakerModels
             SecondsToRecharge(0)
             {}
 
-        FVirtualCurrencyRechargeTime(const FVirtualCurrencyRechargeTime& src) :
-            FPlayFabCppBaseModel(),
-            RechargeMax(src.RechargeMax),
-            RechargeTime(src.RechargeTime),
-            SecondsToRecharge(src.SecondsToRecharge)
-            {}
+        FVirtualCurrencyRechargeTime(const FVirtualCurrencyRechargeTime& src) = default;
 
         FVirtualCurrencyRechargeTime(const TSharedPtr<FJsonObject>& obj) : FVirtualCurrencyRechargeTime()
         {
@@ -517,17 +454,7 @@ namespace MatchmakerModels
             VirtualCurrencyRechargeTimes()
             {}
 
-        FUserInfoResponse(const FUserInfoResponse& src) :
-            FPlayFabCppResultCommon(),
-            Inventory(src.Inventory),
-            IsDeveloper(src.IsDeveloper),
-            PlayFabId(src.PlayFabId),
-            SteamId(src.SteamId),
-            TitleDisplayName(src.TitleDisplayName),
-            Username(src.Username),
-            VirtualCurrency(src.VirtualCurrency),
-            VirtualCurrencyRechargeTimes(src.VirtualCurrencyRechargeTimes)
-            {}
+        FUserInfoResponse(const FUserInfoResponse& src) = default;
 
         FUserInfoResponse(const TSharedPtr<FJsonObject>& obj) : FUserInfoResponse()
         {

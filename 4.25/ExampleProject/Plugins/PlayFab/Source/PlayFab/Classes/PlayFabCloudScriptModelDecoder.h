@@ -44,6 +44,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         static FCloudScriptExecuteFunctionResult decodeExecuteFunctionResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetFunctionResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        static FCloudScriptGetFunctionResult decodeGetFunctionResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the ListFunctionsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         static FCloudScriptListFunctionsResult decodeListFunctionsResultResponse(UPlayFabJsonObject* response);

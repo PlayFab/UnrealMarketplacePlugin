@@ -56,7 +56,6 @@ public:
 
         InOutTests.ADD_TEST(Invalid Login (CPP), InvalidLogin);
         InOutTests.ADD_TEST(Login Or Register (CPP), LoginOrRegister);
-        InOutTests.ADD_TEST(Login With Advertising ID (CPP), LoginWithAdvertisingID);
         InOutTests.ADD_TEST(User Data API (CPP), UserDataAPI);
         InOutTests.ADD_TEST(Player Statistics API (CPP), PlayerStatisticsAPI);
         InOutTests.ADD_TEST(LeaderBoard API Client (CPP), LeaderBoardAPIClient);
@@ -101,10 +100,6 @@ private:
     UFUNCTION()
     void LoginOrRegister();
     void LoginOrRegister_Success(const PlayFab::ClientModels::FLoginResult& result);
-
-    UFUNCTION()
-    void LoginWithAdvertisingID();
-    void LoginWithAdvertisingID_Success(const PlayFab::ClientModels::FLoginResult& result);
 
     void CheckIfLoggedIn();
 

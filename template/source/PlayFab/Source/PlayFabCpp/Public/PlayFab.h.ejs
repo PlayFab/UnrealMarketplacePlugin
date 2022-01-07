@@ -58,8 +58,6 @@ public:
         return FModuleManager::Get().IsModuleLoaded("PlayFabCpp");
     }
 
-    virtual FString GetTitleId() const = 0;
-    <% for(var i = 0; i < apis.length; i++) { var api = apis[i];
+<% for(var i = 0; i < apis.length; i++) { var api = apis[i];
 %>    virtual PlayFab<%- api.name %>Ptr Get<%- api.name %>API() const = 0;
-<% } %>
-};
+<% } %>};

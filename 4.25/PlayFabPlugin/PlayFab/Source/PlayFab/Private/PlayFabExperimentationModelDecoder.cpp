@@ -21,6 +21,17 @@
 // Experimentation
 //////////////////////////////////////////////////////
 
+FExperimentationCreateExclusionGroupResult UPlayFabExperimentationModelDecoder::decodeCreateExclusionGroupResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FExperimentationCreateExclusionGroupResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ExclusionGroupId = !(dataObj->HasField("ExclusionGroupId")) ? TEXT("") : dataObj->GetStringField("ExclusionGroupId");
+
+    return tempStruct;
+}
+
 FExperimentationCreateExperimentResult UPlayFabExperimentationModelDecoder::decodeCreateExperimentResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -37,6 +48,28 @@ FExperimentationEmptyResponse UPlayFabExperimentationModelDecoder::decodeEmptyRe
     // Temp ustruct
     FExperimentationEmptyResponse tempStruct;
 
+
+    return tempStruct;
+}
+
+FExperimentationGetExclusionGroupsResult UPlayFabExperimentationModelDecoder::decodeGetExclusionGroupsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FExperimentationGetExclusionGroupsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ExclusionGroups = !(dataObj->HasField("ExclusionGroups")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("ExclusionGroups");
+
+    return tempStruct;
+}
+
+FExperimentationGetExclusionGroupTrafficResult UPlayFabExperimentationModelDecoder::decodeGetExclusionGroupTrafficResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FExperimentationGetExclusionGroupTrafficResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.TrafficAllocations = !(dataObj->HasField("TrafficAllocations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("TrafficAllocations");
 
     return tempStruct;
 }

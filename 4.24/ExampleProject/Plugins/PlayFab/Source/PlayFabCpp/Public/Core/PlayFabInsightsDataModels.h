@@ -23,10 +23,7 @@ namespace InsightsModels
             CustomTags()
             {}
 
-        FInsightsEmptyRequest(const FInsightsEmptyRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
+        FInsightsEmptyRequest(const FInsightsEmptyRequest& src) = default;
 
         FInsightsEmptyRequest(const TSharedPtr<FJsonObject>& obj) : FInsightsEmptyRequest()
         {
@@ -77,17 +74,7 @@ namespace InsightsModels
             VirtualCpuCores(0)
             {}
 
-        FInsightsPerformanceLevel(const FInsightsPerformanceLevel& src) :
-            FPlayFabCppBaseModel(),
-            ActiveEventExports(src.ActiveEventExports),
-            CacheSizeMB(src.CacheSizeMB),
-            Concurrency(src.Concurrency),
-            CreditsPerMinute(src.CreditsPerMinute),
-            EventsPerSecond(src.EventsPerSecond),
-            Level(src.Level),
-            MaxMemoryPerQueryMB(src.MaxMemoryPerQueryMB),
-            VirtualCpuCores(src.VirtualCpuCores)
-            {}
+        FInsightsPerformanceLevel(const FInsightsPerformanceLevel& src) = default;
 
         FInsightsPerformanceLevel(const TSharedPtr<FJsonObject>& obj) : FInsightsPerformanceLevel()
         {
@@ -125,14 +112,7 @@ namespace InsightsModels
             SubMeters()
             {}
 
-        FInsightsGetLimitsResponse(const FInsightsGetLimitsResponse& src) :
-            FPlayFabCppResultCommon(),
-            DefaultPerformanceLevel(src.DefaultPerformanceLevel),
-            DefaultStorageRetentionDays(src.DefaultStorageRetentionDays),
-            StorageMaxRetentionDays(src.StorageMaxRetentionDays),
-            StorageMinRetentionDays(src.StorageMinRetentionDays),
-            SubMeters(src.SubMeters)
-            {}
+        FInsightsGetLimitsResponse(const FInsightsGetLimitsResponse& src) = default;
 
         FInsightsGetLimitsResponse(const TSharedPtr<FJsonObject>& obj) : FInsightsGetLimitsResponse()
         {
@@ -183,17 +163,7 @@ namespace InsightsModels
             Status()
             {}
 
-        FInsightsGetOperationStatusResponse(const FInsightsGetOperationStatusResponse& src) :
-            FPlayFabCppResultCommon(),
-            Message(src.Message),
-            OperationCompletedTime(src.OperationCompletedTime),
-            OperationId(src.OperationId),
-            OperationLastUpdated(src.OperationLastUpdated),
-            OperationStartedTime(src.OperationStartedTime),
-            OperationType(src.OperationType),
-            OperationValue(src.OperationValue),
-            Status(src.Status)
-            {}
+        FInsightsGetOperationStatusResponse(const FInsightsGetOperationStatusResponse& src) = default;
 
         FInsightsGetOperationStatusResponse(const TSharedPtr<FJsonObject>& obj) : FInsightsGetOperationStatusResponse()
         {
@@ -235,15 +205,7 @@ namespace InsightsModels
             RetentionDays(0)
             {}
 
-        FInsightsGetDetailsResponse(const FInsightsGetDetailsResponse& src) :
-            FPlayFabCppResultCommon(),
-            DataUsageMb(src.DataUsageMb),
-            ErrorMessage(src.ErrorMessage),
-            Limits(src.Limits.IsValid() ? MakeShareable(new FInsightsGetLimitsResponse(*src.Limits)) : nullptr),
-            PendingOperations(src.PendingOperations),
-            PerformanceLevel(src.PerformanceLevel),
-            RetentionDays(src.RetentionDays)
-            {}
+        FInsightsGetDetailsResponse(const FInsightsGetDetailsResponse& src) = default;
 
         FInsightsGetDetailsResponse(const TSharedPtr<FJsonObject>& obj) : FInsightsGetDetailsResponse()
         {
@@ -269,11 +231,7 @@ namespace InsightsModels
             OperationId()
             {}
 
-        FInsightsGetOperationStatusRequest(const FInsightsGetOperationStatusRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            OperationId(src.OperationId)
-            {}
+        FInsightsGetOperationStatusRequest(const FInsightsGetOperationStatusRequest& src) = default;
 
         FInsightsGetOperationStatusRequest(const TSharedPtr<FJsonObject>& obj) : FInsightsGetOperationStatusRequest()
         {
@@ -299,11 +257,7 @@ namespace InsightsModels
             OperationType()
             {}
 
-        FInsightsGetPendingOperationsRequest(const FInsightsGetPendingOperationsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            OperationType(src.OperationType)
-            {}
+        FInsightsGetPendingOperationsRequest(const FInsightsGetPendingOperationsRequest& src) = default;
 
         FInsightsGetPendingOperationsRequest(const TSharedPtr<FJsonObject>& obj) : FInsightsGetPendingOperationsRequest()
         {
@@ -325,10 +279,7 @@ namespace InsightsModels
             PendingOperations()
             {}
 
-        FInsightsGetPendingOperationsResponse(const FInsightsGetPendingOperationsResponse& src) :
-            FPlayFabCppResultCommon(),
-            PendingOperations(src.PendingOperations)
-            {}
+        FInsightsGetPendingOperationsResponse(const FInsightsGetPendingOperationsResponse& src) = default;
 
         FInsightsGetPendingOperationsResponse(const TSharedPtr<FJsonObject>& obj) : FInsightsGetPendingOperationsResponse()
         {
@@ -359,12 +310,7 @@ namespace InsightsModels
             OperationType()
             {}
 
-        FInsightsOperationResponse(const FInsightsOperationResponse& src) :
-            FPlayFabCppResultCommon(),
-            Message(src.Message),
-            OperationId(src.OperationId),
-            OperationType(src.OperationType)
-            {}
+        FInsightsOperationResponse(const FInsightsOperationResponse& src) = default;
 
         FInsightsOperationResponse(const TSharedPtr<FJsonObject>& obj) : FInsightsOperationResponse()
         {
@@ -390,11 +336,7 @@ namespace InsightsModels
             PerformanceLevel(0)
             {}
 
-        FInsightsSetPerformanceRequest(const FInsightsSetPerformanceRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            PerformanceLevel(src.PerformanceLevel)
-            {}
+        FInsightsSetPerformanceRequest(const FInsightsSetPerformanceRequest& src) = default;
 
         FInsightsSetPerformanceRequest(const TSharedPtr<FJsonObject>& obj) : FInsightsSetPerformanceRequest()
         {
@@ -420,11 +362,7 @@ namespace InsightsModels
             RetentionDays(0)
             {}
 
-        FInsightsSetStorageRetentionRequest(const FInsightsSetStorageRetentionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            RetentionDays(src.RetentionDays)
-            {}
+        FInsightsSetStorageRetentionRequest(const FInsightsSetStorageRetentionRequest& src) = default;
 
         FInsightsSetStorageRetentionRequest(const TSharedPtr<FJsonObject>& obj) : FInsightsSetStorageRetentionRequest()
         {

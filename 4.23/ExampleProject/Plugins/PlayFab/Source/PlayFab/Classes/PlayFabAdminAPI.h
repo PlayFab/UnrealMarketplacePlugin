@@ -85,6 +85,19 @@ public:
         void HelperDeleteMasterPlayerAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteMembershipSubscription, FAdminDeleteMembershipSubscriptionResult, result, UObject*, customData);
+
+    /** Deletes a player's subscription */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteMembershipSubscription(FAdminDeleteMembershipSubscriptionRequest request,
+            FDelegateOnSuccessDeleteMembershipSubscription onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteMembershipSubscription(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeletePlayer, FAdminDeletePlayerResult, result, UObject*, customData);
 
     /** Removes a user's player account from a title and deletes all associated data */
@@ -243,6 +256,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperSendAccountRecoveryEmail(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetMembershipOverride, FAdminSetMembershipOverrideResult, result, UObject*, customData);
+
+    /** Sets the override expiration for a membership subscription */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* SetMembershipOverride(FAdminSetMembershipOverrideRequest request,
+            FDelegateOnSuccessSetMembershipOverride onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetMembershipOverride(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateBans, FAdminUpdateBansResult, result, UObject*, customData);
@@ -1255,6 +1281,65 @@ public:
 
 
     ///////////////////////////////////////////////////////
+    // Segments
+    //////////////////////////////////////////////////////
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateSegment, FAdminCreateSegmentResponse, result, UObject*, customData);
+
+    /**
+     * Creates a new player segment by defining the conditions on player properties. Also, create actions to target the player
+     * segments for a title.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* CreateSegment(FAdminCreateSegmentRequest request,
+            FDelegateOnSuccessCreateSegment onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteSegment, FAdminDeleteSegmentsResponse, result, UObject*, customData);
+
+    /** Deletes an existing player segment and its associated action(s) for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteSegment(FAdminDeleteSegmentRequest request,
+            FDelegateOnSuccessDeleteSegment onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetSegments, FAdminGetSegmentsResponse, result, UObject*, customData);
+
+    /** Get detail information of a segment and its associated definition(s) and action(s) for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetSegments(FAdminGetSegmentsRequest request,
+            FDelegateOnSuccessGetSegments onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetSegments(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateSegment, FAdminUpdateSegmentResponse, result, UObject*, customData);
+
+    /** Updates an existing player segment and its associated definition(s) and action(s) for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* UpdateSegment(FAdminUpdateSegmentRequest request,
+            FDelegateOnSuccessUpdateSegment onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Segments ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+
+    ///////////////////////////////////////////////////////
     // Server-Side Cloud Script
     //////////////////////////////////////////////////////
     // callbacks
@@ -1649,6 +1734,7 @@ public:
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessBanUsers OnSuccessBanUsers;
     FDelegateOnSuccessDeleteMasterPlayerAccount OnSuccessDeleteMasterPlayerAccount;
+    FDelegateOnSuccessDeleteMembershipSubscription OnSuccessDeleteMembershipSubscription;
     FDelegateOnSuccessDeletePlayer OnSuccessDeletePlayer;
     FDelegateOnSuccessDeleteTitle OnSuccessDeleteTitle;
     FDelegateOnSuccessExportMasterPlayerData OnSuccessExportMasterPlayerData;
@@ -1661,6 +1747,7 @@ public:
     FDelegateOnSuccessRevokeAllBansForUser OnSuccessRevokeAllBansForUser;
     FDelegateOnSuccessRevokeBans OnSuccessRevokeBans;
     FDelegateOnSuccessSendAccountRecoveryEmail OnSuccessSendAccountRecoveryEmail;
+    FDelegateOnSuccessSetMembershipOverride OnSuccessSetMembershipOverride;
     FDelegateOnSuccessUpdateBans OnSuccessUpdateBans;
     FDelegateOnSuccessUpdateUserTitleDisplayName OnSuccessUpdateUserTitleDisplayName;
     FDelegateOnSuccessCreateOpenIdConnection OnSuccessCreateOpenIdConnection;
@@ -1733,6 +1820,10 @@ public:
     FDelegateOnSuccessGetTasks OnSuccessGetTasks;
     FDelegateOnSuccessRunTask OnSuccessRunTask;
     FDelegateOnSuccessUpdateTask OnSuccessUpdateTask;
+    FDelegateOnSuccessCreateSegment OnSuccessCreateSegment;
+    FDelegateOnSuccessDeleteSegment OnSuccessDeleteSegment;
+    FDelegateOnSuccessGetSegments OnSuccessGetSegments;
+    FDelegateOnSuccessUpdateSegment OnSuccessUpdateSegment;
     FDelegateOnSuccessGetCloudScriptRevision OnSuccessGetCloudScriptRevision;
     FDelegateOnSuccessGetCloudScriptVersions OnSuccessGetCloudScriptVersions;
     FDelegateOnSuccessSetPublishedRevision OnSuccessSetPublishedRevision;

@@ -261,27 +261,6 @@ void UPlayFab<%- api.name %>API::OnProcessRequestComplete(FHttpRequestPtr Reques
             // which is responsible for forming response JSON into a semantic struct, and passing it to user code
             CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
         }
-
-        // IDFA Attribution when relevant
-        bool needsAttribution = myResponse.responseData->GetObjectField("data")->GetBoolField("SessionTicket");
-        if (needsAttribution && !pfSettings->getDisableAdvertising() && !pfSettings->getAdvertisingIdType().IsEmpty() && !pfSettings->getAdvertisingIdValue().IsEmpty())
-        {
-            FClientAttributeInstallRequest request;
-            bool makeAttrCall = true;
-            if (pfSettings->getAdvertisingIdType() == pfSettings->getAD_TYPE_IDFA())
-                request.Idfa = pfSettings->getAdvertisingIdValue();
-            else if (pfSettings->getAdvertisingIdType() == pfSettings->getAD_TYPE_ANDROID_ID())
-                request.Adid = pfSettings->getAdvertisingIdValue();
-            else
-                makeAttrCall = false;
-            if (makeAttrCall)
-            {
-                FDelegateOnSuccessAttributeInstall onSuccess;
-                FDelegateOnFailurePlayFabError onFailure;
-                UPlayFabClientAPI* callObj = AttributeInstall(request, onSuccess, onFailure, mCustomData);
-                callObj->Activate();
-            }
-        }
     }
 <% } %>
     if (returnsEntityToken)
@@ -306,17 +285,47 @@ void UPlayFab<%- api.name %>API::Activate()
     FString RequestUrl;
     <%- getCustomApiActivationUrlLogic(api) %>
 
-    TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+    <%- httpRequestDatatype %> HttpRequest = FHttpModule::Get().CreateRequest();
     HttpRequest->SetURL(RequestUrl);
     HttpRequest->SetVerb(TEXT("POST"));
 
     // Headers
-    if (useEntityToken)
-        HttpRequest->SetHeader(TEXT("X-EntityToken"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken());
-    else if (useSessionTicket)
-        HttpRequest->SetHeader(TEXT("X-Authorization"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket() : pfSettings->getSessionTicket());
-    else if (useSecretKey)
-        HttpRequest->SetHeader(TEXT("X-SecretKey"), CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey() : pfSettings->getDeveloperSecretKey());
+    // Only set one of the potential authentication headers.
+    bool AuthSet = false;
+
+    if (useEntityToken && !AuthSet)
+    {
+        FString AuthValue =
+        CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-EntityToken"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSessionTicket && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket()
+                                                                 : pfSettings->getSessionTicket();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-Authorization"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSecretKey && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey()
+                                                                 : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-SecretKey"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
     HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
     HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
     HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned

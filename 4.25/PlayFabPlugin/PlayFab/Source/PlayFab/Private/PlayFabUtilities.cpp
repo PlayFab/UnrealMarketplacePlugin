@@ -10,14 +10,17 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "PlayFabUtilities.h"
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "IPlayFab.h"
 #include "PlayFabPrivate.h"
 
-void UPlayFabUtilities::setPlayFabSettings(FString GameTitleId, FString PlayFabSecretApiKey, FString PhotonRealtimeAppId, FString PhotonTurnbasedAppId, FString PhotonChatAppId)
+void UPlayFabUtilities::setPlayFabSettings(FString GameTitleId, FString PlayFabSecretApiKey, FString ProductionUrl, FString PhotonRealtimeAppId, FString PhotonTurnbasedAppId, FString PhotonChatAppId)
 {
     // Set the settings
-    IPlayFab::Get().setGameTitleId(GameTitleId);
-    IPlayFab::Get().setDeveloperSecretKey(PlayFabSecretApiKey);
+    UPlayFabRuntimeSettings* rSettings = GetMutableDefault<UPlayFabRuntimeSettings>();
+    if (GameTitleId.Len() != 0) { rSettings->TitleId = GameTitleId; }
+    if (PlayFabSecretApiKey.Len() != 0) { rSettings->DeveloperSecretKey = PlayFabSecretApiKey; }
+    if (ProductionUrl.Len() != 0) { rSettings->ProductionEnvironmentURL = ProductionUrl; }
     IPlayFab::Get().setPhotonRealtimeAppId(PhotonRealtimeAppId);
     IPlayFab::Get().setPhotonTurnbasedAppId(PhotonTurnbasedAppId);
     IPlayFab::Get().setPhotonChatAppId(PhotonChatAppId);
@@ -521,7 +524,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1490: returnText = "EvaluationModePlayerCountExceeded"; break;
     case 1491: returnText = "GetPlayersInSegmentRateLimitExceeded"; break;
     case 1492: returnText = "CloudScriptFunctionNameSizeExceeded"; break;
-    case 1493: returnText = "InsightsManagementTitleInEvaluationMode"; break;
+    case 1493: returnText = "PaidInsightsFeaturesNotEnabled"; break;
     case 1494: returnText = "CloudScriptAzureFunctionsQueueRequestError"; break;
     case 1495: returnText = "EvaluationModeTitleCountExceeded"; break;
     case 1496: returnText = "InsightsManagementTitleNotInFlight"; break;
@@ -540,6 +543,30 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1509: returnText = "DuplicateKeys"; break;
     case 1510: returnText = "WasNotCreatedWithCloudRoot"; break;
     case 1511: returnText = "LegacyMultiplayerServersDeprecated"; break;
+    case 1512: returnText = "VirtualCurrencyCurrentlyUnavailable"; break;
+    case 1513: returnText = "SteamUserNotFound"; break;
+    case 1514: returnText = "ElasticSearchOperationFailed"; break;
+    case 1515: returnText = "NotImplemented"; break;
+    case 1516: returnText = "PublisherNotFound"; break;
+    case 1517: returnText = "PublisherDeleted"; break;
+    case 1518: returnText = "ApiDisabledForMigration"; break;
+    case 1519: returnText = "ResourceNameUpdateNotAllowed"; break;
+    case 1520: returnText = "ApiNotEnabledForTitle"; break;
+    case 1521: returnText = "DuplicateTitleNameForPublisher"; break;
+    case 1522: returnText = "AzureTitleCreationInProgress"; break;
+    case 1523: returnText = "DuplicateAzureResourceId"; break;
+    case 1524: returnText = "TitleConstraintsPublisherDeletion"; break;
+    case 1525: returnText = "InvalidPlayerAccountPoolId"; break;
+    case 1526: returnText = "PlayerAccountPoolNotFound"; break;
+    case 1527: returnText = "PlayerAccountPoolDeleted"; break;
+    case 1528: returnText = "TitleCleanupInProgress"; break;
+    case 1529: returnText = "AzureResourceConcurrentOperationInProgress"; break;
+    case 1530: returnText = "TitlePublisherUpdateNotAllowed"; break;
+    case 1531: returnText = "AzureResourceManagerNotSupportedInStamp"; break;
+    case 1532: returnText = "ApiNotIncludedInAzurePlayFabFeatureSet"; break;
+    case 1533: returnText = "GoogleServiceAccountFailedAuth"; break;
+    case 1534: returnText = "GoogleAPIServiceUnavailable"; break;
+    case 1535: returnText = "GoogleAPIServiceUnknownError"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -561,9 +588,15 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 2057: returnText = "MatchmakingQueueLimitExceeded"; break;
     case 2058: returnText = "MatchmakingRequestTypeMismatch"; break;
     case 2059: returnText = "MatchmakingBadRequest"; break;
+    case 2500: returnText = "PubSubFeatureNotEnabledForTitle"; break;
+    case 2501: returnText = "PubSubTooManyRequests"; break;
+    case 2502: returnText = "PubSubConnectionHandleAccessDenied"; break;
+    case 2503: returnText = "PubSubConnectionHandleInvalid"; break;
+    case 2504: returnText = "PubSubSubscriptionLimitExceeded"; break;
     case 3001: returnText = "TitleConfigNotFound"; break;
     case 3002: returnText = "TitleConfigUpdateConflict"; break;
     case 3003: returnText = "TitleConfigSerializationError"; break;
+    case 4000: returnText = "CatalogApiNotImplemented"; break;
     case 4001: returnText = "CatalogEntityInvalid"; break;
     case 4002: returnText = "CatalogTitleIdMissing"; break;
     case 4003: returnText = "CatalogPlayerIdMissing"; break;
@@ -574,7 +607,6 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 4008: returnText = "CatalogSearchParameterInvalid"; break;
     case 4009: returnText = "CatalogFeatureDisabled"; break;
     case 4010: returnText = "CatalogConfigInvalid"; break;
-    case 4011: returnText = "CatalogUnauthorized"; break;
     case 4012: returnText = "CatalogItemTypeInvalid"; break;
     case 4013: returnText = "CatalogBadRequest"; break;
     case 4014: returnText = "CatalogTooManyRequests"; break;
@@ -602,9 +634,26 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5024: returnText = "ExportCannotParseQuery"; break;
     case 5025: returnText = "ExportControlCommandsNotAllowed"; break;
     case 5026: returnText = "ExportQueryMissingTableReference"; break;
+    case 5100: returnText = "ExplorerBasicInvalidQueryName"; break;
+    case 5101: returnText = "ExplorerBasicInvalidQueryDescription"; break;
+    case 5102: returnText = "ExplorerBasicInvalidQueryConditions"; break;
+    case 5103: returnText = "ExplorerBasicInvalidQueryStartDate"; break;
+    case 5104: returnText = "ExplorerBasicInvalidQueryEndDate"; break;
+    case 5105: returnText = "ExplorerBasicInvalidQueryGroupBy"; break;
+    case 5106: returnText = "ExplorerBasicInvalidQueryAggregateType"; break;
+    case 5107: returnText = "ExplorerBasicInvalidQueryAggregateProperty"; break;
+    case 5108: returnText = "ExplorerBasicLoadQueriesError"; break;
+    case 5109: returnText = "ExplorerBasicLoadQueryError"; break;
+    case 5110: returnText = "ExplorerBasicCreateQueryError"; break;
+    case 5111: returnText = "ExplorerBasicDeleteQueryError"; break;
+    case 5112: returnText = "ExplorerBasicUpdateQueryError"; break;
+    case 5113: returnText = "ExplorerBasicSavedQueriesLimit"; break;
+    case 5114: returnText = "ExplorerBasicSavedQueryNotFound"; break;
+    case 5500: returnText = "TenantShardMapperShardNotFound"; break;
     case 6000: returnText = "TitleNotEnabledForParty"; break;
     case 6001: returnText = "PartyVersionNotFound"; break;
     case 6002: returnText = "MultiplayerServerBuildReferencedByMatchmakingQueue"; break;
+    case 6003: returnText = "MultiplayerServerBuildReferencedByBuildAlias"; break;
     case 7000: returnText = "ExperimentationExperimentStopped"; break;
     case 7001: returnText = "ExperimentationExperimentRunning"; break;
     case 7002: returnText = "ExperimentationExperimentNotFound"; break;
@@ -620,6 +669,14 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7012: returnText = "ExperimentationInvalidDuration"; break;
     case 7013: returnText = "ExperimentationMaxExperimentsReached"; break;
     case 7014: returnText = "ExperimentationExperimentSchedulingInProgress"; break;
+    case 7015: returnText = "ExperimentationInvalidEndDate"; break;
+    case 7016: returnText = "ExperimentationInvalidStartDate"; break;
+    case 7017: returnText = "ExperimentationMaxDurationExceeded"; break;
+    case 7018: returnText = "ExperimentationExclusionGroupNotFound"; break;
+    case 7019: returnText = "ExperimentationExclusionGroupInsufficientCapacity"; break;
+    case 7020: returnText = "ExperimentationExclusionGroupCannotDelete"; break;
+    case 7021: returnText = "ExperimentationExclusionGroupInvalidTrafficAllocation"; break;
+    case 7022: returnText = "ExperimentationExclusionGroupInvalidName"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 10000: returnText = "SegmentManagementTitleNotInFlight"; break;
@@ -627,7 +684,37 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10002: returnText = "SegmentManagementTriggerActionCountOverLimit"; break;
     case 10003: returnText = "SegmentManagementSegmentCountOverLimit"; break;
     case 10004: returnText = "SegmentManagementInvalidSegmentId"; break;
+    case 10005: returnText = "SegmentManagementInvalidInput"; break;
+    case 10006: returnText = "SegmentManagementInvalidSegmentName"; break;
+    case 10007: returnText = "DeleteSegmentRateLimitExceeded"; break;
+    case 10008: returnText = "CreateSegmentRateLimitExceeded"; break;
+    case 10009: returnText = "UpdateSegmentRateLimitExceeded"; break;
+    case 10010: returnText = "GetSegmentsRateLimitExceeded"; break;
+    case 10011: returnText = "AsyncExportNotInFlight"; break;
+    case 10012: returnText = "AsyncExportNotFound"; break;
+    case 10013: returnText = "AsyncExportRateLimitExceeded"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
+    case 12000: returnText = "InventoryApiNotImplemented"; break;
+    case 13000: returnText = "LobbyDoesNotExist"; break;
+    case 13001: returnText = "LobbyRateLimitExceeded"; break;
+    case 13002: returnText = "LobbyPlayerAlreadyJoined"; break;
+    case 13003: returnText = "LobbyNotJoinable"; break;
+    case 13004: returnText = "LobbyMemberCannotRejoin"; break;
+    case 13005: returnText = "LobbyCurrentPlayersMoreThanMaxPlayers"; break;
+    case 13006: returnText = "LobbyPlayerNotPresent"; break;
+    case 13007: returnText = "LobbyBadRequest"; break;
+    case 13008: returnText = "LobbyPlayerMaxLobbyLimitExceeded"; break;
+    case 13009: returnText = "LobbyNewOwnerMustBeConnected"; break;
+    case 13010: returnText = "LobbyCurrentOwnerStillConnected"; break;
+    case 13011: returnText = "LobbyMemberIsNotOwner"; break;
+    case 14000: returnText = "EventSamplingInvalidRatio"; break;
+    case 14001: returnText = "EventSamplingInvalidEventNamespace"; break;
+    case 14002: returnText = "EventSamplingInvalidEventName"; break;
+    case 14003: returnText = "EventSamplingRatioNotFound"; break;
+    case 15000: returnText = "EventSinkConnectionInvalid"; break;
+    case 15001: returnText = "EventSinkConnectionUnauthorized"; break;
+    case 15002: returnText = "EventSinkRegionInvalid"; break;
+    case 16000: returnText = "OperationCanceled"; break;
     }
 
     // Return the text

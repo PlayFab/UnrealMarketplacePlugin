@@ -28,11 +28,7 @@ namespace EventsModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -95,17 +91,7 @@ namespace EventsModels
             PayloadJSON()
             {}
 
-        FEventContents(const FEventContents& src) :
-            FPlayFabCppBaseModel(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            EventNamespace(src.EventNamespace),
-            Name(src.Name),
-            OriginalId(src.OriginalId),
-            OriginalTimestamp(src.OriginalTimestamp),
-            Payload(src.Payload),
-            PayloadJSON(src.PayloadJSON)
-            {}
+        FEventContents(const FEventContents& src) = default;
 
         FEventContents(const TSharedPtr<FJsonObject>& obj) : FEventContents()
         {
@@ -130,11 +116,7 @@ namespace EventsModels
             Events()
             {}
 
-        FWriteEventsRequest(const FWriteEventsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Events(src.Events)
-            {}
+        FWriteEventsRequest(const FWriteEventsRequest& src) = default;
 
         FWriteEventsRequest(const TSharedPtr<FJsonObject>& obj) : FWriteEventsRequest()
         {
@@ -159,10 +141,7 @@ namespace EventsModels
             AssignedEventIds()
             {}
 
-        FWriteEventsResponse(const FWriteEventsResponse& src) :
-            FPlayFabCppResultCommon(),
-            AssignedEventIds(src.AssignedEventIds)
-            {}
+        FWriteEventsResponse(const FWriteEventsResponse& src) = default;
 
         FWriteEventsResponse(const TSharedPtr<FJsonObject>& obj) : FWriteEventsResponse()
         {

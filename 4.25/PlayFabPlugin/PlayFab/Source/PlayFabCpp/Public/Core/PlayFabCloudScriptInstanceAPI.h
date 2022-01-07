@@ -24,6 +24,7 @@ namespace PlayFab
     public:
         DECLARE_DELEGATE_OneParam(FExecuteEntityCloudScriptDelegate, const CloudScriptModels::FExecuteCloudScriptResult&);
         DECLARE_DELEGATE_OneParam(FExecuteFunctionDelegate, const CloudScriptModels::FExecuteFunctionResult&);
+        DECLARE_DELEGATE_OneParam(FGetFunctionDelegate, const CloudScriptModels::FGetFunctionResult&);
         DECLARE_DELEGATE_OneParam(FListFunctionsDelegate, const CloudScriptModels::FListFunctionsResult&);
         DECLARE_DELEGATE_OneParam(FListHttpFunctionsDelegate, const CloudScriptModels::FListHttpFunctionsResult&);
         DECLARE_DELEGATE_OneParam(FListQueuedFunctionsDelegate, const CloudScriptModels::FListQueuedFunctionsResult&);
@@ -77,6 +78,8 @@ namespace PlayFab
          * Executes an Azure Function with the profile of the entity that is defined in the request.
          */
         bool ExecuteFunction(CloudScriptModels::FExecuteFunctionRequest& request, const FExecuteFunctionDelegate& SuccessDelegate = FExecuteFunctionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Gets registered Azure Functions for a given title id and function name.
+        bool GetFunction(CloudScriptModels::FGetFunctionRequest& request, const FGetFunctionDelegate& SuccessDelegate = FGetFunctionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Lists all currently registered Azure Functions for a given title.
         bool ListFunctions(CloudScriptModels::FListFunctionsRequest& request, const FListFunctionsDelegate& SuccessDelegate = FListFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -108,6 +111,7 @@ namespace PlayFab
         // ------------ Generated result handlers
         void OnExecuteEntityCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteEntityCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnExecuteFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListFunctionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListFunctionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListHttpFunctionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListHttpFunctionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQueuedFunctionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQueuedFunctionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

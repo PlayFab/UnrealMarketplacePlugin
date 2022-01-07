@@ -23,17 +23,16 @@ function makeApiIntermal(apis, copyright, sourceDir, apiOutputDir, libName, ueTa
         hasClientOptions: authMechanisms.includes("SessionTicket"),
         hasServerOptions: authMechanisms.includes("SecretKey"),
         libName: libName,
-        sdkVersion: sdkVersion,
-        ueTargetVersion: ueTargetVersion
+        sdkVersion: sdkVersion
     };
 
     // Make the variable api files
     for (var a = 0; a < apis.length; a++)
-        makeApiFiles(apis[a], copyright, apiOutputDir, sourceDir, libName);
+        makeApiFiles(apis[a], copyright, apiOutputDir, sourceDir, libName, ueTargetVersion);
 }
 
 // Create Models, .h and .cpp files
-function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName) {
+function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName, ueTargetVersion) {
     var apiLocals = {
         api: api,
         copyright: copyright,
@@ -47,6 +46,7 @@ function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName) {
         getCustomApiAssignmentLogic: getCustomApiAssignmentLogic,
         getCustomApiActivationUrlLogic: getCustomApiActivationUrlLogic,
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
+        httpRequestDatatype: ueTargetVersion.minor >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
         libName: libName,
         sdkVersion: sdkGlobals.sdkVersion
     };
@@ -72,6 +72,8 @@ function getDataTypeSafeName(apiElement, attrName) {
     var pfTypeName = apiElement[attrName];
     if (pfTypeName === "SourceType") // In Unreal, the Enum ESourceType exists in the Android builder and conflicts with our ESourceType enum
         return "PfSourceType";
+    if (pfTypeName === "TriggerType") // In Unreal, the Enum ETriggerType exists in the Enhanced Input plugin and conflicts with our ETriggerType enum
+        return "PfTriggerType"
     return pfTypeName;
 }
 exports.getDataTypeSafeName = getDataTypeSafeName;
@@ -148,7 +150,7 @@ function getPropertySerialization(tabbing, property, datatype) {
                 return tabbing + "if (request.ParamsEncoded != \"\") OutRestJsonObj->SetStringField(TEXT(\"" + property.name + "\"), request." + propSafeName + ");\n";
             }
             if (property.name === "TitleId") {
-                return tabbing + "OutRestJsonObj->SetStringField(TEXT(\"" + property.name + "\"), IPlayFab::Get().getGameTitleId());\n";
+                return tabbing + "OutRestJsonObj->SetStringField(TEXT(\"" + property.name + "\"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);\n";
             }
             if (isCollection && isArray) {
                 return tabbing + "// Check to see if string is empty\n"
@@ -317,10 +319,10 @@ function getCustomApiAssignmentLogic(tabbing, api, apiCall) {
 function getCustomApiActivationUrlLogic(api) {
     if (api.name === "CloudScript")
     {
-        return "RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->getUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;\n"
+        return "RequestUrl = this->PlayFabRequestFullURL.IsEmpty() ? pfSettings->GeneratePfUrl(PlayFabRequestURL) : this->PlayFabRequestFullURL;\n"
     }
     else 
     {
-        return "RequestUrl = pfSettings->getUrl(PlayFabRequestURL);\n"
+        return "RequestUrl = pfSettings->GeneratePfUrl(PlayFabRequestURL);\n"
     }
 }

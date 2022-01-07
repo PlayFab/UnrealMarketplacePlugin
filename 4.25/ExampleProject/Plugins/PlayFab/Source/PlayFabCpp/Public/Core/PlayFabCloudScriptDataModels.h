@@ -32,12 +32,7 @@ namespace CloudScriptModels
             Platform()
             {}
 
-        FAdCampaignAttributionModel(const FAdCampaignAttributionModel& src) :
-            FPlayFabCppBaseModel(),
-            AttributedAt(src.AttributedAt),
-            CampaignId(src.CampaignId),
-            Platform(src.Platform)
-            {}
+        FAdCampaignAttributionModel(const FAdCampaignAttributionModel& src) = default;
 
         FAdCampaignAttributionModel(const TSharedPtr<FJsonObject>& obj) : FAdCampaignAttributionModel()
         {
@@ -45,6 +40,49 @@ namespace CloudScriptModels
         }
 
         ~FAdCampaignAttributionModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAzureResourceSystemData : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The timestamp of resource creation (UTC)
+        Boxed<FDateTime> CreatedAt;
+
+        // [optional] The identity that created the resource
+        FString CreatedBy;
+
+        // [optional] The type of identity that created the resource
+        FString CreatedByType;
+
+        // [optional] The type of identity that last modified the resource
+        Boxed<FDateTime> LastModifiedAt;
+
+        // [optional] The identity that last modified the resource
+        FString LastModifiedBy;
+
+        // [optional] The type of identity that last modified the resource
+        FString LastModifiedByType;
+
+        FAzureResourceSystemData() :
+            FPlayFabCppBaseModel(),
+            CreatedAt(),
+            CreatedBy(),
+            CreatedByType(),
+            LastModifiedAt(),
+            LastModifiedBy(),
+            LastModifiedByType()
+            {}
+
+        FAzureResourceSystemData(const FAzureResourceSystemData& src) = default;
+
+        FAzureResourceSystemData(const TSharedPtr<FJsonObject>& obj) : FAzureResourceSystemData()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAzureResourceSystemData();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -90,12 +128,7 @@ namespace CloudScriptModels
             VerificationStatus()
             {}
 
-        FContactEmailInfoModel(const FContactEmailInfoModel& src) :
-            FPlayFabCppBaseModel(),
-            EmailAddress(src.EmailAddress),
-            Name(src.Name),
-            VerificationStatus(src.VerificationStatus)
-            {}
+        FContactEmailInfoModel(const FContactEmailInfoModel& src) = default;
 
         FContactEmailInfoModel(const TSharedPtr<FJsonObject>& obj) : FContactEmailInfoModel()
         {
@@ -386,9 +419,7 @@ namespace CloudScriptModels
             FPlayFabCppResultCommon()
             {}
 
-        FEmptyResult(const FEmptyResult& src) :
-            FPlayFabCppResultCommon()
-            {}
+        FEmptyResult(const FEmptyResult& src) = default;
 
         FEmptyResult(const TSharedPtr<FJsonObject>& obj) : FEmptyResult()
         {
@@ -415,11 +446,7 @@ namespace CloudScriptModels
             Type()
             {}
 
-        FEntityKey(const FEntityKey& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Type(src.Type)
-            {}
+        FEntityKey(const FEntityKey& src) = default;
 
         FEntityKey(const TSharedPtr<FJsonObject>& obj) : FEntityKey()
         {
@@ -453,12 +480,7 @@ namespace CloudScriptModels
             StackTrace()
             {}
 
-        FScriptExecutionError(const FScriptExecutionError& src) :
-            FPlayFabCppBaseModel(),
-            Error(src.Error),
-            Message(src.Message),
-            StackTrace(src.StackTrace)
-            {}
+        FScriptExecutionError(const FScriptExecutionError& src) = default;
 
         FScriptExecutionError(const TSharedPtr<FJsonObject>& obj) : FScriptExecutionError()
         {
@@ -489,12 +511,7 @@ namespace CloudScriptModels
             Message()
             {}
 
-        FLogStatement(const FLogStatement& src) :
-            FPlayFabCppBaseModel(),
-            Data(src.Data),
-            Level(src.Level),
-            Message(src.Message)
-            {}
+        FLogStatement(const FLogStatement& src) = default;
 
         FLogStatement(const TSharedPtr<FJsonObject>& obj) : FLogStatement()
         {
@@ -570,21 +587,7 @@ namespace CloudScriptModels
             Revision(0)
             {}
 
-        FExecuteCloudScriptResult(const FExecuteCloudScriptResult& src) :
-            FPlayFabCppResultCommon(),
-            APIRequestsIssued(src.APIRequestsIssued),
-            Error(src.Error.IsValid() ? MakeShareable(new FScriptExecutionError(*src.Error)) : nullptr),
-            ExecutionTimeSeconds(src.ExecutionTimeSeconds),
-            FunctionName(src.FunctionName),
-            FunctionResult(src.FunctionResult),
-            FunctionResultTooLarge(src.FunctionResultTooLarge),
-            HttpRequestsIssued(src.HttpRequestsIssued),
-            Logs(src.Logs),
-            LogsTooLarge(src.LogsTooLarge),
-            MemoryConsumedBytes(src.MemoryConsumedBytes),
-            ProcessorTimeSeconds(src.ProcessorTimeSeconds),
-            Revision(src.Revision)
-            {}
+        FExecuteCloudScriptResult(const FExecuteCloudScriptResult& src) = default;
 
         FExecuteCloudScriptResult(const TSharedPtr<FJsonObject>& obj) : FExecuteCloudScriptResult()
         {
@@ -637,16 +640,7 @@ namespace CloudScriptModels
             SpecificRevision()
             {}
 
-        FExecuteEntityCloudScriptRequest(const FExecuteEntityCloudScriptRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            FunctionName(src.FunctionName),
-            FunctionParameter(src.FunctionParameter),
-            GeneratePlayStreamEvent(src.GeneratePlayStreamEvent),
-            RevisionSelection(src.RevisionSelection),
-            SpecificRevision(src.SpecificRevision)
-            {}
+        FExecuteEntityCloudScriptRequest(const FExecuteEntityCloudScriptRequest& src) = default;
 
         FExecuteEntityCloudScriptRequest(const TSharedPtr<FJsonObject>& obj) : FExecuteEntityCloudScriptRequest()
         {
@@ -687,14 +681,7 @@ namespace CloudScriptModels
             GeneratePlayStreamEvent()
             {}
 
-        FExecuteFunctionRequest(const FExecuteFunctionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            FunctionName(src.FunctionName),
-            FunctionParameter(src.FunctionParameter),
-            GeneratePlayStreamEvent(src.GeneratePlayStreamEvent)
-            {}
+        FExecuteFunctionRequest(const FExecuteFunctionRequest& src) = default;
 
         FExecuteFunctionRequest(const TSharedPtr<FJsonObject>& obj) : FExecuteFunctionRequest()
         {
@@ -728,12 +715,7 @@ namespace CloudScriptModels
             StackTrace()
             {}
 
-        FFunctionExecutionError(const FFunctionExecutionError& src) :
-            FPlayFabCppBaseModel(),
-            Error(src.Error),
-            Message(src.Message),
-            StackTrace(src.StackTrace)
-            {}
+        FFunctionExecutionError(const FFunctionExecutionError& src) = default;
 
         FFunctionExecutionError(const TSharedPtr<FJsonObject>& obj) : FFunctionExecutionError()
         {
@@ -772,14 +754,7 @@ namespace CloudScriptModels
             FunctionResultTooLarge()
             {}
 
-        FExecuteFunctionResult(const FExecuteFunctionResult& src) :
-            FPlayFabCppResultCommon(),
-            Error(src.Error.IsValid() ? MakeShareable(new FFunctionExecutionError(*src.Error)) : nullptr),
-            ExecutionTimeMilliseconds(src.ExecutionTimeMilliseconds),
-            FunctionName(src.FunctionName),
-            FunctionResult(src.FunctionResult),
-            FunctionResultTooLarge(src.FunctionResultTooLarge)
-            {}
+        FExecuteFunctionResult(const FExecuteFunctionResult& src) = default;
 
         FExecuteFunctionResult(const TSharedPtr<FJsonObject>& obj) : FExecuteFunctionResult()
         {
@@ -810,12 +785,7 @@ namespace CloudScriptModels
             TriggerType()
             {}
 
-        FFunctionModel(const FFunctionModel& src) :
-            FPlayFabCppBaseModel(),
-            FunctionAddress(src.FunctionAddress),
-            FunctionName(src.FunctionName),
-            TriggerType(src.TriggerType)
-            {}
+        FFunctionModel(const FFunctionModel& src) = default;
 
         FFunctionModel(const TSharedPtr<FJsonObject>& obj) : FFunctionModel()
         {
@@ -823,6 +793,75 @@ namespace CloudScriptModels
         }
 
         ~FFunctionModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the function to register
+        FString FunctionName;
+
+        // [optional] The Id of the parent Title
+        FString TitleId;
+
+        FGetFunctionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            FunctionName(),
+            TitleId()
+            {}
+
+        FGetFunctionRequest(const FGetFunctionRequest& src) = default;
+
+        FGetFunctionRequest(const TSharedPtr<FJsonObject>& obj) : FGetFunctionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetFunctionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetFunctionResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The connection string for the storage account containing the queue for a queue trigger Azure Function.
+        FString ConnectionString;
+
+        // [optional] The URL to be invoked to execute an HTTP triggered function.
+        FString FunctionUrl;
+
+        // [optional] The name of the queue for a queue trigger Azure Function.
+        FString QueueName;
+
+        // [optional] System Data of the Azure Resource
+        TSharedPtr<FAzureResourceSystemData> SystemData;
+
+        // [optional] The trigger type for the function.
+        FString TriggerType;
+
+        FGetFunctionResult() :
+            FPlayFabCppResultCommon(),
+            ConnectionString(),
+            FunctionUrl(),
+            QueueName(),
+            SystemData(nullptr),
+            TriggerType()
+            {}
+
+        FGetFunctionResult(const FGetFunctionResult& src) = default;
+
+        FGetFunctionResult(const TSharedPtr<FJsonObject>& obj) : FGetFunctionResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetFunctionResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -836,17 +875,17 @@ namespace CloudScriptModels
         // [optional] The URL of the function.
         FString FunctionUrl;
 
+        // [optional] The System data of the Azure Resource
+        TSharedPtr<FAzureResourceSystemData> SystemData;
+
         FHttpFunctionModel() :
             FPlayFabCppBaseModel(),
             FunctionName(),
-            FunctionUrl()
+            FunctionUrl(),
+            SystemData(nullptr)
             {}
 
-        FHttpFunctionModel(const FHttpFunctionModel& src) :
-            FPlayFabCppBaseModel(),
-            FunctionName(src.FunctionName),
-            FunctionUrl(src.FunctionUrl)
-            {}
+        FHttpFunctionModel(const FHttpFunctionModel& src) = default;
 
         FHttpFunctionModel(const TSharedPtr<FJsonObject>& obj) : FHttpFunctionModel()
         {
@@ -910,13 +949,7 @@ namespace CloudScriptModels
             Username()
             {}
 
-        FLinkedPlatformAccountModel(const FLinkedPlatformAccountModel& src) :
-            FPlayFabCppBaseModel(),
-            Email(src.Email),
-            Platform(src.Platform),
-            PlatformUserId(src.PlatformUserId),
-            Username(src.Username)
-            {}
+        FLinkedPlatformAccountModel(const FLinkedPlatformAccountModel& src) = default;
 
         FLinkedPlatformAccountModel(const TSharedPtr<FJsonObject>& obj) : FLinkedPlatformAccountModel()
         {
@@ -933,15 +966,16 @@ namespace CloudScriptModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] The Id of the parent Title
+        FString TitleId;
+
         FListFunctionsRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags()
+            CustomTags(),
+            TitleId()
             {}
 
-        FListFunctionsRequest(const FListFunctionsRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags)
-            {}
+        FListFunctionsRequest(const FListFunctionsRequest& src) = default;
 
         FListFunctionsRequest(const TSharedPtr<FJsonObject>& obj) : FListFunctionsRequest()
         {
@@ -963,10 +997,7 @@ namespace CloudScriptModels
             Functions()
             {}
 
-        FListFunctionsResult(const FListFunctionsResult& src) :
-            FPlayFabCppResultCommon(),
-            Functions(src.Functions)
-            {}
+        FListFunctionsResult(const FListFunctionsResult& src) = default;
 
         FListFunctionsResult(const TSharedPtr<FJsonObject>& obj) : FListFunctionsResult()
         {
@@ -988,10 +1019,7 @@ namespace CloudScriptModels
             Functions()
             {}
 
-        FListHttpFunctionsResult(const FListHttpFunctionsResult& src) :
-            FPlayFabCppResultCommon(),
-            Functions(src.Functions)
-            {}
+        FListHttpFunctionsResult(const FListHttpFunctionsResult& src) = default;
 
         FListHttpFunctionsResult(const TSharedPtr<FJsonObject>& obj) : FListHttpFunctionsResult()
         {
@@ -1015,19 +1043,18 @@ namespace CloudScriptModels
         // [optional] The name of the queue that triggers the Azure Function.
         FString QueueName;
 
+        // [optional] The System data of the Azure Resource
+        TSharedPtr<FAzureResourceSystemData> SystemData;
+
         FQueuedFunctionModel() :
             FPlayFabCppBaseModel(),
             ConnectionString(),
             FunctionName(),
-            QueueName()
+            QueueName(),
+            SystemData(nullptr)
             {}
 
-        FQueuedFunctionModel(const FQueuedFunctionModel& src) :
-            FPlayFabCppBaseModel(),
-            ConnectionString(src.ConnectionString),
-            FunctionName(src.FunctionName),
-            QueueName(src.QueueName)
-            {}
+        FQueuedFunctionModel(const FQueuedFunctionModel& src) = default;
 
         FQueuedFunctionModel(const TSharedPtr<FJsonObject>& obj) : FQueuedFunctionModel()
         {
@@ -1049,10 +1076,7 @@ namespace CloudScriptModels
             Functions()
             {}
 
-        FListQueuedFunctionsResult(const FListQueuedFunctionsResult& src) :
-            FPlayFabCppResultCommon(),
-            Functions(src.Functions)
-            {}
+        FListQueuedFunctionsResult(const FListQueuedFunctionsResult& src) = default;
 
         FListQueuedFunctionsResult(const TSharedPtr<FJsonObject>& obj) : FListQueuedFunctionsResult()
         {
@@ -1091,14 +1115,7 @@ namespace CloudScriptModels
             Longitude()
             {}
 
-        FLocationModel(const FLocationModel& src) :
-            FPlayFabCppBaseModel(),
-            City(src.City),
-            pfContinentCode(src.pfContinentCode),
-            pfCountryCode(src.pfCountryCode),
-            Latitude(src.Latitude),
-            Longitude(src.Longitude)
-            {}
+        FLocationModel(const FLocationModel& src) = default;
 
         FLocationModel(const TSharedPtr<FJsonObject>& obj) : FLocationModel()
         {
@@ -1161,16 +1178,7 @@ namespace CloudScriptModels
             SubscriptionProvider()
             {}
 
-        FSubscriptionModel(const FSubscriptionModel& src) :
-            FPlayFabCppBaseModel(),
-            Expiration(src.Expiration),
-            InitialSubscriptionTime(src.InitialSubscriptionTime),
-            IsActive(src.IsActive),
-            Status(src.Status),
-            SubscriptionId(src.SubscriptionId),
-            SubscriptionItemId(src.SubscriptionItemId),
-            SubscriptionProvider(src.SubscriptionProvider)
-            {}
+        FSubscriptionModel(const FSubscriptionModel& src) = default;
 
         FSubscriptionModel(const TSharedPtr<FJsonObject>& obj) : FSubscriptionModel()
         {
@@ -1215,15 +1223,7 @@ namespace CloudScriptModels
             Subscriptions()
             {}
 
-        FMembershipModel(const FMembershipModel& src) :
-            FPlayFabCppBaseModel(),
-            IsActive(src.IsActive),
-            MembershipExpiration(src.MembershipExpiration),
-            MembershipId(src.MembershipId),
-            OverrideExpiration(src.OverrideExpiration),
-            OverrideIsSet(src.OverrideIsSet),
-            Subscriptions(src.Subscriptions)
-            {}
+        FMembershipModel(const FMembershipModel& src) = default;
 
         FMembershipModel(const TSharedPtr<FJsonObject>& obj) : FMembershipModel()
         {
@@ -1250,11 +1250,7 @@ namespace CloudScriptModels
             Name()
             {}
 
-        FNameIdentifier(const FNameIdentifier& src) :
-            FPlayFabCppBaseModel(),
-            Id(src.Id),
-            Name(src.Name)
-            {}
+        FNameIdentifier(const FNameIdentifier& src) = default;
 
         FNameIdentifier(const TSharedPtr<FJsonObject>& obj) : FNameIdentifier()
         {
@@ -1291,11 +1287,7 @@ namespace CloudScriptModels
             Platform()
             {}
 
-        FPushNotificationRegistrationModel(const FPushNotificationRegistrationModel& src) :
-            FPlayFabCppBaseModel(),
-            NotificationEndpointARN(src.NotificationEndpointARN),
-            Platform(src.Platform)
-            {}
+        FPushNotificationRegistrationModel(const FPushNotificationRegistrationModel& src) = default;
 
         FPushNotificationRegistrationModel(const TSharedPtr<FJsonObject>& obj) : FPushNotificationRegistrationModel()
         {
@@ -1326,12 +1318,7 @@ namespace CloudScriptModels
             Version(0)
             {}
 
-        FStatisticModel(const FStatisticModel& src) :
-            FPlayFabCppBaseModel(),
-            Name(src.Name),
-            Value(src.Value),
-            Version(src.Version)
-            {}
+        FStatisticModel(const FStatisticModel& src) = default;
 
         FStatisticModel(const TSharedPtr<FJsonObject>& obj) : FStatisticModel()
         {
@@ -1354,10 +1341,7 @@ namespace CloudScriptModels
             TagValue()
             {}
 
-        FTagModel(const FTagModel& src) :
-            FPlayFabCppBaseModel(),
-            TagValue(src.TagValue)
-            {}
+        FTagModel(const FTagModel& src) = default;
 
         FTagModel(const TSharedPtr<FJsonObject>& obj) : FTagModel()
         {
@@ -1394,12 +1378,7 @@ namespace CloudScriptModels
             TotalValueAsDecimal()
             {}
 
-        FValueToDateModel(const FValueToDateModel& src) :
-            FPlayFabCppBaseModel(),
-            Currency(src.Currency),
-            TotalValue(src.TotalValue),
-            TotalValueAsDecimal(src.TotalValueAsDecimal)
-            {}
+        FValueToDateModel(const FValueToDateModel& src) = default;
 
         FValueToDateModel(const TSharedPtr<FJsonObject>& obj) : FValueToDateModel()
         {
@@ -1430,7 +1409,11 @@ namespace CloudScriptModels
         // [optional] Player display name
         FString DisplayName;
 
-        // [optional] List of experiment variants for the player.
+        /**
+         * [optional] List of experiment variants for the player. Note that these variants are not guaranteed to be up-to-date when returned
+         * during login because the player profile is updated only after login. Instead, use the LoginResult.TreatmentAssignment
+         * property during login to get the correct variants and variables.
+         */
         TArray<FString> ExperimentVariants;
         // [optional] UTC time when the player most recently logged in to the title
         Boxed<FDateTime> LastLogin;
@@ -1491,29 +1474,7 @@ namespace CloudScriptModels
             ValuesToDate()
             {}
 
-        FPlayerProfileModel(const FPlayerProfileModel& src) :
-            FPlayFabCppBaseModel(),
-            AdCampaignAttributions(src.AdCampaignAttributions),
-            AvatarUrl(src.AvatarUrl),
-            BannedUntil(src.BannedUntil),
-            ContactEmailAddresses(src.ContactEmailAddresses),
-            Created(src.Created),
-            DisplayName(src.DisplayName),
-            ExperimentVariants(src.ExperimentVariants),
-            LastLogin(src.LastLogin),
-            LinkedAccounts(src.LinkedAccounts),
-            Locations(src.Locations),
-            Memberships(src.Memberships),
-            Origination(src.Origination),
-            PlayerId(src.PlayerId),
-            PublisherId(src.PublisherId),
-            PushNotificationRegistrations(src.PushNotificationRegistrations),
-            Statistics(src.Statistics),
-            Tags(src.Tags),
-            TitleId(src.TitleId),
-            TotalValueToDateInUSD(src.TotalValueToDateInUSD),
-            ValuesToDate(src.ValuesToDate)
-            {}
+        FPlayerProfileModel(const FPlayerProfileModel& src) = default;
 
         FPlayerProfileModel(const TSharedPtr<FJsonObject>& obj) : FPlayerProfileModel()
         {
@@ -1556,15 +1517,7 @@ namespace CloudScriptModels
             EventSettings()
             {}
 
-        FPlayStreamEventEnvelopeModel(const FPlayStreamEventEnvelopeModel& src) :
-            FPlayFabCppBaseModel(),
-            EntityId(src.EntityId),
-            EntityType(src.EntityType),
-            EventData(src.EventData),
-            EventName(src.EventName),
-            EventNamespace(src.EventNamespace),
-            EventSettings(src.EventSettings)
-            {}
+        FPlayStreamEventEnvelopeModel(const FPlayStreamEventEnvelopeModel& src) = default;
 
         FPlayStreamEventEnvelopeModel(const TSharedPtr<FJsonObject>& obj) : FPlayStreamEventEnvelopeModel()
         {
@@ -1594,12 +1547,7 @@ namespace CloudScriptModels
             FunctionResult()
             {}
 
-        FPostFunctionResultForEntityTriggeredActionRequest(const FPostFunctionResultForEntityTriggeredActionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            FunctionResult(src.FunctionResult)
-            {}
+        FPostFunctionResultForEntityTriggeredActionRequest(const FPostFunctionResultForEntityTriggeredActionRequest& src) = default;
 
         FPostFunctionResultForEntityTriggeredActionRequest(const TSharedPtr<FJsonObject>& obj) : FPostFunctionResultForEntityTriggeredActionRequest()
         {
@@ -1629,12 +1577,7 @@ namespace CloudScriptModels
             FunctionResult()
             {}
 
-        FPostFunctionResultForFunctionExecutionRequest(const FPostFunctionResultForFunctionExecutionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            FunctionResult(src.FunctionResult)
-            {}
+        FPostFunctionResultForFunctionExecutionRequest(const FPostFunctionResultForFunctionExecutionRequest& src) = default;
 
         FPostFunctionResultForFunctionExecutionRequest(const TSharedPtr<FJsonObject>& obj) : FPostFunctionResultForFunctionExecutionRequest()
         {
@@ -1672,14 +1615,7 @@ namespace CloudScriptModels
             PlayStreamEventEnvelope(nullptr)
             {}
 
-        FPostFunctionResultForPlayerTriggeredActionRequest(const FPostFunctionResultForPlayerTriggeredActionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity.IsValid() ? MakeShareable(new FEntityKey(*src.Entity)) : nullptr),
-            FunctionResult(src.FunctionResult),
-            PlayerProfile(src.PlayerProfile),
-            PlayStreamEventEnvelope(src.PlayStreamEventEnvelope.IsValid() ? MakeShareable(new FPlayStreamEventEnvelopeModel(*src.PlayStreamEventEnvelope)) : nullptr)
-            {}
+        FPostFunctionResultForPlayerTriggeredActionRequest(const FPostFunctionResultForPlayerTriggeredActionRequest& src) = default;
 
         FPostFunctionResultForPlayerTriggeredActionRequest(const TSharedPtr<FJsonObject>& obj) : FPostFunctionResultForPlayerTriggeredActionRequest()
         {
@@ -1713,13 +1649,7 @@ namespace CloudScriptModels
             ScheduledTaskId()
             {}
 
-        FPostFunctionResultForScheduledTaskRequest(const FPostFunctionResultForScheduledTaskRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            Entity(src.Entity),
-            FunctionResult(src.FunctionResult),
-            ScheduledTaskId(src.ScheduledTaskId)
-            {}
+        FPostFunctionResultForScheduledTaskRequest(const FPostFunctionResultForScheduledTaskRequest& src) = default;
 
         FPostFunctionResultForScheduledTaskRequest(const TSharedPtr<FJsonObject>& obj) : FPostFunctionResultForScheduledTaskRequest()
         {
@@ -1734,6 +1664,9 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FRegisterHttpFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The Id of the Azure Resource
+        FString AzureResourceId;
+
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         // The name of the function to register
@@ -1742,19 +1675,23 @@ namespace CloudScriptModels
         // Full URL for Azure Function that implements the function.
         FString FunctionUrl;
 
+        // [optional] System Data of the Azure Resource
+        TSharedPtr<FAzureResourceSystemData> SystemData;
+
+        // [optional] The Id of the parent Title
+        FString TitleId;
+
         FRegisterHttpFunctionRequest() :
             FPlayFabCppRequestCommon(),
+            AzureResourceId(),
             CustomTags(),
             FunctionName(),
-            FunctionUrl()
+            FunctionUrl(),
+            SystemData(nullptr),
+            TitleId()
             {}
 
-        FRegisterHttpFunctionRequest(const FRegisterHttpFunctionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            FunctionName(src.FunctionName),
-            FunctionUrl(src.FunctionUrl)
-            {}
+        FRegisterHttpFunctionRequest(const FRegisterHttpFunctionRequest& src) = default;
 
         FRegisterHttpFunctionRequest(const TSharedPtr<FJsonObject>& obj) : FRegisterHttpFunctionRequest()
         {
@@ -1769,6 +1706,9 @@ namespace CloudScriptModels
 
     struct PLAYFABCPP_API FRegisterQueuedFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
+        // [optional] The Id of the Azure Resource
+        FString AzureResourceId;
+
         // A connection string for the storage account that hosts the queue for the Azure Function.
         FString ConnectionString;
 
@@ -1780,21 +1720,24 @@ namespace CloudScriptModels
         // The name of the queue for the Azure Function.
         FString QueueName;
 
+        // [optional] System Data of the Azure Resource
+        TSharedPtr<FAzureResourceSystemData> SystemData;
+
+        // [optional] The Id of the parent Title
+        FString TitleId;
+
         FRegisterQueuedFunctionRequest() :
             FPlayFabCppRequestCommon(),
+            AzureResourceId(),
             ConnectionString(),
             CustomTags(),
             FunctionName(),
-            QueueName()
+            QueueName(),
+            SystemData(nullptr),
+            TitleId()
             {}
 
-        FRegisterQueuedFunctionRequest(const FRegisterQueuedFunctionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            ConnectionString(src.ConnectionString),
-            CustomTags(src.CustomTags),
-            FunctionName(src.FunctionName),
-            QueueName(src.QueueName)
-            {}
+        FRegisterQueuedFunctionRequest(const FRegisterQueuedFunctionRequest& src) = default;
 
         FRegisterQueuedFunctionRequest(const TSharedPtr<FJsonObject>& obj) : FRegisterQueuedFunctionRequest()
         {
@@ -1821,20 +1764,20 @@ namespace CloudScriptModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // The name of the function to unregister
+        // The name of the function to register
         FString FunctionName;
+
+        // [optional] The Id of the parent Title
+        FString TitleId;
 
         FUnregisterFunctionRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            FunctionName()
+            FunctionName(),
+            TitleId()
             {}
 
-        FUnregisterFunctionRequest(const FUnregisterFunctionRequest& src) :
-            FPlayFabCppRequestCommon(),
-            CustomTags(src.CustomTags),
-            FunctionName(src.FunctionName)
-            {}
+        FUnregisterFunctionRequest(const FUnregisterFunctionRequest& src) = default;
 
         FUnregisterFunctionRequest(const TSharedPtr<FJsonObject>& obj) : FUnregisterFunctionRequest()
         {

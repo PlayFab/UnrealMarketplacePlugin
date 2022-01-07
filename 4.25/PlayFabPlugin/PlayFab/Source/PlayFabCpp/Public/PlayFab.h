@@ -28,6 +28,7 @@ namespace PlayFab
     class UPlayFabAuthenticationAPI;
     class UPlayFabCloudScriptAPI;
     class UPlayFabDataAPI;
+    class UPlayFabEconomyAPI;
     class UPlayFabEventsAPI;
     class UPlayFabExperimentationAPI;
     class UPlayFabInsightsAPI;
@@ -44,6 +45,7 @@ typedef TSharedPtr<class PlayFab::UPlayFabServerAPI> PlayFabServerPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabAuthenticationAPI> PlayFabAuthenticationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabCloudScriptAPI> PlayFabCloudScriptPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabDataAPI> PlayFabDataPtr;
+typedef TSharedPtr<class PlayFab::UPlayFabEconomyAPI> PlayFabEconomyPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabEventsAPI> PlayFabEventsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabExperimentationAPI> PlayFabExperimentationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabInsightsAPI> PlayFabInsightsPtr;
@@ -85,14 +87,14 @@ public:
         return FModuleManager::Get().IsModuleLoaded("PlayFabCpp");
     }
 
-    virtual FString GetTitleId() const = 0;
-        virtual PlayFabAdminPtr GetAdminAPI() const = 0;
+    virtual PlayFabAdminPtr GetAdminAPI() const = 0;
     virtual PlayFabClientPtr GetClientAPI() const = 0;
     virtual PlayFabMatchmakerPtr GetMatchmakerAPI() const = 0;
     virtual PlayFabServerPtr GetServerAPI() const = 0;
     virtual PlayFabAuthenticationPtr GetAuthenticationAPI() const = 0;
     virtual PlayFabCloudScriptPtr GetCloudScriptAPI() const = 0;
     virtual PlayFabDataPtr GetDataAPI() const = 0;
+    virtual PlayFabEconomyPtr GetEconomyAPI() const = 0;
     virtual PlayFabEventsPtr GetEventsAPI() const = 0;
     virtual PlayFabExperimentationPtr GetExperimentationAPI() const = 0;
     virtual PlayFabInsightsPtr GetInsightsAPI() const = 0;
@@ -100,5 +102,4 @@ public:
     virtual PlayFabLocalizationPtr GetLocalizationAPI() const = 0;
     virtual PlayFabMultiplayerPtr GetMultiplayerAPI() const = 0;
     virtual PlayFabProfilesPtr GetProfilesAPI() const = 0;
-
 };

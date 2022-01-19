@@ -2979,10 +2979,66 @@ bool PlayFab::MultiplayerModels::FInstrumentationConfiguration::readFromValue(co
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FWindowsCrashDumpConfiguration::~FWindowsCrashDumpConfiguration()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FWindowsCrashDumpConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomDumpFlags.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomDumpFlags"));
+        writer->WriteValue(CustomDumpFlags);
+    }
+
+    if (DumpType.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DumpType"));
+        writer->WriteValue(DumpType);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("IsEnabled"));
+    writer->WriteValue(IsEnabled);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FWindowsCrashDumpConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CustomDumpFlagsValue = obj->TryGetField(TEXT("CustomDumpFlags"));
+    if (CustomDumpFlagsValue.IsValid() && !CustomDumpFlagsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (CustomDumpFlagsValue->TryGetNumber(TmpValue)) { CustomDumpFlags = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DumpTypeValue = obj->TryGetField(TEXT("DumpType"));
+    if (DumpTypeValue.IsValid() && !DumpTypeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (DumpTypeValue->TryGetNumber(TmpValue)) { DumpType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IsEnabledValue = obj->TryGetField(TEXT("IsEnabled"));
+    if (IsEnabledValue.IsValid() && !IsEnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsEnabledValue->TryGetBool(TmpValue)) { IsEnabled = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::~FCreateBuildWithManagedContainerRequest()
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (WindowsCrashDumpConfiguration != nullptr) delete WindowsCrashDumpConfiguration;
 
 }
 
@@ -3104,6 +3160,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
         writeAzureVmSizeEnumJSON(VmSize, writer);
     }
 
+    if (pfWindowsCrashDumpConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("WindowsCrashDumpConfiguration"));
+        pfWindowsCrashDumpConfiguration->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3218,6 +3280,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
     }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
+
+    const TSharedPtr<FJsonValue> WindowsCrashDumpConfigurationValue = obj->TryGetField(TEXT("WindowsCrashDumpConfiguration"));
+    if (WindowsCrashDumpConfigurationValue.IsValid() && !WindowsCrashDumpConfigurationValue->IsNull())
+    {
+        pfWindowsCrashDumpConfiguration = MakeShareable(new FWindowsCrashDumpConfiguration(WindowsCrashDumpConfigurationValue->AsObject()));
+    }
 
     return HasSucceeded;
 }

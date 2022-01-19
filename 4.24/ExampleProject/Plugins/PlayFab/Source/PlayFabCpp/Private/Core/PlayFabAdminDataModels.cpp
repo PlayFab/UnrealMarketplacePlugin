@@ -1723,12 +1723,6 @@ void PlayFab::AdminModels::FBanInfo::writeJSON(JsonWriter& writer) const
         writer->WriteValue(IPAddress);
     }
 
-    if (MACAddress.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MACAddress"));
-        writer->WriteValue(MACAddress);
-    }
-
     if (PlayFabId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
@@ -1777,13 +1771,6 @@ bool PlayFab::AdminModels::FBanInfo::readFromValue(const TSharedPtr<FJsonObject>
     {
         FString TmpValue;
         if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MACAddressValue = obj->TryGetField(TEXT("MACAddress"));
-    if (MACAddressValue.IsValid() && !MACAddressValue->IsNull())
-    {
-        FString TmpValue;
-        if (MACAddressValue->TryGetString(TmpValue)) { MACAddress = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));

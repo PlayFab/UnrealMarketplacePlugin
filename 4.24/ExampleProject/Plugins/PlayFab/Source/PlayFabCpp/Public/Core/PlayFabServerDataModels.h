@@ -1417,9 +1417,6 @@ namespace ServerModels
         // [optional] The IP address on which the ban was applied. May affect multiple players.
         FString IPAddress;
 
-        // [optional] The MAC address on which the ban was applied. May affect multiple players.
-        FString MACAddress;
-
         // [optional] Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -1433,7 +1430,6 @@ namespace ServerModels
             Created(),
             Expires(),
             IPAddress(),
-            MACAddress(),
             PlayFabId(),
             Reason()
             {}

@@ -782,6 +782,9 @@ public:
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;
+    /** The crash dump configuration for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* WindowsCrashDumpConfiguration = nullptr;
 };
 
 USTRUCT(BlueprintType)

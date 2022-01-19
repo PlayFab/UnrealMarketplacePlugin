@@ -529,7 +529,6 @@ namespace PlayFab
         PlayFabErrorApiNotEnabledForTitle = 1520,
         PlayFabErrorDuplicateTitleNameForPublisher = 1521,
         PlayFabErrorAzureTitleCreationInProgress = 1522,
-        PlayFabErrorDuplicateAzureResourceId = 1523,
         PlayFabErrorTitleConstraintsPublisherDeletion = 1524,
         PlayFabErrorInvalidPlayerAccountPoolId = 1525,
         PlayFabErrorPlayerAccountPoolNotFound = 1526,
@@ -565,7 +564,7 @@ namespace PlayFab
         PlayFabErrorMatchmakingBadRequest = 2059,
         PlayFabErrorPubSubFeatureNotEnabledForTitle = 2500,
         PlayFabErrorPubSubTooManyRequests = 2501,
-        PlayFabErrorPubSubConnectionHandleAccessDenied = 2502,
+        PlayFabErrorPubSubConnectionNotFoundForEntity = 2502,
         PlayFabErrorPubSubConnectionHandleInvalid = 2503,
         PlayFabErrorPubSubSubscriptionLimitExceeded = 2504,
         PlayFabErrorTitleConfigNotFound = 3001,
@@ -689,7 +688,9 @@ namespace PlayFab
         PlayFabErrorEventSinkConnectionInvalid = 15000,
         PlayFabErrorEventSinkConnectionUnauthorized = 15001,
         PlayFabErrorEventSinkRegionInvalid = 15002,
-        PlayFabErrorOperationCanceled = 16000
+        PlayFabErrorOperationCanceled = 16000,
+        PlayFabErrorInvalidDisplayNameRandomSuffixLength = 17000,
+        PlayFabErrorAllowNonUniquePlayerDisplayNamesDisableNotAllowed = 17001
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

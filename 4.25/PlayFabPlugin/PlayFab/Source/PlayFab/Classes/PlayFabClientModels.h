@@ -3205,7 +3205,10 @@ public:
         FString ReceiptData;
 };
 
-/** Once verified, the valid items will be restored into the user's inventory. */
+/**
+ * Once verified, the valid items will be restored into the user's inventory. This result should be used for immediate
+ * updates to the local client game state as opposed to the GetUserInventory API which can have an up to half second delay.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientRestoreIOSPurchasesResult : public FPlayFabResultCommon
 {
@@ -3241,7 +3244,11 @@ public:
         FString UserId;
 };
 
-/** Once verified, the catalog item matching the Amazon item name will be added to the user's inventory. */
+/**
+ * Once verified, the catalog item matching the Amazon item name will be added to the user's inventory. This result should
+ * be used for immediate updates to the local client game state as opposed to the GetUserInventory API which can have an up
+ * to half second delay.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientValidateAmazonReceiptResult : public FPlayFabResultCommon
 {
@@ -3286,7 +3293,8 @@ public:
 
 /**
  * Once verified, the catalog item (ItemId) matching the GooglePlay store item (productId) will be added to the user's
- * inventory.
+ * inventory. This result should be used for immediate updates to the local client game state as opposed to the
+ * GetUserInventory API which can have an up to half second delay.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientValidateGooglePlayPurchaseResult : public FPlayFabResultCommon
@@ -3327,7 +3335,11 @@ public:
         FString ReceiptData;
 };
 
-/** Once verified, the catalog item matching the iTunes item name will be added to the user's inventory. */
+/**
+ * Once verified, the catalog item matching the iTunes item name will be added to the user's inventory. This result should
+ * be used for immediate updates to the local client game state as opposed to the GetUserInventory API which can have an up
+ * to half second delay.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientValidateIOSReceiptResult : public FPlayFabResultCommon
 {
@@ -3360,7 +3372,11 @@ public:
         FString Receipt;
 };
 
-/** Once verified, the catalog item matching the Product name will be added to the user's inventory. */
+/**
+ * Once verified, the catalog item matching the Product name will be added to the user's inventory. This result should be
+ * used for immediate updates to the local client game state as opposed to the GetUserInventory API which can have an up to
+ * half second delay.
+ */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientValidateWindowsReceiptResult : public FPlayFabResultCommon
 {

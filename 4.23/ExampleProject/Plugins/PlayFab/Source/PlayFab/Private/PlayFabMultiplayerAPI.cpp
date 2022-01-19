@@ -1106,6 +1106,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     FString temp_VmSize;
     if (GetEnumValueToString<EAzureVmSize>(TEXT("EAzureVmSize"), request.VmSize, temp_VmSize))
         OutRestJsonObj->SetStringField(TEXT("VmSize"), temp_VmSize);
+    if (request.WindowsCrashDumpConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("WindowsCrashDumpConfiguration"), request.WindowsCrashDumpConfiguration);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

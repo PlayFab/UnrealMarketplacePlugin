@@ -1474,6 +1474,37 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FWindowsCrashDumpConfiguration : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] See https://docs.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps for valid values.
+        Boxed<int32> CustomDumpFlags;
+
+        // [optional] See https://docs.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps for valid values.
+        Boxed<int32> DumpType;
+
+        // Designates whether automatic crash dump capturing will be enabled for this Build.
+        bool IsEnabled;
+
+        FWindowsCrashDumpConfiguration() :
+            FPlayFabCppBaseModel(),
+            CustomDumpFlags(),
+            DumpType(),
+            IsEnabled(false)
+            {}
+
+        FWindowsCrashDumpConfiguration(const FWindowsCrashDumpConfiguration& src) = default;
+
+        FWindowsCrashDumpConfiguration(const TSharedPtr<FJsonObject>& obj) : FWindowsCrashDumpConfiguration()
+        {
+            readFromValue(obj);
+        }
+
+        ~FWindowsCrashDumpConfiguration();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateBuildWithManagedContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
@@ -1530,6 +1561,9 @@ namespace MultiplayerModels
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The crash dump configuration for the build.
+        TSharedPtr<FWindowsCrashDumpConfiguration> pfWindowsCrashDumpConfiguration;
+
         FCreateBuildWithManagedContainerRequest() :
             FPlayFabCppRequestCommon(),
             AreAssetsReadonly(),
@@ -1547,7 +1581,8 @@ namespace MultiplayerModels
             RegionConfigurations(),
             StartMultiplayerServerCommand(),
             UseStreamingForAssetDownloads(),
-            VmSize()
+            VmSize(),
+            pfWindowsCrashDumpConfiguration(nullptr)
             {}
 
         FCreateBuildWithManagedContainerRequest(const FCreateBuildWithManagedContainerRequest& src) = default;

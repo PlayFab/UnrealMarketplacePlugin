@@ -1596,6 +1596,12 @@ void PlayFab::EconomyModels::FGetDraftItemRequest::writeJSON(JsonWriter& writer)
         Entity->writeJSON(writer);
     }
 
+    if (ExpandScanningStatus.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpandScanningStatus"));
+        writer->WriteValue(ExpandScanningStatus);
+    }
+
     if (Id.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Id"));
@@ -1628,6 +1634,13 @@ bool PlayFab::EconomyModels::FGetDraftItemRequest::readFromValue(const TSharedPt
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ExpandScanningStatusValue = obj->TryGetField(TEXT("ExpandScanningStatus"));
+    if (ExpandScanningStatusValue.IsValid() && !ExpandScanningStatusValue->IsNull())
+    {
+        bool TmpValue;
+        if (ExpandScanningStatusValue->TryGetBool(TmpValue)) { ExpandScanningStatus = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));

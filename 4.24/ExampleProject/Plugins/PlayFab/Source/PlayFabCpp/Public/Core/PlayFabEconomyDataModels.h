@@ -774,6 +774,9 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] Whether to fetch metadata of the scan status.
+        Boxed<bool> ExpandScanningStatus;
+
         // [optional] The unique ID of the item.
         FString Id;
 
@@ -782,6 +785,7 @@ namespace EconomyModels
             AlternateId(nullptr),
             CustomTags(),
             Entity(nullptr),
+            ExpandScanningStatus(),
             Id()
             {}
 

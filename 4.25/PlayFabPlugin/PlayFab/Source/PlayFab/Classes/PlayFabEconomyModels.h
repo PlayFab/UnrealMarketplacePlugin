@@ -165,6 +165,9 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** Whether to fetch metadata of the scan status. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        bool ExpandScanningStatus = false;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;

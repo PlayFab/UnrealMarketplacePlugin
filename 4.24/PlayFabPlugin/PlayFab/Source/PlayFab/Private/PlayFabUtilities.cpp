@@ -566,6 +566,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1533: returnText = "GoogleServiceAccountFailedAuth"; break;
     case 1534: returnText = "GoogleAPIServiceUnavailable"; break;
     case 1535: returnText = "GoogleAPIServiceUnknownError"; break;
+    case 1536: returnText = "NoValidIdentityForAad"; break;
+    case 1537: returnText = "PlayerIdentityLinkNotFound"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

@@ -541,6 +541,8 @@ namespace PlayFab
         PlayFabErrorGoogleServiceAccountFailedAuth = 1533,
         PlayFabErrorGoogleAPIServiceUnavailable = 1534,
         PlayFabErrorGoogleAPIServiceUnknownError = 1535,
+        PlayFabErrorNoValidIdentityForAad = 1536,
+        PlayFabErrorPlayerIdentityLinkNotFound = 1537,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

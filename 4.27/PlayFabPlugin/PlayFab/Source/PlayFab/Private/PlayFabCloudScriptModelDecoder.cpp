@@ -67,7 +67,6 @@ FCloudScriptGetFunctionResult UPlayFabCloudScriptModelDecoder::decodeGetFunction
     tempStruct.ConnectionString = !(dataObj->HasField("ConnectionString")) ? TEXT("") : dataObj->GetStringField("ConnectionString");
     tempStruct.FunctionUrl = !(dataObj->HasField("FunctionUrl")) ? TEXT("") : dataObj->GetStringField("FunctionUrl");
     tempStruct.QueueName = !(dataObj->HasField("QueueName")) ? TEXT("") : dataObj->GetStringField("QueueName");
-    tempStruct.SystemData = !(dataObj->HasField("SystemData")) ? nullptr : dataObj->GetObjectField("SystemData");
     tempStruct.TriggerType = !(dataObj->HasField("TriggerType")) ? TEXT("") : dataObj->GetStringField("TriggerType");
 
     return tempStruct;

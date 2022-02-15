@@ -631,11 +631,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
 
 
     // Serialize all the request properties to json
-    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
-    }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
         OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
@@ -647,7 +642,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionUrl"), request.FunctionUrl);
     }
-    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
@@ -697,11 +691,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
 
 
     // Serialize all the request properties to json
-    if (request.AzureResourceId.IsEmpty() || request.AzureResourceId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("AzureResourceId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("AzureResourceId"), request.AzureResourceId);
-    }
     if (request.ConnectionString.IsEmpty() || request.ConnectionString == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ConnectionString"));
     } else {
@@ -718,7 +707,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
     } else {
         OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
     }
-    if (request.SystemData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SystemData"), request.SystemData);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager

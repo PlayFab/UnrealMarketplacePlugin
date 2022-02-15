@@ -66,6 +66,17 @@ enum class EAuthTokenType : uint8
     pfenum_Email UMETA(DisplayName = "Email"),
 };
 
+/** ChurnRiskLevel */
+
+UENUM(BlueprintType)
+enum class EChurnRiskLevel : uint8
+{
+    pfenum_NoData UMETA(DisplayName = "NoData"),
+    pfenum_LowRisk UMETA(DisplayName = "LowRisk"),
+    pfenum_MediumRisk UMETA(DisplayName = "MediumRisk"),
+    pfenum_HighRisk UMETA(DisplayName = "HighRisk"),
+};
+
 /** Conditionals */
 
 UENUM(BlueprintType)

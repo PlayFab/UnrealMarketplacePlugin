@@ -474,6 +474,9 @@ namespace MultiplayerModels
         // [optional] Optional settings to control dynamic adjustment of standby target
         TSharedPtr<FDynamicStandbySettings> pfDynamicStandbySettings;
 
+        // Whether the game assets provided for the build have been replicated to this region.
+        bool IsAssetReplicationComplete;
+
         // The maximum number of multiplayer servers for the region.
         int32 MaxServers;
 
@@ -502,6 +505,7 @@ namespace MultiplayerModels
             FPlayFabCppBaseModel(),
             pfCurrentServerStats(nullptr),
             pfDynamicStandbySettings(nullptr),
+            IsAssetReplicationComplete(false),
             MaxServers(0),
             MultiplayerServerCountPerVm(),
             Region(),

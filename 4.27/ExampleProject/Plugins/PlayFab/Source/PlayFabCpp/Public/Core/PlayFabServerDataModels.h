@@ -9243,9 +9243,6 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         /**
@@ -9253,9 +9250,6 @@ namespace ServerModels
          * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
          */
         FString Key;
-
-        // [optional] System Data of the Azure Resource
-        TSharedPtr<FAzureResourceSystemData> SystemData;
 
         /**
          * [optional] Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
@@ -9268,10 +9262,8 @@ namespace ServerModels
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
-            AzureResourceId(),
             CustomTags(),
             Key(),
-            SystemData(nullptr),
             TitleId(),
             Value()
             {}
@@ -9291,12 +9283,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         FSetTitleDataResult() :
-            FPlayFabCppResultCommon(),
-            AzureResourceId()
+            FPlayFabCppResultCommon()
             {}
 
         FSetTitleDataResult(const FSetTitleDataResult& src) = default;

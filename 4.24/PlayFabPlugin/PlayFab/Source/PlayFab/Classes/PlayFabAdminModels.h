@@ -3092,9 +3092,6 @@ struct PLAYFAB_API FAdminSetTitleDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of azure resource */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        FString AzureResourceId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -3104,9 +3101,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Key;
-    /** System Data of the Azure Resource */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* SystemData = nullptr;
     /** new value to set. Set to null to remove a value */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         FString Value;
@@ -3117,9 +3111,6 @@ struct PLAYFAB_API FAdminSetTitleDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of azure resource */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        FString AzureResourceId;
 };
 
 /**

@@ -1240,6 +1240,18 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum ChurnRiskLevel
+    {
+        ChurnRiskLevelNoData,
+        ChurnRiskLevelLowRisk,
+        ChurnRiskLevelMediumRisk,
+        ChurnRiskLevelHighRisk
+    };
+
+    PLAYFABCPP_API void writeChurnRiskLevelEnumJSON(ChurnRiskLevel enumVal, JsonWriter& writer);
+    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const FString& value);
+
     struct PLAYFABCPP_API FCloudScriptFile : public PlayFab::FPlayFabCppBaseModel
     {
         // Contents of the Cloud Script javascript. Must be string-escaped javascript.
@@ -3064,6 +3076,87 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPlayerChurnPredictionSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Comparison
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] RiskLevel
+        Boxed<ChurnRiskLevel> RiskLevel;
+
+        FPlayerChurnPredictionSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            RiskLevel()
+            {}
+
+        FPlayerChurnPredictionSegmentFilter(const FPlayerChurnPredictionSegmentFilter& src) = default;
+
+        FPlayerChurnPredictionSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPlayerChurnPredictionSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPlayerChurnPredictionSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPlayerChurnPredictionTimeSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Comparison
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // DurationInDays
+        double DurationInDays;
+
+        FPlayerChurnPredictionTimeSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            DurationInDays(0)
+            {}
+
+        FPlayerChurnPredictionTimeSegmentFilter(const FPlayerChurnPredictionTimeSegmentFilter& src) = default;
+
+        FPlayerChurnPredictionTimeSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPlayerChurnPredictionTimeSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPlayerChurnPredictionTimeSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPlayerChurnPreviousPredictionSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Comparison
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] RiskLevel
+        Boxed<ChurnRiskLevel> RiskLevel;
+
+        FPlayerChurnPreviousPredictionSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            RiskLevel()
+            {}
+
+        FPlayerChurnPreviousPredictionSegmentFilter(const FPlayerChurnPreviousPredictionSegmentFilter& src) = default;
+
+        FPlayerChurnPreviousPredictionSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPlayerChurnPreviousPredictionSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPlayerChurnPreviousPredictionSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum SegmentPushNotificationDevicePlatform
     {
         SegmentPushNotificationDevicePlatformApplePushNotificationService,
@@ -3474,6 +3567,15 @@ namespace AdminModels
         // [optional] Filter property for location.
         TSharedPtr<FLocationSegmentFilter> LocationFilter;
 
+        // [optional] Filter property for current player churn value.
+        TSharedPtr<FPlayerChurnPredictionSegmentFilter> PlayerChurnPredictionFilter;
+
+        // [optional] Filter property for player churn timespan.
+        TSharedPtr<FPlayerChurnPredictionTimeSegmentFilter> PlayerChurnPredictionTimeFilter;
+
+        // [optional] Filter property for previous player churn value.
+        TSharedPtr<FPlayerChurnPreviousPredictionSegmentFilter> PlayerChurnPreviousPredictionFilter;
+
         // [optional] Filter property for push notification.
         TSharedPtr<FPushNotificationSegmentFilter> PushNotificationFilter;
 
@@ -3506,6 +3608,9 @@ namespace AdminModels
             LinkedUserAccountFilter(nullptr),
             LinkedUserAccountHasEmailFilter(nullptr),
             LocationFilter(nullptr),
+            PlayerChurnPredictionFilter(nullptr),
+            PlayerChurnPredictionTimeFilter(nullptr),
+            PlayerChurnPreviousPredictionFilter(nullptr),
             PushNotificationFilter(nullptr),
             StatisticFilter(nullptr),
             TagFilter(nullptr),
@@ -3552,9 +3657,6 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSegmentModel : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] ResourceId of Segment resource
-        FString AzureResourceId;
-
         // [optional] Segment description.
         FString Description;
 
@@ -3575,7 +3677,6 @@ namespace AdminModels
         TArray<FSegmentOrDefinition> SegmentOrDefinitions;
         FSegmentModel() :
             FPlayFabCppBaseModel(),
-            AzureResourceId(),
             Description(),
             EnteredSegmentActions(),
             LastUpdateTime(0),
@@ -9951,9 +10052,6 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         /**
@@ -9961,9 +10059,6 @@ namespace AdminModels
          * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
          */
         FString Key;
-
-        // [optional] System Data of the Azure Resource
-        TSharedPtr<FAzureResourceSystemData> SystemData;
 
         /**
          * [optional] Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
@@ -9976,10 +10071,8 @@ namespace AdminModels
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
-            AzureResourceId(),
             CustomTags(),
             Key(),
-            SystemData(nullptr),
             TitleId(),
             Value()
             {}
@@ -9999,12 +10092,8 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         FSetTitleDataResult() :
-            FPlayFabCppResultCommon(),
-            AzureResourceId()
+            FPlayFabCppResultCommon()
             {}
 
         FSetTitleDataResult(const FSetTitleDataResult& src) = default;

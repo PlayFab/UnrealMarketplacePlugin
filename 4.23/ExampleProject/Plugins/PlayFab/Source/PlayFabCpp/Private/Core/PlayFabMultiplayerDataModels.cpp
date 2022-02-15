@@ -908,6 +908,9 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
         pfDynamicStandbySettings->writeJSON(writer);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("IsAssetReplicationComplete"));
+    writer->WriteValue(IsAssetReplicationComplete);
+
     writer->WriteIdentifierPrefix(TEXT("MaxServers"));
     writer->WriteValue(MaxServers);
 
@@ -961,6 +964,13 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
     if (DynamicStandbySettingsValue.IsValid() && !DynamicStandbySettingsValue->IsNull())
     {
         pfDynamicStandbySettings = MakeShareable(new FDynamicStandbySettings(DynamicStandbySettingsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IsAssetReplicationCompleteValue = obj->TryGetField(TEXT("IsAssetReplicationComplete"));
+    if (IsAssetReplicationCompleteValue.IsValid() && !IsAssetReplicationCompleteValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsAssetReplicationCompleteValue->TryGetBool(TmpValue)) { IsAssetReplicationComplete = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> MaxServersValue = obj->TryGetField(TEXT("MaxServers"));

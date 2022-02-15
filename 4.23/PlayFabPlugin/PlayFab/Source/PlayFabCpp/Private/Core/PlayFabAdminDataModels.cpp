@@ -2560,6 +2560,46 @@ bool PlayFab::AdminModels::FCheckLimitedEditionItemAvailabilityResult::readFromV
     return HasSucceeded;
 }
 
+void PlayFab::AdminModels::writeChurnRiskLevelEnumJSON(ChurnRiskLevel enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case ChurnRiskLevelNoData: writer->WriteValue(TEXT("NoData")); break;
+    case ChurnRiskLevelLowRisk: writer->WriteValue(TEXT("LowRisk")); break;
+    case ChurnRiskLevelMediumRisk: writer->WriteValue(TEXT("MediumRisk")); break;
+    case ChurnRiskLevelHighRisk: writer->WriteValue(TEXT("HighRisk")); break;
+    }
+}
+
+AdminModels::ChurnRiskLevel PlayFab::AdminModels::readChurnRiskLevelFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readChurnRiskLevelFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::ChurnRiskLevel PlayFab::AdminModels::readChurnRiskLevelFromValue(const FString& value)
+{
+    static TMap<FString, ChurnRiskLevel> _ChurnRiskLevelMap;
+    if (_ChurnRiskLevelMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _ChurnRiskLevelMap.Add(TEXT("NoData"), ChurnRiskLevelNoData);
+        _ChurnRiskLevelMap.Add(TEXT("LowRisk"), ChurnRiskLevelLowRisk);
+        _ChurnRiskLevelMap.Add(TEXT("MediumRisk"), ChurnRiskLevelMediumRisk);
+        _ChurnRiskLevelMap.Add(TEXT("HighRisk"), ChurnRiskLevelHighRisk);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _ChurnRiskLevelMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return ChurnRiskLevelNoData; // Basically critical fail
+}
+
 PlayFab::AdminModels::FCloudScriptFile::~FCloudScriptFile()
 {
 
@@ -6077,6 +6117,113 @@ bool PlayFab::AdminModels::FLocationSegmentFilter::readFromValue(const TSharedPt
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FPlayerChurnPredictionSegmentFilter::~FPlayerChurnPredictionSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FPlayerChurnPredictionSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (RiskLevel.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RiskLevel"));
+        writeChurnRiskLevelEnumJSON(RiskLevel, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FPlayerChurnPredictionSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    RiskLevel = readChurnRiskLevelFromValue(obj->TryGetField(TEXT("RiskLevel")));
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FPlayerChurnPredictionTimeSegmentFilter::~FPlayerChurnPredictionTimeSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FPlayerChurnPredictionTimeSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("DurationInDays"));
+    writer->WriteValue(DurationInDays);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FPlayerChurnPredictionTimeSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> DurationInDaysValue = obj->TryGetField(TEXT("DurationInDays"));
+    if (DurationInDaysValue.IsValid() && !DurationInDaysValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInDaysValue->TryGetNumber(TmpValue)) { DurationInDays = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FPlayerChurnPreviousPredictionSegmentFilter::~FPlayerChurnPreviousPredictionSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FPlayerChurnPreviousPredictionSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (RiskLevel.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RiskLevel"));
+        writeChurnRiskLevelEnumJSON(RiskLevel, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FPlayerChurnPreviousPredictionSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    RiskLevel = readChurnRiskLevelFromValue(obj->TryGetField(TEXT("RiskLevel")));
+
+    return HasSucceeded;
+}
+
 void PlayFab::AdminModels::writeSegmentPushNotificationDevicePlatformEnumJSON(SegmentPushNotificationDevicePlatform enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -6791,6 +6938,9 @@ PlayFab::AdminModels::FSegmentAndDefinition::~FSegmentAndDefinition()
     //if (LinkedUserAccountFilter != nullptr) delete LinkedUserAccountFilter;
     //if (LinkedUserAccountHasEmailFilter != nullptr) delete LinkedUserAccountHasEmailFilter;
     //if (LocationFilter != nullptr) delete LocationFilter;
+    //if (PlayerChurnPredictionFilter != nullptr) delete PlayerChurnPredictionFilter;
+    //if (PlayerChurnPredictionTimeFilter != nullptr) delete PlayerChurnPredictionTimeFilter;
+    //if (PlayerChurnPreviousPredictionFilter != nullptr) delete PlayerChurnPreviousPredictionFilter;
     //if (PushNotificationFilter != nullptr) delete PushNotificationFilter;
     //if (StatisticFilter != nullptr) delete StatisticFilter;
     //if (TagFilter != nullptr) delete TagFilter;
@@ -6857,6 +7007,24 @@ void PlayFab::AdminModels::FSegmentAndDefinition::writeJSON(JsonWriter& writer) 
     {
         writer->WriteIdentifierPrefix(TEXT("LocationFilter"));
         LocationFilter->writeJSON(writer);
+    }
+
+    if (PlayerChurnPredictionFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerChurnPredictionFilter"));
+        PlayerChurnPredictionFilter->writeJSON(writer);
+    }
+
+    if (PlayerChurnPredictionTimeFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerChurnPredictionTimeFilter"));
+        PlayerChurnPredictionTimeFilter->writeJSON(writer);
+    }
+
+    if (PlayerChurnPreviousPredictionFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerChurnPreviousPredictionFilter"));
+        PlayerChurnPreviousPredictionFilter->writeJSON(writer);
     }
 
     if (PushNotificationFilter.IsValid())
@@ -6962,6 +7130,24 @@ bool PlayFab::AdminModels::FSegmentAndDefinition::readFromValue(const TSharedPtr
         LocationFilter = MakeShareable(new FLocationSegmentFilter(LocationFilterValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> PlayerChurnPredictionFilterValue = obj->TryGetField(TEXT("PlayerChurnPredictionFilter"));
+    if (PlayerChurnPredictionFilterValue.IsValid() && !PlayerChurnPredictionFilterValue->IsNull())
+    {
+        PlayerChurnPredictionFilter = MakeShareable(new FPlayerChurnPredictionSegmentFilter(PlayerChurnPredictionFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayerChurnPredictionTimeFilterValue = obj->TryGetField(TEXT("PlayerChurnPredictionTimeFilter"));
+    if (PlayerChurnPredictionTimeFilterValue.IsValid() && !PlayerChurnPredictionTimeFilterValue->IsNull())
+    {
+        PlayerChurnPredictionTimeFilter = MakeShareable(new FPlayerChurnPredictionTimeSegmentFilter(PlayerChurnPredictionTimeFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayerChurnPreviousPredictionFilterValue = obj->TryGetField(TEXT("PlayerChurnPreviousPredictionFilter"));
+    if (PlayerChurnPreviousPredictionFilterValue.IsValid() && !PlayerChurnPreviousPredictionFilterValue->IsNull())
+    {
+        PlayerChurnPreviousPredictionFilter = MakeShareable(new FPlayerChurnPreviousPredictionSegmentFilter(PlayerChurnPreviousPredictionFilterValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> PushNotificationFilterValue = obj->TryGetField(TEXT("PushNotificationFilter"));
     if (PushNotificationFilterValue.IsValid() && !PushNotificationFilterValue->IsNull())
     {
@@ -7052,12 +7238,6 @@ void PlayFab::AdminModels::FSegmentModel::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    if (AzureResourceId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("AzureResourceId"));
-        writer->WriteValue(AzureResourceId);
-    }
-
     if (Description.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Description"));
@@ -7112,13 +7292,6 @@ void PlayFab::AdminModels::FSegmentModel::writeJSON(JsonWriter& writer) const
 bool PlayFab::AdminModels::FSegmentModel::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AzureResourceIdValue = obj->TryGetField(TEXT("AzureResourceId"));
-    if (AzureResourceIdValue.IsValid() && !AzureResourceIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (AzureResourceIdValue->TryGetString(TmpValue)) { AzureResourceId = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> DescriptionValue = obj->TryGetField(TEXT("Description"));
     if (DescriptionValue.IsValid() && !DescriptionValue->IsNull())
@@ -19025,19 +19198,12 @@ bool PlayFab::AdminModels::FSetTitleDataAndOverridesResult::readFromValue(const 
 
 PlayFab::AdminModels::FSetTitleDataRequest::~FSetTitleDataRequest()
 {
-    //if (SystemData != nullptr) delete SystemData;
 
 }
 
 void PlayFab::AdminModels::FSetTitleDataRequest::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
-
-    if (AzureResourceId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("AzureResourceId"));
-        writer->WriteValue(AzureResourceId);
-    }
 
     if (CustomTags.Num() != 0)
     {
@@ -19060,12 +19226,6 @@ void PlayFab::AdminModels::FSetTitleDataRequest::writeJSON(JsonWriter& writer) c
         writer->WriteValue(Key);
     }
 
-    if (SystemData.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("SystemData"));
-        SystemData->writeJSON(writer);
-    }
-
     if (TitleId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("TitleId"));
@@ -19085,13 +19245,6 @@ bool PlayFab::AdminModels::FSetTitleDataRequest::readFromValue(const TSharedPtr<
 {
     bool HasSucceeded = true;
 
-    const TSharedPtr<FJsonValue> AzureResourceIdValue = obj->TryGetField(TEXT("AzureResourceId"));
-    if (AzureResourceIdValue.IsValid() && !AzureResourceIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (AzureResourceIdValue->TryGetString(TmpValue)) { AzureResourceId = TmpValue; }
-    }
-
     const TSharedPtr<FJsonObject>* CustomTagsObject;
     if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
     {
@@ -19106,12 +19259,6 @@ bool PlayFab::AdminModels::FSetTitleDataRequest::readFromValue(const TSharedPtr<
     {
         FString TmpValue;
         if (KeyValue->TryGetString(TmpValue)) { Key = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> SystemDataValue = obj->TryGetField(TEXT("SystemData"));
-    if (SystemDataValue.IsValid() && !SystemDataValue->IsNull())
-    {
-        SystemData = MakeShareable(new FAzureResourceSystemData(SystemDataValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
@@ -19140,25 +19287,12 @@ void PlayFab::AdminModels::FSetTitleDataResult::writeJSON(JsonWriter& writer) co
 {
     writer->WriteObjectStart();
 
-    if (AzureResourceId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("AzureResourceId"));
-        writer->WriteValue(AzureResourceId);
-    }
-
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::AdminModels::FSetTitleDataResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AzureResourceIdValue = obj->TryGetField(TEXT("AzureResourceId"));
-    if (AzureResourceIdValue.IsValid() && !AzureResourceIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (AzureResourceIdValue->TryGetString(TmpValue)) { AzureResourceId = TmpValue; }
-    }
 
     return HasSucceeded;
 }

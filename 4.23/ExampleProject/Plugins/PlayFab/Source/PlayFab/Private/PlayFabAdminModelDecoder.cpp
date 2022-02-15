@@ -1120,9 +1120,7 @@ FAdminSetTitleDataResult UPlayFabAdminModelDecoder::decodeSetTitleDataResultResp
 {
     // Temp ustruct
     FAdminSetTitleDataResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
-    tempStruct.AzureResourceId = !(dataObj->HasField("AzureResourceId")) ? TEXT("") : dataObj->GetStringField("AzureResourceId");
 
     return tempStruct;
 }

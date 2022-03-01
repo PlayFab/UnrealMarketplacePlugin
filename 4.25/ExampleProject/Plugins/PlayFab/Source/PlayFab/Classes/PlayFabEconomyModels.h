@@ -165,6 +165,9 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** Whether to fetch metadata of the scan status. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        bool ExpandScanningStatus = false;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -438,6 +441,35 @@ public:
     /** The total number of reviews associated with this item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         int32 ReviewsCount = 0;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** List of item alternate IDs. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        TArray<UPlayFabJsonObject*> AlternateIds;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** List of Item Ids. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        FString Ids;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Metadata of set of items. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        TArray<UPlayFabJsonObject*> Items;
 };
 
 /**

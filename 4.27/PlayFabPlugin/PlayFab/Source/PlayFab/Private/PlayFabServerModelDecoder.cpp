@@ -1203,9 +1203,7 @@ FServerSetTitleDataResult UPlayFabServerModelDecoder::decodeSetTitleDataResultRe
 {
     // Temp ustruct
     FServerSetTitleDataResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
-    tempStruct.AzureResourceId = !(dataObj->HasField("AzureResourceId")) ? TEXT("") : dataObj->GetStringField("AzureResourceId");
 
     return tempStruct;
 }

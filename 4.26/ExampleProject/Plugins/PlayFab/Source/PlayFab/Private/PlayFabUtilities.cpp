@@ -554,13 +554,20 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1520: returnText = "ApiNotEnabledForTitle"; break;
     case 1521: returnText = "DuplicateTitleNameForPublisher"; break;
     case 1522: returnText = "AzureTitleCreationInProgress"; break;
-    case 1523: returnText = "DuplicateAzureResourceId"; break;
     case 1524: returnText = "TitleConstraintsPublisherDeletion"; break;
     case 1525: returnText = "InvalidPlayerAccountPoolId"; break;
     case 1526: returnText = "PlayerAccountPoolNotFound"; break;
     case 1527: returnText = "PlayerAccountPoolDeleted"; break;
     case 1528: returnText = "TitleCleanupInProgress"; break;
+    case 1529: returnText = "AzureResourceConcurrentOperationInProgress"; break;
+    case 1530: returnText = "TitlePublisherUpdateNotAllowed"; break;
     case 1531: returnText = "AzureResourceManagerNotSupportedInStamp"; break;
+    case 1532: returnText = "ApiNotIncludedInAzurePlayFabFeatureSet"; break;
+    case 1533: returnText = "GoogleServiceAccountFailedAuth"; break;
+    case 1534: returnText = "GoogleAPIServiceUnavailable"; break;
+    case 1535: returnText = "GoogleAPIServiceUnknownError"; break;
+    case 1536: returnText = "NoValidIdentityForAad"; break;
+    case 1537: returnText = "PlayerIdentityLinkNotFound"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -584,7 +591,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 2059: returnText = "MatchmakingBadRequest"; break;
     case 2500: returnText = "PubSubFeatureNotEnabledForTitle"; break;
     case 2501: returnText = "PubSubTooManyRequests"; break;
-    case 2502: returnText = "PubSubConnectionHandleAccessDenied"; break;
+    case 2502: returnText = "PubSubConnectionNotFoundForEntity"; break;
     case 2503: returnText = "PubSubConnectionHandleInvalid"; break;
     case 2504: returnText = "PubSubSubscriptionLimitExceeded"; break;
     case 3001: returnText = "TitleConfigNotFound"; break;
@@ -709,6 +716,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 15001: returnText = "EventSinkConnectionUnauthorized"; break;
     case 15002: returnText = "EventSinkRegionInvalid"; break;
     case 16000: returnText = "OperationCanceled"; break;
+    case 17000: returnText = "InvalidDisplayNameRandomSuffixLength"; break;
+    case 17001: returnText = "AllowNonUniquePlayerDisplayNamesDisableNotAllowed"; break;
     }
 
     // Return the text

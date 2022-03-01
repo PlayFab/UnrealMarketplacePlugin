@@ -908,6 +908,9 @@ void PlayFab::MultiplayerModels::FBuildRegion::writeJSON(JsonWriter& writer) con
         pfDynamicStandbySettings->writeJSON(writer);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("IsAssetReplicationComplete"));
+    writer->WriteValue(IsAssetReplicationComplete);
+
     writer->WriteIdentifierPrefix(TEXT("MaxServers"));
     writer->WriteValue(MaxServers);
 
@@ -961,6 +964,13 @@ bool PlayFab::MultiplayerModels::FBuildRegion::readFromValue(const TSharedPtr<FJ
     if (DynamicStandbySettingsValue.IsValid() && !DynamicStandbySettingsValue->IsNull())
     {
         pfDynamicStandbySettings = MakeShareable(new FDynamicStandbySettings(DynamicStandbySettingsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IsAssetReplicationCompleteValue = obj->TryGetField(TEXT("IsAssetReplicationComplete"));
+    if (IsAssetReplicationCompleteValue.IsValid() && !IsAssetReplicationCompleteValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsAssetReplicationCompleteValue->TryGetBool(TmpValue)) { IsAssetReplicationComplete = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> MaxServersValue = obj->TryGetField(TEXT("MaxServers"));
@@ -2146,6 +2156,77 @@ bool PlayFab::MultiplayerModels::FLinuxInstrumentationConfiguration::readFromVal
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FMonitoringApplicationConfigurationParams::~FMonitoringApplicationConfigurationParams()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FMonitoringApplicationConfigurationParams::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AssetReference"));
+    AssetReference.writeJSON(writer);
+
+    if (!ExecutionScriptName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: MonitoringApplicationConfigurationParams::ExecutionScriptName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExecutionScriptName"));
+        writer->WriteValue(ExecutionScriptName);
+    }
+
+    if (InstallationScriptName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("InstallationScriptName"));
+        writer->WriteValue(InstallationScriptName);
+    }
+
+    if (OnStartRuntimeInMinutes.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OnStartRuntimeInMinutes"));
+        writer->WriteValue(OnStartRuntimeInMinutes);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMonitoringApplicationConfigurationParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AssetReferenceValue = obj->TryGetField(TEXT("AssetReference"));
+    if (AssetReferenceValue.IsValid() && !AssetReferenceValue->IsNull())
+    {
+        AssetReference = FAssetReferenceParams(AssetReferenceValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> ExecutionScriptNameValue = obj->TryGetField(TEXT("ExecutionScriptName"));
+    if (ExecutionScriptNameValue.IsValid() && !ExecutionScriptNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExecutionScriptNameValue->TryGetString(TmpValue)) { ExecutionScriptName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InstallationScriptNameValue = obj->TryGetField(TEXT("InstallationScriptName"));
+    if (InstallationScriptNameValue.IsValid() && !InstallationScriptNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (InstallationScriptNameValue->TryGetString(TmpValue)) { InstallationScriptName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> OnStartRuntimeInMinutesValue = obj->TryGetField(TEXT("OnStartRuntimeInMinutes"));
+    if (OnStartRuntimeInMinutesValue.IsValid() && !OnStartRuntimeInMinutesValue->IsNull())
+    {
+        double TmpValue;
+        if (OnStartRuntimeInMinutesValue->TryGetNumber(TmpValue)) { OnStartRuntimeInMinutes = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::MultiplayerModels::writeProtocolTypeEnumJSON(ProtocolType enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -2237,6 +2318,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::~FCreateBuil
 {
     //if (ContainerImageReference != nullptr) delete ContainerImageReference;
     //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
+    //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
 
 }
 
@@ -2322,6 +2404,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (MonitoringApplicationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MonitoringApplicationConfiguration"));
+        MonitoringApplicationConfiguration->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
@@ -2427,6 +2515,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
         }
     }
 
+    const TSharedPtr<FJsonValue> MonitoringApplicationConfigurationValue = obj->TryGetField(TEXT("MonitoringApplicationConfiguration"));
+    if (MonitoringApplicationConfigurationValue.IsValid() && !MonitoringApplicationConfigurationValue->IsNull())
+    {
+        MonitoringApplicationConfiguration = MakeShareable(new FMonitoringApplicationConfigurationParams(MonitoringApplicationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
     if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
     {
@@ -2507,10 +2601,82 @@ bool PlayFab::MultiplayerModels::FGameCertificateReference::readFromValue(const 
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FMonitoringApplicationConfiguration::~FMonitoringApplicationConfiguration()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FMonitoringApplicationConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("AssetReference"));
+    pfAssetReference.writeJSON(writer);
+
+    if (!ExecutionScriptName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: MonitoringApplicationConfiguration::ExecutionScriptName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExecutionScriptName"));
+        writer->WriteValue(ExecutionScriptName);
+    }
+
+    if (InstallationScriptName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("InstallationScriptName"));
+        writer->WriteValue(InstallationScriptName);
+    }
+
+    if (OnStartRuntimeInMinutes.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OnStartRuntimeInMinutes"));
+        writer->WriteValue(OnStartRuntimeInMinutes);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FMonitoringApplicationConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AssetReferenceValue = obj->TryGetField(TEXT("AssetReference"));
+    if (AssetReferenceValue.IsValid() && !AssetReferenceValue->IsNull())
+    {
+        pfAssetReference = FAssetReference(AssetReferenceValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> ExecutionScriptNameValue = obj->TryGetField(TEXT("ExecutionScriptName"));
+    if (ExecutionScriptNameValue.IsValid() && !ExecutionScriptNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExecutionScriptNameValue->TryGetString(TmpValue)) { ExecutionScriptName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InstallationScriptNameValue = obj->TryGetField(TEXT("InstallationScriptName"));
+    if (InstallationScriptNameValue.IsValid() && !InstallationScriptNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (InstallationScriptNameValue->TryGetString(TmpValue)) { InstallationScriptName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> OnStartRuntimeInMinutesValue = obj->TryGetField(TEXT("OnStartRuntimeInMinutes"));
+    if (OnStartRuntimeInMinutesValue.IsValid() && !OnStartRuntimeInMinutesValue->IsNull())
+    {
+        double TmpValue;
+        if (OnStartRuntimeInMinutesValue->TryGetNumber(TmpValue)) { OnStartRuntimeInMinutes = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::~FCreateBuildWithCustomContainerResponse()
 {
     //if (CustomGameContainerImage != nullptr) delete CustomGameContainerImage;
     //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
+    //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
 
 }
 
@@ -2593,6 +2759,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::writeJ
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (pfMonitoringApplicationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MonitoringApplicationConfiguration"));
+        pfMonitoringApplicationConfiguration->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
@@ -2719,6 +2891,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
         }
     }
 
+    const TSharedPtr<FJsonValue> MonitoringApplicationConfigurationValue = obj->TryGetField(TEXT("MonitoringApplicationConfiguration"));
+    if (MonitoringApplicationConfigurationValue.IsValid() && !MonitoringApplicationConfigurationValue->IsNull())
+    {
+        pfMonitoringApplicationConfiguration = MakeShareable(new FMonitoringApplicationConfiguration(MonitoringApplicationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
     if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
     {
@@ -2811,9 +2989,66 @@ bool PlayFab::MultiplayerModels::FInstrumentationConfiguration::readFromValue(co
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FWindowsCrashDumpConfiguration::~FWindowsCrashDumpConfiguration()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FWindowsCrashDumpConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomDumpFlags.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomDumpFlags"));
+        writer->WriteValue(CustomDumpFlags);
+    }
+
+    if (DumpType.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DumpType"));
+        writer->WriteValue(DumpType);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("IsEnabled"));
+    writer->WriteValue(IsEnabled);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FWindowsCrashDumpConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CustomDumpFlagsValue = obj->TryGetField(TEXT("CustomDumpFlags"));
+    if (CustomDumpFlagsValue.IsValid() && !CustomDumpFlagsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (CustomDumpFlagsValue->TryGetNumber(TmpValue)) { CustomDumpFlags = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DumpTypeValue = obj->TryGetField(TEXT("DumpType"));
+    if (DumpTypeValue.IsValid() && !DumpTypeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (DumpTypeValue->TryGetNumber(TmpValue)) { DumpType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IsEnabledValue = obj->TryGetField(TEXT("IsEnabled"));
+    if (IsEnabledValue.IsValid() && !IsEnabledValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsEnabledValue->TryGetBool(TmpValue)) { IsEnabled = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::~FCreateBuildWithManagedContainerRequest()
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+    //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (WindowsCrashDumpConfiguration != nullptr) delete WindowsCrashDumpConfiguration;
 
 }
 
@@ -2892,6 +3127,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
         writer->WriteObjectEnd();
     }
 
+    if (MonitoringApplicationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MonitoringApplicationConfiguration"));
+        MonitoringApplicationConfiguration->writeJSON(writer);
+    }
+
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
     writer->WriteValue(MultiplayerServerCountPerVm);
 
@@ -2927,6 +3168,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
     {
         writer->WriteIdentifierPrefix(TEXT("VmSize"));
         writeAzureVmSizeEnumJSON(VmSize, writer);
+    }
+
+    if (pfWindowsCrashDumpConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("WindowsCrashDumpConfiguration"));
+        pfWindowsCrashDumpConfiguration->writeJSON(writer);
     }
 
     writer->WriteObjectEnd();
@@ -2999,6 +3246,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
         }
     }
 
+    const TSharedPtr<FJsonValue> MonitoringApplicationConfigurationValue = obj->TryGetField(TEXT("MonitoringApplicationConfiguration"));
+    if (MonitoringApplicationConfigurationValue.IsValid() && !MonitoringApplicationConfigurationValue->IsNull())
+    {
+        MonitoringApplicationConfiguration = MakeShareable(new FMonitoringApplicationConfigurationParams(MonitoringApplicationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
     if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
     {
@@ -3038,12 +3291,19 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
+    const TSharedPtr<FJsonValue> WindowsCrashDumpConfigurationValue = obj->TryGetField(TEXT("WindowsCrashDumpConfiguration"));
+    if (WindowsCrashDumpConfigurationValue.IsValid() && !WindowsCrashDumpConfigurationValue->IsNull())
+    {
+        pfWindowsCrashDumpConfiguration = MakeShareable(new FWindowsCrashDumpConfiguration(WindowsCrashDumpConfigurationValue->AsObject()));
+    }
+
     return HasSucceeded;
 }
 
 PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::~FCreateBuildWithManagedContainerResponse()
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+    //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
 
 }
 
@@ -3120,6 +3380,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (pfMonitoringApplicationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MonitoringApplicationConfiguration"));
+        pfMonitoringApplicationConfiguration->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
@@ -3246,6 +3512,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
         }
     }
 
+    const TSharedPtr<FJsonValue> MonitoringApplicationConfigurationValue = obj->TryGetField(TEXT("MonitoringApplicationConfiguration"));
+    if (MonitoringApplicationConfigurationValue.IsValid() && !MonitoringApplicationConfigurationValue->IsNull())
+    {
+        pfMonitoringApplicationConfiguration = MakeShareable(new FMonitoringApplicationConfiguration(MonitoringApplicationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
     if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
     {
@@ -3305,6 +3577,7 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
 PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::~FCreateBuildWithProcessBasedServerRequest()
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+    //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
 
 }
 
@@ -3381,6 +3654,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::writ
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (MonitoringApplicationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MonitoringApplicationConfiguration"));
+        MonitoringApplicationConfiguration->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
@@ -3501,6 +3780,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
         }
     }
 
+    const TSharedPtr<FJsonValue> MonitoringApplicationConfigurationValue = obj->TryGetField(TEXT("MonitoringApplicationConfiguration"));
+    if (MonitoringApplicationConfigurationValue.IsValid() && !MonitoringApplicationConfigurationValue->IsNull())
+    {
+        MonitoringApplicationConfiguration = MakeShareable(new FMonitoringApplicationConfigurationParams(MonitoringApplicationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));
     if (MultiplayerServerCountPerVmValue.IsValid() && !MultiplayerServerCountPerVmValue->IsNull())
     {
@@ -3553,6 +3838,7 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
 PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::~FCreateBuildWithProcessBasedServerResponse()
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+    //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
 
 }
 
@@ -3635,6 +3921,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::wri
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
+    }
+
+    if (pfMonitoringApplicationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MonitoringApplicationConfiguration"));
+        pfMonitoringApplicationConfiguration->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("MultiplayerServerCountPerVm"));
@@ -3766,6 +4058,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::rea
         {
             Metadata.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> MonitoringApplicationConfigurationValue = obj->TryGetField(TEXT("MonitoringApplicationConfiguration"));
+    if (MonitoringApplicationConfigurationValue.IsValid() && !MonitoringApplicationConfigurationValue->IsNull())
+    {
+        pfMonitoringApplicationConfiguration = MakeShareable(new FMonitoringApplicationConfiguration(MonitoringApplicationConfigurationValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> MultiplayerServerCountPerVmValue = obj->TryGetField(TEXT("MultiplayerServerCountPerVm"));

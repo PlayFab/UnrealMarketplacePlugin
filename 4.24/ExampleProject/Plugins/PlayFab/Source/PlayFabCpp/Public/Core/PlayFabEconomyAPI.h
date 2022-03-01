@@ -32,6 +32,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetItemPublishStatusDelegate, const EconomyModels::FGetItemPublishStatusResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemReviewsDelegate, const EconomyModels::FGetItemReviewsResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemReviewSummaryDelegate, const EconomyModels::FGetItemReviewSummaryResponse&);
+        DECLARE_DELEGATE_OneParam(FGetItemsDelegate, const EconomyModels::FGetItemsResponse&);
         DECLARE_DELEGATE_OneParam(FPublishDraftItemDelegate, const EconomyModels::FPublishDraftItemResponse&);
         DECLARE_DELEGATE_OneParam(FReportItemDelegate, const EconomyModels::FReportItemResponse&);
         DECLARE_DELEGATE_OneParam(FReportItemReviewDelegate, const EconomyModels::FReportItemReviewResponse&);
@@ -84,6 +85,8 @@ namespace PlayFab
         bool GetItemReviews(EconomyModels::FGetItemReviewsRequest& request, const FGetItemReviewsDelegate& SuccessDelegate = FGetItemReviewsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Get a summary of all reviews associated with the specified item.
         bool GetItemReviewSummary(EconomyModels::FGetItemReviewSummaryRequest& request, const FGetItemReviewSummaryDelegate& SuccessDelegate = FGetItemReviewSummaryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves items from the public catalog.
+        bool GetItems(EconomyModels::FGetItemsRequest& request, const FGetItemsDelegate& SuccessDelegate = FGetItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Initiates a publish of an item from the working catalog to the public catalog.
          * The call kicks off a workflow to publish the item to the public catalog. The Publish Status API should be used to monitor the publish job.
@@ -133,6 +136,7 @@ namespace PlayFab
         void OnGetItemPublishStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemPublishStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemReviewsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemReviewsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemReviewSummaryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemReviewSummaryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPublishDraftItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPublishDraftItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnReportItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FReportItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnReportItemReviewResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FReportItemReviewDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

@@ -755,6 +755,49 @@ namespace AdminModels
     PLAYFABCPP_API AuthTokenType readAuthTokenTypeFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API AuthTokenType readAuthTokenTypeFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FAzureResourceSystemData : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The timestamp of resource creation (UTC)
+        Boxed<FDateTime> CreatedAt;
+
+        // [optional] The identity that created the resource
+        FString CreatedBy;
+
+        // [optional] The type of identity that created the resource
+        FString CreatedByType;
+
+        // [optional] The type of identity that last modified the resource
+        Boxed<FDateTime> LastModifiedAt;
+
+        // [optional] The identity that last modified the resource
+        FString LastModifiedBy;
+
+        // [optional] The type of identity that last modified the resource
+        FString LastModifiedByType;
+
+        FAzureResourceSystemData() :
+            FPlayFabCppBaseModel(),
+            CreatedAt(),
+            CreatedBy(),
+            CreatedByType(),
+            LastModifiedAt(),
+            LastModifiedBy(),
+            LastModifiedByType()
+            {}
+
+        FAzureResourceSystemData(const FAzureResourceSystemData& src) = default;
+
+        FAzureResourceSystemData(const TSharedPtr<FJsonObject>& obj) : FAzureResourceSystemData()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAzureResourceSystemData();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FBanInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // The active state of this ban. Expired bans may still have this value set to true but they will have no effect.
@@ -772,9 +815,6 @@ namespace AdminModels
         // [optional] The IP address on which the ban was applied. May affect multiple players.
         FString IPAddress;
 
-        // [optional] The MAC address on which the ban was applied. May affect multiple players.
-        FString MACAddress;
-
         // [optional] Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -788,7 +828,6 @@ namespace AdminModels
             Created(),
             Expires(),
             IPAddress(),
-            MACAddress(),
             PlayFabId(),
             Reason()
             {}
@@ -1200,6 +1239,18 @@ namespace AdminModels
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
+
+    enum ChurnRiskLevel
+    {
+        ChurnRiskLevelNoData,
+        ChurnRiskLevelLowRisk,
+        ChurnRiskLevelMediumRisk,
+        ChurnRiskLevelHighRisk
+    };
+
+    PLAYFABCPP_API void writeChurnRiskLevelEnumJSON(ChurnRiskLevel enumVal, JsonWriter& writer);
+    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const FString& value);
 
     struct PLAYFABCPP_API FCloudScriptFile : public PlayFab::FPlayFabCppBaseModel
     {
@@ -3025,6 +3076,87 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPlayerChurnPredictionSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Comparison
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] RiskLevel
+        Boxed<ChurnRiskLevel> RiskLevel;
+
+        FPlayerChurnPredictionSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            RiskLevel()
+            {}
+
+        FPlayerChurnPredictionSegmentFilter(const FPlayerChurnPredictionSegmentFilter& src) = default;
+
+        FPlayerChurnPredictionSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPlayerChurnPredictionSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPlayerChurnPredictionSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPlayerChurnPredictionTimeSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Comparison
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // DurationInDays
+        double DurationInDays;
+
+        FPlayerChurnPredictionTimeSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            DurationInDays(0)
+            {}
+
+        FPlayerChurnPredictionTimeSegmentFilter(const FPlayerChurnPredictionTimeSegmentFilter& src) = default;
+
+        FPlayerChurnPredictionTimeSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPlayerChurnPredictionTimeSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPlayerChurnPredictionTimeSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPlayerChurnPreviousPredictionSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Comparison
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] RiskLevel
+        Boxed<ChurnRiskLevel> RiskLevel;
+
+        FPlayerChurnPreviousPredictionSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            RiskLevel()
+            {}
+
+        FPlayerChurnPreviousPredictionSegmentFilter(const FPlayerChurnPreviousPredictionSegmentFilter& src) = default;
+
+        FPlayerChurnPreviousPredictionSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FPlayerChurnPreviousPredictionSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPlayerChurnPreviousPredictionSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum SegmentPushNotificationDevicePlatform
     {
         SegmentPushNotificationDevicePlatformApplePushNotificationService,
@@ -3435,6 +3567,15 @@ namespace AdminModels
         // [optional] Filter property for location.
         TSharedPtr<FLocationSegmentFilter> LocationFilter;
 
+        // [optional] Filter property for current player churn value.
+        TSharedPtr<FPlayerChurnPredictionSegmentFilter> PlayerChurnPredictionFilter;
+
+        // [optional] Filter property for player churn timespan.
+        TSharedPtr<FPlayerChurnPredictionTimeSegmentFilter> PlayerChurnPredictionTimeFilter;
+
+        // [optional] Filter property for previous player churn value.
+        TSharedPtr<FPlayerChurnPreviousPredictionSegmentFilter> PlayerChurnPreviousPredictionFilter;
+
         // [optional] Filter property for push notification.
         TSharedPtr<FPushNotificationSegmentFilter> PushNotificationFilter;
 
@@ -3467,6 +3608,9 @@ namespace AdminModels
             LinkedUserAccountFilter(nullptr),
             LinkedUserAccountHasEmailFilter(nullptr),
             LocationFilter(nullptr),
+            PlayerChurnPredictionFilter(nullptr),
+            PlayerChurnPredictionTimeFilter(nullptr),
+            PlayerChurnPreviousPredictionFilter(nullptr),
             PushNotificationFilter(nullptr),
             StatisticFilter(nullptr),
             TagFilter(nullptr),
@@ -3513,9 +3657,6 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSegmentModel : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] ResourceId of Segment resource
-        FString AzureResourceId;
-
         // [optional] Segment description.
         FString Description;
 
@@ -3536,7 +3677,6 @@ namespace AdminModels
         TArray<FSegmentOrDefinition> SegmentOrDefinitions;
         FSegmentModel() :
             FPlayFabCppBaseModel(),
-            AzureResourceId(),
             Description(),
             EnteredSegmentActions(),
             LastUpdateTime(0),
@@ -9912,9 +10052,6 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         /**
@@ -9934,7 +10071,6 @@ namespace AdminModels
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
-            AzureResourceId(),
             CustomTags(),
             Key(),
             TitleId(),
@@ -9956,12 +10092,8 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         FSetTitleDataResult() :
-            FPlayFabCppResultCommon(),
-            AzureResourceId()
+            FPlayFabCppResultCommon()
             {}
 
         FSetTitleDataResult(const FSetTitleDataResult& src) = default;

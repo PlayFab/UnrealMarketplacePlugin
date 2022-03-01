@@ -459,7 +459,7 @@ namespace PlayFab
         bool GetUserInternalData(AdminModels::FGetUserDataRequest& request, const FGetUserInternalDataDelegate& SuccessDelegate = FGetUserInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the specified user's current inventory of virtual goods
-         * All items currently in the user inventory will be returned, irrespective of how they were acquired (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the user's current inventory, and so will not be not included.
+         * All items currently in the user inventory will be returned, irrespective of how they were acquired (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the user's current inventory, and so will not be not included. There can be a delay of up to a half a second for inventory changes to be reflected in the GetUserInventory API response.
          */
         bool GetUserInventory(AdminModels::FGetUserInventoryRequest& request, const FGetUserInventoryDelegate& SuccessDelegate = FGetUserInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

@@ -1808,7 +1808,8 @@ public:
 /**
  * All items currently in the user inventory will be returned, irrespective of how they were acquired (via purchasing,
  * grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the
- * user's current inventory, and so will not be not included.
+ * user's current inventory, and so will not be not included. There can be a delay of up to a half a second for inventory
+ * changes to be reflected in the GetUserInventory API response.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminGetUserInventoryRequest : public FPlayFabRequestCommon
@@ -3091,9 +3092,6 @@ struct PLAYFAB_API FAdminSetTitleDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of azure resource */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        FString AzureResourceId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -3113,9 +3111,6 @@ struct PLAYFAB_API FAdminSetTitleDataResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of azure resource */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        FString AzureResourceId;
 };
 
 /**

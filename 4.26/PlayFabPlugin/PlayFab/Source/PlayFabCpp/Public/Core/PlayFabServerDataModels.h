@@ -1357,6 +1357,49 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FAzureResourceSystemData : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The timestamp of resource creation (UTC)
+        Boxed<FDateTime> CreatedAt;
+
+        // [optional] The identity that created the resource
+        FString CreatedBy;
+
+        // [optional] The type of identity that created the resource
+        FString CreatedByType;
+
+        // [optional] The type of identity that last modified the resource
+        Boxed<FDateTime> LastModifiedAt;
+
+        // [optional] The identity that last modified the resource
+        FString LastModifiedBy;
+
+        // [optional] The type of identity that last modified the resource
+        FString LastModifiedByType;
+
+        FAzureResourceSystemData() :
+            FPlayFabCppBaseModel(),
+            CreatedAt(),
+            CreatedBy(),
+            CreatedByType(),
+            LastModifiedAt(),
+            LastModifiedBy(),
+            LastModifiedByType()
+            {}
+
+        FAzureResourceSystemData(const FAzureResourceSystemData& src) = default;
+
+        FAzureResourceSystemData(const TSharedPtr<FJsonObject>& obj) : FAzureResourceSystemData()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAzureResourceSystemData();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FBanInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // The active state of this ban. Expired bans may still have this value set to true but they will have no effect.
@@ -1374,9 +1417,6 @@ namespace ServerModels
         // [optional] The IP address on which the ban was applied. May affect multiple players.
         FString IPAddress;
 
-        // [optional] The MAC address on which the ban was applied. May affect multiple players.
-        FString MACAddress;
-
         // [optional] Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -1390,7 +1430,6 @@ namespace ServerModels
             Created(),
             Expires(),
             IPAddress(),
-            MACAddress(),
             PlayFabId(),
             Reason()
             {}
@@ -9204,9 +9243,6 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
         /**
@@ -9226,7 +9262,6 @@ namespace ServerModels
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
-            AzureResourceId(),
             CustomTags(),
             Key(),
             TitleId(),
@@ -9248,12 +9283,8 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetTitleDataResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Id of azure resource
-        FString AzureResourceId;
-
         FSetTitleDataResult() :
-            FPlayFabCppResultCommon(),
-            AzureResourceId()
+            FPlayFabCppResultCommon()
             {}
 
         FSetTitleDataResult(const FSetTitleDataResult& src) = default;

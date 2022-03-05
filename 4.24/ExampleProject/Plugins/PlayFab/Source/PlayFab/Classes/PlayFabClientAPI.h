@@ -1565,19 +1565,6 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperMatchmake(FPlayFabBaseModel response, UObject* customData, bool successful);
 
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessStartGame, FClientStartGameResult, result, UObject*, customData);
-
-    /** Start a new game server with a given configuration, add the current player and return the connection information. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* StartGame(FClientStartGameRequest request,
-            FDelegateOnSuccessStartGame onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperStartGame(FPlayFabBaseModel response, UObject* customData, bool successful);
-
 
     ///////////////////////////////////////////////////////
     // Platform Specific Methods
@@ -2575,7 +2562,6 @@ public:
     FDelegateOnSuccessGetCurrentGames OnSuccessGetCurrentGames;
     FDelegateOnSuccessGetGameServerRegions OnSuccessGetGameServerRegions;
     FDelegateOnSuccessMatchmake OnSuccessMatchmake;
-    FDelegateOnSuccessStartGame OnSuccessStartGame;
     FDelegateOnSuccessAndroidDevicePushNotificationRegistration OnSuccessAndroidDevicePushNotificationRegistration;
     FDelegateOnSuccessConsumeMicrosoftStoreEntitlements OnSuccessConsumeMicrosoftStoreEntitlements;
     FDelegateOnSuccessConsumePS5Entitlements OnSuccessConsumePS5Entitlements;

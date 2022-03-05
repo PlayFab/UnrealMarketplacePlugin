@@ -543,6 +543,7 @@ namespace PlayFab
         PlayFabErrorGoogleAPIServiceUnknownError = 1535,
         PlayFabErrorNoValidIdentityForAad = 1536,
         PlayFabErrorPlayerIdentityLinkNotFound = 1537,
+        PlayFabErrorPhotonApplicationIdAlreadyInUse = 1538,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

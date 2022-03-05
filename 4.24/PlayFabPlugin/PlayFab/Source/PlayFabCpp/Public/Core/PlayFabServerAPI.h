@@ -103,7 +103,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FRedeemCouponDelegate, const ServerModels::FRedeemCouponResult&);
         DECLARE_DELEGATE_OneParam(FRedeemMatchmakerTicketDelegate, const ServerModels::FRedeemMatchmakerTicketResult&);
         DECLARE_DELEGATE_OneParam(FRefreshGameServerInstanceHeartbeatDelegate, const ServerModels::FRefreshGameServerInstanceHeartbeatResult&);
-        DECLARE_DELEGATE_OneParam(FRegisterGameDelegate, const ServerModels::FRegisterGameResponse&);
         DECLARE_DELEGATE_OneParam(FRemoveFriendDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FRemoveGenericIDDelegate, const ServerModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FRemovePlayerTagDelegate, const ServerModels::FRemovePlayerTagResult&);
@@ -537,8 +536,6 @@ namespace PlayFab
         bool RedeemMatchmakerTicket(ServerModels::FRedeemMatchmakerTicketRequest& request, const FRedeemMatchmakerTicketDelegate& SuccessDelegate = FRedeemMatchmakerTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Set the state of the indicated Game Server Instance. Also update the heartbeat for the instance.
         bool RefreshGameServerInstanceHeartbeat(ServerModels::FRefreshGameServerInstanceHeartbeatRequest& request, const FRefreshGameServerInstanceHeartbeatDelegate& SuccessDelegate = FRefreshGameServerInstanceHeartbeatDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Inform the matchmaker that a new Game Server Instance is added.
-        bool RegisterGame(ServerModels::FRegisterGameRequest& request, const FRegisterGameDelegate& SuccessDelegate = FRegisterGameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Removes the specified friend from the the user's friend list
         bool RemoveFriend(ServerModels::FRemoveFriendRequest& request, const FRemoveFriendDelegate& SuccessDelegate = FRemoveFriendDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Removes the specified generic service identifier from the player's PlayFab account.
@@ -845,7 +842,6 @@ namespace PlayFab
         void OnRedeemCouponResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemCouponDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRedeemMatchmakerTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemMatchmakerTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRefreshGameServerInstanceHeartbeatResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRefreshGameServerInstanceHeartbeatDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnRegisterGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRegisterGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveFriendResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveFriendDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveGenericIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveGenericIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

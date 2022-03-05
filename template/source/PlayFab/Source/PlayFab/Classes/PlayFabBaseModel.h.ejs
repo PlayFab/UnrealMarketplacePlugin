@@ -48,10 +48,10 @@ struct PLAYFAB_API FPlayFabBaseModel
 
     /** Holds the error USTRUCT recieved from playfab. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Error | Models")
-        FPlayFabError responseError;
+        FPlayFabError responseError = {};
 
     /** Holds the full JSON recieved from playfab. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Error | Models")
-        UPlayFabJsonObject* responseData;
+        UPlayFabJsonObject* responseData = nullptr;
 
 };

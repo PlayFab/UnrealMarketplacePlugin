@@ -45,49 +45,6 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FAzureResourceSystemData : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The timestamp of resource creation (UTC)
-        Boxed<FDateTime> CreatedAt;
-
-        // [optional] The identity that created the resource
-        FString CreatedBy;
-
-        // [optional] The type of identity that created the resource
-        FString CreatedByType;
-
-        // [optional] The type of identity that last modified the resource
-        Boxed<FDateTime> LastModifiedAt;
-
-        // [optional] The identity that last modified the resource
-        FString LastModifiedBy;
-
-        // [optional] The type of identity that last modified the resource
-        FString LastModifiedByType;
-
-        FAzureResourceSystemData() :
-            FPlayFabCppBaseModel(),
-            CreatedAt(),
-            CreatedBy(),
-            CreatedByType(),
-            LastModifiedAt(),
-            LastModifiedBy(),
-            LastModifiedByType()
-            {}
-
-        FAzureResourceSystemData(const FAzureResourceSystemData& src) = default;
-
-        FAzureResourceSystemData(const TSharedPtr<FJsonObject>& obj) : FAzureResourceSystemData()
-        {
-            readFromValue(obj);
-        }
-
-        ~FAzureResourceSystemData();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     enum CloudScriptRevisionOption
     {
         CloudScriptRevisionOptionLive,

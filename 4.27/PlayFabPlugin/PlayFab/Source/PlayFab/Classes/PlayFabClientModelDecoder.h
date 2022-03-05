@@ -392,10 +392,6 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking Models")
         static FClientMatchmakeResult decodeMatchmakeResultResponse(UPlayFabJsonObject* response);
 
-    /** Decode the StartGameResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking Models")
-        static FClientStartGameResult decodeStartGameResultResponse(UPlayFabJsonObject* response);
-
 
 
     ///////////////////////////////////////////////////////

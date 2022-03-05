@@ -98,19 +98,6 @@ public:
         void HelperPlayerLeft(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessStartGame, FMatchmakerStartGameResponse, result, UObject*, customData);
-
-    /** Instructs the PlayFab game server hosting service to instantiate a new Game Server Instance */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Matchmaker | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabMatchmakerAPI* StartGame(FMatchmakerStartGameRequest request,
-            FDelegateOnSuccessStartGame onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabMatchmakerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Matchmaker | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperStartGame(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUserInfo, FMatchmakerUserInfoResponse, result, UObject*, customData);
 
     /**
@@ -147,7 +134,6 @@ public:
     FDelegateOnSuccessAuthUser OnSuccessAuthUser;
     FDelegateOnSuccessPlayerJoined OnSuccessPlayerJoined;
     FDelegateOnSuccessPlayerLeft OnSuccessPlayerLeft;
-    FDelegateOnSuccessStartGame OnSuccessStartGame;
     FDelegateOnSuccessUserInfo OnSuccessUserInfo;
 
 private:

@@ -521,22 +521,6 @@ public:
     // Custom Server Management
     //////////////////////////////////////////////////////
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddServerBuild, FAdminAddServerBuildResult, result, UObject*, customData);
-
-    /**
-     * Adds the game server executable specified (previously uploaded - see GetServerBuildUploadUrl) to the set of those a
-     * client is permitted to request in a call to StartGame
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* AddServerBuild(FAdminAddServerBuildRequest request,
-            FDelegateOnSuccessAddServerBuild onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperAddServerBuild(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetServerBuildInfo, FAdminGetServerBuildInfoResult, result, UObject*, customData);
 
     /** Retrieves the build details for the specified game server executable */
@@ -548,22 +532,6 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetServerBuildInfo(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetServerBuildUploadUrl, FAdminGetServerBuildUploadURLResult, result, UObject*, customData);
-
-    /**
-     * Retrieves the pre-authorized URL for uploading a game server package containing a build (does not enable the build for
-     * use - see AddServerBuild)
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* GetServerBuildUploadUrl(FAdminGetServerBuildUploadURLRequest request,
-            FDelegateOnSuccessGetServerBuildUploadUrl onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetServerBuildUploadUrl(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListServerBuilds, FAdminListBuildsResult, result, UObject*, customData);
@@ -636,19 +604,6 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetMatchmakerGameModes(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessModifyMatchmakerGameModes, FAdminModifyMatchmakerGameModesResult, result, UObject*, customData);
-
-    /** Updates the game server mode details for the specified game server executable */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* ModifyMatchmakerGameModes(FAdminModifyMatchmakerGameModesRequest request,
-            FDelegateOnSuccessModifyMatchmakerGameModes onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperModifyMatchmakerGameModes(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
     ///////////////////////////////////////////////////////
@@ -1765,15 +1720,12 @@ public:
     FDelegateOnSuccessDeleteContent OnSuccessDeleteContent;
     FDelegateOnSuccessGetContentList OnSuccessGetContentList;
     FDelegateOnSuccessGetContentUploadUrl OnSuccessGetContentUploadUrl;
-    FDelegateOnSuccessAddServerBuild OnSuccessAddServerBuild;
     FDelegateOnSuccessGetServerBuildInfo OnSuccessGetServerBuildInfo;
-    FDelegateOnSuccessGetServerBuildUploadUrl OnSuccessGetServerBuildUploadUrl;
     FDelegateOnSuccessListServerBuilds OnSuccessListServerBuilds;
     FDelegateOnSuccessModifyServerBuild OnSuccessModifyServerBuild;
     FDelegateOnSuccessRemoveServerBuild OnSuccessRemoveServerBuild;
     FDelegateOnSuccessGetMatchmakerGameInfo OnSuccessGetMatchmakerGameInfo;
     FDelegateOnSuccessGetMatchmakerGameModes OnSuccessGetMatchmakerGameModes;
-    FDelegateOnSuccessModifyMatchmakerGameModes OnSuccessModifyMatchmakerGameModes;
     FDelegateOnSuccessCreatePlayerStatisticDefinition OnSuccessCreatePlayerStatisticDefinition;
     FDelegateOnSuccessGetDataReport OnSuccessGetDataReport;
     FDelegateOnSuccessGetPlayerStatisticDefinitions OnSuccessGetPlayerStatisticDefinitions;

@@ -1695,62 +1695,6 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRegisterGameRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique identifier of the build running on the Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString Build;
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /**
-     * Game Mode the Game Server instance is running. Note that this must be defined in the Game Modes tab in the PlayFab Game
-     * Manager, along with the Build ID (the same Game Mode can be defined for multiple Build IDs).
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString GameMode;
-    /** Previous lobby id if re-registering an existing game. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-    /**
-     * Region in which the Game Server Instance is running. For matchmaking using non-AWS region names, set this to any AWS
-     * region and use Tags (below) to specify your custom region.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        ERegion Region;
-    /** IPV4 address of the game server instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerIPV4Address;
-    /** IPV6 address (if any) of the game server instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerIPV6Address;
-    /** Port number for communication with the Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerPort;
-    /** Public DNS name (if any) of the server */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerPublicDNSName;
-    /** Tags for the Game Server Instance */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* Tags = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRegisterGameResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /**
-     * Unique identifier generated for the Game Server Instance that is registered. If LobbyId is specified in request and the
-     * game still exists in PlayFab, the LobbyId in request is returned. Otherwise a new lobby id will be returned.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-};
-
-USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerSetGameServerInstanceDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

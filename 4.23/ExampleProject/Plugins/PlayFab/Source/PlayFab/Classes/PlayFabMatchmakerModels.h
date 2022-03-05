@@ -111,57 +111,6 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerStartGameRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique identifier of the previously uploaded build executable which is to be started. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString Build;
-    /** Custom command line argument when starting game server process. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString CustomCommandLineData;
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /**
-     * HTTP endpoint URL for receiving game status events, if using an external matchmaker. When the game ends, PlayFab will
-     * make a POST request to this URL with the X-SecretKey header set to the value of the game's secret and an
-     * application/json body of { "EventName": "game_ended", "GameID": "<gameid>" }.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString ExternalMatchmakerEventEndpoint;
-    /** Game mode for this Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString GameMode;
-    /** Region with which to associate the server, for filtering. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        ERegion Region;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FMatchmakerStartGameResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique identifier for the game/lobby in the new Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString GameID;
-    /** IPV4 address of the server */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString ServerIPV4Address;
-    /** IPV6 address of the new Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString ServerIPV6Address;
-    /** Port number for communication with the Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        int32 ServerPort = 0;
-    /** Public DNS name (if any) of the server */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        FString ServerPublicDNSName;
-};
-
-USTRUCT(BlueprintType)
 struct PLAYFAB_API FMatchmakerUserInfoRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

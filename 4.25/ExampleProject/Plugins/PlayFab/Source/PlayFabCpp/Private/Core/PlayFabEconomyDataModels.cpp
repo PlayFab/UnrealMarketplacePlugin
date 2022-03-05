@@ -187,6 +187,77 @@ bool PlayFab::EconomyModels::FDisplayPropertyIndexInfo::readFromValue(const TSha
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FFileConfig::~FFileConfig()
+{
+
+}
+
+void PlayFab::EconomyModels::FFileConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ContentTypes.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ContentTypes"));
+        for (const FString& item : ContentTypes)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Tags.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Tags"));
+        for (const FString& item : Tags)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FFileConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("ContentTypes"), ContentTypes);
+
+    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FImageConfig::~FImageConfig()
+{
+
+}
+
+void PlayFab::EconomyModels::FImageConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Tags.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Tags"));
+        for (const FString& item : Tags)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FImageConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FUserGeneratedContentSpecificConfig::~FUserGeneratedContentSpecificConfig()
 {
 
@@ -230,6 +301,8 @@ bool PlayFab::EconomyModels::FUserGeneratedContentSpecificConfig::readFromValue(
 
 PlayFab::EconomyModels::FCatalogConfig::~FCatalogConfig()
 {
+    //if (File != nullptr) delete File;
+    //if (Image != nullptr) delete Image;
     //if (UserGeneratedContent != nullptr) delete UserGeneratedContent;
 
 }
@@ -255,6 +328,18 @@ void PlayFab::EconomyModels::FCatalogConfig::writeJSON(JsonWriter& writer) const
         writer->WriteArrayEnd();
     }
 
+
+    if (File.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("File"));
+        File->writeJSON(writer);
+    }
+
+    if (Image.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Image"));
+        Image->writeJSON(writer);
+    }
 
     writer->WriteIdentifierPrefix(TEXT("IsCatalogEnabled"));
     writer->WriteValue(IsCatalogEnabled);
@@ -296,6 +381,18 @@ bool PlayFab::EconomyModels::FCatalogConfig::readFromValue(const TSharedPtr<FJso
         DisplayPropertyIndexInfos.Add(FDisplayPropertyIndexInfo(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> FileValue = obj->TryGetField(TEXT("File"));
+    if (FileValue.IsValid() && !FileValue->IsNull())
+    {
+        File = MakeShareable(new FFileConfig(FileValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ImageValue = obj->TryGetField(TEXT("Image"));
+    if (ImageValue.IsValid() && !ImageValue->IsNull())
+    {
+        Image = MakeShareable(new FImageConfig(ImageValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonValue> IsCatalogEnabledValue = obj->TryGetField(TEXT("IsCatalogEnabled"));
     if (IsCatalogEnabledValue.IsValid() && !IsCatalogEnabledValue->IsNull())
@@ -348,6 +445,21 @@ void PlayFab::EconomyModels::FContent::writeJSON(JsonWriter& writer) const
         writer->WriteValue(MinClientVersion);
     }
 
+    if (Tags.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Tags"));
+        for (const FString& item : Tags)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
+
     if (Url.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Url"));
@@ -382,6 +494,15 @@ bool PlayFab::EconomyModels::FContent::readFromValue(const TSharedPtr<FJsonObjec
         if (MinClientVersionValue->TryGetString(TmpValue)) { MinClientVersion = TmpValue; }
     }
 
+    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
+
+    const TSharedPtr<FJsonValue> TypeValue = obj->TryGetField(TEXT("Type"));
+    if (TypeValue.IsValid() && !TypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> UrlValue = obj->TryGetField(TEXT("Url"));
     if (UrlValue.IsValid() && !UrlValue->IsNull())
     {
@@ -405,6 +526,12 @@ void PlayFab::EconomyModels::FImage::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("Id"));
         writer->WriteValue(Id);
+    }
+
+    if (Tag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Tag"));
+        writer->WriteValue(Tag);
     }
 
     if (Type.IsEmpty() == false)
@@ -431,6 +558,13 @@ bool PlayFab::EconomyModels::FImage::readFromValue(const TSharedPtr<FJsonObject>
     {
         FString TmpValue;
         if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TagValue = obj->TryGetField(TEXT("Tag"));
+    if (TagValue.IsValid() && !TagValue->IsNull())
+    {
+        FString TmpValue;
+        if (TagValue->TryGetString(TmpValue)) { Tag = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> TypeValue = obj->TryGetField(TEXT("Type"));

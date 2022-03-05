@@ -108,11 +108,58 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FFileConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The set of content types that will be used for validation.
+        TArray<FString> ContentTypes;
+        // [optional] The set of tags that will be used for validation.
+        TArray<FString> Tags;
+        FFileConfig() :
+            FPlayFabCppBaseModel(),
+            ContentTypes(),
+            Tags()
+            {}
+
+        FFileConfig(const FFileConfig& src) = default;
+
+        FFileConfig(const TSharedPtr<FJsonObject>& obj) : FFileConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFileConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FImageConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The set of tags that will be used for validation.
+        TArray<FString> Tags;
+        FImageConfig() :
+            FPlayFabCppBaseModel(),
+            Tags()
+            {}
+
+        FImageConfig(const FImageConfig& src) = default;
+
+        FImageConfig(const TSharedPtr<FJsonObject>& obj) : FImageConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FImageConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUserGeneratedContentSpecificConfig : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] The set of content types that will be used for validation and if no values are provided then anything is allowed.
+        // [optional] The set of content types that will be used for validation.
         TArray<FString> ContentTypes;
-        // [optional] The set of tags that will be used for validation and if no values are provided then anything is allowed.
+        // [optional] The set of tags that will be used for validation.
         TArray<FString> Tags;
         FUserGeneratedContentSpecificConfig() :
             FPlayFabCppBaseModel(),
@@ -139,6 +186,12 @@ namespace EconomyModels
         TArray<FEntityKey> AdminEntities;
         // [optional] A list of display properties to index.
         TArray<FDisplayPropertyIndexInfo> DisplayPropertyIndexInfos;
+        // [optional] The set of configuration that only applies to Files.
+        TSharedPtr<FFileConfig> File;
+
+        // [optional] The set of configuration that only applies to Images.
+        TSharedPtr<FImageConfig> Image;
+
         // Flag defining whether catalog is enabled.
         bool IsCatalogEnabled;
 
@@ -151,6 +204,8 @@ namespace EconomyModels
             FPlayFabCppBaseModel(),
             AdminEntities(),
             DisplayPropertyIndexInfos(),
+            File(nullptr),
+            Image(nullptr),
             IsCatalogEnabled(false),
             ReviewerEntities(),
             UserGeneratedContent(nullptr)
@@ -180,6 +235,11 @@ namespace EconomyModels
         // [optional] The minimum client version that this content is compatible with.
         FString MinClientVersion;
 
+        // [optional] The list of tags that are associated with this content.
+        TArray<FString> Tags;
+        // [optional] The client-defined type of the content.
+        FString Type;
+
         // [optional] The Azure CDN URL for retrieval of the catalog item binary content.
         FString Url;
 
@@ -188,6 +248,8 @@ namespace EconomyModels
             Id(),
             MaxClientVersion(),
             MinClientVersion(),
+            Tags(),
+            Type(),
             Url()
             {}
 
@@ -209,6 +271,9 @@ namespace EconomyModels
         // [optional] The image unique ID.
         FString Id;
 
+        // [optional] The client-defined tag associated with this image.
+        FString Tag;
+
         // [optional] The client-defined type of this image.
         FString Type;
 
@@ -218,6 +283,7 @@ namespace EconomyModels
         FImage() :
             FPlayFabCppBaseModel(),
             Id(),
+            Tag(),
             Type(),
             Url()
             {}

@@ -184,17 +184,9 @@ public:
     // Custom Server Management
     //////////////////////////////////////////////////////
 
-    /** Decode the AddServerBuildResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
-        static FAdminAddServerBuildResult decodeAddServerBuildResultResponse(UPlayFabJsonObject* response);
-
     /** Decode the GetServerBuildInfoResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
         static FAdminGetServerBuildInfoResult decodeGetServerBuildInfoResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the GetServerBuildUploadURLResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
-        static FAdminGetServerBuildUploadURLResult decodeGetServerBuildUploadURLResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the ListBuildsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
@@ -221,10 +213,6 @@ public:
     /** Decode the GetMatchmakerGameModesResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
         static FAdminGetMatchmakerGameModesResult decodeGetMatchmakerGameModesResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the ModifyMatchmakerGameModesResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminModifyMatchmakerGameModesResult decodeModifyMatchmakerGameModesResultResponse(UPlayFabJsonObject* response);
 
 
 

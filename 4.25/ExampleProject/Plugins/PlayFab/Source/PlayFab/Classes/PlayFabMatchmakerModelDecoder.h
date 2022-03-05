@@ -48,10 +48,6 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Matchmaker | Matchmaking Models")
         static FMatchmakerPlayerLeftResponse decodePlayerLeftResponseResponse(UPlayFabJsonObject* response);
 
-    /** Decode the StartGameResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Matchmaker | Matchmaking Models")
-        static FMatchmakerStartGameResponse decodeStartGameResponseResponse(UPlayFabJsonObject* response);
-
     /** Decode the UserInfoResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Matchmaker | Matchmaking Models")
         static FMatchmakerUserInfoResponse decodeUserInfoResponseResponse(UPlayFabJsonObject* response);

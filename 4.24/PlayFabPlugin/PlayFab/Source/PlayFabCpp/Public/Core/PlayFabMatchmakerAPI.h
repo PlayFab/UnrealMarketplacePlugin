@@ -21,7 +21,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FAuthUserDelegate, const MatchmakerModels::FAuthUserResponse&);
         DECLARE_DELEGATE_OneParam(FPlayerJoinedDelegate, const MatchmakerModels::FPlayerJoinedResponse&);
         DECLARE_DELEGATE_OneParam(FPlayerLeftDelegate, const MatchmakerModels::FPlayerLeftResponse&);
-        DECLARE_DELEGATE_OneParam(FStartGameDelegate, const MatchmakerModels::FStartGameResponse&);
         DECLARE_DELEGATE_OneParam(FUserInfoDelegate, const MatchmakerModels::FUserInfoResponse&);
 
         UPlayFabMatchmakerAPI();
@@ -40,8 +39,6 @@ namespace PlayFab
         bool PlayerJoined(MatchmakerModels::FPlayerJoinedRequest& request, const FPlayerJoinedDelegate& SuccessDelegate = FPlayerJoinedDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Informs the PlayFab game server hosting service that the indicated user has left the Game Server Instance specified
         bool PlayerLeft(MatchmakerModels::FPlayerLeftRequest& request, const FPlayerLeftDelegate& SuccessDelegate = FPlayerLeftDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Instructs the PlayFab game server hosting service to instantiate a new Game Server Instance
-        bool StartGame(MatchmakerModels::FStartGameRequest& request, const FStartGameDelegate& SuccessDelegate = FStartGameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the relevant details for a specified user, which the external match-making service can then use to compute
          * effective matches
@@ -53,7 +50,6 @@ namespace PlayFab
         void OnAuthUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAuthUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPlayerJoinedResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerJoinedDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPlayerLeftResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlayerLeftDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnStartGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FStartGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUserInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUserInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };

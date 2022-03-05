@@ -960,19 +960,6 @@ public:
         void HelperRefreshGameServerInstanceHeartbeat(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRegisterGame, FServerRegisterGameResponse, result, UObject*, customData);
-
-    /** Inform the matchmaker that a new Game Server Instance is added. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabServerAPI* RegisterGame(FServerRegisterGameRequest request,
-            FDelegateOnSuccessRegisterGame onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabServerRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperRegisterGame(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetGameServerInstanceData, FServerSetGameServerInstanceDataResult, result, UObject*, customData);
 
     /** Sets the custom data of the indicated Game Server Instance */
@@ -2049,7 +2036,6 @@ public:
     FDelegateOnSuccessNotifyMatchmakerPlayerLeft OnSuccessNotifyMatchmakerPlayerLeft;
     FDelegateOnSuccessRedeemMatchmakerTicket OnSuccessRedeemMatchmakerTicket;
     FDelegateOnSuccessRefreshGameServerInstanceHeartbeat OnSuccessRefreshGameServerInstanceHeartbeat;
-    FDelegateOnSuccessRegisterGame OnSuccessRegisterGame;
     FDelegateOnSuccessSetGameServerInstanceData OnSuccessSetGameServerInstanceData;
     FDelegateOnSuccessSetGameServerInstanceState OnSuccessSetGameServerInstanceState;
     FDelegateOnSuccessSetGameServerInstanceTags OnSuccessSetGameServerInstanceTags;

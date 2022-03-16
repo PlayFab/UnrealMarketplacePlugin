@@ -146,7 +146,6 @@ FEconomyGetItemPublishStatusResponse UPlayFabEconomyModelDecoder::decodeGetItemP
     FEconomyGetItemPublishStatusResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
-    tempStruct.FailedScanResults = !(dataObj->HasField("FailedScanResults")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("FailedScanResults");
     GetEnumValueFromString<EPublishResult>(TEXT("EPublishResult"), dataObj->GetStringField("Result"), tempStruct.Result);
     tempStruct.StatusMessage = !(dataObj->HasField("StatusMessage")) ? TEXT("") : dataObj->GetStringField("StatusMessage");
 

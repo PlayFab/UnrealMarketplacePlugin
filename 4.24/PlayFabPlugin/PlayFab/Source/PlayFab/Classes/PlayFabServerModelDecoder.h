@@ -274,6 +274,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Matchmaking Models")
         static FServerRefreshGameServerInstanceHeartbeatResult decodeRefreshGameServerInstanceHeartbeatResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the RegisterGameResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Matchmaking Models")
+        static FServerRegisterGameResponse decodeRegisterGameResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the SetGameServerInstanceDataResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Matchmaking Models")
         static FServerSetGameServerInstanceDataResult decodeSetGameServerInstanceDataResultResponse(UPlayFabJsonObject* response);

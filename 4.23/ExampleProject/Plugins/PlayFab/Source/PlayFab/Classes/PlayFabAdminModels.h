@@ -929,74 +929,6 @@ public:
 //////////////////////////////////////////////////////
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FAdminGetServerBuildInfoRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** unique identifier of the previously uploaded build executable for which information is being requested */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString BuildId;
-};
-
-/** Information about a particular server build */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FAdminGetServerBuildInfoResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** array of regions where this build can used, when it is active */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString ActiveRegions;
-    /** unique identifier for this build executable */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString BuildId;
-    /** developer comment(s) for this build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString Comment;
-    /** error message, if any, about this build */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString ErrorMessage;
-    /** maximum number of game server instances that can run on a single host machine */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        int32 MaxGamesPerHost = 0;
-    /**
-     * minimum capacity of additional game server instances that can be started before the autoscaling service starts new host
-     * machines (given the number of current running host machines and game server instances)
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        int32 MinFreeGameSlots = 0;
-    /** the current status of the build validation and processing steps */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        EGameBuildStatus Status;
-    /** time this build was last modified (or uploaded, if this build has never been modified) */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString Timestamp;
-    /**
-     * Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
-     * title has been selected.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString TitleId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FAdminListBuildsRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FAdminListBuildsResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** array of uploaded game server builds */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        TArray<UPlayFabJsonObject*> Builds;
-};
-
-USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminModifyServerBuildRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -1074,23 +1006,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
         FString TitleId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FAdminRemoveServerBuildRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** unique identifier of the previously uploaded build executable to be removed */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        FString BuildId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FAdminRemoveServerBuildResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
 };
 
 
@@ -2957,11 +2872,10 @@ public:
 };
 
 /**
- * This API method is designed to store title specific values which can be read by the client. For example, a developer
- * could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement
- * speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. This
- * operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it
- * already exists, the Value for that key will be overwritten with the new Value.
+ * This API method is designed to store title specific values which are accessible only by the server. These values can be
+ * used to tweak settings used by game servers and Cloud Scripts without the need to update and re-deploy. This operation
+ * is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it already
+ * exists, the Value for that key will be overwritten with the new Value.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminSetTitleDataRequest : public FPlayFabRequestCommon

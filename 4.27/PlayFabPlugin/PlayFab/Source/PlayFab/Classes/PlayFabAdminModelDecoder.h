@@ -184,21 +184,9 @@ public:
     // Custom Server Management
     //////////////////////////////////////////////////////
 
-    /** Decode the GetServerBuildInfoResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
-        static FAdminGetServerBuildInfoResult decodeGetServerBuildInfoResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the ListBuildsResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
-        static FAdminListBuildsResult decodeListBuildsResultResponse(UPlayFabJsonObject* response);
-
     /** Decode the ModifyServerBuildResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
         static FAdminModifyServerBuildResult decodeModifyServerBuildResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the RemoveServerBuildResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
-        static FAdminRemoveServerBuildResult decodeRemoveServerBuildResultResponse(UPlayFabJsonObject* response);
 
 
 

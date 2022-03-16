@@ -521,32 +521,6 @@ public:
     // Custom Server Management
     //////////////////////////////////////////////////////
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetServerBuildInfo, FAdminGetServerBuildInfoResult, result, UObject*, customData);
-
-    /** Retrieves the build details for the specified game server executable */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* GetServerBuildInfo(FAdminGetServerBuildInfoRequest request,
-            FDelegateOnSuccessGetServerBuildInfo onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetServerBuildInfo(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListServerBuilds, FAdminListBuildsResult, result, UObject*, customData);
-
-    /** Retrieves the build details for all game server executables which are currently defined for the title */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* ListServerBuilds(FAdminListBuildsRequest request,
-            FDelegateOnSuccessListServerBuilds onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperListServerBuilds(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessModifyServerBuild, FAdminModifyServerBuildResult, result, UObject*, customData);
 
     /** Updates the build details for the specified game server executable */
@@ -558,22 +532,6 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperModifyServerBuild(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveServerBuild, FAdminRemoveServerBuildResult, result, UObject*, customData);
-
-    /**
-     * Removes the game server executable specified from the set of those a client is permitted to request in a call to
-     * StartGame
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* RemoveServerBuild(FAdminRemoveServerBuildRequest request,
-            FDelegateOnSuccessRemoveServerBuild onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperRemoveServerBuild(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
     ///////////////////////////////////////////////////////
@@ -1720,10 +1678,7 @@ public:
     FDelegateOnSuccessDeleteContent OnSuccessDeleteContent;
     FDelegateOnSuccessGetContentList OnSuccessGetContentList;
     FDelegateOnSuccessGetContentUploadUrl OnSuccessGetContentUploadUrl;
-    FDelegateOnSuccessGetServerBuildInfo OnSuccessGetServerBuildInfo;
-    FDelegateOnSuccessListServerBuilds OnSuccessListServerBuilds;
     FDelegateOnSuccessModifyServerBuild OnSuccessModifyServerBuild;
-    FDelegateOnSuccessRemoveServerBuild OnSuccessRemoveServerBuild;
     FDelegateOnSuccessGetMatchmakerGameInfo OnSuccessGetMatchmakerGameInfo;
     FDelegateOnSuccessGetMatchmakerGameModes OnSuccessGetMatchmakerGameModes;
     FDelegateOnSuccessCreatePlayerStatisticDefinition OnSuccessCreatePlayerStatisticDefinition;

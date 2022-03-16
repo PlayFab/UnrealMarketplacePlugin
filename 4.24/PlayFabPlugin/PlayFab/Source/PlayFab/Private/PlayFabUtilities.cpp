@@ -716,6 +716,10 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 15000: returnText = "EventSinkConnectionInvalid"; break;
     case 15001: returnText = "EventSinkConnectionUnauthorized"; break;
     case 15002: returnText = "EventSinkRegionInvalid"; break;
+    case 15003: returnText = "EventSinkLimitExceeded"; break;
+    case 15004: returnText = "EventSinkSasTokenInvalid"; break;
+    case 15005: returnText = "EventSinkNotFound"; break;
+    case 15006: returnText = "EventSinkNameInvalid"; break;
     case 16000: returnText = "OperationCanceled"; break;
     case 17000: returnText = "InvalidDisplayNameRandomSuffixLength"; break;
     case 17001: returnText = "AllowNonUniquePlayerDisplayNamesDisableNotAllowed"; break;

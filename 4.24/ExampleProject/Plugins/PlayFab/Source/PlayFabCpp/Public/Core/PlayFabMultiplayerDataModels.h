@@ -14,6 +14,17 @@ namespace PlayFab
 namespace MultiplayerModels
 {
 
+    enum AccessPolicy
+    {
+        AccessPolicyPublic,
+        AccessPolicyFriends,
+        AccessPolicyPrivate
+    };
+
+    PLAYFABCPP_API void writeAccessPolicyEnumJSON(AccessPolicy enumVal, JsonWriter& writer);
+    PLAYFABCPP_API AccessPolicy readAccessPolicyFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API AccessPolicy readAccessPolicyFromValue(const FString& value);
+
     struct PLAYFABCPP_API FAssetReference : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The asset's file name. This is a filename with the .zip, .tar, or .tar.gz extension.
@@ -1909,6 +1920,158 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FMember : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Key-value pairs specific to member.
+        TMap<FString, FString> MemberData;
+        // [optional] The member entity key.
+        TSharedPtr<FEntityKey> MemberEntity;
+
+        // [optional] Opaque string, stored on a Subscribe call, which indicates the connection an owner or member has with PubSub.
+        FString PubSubConnectionHandle;
+
+        FMember() :
+            FPlayFabCppBaseModel(),
+            MemberData(),
+            MemberEntity(nullptr),
+            PubSubConnectionHandle()
+            {}
+
+        FMember(const FMember& src) = default;
+
+        FMember(const TSharedPtr<FJsonObject>& obj) : FMember()
+        {
+            readFromValue(obj);
+        }
+
+        ~FMember();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum OwnerMigrationPolicy
+    {
+        OwnerMigrationPolicyNone,
+        OwnerMigrationPolicyAutomatic,
+        OwnerMigrationPolicyManual,
+        OwnerMigrationPolicyServer
+    };
+
+    PLAYFABCPP_API void writeOwnerMigrationPolicyEnumJSON(OwnerMigrationPolicy enumVal, JsonWriter& writer);
+    PLAYFABCPP_API OwnerMigrationPolicy readOwnerMigrationPolicyFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API OwnerMigrationPolicy readOwnerMigrationPolicyFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FCreateLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * [optional] The policy indicating who is allowed to join the lobby, and the visibility to queries. May be 'Public', 'Friends' or
+         * 'Private'. Public means the lobby is both visible in queries and any player may join, including invited players. Friends
+         * means that users who are bidirectional friends of members in the lobby may search to find friend lobbies, to retrieve
+         * its connection string. Private means the lobby is not visible in queries, and a player must receive an invitation to
+         * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
+         */
+        Boxed<AccessPolicy> pfAccessPolicy;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] The private key-value pairs which are only visible to members of the lobby. At most 30 key-value pairs may be stored
+         * here, keys are limited to 30 characters and values to 1000. The total size of all lobbyData values may not exceed 4096
+         * bytes. Keys are case sensitive.
+         */
+        TMap<FString, FString> LobbyData;
+        // The maximum number of players allowed in the lobby. The value must be between 2 and 128.
+        uint32 MaxPlayers;
+
+        /**
+         * [optional] The member initially added to the lobby. Client must specify exactly one member, which is the creator's entity and
+         * member data. Member PubSubConnectionHandle must be null or empty. Game servers must not specify any members.
+         */
+        TArray<FMember> Members;
+        // The lobby owner. Must be the calling entity.
+        FEntityKey Owner;
+
+        /**
+         * [optional] The policy for how a new owner is chosen. May be 'Automatic', 'Manual' or 'None'. Can only be specified by clients. If
+         * client-owned and 'Automatic' - The Lobby service will automatically assign another connected owner when the current
+         * owner leaves or disconnects. The useConnections property must be true. If client - owned and 'Manual' - Ownership is
+         * protected as long as the current owner is connected. If the current owner leaves or disconnects any member may set
+         * themselves as the current owner. The useConnections property must be true. If client-owned and 'None' - Any member can
+         * set ownership. The useConnections property can be either true or false.
+         */
+        Boxed<OwnerMigrationPolicy> pfOwnerMigrationPolicy;
+
+        /**
+         * [optional] The public key-value pairs which allow queries to differentiate between lobbies. Queries will refer to these key-value
+         * pairs in their filter and order by clauses to retrieve lobbies fitting the specified criteria. At most 30 key-value
+         * pairs may be stored here. Keys are of the format string_key1, string_key2 ... string_key30 for string values, or
+         * number_key1, number_key2, ... number_key30 for numeric values.Numeric values are floats. Values can be at most 256
+         * characters long. The total size of all searchData values may not exceed 1024 bytes.
+         */
+        TMap<FString, FString> SearchData;
+        /**
+         * A setting to control whether connections are used. Defaults to true. When true, notifications are sent to subscribed
+         * players, disconnect detection removes connectionHandles, only owner migration policies using connections are allowed,
+         * and lobbies must have at least one connected member to be searchable or be a server hosted lobby with a connected
+         * server. If false, then notifications are not sent, connections are not allowed, and lobbies do not need connections to
+         * be searchable.
+         */
+        bool UseConnections;
+
+        FCreateLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            pfAccessPolicy(),
+            CustomTags(),
+            LobbyData(),
+            MaxPlayers(0),
+            Members(),
+            Owner(),
+            pfOwnerMigrationPolicy(),
+            SearchData(),
+            UseConnections(false)
+            {}
+
+        FCreateLobbyRequest(const FCreateLobbyRequest& src) = default;
+
+        FCreateLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FCreateLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateLobbyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateLobbyResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // A field which indicates which lobby the user will be joining.
+        FString ConnectionString;
+
+        // Id to uniquely identify a lobby.
+        FString LobbyId;
+
+        FCreateLobbyResult() :
+            FPlayFabCppResultCommon(),
+            ConnectionString(),
+            LobbyId()
+            {}
+
+        FCreateLobbyResult(const FCreateLobbyResult& src) = default;
+
+        FCreateLobbyResult(const TSharedPtr<FJsonObject>& obj) : FCreateLobbyResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateLobbyResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FMatchmakingPlayerAttributes : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] A data object representing a user's attributes.
@@ -2485,6 +2648,32 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeleteLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The id of the lobby.
+        FString LobbyId;
+
+        FDeleteLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            LobbyId()
+            {}
+
+        FDeleteLobbyRequest(const FDeleteLobbyRequest& src) = default;
+
+        FDeleteLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteLobbyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteRemoteUserRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // The guid string build ID of the multiplayer server where the remote user is to delete.
@@ -2593,6 +2782,293 @@ namespace MultiplayerModels
         }
 
         ~FEnableMultiplayerServersForTitleResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPaginationRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Continuation token returned as a result in a previous FindLobbies call. Cannot be specified by clients.
+        FString ContinuationToken;
+
+        // [optional] The number of lobbies that should be retrieved. Cannot be specified by servers, clients may specify any value up to 50
+        Boxed<uint32> PageSizeRequested;
+
+        FPaginationRequest() :
+            FPlayFabCppBaseModel(),
+            ContinuationToken(),
+            PageSizeRequested()
+            {}
+
+        FPaginationRequest(const FPaginationRequest& src) = default;
+
+        FPaginationRequest(const TSharedPtr<FJsonObject>& obj) : FPaginationRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPaginationRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFindFriendLobbiesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Controls whether this query should link to friends made on the Facebook network. Defaults to false
+        bool ExcludeFacebookFriends;
+
+        // Controls whether this query should link to friends made on the Steam network. Defaults to false
+        bool ExcludeSteamFriends;
+
+        // [optional] OData style string that contains one or more filters. The OR and grouping operators are not allowed.
+        FString Filter;
+
+        /**
+         * [optional] OData style string that contains sorting for this query. To sort by closest, a moniker `distance{number_key1 = 5}` can
+         * be used to sort by distance from the given number. This field only supports either one sort clause or one distance
+         * clause.
+         */
+        FString OrderBy;
+
+        // [optional] Request pagination information.
+        TSharedPtr<FPaginationRequest> Pagination;
+
+        // [optional] Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab.
+        FString XboxToken;
+
+        FFindFriendLobbiesRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ExcludeFacebookFriends(false),
+            ExcludeSteamFriends(false),
+            Filter(),
+            OrderBy(),
+            Pagination(nullptr),
+            XboxToken()
+            {}
+
+        FFindFriendLobbiesRequest(const FFindFriendLobbiesRequest& src) = default;
+
+        FFindFriendLobbiesRequest(const TSharedPtr<FJsonObject>& obj) : FFindFriendLobbiesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFindFriendLobbiesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFriendLobbySummary : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * A string used to join the lobby.This field is populated by the Lobby service.Invites are performed by communicating this
+         * connectionString to other players.
+         */
+        FString ConnectionString;
+
+        // The current number of players in the lobby.
+        uint32 CurrentPlayers;
+
+        // [optional] Friends in Lobby.
+        TArray<FEntityKey> Friends;
+        // Id to uniquely identify a lobby.
+        FString LobbyId;
+
+        // The maximum number of players allowed in the lobby.
+        uint32 MaxPlayers;
+
+        // The client or server entity which owns this lobby.
+        FEntityKey Owner;
+
+        // [optional] Search data.
+        TMap<FString, FString> SearchData;
+        FFriendLobbySummary() :
+            FPlayFabCppBaseModel(),
+            ConnectionString(),
+            CurrentPlayers(0),
+            Friends(),
+            LobbyId(),
+            MaxPlayers(0),
+            Owner(),
+            SearchData()
+            {}
+
+        FFriendLobbySummary(const FFriendLobbySummary& src) = default;
+
+        FFriendLobbySummary(const TSharedPtr<FJsonObject>& obj) : FFriendLobbySummary()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFriendLobbySummary();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPaginationResponse : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Continuation token returned by server call. Not returned for clients
+        FString ContinuationToken;
+
+        // [optional] The number of lobbies that matched the search request.
+        Boxed<uint32> TotalMatchedLobbyCount;
+
+        FPaginationResponse() :
+            FPlayFabCppBaseModel(),
+            ContinuationToken(),
+            TotalMatchedLobbyCount()
+            {}
+
+        FPaginationResponse(const FPaginationResponse& src) = default;
+
+        FPaginationResponse(const TSharedPtr<FJsonObject>& obj) : FPaginationResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPaginationResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFindFriendLobbiesResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Array of lobbies found that matched FindFriendLobbies request.
+        TArray<FFriendLobbySummary> Lobbies;
+        // Pagination response for FindFriendLobbies request.
+        FPaginationResponse Pagination;
+
+        FFindFriendLobbiesResult() :
+            FPlayFabCppResultCommon(),
+            Lobbies(),
+            Pagination()
+            {}
+
+        FFindFriendLobbiesResult(const FFindFriendLobbiesResult& src) = default;
+
+        FFindFriendLobbiesResult(const TSharedPtr<FJsonObject>& obj) : FFindFriendLobbiesResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFindFriendLobbiesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFindLobbiesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] OData style string that contains one or more filters. The OR and grouping operators are not allowed.
+        FString Filter;
+
+        /**
+         * [optional] OData style string that contains sorting for this query. To sort by closest, a moniker `distance{number_key1 = 5}` can
+         * be used to sort by distance from the given number. This field only supports either one sort clause or one distance
+         * clause.
+         */
+        FString OrderBy;
+
+        // [optional] Request pagination information.
+        TSharedPtr<FPaginationRequest> Pagination;
+
+        FFindLobbiesRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Filter(),
+            OrderBy(),
+            Pagination(nullptr)
+            {}
+
+        FFindLobbiesRequest(const FFindLobbiesRequest& src) = default;
+
+        FFindLobbiesRequest(const TSharedPtr<FJsonObject>& obj) : FFindLobbiesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFindLobbiesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLobbySummary : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * A string used to join the lobby.This field is populated by the Lobby service.Invites are performed by communicating this
+         * connectionString to other players.
+         */
+        FString ConnectionString;
+
+        // The current number of players in the lobby.
+        uint32 CurrentPlayers;
+
+        // Id to uniquely identify a lobby.
+        FString LobbyId;
+
+        // The maximum number of players allowed in the lobby.
+        uint32 MaxPlayers;
+
+        // The client or server entity which owns this lobby.
+        FEntityKey Owner;
+
+        // [optional] Search data.
+        TMap<FString, FString> SearchData;
+        FLobbySummary() :
+            FPlayFabCppBaseModel(),
+            ConnectionString(),
+            CurrentPlayers(0),
+            LobbyId(),
+            MaxPlayers(0),
+            Owner(),
+            SearchData()
+            {}
+
+        FLobbySummary(const FLobbySummary& src) = default;
+
+        FLobbySummary(const TSharedPtr<FJsonObject>& obj) : FLobbySummary()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLobbySummary();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FFindLobbiesResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Array of lobbies found that matched FindLobbies request.
+        TArray<FLobbySummary> Lobbies;
+        // Pagination response for FindLobbies request.
+        FPaginationResponse Pagination;
+
+        FFindLobbiesResult() :
+            FPlayFabCppResultCommon(),
+            Lobbies(),
+            Pagination()
+            {}
+
+        FFindLobbiesResult(const FFindLobbiesResult& src) = default;
+
+        FFindLobbiesResult(const TSharedPtr<FJsonObject>& obj) : FFindLobbiesResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFindLobbiesResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2913,6 +3389,139 @@ namespace MultiplayerModels
         }
 
         ~FGetContainerRegistryCredentialsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The id of the lobby.
+        FString LobbyId;
+
+        FGetLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            LobbyId()
+            {}
+
+        FGetLobbyRequest(const FGetLobbyRequest& src) = default;
+
+        FGetLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FGetLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetLobbyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum MembershipLock
+    {
+        MembershipLockUnlocked,
+        MembershipLockLocked
+    };
+
+    PLAYFABCPP_API void writeMembershipLockEnumJSON(MembershipLock enumVal, JsonWriter& writer);
+    PLAYFABCPP_API MembershipLock readMembershipLockFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API MembershipLock readMembershipLockFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FLobby : public PlayFab::FPlayFabCppBaseModel
+    {
+        // A setting indicating who is allowed to join this lobby, as well as see it in queries.
+        AccessPolicy pfAccessPolicy;
+
+        // A number that increments once for each request that modifies the lobby.
+        uint32 ChangeNumber;
+
+        /**
+         * A string used to join the lobby. This field is populated by the Lobby service. Invites are performed by communicating
+         * this connectionString to other players.
+         */
+        FString ConnectionString;
+
+        // [optional] Lobby data.
+        TMap<FString, FString> LobbyData;
+        // Id to uniquely identify a lobby.
+        FString LobbyId;
+
+        // The maximum number of players allowed in the lobby.
+        uint32 MaxPlayers;
+
+        // [optional] Array of all lobby members.
+        TArray<FMember> Members;
+        // A setting indicating whether members are allowed to join this lobby. When Locked new members are prevented from joining.
+        MembershipLock pfMembershipLock;
+
+        // [optional] The client or server entity which owns this lobby.
+        TSharedPtr<FEntityKey> Owner;
+
+        // [optional] A setting indicating the owner migration policy. If server owned, this field is not present.
+        Boxed<OwnerMigrationPolicy> pfOwnerMigrationPolicy;
+
+        /**
+         * [optional] An opaque string stored on a SubscribeToLobbyResource call, which indicates the connection an owner or member has with
+         * PubSub.
+         */
+        FString PubSubConnectionHandle;
+
+        // [optional] Search data.
+        TMap<FString, FString> SearchData;
+        // A flag which determines if connections are used. Defaults to true. Only set on create.
+        bool UseConnections;
+
+        FLobby() :
+            FPlayFabCppBaseModel(),
+            pfAccessPolicy(),
+            ChangeNumber(0),
+            ConnectionString(),
+            LobbyData(),
+            LobbyId(),
+            MaxPlayers(0),
+            Members(),
+            pfMembershipLock(),
+            Owner(nullptr),
+            pfOwnerMigrationPolicy(),
+            PubSubConnectionHandle(),
+            SearchData(),
+            UseConnections(false)
+            {}
+
+        FLobby(const FLobby& src) = default;
+
+        FLobby(const TSharedPtr<FJsonObject>& obj) : FLobby()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLobby();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetLobbyResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // The information pertaining to the requested lobby.
+        FLobby pfLobby;
+
+        FGetLobbyResult() :
+            FPlayFabCppResultCommon(),
+            pfLobby()
+            {}
+
+        FGetLobbyResult(const FGetLobbyResult& src) = default;
+
+        FGetLobbyResult(const TSharedPtr<FJsonObject>& obj) : FGetLobbyResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetLobbyResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -3712,6 +4321,176 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FInviteToLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity invited to the lobby.
+        TSharedPtr<FEntityKey> InviteeEntity;
+
+        // [optional] The id of the lobby.
+        FString LobbyId;
+
+        // [optional] The member entity sending the invite. Must be a member of the lobby.
+        TSharedPtr<FEntityKey> MemberEntity;
+
+        FInviteToLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            InviteeEntity(nullptr),
+            LobbyId(),
+            MemberEntity(nullptr)
+            {}
+
+        FInviteToLobbyRequest(const FInviteToLobbyRequest& src) = default;
+
+        FInviteToLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FInviteToLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FInviteToLobbyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FJoinArrangedLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * [optional] The policy indicating who is allowed to join the lobby, and the visibility to queries. May be 'Public', 'Friends' or
+         * 'Private'. Public means the lobby is both visible in queries and any player may join, including invited players. Friends
+         * means that users who are bidirectional friends of members in the lobby may search to find friend lobbies, to retrieve
+         * its connection string. Private means the lobby is not visible in queries, and a player must receive an invitation to
+         * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
+         */
+        Boxed<AccessPolicy> pfAccessPolicy;
+
+        /**
+         * A field which indicates which lobby the user will be joining. This field is opaque to everyone except the Lobby service
+         * and the creator of the arrangementString (Matchmaking). This string defines a unique identifier for the arranged lobby
+         * as well as the title and member the string is valid for. Arrangement strings have an expiration.
+         */
+        FString ArrangementString;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The maximum number of players allowed in the lobby. The value must be between 2 and 128.
+        uint32 MaxPlayers;
+
+        /**
+         * [optional] The private key-value pairs used by the member to communicate information to other members and the owner. Visible to all
+         * members of the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
+         * 1000. The total size of all memberData values may not exceed 4096 bytes. Keys are case sensitive.
+         */
+        TMap<FString, FString> MemberData;
+        // The member entity who is joining the lobby. The first member to join will be the lobby owner.
+        FEntityKey MemberEntity;
+
+        /**
+         * [optional] The policy for how a new owner is chosen. May be 'Automatic', 'Manual' or 'None'. Can only be specified by clients. If
+         * client-owned and 'Automatic' - The Lobby service will automatically assign another connected owner when the current
+         * owner leaves or disconnects. The useConnections property must be true. If client - owned and 'Manual' - Ownership is
+         * protected as long as the current owner is connected. If the current owner leaves or disconnects any member may set
+         * themselves as the current owner. The useConnections property must be true. If client-owned and 'None' - Any member can
+         * set ownership. The useConnections property can be either true or false.
+         */
+        Boxed<OwnerMigrationPolicy> pfOwnerMigrationPolicy;
+
+        /**
+         * A setting to control whether connections are used. Defaults to true. When true, notifications are sent to subscribed
+         * players, disconnect detection removes connectionHandles, only owner migration policies using connections are allowed,
+         * and lobbies must have at least one connected member to be searchable or be a server hosted lobby with a connected
+         * server. If false, then notifications are not sent, connections are not allowed, and lobbies do not need connections to
+         * be searchable.
+         */
+        bool UseConnections;
+
+        FJoinArrangedLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            pfAccessPolicy(),
+            ArrangementString(),
+            CustomTags(),
+            MaxPlayers(0),
+            MemberData(),
+            MemberEntity(),
+            pfOwnerMigrationPolicy(),
+            UseConnections(false)
+            {}
+
+        FJoinArrangedLobbyRequest(const FJoinArrangedLobbyRequest& src) = default;
+
+        FJoinArrangedLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FJoinArrangedLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FJoinArrangedLobbyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FJoinLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] A field which indicates which lobby the user will be joining. This field is opaque to everyone except the Lobby service.
+        FString ConnectionString;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] The private key-value pairs used by the member to communicate information to other members and the owner. Visible to all
+         * members of the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
+         * 1000. The total size of all memberData values may not exceed 4096 bytes.Keys are case sensitive.
+         */
+        TMap<FString, FString> MemberData;
+        // [optional] The member entity who is joining the lobby.
+        TSharedPtr<FEntityKey> MemberEntity;
+
+        FJoinLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            ConnectionString(),
+            CustomTags(),
+            MemberData(),
+            MemberEntity(nullptr)
+            {}
+
+        FJoinLobbyRequest(const FJoinLobbyRequest& src) = default;
+
+        FJoinLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FJoinLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FJoinLobbyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FJoinLobbyResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Successfully joined lobby's id.
+        FString LobbyId;
+
+        FJoinLobbyResult() :
+            FPlayFabCppResultCommon(),
+            LobbyId()
+            {}
+
+        FJoinLobbyResult(const FJoinLobbyResult& src) = default;
+
+        FJoinLobbyResult(const TSharedPtr<FJsonObject>& obj) : FJoinLobbyResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FJoinLobbyResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FJoinMatchmakingTicketRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -3760,6 +4539,36 @@ namespace MultiplayerModels
         }
 
         ~FJoinMatchmakingTicketResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLeaveLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The id of the lobby.
+        FString LobbyId;
+
+        // [optional] The member entity leaving the lobby.
+        TSharedPtr<FEntityKey> MemberEntity;
+
+        FLeaveLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            LobbyId(),
+            MemberEntity(nullptr)
+            {}
+
+        FLeaveLobbyRequest(const FLeaveLobbyRequest& src) = default;
+
+        FLeaveLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FLeaveLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLeaveLobbyRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -4612,6 +5421,25 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLobbyEmptyResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FLobbyEmptyResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FLobbyEmptyResult(const FLobbyEmptyResult& src) = default;
+
+        FLobbyEmptyResult(const TSharedPtr<FJsonObject>& obj) : FLobbyEmptyResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLobbyEmptyResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum OsPlatform
     {
         OsPlatformWindows,
@@ -4621,6 +5449,40 @@ namespace MultiplayerModels
     PLAYFABCPP_API void writeOsPlatformEnumJSON(OsPlatform enumVal, JsonWriter& writer);
     PLAYFABCPP_API OsPlatform readOsPlatformFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API OsPlatform readOsPlatformFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FRemoveMemberFromLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The id of the lobby.
+        FString LobbyId;
+
+        // [optional] The member entity to be removed from the lobby.
+        TSharedPtr<FEntityKey> MemberEntity;
+
+        // If true, removed member can never rejoin this lobby.
+        bool PreventRejoin;
+
+        FRemoveMemberFromLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            LobbyId(),
+            MemberEntity(nullptr),
+            PreventRejoin(false)
+            {}
+
+        FRemoveMemberFromLobbyRequest(const FRemoveMemberFromLobbyRequest& src) = default;
+
+        FRemoveMemberFromLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveMemberFromLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRemoveMemberFromLobbyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
 
     struct PLAYFABCPP_API FRequestMultiplayerServerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
@@ -4825,6 +5687,123 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum SubscriptionType
+    {
+        SubscriptionTypeLobbyChange,
+        SubscriptionTypeLobbyInvite
+    };
+
+    PLAYFABCPP_API void writeSubscriptionTypeEnumJSON(SubscriptionType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API SubscriptionType readSubscriptionTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API SubscriptionType readSubscriptionTypeFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FSubscribeToLobbyResourceRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The entity performing the subscription.
+        FEntityKey pfEntityKey;
+
+        // Opaque string, given to a client upon creating a connection with PubSub.
+        FString PubSubConnectionHandle;
+
+        // The name of the resource to subscribe to.
+        FString ResourceId;
+
+        // Version number for the subscription of this resource.
+        uint32 SubscriptionVersion;
+
+        // Subscription type.
+        SubscriptionType Type;
+
+        FSubscribeToLobbyResourceRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            pfEntityKey(),
+            PubSubConnectionHandle(),
+            ResourceId(),
+            SubscriptionVersion(0),
+            Type()
+            {}
+
+        FSubscribeToLobbyResourceRequest(const FSubscribeToLobbyResourceRequest& src) = default;
+
+        FSubscribeToLobbyResourceRequest(const TSharedPtr<FJsonObject>& obj) : FSubscribeToLobbyResourceRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubscribeToLobbyResourceRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSubscribeToLobbyResourceResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Topic will be returned in all notifications that are the result of this subscription.
+        FString Topic;
+
+        FSubscribeToLobbyResourceResult() :
+            FPlayFabCppResultCommon(),
+            Topic()
+            {}
+
+        FSubscribeToLobbyResourceResult(const FSubscribeToLobbyResourceResult& src) = default;
+
+        FSubscribeToLobbyResourceResult(const TSharedPtr<FJsonObject>& obj) : FSubscribeToLobbyResourceResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubscribeToLobbyResourceResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnsubscribeFromLobbyResourceRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The entity which performed the subscription.
+        FEntityKey pfEntityKey;
+
+        // Opaque string, given to a client upon creating a connection with PubSub.
+        FString PubSubConnectionHandle;
+
+        // The name of the resource to unsubscribe from.
+        FString ResourceId;
+
+        // Version number passed for the subscription of this resource.
+        uint32 SubscriptionVersion;
+
+        // Subscription type.
+        SubscriptionType Type;
+
+        FUnsubscribeFromLobbyResourceRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            pfEntityKey(),
+            PubSubConnectionHandle(),
+            ResourceId(),
+            SubscriptionVersion(0),
+            Type()
+            {}
+
+        FUnsubscribeFromLobbyResourceRequest(const FUnsubscribeFromLobbyResourceRequest& src) = default;
+
+        FUnsubscribeFromLobbyResourceRequest(const TSharedPtr<FJsonObject>& obj) : FUnsubscribeFromLobbyResourceRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnsubscribeFromLobbyResourceRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUntagContainerImageRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -4972,6 +5951,119 @@ namespace MultiplayerModels
         }
 
         ~FUpdateBuildRegionsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * [optional] The policy indicating who is allowed to join the lobby, and the visibility to queries. May be 'Public', 'Friends' or
+         * 'Private'. Public means the lobby is both visible in queries and any player may join, including invited players. Friends
+         * means that users who are bidirectional friends of members in the lobby may search to find friend lobbies, to retrieve
+         * its connection string. Private means the lobby is not visible in queries, and a player must receive an invitation to
+         * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
+         */
+        Boxed<AccessPolicy> pfAccessPolicy;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] The private key-value pairs which are only visible to members of the lobby. Optional. Sets or updates key-value pairs on
+         * the lobby. Only the current lobby owner can set lobby data. Keys may be an arbitrary string of at most 30 characters.
+         * The total size of all lobbyData values may not exceed 4096 bytes. Values are not individually limited. There can be up
+         * to 30 key-value pairs stored here. Keys are case sensitive.
+         */
+        TMap<FString, FString> LobbyData;
+        // [optional] The keys to delete from the lobby LobbyData. Optional. Behaves similar to searchDataToDelete, but applies to lobbyData.
+        TArray<FString> LobbyDataToDelete;
+        // [optional] The id of the lobby.
+        FString LobbyId;
+
+        /**
+         * [optional] The maximum number of players allowed in the lobby. Updates the maximum allowed number of players in the lobby. Only the
+         * current lobby owner can set this. If set, the value must be greater than or equal to the number of members currently in
+         * the lobby.
+         */
+        Boxed<uint32> MaxPlayers;
+
+        /**
+         * [optional] The private key-value pairs used by the member to communicate information to other members and the owner. Optional. Sets
+         * or updates new key-value pairs on the caller's member data. New keys will be added with their values and existing keys
+         * will be updated with the new values. Visible to all members of the lobby. At most 30 key-value pairs may be stored here,
+         * keys are limited to 30 characters and values to 1000. The total size of all memberData values may not exceed 4096 bytes.
+         * Keys are case sensitive. Servers cannot specifiy this.
+         */
+        TMap<FString, FString> MemberData;
+        /**
+         * [optional] The keys to delete from the lobby MemberData. Optional. Deletes key-value pairs on the caller's member data. All the
+         * specified keys will be removed from the caller's member data. Keys that do not exist are a no-op. If the key to delete
+         * exists in the memberData (same request) it will result in a bad request. Servers cannot specifiy this.
+         */
+        TArray<FString> MemberDataToDelete;
+        // [optional] The member entity whose data is being modified. Servers cannot specify this.
+        TSharedPtr<FEntityKey> MemberEntity;
+
+        /**
+         * [optional] A setting indicating whether the lobby is locked. May be 'Unlocked' or 'Locked'. When Locked new members are not allowed
+         * to join. Defaults to 'Unlocked' on creation. Can only be changed by the lobby owner.
+         */
+        Boxed<MembershipLock> pfMembershipLock;
+
+        /**
+         * [optional] The lobby owner. Optional. Set to transfer ownership of the lobby. If client - owned and 'Automatic' - The Lobby service
+         * will automatically assign another connected owner when the current owner leaves or disconnects. useConnections must be
+         * true. If client - owned and 'Manual' - Ownership is protected as long as the current owner is connected. If the current
+         * owner leaves or disconnects any member may set themselves as the current owner. The useConnections property must be
+         * true. If client-owned and 'None' - Any member can set ownership. The useConnections property can be either true or
+         * false. For all client-owned lobbies when the owner leaves and a new owner can not be automatically selected - The owner
+         * field is set to null. For all client-owned lobbies when the owner disconnects and a new owner can not be automatically
+         * selected - The owner field remains unchanged and the current owner retains all owner abilities for the lobby. If
+         * server-owned (must be 'Server') - Any server can set ownership. The useConnections property must be true.
+         */
+        TSharedPtr<FEntityKey> Owner;
+
+        /**
+         * [optional] The public key-value pairs which allow queries to differentiate between lobbies. Optional. Sets or updates key-value
+         * pairs on the lobby for use with queries. Only the current lobby owner can set search data. New keys will be added with
+         * their values and existing keys will be updated with the new values. There can be up to 30 key-value pairs stored here.
+         * Keys are of the format string_key1, string_key2... string_key30 for string values, or number_key1, number_key2, ...
+         * number_key30 for numeric values. Numeric values are floats. Values can be at most 256 characters long. The total size of
+         * all searchData values may not exceed 1024 bytes.Keys are case sensitive.
+         */
+        TMap<FString, FString> SearchData;
+        /**
+         * [optional] The keys to delete from the lobby SearchData. Optional. Deletes key-value pairs on the lobby. Only the current lobby
+         * owner can delete search data. All the specified keys will be removed from the search data. Keys that do not exist in the
+         * lobby are a no-op.If the key to delete exists in the searchData (same request) it will result in a bad request.
+         */
+        TArray<FString> SearchDataToDelete;
+        FUpdateLobbyRequest() :
+            FPlayFabCppRequestCommon(),
+            pfAccessPolicy(),
+            CustomTags(),
+            LobbyData(),
+            LobbyDataToDelete(),
+            LobbyId(),
+            MaxPlayers(),
+            MemberData(),
+            MemberDataToDelete(),
+            MemberEntity(nullptr),
+            pfMembershipLock(),
+            Owner(nullptr),
+            SearchData(),
+            SearchDataToDelete()
+            {}
+
+        FUpdateLobbyRequest(const FUpdateLobbyRequest& src) = default;
+
+        FUpdateLobbyRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateLobbyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateLobbyRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

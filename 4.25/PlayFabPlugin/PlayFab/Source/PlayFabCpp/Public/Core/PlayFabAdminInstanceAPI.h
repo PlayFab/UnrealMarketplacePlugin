@@ -73,7 +73,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const AdminModels::FGetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FGetRandomResultTablesDelegate, const AdminModels::FGetRandomResultTablesResult&);
         DECLARE_DELEGATE_OneParam(FGetSegmentsDelegate, const AdminModels::FGetSegmentsResponse&);
-        DECLARE_DELEGATE_OneParam(FGetServerBuildInfoDelegate, const AdminModels::FGetServerBuildInfoResult&);
         DECLARE_DELEGATE_OneParam(FGetStoreItemsDelegate, const AdminModels::FGetStoreItemsResult&);
         DECLARE_DELEGATE_OneParam(FGetTaskInstancesDelegate, const AdminModels::FGetTaskInstancesResult&);
         DECLARE_DELEGATE_OneParam(FGetTasksDelegate, const AdminModels::FGetTasksResult&);
@@ -92,12 +91,10 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FIncrementLimitedEditionItemAvailabilityDelegate, const AdminModels::FIncrementLimitedEditionItemAvailabilityResult&);
         DECLARE_DELEGATE_OneParam(FIncrementPlayerStatisticVersionDelegate, const AdminModels::FIncrementPlayerStatisticVersionResult&);
         DECLARE_DELEGATE_OneParam(FListOpenIdConnectionDelegate, const AdminModels::FListOpenIdConnectionResponse&);
-        DECLARE_DELEGATE_OneParam(FListServerBuildsDelegate, const AdminModels::FListBuildsResult&);
         DECLARE_DELEGATE_OneParam(FListVirtualCurrencyTypesDelegate, const AdminModels::FListVirtualCurrencyTypesResult&);
         DECLARE_DELEGATE_OneParam(FModifyServerBuildDelegate, const AdminModels::FModifyServerBuildResult&);
         DECLARE_DELEGATE_OneParam(FRefundPurchaseDelegate, const AdminModels::FRefundPurchaseResponse&);
         DECLARE_DELEGATE_OneParam(FRemovePlayerTagDelegate, const AdminModels::FRemovePlayerTagResult&);
-        DECLARE_DELEGATE_OneParam(FRemoveServerBuildDelegate, const AdminModels::FRemoveServerBuildResult&);
         DECLARE_DELEGATE_OneParam(FRemoveVirtualCurrencyTypesDelegate, const AdminModels::FBlankResult&);
         DECLARE_DELEGATE_OneParam(FResetCharacterStatisticsDelegate, const AdminModels::FResetCharacterStatisticsResult&);
         DECLARE_DELEGATE_OneParam(FResetPasswordDelegate, const AdminModels::FResetPasswordResult&);
@@ -427,8 +424,6 @@ namespace PlayFab
          * Send segment filter details part of GetSegmentsRequest object
          */
         bool GetSegments(AdminModels::FGetSegmentsRequest& request, const FGetSegmentsDelegate& SuccessDelegate = FGetSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the build details for the specified game server executable
-        bool GetServerBuildInfo(AdminModels::FGetServerBuildInfoRequest& request, const FGetServerBuildInfoDelegate& SuccessDelegate = FGetServerBuildInfoDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the set of items defined for the specified store, including all prices defined
          * A store contains an array of references to items defined in the catalog, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
@@ -516,11 +511,6 @@ namespace PlayFab
         bool ListOpenIdConnection(const FListOpenIdConnectionDelegate& SuccessDelegate = FListOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves a list of all Open ID Connect providers registered to a title.
         bool ListOpenIdConnection(AdminModels::FListOpenIdConnectionRequest& request, const FListOpenIdConnectionDelegate& SuccessDelegate = FListOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the build details for all game server executables which are currently defined for the title
-
-        bool ListServerBuilds(const FListServerBuildsDelegate& SuccessDelegate = FListServerBuildsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the build details for all game server executables which are currently defined for the title
-        bool ListServerBuilds(AdminModels::FListBuildsRequest& request, const FListServerBuildsDelegate& SuccessDelegate = FListServerBuildsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retuns the list of all defined virtual currencies for the title
 
         bool ListVirtualCurrencyTypes(const FListVirtualCurrencyTypesDelegate& SuccessDelegate = FListVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -535,11 +525,6 @@ namespace PlayFab
          * This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID from the corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters
          */
         bool RemovePlayerTag(AdminModels::FRemovePlayerTagRequest& request, const FRemovePlayerTagDelegate& SuccessDelegate = FRemovePlayerTagDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Removes the game server executable specified from the set of those a client is permitted to request in a call to
-         * StartGame
-         */
-        bool RemoveServerBuild(AdminModels::FRemoveServerBuildRequest& request, const FRemoveServerBuildDelegate& SuccessDelegate = FRemoveServerBuildDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Removes one or more virtual currencies from the set defined for the title.
          * Virtual currencies to be removed cannot have entries in any catalog nor store for the title. Note that this operation will not remove player balances for the removed currencies; if a deleted currency is recreated at any point, user balances will be in an undefined state.
@@ -787,7 +772,6 @@ namespace PlayFab
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetServerBuildInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerBuildInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetStoreItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStoreItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTaskInstancesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTaskInstancesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTasksResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTasksDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -806,12 +790,10 @@ namespace PlayFab
         void OnIncrementLimitedEditionItemAvailabilityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementLimitedEditionItemAvailabilityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnIncrementPlayerStatisticVersionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementPlayerStatisticVersionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnListServerBuildsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBuildsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualCurrencyTypesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnModifyServerBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyServerBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRefundPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRefundPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnRemoveServerBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveServerBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveVirtualCurrencyTypesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnResetCharacterStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FResetCharacterStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnResetPasswordResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FResetPasswordDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

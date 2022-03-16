@@ -368,36 +368,6 @@ FAdminGetContentUploadUrlResult UPlayFabAdminModelDecoder::decodeGetContentUploa
 // Custom Server Management
 //////////////////////////////////////////////////////
 
-FAdminGetServerBuildInfoResult UPlayFabAdminModelDecoder::decodeGetServerBuildInfoResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminGetServerBuildInfoResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.ActiveRegions = !(dataObj->HasField("ActiveRegions")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ActiveRegions"), TEXT(","));
-    tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
-    tempStruct.Comment = !(dataObj->HasField("Comment")) ? TEXT("") : dataObj->GetStringField("Comment");
-    tempStruct.ErrorMessage = !(dataObj->HasField("ErrorMessage")) ? TEXT("") : dataObj->GetStringField("ErrorMessage");
-    tempStruct.MaxGamesPerHost = !(dataObj->HasField("MaxGamesPerHost")) ? 0 : int(dataObj->GetNumberField("MaxGamesPerHost"));
-    tempStruct.MinFreeGameSlots = !(dataObj->HasField("MinFreeGameSlots")) ? 0 : int(dataObj->GetNumberField("MinFreeGameSlots"));
-    GetEnumValueFromString<EGameBuildStatus>(TEXT("EGameBuildStatus"), dataObj->GetStringField("Status"), tempStruct.Status);
-    tempStruct.Timestamp = !(dataObj->HasField("Timestamp")) ? TEXT("") : dataObj->GetStringField("Timestamp");
-    tempStruct.TitleId = !(dataObj->HasField("TitleId")) ? TEXT("") : dataObj->GetStringField("TitleId");
-
-    return tempStruct;
-}
-
-FAdminListBuildsResult UPlayFabAdminModelDecoder::decodeListBuildsResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminListBuildsResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.Builds = !(dataObj->HasField("Builds")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Builds");
-
-    return tempStruct;
-}
-
 FAdminModifyServerBuildResult UPlayFabAdminModelDecoder::decodeModifyServerBuildResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -414,15 +384,6 @@ FAdminModifyServerBuildResult UPlayFabAdminModelDecoder::decodeModifyServerBuild
     GetEnumValueFromString<EGameBuildStatus>(TEXT("EGameBuildStatus"), dataObj->GetStringField("Status"), tempStruct.Status);
     tempStruct.Timestamp = !(dataObj->HasField("Timestamp")) ? TEXT("") : dataObj->GetStringField("Timestamp");
     tempStruct.TitleId = !(dataObj->HasField("TitleId")) ? TEXT("") : dataObj->GetStringField("TitleId");
-
-    return tempStruct;
-}
-
-FAdminRemoveServerBuildResult UPlayFabAdminModelDecoder::decodeRemoveServerBuildResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminRemoveServerBuildResult tempStruct;
-
 
     return tempStruct;
 }

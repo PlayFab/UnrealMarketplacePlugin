@@ -27,6 +27,533 @@ class UPlayFabJsonObject;
 
 
 ///////////////////////////////////////////////////////
+// Lobby
+//////////////////////////////////////////////////////
+
+/** Request to create a lobby. A Server or client can create a lobby. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * The policy indicating who is allowed to join the lobby, and the visibility to queries. May be 'Public', 'Friends' or
+     * 'Private'. Public means the lobby is both visible in queries and any player may join, including invited players. Friends
+     * means that users who are bidirectional friends of members in the lobby may search to find friend lobbies, to retrieve
+     * its connection string. Private means the lobby is not visible in queries, and a player must receive an invitation to
+     * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        EAccessPolicy AccessPolicy;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * The private key-value pairs which are only visible to members of the lobby. At most 30 key-value pairs may be stored
+     * here, keys are limited to 30 characters and values to 1000. The total size of all lobbyData values may not exceed 4096
+     * bytes. Keys are case sensitive.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* LobbyData = nullptr;
+    /** The maximum number of players allowed in the lobby. The value must be between 2 and 128. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        int32 MaxPlayers = 0;
+    /**
+     * The member initially added to the lobby. Client must specify exactly one member, which is the creator's entity and
+     * member data. Member PubSubConnectionHandle must be null or empty. Game servers must not specify any members.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        TArray<UPlayFabJsonObject*> Members;
+    /** The lobby owner. Must be the calling entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* Owner = nullptr;
+    /**
+     * The policy for how a new owner is chosen. May be 'Automatic', 'Manual' or 'None'. Can only be specified by clients. If
+     * client-owned and 'Automatic' - The Lobby service will automatically assign another connected owner when the current
+     * owner leaves or disconnects. The useConnections property must be true. If client - owned and 'Manual' - Ownership is
+     * protected as long as the current owner is connected. If the current owner leaves or disconnects any member may set
+     * themselves as the current owner. The useConnections property must be true. If client-owned and 'None' - Any member can
+     * set ownership. The useConnections property can be either true or false.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        EOwnerMigrationPolicy OwnerMigrationPolicy;
+    /**
+     * The public key-value pairs which allow queries to differentiate between lobbies. Queries will refer to these key-value
+     * pairs in their filter and order by clauses to retrieve lobbies fitting the specified criteria. At most 30 key-value
+     * pairs may be stored here. Keys are of the format string_key1, string_key2 ... string_key30 for string values, or
+     * number_key1, number_key2, ... number_key30 for numeric values.Numeric values are floats. Values can be at most 256
+     * characters long. The total size of all searchData values may not exceed 1024 bytes.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* SearchData = nullptr;
+    /**
+     * A setting to control whether connections are used. Defaults to true. When true, notifications are sent to subscribed
+     * players, disconnect detection removes connectionHandles, only owner migration policies using connections are allowed,
+     * and lobbies must have at least one connected member to be searchable or be a server hosted lobby with a connected
+     * server. If false, then notifications are not sent, connections are not allowed, and lobbies do not need connections to
+     * be searchable.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        bool UseConnections = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerCreateLobbyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A field which indicates which lobby the user will be joining. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString ConnectionString;
+    /** Id to uniquely identify a lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+};
+
+/** Request to delete a lobby. Only servers can delete lobbies. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerDeleteLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The id of the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerLobbyEmptyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/** Request to find friends lobbies. Only a client can find friend lobbies. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerFindFriendLobbiesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Controls whether this query should link to friends made on the Facebook network. Defaults to false */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        bool ExcludeFacebookFriends = false;
+    /** Controls whether this query should link to friends made on the Steam network. Defaults to false */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        bool ExcludeSteamFriends = false;
+    /** OData style string that contains one or more filters. The OR and grouping operators are not allowed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString Filter;
+    /**
+     * OData style string that contains sorting for this query. To sort by closest, a moniker `distance{number_key1 = 5}` can
+     * be used to sort by distance from the given number. This field only supports either one sort clause or one distance
+     * clause.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString OrderBy;
+    /** Request pagination information. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* Pagination = nullptr;
+    /** Xbox token if Xbox friends should be included. Requires Xbox be configured on PlayFab. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString XboxToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerFindFriendLobbiesResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Array of lobbies found that matched FindFriendLobbies request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        TArray<UPlayFabJsonObject*> Lobbies;
+    /** Pagination response for FindFriendLobbies request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* Pagination = nullptr;
+};
+
+/** Request to find lobbies. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerFindLobbiesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** OData style string that contains one or more filters. The OR and grouping operators are not allowed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString Filter;
+    /**
+     * OData style string that contains sorting for this query. To sort by closest, a moniker `distance{number_key1 = 5}` can
+     * be used to sort by distance from the given number. This field only supports either one sort clause or one distance
+     * clause.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString OrderBy;
+    /** Request pagination information. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* Pagination = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerFindLobbiesResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Array of lobbies found that matched FindLobbies request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        TArray<UPlayFabJsonObject*> Lobbies;
+    /** Pagination response for FindLobbies request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* Pagination = nullptr;
+};
+
+/** Request to get a lobby. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The id of the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerGetLobbyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The information pertaining to the requested lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* Lobby = nullptr;
+};
+
+/**
+ * Request to invite a player to a lobby the caller is already a member of. Only a client can invite another player to a
+ * lobby.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerInviteToLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity invited to the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* InviteeEntity = nullptr;
+    /** The id of the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+    /** The member entity sending the invite. Must be a member of the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberEntity = nullptr;
+};
+
+/** Request to join an arranged lobby. Only a client can join an arranged lobby. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerJoinArrangedLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * The policy indicating who is allowed to join the lobby, and the visibility to queries. May be 'Public', 'Friends' or
+     * 'Private'. Public means the lobby is both visible in queries and any player may join, including invited players. Friends
+     * means that users who are bidirectional friends of members in the lobby may search to find friend lobbies, to retrieve
+     * its connection string. Private means the lobby is not visible in queries, and a player must receive an invitation to
+     * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        EAccessPolicy AccessPolicy;
+    /**
+     * A field which indicates which lobby the user will be joining. This field is opaque to everyone except the Lobby service
+     * and the creator of the arrangementString (Matchmaking). This string defines a unique identifier for the arranged lobby
+     * as well as the title and member the string is valid for. Arrangement strings have an expiration.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString ArrangementString;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The maximum number of players allowed in the lobby. The value must be between 2 and 128. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        int32 MaxPlayers = 0;
+    /**
+     * The private key-value pairs used by the member to communicate information to other members and the owner. Visible to all
+     * members of the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
+     * 1000. The total size of all memberData values may not exceed 4096 bytes. Keys are case sensitive.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberData = nullptr;
+    /** The member entity who is joining the lobby. The first member to join will be the lobby owner. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberEntity = nullptr;
+    /**
+     * The policy for how a new owner is chosen. May be 'Automatic', 'Manual' or 'None'. Can only be specified by clients. If
+     * client-owned and 'Automatic' - The Lobby service will automatically assign another connected owner when the current
+     * owner leaves or disconnects. The useConnections property must be true. If client - owned and 'Manual' - Ownership is
+     * protected as long as the current owner is connected. If the current owner leaves or disconnects any member may set
+     * themselves as the current owner. The useConnections property must be true. If client-owned and 'None' - Any member can
+     * set ownership. The useConnections property can be either true or false.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        EOwnerMigrationPolicy OwnerMigrationPolicy;
+    /**
+     * A setting to control whether connections are used. Defaults to true. When true, notifications are sent to subscribed
+     * players, disconnect detection removes connectionHandles, only owner migration policies using connections are allowed,
+     * and lobbies must have at least one connected member to be searchable or be a server hosted lobby with a connected
+     * server. If false, then notifications are not sent, connections are not allowed, and lobbies do not need connections to
+     * be searchable.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        bool UseConnections = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerJoinLobbyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Successfully joined lobby's id. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+};
+
+/** Request to join a lobby. Only a client can join a lobby. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerJoinLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A field which indicates which lobby the user will be joining. This field is opaque to everyone except the Lobby service. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString ConnectionString;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * The private key-value pairs used by the member to communicate information to other members and the owner. Visible to all
+     * members of the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
+     * 1000. The total size of all memberData values may not exceed 4096 bytes.Keys are case sensitive.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberData = nullptr;
+    /** The member entity who is joining the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberEntity = nullptr;
+};
+
+/** Request to leave a lobby. Only a client can leave a lobby. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerLeaveLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The id of the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+    /** The member entity leaving the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberEntity = nullptr;
+};
+
+/**
+ * Request to remove a member from a lobby. Owners may remove other members from a lobby. Members cannot remove themselves
+ * (use LeaveLobby instead).
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerRemoveMemberFromLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The id of the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+    /** The member entity to be removed from the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberEntity = nullptr;
+    /** If true, removed member can never rejoin this lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        bool PreventRejoin = false;
+};
+
+/** Request to subscribe to lobby resource notifications. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerSubscribeToLobbyResourceRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity performing the subscription. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* EntityKey = nullptr;
+    /** Opaque string, given to a client upon creating a connection with PubSub. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString PubSubConnectionHandle;
+    /** The name of the resource to subscribe to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString ResourceId;
+    /** Version number for the subscription of this resource. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        int32 SubscriptionVersion = 0;
+    /** Subscription type. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        ESubscriptionType Type;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerSubscribeToLobbyResourceResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Topic will be returned in all notifications that are the result of this subscription. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString Topic;
+};
+
+/** Request to unsubscribe from lobby notifications. Only a client can unsubscribe from notifications. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerUnsubscribeFromLobbyResourceRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity which performed the subscription. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* EntityKey = nullptr;
+    /** Opaque string, given to a client upon creating a connection with PubSub. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString PubSubConnectionHandle;
+    /** The name of the resource to unsubscribe from. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString ResourceId;
+    /** Version number passed for the subscription of this resource. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        int32 SubscriptionVersion = 0;
+    /** Subscription type. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        ESubscriptionType Type;
+};
+
+/** Request to update a lobby. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerUpdateLobbyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * The policy indicating who is allowed to join the lobby, and the visibility to queries. May be 'Public', 'Friends' or
+     * 'Private'. Public means the lobby is both visible in queries and any player may join, including invited players. Friends
+     * means that users who are bidirectional friends of members in the lobby may search to find friend lobbies, to retrieve
+     * its connection string. Private means the lobby is not visible in queries, and a player must receive an invitation to
+     * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        EAccessPolicy AccessPolicy;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * The private key-value pairs which are only visible to members of the lobby. Optional. Sets or updates key-value pairs on
+     * the lobby. Only the current lobby owner can set lobby data. Keys may be an arbitrary string of at most 30 characters.
+     * The total size of all lobbyData values may not exceed 4096 bytes. Values are not individually limited. There can be up
+     * to 30 key-value pairs stored here. Keys are case sensitive.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* LobbyData = nullptr;
+    /** The keys to delete from the lobby LobbyData. Optional. Behaves similar to searchDataToDelete, but applies to lobbyData. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyDataToDelete;
+    /** The id of the lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString LobbyId;
+    /**
+     * The maximum number of players allowed in the lobby. Updates the maximum allowed number of players in the lobby. Only the
+     * current lobby owner can set this. If set, the value must be greater than or equal to the number of members currently in
+     * the lobby.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        int32 MaxPlayers = 0;
+    /**
+     * The private key-value pairs used by the member to communicate information to other members and the owner. Optional. Sets
+     * or updates new key-value pairs on the caller's member data. New keys will be added with their values and existing keys
+     * will be updated with the new values. Visible to all members of the lobby. At most 30 key-value pairs may be stored here,
+     * keys are limited to 30 characters and values to 1000. The total size of all memberData values may not exceed 4096 bytes.
+     * Keys are case sensitive. Servers cannot specifiy this.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberData = nullptr;
+    /**
+     * The keys to delete from the lobby MemberData. Optional. Deletes key-value pairs on the caller's member data. All the
+     * specified keys will be removed from the caller's member data. Keys that do not exist are a no-op. If the key to delete
+     * exists in the memberData (same request) it will result in a bad request. Servers cannot specifiy this.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString MemberDataToDelete;
+    /** The member entity whose data is being modified. Servers cannot specify this. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* MemberEntity = nullptr;
+    /**
+     * A setting indicating whether the lobby is locked. May be 'Unlocked' or 'Locked'. When Locked new members are not allowed
+     * to join. Defaults to 'Unlocked' on creation. Can only be changed by the lobby owner.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        EMembershipLock MembershipLock;
+    /**
+     * The lobby owner. Optional. Set to transfer ownership of the lobby. If client - owned and 'Automatic' - The Lobby service
+     * will automatically assign another connected owner when the current owner leaves or disconnects. useConnections must be
+     * true. If client - owned and 'Manual' - Ownership is protected as long as the current owner is connected. If the current
+     * owner leaves or disconnects any member may set themselves as the current owner. The useConnections property must be
+     * true. If client-owned and 'None' - Any member can set ownership. The useConnections property can be either true or
+     * false. For all client-owned lobbies when the owner leaves and a new owner can not be automatically selected - The owner
+     * field is set to null. For all client-owned lobbies when the owner disconnects and a new owner can not be automatically
+     * selected - The owner field remains unchanged and the current owner retains all owner abilities for the lobby. If
+     * server-owned (must be 'Server') - Any server can set ownership. The useConnections property must be true.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* Owner = nullptr;
+    /**
+     * The public key-value pairs which allow queries to differentiate between lobbies. Optional. Sets or updates key-value
+     * pairs on the lobby for use with queries. Only the current lobby owner can set search data. New keys will be added with
+     * their values and existing keys will be updated with the new values. There can be up to 30 key-value pairs stored here.
+     * Keys are of the format string_key1, string_key2... string_key30 for string values, or number_key1, number_key2, ...
+     * number_key30 for numeric values. Numeric values are floats. Values can be at most 256 characters long. The total size of
+     * all searchData values may not exceed 1024 bytes.Keys are case sensitive.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* SearchData = nullptr;
+    /**
+     * The keys to delete from the lobby SearchData. Optional. Deletes key-value pairs on the lobby. Only the current lobby
+     * owner can delete search data. All the specified keys will be removed from the search data. Keys that do not exist in the
+     * lobby are a no-op.If the key to delete exists in the searchData (same request) it will result in a bad request.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        FString SearchDataToDelete;
+};
+
+
+///////////////////////////////////////////////////////
 // Matchmaking
 //////////////////////////////////////////////////////
 

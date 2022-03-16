@@ -1486,6 +1486,16 @@ enum class EExperimentType : uint8
     pfenum_Snapshot UMETA(DisplayName = "Snapshot"),
 };
 
+/** AccessPolicy */
+
+UENUM(BlueprintType)
+enum class EAccessPolicy : uint8
+{
+    pfenum_Public UMETA(DisplayName = "Public"),
+    pfenum_Friends UMETA(DisplayName = "Friends"),
+    pfenum_Private UMETA(DisplayName = "Private"),
+};
+
 /** AzureRegion */
 
 UENUM(BlueprintType)
@@ -1634,6 +1644,15 @@ enum class EContainerFlavor : uint8
     pfenum_Invalid UMETA(DisplayName = "Invalid"),
 };
 
+/** MembershipLock */
+
+UENUM(BlueprintType)
+enum class EMembershipLock : uint8
+{
+    pfenum_Unlocked UMETA(DisplayName = "Unlocked"),
+    pfenum_Locked UMETA(DisplayName = "Locked"),
+};
+
 /** OsPlatform */
 
 UENUM(BlueprintType)
@@ -1641,6 +1660,17 @@ enum class EOsPlatform : uint8
 {
     pfenum_Windows UMETA(DisplayName = "Windows"),
     pfenum_Linux UMETA(DisplayName = "Linux"),
+};
+
+/** OwnerMigrationPolicy */
+
+UENUM(BlueprintType)
+enum class EOwnerMigrationPolicy : uint8
+{
+    pfenum_None UMETA(DisplayName = "None"),
+    pfenum_Automatic UMETA(DisplayName = "Automatic"),
+    pfenum_Manual UMETA(DisplayName = "Manual"),
+    pfenum_Server UMETA(DisplayName = "Server"),
 };
 
 /** ProtocolType */
@@ -1659,6 +1689,15 @@ enum class EServerType : uint8
 {
     pfenum_Container UMETA(DisplayName = "Container"),
     pfenum_Process UMETA(DisplayName = "Process"),
+};
+
+/** SubscriptionType */
+
+UENUM(BlueprintType)
+enum class ESubscriptionType : uint8
+{
+    pfenum_LobbyChange UMETA(DisplayName = "LobbyChange"),
+    pfenum_LobbyInvite UMETA(DisplayName = "LobbyInvite"),
 };
 
 /** TitleMultiplayerServerEnabledStatus */

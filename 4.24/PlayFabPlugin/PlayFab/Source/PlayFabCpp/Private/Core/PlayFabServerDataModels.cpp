@@ -15927,6 +15927,251 @@ bool PlayFab::ServerModels::FRefreshGameServerInstanceHeartbeatResult::readFromV
     return HasSucceeded;
 }
 
+void PlayFab::ServerModels::writeRegionEnumJSON(Region enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case RegionUSCentral: writer->WriteValue(TEXT("USCentral")); break;
+    case RegionUSEast: writer->WriteValue(TEXT("USEast")); break;
+    case RegionEUWest: writer->WriteValue(TEXT("EUWest")); break;
+    case RegionSingapore: writer->WriteValue(TEXT("Singapore")); break;
+    case RegionJapan: writer->WriteValue(TEXT("Japan")); break;
+    case RegionBrazil: writer->WriteValue(TEXT("Brazil")); break;
+    case RegionAustralia: writer->WriteValue(TEXT("Australia")); break;
+    }
+}
+
+ServerModels::Region PlayFab::ServerModels::readRegionFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readRegionFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+ServerModels::Region PlayFab::ServerModels::readRegionFromValue(const FString& value)
+{
+    static TMap<FString, Region> _RegionMap;
+    if (_RegionMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _RegionMap.Add(TEXT("USCentral"), RegionUSCentral);
+        _RegionMap.Add(TEXT("USEast"), RegionUSEast);
+        _RegionMap.Add(TEXT("EUWest"), RegionEUWest);
+        _RegionMap.Add(TEXT("Singapore"), RegionSingapore);
+        _RegionMap.Add(TEXT("Japan"), RegionJapan);
+        _RegionMap.Add(TEXT("Brazil"), RegionBrazil);
+        _RegionMap.Add(TEXT("Australia"), RegionAustralia);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _RegionMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return RegionUSCentral; // Basically critical fail
+}
+
+PlayFab::ServerModels::FRegisterGameRequest::~FRegisterGameRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FRegisterGameRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Build.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterGameRequest::Build, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Build"));
+        writer->WriteValue(Build);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!GameMode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterGameRequest::GameMode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("GameMode"));
+        writer->WriteValue(GameMode);
+    }
+
+    if (LobbyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyId"));
+        writer->WriteValue(LobbyId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Region"));
+    writeRegionEnumJSON(pfRegion, writer);
+
+    if (ServerIPV4Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV4Address"));
+        writer->WriteValue(ServerIPV4Address);
+    }
+
+    if (ServerIPV6Address.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerIPV6Address"));
+        writer->WriteValue(ServerIPV6Address);
+    }
+
+    if (!ServerPort.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterGameRequest::ServerPort, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPort"));
+        writer->WriteValue(ServerPort);
+    }
+
+    if (ServerPublicDNSName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerPublicDNSName"));
+        writer->WriteValue(ServerPublicDNSName);
+    }
+
+    if (Tags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("Tags"));
+        for (TMap<FString, FString>::TConstIterator It(Tags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FRegisterGameRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BuildValue = obj->TryGetField(TEXT("Build"));
+    if (BuildValue.IsValid() && !BuildValue->IsNull())
+    {
+        FString TmpValue;
+        if (BuildValue->TryGetString(TmpValue)) { Build = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> GameModeValue = obj->TryGetField(TEXT("GameMode"));
+    if (GameModeValue.IsValid() && !GameModeValue->IsNull())
+    {
+        FString TmpValue;
+        if (GameModeValue->TryGetString(TmpValue)) { GameMode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LobbyIdValue = obj->TryGetField(TEXT("LobbyId"));
+    if (LobbyIdValue.IsValid() && !LobbyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (LobbyIdValue->TryGetString(TmpValue)) { LobbyId = TmpValue; }
+    }
+
+    pfRegion = readRegionFromValue(obj->TryGetField(TEXT("Region")));
+
+    const TSharedPtr<FJsonValue> ServerIPV4AddressValue = obj->TryGetField(TEXT("ServerIPV4Address"));
+    if (ServerIPV4AddressValue.IsValid() && !ServerIPV4AddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerIPV4AddressValue->TryGetString(TmpValue)) { ServerIPV4Address = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerIPV6AddressValue = obj->TryGetField(TEXT("ServerIPV6Address"));
+    if (ServerIPV6AddressValue.IsValid() && !ServerIPV6AddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerIPV6AddressValue->TryGetString(TmpValue)) { ServerIPV6Address = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerPortValue = obj->TryGetField(TEXT("ServerPort"));
+    if (ServerPortValue.IsValid() && !ServerPortValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerPortValue->TryGetString(TmpValue)) { ServerPort = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerPublicDNSNameValue = obj->TryGetField(TEXT("ServerPublicDNSName"));
+    if (ServerPublicDNSNameValue.IsValid() && !ServerPublicDNSNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerPublicDNSNameValue->TryGetString(TmpValue)) { ServerPublicDNSName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* TagsObject;
+    if (obj->TryGetObjectField(TEXT("Tags"), TagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*TagsObject)->Values); It; ++It)
+        {
+            Tags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FRegisterGameResponse::~FRegisterGameResponse()
+{
+
+}
+
+void PlayFab::ServerModels::FRegisterGameResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (LobbyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyId"));
+        writer->WriteValue(LobbyId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FRegisterGameResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> LobbyIdValue = obj->TryGetField(TEXT("LobbyId"));
+    if (LobbyIdValue.IsValid() && !LobbyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (LobbyIdValue->TryGetString(TmpValue)) { LobbyId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FRemoveFriendRequest::~FRemoveFriendRequest()
 {
 

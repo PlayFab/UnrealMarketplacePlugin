@@ -30,6 +30,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateBuildWithCustomContainerDelegate, const MultiplayerModels::FCreateBuildWithCustomContainerResponse&);
         DECLARE_DELEGATE_OneParam(FCreateBuildWithManagedContainerDelegate, const MultiplayerModels::FCreateBuildWithManagedContainerResponse&);
         DECLARE_DELEGATE_OneParam(FCreateBuildWithProcessBasedServerDelegate, const MultiplayerModels::FCreateBuildWithProcessBasedServerResponse&);
+        DECLARE_DELEGATE_OneParam(FCreateLobbyDelegate, const MultiplayerModels::FCreateLobbyResult&);
         DECLARE_DELEGATE_OneParam(FCreateMatchmakingTicketDelegate, const MultiplayerModels::FCreateMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FCreateRemoteUserDelegate, const MultiplayerModels::FCreateRemoteUserResponse&);
         DECLARE_DELEGATE_OneParam(FCreateServerBackfillTicketDelegate, const MultiplayerModels::FCreateServerBackfillTicketResult&);
@@ -41,13 +42,17 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteBuildRegionDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteContainerImageRepositoryDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FDeleteLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FDeleteRemoteUserDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FEnableMultiplayerServersForTitleDelegate, const MultiplayerModels::FEnableMultiplayerServersForTitleResponse&);
+        DECLARE_DELEGATE_OneParam(FFindFriendLobbiesDelegate, const MultiplayerModels::FFindFriendLobbiesResult&);
+        DECLARE_DELEGATE_OneParam(FFindLobbiesDelegate, const MultiplayerModels::FFindLobbiesResult&);
         DECLARE_DELEGATE_OneParam(FGetAssetDownloadUrlDelegate, const MultiplayerModels::FGetAssetDownloadUrlResponse&);
         DECLARE_DELEGATE_OneParam(FGetAssetUploadUrlDelegate, const MultiplayerModels::FGetAssetUploadUrlResponse&);
         DECLARE_DELEGATE_OneParam(FGetBuildDelegate, const MultiplayerModels::FGetBuildResponse&);
         DECLARE_DELEGATE_OneParam(FGetBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
         DECLARE_DELEGATE_OneParam(FGetContainerRegistryCredentialsDelegate, const MultiplayerModels::FGetContainerRegistryCredentialsResponse&);
+        DECLARE_DELEGATE_OneParam(FGetLobbyDelegate, const MultiplayerModels::FGetLobbyResult&);
         DECLARE_DELEGATE_OneParam(FGetMatchDelegate, const MultiplayerModels::FGetMatchResult&);
         DECLARE_DELEGATE_OneParam(FGetMatchmakingTicketDelegate, const MultiplayerModels::FGetMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FGetMultiplayerServerDetailsDelegate, const MultiplayerModels::FGetMultiplayerServerDetailsResponse&);
@@ -59,7 +64,11 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetTitleEnabledForMultiplayerServersStatusDelegate, const MultiplayerModels::FGetTitleEnabledForMultiplayerServersStatusResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitleMultiplayerServersQuotaChangeDelegate, const MultiplayerModels::FGetTitleMultiplayerServersQuotaChangeResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitleMultiplayerServersQuotasDelegate, const MultiplayerModels::FGetTitleMultiplayerServersQuotasResponse&);
+        DECLARE_DELEGATE_OneParam(FInviteToLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FJoinArrangedLobbyDelegate, const MultiplayerModels::FJoinLobbyResult&);
+        DECLARE_DELEGATE_OneParam(FJoinLobbyDelegate, const MultiplayerModels::FJoinLobbyResult&);
         DECLARE_DELEGATE_OneParam(FJoinMatchmakingTicketDelegate, const MultiplayerModels::FJoinMatchmakingTicketResult&);
+        DECLARE_DELEGATE_OneParam(FLeaveLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FListArchivedMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListAssetSummariesDelegate, const MultiplayerModels::FListAssetSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildAliasesDelegate, const MultiplayerModels::FListBuildAliasesResponse&);
@@ -74,14 +83,18 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListServerBackfillTicketsForPlayerDelegate, const MultiplayerModels::FListServerBackfillTicketsForPlayerResult&);
         DECLARE_DELEGATE_OneParam(FListTitleMultiplayerServersQuotaChangesDelegate, const MultiplayerModels::FListTitleMultiplayerServersQuotaChangesResponse&);
         DECLARE_DELEGATE_OneParam(FListVirtualMachineSummariesDelegate, const MultiplayerModels::FListVirtualMachineSummariesResponse&);
+        DECLARE_DELEGATE_OneParam(FRemoveMemberDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FRequestMultiplayerServerDelegate, const MultiplayerModels::FRequestMultiplayerServerResponse&);
         DECLARE_DELEGATE_OneParam(FRolloverContainerRegistryCredentialsDelegate, const MultiplayerModels::FRolloverContainerRegistryCredentialsResponse&);
         DECLARE_DELEGATE_OneParam(FShutdownMultiplayerServerDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FSubscribeToLobbyResourceDelegate, const MultiplayerModels::FSubscribeToLobbyResourceResult&);
+        DECLARE_DELEGATE_OneParam(FUnsubscribeFromLobbyResourceDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FUntagContainerImageDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildAliasDelegate, const MultiplayerModels::FBuildAliasDetailsResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildNameDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionsDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUpdateLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FUploadCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
 
 
@@ -155,6 +168,11 @@ namespace PlayFab
          */
         bool CreateBuildWithProcessBasedServer(MultiplayerModels::FCreateBuildWithProcessBasedServerRequest& request, const FCreateBuildWithProcessBasedServerDelegate& SuccessDelegate = FCreateBuildWithProcessBasedServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Create a lobby.
+         * Creates a multiplayer lobby. The caller is the lobby creator. Caller may be a server or player entity.
+         */
+        bool CreateLobby(MultiplayerModels::FCreateLobbyRequest& request, const FCreateLobbyDelegate& SuccessDelegate = FCreateLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Create a matchmaking ticket as a client.
          * The client specifies the creator's attributes and optionally a list of other users to match with.
          */
@@ -213,6 +231,11 @@ namespace PlayFab
          */
         bool DeleteContainerImageRepository(MultiplayerModels::FDeleteContainerImageRequest& request, const FDeleteContainerImageRepositoryDelegate& SuccessDelegate = FDeleteContainerImageRepositoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Delete a lobby.
+         * Delete a lobby. This method is only callable by servers.
+         */
+        bool DeleteLobby(MultiplayerModels::FDeleteLobbyRequest& request, const FDeleteLobbyDelegate& SuccessDelegate = FDeleteLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Deletes a remote user to log on to a VM for a multiplayer server build.
          * Deletes a remote user to log on to a VM for a multiplayer server build in a specific region. Returns user credential information necessary to log on.
          */
@@ -222,6 +245,13 @@ namespace PlayFab
          * Enables the multiplayer server feature for a title and returns the enabled status. The enabled status can be Initializing, Enabled, and Disabled. It can up to 20 minutes or more for the title to be enabled for the feature. On average, it can take up to 20 minutes for the title to be enabled for the feature.
          */
         bool EnableMultiplayerServersForTitle(MultiplayerModels::FEnableMultiplayerServersForTitleRequest& request, const FEnableMultiplayerServersForTitleDelegate& SuccessDelegate = FEnableMultiplayerServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Find lobbies which match certain criteria, and which friends are in.
+         * Find lobbies which match certain criteria and contain friends of the caller. Friends optionally include Steam, Facebook and Xbox friends. Returns a maximum of 50 instances for client calls. This method is not callable by servers.
+         */
+        bool FindFriendLobbies(MultiplayerModels::FFindFriendLobbiesRequest& request, const FFindFriendLobbiesDelegate& SuccessDelegate = FFindFriendLobbiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Find all the lobbies that match certain criteria.
+        bool FindLobbies(MultiplayerModels::FFindLobbiesRequest& request, const FFindLobbiesDelegate& SuccessDelegate = FFindLobbiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets a URL that can be used to download the specified asset. A sample pre-authenticated url -
          * https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=startDate&se=endDate&spr=https&sig=sampleSig&api-version=2017-07-29
@@ -249,6 +279,8 @@ namespace PlayFab
          * Gets credentials to the container registry where game developers can upload custom container images to before creating a new build.
          */
         bool GetContainerRegistryCredentials(MultiplayerModels::FGetContainerRegistryCredentialsRequest& request, const FGetContainerRegistryCredentialsDelegate& SuccessDelegate = FGetContainerRegistryCredentialsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Get a lobby.
+        bool GetLobby(MultiplayerModels::FGetLobbyRequest& request, const FGetLobbyDelegate& SuccessDelegate = FGetLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Get a match.
          * When matchmaking has successfully matched together a collection of tickets, it produces a 'match' with an Id. The match contains all of the players that were matched together, and their team assigments. Only servers and ticket members can get the match.
@@ -305,10 +337,24 @@ namespace PlayFab
          */
         bool GetTitleMultiplayerServersQuotas(MultiplayerModels::FGetTitleMultiplayerServersQuotasRequest& request, const FGetTitleMultiplayerServersQuotasDelegate& SuccessDelegate = FGetTitleMultiplayerServersQuotasDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Send a notification to invite a player to a lobby.
+         * Invite a player to a lobby the caller is already a member of. Only players may call this.
+         */
+        bool InviteToLobby(MultiplayerModels::FInviteToLobbyRequest& request, const FInviteToLobbyDelegate& SuccessDelegate = FInviteToLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Join an Arranged lobby.
+        bool JoinArrangedLobby(MultiplayerModels::FJoinArrangedLobbyRequest& request, const FJoinArrangedLobbyDelegate& SuccessDelegate = FJoinArrangedLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Join a lobby.
+        bool JoinLobby(MultiplayerModels::FJoinLobbyRequest& request, const FJoinLobbyDelegate& SuccessDelegate = FJoinLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Join a matchmaking ticket.
          * Add the player to a matchmaking ticket and specify all of its matchmaking attributes. Players can join a ticket if and only if their EntityKeys are already listed in the ticket's Members list. The matchmaking service automatically starts matching the ticket against other matchmaking tickets once all players have joined the ticket. It is not possible to join a ticket once it has started matching.
          */
         bool JoinMatchmakingTicket(MultiplayerModels::FJoinMatchmakingTicketRequest& request, const FJoinMatchmakingTicketDelegate& SuccessDelegate = FJoinMatchmakingTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Leave a lobby.
+         * Leave a lobby. Members will also be automatically unsubscribed from the lobby.
+         */
+        bool LeaveLobby(MultiplayerModels::FLeaveLobbyRequest& request, const FLeaveLobbyDelegate& SuccessDelegate = FLeaveLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists archived multiplayer server sessions for a build.
          * Returns a list of archived multiplayer servers for a build in a specific region.
@@ -383,6 +429,11 @@ namespace PlayFab
          */
         bool ListVirtualMachineSummaries(MultiplayerModels::FListVirtualMachineSummariesRequest& request, const FListVirtualMachineSummariesDelegate& SuccessDelegate = FListVirtualMachineSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Remove a member from a lobby.
+         * Remove another member from a lobby. Owners and servers may remove any member from a lobby. Members cannot remove themselves but they can use LeaveLobby instead. Members are also unsubscribed from the lobby.
+         */
+        bool RemoveMember(MultiplayerModels::FRemoveMemberFromLobbyRequest& request, const FRemoveMemberDelegate& SuccessDelegate = FRemoveMemberDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Request a multiplayer server session. Accepts tokens for title and if game client access is enabled, allows game client
          * to request a server with player entity token.
          * Requests a multiplayer server session from a particular build in any of the given preferred regions.
@@ -398,6 +449,16 @@ namespace PlayFab
          * Executes the shutdown callback from the GSDK and terminates the multiplayer server session. The callback in the GSDK will allow for graceful shutdown with a 15 minute timeoutIf graceful shutdown has not been completed before 15 minutes have elapsed, the multiplayer server session will be forcefully terminated on it's own.
          */
         bool ShutdownMultiplayerServer(MultiplayerModels::FShutdownMultiplayerServerRequest& request, const FShutdownMultiplayerServerDelegate& SuccessDelegate = FShutdownMultiplayerServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Subscribe to lobby resource notifications.
+         * Subscribe to lobby resource notifications. Lobby subscriptions have two types; LobbyChange and LobbyInvite.
+         */
+        bool SubscribeToLobbyResource(MultiplayerModels::FSubscribeToLobbyResourceRequest& request, const FSubscribeToLobbyResourceDelegate& SuccessDelegate = FSubscribeToLobbyResourceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Unsubscribe from lobby notifications.
+         * Unsubscribe from lobby notifications. Only players may call this.
+         */
+        bool UnsubscribeFromLobbyResource(MultiplayerModels::FUnsubscribeFromLobbyResourceRequest& request, const FUnsubscribeFromLobbyResourceDelegate& SuccessDelegate = FUnsubscribeFromLobbyResourceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Untags a container image.
          * Removes the specified tag from the image. After this operation, a 'docker pull' will fail for the specified image and tag combination. Morever, ListContainerImageTags will not return the specified tag.
@@ -423,6 +484,8 @@ namespace PlayFab
          * Updates a multiplayer server build's regions.
          */
         bool UpdateBuildRegions(MultiplayerModels::FUpdateBuildRegionsRequest& request, const FUpdateBuildRegionsDelegate& SuccessDelegate = FUpdateBuildRegionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Update a lobby.
+        bool UpdateLobby(MultiplayerModels::FUpdateLobbyRequest& request, const FUpdateLobbyDelegate& SuccessDelegate = FUpdateLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Uploads a multiplayer server game certificate.
          * Uploads a multiplayer server game certificate.
@@ -439,6 +502,7 @@ namespace PlayFab
         void OnCreateBuildWithCustomContainerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithCustomContainerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateBuildWithManagedContainerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithManagedContainerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateBuildWithProcessBasedServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBuildWithProcessBasedServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnCreateLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnCreateServerBackfillTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateServerBackfillTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -450,13 +514,17 @@ namespace PlayFab
         void OnDeleteBuildRegionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteBuildRegionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteContainerImageRepositoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContainerImageRepositoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEnableMultiplayerServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEnableMultiplayerServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnFindFriendLobbiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindFriendLobbiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnFindLobbiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindLobbiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAssetDownloadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetDownloadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAssetUploadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAssetUploadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMatchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMultiplayerServerDetailsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMultiplayerServerDetailsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -468,7 +536,11 @@ namespace PlayFab
         void OnGetTitleEnabledForMultiplayerServersStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleEnabledForMultiplayerServersStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleMultiplayerServersQuotaChangeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleMultiplayerServersQuotaChangeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitleMultiplayerServersQuotasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitleMultiplayerServersQuotasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnInviteToLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FInviteToLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnJoinArrangedLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinArrangedLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnJoinLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnJoinMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLeaveLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLeaveLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListArchivedMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListArchivedMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListAssetSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListAssetSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListBuildAliasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildAliasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -483,14 +555,18 @@ namespace PlayFab
         void OnListServerBackfillTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBackfillTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListTitleMultiplayerServersQuotaChangesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListTitleMultiplayerServersQuotaChangesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualMachineSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualMachineSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnRemoveMemberResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveMemberDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRequestMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRequestMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRolloverContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRolloverContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnShutdownMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FShutdownMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSubscribeToLobbyResourceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubscribeToLobbyResourceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnsubscribeFromLobbyResourceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnsubscribeFromLobbyResourceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUntagContainerImageResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUntagContainerImageDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildAliasResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildAliasDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildNameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildNameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildRegionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildRegionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUploadCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };

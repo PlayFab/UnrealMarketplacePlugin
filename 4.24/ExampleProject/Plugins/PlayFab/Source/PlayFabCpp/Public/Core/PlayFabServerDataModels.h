@@ -7984,6 +7984,110 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum Region
+    {
+        RegionUSCentral,
+        RegionUSEast,
+        RegionEUWest,
+        RegionSingapore,
+        RegionJapan,
+        RegionBrazil,
+        RegionAustralia
+    };
+
+    PLAYFABCPP_API void writeRegionEnumJSON(Region enumVal, JsonWriter& writer);
+    PLAYFABCPP_API Region readRegionFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API Region readRegionFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FRegisterGameRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique identifier of the build running on the Game Server Instance.
+        FString Build;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * Game Mode the Game Server instance is running. Note that this must be defined in the Game Modes tab in the PlayFab Game
+         * Manager, along with the Build ID (the same Game Mode can be defined for multiple Build IDs).
+         */
+        FString GameMode;
+
+        // [optional] Previous lobby id if re-registering an existing game.
+        FString LobbyId;
+
+        /**
+         * Region in which the Game Server Instance is running. For matchmaking using non-AWS region names, set this to any AWS
+         * region and use Tags (below) to specify your custom region.
+         */
+        Region pfRegion;
+
+        // [optional] IPV4 address of the game server instance.
+        FString ServerIPV4Address;
+
+        // [optional] IPV6 address (if any) of the game server instance.
+        FString ServerIPV6Address;
+
+        // Port number for communication with the Game Server Instance.
+        FString ServerPort;
+
+        // [optional] Public DNS name (if any) of the server
+        FString ServerPublicDNSName;
+
+        // [optional] Tags for the Game Server Instance
+        TMap<FString, FString> Tags;
+        FRegisterGameRequest() :
+            FPlayFabCppRequestCommon(),
+            Build(),
+            CustomTags(),
+            GameMode(),
+            LobbyId(),
+            pfRegion(),
+            ServerIPV4Address(),
+            ServerIPV6Address(),
+            ServerPort(),
+            ServerPublicDNSName(),
+            Tags()
+            {}
+
+        FRegisterGameRequest(const FRegisterGameRequest& src) = default;
+
+        FRegisterGameRequest(const TSharedPtr<FJsonObject>& obj) : FRegisterGameRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRegisterGameRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRegisterGameResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * [optional] Unique identifier generated for the Game Server Instance that is registered. If LobbyId is specified in request and the
+         * game still exists in PlayFab, the LobbyId in request is returned. Otherwise a new lobby id will be returned.
+         */
+        FString LobbyId;
+
+        FRegisterGameResponse() :
+            FPlayFabCppResultCommon(),
+            LobbyId()
+            {}
+
+        FRegisterGameResponse(const FRegisterGameResponse& src) = default;
+
+        FRegisterGameResponse(const TSharedPtr<FJsonObject>& obj) : FRegisterGameResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRegisterGameResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRemoveFriendRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // PlayFab identifier of the friend account which is to be removed.

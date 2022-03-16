@@ -6556,89 +6556,6 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetServerBuildInfoRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // unique identifier of the previously uploaded build executable for which information is being requested
-        FString BuildId;
-
-        FGetServerBuildInfoRequest() :
-            FPlayFabCppRequestCommon(),
-            BuildId()
-            {}
-
-        FGetServerBuildInfoRequest(const FGetServerBuildInfoRequest& src) = default;
-
-        FGetServerBuildInfoRequest(const TSharedPtr<FJsonObject>& obj) : FGetServerBuildInfoRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetServerBuildInfoRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetServerBuildInfoResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] array of regions where this build can used, when it is active
-        TArray<Region> ActiveRegions;
-        // [optional] unique identifier for this build executable
-        FString BuildId;
-
-        // [optional] developer comment(s) for this build
-        FString Comment;
-
-        // [optional] error message, if any, about this build
-        FString ErrorMessage;
-
-        // maximum number of game server instances that can run on a single host machine
-        int32 MaxGamesPerHost;
-
-        /**
-         * minimum capacity of additional game server instances that can be started before the autoscaling service starts new host
-         * machines (given the number of current running host machines and game server instances)
-         */
-        int32 MinFreeGameSlots;
-
-        // [optional] the current status of the build validation and processing steps
-        Boxed<GameBuildStatus> Status;
-
-        // time this build was last modified (or uploaded, if this build has never been modified)
-        FDateTime Timestamp;
-
-        /**
-         * [optional] Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
-         * title has been selected.
-         */
-        FString TitleId;
-
-        FGetServerBuildInfoResult() :
-            FPlayFabCppResultCommon(),
-            ActiveRegions(),
-            BuildId(),
-            Comment(),
-            ErrorMessage(),
-            MaxGamesPerHost(0),
-            MinFreeGameSlots(0),
-            Status(),
-            Timestamp(0),
-            TitleId()
-            {}
-
-        FGetServerBuildInfoResult(const FGetServerBuildInfoResult& src) = default;
-
-        FGetServerBuildInfoResult(const TSharedPtr<FJsonObject>& obj) : FGetServerBuildInfoResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetServerBuildInfoResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FGetStoreItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Catalog version to store items from. Use default catalog version if null
@@ -7723,47 +7640,6 @@ namespace AdminModels
         }
 
         ~FIncrementPlayerStatisticVersionResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListBuildsRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        FListBuildsRequest() :
-            FPlayFabCppRequestCommon()
-            {}
-
-        FListBuildsRequest(const FListBuildsRequest& src) = default;
-
-        FListBuildsRequest(const TSharedPtr<FJsonObject>& obj) : FListBuildsRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListBuildsRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FListBuildsResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] array of uploaded game server builds
-        TArray<FGetServerBuildInfoResult> Builds;
-        FListBuildsResult() :
-            FPlayFabCppResultCommon(),
-            Builds()
-            {}
-
-        FListBuildsResult(const FListBuildsResult& src) = default;
-
-        FListBuildsResult(const TSharedPtr<FJsonObject>& obj) : FListBuildsResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FListBuildsResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -8895,48 +8771,6 @@ namespace AdminModels
         }
 
         ~FRemovePlayerTagResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRemoveServerBuildRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // unique identifier of the previously uploaded build executable to be removed
-        FString BuildId;
-
-        FRemoveServerBuildRequest() :
-            FPlayFabCppRequestCommon(),
-            BuildId()
-            {}
-
-        FRemoveServerBuildRequest(const FRemoveServerBuildRequest& src) = default;
-
-        FRemoveServerBuildRequest(const TSharedPtr<FJsonObject>& obj) : FRemoveServerBuildRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRemoveServerBuildRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRemoveServerBuildResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FRemoveServerBuildResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FRemoveServerBuildResult(const FRemoveServerBuildResult& src) = default;
-
-        FRemoveServerBuildResult(const TSharedPtr<FJsonObject>& obj) : FRemoveServerBuildResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRemoveServerBuildResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

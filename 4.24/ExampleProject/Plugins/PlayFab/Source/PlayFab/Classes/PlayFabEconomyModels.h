@@ -165,9 +165,6 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** Whether to fetch metadata of the scan status. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        bool ExpandScanningStatus = false;
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
@@ -359,9 +356,6 @@ struct PLAYFAB_API FEconomyGetItemPublishStatusResponse : public FPlayFabResultC
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Scan results for any items that failed content scans. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        TArray<UPlayFabJsonObject*> FailedScanResults;
     /** High level status of the published item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         EPublishResult Result;

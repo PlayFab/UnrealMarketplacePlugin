@@ -1597,36 +1597,6 @@ void UPlayFabAdminAPI::OnGetSegmentsResult(FHttpRequestPtr HttpRequest, FHttpRes
     }
 }
 
-bool UPlayFabAdminAPI::GetServerBuildInfo(
-    AdminModels::FGetServerBuildInfoRequest& request,
-    const FGetServerBuildInfoDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
-    if (devSecretKey.Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/GetServerBuildInfo"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnGetServerBuildInfoResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabAdminAPI::OnGetServerBuildInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetServerBuildInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    AdminModels::FGetServerBuildInfoResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabAdminAPI::GetStoreItems(
     AdminModels::FGetStoreItemsRequest& request,
     const FGetStoreItemsDelegate& SuccessDelegate,
@@ -2175,44 +2145,6 @@ void UPlayFabAdminAPI::OnListOpenIdConnectionResult(FHttpRequestPtr HttpRequest,
     }
 }
 
-bool UPlayFabAdminAPI::ListServerBuilds(
-    const FListServerBuildsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    AdminModels::FListBuildsRequest emptyRequest = AdminModels::FListBuildsRequest();
-    return UPlayFabAdminAPI::ListServerBuilds(emptyRequest, SuccessDelegate, ErrorDelegate);
-}
-
-bool UPlayFabAdminAPI::ListServerBuilds(
-    AdminModels::FListBuildsRequest& request,
-    const FListServerBuildsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
-    if (devSecretKey.Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/ListServerBuilds"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnListServerBuildsResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabAdminAPI::OnListServerBuildsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBuildsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    AdminModels::FListBuildsResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabAdminAPI::ListVirtualCurrencyTypes(
     const FListVirtualCurrencyTypesDelegate& SuccessDelegate,
     const FPlayFabErrorDelegate& ErrorDelegate)
@@ -2330,36 +2262,6 @@ bool UPlayFabAdminAPI::RemovePlayerTag(
 void UPlayFabAdminAPI::OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     AdminModels::FRemovePlayerTagResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
-bool UPlayFabAdminAPI::RemoveServerBuild(
-    AdminModels::FRemoveServerBuildRequest& request,
-    const FRemoveServerBuildDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
-    if (devSecretKey.Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/RemoveServerBuild"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnRemoveServerBuildResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabAdminAPI::OnRemoveServerBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveServerBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    AdminModels::FRemoveServerBuildResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

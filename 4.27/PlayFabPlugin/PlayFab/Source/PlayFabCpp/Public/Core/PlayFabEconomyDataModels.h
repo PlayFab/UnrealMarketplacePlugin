@@ -195,6 +195,8 @@ namespace EconomyModels
         // Flag defining whether catalog is enabled.
         bool IsCatalogEnabled;
 
+        // [optional] A list of Platforms that can be applied to catalog items.
+        TArray<FString> Platforms;
         // [optional] A set of player entity keys that are allowed to review content.
         TArray<FEntityKey> ReviewerEntities;
         // [optional] The set of configuration that only applies to user generated contents.
@@ -207,6 +209,7 @@ namespace EconomyModels
             File(nullptr),
             Image(nullptr),
             IsCatalogEnabled(false),
+            Platforms(),
             ReviewerEntities(),
             UserGeneratedContent(nullptr)
             {}
@@ -515,6 +518,140 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FCatalogPriceAmount : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The amount of the catalog price.
+        int32 Amount;
+
+        // [optional] The Item ID of the price.
+        FString Id;
+
+        FCatalogPriceAmount() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            Id()
+            {}
+
+        FCatalogPriceAmount(const FCatalogPriceAmount& src) = default;
+
+        FCatalogPriceAmount(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceAmount()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPriceAmount();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPriceInstance : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The amounts of the catalog item price.
+        TArray<FCatalogPriceAmount> Amounts;
+        FCatalogPriceInstance() :
+            FPlayFabCppBaseModel(),
+            Amounts()
+            {}
+
+        FCatalogPriceInstance(const FCatalogPriceInstance& src) = default;
+
+        FCatalogPriceInstance(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceInstance()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPriceInstance();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPrice : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Prices of the catalog item.
+        TArray<FCatalogPriceInstance> Prices;
+        // [optional] Real prices of the catalog item.
+        TArray<FCatalogPriceInstance> RealPrices;
+        // [optional] A standardized sorting key to allow proper sorting between items with prices in different currencies.
+        Boxed<int32> Sort;
+
+        FCatalogPrice() :
+            FPlayFabCppBaseModel(),
+            Prices(),
+            RealPrices(),
+            Sort()
+            {}
+
+        FCatalogPrice(const FCatalogPrice& src) = default;
+
+        FCatalogPrice(const TSharedPtr<FJsonObject>& obj) : FCatalogPrice()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPrice();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogItemReference : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The amount of the catalog item.
+        Boxed<int32> Amount;
+
+        // [optional] The unique ID of the catalog item.
+        FString Id;
+
+        // [optional] The price of the catalog item.
+        TSharedPtr<FCatalogPrice> Price;
+
+        FCatalogItemReference() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            Id(),
+            Price(nullptr)
+            {}
+
+        FCatalogItemReference(const FCatalogItemReference& src) = default;
+
+        FCatalogItemReference(const TSharedPtr<FJsonObject>& obj) : FCatalogItemReference()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogItemReference();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogSpecificConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The set of content types that will be used for validation.
+        TArray<FString> ContentTypes;
+        // [optional] The set of tags that will be used for validation.
+        TArray<FString> Tags;
+        FCatalogSpecificConfig() :
+            FPlayFabCppBaseModel(),
+            ContentTypes(),
+            Tags()
+            {}
+
+        FCatalogSpecificConfig(const FCatalogSpecificConfig& src) = default;
+
+        FCatalogSpecificConfig(const TSharedPtr<FJsonObject>& obj) : FCatalogSpecificConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogSpecificConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum ConcernCategory
     {
         ConcernCategoryNone,
@@ -687,6 +824,33 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeepLinkFormat : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The format of the deep link to return. The format should contain '{id}' to represent where the item ID should be placed.
+        FString Format;
+
+        // [optional] The target platform for the deep link.
+        FString Platform;
+
+        FDeepLinkFormat() :
+            FPlayFabCppBaseModel(),
+            Format(),
+            Platform()
+            {}
+
+        FDeepLinkFormat(const FDeepLinkFormat& src) = default;
+
+        FDeepLinkFormat(const TSharedPtr<FJsonObject>& obj) : FDeepLinkFormat()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeepLinkFormat();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeleteEntityItemReviewsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -840,9 +1004,6 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] Whether to fetch metadata of the scan status.
-        Boxed<bool> ExpandScanningStatus;
-
         // [optional] The unique ID of the item.
         FString Id;
 
@@ -851,7 +1012,6 @@ namespace EconomyModels
             AlternateId(nullptr),
             CustomTags(),
             Entity(nullptr),
-            ExpandScanningStatus(),
             Id()
             {}
 
@@ -1051,9 +1211,6 @@ namespace EconomyModels
         // The number of negative helpfulness votes for this review.
         int32 HelpfulNegative;
 
-        // Total number of helpfulness votes for this review.
-        int32 HelpfulnessVotes;
-
         // The number of positive helpfulness votes for this review.
         int32 HelpfulPositive;
 
@@ -1090,7 +1247,6 @@ namespace EconomyModels
         FReview() :
             FPlayFabCppBaseModel(),
             HelpfulNegative(0),
-            HelpfulnessVotes(0),
             HelpfulPositive(0),
             IsInstalled(false),
             ItemId(),
@@ -1227,29 +1383,6 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FScanResult : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The URL of the item which failed the scan.
-        FString Url;
-
-        FScanResult() :
-            FPlayFabCppBaseModel(),
-            Url()
-            {}
-
-        FScanResult(const FScanResult& src) = default;
-
-        FScanResult(const TSharedPtr<FJsonObject>& obj) : FScanResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FScanResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     enum PublishResult
     {
         PublishResultUnknown,
@@ -1265,8 +1398,6 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FGetItemPublishStatusResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Scan results for any items that failed content scans.
-        TArray<FScanResult> FailedScanResults;
         // [optional] High level status of the published item.
         Boxed<PublishResult> Result;
 
@@ -1275,7 +1406,6 @@ namespace EconomyModels
 
         FGetItemPublishStatusResponse() :
             FPlayFabCppResultCommon(),
-            FailedScanResults(),
             Result(),
             StatusMessage()
             {}
@@ -1547,6 +1677,37 @@ namespace EconomyModels
     PLAYFABCPP_API void writeHelpfulnessVoteEnumJSON(HelpfulnessVote enumVal, JsonWriter& writer);
     PLAYFABCPP_API HelpfulnessVote readHelpfulnessVoteFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API HelpfulnessVote readHelpfulnessVoteFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FPayoutDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The Dev Center account ID of the payee.
+        FString AccountSellerId;
+
+        // [optional] The tax code for payout calculations.
+        FString TaxCode;
+
+        // [optional] The Universal account ID of the payee.
+        FString Uaid;
+
+        FPayoutDetails() :
+            FPlayFabCppBaseModel(),
+            AccountSellerId(),
+            TaxCode(),
+            Uaid()
+            {}
+
+        FPayoutDetails(const FPayoutDetails& src) = default;
+
+        FPayoutDetails(const TSharedPtr<FJsonObject>& obj) : FPayoutDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPayoutDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
 
     struct PLAYFABCPP_API FPublishDraftItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
@@ -1823,6 +1984,29 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FScanResult : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The URL of the item which failed the scan.
+        FString Url;
+
+        FScanResult() :
+            FPlayFabCppBaseModel(),
+            Url()
+            {}
+
+        FScanResult(const FScanResult& src) = default;
+
+        FScanResult(const TSharedPtr<FJsonObject>& obj) : FScanResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FScanResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSearchItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] An opaque token used to retrieve the next page of items, if any are available.
@@ -1959,6 +2143,33 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FStoreInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] An alternate ID of the store.
+        TSharedPtr<FCatalogAlternateId> AlternateId;
+
+        // [optional] The unique ID of the store.
+        FString Id;
+
+        FStoreInfo() :
+            FPlayFabCppBaseModel(),
+            AlternateId(nullptr),
+            Id()
+            {}
+
+        FStoreInfo(const FStoreInfo& src) = default;
+
+        FStoreInfo(const TSharedPtr<FJsonObject>& obj) : FStoreInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStoreInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSubmitItemReviewVoteRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] An alternate ID of the item associated with the review.
@@ -2015,6 +2226,29 @@ namespace EconomyModels
         }
 
         ~FSubmitItemReviewVoteResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSubscriptionDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The length of time that the subscription will last in seconds.
+        double DurationInSeconds;
+
+        FSubscriptionDetails() :
+            FPlayFabCppBaseModel(),
+            DurationInSeconds(0)
+            {}
+
+        FSubscriptionDetails(const FSubscriptionDetails& src) = default;
+
+        FSubscriptionDetails(const TSharedPtr<FJsonObject>& obj) : FSubscriptionDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubscriptionDetails();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

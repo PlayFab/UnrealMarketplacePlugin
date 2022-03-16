@@ -56,6 +56,179 @@ public:
     //////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////
+    // Lobby
+    //////////////////////////////////////////////////////
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCreateLobby, FMultiplayerCreateLobbyResult, result, UObject*, customData);
+
+    /** Create a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* CreateLobby(FMultiplayerCreateLobbyRequest request,
+            FDelegateOnSuccessCreateLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperCreateLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteLobby, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /** Delete a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* DeleteLobby(FMultiplayerDeleteLobbyRequest request,
+            FDelegateOnSuccessDeleteLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessFindFriendLobbies, FMultiplayerFindFriendLobbiesResult, result, UObject*, customData);
+
+    /** Find lobbies which match certain criteria, and which friends are in. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* FindFriendLobbies(FMultiplayerFindFriendLobbiesRequest request,
+            FDelegateOnSuccessFindFriendLobbies onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperFindFriendLobbies(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessFindLobbies, FMultiplayerFindLobbiesResult, result, UObject*, customData);
+
+    /** Find all the lobbies that match certain criteria. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* FindLobbies(FMultiplayerFindLobbiesRequest request,
+            FDelegateOnSuccessFindLobbies onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperFindLobbies(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetLobby, FMultiplayerGetLobbyResult, result, UObject*, customData);
+
+    /** Get a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* GetLobby(FMultiplayerGetLobbyRequest request,
+            FDelegateOnSuccessGetLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessInviteToLobby, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /** Send a notification to invite a player to a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* InviteToLobby(FMultiplayerInviteToLobbyRequest request,
+            FDelegateOnSuccessInviteToLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperInviteToLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessJoinArrangedLobby, FMultiplayerJoinLobbyResult, result, UObject*, customData);
+
+    /** Join an Arranged lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* JoinArrangedLobby(FMultiplayerJoinArrangedLobbyRequest request,
+            FDelegateOnSuccessJoinArrangedLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperJoinArrangedLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessJoinLobby, FMultiplayerJoinLobbyResult, result, UObject*, customData);
+
+    /** Join a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* JoinLobby(FMultiplayerJoinLobbyRequest request,
+            FDelegateOnSuccessJoinLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperJoinLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLeaveLobby, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /** Leave a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* LeaveLobby(FMultiplayerLeaveLobbyRequest request,
+            FDelegateOnSuccessLeaveLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLeaveLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveMember, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /** Remove a member from a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* RemoveMember(FMultiplayerRemoveMemberFromLobbyRequest request,
+            FDelegateOnSuccessRemoveMember onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRemoveMember(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSubscribeToLobbyResource, FMultiplayerSubscribeToLobbyResourceResult, result, UObject*, customData);
+
+    /** Subscribe to lobby resource notifications. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* SubscribeToLobbyResource(FMultiplayerSubscribeToLobbyResourceRequest request,
+            FDelegateOnSuccessSubscribeToLobbyResource onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSubscribeToLobbyResource(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnsubscribeFromLobbyResource, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /** Unsubscribe from lobby notifications. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UnsubscribeFromLobbyResource(FMultiplayerUnsubscribeFromLobbyResourceRequest request,
+            FDelegateOnSuccessUnsubscribeFromLobbyResource onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnsubscribeFromLobbyResource(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateLobby, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /** Update a lobby. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UpdateLobby(FMultiplayerUpdateLobbyRequest request,
+            FDelegateOnSuccessUpdateLobby onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+
+    ///////////////////////////////////////////////////////
     // Matchmaking
     //////////////////////////////////////////////////////
     // callbacks
@@ -902,6 +1075,19 @@ public:
     UObject* mCustomData;
 
     FDelegateOnFailurePlayFabError OnFailure;
+    FDelegateOnSuccessCreateLobby OnSuccessCreateLobby;
+    FDelegateOnSuccessDeleteLobby OnSuccessDeleteLobby;
+    FDelegateOnSuccessFindFriendLobbies OnSuccessFindFriendLobbies;
+    FDelegateOnSuccessFindLobbies OnSuccessFindLobbies;
+    FDelegateOnSuccessGetLobby OnSuccessGetLobby;
+    FDelegateOnSuccessInviteToLobby OnSuccessInviteToLobby;
+    FDelegateOnSuccessJoinArrangedLobby OnSuccessJoinArrangedLobby;
+    FDelegateOnSuccessJoinLobby OnSuccessJoinLobby;
+    FDelegateOnSuccessLeaveLobby OnSuccessLeaveLobby;
+    FDelegateOnSuccessRemoveMember OnSuccessRemoveMember;
+    FDelegateOnSuccessSubscribeToLobbyResource OnSuccessSubscribeToLobbyResource;
+    FDelegateOnSuccessUnsubscribeFromLobbyResource OnSuccessUnsubscribeFromLobbyResource;
+    FDelegateOnSuccessUpdateLobby OnSuccessUpdateLobby;
     FDelegateOnSuccessCancelAllMatchmakingTicketsForPlayer OnSuccessCancelAllMatchmakingTicketsForPlayer;
     FDelegateOnSuccessCancelAllServerBackfillTicketsForPlayer OnSuccessCancelAllServerBackfillTicketsForPlayer;
     FDelegateOnSuccessCancelMatchmakingTicket OnSuccessCancelMatchmakingTicket;

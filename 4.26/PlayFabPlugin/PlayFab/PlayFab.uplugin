@@ -3,13 +3,13 @@
     "FriendlyName": "PlayFab Marketplace Plugin",
     "Version": 0,
     "EngineVersion": "4.26.0",
-    "VersionName": "1.75.220305",
+    "VersionName": "1.76.220316",
     "CreatedBy": "PlayFab and Phoenix Labs",
     "CreatedByURL": "https://playfab.com/",
     "DocsURL": "https://docs.microsoft.com/en-us/gaming/playfab/api-references/",
     "SupportURL": "https://community.playfab.com/index.html",
     "Category": "PlayFab",
-    "Description": "PlayFab Marketplace plugin for Unreal Engine 4.26 Current API version: 1.75.220305",
+    "Description": "PlayFab Marketplace plugin for Unreal Engine 4.26 Current API version: 1.76.220316",
     "MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/217fdf581b784571af03d3fb6580368f",
     "Modules": [
       {

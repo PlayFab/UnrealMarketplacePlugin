@@ -691,6 +691,10 @@ namespace PlayFab
         PlayFabErrorEventSinkConnectionInvalid = 15000,
         PlayFabErrorEventSinkConnectionUnauthorized = 15001,
         PlayFabErrorEventSinkRegionInvalid = 15002,
+        PlayFabErrorEventSinkLimitExceeded = 15003,
+        PlayFabErrorEventSinkSasTokenInvalid = 15004,
+        PlayFabErrorEventSinkNotFound = 15005,
+        PlayFabErrorEventSinkNameInvalid = 15006,
         PlayFabErrorOperationCanceled = 16000,
         PlayFabErrorInvalidDisplayNameRandomSuffixLength = 17000,
         PlayFabErrorAllowNonUniquePlayerDisplayNamesDisableNotAllowed = 17001

@@ -581,6 +581,17 @@ FServerRefreshGameServerInstanceHeartbeatResult UPlayFabServerModelDecoder::deco
     return tempStruct;
 }
 
+FServerRegisterGameResponse UPlayFabServerModelDecoder::decodeRegisterGameResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerRegisterGameResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.LobbyId = !(dataObj->HasField("LobbyId")) ? TEXT("") : dataObj->GetStringField("LobbyId");
+
+    return tempStruct;
+}
+
 FServerSetGameServerInstanceDataResult UPlayFabServerModelDecoder::decodeSetGameServerInstanceDataResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

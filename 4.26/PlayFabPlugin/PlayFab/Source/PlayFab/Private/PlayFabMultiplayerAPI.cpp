@@ -73,6 +73,808 @@ FString UPlayFabMultiplayerAPI::PercentEncode(const FString& Text)
 
 
 ///////////////////////////////////////////////////////
+// Lobby
+//////////////////////////////////////////////////////
+/** Create a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateLobby(FMultiplayerCreateLobbyRequest request,
+    FDelegateOnSuccessCreateLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessCreateLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperCreateLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/CreateLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    FString temp_AccessPolicy;
+    if (GetEnumValueToString<EAccessPolicy>(TEXT("EAccessPolicy"), request.AccessPolicy, temp_AccessPolicy))
+        OutRestJsonObj->SetStringField(TEXT("AccessPolicy"), temp_AccessPolicy);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.LobbyData != nullptr) OutRestJsonObj->SetObjectField(TEXT("LobbyData"), request.LobbyData);
+    OutRestJsonObj->SetNumberField(TEXT("MaxPlayers"), request.MaxPlayers);
+    if (request.Members.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Members"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Members"), request.Members);
+    }
+    if (request.Owner != nullptr) OutRestJsonObj->SetObjectField(TEXT("Owner"), request.Owner);
+    FString temp_OwnerMigrationPolicy;
+    if (GetEnumValueToString<EOwnerMigrationPolicy>(TEXT("EOwnerMigrationPolicy"), request.OwnerMigrationPolicy, temp_OwnerMigrationPolicy))
+        OutRestJsonObj->SetStringField(TEXT("OwnerMigrationPolicy"), temp_OwnerMigrationPolicy);
+    if (request.SearchData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SearchData"), request.SearchData);
+    OutRestJsonObj->SetBoolField(TEXT("UseConnections"), request.UseConnections);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperCreateLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessCreateLobby.IsBound())
+    {
+        FMultiplayerCreateLobbyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeCreateLobbyResultResponse(response.responseData);
+        OnSuccessCreateLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Delete a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteLobby(FMultiplayerDeleteLobbyRequest request,
+    FDelegateOnSuccessDeleteLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/DeleteLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperDeleteLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteLobby.IsBound())
+    {
+        FMultiplayerLobbyEmptyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeLobbyEmptyResultResponse(response.responseData);
+        OnSuccessDeleteLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Find lobbies which match certain criteria, and which friends are in. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::FindFriendLobbies(FMultiplayerFindFriendLobbiesRequest request,
+    FDelegateOnSuccessFindFriendLobbies onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessFindFriendLobbies = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperFindFriendLobbies);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/FindFriendLobbies";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ExcludeFacebookFriends"), request.ExcludeFacebookFriends);
+    OutRestJsonObj->SetBoolField(TEXT("ExcludeSteamFriends"), request.ExcludeSteamFriends);
+    if (request.Filter.IsEmpty() || request.Filter == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Filter"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Filter"), request.Filter);
+    }
+    if (request.OrderBy.IsEmpty() || request.OrderBy == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OrderBy"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OrderBy"), request.OrderBy);
+    }
+    if (request.Pagination != nullptr) OutRestJsonObj->SetObjectField(TEXT("Pagination"), request.Pagination);
+    if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("XboxToken"), request.XboxToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperFindFriendLobbies(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessFindFriendLobbies.IsBound())
+    {
+        FMultiplayerFindFriendLobbiesResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeFindFriendLobbiesResultResponse(response.responseData);
+        OnSuccessFindFriendLobbies.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Find all the lobbies that match certain criteria. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::FindLobbies(FMultiplayerFindLobbiesRequest request,
+    FDelegateOnSuccessFindLobbies onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessFindLobbies = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperFindLobbies);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/FindLobbies";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Filter.IsEmpty() || request.Filter == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Filter"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Filter"), request.Filter);
+    }
+    if (request.OrderBy.IsEmpty() || request.OrderBy == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OrderBy"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OrderBy"), request.OrderBy);
+    }
+    if (request.Pagination != nullptr) OutRestJsonObj->SetObjectField(TEXT("Pagination"), request.Pagination);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperFindLobbies(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessFindLobbies.IsBound())
+    {
+        FMultiplayerFindLobbiesResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeFindLobbiesResultResponse(response.responseData);
+        OnSuccessFindLobbies.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Get a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetLobby(FMultiplayerGetLobbyRequest request,
+    FDelegateOnSuccessGetLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperGetLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/GetLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperGetLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetLobby.IsBound())
+    {
+        FMultiplayerGetLobbyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeGetLobbyResultResponse(response.responseData);
+        OnSuccessGetLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Send a notification to invite a player to a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::InviteToLobby(FMultiplayerInviteToLobbyRequest request,
+    FDelegateOnSuccessInviteToLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessInviteToLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperInviteToLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/InviteToLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.InviteeEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("InviteeEntity"), request.InviteeEntity);
+    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
+    }
+    if (request.MemberEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberEntity"), request.MemberEntity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperInviteToLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessInviteToLobby.IsBound())
+    {
+        FMultiplayerLobbyEmptyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeLobbyEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessInviteToLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Join an Arranged lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::JoinArrangedLobby(FMultiplayerJoinArrangedLobbyRequest request,
+    FDelegateOnSuccessJoinArrangedLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessJoinArrangedLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperJoinArrangedLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/JoinArrangedLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    FString temp_AccessPolicy;
+    if (GetEnumValueToString<EAccessPolicy>(TEXT("EAccessPolicy"), request.AccessPolicy, temp_AccessPolicy))
+        OutRestJsonObj->SetStringField(TEXT("AccessPolicy"), temp_AccessPolicy);
+    if (request.ArrangementString.IsEmpty() || request.ArrangementString == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ArrangementString"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ArrangementString"), request.ArrangementString);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("MaxPlayers"), request.MaxPlayers);
+    if (request.MemberData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberData"), request.MemberData);
+    if (request.MemberEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberEntity"), request.MemberEntity);
+    FString temp_OwnerMigrationPolicy;
+    if (GetEnumValueToString<EOwnerMigrationPolicy>(TEXT("EOwnerMigrationPolicy"), request.OwnerMigrationPolicy, temp_OwnerMigrationPolicy))
+        OutRestJsonObj->SetStringField(TEXT("OwnerMigrationPolicy"), temp_OwnerMigrationPolicy);
+    OutRestJsonObj->SetBoolField(TEXT("UseConnections"), request.UseConnections);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperJoinArrangedLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessJoinArrangedLobby.IsBound())
+    {
+        FMultiplayerJoinLobbyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeJoinLobbyResultResponse(response.responseData);
+        OnSuccessJoinArrangedLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Join a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::JoinLobby(FMultiplayerJoinLobbyRequest request,
+    FDelegateOnSuccessJoinLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessJoinLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperJoinLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/JoinLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ConnectionString.IsEmpty() || request.ConnectionString == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ConnectionString"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ConnectionString"), request.ConnectionString);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.MemberData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberData"), request.MemberData);
+    if (request.MemberEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberEntity"), request.MemberEntity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperJoinLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessJoinLobby.IsBound())
+    {
+        FMultiplayerJoinLobbyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeJoinLobbyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessJoinLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Leave a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::LeaveLobby(FMultiplayerLeaveLobbyRequest request,
+    FDelegateOnSuccessLeaveLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLeaveLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperLeaveLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/LeaveLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
+    }
+    if (request.MemberEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberEntity"), request.MemberEntity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperLeaveLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLeaveLobby.IsBound())
+    {
+        FMultiplayerLobbyEmptyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeLobbyEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLeaveLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Remove a member from a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RemoveMember(FMultiplayerRemoveMemberFromLobbyRequest request,
+    FDelegateOnSuccessRemoveMember onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRemoveMember = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperRemoveMember);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/RemoveMember";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
+    }
+    if (request.MemberEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberEntity"), request.MemberEntity);
+    OutRestJsonObj->SetBoolField(TEXT("PreventRejoin"), request.PreventRejoin);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperRemoveMember(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRemoveMember.IsBound())
+    {
+        FMultiplayerLobbyEmptyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeLobbyEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRemoveMember.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Subscribe to lobby resource notifications. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::SubscribeToLobbyResource(FMultiplayerSubscribeToLobbyResourceRequest request,
+    FDelegateOnSuccessSubscribeToLobbyResource onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSubscribeToLobbyResource = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperSubscribeToLobbyResource);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/SubscribeToLobbyResource";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EntityKey != nullptr) OutRestJsonObj->SetObjectField(TEXT("EntityKey"), request.EntityKey);
+    if (request.PubSubConnectionHandle.IsEmpty() || request.PubSubConnectionHandle == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PubSubConnectionHandle"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PubSubConnectionHandle"), request.PubSubConnectionHandle);
+    }
+    if (request.ResourceId.IsEmpty() || request.ResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ResourceId"), request.ResourceId);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("SubscriptionVersion"), request.SubscriptionVersion);
+    FString temp_Type;
+    if (GetEnumValueToString<ESubscriptionType>(TEXT("ESubscriptionType"), request.Type, temp_Type))
+        OutRestJsonObj->SetStringField(TEXT("Type"), temp_Type);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperSubscribeToLobbyResource(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSubscribeToLobbyResource.IsBound())
+    {
+        FMultiplayerSubscribeToLobbyResourceResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeSubscribeToLobbyResourceResultResponse(response.responseData);
+        OnSuccessSubscribeToLobbyResource.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unsubscribe from lobby notifications. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UnsubscribeFromLobbyResource(FMultiplayerUnsubscribeFromLobbyResourceRequest request,
+    FDelegateOnSuccessUnsubscribeFromLobbyResource onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnsubscribeFromLobbyResource = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUnsubscribeFromLobbyResource);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/UnsubscribeFromLobbyResource";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EntityKey != nullptr) OutRestJsonObj->SetObjectField(TEXT("EntityKey"), request.EntityKey);
+    if (request.PubSubConnectionHandle.IsEmpty() || request.PubSubConnectionHandle == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PubSubConnectionHandle"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PubSubConnectionHandle"), request.PubSubConnectionHandle);
+    }
+    if (request.ResourceId.IsEmpty() || request.ResourceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ResourceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ResourceId"), request.ResourceId);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("SubscriptionVersion"), request.SubscriptionVersion);
+    FString temp_Type;
+    if (GetEnumValueToString<ESubscriptionType>(TEXT("ESubscriptionType"), request.Type, temp_Type))
+        OutRestJsonObj->SetStringField(TEXT("Type"), temp_Type);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperUnsubscribeFromLobbyResource(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnsubscribeFromLobbyResource.IsBound())
+    {
+        FMultiplayerLobbyEmptyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeLobbyEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUnsubscribeFromLobbyResource.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Update a lobby. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateLobby(FMultiplayerUpdateLobbyRequest request,
+    FDelegateOnSuccessUpdateLobby onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateLobby = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUpdateLobby);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Lobby/UpdateLobby";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    FString temp_AccessPolicy;
+    if (GetEnumValueToString<EAccessPolicy>(TEXT("EAccessPolicy"), request.AccessPolicy, temp_AccessPolicy))
+        OutRestJsonObj->SetStringField(TEXT("AccessPolicy"), temp_AccessPolicy);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.LobbyData != nullptr) OutRestJsonObj->SetObjectField(TEXT("LobbyData"), request.LobbyData);
+    // Check to see if string is empty
+    if (request.LobbyDataToDelete.IsEmpty() || request.LobbyDataToDelete == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("LobbyDataToDelete"));
+    } else {
+        TArray<FString> LobbyDataToDeleteArray;
+        FString(request.LobbyDataToDelete).ParseIntoArray(LobbyDataToDeleteArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("LobbyDataToDelete"), LobbyDataToDeleteArray);
+    }
+    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("MaxPlayers"), request.MaxPlayers);
+    if (request.MemberData != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberData"), request.MemberData);
+    // Check to see if string is empty
+    if (request.MemberDataToDelete.IsEmpty() || request.MemberDataToDelete == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("MemberDataToDelete"));
+    } else {
+        TArray<FString> MemberDataToDeleteArray;
+        FString(request.MemberDataToDelete).ParseIntoArray(MemberDataToDeleteArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("MemberDataToDelete"), MemberDataToDeleteArray);
+    }
+    if (request.MemberEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("MemberEntity"), request.MemberEntity);
+    FString temp_MembershipLock;
+    if (GetEnumValueToString<EMembershipLock>(TEXT("EMembershipLock"), request.MembershipLock, temp_MembershipLock))
+        OutRestJsonObj->SetStringField(TEXT("MembershipLock"), temp_MembershipLock);
+    if (request.Owner != nullptr) OutRestJsonObj->SetObjectField(TEXT("Owner"), request.Owner);
+    if (request.SearchData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SearchData"), request.SearchData);
+    // Check to see if string is empty
+    if (request.SearchDataToDelete.IsEmpty() || request.SearchDataToDelete == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SearchDataToDelete"));
+    } else {
+        TArray<FString> SearchDataToDeleteArray;
+        FString(request.SearchDataToDelete).ParseIntoArray(SearchDataToDeleteArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("SearchDataToDelete"), SearchDataToDeleteArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperUpdateLobby(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateLobby.IsBound())
+    {
+        FMultiplayerLobbyEmptyResult ResultStruct = UPlayFabMultiplayerModelDecoder::decodeLobbyEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateLobby.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+
+///////////////////////////////////////////////////////
 // Matchmaking
 //////////////////////////////////////////////////////
 /** Cancel all active tickets the player is a member of in a given queue. */

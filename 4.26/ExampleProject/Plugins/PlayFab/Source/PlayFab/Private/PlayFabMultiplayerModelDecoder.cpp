@@ -18,6 +18,90 @@
 
 
 ///////////////////////////////////////////////////////
+// Lobby
+//////////////////////////////////////////////////////
+
+FMultiplayerCreateLobbyResult UPlayFabMultiplayerModelDecoder::decodeCreateLobbyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerCreateLobbyResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ConnectionString = !(dataObj->HasField("ConnectionString")) ? TEXT("") : dataObj->GetStringField("ConnectionString");
+    tempStruct.LobbyId = !(dataObj->HasField("LobbyId")) ? TEXT("") : dataObj->GetStringField("LobbyId");
+
+    return tempStruct;
+}
+
+FMultiplayerLobbyEmptyResult UPlayFabMultiplayerModelDecoder::decodeLobbyEmptyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerLobbyEmptyResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FMultiplayerFindFriendLobbiesResult UPlayFabMultiplayerModelDecoder::decodeFindFriendLobbiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerFindFriendLobbiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Lobbies = !(dataObj->HasField("Lobbies")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Lobbies");
+    tempStruct.Pagination = !(dataObj->HasField("Pagination")) ? nullptr : dataObj->GetObjectField("Pagination");
+
+    return tempStruct;
+}
+
+FMultiplayerFindLobbiesResult UPlayFabMultiplayerModelDecoder::decodeFindLobbiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerFindLobbiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Lobbies = !(dataObj->HasField("Lobbies")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Lobbies");
+    tempStruct.Pagination = !(dataObj->HasField("Pagination")) ? nullptr : dataObj->GetObjectField("Pagination");
+
+    return tempStruct;
+}
+
+FMultiplayerGetLobbyResult UPlayFabMultiplayerModelDecoder::decodeGetLobbyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerGetLobbyResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Lobby = !(dataObj->HasField("Lobby")) ? nullptr : dataObj->GetObjectField("Lobby");
+
+    return tempStruct;
+}
+
+FMultiplayerJoinLobbyResult UPlayFabMultiplayerModelDecoder::decodeJoinLobbyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerJoinLobbyResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.LobbyId = !(dataObj->HasField("LobbyId")) ? TEXT("") : dataObj->GetStringField("LobbyId");
+
+    return tempStruct;
+}
+
+FMultiplayerSubscribeToLobbyResourceResult UPlayFabMultiplayerModelDecoder::decodeSubscribeToLobbyResourceResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerSubscribeToLobbyResourceResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Topic = !(dataObj->HasField("Topic")) ? TEXT("") : dataObj->GetStringField("Topic");
+
+    return tempStruct;
+}
+
+
+
+///////////////////////////////////////////////////////
 // Matchmaking
 //////////////////////////////////////////////////////
 

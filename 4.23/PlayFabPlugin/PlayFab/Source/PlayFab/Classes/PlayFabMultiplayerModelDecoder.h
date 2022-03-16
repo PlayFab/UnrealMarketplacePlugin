@@ -33,6 +33,40 @@ public:
 
 
     ///////////////////////////////////////////////////////
+    // Lobby
+    //////////////////////////////////////////////////////
+
+    /** Decode the CreateLobbyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerCreateLobbyResult decodeCreateLobbyResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the LobbyEmptyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerLobbyEmptyResult decodeLobbyEmptyResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the FindFriendLobbiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerFindFriendLobbiesResult decodeFindFriendLobbiesResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the FindLobbiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerFindLobbiesResult decodeFindLobbiesResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetLobbyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerGetLobbyResult decodeGetLobbyResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the JoinLobbyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerJoinLobbyResult decodeJoinLobbyResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SubscribeToLobbyResourceResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerSubscribeToLobbyResourceResult decodeSubscribeToLobbyResourceResultResponse(UPlayFabJsonObject* response);
+
+
+
+    ///////////////////////////////////////////////////////
     // Matchmaking
     //////////////////////////////////////////////////////
 

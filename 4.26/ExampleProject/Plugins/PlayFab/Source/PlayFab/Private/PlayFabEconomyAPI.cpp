@@ -357,7 +357,6 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetDraftItem(FEconomyGetDraftItemRequest
     if (request.AlternateId != nullptr) OutRestJsonObj->SetObjectField(TEXT("AlternateId"), request.AlternateId);
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
-    OutRestJsonObj->SetBoolField(TEXT("ExpandScanningStatus"), request.ExpandScanningStatus);
     if (request.Id.IsEmpty() || request.Id == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Id"));
     } else {

@@ -949,6 +949,25 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FFilterOptions : public PlayFab::FPlayFabCppBaseModel
+    {
+        FFilterOptions() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FFilterOptions(const FFilterOptions& src) = default;
+
+        FFilterOptions(const TSharedPtr<FJsonObject>& obj) : FFilterOptions()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFilterOptions();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetCatalogConfigRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -1709,6 +1728,44 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPriceOverride : public PlayFab::FPlayFabCppBaseModel
+    {
+        FPriceOverride() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FPriceOverride(const FPriceOverride& src) = default;
+
+        FPriceOverride(const TSharedPtr<FJsonObject>& obj) : FPriceOverride()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPriceOverride();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPricesOverride : public PlayFab::FPlayFabCppBaseModel
+    {
+        FPricesOverride() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FPricesOverride(const FPricesOverride& src) = default;
+
+        FPricesOverride(const TSharedPtr<FJsonObject>& obj) : FPricesOverride()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPricesOverride();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FPublishDraftItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] An alternate ID associated with this item.
@@ -1765,6 +1822,25 @@ namespace EconomyModels
         }
 
         ~FPublishDraftItemResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPurchaseOverride : public PlayFab::FPlayFabCppBaseModel
+    {
+        FPurchaseOverride() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FPurchaseOverride(const FPurchaseOverride& src) = default;
+
+        FPurchaseOverride(const TSharedPtr<FJsonObject>& obj) : FPurchaseOverride()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPurchaseOverride();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2138,6 +2214,25 @@ namespace EconomyModels
         }
 
         ~FSetItemModerationStateResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FStoreDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        FStoreDetails() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FStoreDetails(const FStoreDetails& src) = default;
+
+        FStoreDetails(const TSharedPtr<FJsonObject>& obj) : FStoreDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStoreDetails();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

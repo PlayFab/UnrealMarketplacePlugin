@@ -19,5 +19,5 @@ struct PLAYFAB_API FPlayFabLoginResultCommon : public FPlayFabResultCommon
 
     // An authentication context returned by Login methods (can used in multi-user scenarios)
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayFab | Core")
-        UPlayFabAuthenticationContext* AuthenticationContext;
+        UPlayFabAuthenticationContext* AuthenticationContext = nullptr;
 };

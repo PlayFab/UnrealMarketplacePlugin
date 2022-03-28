@@ -1924,6 +1924,25 @@ bool PlayFab::EconomyModels::FDeleteItemResponse::readFromValue(const TSharedPtr
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FFilterOptions::~FFilterOptions()
+{
+
+}
+
+void PlayFab::EconomyModels::FFilterOptions::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FFilterOptions::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FGetCatalogConfigRequest::~FGetCatalogConfigRequest()
 {
 
@@ -3488,6 +3507,44 @@ bool PlayFab::EconomyModels::FPayoutDetails::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FPriceOverride::~FPriceOverride()
+{
+
+}
+
+void PlayFab::EconomyModels::FPriceOverride::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPriceOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FPricesOverride::~FPricesOverride()
+{
+
+}
+
+void PlayFab::EconomyModels::FPricesOverride::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPricesOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FPublishDraftItemRequest::~FPublishDraftItemRequest()
 {
     //if (AlternateId != nullptr) delete AlternateId;
@@ -3592,6 +3649,25 @@ void PlayFab::EconomyModels::FPublishDraftItemResponse::writeJSON(JsonWriter& wr
 }
 
 bool PlayFab::EconomyModels::FPublishDraftItemResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FPurchaseOverride::~FPurchaseOverride()
+{
+
+}
+
+void PlayFab::EconomyModels::FPurchaseOverride::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPurchaseOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -4322,6 +4398,25 @@ void PlayFab::EconomyModels::FSetItemModerationStateResponse::writeJSON(JsonWrit
 }
 
 bool PlayFab::EconomyModels::FSetItemModerationStateResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FStoreDetails::~FStoreDetails()
+{
+
+}
+
+void PlayFab::EconomyModels::FStoreDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FStoreDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

@@ -800,6 +800,9 @@ struct PLAYFAB_API FMultiplayerGetMatchResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** A string that is used by players that are matched together to join an arranged lobby. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        FString ArrangementString;
     /** The Id of a match. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString MatchId;
@@ -851,6 +854,9 @@ public:
     /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString CancellationReasonString;
+    /** Change number used for differentiating older matchmaking status updates from newer ones. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
+        int32 ChangeNumber = 0;
     /** The server date and time at which ticket was created. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString Created;
@@ -1920,12 +1926,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
-    /**
-     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-     * disc.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize;

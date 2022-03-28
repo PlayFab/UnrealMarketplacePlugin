@@ -169,6 +169,7 @@ FMultiplayerGetMatchResult UPlayFabMultiplayerModelDecoder::decodeGetMatchResult
     FMultiplayerGetMatchResult tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.ArrangementString = !(dataObj->HasField("ArrangementString")) ? TEXT("") : dataObj->GetStringField("ArrangementString");
     tempStruct.MatchId = !(dataObj->HasField("MatchId")) ? TEXT("") : dataObj->GetStringField("MatchId");
     tempStruct.Members = !(dataObj->HasField("Members")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Members");
     tempStruct.RegionPreferences = !(dataObj->HasField("RegionPreferences")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("RegionPreferences"), TEXT(","));
@@ -184,6 +185,7 @@ FMultiplayerGetMatchmakingTicketResult UPlayFabMultiplayerModelDecoder::decodeGe
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.CancellationReasonString = !(dataObj->HasField("CancellationReasonString")) ? TEXT("") : dataObj->GetStringField("CancellationReasonString");
+    tempStruct.ChangeNumber = !(dataObj->HasField("ChangeNumber")) ? 0 : int(dataObj->GetNumberField("ChangeNumber"));
     tempStruct.Created = !(dataObj->HasField("Created")) ? TEXT("") : dataObj->GetStringField("Created");
     tempStruct.Creator = !(dataObj->HasField("Creator")) ? nullptr : dataObj->GetObjectField("Creator");
     tempStruct.GiveUpAfterSeconds = !(dataObj->HasField("GiveUpAfterSeconds")) ? 0 : int(dataObj->GetNumberField("GiveUpAfterSeconds"));
@@ -465,7 +467,6 @@ FMultiplayerGetBuildResponse UPlayFabMultiplayerModelDecoder::decodeGetBuildResp
     tempStruct.RegionConfigurations = !(dataObj->HasField("RegionConfigurations")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("RegionConfigurations");
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
-    tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
 
     return tempStruct;

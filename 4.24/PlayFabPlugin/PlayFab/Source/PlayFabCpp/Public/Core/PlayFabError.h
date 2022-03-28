@@ -544,6 +544,7 @@ namespace PlayFab
         PlayFabErrorNoValidIdentityForAad = 1536,
         PlayFabErrorPlayerIdentityLinkNotFound = 1537,
         PlayFabErrorPhotonApplicationIdAlreadyInUse = 1538,
+        PlayFabErrorCloudScriptUnableToDeleteProductionRevision = 1539,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

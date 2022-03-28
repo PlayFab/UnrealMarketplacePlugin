@@ -6991,12 +6991,6 @@ void PlayFab::MultiplayerModels::FGetBuildResponse::writeJSON(JsonWriter& writer
         writer->WriteValue(StartMultiplayerServerCommand);
     }
 
-    if (UseStreamingForAssetDownloads.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("UseStreamingForAssetDownloads"));
-        writer->WriteValue(UseStreamingForAssetDownloads);
-    }
-
     if (VmSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("VmSize"));
@@ -7131,13 +7125,6 @@ bool PlayFab::MultiplayerModels::FGetBuildResponse::readFromValue(const TSharedP
     {
         FString TmpValue;
         if (StartMultiplayerServerCommandValue->TryGetString(TmpValue)) { StartMultiplayerServerCommand = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> UseStreamingForAssetDownloadsValue = obj->TryGetField(TEXT("UseStreamingForAssetDownloads"));
-    if (UseStreamingForAssetDownloadsValue.IsValid() && !UseStreamingForAssetDownloadsValue->IsNull())
-    {
-        bool TmpValue;
-        if (UseStreamingForAssetDownloadsValue->TryGetBool(TmpValue)) { UseStreamingForAssetDownloads = TmpValue; }
     }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
@@ -7640,6 +7627,12 @@ void PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::writeJSON(JsonWrit
         writer->WriteValue(CancellationReasonString);
     }
 
+    if (ChangeNumber.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChangeNumber"));
+        writer->WriteValue(static_cast<int64>(ChangeNumber));
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Created"));
     writeDatetime(Created, writer);
 
@@ -7712,6 +7705,13 @@ bool PlayFab::MultiplayerModels::FGetMatchmakingTicketResult::readFromValue(cons
     {
         FString TmpValue;
         if (CancellationReasonStringValue->TryGetString(TmpValue)) { CancellationReasonString = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ChangeNumberValue = obj->TryGetField(TEXT("ChangeNumber"));
+    if (ChangeNumberValue.IsValid() && !ChangeNumberValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (ChangeNumberValue->TryGetNumber(TmpValue)) { ChangeNumber = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
@@ -7882,6 +7882,12 @@ void PlayFab::MultiplayerModels::FGetMatchResult::writeJSON(JsonWriter& writer) 
 {
     writer->WriteObjectStart();
 
+    if (ArrangementString.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ArrangementString"));
+        writer->WriteValue(ArrangementString);
+    }
+
     if (!MatchId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetMatchResult::MatchId, PlayFab calls may not work if it remains empty."));
@@ -7919,6 +7925,13 @@ void PlayFab::MultiplayerModels::FGetMatchResult::writeJSON(JsonWriter& writer) 
 bool PlayFab::MultiplayerModels::FGetMatchResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ArrangementStringValue = obj->TryGetField(TEXT("ArrangementString"));
+    if (ArrangementStringValue.IsValid() && !ArrangementStringValue->IsNull())
+    {
+        FString TmpValue;
+        if (ArrangementStringValue->TryGetString(TmpValue)) { ArrangementString = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> MatchIdValue = obj->TryGetField(TEXT("MatchId"));
     if (MatchIdValue.IsValid() && !MatchIdValue->IsNull())

@@ -3295,12 +3295,6 @@ namespace MultiplayerModels
          */
         FString StartMultiplayerServerCommand;
 
-        /**
-         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-         * disc.
-         */
-        Boxed<bool> UseStreamingForAssetDownloads;
-
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
@@ -3324,7 +3318,6 @@ namespace MultiplayerModels
             RegionConfigurations(),
             ServerType(),
             StartMultiplayerServerCommand(),
-            UseStreamingForAssetDownloads(),
             VmSize()
             {}
 
@@ -3569,6 +3562,9 @@ namespace MultiplayerModels
         // [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
         FString CancellationReasonString;
 
+        // [optional] Change number used for differentiating older matchmaking status updates from newer ones.
+        Boxed<uint32> ChangeNumber;
+
         // The server date and time at which ticket was created.
         FDateTime Created;
 
@@ -3600,6 +3596,7 @@ namespace MultiplayerModels
         FGetMatchmakingTicketResult() :
             FPlayFabCppResultCommon(),
             CancellationReasonString(),
+            ChangeNumber(),
             Created(0),
             Creator(),
             GiveUpAfterSeconds(0),
@@ -3667,6 +3664,9 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMatchResult : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] A string that is used by players that are matched together to join an arranged lobby.
+        FString ArrangementString;
+
         // The Id of a match.
         FString MatchId;
 
@@ -3682,6 +3682,7 @@ namespace MultiplayerModels
 
         FGetMatchResult() :
             FPlayFabCppResultCommon(),
+            ArrangementString(),
             MatchId(),
             Members(),
             RegionPreferences(),

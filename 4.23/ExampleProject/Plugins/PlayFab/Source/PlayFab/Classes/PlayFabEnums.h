@@ -29,7 +29,7 @@ static FORCEINLINE bool GetEnumValueFromString(const FString& enumTypeName, cons
         fullInput = prefix + input;
     else
         fullInput = input;
-#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION < 16
+#if ENGINE_MINOR_VERSION < 16
     output = (EnumType)enumPtr->FindEnumIndex(FName(*fullInput));
 #else
     output = (EnumType)enumPtr->GetIndexByName(FName(*fullInput));
@@ -47,7 +47,7 @@ static FORCEINLINE bool GetEnumValueToString(const FString& enumTypeName, const 
         return false;
     }
 
-#if ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION < 16
+#if ENGINE_MINOR_VERSION < 16
     output = enumPtr->GetEnumName((int32)input);
 #else
     output = enumPtr->GetNameStringByIndex((int32)input);

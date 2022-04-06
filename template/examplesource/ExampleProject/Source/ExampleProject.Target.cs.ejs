@@ -10,7 +10,7 @@ public class ExampleProjectTarget : TargetRules
     public ExampleProjectTarget(TargetInfo Target) : base(Target)
     {
         Type = TargetType.Game;
-        ExtraModuleNames.AddRange(new string[] { "ExampleProject" });<% if (ueTargetVersionMinor > 23) { %>
-        DefaultBuildSettings = BuildSettingsVersion.V2;<% } %>
+        ExtraModuleNames.AddRange(new string[] { "ExampleProject" });
+        DefaultBuildSettings = BuildSettingsVersion.V2;
     }
 }

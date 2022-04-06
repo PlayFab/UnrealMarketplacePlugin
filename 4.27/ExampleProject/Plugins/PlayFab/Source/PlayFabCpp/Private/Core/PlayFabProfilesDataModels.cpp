@@ -965,6 +965,7 @@ bool PlayFab::ProfilesModels::FGetEntityProfilesResponse::readFromValue(const TS
 
 PlayFab::ProfilesModels::FGetGlobalPolicyRequest::~FGetGlobalPolicyRequest()
 {
+    //if (Entity != nullptr) delete Entity;
 
 }
 
@@ -983,6 +984,12 @@ void PlayFab::ProfilesModels::FGetGlobalPolicyRequest::writeJSON(JsonWriter& wri
         writer->WriteObjectEnd();
     }
 
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -997,6 +1004,12 @@ bool PlayFab::ProfilesModels::FGetGlobalPolicyRequest::readFromValue(const TShar
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
     return HasSucceeded;

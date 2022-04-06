@@ -36,13 +36,16 @@ const ueTargetVersions = [
     new TargetVersion(4, 24, 0),
     new TargetVersion(4, 25, 0),
     new TargetVersion(4, 26, 0),
-    new TargetVersion(4, 27, 0)
+    new TargetVersion(4, 27, 0),
+    new TargetVersion(5, 0, 0),
 ];
 exports.ueTargetVersions = ueTargetVersions;
 
 exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
 
-    var ueWhitelistPlatforms = '[ "Win64", "Win32", "Mac", "IOS", "Android", "PS4", "XboxOne", "Switch" ]';
+    var ue4CompatPlatforms = '[ "Win64", "Win32", "Mac", "IOS", "Android", "PS4", "XboxOne", "Switch" ]';
+
+    var ue5WhitelistPlatforms = '[ "Win64", "Mac", "IOS", "Android"]';
 
     for (var v = 0; v < ueTargetVersions.length; v++) {
         var ueTargetVersion = ueTargetVersions[v];
@@ -72,7 +75,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
             ueTargetVersionMinor: ueTargetVersion.minor, // This is actually used
             ueTargetVersion: ueTargetVersion.targetVersionShort,
             ueTargetVersionLong: ueTargetVersion.targetVersionLong,
-            ueWhitelistPlatforms: ueWhitelistPlatforms,
+            ueWhitelistPlatforms: ueTargetVersion.major < 5 ? ue4CompatPlatforms : ue5WhitelistPlatforms,
             addTest: false
         };
 

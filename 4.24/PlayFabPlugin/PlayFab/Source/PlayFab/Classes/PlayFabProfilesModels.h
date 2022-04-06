@@ -42,6 +42,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* Entity = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -75,7 +78,7 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         bool DataAsObject = false;
-    /** The entity to perform this action on. */
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* Entity = nullptr;
 };
@@ -186,7 +189,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The entity to perform this action on. */
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         UPlayFabJsonObject* Entity = nullptr;
     /** The expected version of a profile to perform this update on */

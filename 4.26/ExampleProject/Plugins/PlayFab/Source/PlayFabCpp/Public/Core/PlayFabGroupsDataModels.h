@@ -78,7 +78,7 @@ namespace GroupsModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         // The identifier of the group
@@ -147,7 +147,7 @@ namespace GroupsModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         // The identifier of the group
@@ -308,7 +308,7 @@ namespace GroupsModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         // The name of the group. This is unique at the title level by default.
@@ -1126,7 +1126,7 @@ namespace GroupsModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         FListMembershipOpportunitiesRequest() :
@@ -1177,7 +1177,7 @@ namespace GroupsModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         FListMembershipRequest() :

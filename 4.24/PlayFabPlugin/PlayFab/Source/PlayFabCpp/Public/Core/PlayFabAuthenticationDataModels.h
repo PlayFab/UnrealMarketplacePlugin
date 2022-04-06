@@ -88,7 +88,7 @@ namespace AuthenticationModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         FGetEntityTokenRequest() :

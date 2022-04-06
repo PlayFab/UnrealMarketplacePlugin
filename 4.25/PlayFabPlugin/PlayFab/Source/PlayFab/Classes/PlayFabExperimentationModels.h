@@ -257,7 +257,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The entity to perform this action on. */
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         UPlayFabJsonObject* Entity = nullptr;
 };

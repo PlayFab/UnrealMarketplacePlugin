@@ -361,7 +361,7 @@ namespace ProfilesModels
          */
         Boxed<bool> DataAsObject;
 
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         FGetEntityProfileRequest() :
@@ -465,9 +465,13 @@ namespace ProfilesModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
         FGetGlobalPolicyRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags()
+            CustomTags(),
+            Entity(nullptr)
             {}
 
         FGetGlobalPolicyRequest(const FGetGlobalPolicyRequest& src) = default;
@@ -674,7 +678,7 @@ namespace ProfilesModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The entity to perform this action on.
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
         TSharedPtr<FEntityKey> Entity;
 
         // [optional] The expected version of a profile to perform this update on

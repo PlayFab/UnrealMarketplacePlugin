@@ -972,6 +972,23 @@ public:
         void HelperAddPlayerTag(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessExportPlayersInSegment, FAdminExportPlayersInSegmentResult, result, UObject*, customData);
+
+    /**
+     * Starts an export for the player profiles in a segment. This API creates a snapshot of all the player profiles which
+     * match the segment definition at the time of the API call. Profiles which change while an export is in progress will not
+     * be reflected in the results.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* ExportPlayersInSegment(FAdminExportPlayersInSegmentRequest request,
+            FDelegateOnSuccessExportPlayersInSegment onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperExportPlayersInSegment(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetAllSegments, FAdminGetAllSegmentsResult, result, UObject*, customData);
 
     /**
@@ -1031,6 +1048,24 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetPlayerTags(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetSegmentExport, FAdminGetPlayersInSegmentExportResponse, result, UObject*, customData);
+
+    /**
+     * Retrieves the result of an export started by ExportPlayersInSegment API. If the ExportPlayersInSegment is successful and
+     * complete, this API returns the IndexUrl from which the index file can be downloaded. The index file has a list of urls
+     * from which the files containing the player profile data can be downloaded. Otherwise, it returns the current 'State' of
+     * the export
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetSegmentExport(FAdminGetPlayersInSegmentExportRequest request,
+            FDelegateOnSuccessGetSegmentExport onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | PlayStream ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetSegmentExport(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemovePlayerTag, FAdminRemovePlayerTagResult, result, UObject*, customData);
@@ -1711,10 +1746,12 @@ public:
     FDelegateOnSuccessRevokeInventoryItems OnSuccessRevokeInventoryItems;
     FDelegateOnSuccessSubtractUserVirtualCurrency OnSuccessSubtractUserVirtualCurrency;
     FDelegateOnSuccessAddPlayerTag OnSuccessAddPlayerTag;
+    FDelegateOnSuccessExportPlayersInSegment OnSuccessExportPlayersInSegment;
     FDelegateOnSuccessGetAllSegments OnSuccessGetAllSegments;
     FDelegateOnSuccessGetPlayerSegments OnSuccessGetPlayerSegments;
     FDelegateOnSuccessGetPlayersInSegment OnSuccessGetPlayersInSegment;
     FDelegateOnSuccessGetPlayerTags OnSuccessGetPlayerTags;
+    FDelegateOnSuccessGetSegmentExport OnSuccessGetSegmentExport;
     FDelegateOnSuccessRemovePlayerTag OnSuccessRemovePlayerTag;
     FDelegateOnSuccessAbortTaskInstance OnSuccessAbortTaskInstance;
     FDelegateOnSuccessCreateActionsOnPlayersInSegmentTask OnSuccessCreateActionsOnPlayersInSegmentTask;

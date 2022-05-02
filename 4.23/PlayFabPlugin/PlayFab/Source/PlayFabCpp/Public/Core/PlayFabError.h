@@ -697,6 +697,8 @@ namespace PlayFab
         PlayFabErrorEventSinkSasTokenInvalid = 15004,
         PlayFabErrorEventSinkNotFound = 15005,
         PlayFabErrorEventSinkNameInvalid = 15006,
+        PlayFabErrorEventSinkSasTokenPermissionInvalid = 15007,
+        PlayFabErrorEventSinkSecretInvalid = 15008,
         PlayFabErrorOperationCanceled = 16000,
         PlayFabErrorInvalidDisplayNameRandomSuffixLength = 17000,
         PlayFabErrorAllowNonUniquePlayerDisplayNamesDisableNotAllowed = 17001

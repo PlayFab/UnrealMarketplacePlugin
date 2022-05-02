@@ -351,6 +351,27 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoServiceAccountIdsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString NintendoAccountIds;
+};
+
+/** For Nintendo Service Account identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoServiceAccountIdsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of Nintendo Switch Service Account identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

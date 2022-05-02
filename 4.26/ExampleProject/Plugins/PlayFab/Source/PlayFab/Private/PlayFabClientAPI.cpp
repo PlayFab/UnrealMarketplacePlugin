@@ -741,7 +741,62 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromKongregateIDs(FPlayFabBaseModel r
     this->RemoveFromRoot();
 }
 
-/** Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch identifiers. */
+/** Retrieves the unique PlayFab identifiers for the given set of Nintendo Service Account identifiers. */
+UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromNintendoServiceAccountIds(FClientGetPlayFabIDsFromNintendoServiceAccountIdsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromNintendoServiceAccountIds onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromNintendoServiceAccountIds = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromNintendoServiceAccountIds);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromNintendoServiceAccountIds";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.NintendoAccountIds.IsEmpty() || request.NintendoAccountIds == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("NintendoAccountIds"));
+    } else {
+        TArray<FString> NintendoAccountIdsArray;
+        FString(request.NintendoAccountIds).ParseIntoArray(NintendoAccountIdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("NintendoAccountIds"), NintendoAccountIdsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperGetPlayFabIDsFromNintendoServiceAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromNintendoServiceAccountIds.IsBound())
+    {
+        FClientGetPlayFabIDsFromNintendoServiceAccountIdsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromNintendoServiceAccountIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromNintendoServiceAccountIds.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch Device identifiers. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromNintendoSwitchDeviceIds(FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8634,7 +8689,7 @@ void UPlayFabClientAPI::HelperGetPlayerTags(FPlayFabBaseModel response, UObject*
 ///////////////////////////////////////////////////////
 // Server-Side Cloud Script
 //////////////////////////////////////////////////////
-/** Executes a CloudScript function, with the 'currentPlayerId' set to the PlayFab ID of the authenticated player. */
+/** Executes a CloudScript function, with the 'currentPlayerId' set to the PlayFab ID of the authenticated player. The PlayFab ID is the entity ID of the player's master_player_account entity. */
 UPlayFabClientAPI* UPlayFabClientAPI::ExecuteCloudScript(FClientExecuteCloudScriptRequest request,
     FDelegateOnSuccessExecuteCloudScript onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

@@ -3287,9 +3287,13 @@ namespace ClientModels
         // [optional] XBox user ID
         FString XboxUserId;
 
+        // [optional] XBox user sandbox
+        FString XboxUserSandbox;
+
         FUserXboxInfo() :
             FPlayFabCppBaseModel(),
-            XboxUserId()
+            XboxUserId(),
+            XboxUserSandbox()
             {}
 
         FUserXboxInfo(const FUserXboxInfo& src) = default;
@@ -6213,6 +6217,80 @@ namespace ClientModels
         }
 
         ~FGetPlayFabIDsFromKongregateIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoServiceAccountIdsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers.
+        TArray<FString> NintendoAccountIds;
+        FGetPlayFabIDsFromNintendoServiceAccountIdsRequest() :
+            FPlayFabCppRequestCommon(),
+            NintendoAccountIds()
+            {}
+
+        FGetPlayFabIDsFromNintendoServiceAccountIdsRequest(const FGetPlayFabIDsFromNintendoServiceAccountIdsRequest& src) = default;
+
+        FGetPlayFabIDsFromNintendoServiceAccountIdsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromNintendoServiceAccountIdsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromNintendoServiceAccountIdsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FNintendoServiceAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique Nintendo Switch Service Account identifier for a user.
+        FString NintendoServiceAccountId;
+
+        /**
+         * [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Nintendo Switch Service Account
+         * identifier.
+         */
+        FString PlayFabId;
+
+        FNintendoServiceAccountPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            NintendoServiceAccountId(),
+            PlayFabId()
+            {}
+
+        FNintendoServiceAccountPlayFabIdPair(const FNintendoServiceAccountPlayFabIdPair& src) = default;
+
+        FNintendoServiceAccountPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FNintendoServiceAccountPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FNintendoServiceAccountPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoServiceAccountIdsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of Nintendo Switch Service Account identifiers to PlayFab identifiers.
+        TArray<FNintendoServiceAccountPlayFabIdPair> Data;
+        FGetPlayFabIDsFromNintendoServiceAccountIdsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromNintendoServiceAccountIdsResult(const FGetPlayFabIDsFromNintendoServiceAccountIdsResult& src) = default;
+
+        FGetPlayFabIDsFromNintendoServiceAccountIdsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromNintendoServiceAccountIdsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromNintendoServiceAccountIdsResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

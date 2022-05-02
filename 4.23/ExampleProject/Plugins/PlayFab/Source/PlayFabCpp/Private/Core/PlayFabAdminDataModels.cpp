@@ -8189,6 +8189,87 @@ bool PlayFab::AdminModels::FExportMasterPlayerDataResult::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FExportPlayersInSegmentRequest::~FExportPlayersInSegmentRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FExportPlayersInSegmentRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!SegmentId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ExportPlayersInSegmentRequest::SegmentId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FExportPlayersInSegmentRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FExportPlayersInSegmentResult::~FExportPlayersInSegmentResult()
+{
+
+}
+
+void PlayFab::AdminModels::FExportPlayersInSegmentResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ExportId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExportId"));
+        writer->WriteValue(ExportId);
+    }
+
+    if (SegmentId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SegmentId"));
+        writer->WriteValue(SegmentId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FExportPlayersInSegmentResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ExportIdValue = obj->TryGetField(TEXT("ExportId"));
+    if (ExportIdValue.IsValid() && !ExportIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExportIdValue->TryGetString(TmpValue)) { ExportId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SegmentIdValue = obj->TryGetField(TEXT("SegmentId"));
+    if (SegmentIdValue.IsValid() && !SegmentIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SegmentIdValue->TryGetString(TmpValue)) { SegmentId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::AdminModels::writeGameBuildStatusEnumJSON(GameBuildStatus enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -10861,6 +10942,87 @@ bool PlayFab::AdminModels::FGetPlayerSharedSecretsResult::readFromValue(const TS
         SharedSecrets.Add(FSharedSecret(CurrentItem->AsObject()));
     }
 
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetPlayersInSegmentExportRequest::~FGetPlayersInSegmentExportRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FGetPlayersInSegmentExportRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!ExportId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPlayersInSegmentExportRequest::ExportId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExportId"));
+        writer->WriteValue(ExportId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetPlayersInSegmentExportRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ExportIdValue = obj->TryGetField(TEXT("ExportId"));
+    if (ExportIdValue.IsValid() && !ExportIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ExportIdValue->TryGetString(TmpValue)) { ExportId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetPlayersInSegmentExportResponse::~FGetPlayersInSegmentExportResponse()
+{
+
+}
+
+void PlayFab::AdminModels::FGetPlayersInSegmentExportResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IndexUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IndexUrl"));
+        writer->WriteValue(IndexUrl);
+    }
+
+    if (State.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("State"));
+        writer->WriteValue(State);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetPlayersInSegmentExportResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IndexUrlValue = obj->TryGetField(TEXT("IndexUrl"));
+    if (IndexUrlValue.IsValid() && !IndexUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (IndexUrlValue->TryGetString(TmpValue)) { IndexUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StateValue = obj->TryGetField(TEXT("State"));
+    if (StateValue.IsValid() && !StateValue->IsNull())
+    {
+        FString TmpValue;
+        if (StateValue->TryGetString(TmpValue)) { State = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -16035,6 +16197,12 @@ void PlayFab::AdminModels::FUserXboxInfo::writeJSON(JsonWriter& writer) const
         writer->WriteValue(XboxUserId);
     }
 
+    if (XboxUserSandbox.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxUserSandbox"));
+        writer->WriteValue(XboxUserSandbox);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -16047,6 +16215,13 @@ bool PlayFab::AdminModels::FUserXboxInfo::readFromValue(const TSharedPtr<FJsonOb
     {
         FString TmpValue;
         if (XboxUserIdValue->TryGetString(TmpValue)) { XboxUserId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> XboxUserSandboxValue = obj->TryGetField(TEXT("XboxUserSandbox"));
+    if (XboxUserSandboxValue.IsValid() && !XboxUserSandboxValue->IsNull())
+    {
+        FString TmpValue;
+        if (XboxUserSandboxValue->TryGetString(TmpValue)) { XboxUserSandbox = TmpValue; }
     }
 
     return HasSucceeded;

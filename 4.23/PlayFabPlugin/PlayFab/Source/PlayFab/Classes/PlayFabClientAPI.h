@@ -236,9 +236,22 @@ public:
         void HelperGetPlayFabIDsFromKongregateIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromNintendoServiceAccountIds, FClientGetPlayFabIDsFromNintendoServiceAccountIdsResult, result, UObject*, customData);
+
+    /** Retrieves the unique PlayFab identifiers for the given set of Nintendo Service Account identifiers. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* GetPlayFabIDsFromNintendoServiceAccountIds(FClientGetPlayFabIDsFromNintendoServiceAccountIdsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromNintendoServiceAccountIds onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromNintendoServiceAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds, FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult, result, UObject*, customData);
 
-    /** Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch identifiers. */
+    /** Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch Device identifiers. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetPlayFabIDsFromNintendoSwitchDeviceIds(FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest request,
             FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds onSuccess,
@@ -2178,7 +2191,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessExecuteCloudScript, FClientExecuteCloudScriptResult, result, UObject*, customData);
 
-    /** Executes a CloudScript function, with the 'currentPlayerId' set to the PlayFab ID of the authenticated player. */
+    /**
+     * Executes a CloudScript function, with the 'currentPlayerId' set to the PlayFab ID of the authenticated player. The
+     * PlayFab ID is the entity ID of the player's master_player_account entity.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Server-Side Cloud Script ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ExecuteCloudScript(FClientExecuteCloudScriptRequest request,
             FDelegateOnSuccessExecuteCloudScript onSuccess,
@@ -2471,6 +2487,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromGenericIDs OnSuccessGetPlayFabIDsFromGenericIDs;
     FDelegateOnSuccessGetPlayFabIDsFromGoogleIDs OnSuccessGetPlayFabIDsFromGoogleIDs;
     FDelegateOnSuccessGetPlayFabIDsFromKongregateIDs OnSuccessGetPlayFabIDsFromKongregateIDs;
+    FDelegateOnSuccessGetPlayFabIDsFromNintendoServiceAccountIds OnSuccessGetPlayFabIDsFromNintendoServiceAccountIds;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds;
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs OnSuccessGetPlayFabIDsFromPSNAccountIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;

@@ -654,6 +654,18 @@ FAdminAddPlayerTagResult UPlayFabAdminModelDecoder::decodeAddPlayerTagResultResp
     return tempStruct;
 }
 
+FAdminExportPlayersInSegmentResult UPlayFabAdminModelDecoder::decodeExportPlayersInSegmentResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminExportPlayersInSegmentResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ExportId = !(dataObj->HasField("ExportId")) ? TEXT("") : dataObj->GetStringField("ExportId");
+    tempStruct.SegmentId = !(dataObj->HasField("SegmentId")) ? TEXT("") : dataObj->GetStringField("SegmentId");
+
+    return tempStruct;
+}
+
 FAdminGetAllSegmentsResult UPlayFabAdminModelDecoder::decodeGetAllSegmentsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -697,6 +709,18 @@ FAdminGetPlayerTagsResult UPlayFabAdminModelDecoder::decodeGetPlayerTagsResultRe
 
     tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
     tempStruct.Tags = !(dataObj->HasField("Tags")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Tags"), TEXT(","));
+
+    return tempStruct;
+}
+
+FAdminGetPlayersInSegmentExportResponse UPlayFabAdminModelDecoder::decodeGetPlayersInSegmentExportResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetPlayersInSegmentExportResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IndexUrl = !(dataObj->HasField("IndexUrl")) ? TEXT("") : dataObj->GetStringField("IndexUrl");
+    tempStruct.State = !(dataObj->HasField("State")) ? TEXT("") : dataObj->GetStringField("State");
 
     return tempStruct;
 }

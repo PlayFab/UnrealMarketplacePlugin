@@ -2100,6 +2100,12 @@ void PlayFab::ServerModels::FUserXboxInfo::writeJSON(JsonWriter& writer) const
         writer->WriteValue(XboxUserId);
     }
 
+    if (XboxUserSandbox.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("XboxUserSandbox"));
+        writer->WriteValue(XboxUserSandbox);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -2112,6 +2118,13 @@ bool PlayFab::ServerModels::FUserXboxInfo::readFromValue(const TSharedPtr<FJsonO
     {
         FString TmpValue;
         if (XboxUserIdValue->TryGetString(TmpValue)) { XboxUserId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> XboxUserSandboxValue = obj->TryGetField(TEXT("XboxUserSandbox"));
+    if (XboxUserSandboxValue.IsValid() && !XboxUserSandboxValue->IsNull())
+    {
+        FString TmpValue;
+        if (XboxUserSandboxValue->TryGetString(TmpValue)) { XboxUserSandbox = TmpValue; }
     }
 
     return HasSucceeded;
@@ -11099,6 +11112,114 @@ bool PlayFab::ServerModels::FGetPlayFabIDsFromGenericIDsResult::readFromValue(co
     {
         TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
         Data.Add(FGenericPlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest::~FGetPlayFabIDsFromNintendoServiceAccountIdsRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("NintendoAccountIds"));
+    for (const FString& item : NintendoAccountIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("NintendoAccountIds"), NintendoAccountIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FNintendoServiceAccountPlayFabIdPair::~FNintendoServiceAccountPlayFabIdPair()
+{
+
+}
+
+void PlayFab::ServerModels::FNintendoServiceAccountPlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (NintendoServiceAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoServiceAccountId"));
+        writer->WriteValue(NintendoServiceAccountId);
+    }
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FNintendoServiceAccountPlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NintendoServiceAccountIdValue = obj->TryGetField(TEXT("NintendoServiceAccountId"));
+    if (NintendoServiceAccountIdValue.IsValid() && !NintendoServiceAccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (NintendoServiceAccountIdValue->TryGetString(TmpValue)) { NintendoServiceAccountId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsResult::~FGetPlayFabIDsFromNintendoServiceAccountIdsResult()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FNintendoServiceAccountPlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FNintendoServiceAccountPlayFabIdPair(CurrentItem->AsObject()));
     }
 
 

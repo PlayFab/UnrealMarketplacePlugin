@@ -4297,6 +4297,56 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FExportPlayersInSegmentRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique identifier of the requested segment.
+        FString SegmentId;
+
+        FExportPlayersInSegmentRequest() :
+            FPlayFabCppRequestCommon(),
+            SegmentId()
+            {}
+
+        FExportPlayersInSegmentRequest(const FExportPlayersInSegmentRequest& src) = default;
+
+        FExportPlayersInSegmentRequest(const TSharedPtr<FJsonObject>& obj) : FExportPlayersInSegmentRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExportPlayersInSegmentRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExportPlayersInSegmentResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Unique identifier of the export for the requested Segment.
+        FString ExportId;
+
+        // [optional] Unique identifier of the requested Segment.
+        FString SegmentId;
+
+        FExportPlayersInSegmentResult() :
+            FPlayFabCppResultCommon(),
+            ExportId(),
+            SegmentId()
+            {}
+
+        FExportPlayersInSegmentResult(const FExportPlayersInSegmentResult& src) = default;
+
+        FExportPlayersInSegmentResult(const TSharedPtr<FJsonObject>& obj) : FExportPlayersInSegmentResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExportPlayersInSegmentResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum GameBuildStatus
     {
         GameBuildStatusAvailable,
@@ -5710,6 +5760,56 @@ namespace AdminModels
         }
 
         ~FGetPlayerSharedSecretsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayersInSegmentExportRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique identifier of the export for the requested Segment.
+        FString ExportId;
+
+        FGetPlayersInSegmentExportRequest() :
+            FPlayFabCppRequestCommon(),
+            ExportId()
+            {}
+
+        FGetPlayersInSegmentExportRequest(const FGetPlayersInSegmentExportRequest& src) = default;
+
+        FGetPlayersInSegmentExportRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentExportRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayersInSegmentExportRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayersInSegmentExportResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Url from which the index file can be downloaded.
+        FString IndexUrl;
+
+        // [optional] Shows the current status of the export
+        FString State;
+
+        FGetPlayersInSegmentExportResponse() :
+            FPlayFabCppResultCommon(),
+            IndexUrl(),
+            State()
+            {}
+
+        FGetPlayersInSegmentExportResponse(const FGetPlayersInSegmentExportResponse& src) = default;
+
+        FGetPlayersInSegmentExportResponse(const TSharedPtr<FJsonObject>& obj) : FGetPlayersInSegmentExportResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayersInSegmentExportResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -8331,9 +8431,13 @@ namespace AdminModels
         // [optional] XBox user ID
         FString XboxUserId;
 
+        // [optional] XBox user sandbox
+        FString XboxUserSandbox;
+
         FUserXboxInfo() :
             FPlayFabCppBaseModel(),
-            XboxUserId()
+            XboxUserId(),
+            XboxUserSandbox()
             {}
 
         FUserXboxInfo(const FUserXboxInfo& src) = default;

@@ -1800,6 +1800,30 @@ struct PLAYFAB_API FAdminAddPlayerTagResult : public FPlayFabResultCommon
 public:
 };
 
+/** Request must contain the Segment ID */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminExportPlayersInSegmentRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier of the requested segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        FString SegmentId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminExportPlayersInSegmentResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier of the export for the requested Segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        FString ExportId;
+    /** Unique identifier of the requested Segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        FString SegmentId;
+};
+
 /** Request has no paramaters. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminGetAllSegmentsRequest : public FPlayFabRequestCommon
@@ -1923,6 +1947,30 @@ public:
     /** Canonical tags (including namespace and tag's name) for the requested user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
         FString Tags;
+};
+
+/** Request must contain the ExportId */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetPlayersInSegmentExportRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique identifier of the export for the requested Segment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        FString ExportId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminGetPlayersInSegmentExportResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Url from which the index file can be downloaded. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        FString IndexUrl;
+    /** Shows the current status of the export */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | PlayStream Models")
+        FString State;
 };
 
 /**
@@ -2872,10 +2920,11 @@ public:
 };
 
 /**
- * This API method is designed to store title specific values which are accessible only by the server. These values can be
- * used to tweak settings used by game servers and Cloud Scripts without the need to update and re-deploy. This operation
- * is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it already
- * exists, the Value for that key will be overwritten with the new Value.
+ * This API method is designed to store title specific values which can be read by the client. For example, a developer
+ * could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement
+ * speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. This
+ * operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it
+ * already exists, the Value for that key will be overwritten with the new Value.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminSetTitleDataRequest : public FPlayFabRequestCommon

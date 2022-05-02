@@ -150,6 +150,17 @@ FClientGetPlayFabIDsFromKongregateIDsResult UPlayFabClientModelDecoder::decodeGe
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromNintendoServiceAccountIdsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromNintendoServiceAccountIdsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromNintendoServiceAccountIdsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromNintendoSwitchDeviceIdsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

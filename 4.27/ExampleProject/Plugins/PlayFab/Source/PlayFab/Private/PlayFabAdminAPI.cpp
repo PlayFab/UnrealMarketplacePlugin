@@ -6345,6 +6345,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleDataAndOverrides(FAdminSetTitleDataA
 
 
     // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.KeyValues.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("KeyValues"));
     } else {
@@ -6355,6 +6356,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleDataAndOverrides(FAdminSetTitleDataA
     } else {
         OutRestJsonObj->SetStringField(TEXT("OverrideLabel"), request.OverrideLabel);
     }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -6434,6 +6436,65 @@ void UPlayFabAdminAPI::HelperSetTitleInternalData(FPlayFabBaseModel response, UO
         FAdminSetTitleDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetTitleDataResultResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessSetTitleInternalData.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Set and delete key-value pairs in a title internal data override instance. */
+UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleInternalDataAndOverrides(FAdminSetTitleDataAndOverridesRequest request,
+    FDelegateOnSuccessSetTitleInternalDataAndOverrides onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSetTitleInternalDataAndOverrides = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperSetTitleInternalDataAndOverrides);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/SetTitleInternalDataAndOverrides";
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.KeyValues.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("KeyValues"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("KeyValues"), request.KeyValues);
+    }
+    if (request.OverrideLabel.IsEmpty() || request.OverrideLabel == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OverrideLabel"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OverrideLabel"), request.OverrideLabel);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperSetTitleInternalDataAndOverrides(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSetTitleInternalDataAndOverrides.IsBound())
+    {
+        FAdminSetTitleDataAndOverridesResult ResultStruct = UPlayFabAdminModelDecoder::decodeSetTitleDataAndOverridesResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessSetTitleInternalDataAndOverrides.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

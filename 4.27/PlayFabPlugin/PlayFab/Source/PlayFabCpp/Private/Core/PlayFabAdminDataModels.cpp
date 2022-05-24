@@ -18546,6 +18546,17 @@ void PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteArrayStart(TEXT("KeyValues"));
     for (const FTitleDataKeyValue& item : KeyValues)
         item.writeJSON(writer);
@@ -18558,12 +18569,27 @@ void PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::writeJSON(JsonWrite
         writer->WriteValue(OverrideLabel);
     }
 
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
     writer->WriteObjectEnd();
 }
 
 bool PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&KeyValuesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("KeyValues"));
     for (int32 Idx = 0; Idx < KeyValuesArray.Num(); Idx++)
@@ -18578,6 +18604,13 @@ bool PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::readFromValue(const
     {
         FString TmpValue;
         if (OverrideLabelValue->TryGetString(TmpValue)) { OverrideLabel = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;

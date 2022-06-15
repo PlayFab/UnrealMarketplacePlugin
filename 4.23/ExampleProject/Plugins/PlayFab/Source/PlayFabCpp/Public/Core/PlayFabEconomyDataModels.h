@@ -670,6 +670,25 @@ namespace EconomyModels
     PLAYFABCPP_API ConcernCategory readConcernCategoryFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API ConcernCategory readConcernCategoryFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FContentFeed : public PlayFab::FPlayFabCppBaseModel
+    {
+        FContentFeed() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FContentFeed(const FContentFeed& src) = default;
+
+        FContentFeed(const TSharedPtr<FJsonObject>& obj) : FContentFeed()
+        {
+            readFromValue(obj);
+        }
+
+        ~FContentFeed();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateDraftItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).

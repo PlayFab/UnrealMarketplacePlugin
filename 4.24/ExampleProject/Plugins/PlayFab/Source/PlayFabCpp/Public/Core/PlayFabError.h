@@ -613,6 +613,7 @@ namespace PlayFab
         PlayFabErrorExportCannotParseQuery = 5024,
         PlayFabErrorExportControlCommandsNotAllowed = 5025,
         PlayFabErrorExportQueryMissingTableReference = 5026,
+        PlayFabErrorExportInsightsV1Deprecated = 5027,
         PlayFabErrorExplorerBasicInvalidQueryName = 5100,
         PlayFabErrorExplorerBasicInvalidQueryDescription = 5101,
         PlayFabErrorExplorerBasicInvalidQueryConditions = 5102,

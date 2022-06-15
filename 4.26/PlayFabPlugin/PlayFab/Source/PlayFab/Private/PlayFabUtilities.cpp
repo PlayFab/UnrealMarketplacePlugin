@@ -638,6 +638,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 5024: returnText = "ExportCannotParseQuery"; break;
     case 5025: returnText = "ExportControlCommandsNotAllowed"; break;
     case 5026: returnText = "ExportQueryMissingTableReference"; break;
+    case 5027: returnText = "ExportInsightsV1Deprecated"; break;
     case 5100: returnText = "ExplorerBasicInvalidQueryName"; break;
     case 5101: returnText = "ExplorerBasicInvalidQueryDescription"; break;
     case 5102: returnText = "ExplorerBasicInvalidQueryConditions"; break;

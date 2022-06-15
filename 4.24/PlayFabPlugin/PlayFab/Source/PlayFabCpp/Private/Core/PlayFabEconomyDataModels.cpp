@@ -1435,6 +1435,25 @@ EconomyModels::ConcernCategory PlayFab::EconomyModels::readConcernCategoryFromVa
     return ConcernCategoryNone; // Basically critical fail
 }
 
+PlayFab::EconomyModels::FContentFeed::~FContentFeed()
+{
+
+}
+
+void PlayFab::EconomyModels::FContentFeed::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FContentFeed::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FCreateDraftItemRequest::~FCreateDraftItemRequest()
 {
     //if (Item != nullptr) delete Item;

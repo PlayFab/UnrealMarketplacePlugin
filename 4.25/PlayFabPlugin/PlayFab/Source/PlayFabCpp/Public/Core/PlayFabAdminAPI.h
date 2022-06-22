@@ -113,7 +113,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSetTitleDataDelegate, const AdminModels::FSetTitleDataResult&);
         DECLARE_DELEGATE_OneParam(FSetTitleDataAndOverridesDelegate, const AdminModels::FSetTitleDataAndOverridesResult&);
         DECLARE_DELEGATE_OneParam(FSetTitleInternalDataDelegate, const AdminModels::FSetTitleDataResult&);
-        DECLARE_DELEGATE_OneParam(FSetTitleInternalDataAndOverridesDelegate, const AdminModels::FSetTitleDataAndOverridesResult&);
         DECLARE_DELEGATE_OneParam(FSetupPushNotificationDelegate, const AdminModels::FSetupPushNotificationResult&);
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const AdminModels::FModifyUserVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FUpdateBansDelegate, const AdminModels::FUpdateBansResult&);
@@ -613,11 +612,6 @@ namespace PlayFab
          */
         bool SetTitleInternalData(AdminModels::FSetTitleDataRequest& request, const FSetTitleInternalDataDelegate& SuccessDelegate = FSetTitleInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Set and delete key-value pairs in a title internal data override instance.
-         * This API method is designed to set and delete key-value pairs in a title internal data override instance. If the key exists and the new value is empty, the method will delete the key; otherwise, the method will update the current value with the new value. Keys are trimmed and cannot start with '!'.
-         */
-        bool SetTitleInternalDataAndOverrides(AdminModels::FSetTitleDataAndOverridesRequest& request, const FSetTitleInternalDataAndOverridesDelegate& SuccessDelegate = FSetTitleInternalDataAndOverridesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
          * Sets the Amazon Resource Name (ARN) for iOS and Android push notifications. Documentation on the exact restrictions can
          * be found at: http://docs.aws.amazon.com/sns/latest/api/API_CreatePlatformApplication.html. Currently, Amazon device
          * Messaging is not supported.
@@ -812,7 +806,6 @@ namespace PlayFab
         void OnSetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetTitleDataAndOverridesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataAndOverridesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetTitleInternalDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleInternalDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnSetTitleInternalDataAndOverridesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleInternalDataAndOverridesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetupPushNotificationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetupPushNotificationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBansResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBansDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

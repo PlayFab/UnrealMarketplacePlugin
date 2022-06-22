@@ -1607,19 +1607,6 @@ public:
         void HelperSetTitleInternalData(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetTitleInternalDataAndOverrides, FAdminSetTitleDataAndOverridesResult, result, UObject*, customData);
-
-    /** Set and delete key-value pairs in a title internal data override instance. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* SetTitleInternalDataAndOverrides(FAdminSetTitleDataAndOverridesRequest request,
-            FDelegateOnSuccessSetTitleInternalDataAndOverrides onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperSetTitleInternalDataAndOverrides(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetupPushNotification, FAdminSetupPushNotificationResult, result, UObject*, customData);
 
     /**
@@ -1804,7 +1791,6 @@ public:
     FDelegateOnSuccessSetTitleData OnSuccessSetTitleData;
     FDelegateOnSuccessSetTitleDataAndOverrides OnSuccessSetTitleDataAndOverrides;
     FDelegateOnSuccessSetTitleInternalData OnSuccessSetTitleInternalData;
-    FDelegateOnSuccessSetTitleInternalDataAndOverrides OnSuccessSetTitleInternalDataAndOverrides;
     FDelegateOnSuccessSetupPushNotification OnSuccessSetupPushNotification;
     FDelegateOnSuccessUpdateCatalogItems OnSuccessUpdateCatalogItems;
     FDelegateOnSuccessUpdateRandomResultTables OnSuccessUpdateRandomResultTables;

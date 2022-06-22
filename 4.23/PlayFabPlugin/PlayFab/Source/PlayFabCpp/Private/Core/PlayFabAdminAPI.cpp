@@ -2933,32 +2933,6 @@ void UPlayFabAdminAPI::OnSetTitleInternalDataResult(FHttpRequestPtr HttpRequest,
     }
 }
 
-bool UPlayFabAdminAPI::SetTitleInternalDataAndOverrides(
-    AdminModels::FSetTitleDataAndOverridesRequest& request,
-    const FSetTitleInternalDataAndOverridesDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Admin/SetTitleInternalDataAndOverrides"), request.toJSONString(), TEXT(""), TEXT(""));
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminAPI::OnSetTitleInternalDataAndOverridesResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabAdminAPI::OnSetTitleInternalDataAndOverridesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleInternalDataAndOverridesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    AdminModels::FSetTitleDataAndOverridesResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabAdminAPI::SetupPushNotification(
     AdminModels::FSetupPushNotificationRequest& request,
     const FSetupPushNotificationDelegate& SuccessDelegate,

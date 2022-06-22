@@ -571,6 +571,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1538: returnText = "PhotonApplicationIdAlreadyInUse"; break;
     case 1539: returnText = "CloudScriptUnableToDeleteProductionRevision"; break;
     case 1540: returnText = "CustomIdNotFound"; break;
+    case 1541: returnText = "AutomationInvalidInput"; break;
+    case 1542: returnText = "AutomationInvalidRuleName"; break;
+    case 1543: returnText = "AutomationRuleAlreadyExists"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

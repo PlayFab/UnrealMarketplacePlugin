@@ -18297,12 +18297,6 @@ void PlayFab::ServerModels::FSetTitleDataRequest::writeJSON(JsonWriter& writer) 
         writer->WriteValue(Key);
     }
 
-    if (TitleId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("TitleId"));
-        writer->WriteValue(TitleId);
-    }
-
     if (Value.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Value"));
@@ -18330,13 +18324,6 @@ bool PlayFab::ServerModels::FSetTitleDataRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (KeyValue->TryGetString(TmpValue)) { Key = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
-    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));

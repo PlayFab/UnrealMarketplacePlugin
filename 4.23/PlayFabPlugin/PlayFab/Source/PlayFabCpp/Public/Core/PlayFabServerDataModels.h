@@ -9286,12 +9286,6 @@ namespace ServerModels
          */
         FString Key;
 
-        /**
-         * [optional] Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
-         * title has been selected.
-         */
-        FString TitleId;
-
         // [optional] new value to set. Set to null to remove a value
         FString Value;
 
@@ -9299,7 +9293,6 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             Key(),
-            TitleId(),
             Value()
             {}
 

@@ -1547,12 +1547,6 @@ void PlayFab::CloudScriptModels::FGetFunctionRequest::writeJSON(JsonWriter& writ
         writer->WriteValue(FunctionName);
     }
 
-    if (TitleId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("TitleId"));
-        writer->WriteValue(TitleId);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -1574,13 +1568,6 @@ bool PlayFab::CloudScriptModels::FGetFunctionRequest::readFromValue(const TShare
     {
         FString TmpValue;
         if (FunctionNameValue->TryGetString(TmpValue)) { FunctionName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
-    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -1862,12 +1849,6 @@ void PlayFab::CloudScriptModels::FListFunctionsRequest::writeJSON(JsonWriter& wr
         writer->WriteObjectEnd();
     }
 
-    if (TitleId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("TitleId"));
-        writer->WriteValue(TitleId);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -1882,13 +1863,6 @@ bool PlayFab::CloudScriptModels::FListFunctionsRequest::readFromValue(const TSha
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
-    }
-
-    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
-    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -3327,12 +3301,6 @@ void PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::writeJSON(JsonWri
         writer->WriteValue(FunctionUrl);
     }
 
-    if (TitleId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("TitleId"));
-        writer->WriteValue(TitleId);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -3361,13 +3329,6 @@ bool PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::readFromValue(con
     {
         FString TmpValue;
         if (FunctionUrlValue->TryGetString(TmpValue)) { FunctionUrl = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
-    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -3423,12 +3384,6 @@ void PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::writeJSON(JsonW
         writer->WriteValue(QueueName);
     }
 
-    if (TitleId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("TitleId"));
-        writer->WriteValue(TitleId);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -3464,13 +3419,6 @@ bool PlayFab::CloudScriptModels::FRegisterQueuedFunctionRequest::readFromValue(c
     {
         FString TmpValue;
         if (QueueNameValue->TryGetString(TmpValue)) { QueueName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
-    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -3542,12 +3490,6 @@ void PlayFab::CloudScriptModels::FUnregisterFunctionRequest::writeJSON(JsonWrite
         writer->WriteValue(FunctionName);
     }
 
-    if (TitleId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("TitleId"));
-        writer->WriteValue(TitleId);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -3569,13 +3511,6 @@ bool PlayFab::CloudScriptModels::FUnregisterFunctionRequest::readFromValue(const
     {
         FString TmpValue;
         if (FunctionNameValue->TryGetString(TmpValue)) { FunctionName = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
-    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
     return HasSucceeded;

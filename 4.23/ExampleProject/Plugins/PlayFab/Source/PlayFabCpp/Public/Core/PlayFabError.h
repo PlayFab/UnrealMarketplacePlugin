@@ -549,6 +549,7 @@ namespace PlayFab
         PlayFabErrorAutomationInvalidInput = 1541,
         PlayFabErrorAutomationInvalidRuleName = 1542,
         PlayFabErrorAutomationRuleAlreadyExists = 1543,
+        PlayFabErrorAutomationRuleLimitExceeded = 1544,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

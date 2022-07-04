@@ -6116,6 +6116,42 @@ bool PlayFab::MultiplayerModels::FFindFriendLobbiesRequest::readFromValue(const 
     return HasSucceeded;
 }
 
+void PlayFab::MultiplayerModels::writeMembershipLockEnumJSON(MembershipLock enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case MembershipLockUnlocked: writer->WriteValue(TEXT("Unlocked")); break;
+    case MembershipLockLocked: writer->WriteValue(TEXT("Locked")); break;
+    }
+}
+
+MultiplayerModels::MembershipLock PlayFab::MultiplayerModels::readMembershipLockFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readMembershipLockFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::MembershipLock PlayFab::MultiplayerModels::readMembershipLockFromValue(const FString& value)
+{
+    static TMap<FString, MembershipLock> _MembershipLockMap;
+    if (_MembershipLockMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _MembershipLockMap.Add(TEXT("Unlocked"), MembershipLockUnlocked);
+        _MembershipLockMap.Add(TEXT("Locked"), MembershipLockLocked);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _MembershipLockMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return MembershipLockUnlocked; // Basically critical fail
+}
+
 PlayFab::MultiplayerModels::FFriendLobbySummary::~FFriendLobbySummary()
 {
 
@@ -6159,6 +6195,12 @@ void PlayFab::MultiplayerModels::FFriendLobbySummary::writeJSON(JsonWriter& writ
 
     writer->WriteIdentifierPrefix(TEXT("MaxPlayers"));
     writer->WriteValue(static_cast<int64>(MaxPlayers));
+
+    if (pfMembershipLock.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MembershipLock"));
+        writeMembershipLockEnumJSON(pfMembershipLock, writer);
+    }
 
     writer->WriteIdentifierPrefix(TEXT("Owner"));
     Owner.writeJSON(writer);
@@ -6216,6 +6258,8 @@ bool PlayFab::MultiplayerModels::FFriendLobbySummary::readFromValue(const TShare
         uint32 TmpValue;
         if (MaxPlayersValue->TryGetNumber(TmpValue)) { MaxPlayers = TmpValue; }
     }
+
+    pfMembershipLock = readMembershipLockFromValue(obj->TryGetField(TEXT("MembershipLock")));
 
     const TSharedPtr<FJsonValue> OwnerValue = obj->TryGetField(TEXT("Owner"));
     if (OwnerValue.IsValid() && !OwnerValue->IsNull())
@@ -6435,6 +6479,12 @@ void PlayFab::MultiplayerModels::FLobbySummary::writeJSON(JsonWriter& writer) co
     writer->WriteIdentifierPrefix(TEXT("MaxPlayers"));
     writer->WriteValue(static_cast<int64>(MaxPlayers));
 
+    if (pfMembershipLock.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("MembershipLock"));
+        writeMembershipLockEnumJSON(pfMembershipLock, writer);
+    }
+
     writer->WriteIdentifierPrefix(TEXT("Owner"));
     Owner.writeJSON(writer);
 
@@ -6483,6 +6533,8 @@ bool PlayFab::MultiplayerModels::FLobbySummary::readFromValue(const TSharedPtr<F
         uint32 TmpValue;
         if (MaxPlayersValue->TryGetNumber(TmpValue)) { MaxPlayers = TmpValue; }
     }
+
+    pfMembershipLock = readMembershipLockFromValue(obj->TryGetField(TEXT("MembershipLock")));
 
     const TSharedPtr<FJsonValue> OwnerValue = obj->TryGetField(TEXT("Owner"));
     if (OwnerValue.IsValid() && !OwnerValue->IsNull())
@@ -7279,42 +7331,6 @@ bool PlayFab::MultiplayerModels::FGetLobbyRequest::readFromValue(const TSharedPt
     }
 
     return HasSucceeded;
-}
-
-void PlayFab::MultiplayerModels::writeMembershipLockEnumJSON(MembershipLock enumVal, JsonWriter& writer)
-{
-    switch (enumVal)
-    {
-
-    case MembershipLockUnlocked: writer->WriteValue(TEXT("Unlocked")); break;
-    case MembershipLockLocked: writer->WriteValue(TEXT("Locked")); break;
-    }
-}
-
-MultiplayerModels::MembershipLock PlayFab::MultiplayerModels::readMembershipLockFromValue(const TSharedPtr<FJsonValue>& value)
-{
-    return readMembershipLockFromValue(value.IsValid() ? value->AsString() : "");
-}
-
-MultiplayerModels::MembershipLock PlayFab::MultiplayerModels::readMembershipLockFromValue(const FString& value)
-{
-    static TMap<FString, MembershipLock> _MembershipLockMap;
-    if (_MembershipLockMap.Num() == 0)
-    {
-        // Auto-generate the map on the first use
-        _MembershipLockMap.Add(TEXT("Unlocked"), MembershipLockUnlocked);
-        _MembershipLockMap.Add(TEXT("Locked"), MembershipLockLocked);
-
-    }
-
-    if (!value.IsEmpty())
-    {
-        auto output = _MembershipLockMap.Find(value);
-        if (output != nullptr)
-            return *output;
-    }
-
-    return MembershipLockUnlocked; // Basically critical fail
 }
 
 PlayFab::MultiplayerModels::FLobby::~FLobby()

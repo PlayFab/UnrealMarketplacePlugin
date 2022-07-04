@@ -230,7 +230,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::GetFunction(FCloudScriptGetFunct
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionName"), request.FunctionName);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -279,7 +278,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListFunctions(FCloudScriptListFu
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -328,7 +326,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListHttpFunctions(FCloudScriptLi
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -377,7 +374,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListQueuedFunctions(FCloudScript
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -642,7 +638,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterHttpFunction(FCloudScrip
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionUrl"), request.FunctionUrl);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -707,7 +702,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterQueuedFunction(FCloudScr
     } else {
         OutRestJsonObj->SetStringField(TEXT("QueueName"), request.QueueName);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -762,7 +756,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::UnregisterFunction(FCloudScriptU
     } else {
         OutRestJsonObj->SetStringField(TEXT("FunctionName"), request.FunctionName);
     }
-    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

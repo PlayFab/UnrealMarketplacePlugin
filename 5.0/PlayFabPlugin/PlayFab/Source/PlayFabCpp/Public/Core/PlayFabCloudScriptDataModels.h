@@ -762,14 +762,10 @@ namespace CloudScriptModels
         // The name of the function to register
         FString FunctionName;
 
-        // [optional] The Id of the parent Title
-        FString TitleId;
-
         FGetFunctionRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            FunctionName(),
-            TitleId()
+            FunctionName()
             {}
 
         FGetFunctionRequest(const FGetFunctionRequest& src) = default;
@@ -915,13 +911,9 @@ namespace CloudScriptModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The Id of the parent Title
-        FString TitleId;
-
         FListFunctionsRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags(),
-            TitleId()
+            CustomTags()
             {}
 
         FListFunctionsRequest(const FListFunctionsRequest& src) = default;
@@ -1617,15 +1609,11 @@ namespace CloudScriptModels
         // Full URL for Azure Function that implements the function.
         FString FunctionUrl;
 
-        // [optional] The Id of the parent Title
-        FString TitleId;
-
         FRegisterHttpFunctionRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             FunctionName(),
-            FunctionUrl(),
-            TitleId()
+            FunctionUrl()
             {}
 
         FRegisterHttpFunctionRequest(const FRegisterHttpFunctionRequest& src) = default;
@@ -1654,16 +1642,12 @@ namespace CloudScriptModels
         // The name of the queue for the Azure Function.
         FString QueueName;
 
-        // [optional] The Id of the parent Title
-        FString TitleId;
-
         FRegisterQueuedFunctionRequest() :
             FPlayFabCppRequestCommon(),
             ConnectionString(),
             CustomTags(),
             FunctionName(),
-            QueueName(),
-            TitleId()
+            QueueName()
             {}
 
         FRegisterQueuedFunctionRequest(const FRegisterQueuedFunctionRequest& src) = default;
@@ -1696,14 +1680,10 @@ namespace CloudScriptModels
         // The name of the function to register
         FString FunctionName;
 
-        // [optional] The Id of the parent Title
-        FString TitleId;
-
         FUnregisterFunctionRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            FunctionName(),
-            TitleId()
+            FunctionName()
             {}
 
         FUnregisterFunctionRequest(const FUnregisterFunctionRequest& src) = default;

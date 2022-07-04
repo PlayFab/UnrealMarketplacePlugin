@@ -2824,13 +2824,20 @@ namespace MultiplayerModels
         // Controls whether this query should link to friends made on the Steam network. Defaults to false
         bool ExcludeSteamFriends;
 
-        // [optional] OData style string that contains one or more filters. The OR and grouping operators are not allowed.
+        /**
+         * [optional] OData style string that contains one or more filters. Only the following operators are supported: "and" (logical and),
+         * "eq" (equal), "ne" (not equals), "ge" (greater than or equal), "gt" (greater than), "le" (less than or equal), and "lt"
+         * (less than). The left-hand side of each OData logical expression should be either a search property key (e.g.
+         * string_key1, number_key3, etc) or one of the pre-defined search keys: memberCount, membershipLock (must equal 'Unlocked'
+         * or 'Locked'), amOwner (required to equal "true"), amMember (required to equal "true").
+         */
         FString Filter;
 
         /**
-         * [optional] OData style string that contains sorting for this query. To sort by closest, a moniker `distance{number_key1 = 5}` can
-         * be used to sort by distance from the given number. This field only supports either one sort clause or one distance
-         * clause.
+         * [optional] OData style string that contains sorting for this query in either ascending ("asc") or descending ("desc") order.
+         * OrderBy clauses are of the form "number_key1 asc" or the pre-defined search key "memberCount desc". To sort by closest,
+         * a moniker `distance{number_key1 = 5}` can be used to sort by distance from the given number. This field only supports
+         * either one sort clause or one distance clause.
          */
         FString OrderBy;
 
@@ -2864,6 +2871,16 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum MembershipLock
+    {
+        MembershipLockUnlocked,
+        MembershipLockLocked
+    };
+
+    PLAYFABCPP_API void writeMembershipLockEnumJSON(MembershipLock enumVal, JsonWriter& writer);
+    PLAYFABCPP_API MembershipLock readMembershipLockFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API MembershipLock readMembershipLockFromValue(const FString& value);
+
     struct PLAYFABCPP_API FFriendLobbySummary : public PlayFab::FPlayFabCppBaseModel
     {
         /**
@@ -2883,6 +2900,9 @@ namespace MultiplayerModels
         // The maximum number of players allowed in the lobby.
         uint32 MaxPlayers;
 
+        // [optional] A setting indicating whether members are allowed to join this lobby. When Locked new members are prevented from joining.
+        Boxed<MembershipLock> pfMembershipLock;
+
         // The client or server entity which owns this lobby.
         FEntityKey Owner;
 
@@ -2895,6 +2915,7 @@ namespace MultiplayerModels
             Friends(),
             LobbyId(),
             MaxPlayers(0),
+            pfMembershipLock(),
             Owner(),
             SearchData()
             {}
@@ -2969,13 +2990,20 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] OData style string that contains one or more filters. The OR and grouping operators are not allowed.
+        /**
+         * [optional] OData style string that contains one or more filters. Only the following operators are supported: "and" (logical and),
+         * "eq" (equal), "ne" (not equals), "ge" (greater than or equal), "gt" (greater than), "le" (less than or equal), and "lt"
+         * (less than). The left-hand side of each OData logical expression should be either a search property key (e.g.
+         * string_key1, number_key3, etc) or one of the pre-defined search keys: memberCount, membershipLock (must equal 'Unlocked'
+         * or 'Locked'), amOwner (required to equal "true"), amMember (required to equal "true").
+         */
         FString Filter;
 
         /**
-         * [optional] OData style string that contains sorting for this query. To sort by closest, a moniker `distance{number_key1 = 5}` can
-         * be used to sort by distance from the given number. This field only supports either one sort clause or one distance
-         * clause.
+         * [optional] OData style string that contains sorting for this query in either ascending ("asc") or descending ("desc") order.
+         * OrderBy clauses are of the form "number_key1 asc" or the pre-defined search key "memberCount desc". To sort by closest,
+         * a moniker `distance{number_key1 = 5}` can be used to sort by distance from the given number. This field only supports
+         * either one sort clause or one distance clause.
          */
         FString OrderBy;
 
@@ -3020,6 +3048,9 @@ namespace MultiplayerModels
         // The maximum number of players allowed in the lobby.
         uint32 MaxPlayers;
 
+        // [optional] A setting indicating whether members are allowed to join this lobby. When Locked new members are prevented from joining.
+        Boxed<MembershipLock> pfMembershipLock;
+
         // The client or server entity which owns this lobby.
         FEntityKey Owner;
 
@@ -3031,6 +3062,7 @@ namespace MultiplayerModels
             CurrentPlayers(0),
             LobbyId(),
             MaxPlayers(0),
+            pfMembershipLock(),
             Owner(),
             SearchData()
             {}
@@ -3412,16 +3444,6 @@ namespace MultiplayerModels
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
-
-    enum MembershipLock
-    {
-        MembershipLockUnlocked,
-        MembershipLockLocked
-    };
-
-    PLAYFABCPP_API void writeMembershipLockEnumJSON(MembershipLock enumVal, JsonWriter& writer);
-    PLAYFABCPP_API MembershipLock readMembershipLockFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API MembershipLock readMembershipLockFromValue(const FString& value);
 
     struct PLAYFABCPP_API FLobby : public PlayFab::FPlayFabCppBaseModel
     {

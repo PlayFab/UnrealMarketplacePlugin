@@ -264,7 +264,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs, FClientGetPlayFabIDsFromPSNAccountIDsResult, result, UObject*, customData);
 
-    /** Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers. */
+    /** Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetPlayFabIDsFromPSNAccountIDs(FClientGetPlayFabIDsFromPSNAccountIDsRequest request,
             FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,
@@ -487,7 +487,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkPSNAccount, FClientLinkPSNAccountResult, result, UObject*, customData);
 
-    /** Links the PlayStation Network account associated with the provided access code to the user's PlayFab account */
+    /** Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* LinkPSNAccount(FClientLinkPSNAccountRequest request,
             FDelegateOnSuccessLinkPSNAccount onSuccess,
@@ -760,7 +760,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkPSNAccount, FClientUnlinkPSNAccountResult, result, UObject*, customData);
 
-    /** Unlinks the related PSN account from the user's PlayFab account */
+    /** Unlinks the related PSN :tm: account from the user's PlayFab account */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* UnlinkPSNAccount(FClientUnlinkPSNAccountRequest request,
             FDelegateOnSuccessUnlinkPSNAccount onSuccess,
@@ -1206,8 +1206,8 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithPSN, FClientLoginResult, result, UObject*, customData);
 
     /**
-     * Signs the user in using a PlayStation Network authentication code, returning a session identifier that can subsequently
-     * be used for API calls which require an authenticated user
+     * Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can
+     * subsequently be used for API calls which require an authenticated user
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* LoginWithPSN(FClientLoginWithPSNRequest request,
@@ -1612,8 +1612,8 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConsumePS5Entitlements, FClientConsumePS5EntitlementsResult, result, UObject*, customData);
 
     /**
-     * Checks for any new PS5 entitlements. If any are found, they are consumed (if they're consumables) and added as PlayFab
-     * items
+     * Checks for any new consumable entitlements. If any are found, they are consumed (if they're consumables) and added as
+     * PlayFab items
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ConsumePS5Entitlements(FClientConsumePS5EntitlementsRequest request,
@@ -1656,7 +1656,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRefreshPSNAuthToken, FClientEmptyResponse, result, UObject*, customData);
 
-    /** Uses the supplied OAuth code to refresh the internally cached player PSN auth token */
+    /** Uses the supplied OAuth code to refresh the internally cached player PSN :tm: auth token */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* RefreshPSNAuthToken(FClientRefreshPSNAuthTokenRequest request,
             FDelegateOnSuccessRefreshPSNAuthToken onSuccess,

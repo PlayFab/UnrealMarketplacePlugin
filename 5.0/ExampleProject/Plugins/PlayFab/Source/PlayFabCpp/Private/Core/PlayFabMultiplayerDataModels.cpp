@@ -7984,11 +7984,7 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::writeJSON(
 {
     writer->WriteObjectStart();
 
-    if (!BuildId.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerDetailsRequest::BuildId, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (BuildId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("BuildId"));
         writer->WriteValue(BuildId);
@@ -8005,11 +8001,7 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::writeJSON(
         writer->WriteObjectEnd();
     }
 
-    if (!Region.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: GetMultiplayerServerDetailsRequest::Region, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (Region.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Region"));
         writer->WriteValue(Region);

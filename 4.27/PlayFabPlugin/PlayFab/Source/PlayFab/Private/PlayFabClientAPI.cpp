@@ -851,7 +851,7 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     this->RemoveFromRoot();
 }
 
-/** Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers. */
+/** Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromPSNAccountIDs(FClientGetPlayFabIDsFromPSNAccountIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1777,7 +1777,7 @@ void UPlayFabClientAPI::HelperLinkOpenIdConnect(FPlayFabBaseModel response, UObj
     this->RemoveFromRoot();
 }
 
-/** Links the PlayStation Network account associated with the provided access code to the user's PlayFab account */
+/** Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account */
 UPlayFabClientAPI* UPlayFabClientAPI::LinkPSNAccount(FClientLinkPSNAccountRequest request,
     FDelegateOnSuccessLinkPSNAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -2819,7 +2819,7 @@ void UPlayFabClientAPI::HelperUnlinkOpenIdConnect(FPlayFabBaseModel response, UO
     this->RemoveFromRoot();
 }
 
-/** Unlinks the related PSN account from the user's PlayFab account */
+/** Unlinks the related PSN :tm: account from the user's PlayFab account */
 UPlayFabClientAPI* UPlayFabClientAPI::UnlinkPSNAccount(FClientUnlinkPSNAccountRequest request,
     FDelegateOnSuccessUnlinkPSNAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -4701,7 +4701,7 @@ void UPlayFabClientAPI::HelperLoginWithPlayFab(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
-/** Signs the user in using a PlayStation Network authentication code, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
+/** Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
 UPlayFabClientAPI* UPlayFabClientAPI::LoginWithPSN(FClientLoginWithPSNRequest request,
     FDelegateOnSuccessLoginWithPSN onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6340,7 +6340,7 @@ void UPlayFabClientAPI::HelperConsumeMicrosoftStoreEntitlements(FPlayFabBaseMode
     this->RemoveFromRoot();
 }
 
-/** Checks for any new PS5 entitlements. If any are found, they are consumed (if they're consumables) and added as PlayFab items */
+/** Checks for any new consumable entitlements. If any are found, they are consumed (if they're consumables) and added as PlayFab items */
 UPlayFabClientAPI* UPlayFabClientAPI::ConsumePS5Entitlements(FClientConsumePS5EntitlementsRequest request,
     FDelegateOnSuccessConsumePS5Entitlements onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6506,7 +6506,7 @@ void UPlayFabClientAPI::HelperConsumeXboxEntitlements(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Uses the supplied OAuth code to refresh the internally cached player PSN auth token */
+/** Uses the supplied OAuth code to refresh the internally cached player PSN :tm: auth token */
 UPlayFabClientAPI* UPlayFabClientAPI::RefreshPSNAuthToken(FClientRefreshPSNAuthTokenRequest request,
     FDelegateOnSuccessRefreshPSNAuthToken onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

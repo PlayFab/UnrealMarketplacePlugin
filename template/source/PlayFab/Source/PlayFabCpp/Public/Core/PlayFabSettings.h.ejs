@@ -13,16 +13,20 @@ namespace PlayFab
         static FString sdkVersion;
         static FString buildIdentifier;
         static FString versionString;
-        static FString connectionString;
-
+<% if (locals.azurezSdk) { %>
+        static FString endpoint;
+<% } %>
         static FString GetClientSessionTicket();
         static FString GetEntityToken();
         static FString GetLocalApiServer();
-        static FString GetConnectionString();
-
+<% if (locals.azurezSdk) { %>
+        static FString GetEndpoint();
+<% } %>
         static void SetClientSessionTicket(const FString& clientSessionTicket);
         static void SetEntityToken(const FString& entityToken);
-        static void SetConnectionString(const FString& connectionStr);
+<% if (locals.azurezSdk) { %>
+        static void SetEndpoint(const FString& endpoint);
+<% } %>
 
         static FString GeneratePfUrl(const FString& urlPath);
     };

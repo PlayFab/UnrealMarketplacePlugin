@@ -28,6 +28,8 @@ public:
     UPROPERTY(EditAnywhere, config, Category = Settings)
     FString DeveloperSecretKey;
 
+<% if (locals.azurezSdk) { %>
     UPROPERTY(EditAnywhere, config, Category = Settings)
-    FString ConnectionString;
+    FString Endpoint;
+<% } %>
 };

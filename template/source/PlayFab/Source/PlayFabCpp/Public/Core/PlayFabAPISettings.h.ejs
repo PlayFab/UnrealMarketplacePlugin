@@ -19,11 +19,13 @@ public:
     FString GeneratePfUrl(const FString& urlPath)
     {
         const UPlayFabRuntimeSettings* rSettings = GetDefault<UPlayFabRuntimeSettings>();
-        if (rSettings->ConnectionString != "")
+<% if (locals.azurezSdk) { %>
+        if (rSettings->Endpoint != "")
         {
-            return rSettings->ConnectionString;
+            return rSettings->Endpoint;
         }
-        else if (rSettings->ProductionEnvironmentURL.StartsWith(TEXT("https://")))
+        else 
+<% } %> if (rSettings->ProductionEnvironmentURL.StartsWith(TEXT("https://")))
         {
             return rSettings->ProductionEnvironmentURL
                 + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;

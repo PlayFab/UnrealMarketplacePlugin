@@ -3726,12 +3726,12 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerServerDetailsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The guid string build ID of the multiplayer server to get details for.
+        // [optional] The guid string build ID of the multiplayer server to get details for.
         FString BuildId;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // The region the multiplayer server is located in to get details for.
+        // [optional] The region the multiplayer server is located in to get details for.
         FString Region;
 
         /**

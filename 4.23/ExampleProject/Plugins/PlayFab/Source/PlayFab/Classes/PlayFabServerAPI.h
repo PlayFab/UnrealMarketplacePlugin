@@ -199,7 +199,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs, FServerGetPlayFabIDsFromPSNAccountIDsResult, result, UObject*, customData);
 
-    /** Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers. */
+    /** Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabServerAPI* GetPlayFabIDsFromPSNAccountIDs(FServerGetPlayFabIDsFromPSNAccountIDsRequest request,
             FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,
@@ -224,6 +224,23 @@ public:
     // Implements FOnPlayFabServerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetPlayFabIDsFromSteamIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs, FServerGetPlayFabIDsFromTwitchIDsResult, result, UObject*, customData);
+
+    /**
+     * Retrieves the unique PlayFab identifiers for the given set of Twitch identifiers. The Twitch identifiers are the IDs for
+     * the user accounts, available as "_id" from the Twitch API methods (ex:
+     * https://github.com/justintv/Twitch-API/blob/master/v3_resources/users.md#get-usersuser).
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* GetPlayFabIDsFromTwitchIDs(FServerGetPlayFabIDsFromTwitchIDsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromTwitchIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs, FServerGetPlayFabIDsFromXboxLiveIDsResult, result, UObject*, customData);
@@ -280,7 +297,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkPSNAccount, FServerLinkPSNAccountResult, result, UObject*, customData);
 
-    /** Links the PlayStation Network account associated with the provided access code to the user's PlayFab account */
+    /** Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabServerAPI* LinkPSNAccount(FServerLinkPSNAccountRequest request,
             FDelegateOnSuccessLinkPSNAccount onSuccess,
@@ -2014,6 +2031,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds;
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs OnSuccessGetPlayFabIDsFromPSNAccountIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;
+    FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs OnSuccessGetPlayFabIDsFromTwitchIDs;
     FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs OnSuccessGetPlayFabIDsFromXboxLiveIDs;
     FDelegateOnSuccessGetServerCustomIDsFromPlayFabIDs OnSuccessGetServerCustomIDsFromPlayFabIDs;
     FDelegateOnSuccessGetUserAccountInfo OnSuccessGetUserAccountInfo;

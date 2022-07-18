@@ -5799,6 +5799,77 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromTwitchIDsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers.
+        TArray<FString> TwitchIds;
+        FGetPlayFabIDsFromTwitchIDsRequest() :
+            FPlayFabCppRequestCommon(),
+            TwitchIds()
+            {}
+
+        FGetPlayFabIDsFromTwitchIDsRequest(const FGetPlayFabIDsFromTwitchIDsRequest& src) = default;
+
+        FGetPlayFabIDsFromTwitchIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromTwitchIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromTwitchIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTwitchPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Twitch identifier.
+        FString PlayFabId;
+
+        // [optional] Unique Twitch identifier for a user.
+        FString TwitchId;
+
+        FTwitchPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            TwitchId()
+            {}
+
+        FTwitchPlayFabIdPair(const FTwitchPlayFabIdPair& src) = default;
+
+        FTwitchPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FTwitchPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTwitchPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromTwitchIDsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of Twitch identifiers to PlayFab identifiers.
+        TArray<FTwitchPlayFabIdPair> Data;
+        FGetPlayFabIDsFromTwitchIDsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromTwitchIDsResult(const FGetPlayFabIDsFromTwitchIDsResult& src) = default;
+
+        FGetPlayFabIDsFromTwitchIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromTwitchIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromTwitchIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The ID of Xbox Live sandbox.

@@ -12,6 +12,6 @@ UPlayFabRuntimeSettings::UPlayFabRuntimeSettings()
     : ProductionEnvironmentURL(TEXT(".playfabapi.com"))
     , TitleId()
     , DeveloperSecretKey()
-    , ConnectionString()
+
 {
 }

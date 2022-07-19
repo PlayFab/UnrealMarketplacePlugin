@@ -45,11 +45,10 @@ public:
 
     virtual FString GetClientSessionTicket() const = 0;
     virtual FString GetEntityToken() const = 0;
-    virtual FString GetConnectionString() const = 0;
 
     virtual void SetClientSessionTicket(const FString& clientSessionTicket) = 0;
     virtual void SetEntityToken(const FString& entityToken) = 0;
-    virtual void SetConnectionString(const FString& connectionStr) const = 0;
+
 
     virtual FString GetPhotonRealtimeAppId() const = 0;
     virtual void SetPhotonRealtimeAppId(const FString & photonRealtimeAppId) = 0;

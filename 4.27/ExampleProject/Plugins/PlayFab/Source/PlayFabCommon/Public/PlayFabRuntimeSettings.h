@@ -31,6 +31,5 @@ public:
     UPROPERTY(EditAnywhere, config, Category = Settings)
     FString DeveloperSecretKey;
 
-    UPROPERTY(EditAnywhere, config, Category = Settings)
-    FString ConnectionString;
+
 };

@@ -13,7 +13,6 @@ namespace PlayFabCommon
 
     FString PlayFabCommonSettings::clientSessionTicket;
     FString PlayFabCommonSettings::entityToken;
-    FString PlayFabCommonSettings::connectionString;
 
     FString PlayFabCommonSettings::photonRealtimeAppId;
     FString PlayFabCommonSettings::photonTurnbasedAppId;

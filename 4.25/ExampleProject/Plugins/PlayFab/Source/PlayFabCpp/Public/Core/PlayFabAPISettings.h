@@ -22,11 +22,7 @@ public:
     FString GeneratePfUrl(const FString& urlPath)
     {
         const UPlayFabRuntimeSettings* rSettings = GetDefault<UPlayFabRuntimeSettings>();
-        if (rSettings->ConnectionString != "")
-        {
-            return rSettings->ConnectionString;
-        }
-        else if (rSettings->ProductionEnvironmentURL.StartsWith(TEXT("https://")))
+ if (rSettings->ProductionEnvironmentURL.StartsWith(TEXT("https://")))
         {
             return rSettings->ProductionEnvironmentURL
                 + urlPath + TEXT("?sdk=") + PlayFab::PlayFabSettings::sdkVersion;

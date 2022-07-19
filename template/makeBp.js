@@ -106,7 +106,7 @@ function getPropertyCppType(property, datatype) {
             } else if (isCollection) {
                 return "UPlayFabJsonObject* " + propSafeName + " = nullptr;";
             } else if (property.isenum) {
-                return "E" + getDataTypeSafeName(property, "actualtype") + " " + propSafeName + " = static_cast<E" + getDataTypeSafeName(property, "actualtype") + ">(0);";
+                return "E" + getDataTypeSafeName(property, "actualtype") + " " + propSafeName + " = StaticCast<E" + getDataTypeSafeName(property, "actualtype") + ">(0);";
             } else {
                 return "FString " + propSafeName + ";";
             }

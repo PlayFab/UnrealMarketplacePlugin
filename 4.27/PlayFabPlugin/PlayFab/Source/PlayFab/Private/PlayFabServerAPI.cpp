@@ -611,7 +611,7 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromNintendoSwitchDeviceIds(FPlayFabB
     this->RemoveFromRoot();
 }
 
-/** Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers. */
+/** Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers. */
 UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromPSNAccountIDs(FServerGetPlayFabIDsFromPSNAccountIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -718,6 +718,61 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromSteamIDs(FPlayFabBaseModel respon
     {
         FServerGetPlayFabIDsFromSteamIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromSteamIDsResultResponse(response.responseData);
         OnSuccessGetPlayFabIDsFromSteamIDs.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves the unique PlayFab identifiers for the given set of Twitch identifiers. The Twitch identifiers are the IDs for the user accounts, available as "_id" from the Twitch API methods (ex: https://github.com/justintv/Twitch-API/blob/master/v3_resources/users.md#get-usersuser). */
+UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromTwitchIDs(FServerGetPlayFabIDsFromTwitchIDsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromTwitchIDs = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromTwitchIDs);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromTwitchIDs";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.TwitchIds.IsEmpty() || request.TwitchIds == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("TwitchIds"));
+    } else {
+        TArray<FString> TwitchIdsArray;
+        FString(request.TwitchIds).ParseIntoArray(TwitchIdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("TwitchIds"), TwitchIdsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetPlayFabIDsFromTwitchIDs(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromTwitchIDs.IsBound())
+    {
+        FServerGetPlayFabIDsFromTwitchIDsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromTwitchIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromTwitchIDs.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -941,7 +996,7 @@ void UPlayFabServerAPI::HelperGetUserBans(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
-/** Links the PlayStation Network account associated with the provided access code to the user's PlayFab account */
+/** Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::LinkPSNAccount(FServerLinkPSNAccountRequest request,
     FDelegateOnSuccessLinkPSNAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

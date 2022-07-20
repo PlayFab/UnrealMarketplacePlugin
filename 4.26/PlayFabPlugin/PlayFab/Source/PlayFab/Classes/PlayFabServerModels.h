@@ -315,6 +315,27 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromTwitchIDsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString TwitchIds;
+};
+
+/** For Twitch identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerGetPlayFabIDsFromTwitchIDsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of Twitch identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromXboxLiveIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

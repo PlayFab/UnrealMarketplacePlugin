@@ -70,6 +70,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate, const ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNAccountIDsDelegate, const ServerModels::FGetPlayFabIDsFromPSNAccountIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamIDsDelegate, const ServerModels::FGetPlayFabIDsFromSteamIDsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromTwitchIDsDelegate, const ServerModels::FGetPlayFabIDsFromTwitchIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromXboxLiveIDsDelegate, const ServerModels::FGetPlayFabIDsFromXboxLiveIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const ServerModels::FGetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FGetRandomResultTablesDelegate, const ServerModels::FGetRandomResultTablesResult&);
@@ -385,13 +386,19 @@ namespace PlayFab
         bool GetPlayFabIDsFromNintendoServiceAccountIds(ServerModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest& request, const FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch Device identifiers.
         bool GetPlayFabIDsFromNintendoSwitchDeviceIds(ServerModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request, const FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers.
+        // Retrieves the unique PlayFab identifiers for the given set of PlayStation :tm: Network identifiers.
         bool GetPlayFabIDsFromPSNAccountIDs(ServerModels::FGetPlayFabIDsFromPSNAccountIDsRequest& request, const FGetPlayFabIDsFromPSNAccountIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromPSNAccountIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers are the profile
          * IDs for the user accounts, available as SteamId in the Steamworks Community API calls.
          */
         bool GetPlayFabIDsFromSteamIDs(ServerModels::FGetPlayFabIDsFromSteamIDsRequest& request, const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromSteamIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the unique PlayFab identifiers for the given set of Twitch identifiers. The Twitch identifiers are the IDs for
+         * the user accounts, available as "_id" from the Twitch API methods (ex:
+         * https://github.com/justintv/Twitch-API/blob/master/v3_resources/users.md#get-usersuser).
+         */
+        bool GetPlayFabIDsFromTwitchIDs(ServerModels::FGetPlayFabIDsFromTwitchIDsRequest& request, const FGetPlayFabIDsFromTwitchIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromTwitchIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of XboxLive identifiers.
         bool GetPlayFabIDsFromXboxLiveIDs(ServerModels::FGetPlayFabIDsFromXboxLiveIDsRequest& request, const FGetPlayFabIDsFromXboxLiveIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromXboxLiveIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -506,7 +513,7 @@ namespace PlayFab
          * This function directly adds inventory items to user inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToUsers(ServerModels::FGrantItemsToUsersRequest& request, const FGrantItemsToUsersDelegate& SuccessDelegate = FGrantItemsToUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Links the PlayStation Network account associated with the provided access code to the user's PlayFab account
+        // Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account
         bool LinkPSNAccount(ServerModels::FLinkPSNAccountRequest& request, const FLinkPSNAccountDelegate& SuccessDelegate = FLinkPSNAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the custom server identifier, generated by the title, to the user's PlayFab account.
         bool LinkServerCustomId(ServerModels::FLinkServerCustomIdRequest& request, const FLinkServerCustomIdDelegate& SuccessDelegate = FLinkServerCustomIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -841,6 +848,7 @@ namespace PlayFab
         void OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromPSNAccountIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNAccountIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromTwitchIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromTwitchIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromXboxLiveIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromXboxLiveIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetRandomResultTablesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetRandomResultTablesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

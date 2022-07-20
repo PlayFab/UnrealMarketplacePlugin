@@ -358,7 +358,7 @@ struct PLAYFAB_API FEconomyGetItemPublishStatusResponse : public FPlayFabResultC
 public:
     /** High level status of the published item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        EPublishResult Result;
+        EPublishResult Result = StaticCast<EPublishResult>(0);
     /** Descriptive message about the current status of the publish. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString StatusMessage;
@@ -513,7 +513,7 @@ public:
         UPlayFabJsonObject* AlternateId = nullptr;
     /** Category of concern for this report. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        EConcernCategory ConcernCategory;
+        EConcernCategory ConcernCategory = StaticCast<EConcernCategory>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -546,7 +546,7 @@ public:
         UPlayFabJsonObject* AlternateId = nullptr;
     /** The reason this review is being reported. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        EConcernCategory ConcernCategory;
+        EConcernCategory ConcernCategory = StaticCast<EConcernCategory>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -666,7 +666,7 @@ public:
         FString Reason;
     /** The status to set for the associated item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        EModerationStatus Status;
+        EModerationStatus Status = StaticCast<EModerationStatus>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -698,7 +698,7 @@ public:
         FString ReviewId;
     /** The helpfulness vote of the review. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
-        EHelpfulnessVote Vote;
+        EHelpfulnessVote Vote = StaticCast<EHelpfulnessVote>(0);
 };
 
 USTRUCT(BlueprintType)

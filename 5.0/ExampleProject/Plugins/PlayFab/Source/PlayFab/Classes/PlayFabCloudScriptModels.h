@@ -113,7 +113,7 @@ public:
      * 'Specific', if the SpecificRevision parameter is specified, otherwise it is 'Live'.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
-        ECloudScriptRevisionOption RevisionSelection;
+        ECloudScriptRevisionOption RevisionSelection = StaticCast<ECloudScriptRevisionOption>(0);
     /** The specific revision to execute, when RevisionSelection is set to 'Specific' */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         int32 SpecificRevision = 0;

@@ -60,6 +60,6 @@ UENUM(BlueprintType)
 enum class E<%- getDataTypeSafeName(enumType, "name") %> : uint8
 {
 <% for(var j in enumType.enumvalues) {
-%>    pfenum_<%- enumType.enumvalues[j].name %> UMETA(DisplayName = "<%- enumType.enumvalues[j].name %>"),
+%>    pfenum_<%- enumType.enumvalues[j].name %> = <%- j %> UMETA(DisplayName = "<%- enumType.enumvalues[j].name %>"),
 <% } %>};
 <% } %>

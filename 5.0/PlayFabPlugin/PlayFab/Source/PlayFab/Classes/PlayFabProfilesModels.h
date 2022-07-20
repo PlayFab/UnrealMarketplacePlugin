@@ -207,7 +207,7 @@ struct PLAYFAB_API FProfilesSetProfileLanguageResponse : public FPlayFabResultCo
 public:
     /** The type of operation that occured on the profile's language */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
-        EOperationTypes OperationResult;
+        EOperationTypes OperationResult = StaticCast<EOperationTypes>(0);
     /** The updated version of the profile after the language update */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
         int32 VersionNumber = 0;

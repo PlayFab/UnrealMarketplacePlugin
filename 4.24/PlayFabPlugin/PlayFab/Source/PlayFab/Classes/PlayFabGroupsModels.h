@@ -765,7 +765,7 @@ public:
         int32 ProfileVersion = 0;
     /** Indicates which operation was completed, either Created, Updated, Deleted or None. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
-        EOperationTypes SetResult;
+        EOperationTypes SetResult = StaticCast<EOperationTypes>(0);
 };
 
 /** Updates the role name. Returns information about whether the update was successful. */
@@ -808,6 +808,6 @@ public:
         int32 ProfileVersion = 0;
     /** Indicates which operation was completed, either Created, Updated, Deleted or None. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Groups | Groups Models")
-        EOperationTypes SetResult;
+        EOperationTypes SetResult = StaticCast<EOperationTypes>(0);
 };
 

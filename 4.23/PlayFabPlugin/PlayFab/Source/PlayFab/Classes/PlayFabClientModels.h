@@ -1399,7 +1399,7 @@ struct PLAYFAB_API FClientReportAdActivityRequest : public FPlayFabRequestCommon
 public:
     /** Type of activity, may be Opened, Closed, Start or End */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
-        EAdActivity Activity;
+        EAdActivity Activity = StaticCast<EAdActivity>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Advertising Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -2453,7 +2453,7 @@ public:
         FString KeysToRemove;
     /** Permission to be applied to all user data keys written in this request. Defaults to "private" if not set. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Character Data Models")
-        EUserDataPermission Permission;
+        EUserDataPermission Permission = StaticCast<EUserDataPermission>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -2847,7 +2847,7 @@ public:
         FString GameMode;
     /** Region to check for Game Server Instances. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
-        ERegion Region;
+        ERegion Region = StaticCast<ERegion>(0);
     /** Statistic name to find statistic-based matches. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
         FString StatisticName;
@@ -2914,7 +2914,7 @@ public:
         FString LobbyId;
     /** Region to match make against. [Note: Required if LobbyId is not specified] */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
-        ERegion Region;
+        ERegion Region = StaticCast<ERegion>(0);
     /** Start a game session if one with an open slot is not found. Defaults to true. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
         bool StartNewIfNoneFound = false;
@@ -2954,7 +2954,7 @@ public:
         FString ServerPublicDNSName;
     /** result of match making process */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
-        EMatchmakeStatus Status;
+        EMatchmakeStatus Status = StaticCast<EMatchmakeStatus>(0);
     /** server authorization ticket (used by RedeemMatchmakerTicket to validate user insertion into the game) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Matchmaking Models")
         FString Ticket;
@@ -3719,7 +3719,7 @@ public:
      * for requests by one player for information about another player; those requests will only return Public keys.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
-        EUserDataPermission Permission;
+        EUserDataPermission Permission = StaticCast<EUserDataPermission>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -4039,7 +4039,7 @@ public:
         int32 PurchasePrice = 0;
     /** Status of the transaction. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
-        ETransactionStatus Status;
+        ETransactionStatus Status = StaticCast<ETransactionStatus>(0);
     /** Virtual currencies granted by the transaction, if any. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Item Management Models")
         UPlayFabJsonObject* VCAmount = nullptr;
@@ -4343,7 +4343,7 @@ public:
      * 'Specific', if the SpeificRevision parameter is specified, otherwise it is 'Live'.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
-        ECloudScriptRevisionOption RevisionSelection;
+        ECloudScriptRevisionOption RevisionSelection = StaticCast<ECloudScriptRevisionOption>(0);
     /** The specivic revision to execute, when RevisionSelection is set to 'Specific' */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Server-Side Cloud Script Models")
         int32 SpecificRevision = 0;
@@ -4531,7 +4531,7 @@ public:
         FString KeysToRemove;
     /** Permission to be applied to all user data keys in this request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Shared Group Data Models")
-        EUserDataPermission Permission;
+        EUserDataPermission Permission = StaticCast<EUserDataPermission>(0);
     /** Unique identifier for the shared group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Shared Group Data Models")
         FString SharedGroupId;
@@ -4636,7 +4636,7 @@ public:
         UPlayFabJsonObject* MarketingData = nullptr;
     /** How the store was last updated (Admin or a third party). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
-        EPfSourceType Source;
+        EPfSourceType Source = StaticCast<EPfSourceType>(0);
     /** Array of items which can be purchased from this store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Title-Wide Data Management Models")
         TArray<UPlayFabJsonObject*> Store;
@@ -4782,7 +4782,7 @@ struct PLAYFAB_API FClientGetPlayerTradesRequest : public FPlayFabRequestCommon
 public:
     /** Returns only trades with the given status. If null, returns all trades. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Trading Models")
-        ETradeStatus StatusFilter;
+        ETradeStatus StatusFilter = StaticCast<ETradeStatus>(0);
 };
 
 USTRUCT(BlueprintType)

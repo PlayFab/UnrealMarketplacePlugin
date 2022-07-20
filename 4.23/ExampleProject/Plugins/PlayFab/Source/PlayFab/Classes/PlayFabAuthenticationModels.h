@@ -95,10 +95,10 @@ public:
         UPlayFabJsonObject* Entity = nullptr;
     /** The authenticated device for this entity, for the given login */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        EIdentifiedDeviceType IdentifiedDeviceType;
+        EIdentifiedDeviceType IdentifiedDeviceType = StaticCast<EIdentifiedDeviceType>(0);
     /** The identity provider for this entity, for the given login */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
-        ELoginIdentityProvider IdentityProvider;
+        ELoginIdentityProvider IdentityProvider = StaticCast<ELoginIdentityProvider>(0);
     /** The ID issued by the identity provider, e.g. a XUID on Xbox Live */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
         FString IdentityProviderIssuedId;

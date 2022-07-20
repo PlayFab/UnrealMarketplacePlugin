@@ -44,7 +44,7 @@ public:
      * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        EAccessPolicy AccessPolicy;
+        EAccessPolicy AccessPolicy = StaticCast<EAccessPolicy>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -76,7 +76,7 @@ public:
      * set ownership. The useConnections property can be either true or false.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        EOwnerMigrationPolicy OwnerMigrationPolicy;
+        EOwnerMigrationPolicy OwnerMigrationPolicy = StaticCast<EOwnerMigrationPolicy>(0);
     /**
      * The public key-value pairs which allow queries to differentiate between lobbies. Queries will refer to these key-value
      * pairs in their filter and order by clauses to retrieve lobbies fitting the specified criteria. At most 30 key-value
@@ -289,7 +289,7 @@ public:
      * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        EAccessPolicy AccessPolicy;
+        EAccessPolicy AccessPolicy = StaticCast<EAccessPolicy>(0);
     /**
      * A field which indicates which lobby the user will be joining. This field is opaque to everyone except the Lobby service
      * and the creator of the arrangementString (Matchmaking). This string defines a unique identifier for the arranged lobby
@@ -322,7 +322,7 @@ public:
      * set ownership. The useConnections property can be either true or false.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        EOwnerMigrationPolicy OwnerMigrationPolicy;
+        EOwnerMigrationPolicy OwnerMigrationPolicy = StaticCast<EOwnerMigrationPolicy>(0);
     /**
      * A setting to control whether connections are used. Defaults to true. When true, notifications are sent to subscribed
      * players, disconnect detection removes connectionHandles, only owner migration policies using connections are allowed,
@@ -431,7 +431,7 @@ public:
         int32 SubscriptionVersion = 0;
     /** Subscription type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        ESubscriptionType Type;
+        ESubscriptionType Type = StaticCast<ESubscriptionType>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -467,7 +467,7 @@ public:
         int32 SubscriptionVersion = 0;
     /** Subscription type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        ESubscriptionType Type;
+        ESubscriptionType Type = StaticCast<ESubscriptionType>(0);
 };
 
 /** Request to update a lobby. */
@@ -484,7 +484,7 @@ public:
      * join. Defaults to 'Public' on creation. Can only be changed by the lobby owner.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        EAccessPolicy AccessPolicy;
+        EAccessPolicy AccessPolicy = StaticCast<EAccessPolicy>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -533,7 +533,7 @@ public:
      * to join. Defaults to 'Unlocked' on creation. Can only be changed by the lobby owner.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        EMembershipLock MembershipLock;
+        EMembershipLock MembershipLock = StaticCast<EMembershipLock>(0);
     /**
      * The lobby owner. Optional. Set to transfer ownership of the lobby. If client - owned and 'Automatic' - The Lobby service
      * will automatically assign another connected owner when the current owner leaves or disconnects. useConnections must be
@@ -1145,7 +1145,7 @@ public:
         FString BuildName;
     /** The flavor of container to create a build from. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EContainerFlavor ContainerFlavor;
+        EContainerFlavor ContainerFlavor = StaticCast<EContainerFlavor>(0);
     /** The container reference, consisting of the image name and tag. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* ContainerImageReference = nullptr;
@@ -1190,7 +1190,7 @@ public:
         bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureVmSize VmSize;
+        EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -1212,7 +1212,7 @@ public:
         FString BuildName;
     /** The flavor of container of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EContainerFlavor ContainerFlavor;
+        EContainerFlavor ContainerFlavor = StaticCast<EContainerFlavor>(0);
     /** The container command to run when the multiplayer server has been allocated, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ContainerRunCommand;
@@ -1260,7 +1260,7 @@ public:
         bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureVmSize VmSize;
+        EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
 };
 
 /** Creates a multiplayer server build with a managed container and returns information about the build creation request. */
@@ -1280,7 +1280,7 @@ public:
         FString BuildName;
     /** The flavor of container to create a build from. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EContainerFlavor ContainerFlavor;
+        EContainerFlavor ContainerFlavor = StaticCast<EContainerFlavor>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -1328,7 +1328,7 @@ public:
         bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureVmSize VmSize;
+        EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
     /** The crash dump configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* WindowsCrashDumpConfiguration = nullptr;
@@ -1353,7 +1353,7 @@ public:
         FString BuildName;
     /** The flavor of container of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EContainerFlavor ContainerFlavor;
+        EContainerFlavor ContainerFlavor = StaticCast<EContainerFlavor>(0);
     /** The time the build was created in UTC. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString CreationTime;
@@ -1404,7 +1404,7 @@ public:
         bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureVmSize VmSize;
+        EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
 };
 
 /**
@@ -1484,7 +1484,7 @@ public:
         bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureVmSize VmSize;
+        EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -1506,7 +1506,7 @@ public:
         FString BuildName;
     /** The flavor of container of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EContainerFlavor ContainerFlavor;
+        EContainerFlavor ContainerFlavor = StaticCast<EContainerFlavor>(0);
     /** The time the build was created in UTC. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString CreationTime;
@@ -1566,7 +1566,7 @@ public:
         bool UseStreamingForAssetDownloads = false;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureVmSize VmSize;
+        EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
 };
 
 /**
@@ -1798,7 +1798,7 @@ struct PLAYFAB_API FMultiplayerEnableMultiplayerServersForTitleResponse : public
 public:
     /** The enabled status for the multiplayer server features for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        ETitleMultiplayerServerEnabledStatus Status;
+        ETitleMultiplayerServerEnabledStatus Status = StaticCast<ETitleMultiplayerServerEnabledStatus>(0);
 };
 
 /** Gets a URL that can be used to download the specified asset. */
@@ -1891,7 +1891,7 @@ public:
         FString BuildStatus;
     /** The flavor of container of he build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EContainerFlavor ContainerFlavor;
+        EContainerFlavor ContainerFlavor = StaticCast<EContainerFlavor>(0);
     /**
      * The container command to run when the multiplayer server has been allocated, including any arguments. This only applies
      * to custom builds. If the build is a managed build, this field will be null.
@@ -1942,7 +1942,7 @@ public:
         FString StartMultiplayerServerCommand;
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        EAzureVmSize VmSize;
+        EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
 };
 
 /** Returns the details about a multiplayer server build alias. */
@@ -2150,7 +2150,7 @@ struct PLAYFAB_API FMultiplayerGetTitleEnabledForMultiplayerServersStatusRespons
 public:
     /** The enabled status for the multiplayer server features for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        ETitleMultiplayerServerEnabledStatus Status;
+        ETitleMultiplayerServerEnabledStatus Status = StaticCast<ETitleMultiplayerServerEnabledStatus>(0);
 };
 
 /** Gets a title's server quota change request. */

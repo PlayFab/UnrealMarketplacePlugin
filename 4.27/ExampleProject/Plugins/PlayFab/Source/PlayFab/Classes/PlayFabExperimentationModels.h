@@ -80,7 +80,7 @@ public:
         int32 ExclusionGroupTrafficAllocation = 0;
     /** Type of experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        EExperimentType ExperimentType;
+        EExperimentType ExperimentType = StaticCast<EExperimentType>(0);
     /** Friendly name of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Name;
@@ -346,7 +346,7 @@ public:
         int32 ExclusionGroupTrafficAllocation = 0;
     /** Type of experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
-        EExperimentType ExperimentType;
+        EExperimentType ExperimentType = StaticCast<EExperimentType>(0);
     /** Id of the experiment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Experimentation | Experimentation Models")
         FString Id;

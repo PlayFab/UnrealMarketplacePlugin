@@ -17,7 +17,7 @@ URunTestsCommandlet::URunTestsCommandlet()
     IsEditor = false;
     IsServer = false;
     LogToConsole = true;
-#if ENGINE_MINOR_VERSION > 19
+#if ENGINE_MINOR_VERSION > 19 && ENGINE_MAJOR_VERSION < 5
     ShowProgress = true;
 #endif
     ShowErrorCount = true;
@@ -52,7 +52,7 @@ FString& URunTestsCommandlet::GetCachedSummary()
 
 int32 URunTestsCommandlet::Main(const FString& Params)
 {
-#if ENGINE_MINOR_VERSION < 24
+#if ENGINE_MINOR_VERSION < 24 && ENGINE_MAJOR_VERSION < 5
     GIsRequestingExit = false; // Global used by Unreal to indicate that the commandlet should exit.
 #endif
 
@@ -84,7 +84,11 @@ int32 URunTestsCommandlet::Main(const FString& Params)
         GFrameCounter++;
 
         const float DeltaTime = FApp::GetDeltaTime();
+#if ENGINE_MAJOR_VERSION < 5
         FTicker::GetCoreTicker().Tick(DeltaTime);
+#else
+        FTSTicker::GetCoreTicker().Tick(DeltaTime);
+#endif 
 
         Run(DeltaTime);
         if (SuiteState == PlayFabApiTestActiveState::COMPLETE)

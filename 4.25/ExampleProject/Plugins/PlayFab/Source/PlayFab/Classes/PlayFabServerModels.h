@@ -1219,7 +1219,7 @@ public:
         FString KeysToRemove;
     /** Permission to be applied to all user data keys written in this request. Defaults to "private" if not set. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Character Data Models")
-        EUserDataPermission Permission;
+        EUserDataPermission Permission = StaticCast<EUserDataPermission>(0);
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Character Data Models")
         FString PlayFabId;
@@ -1675,7 +1675,7 @@ struct PLAYFAB_API FServerNotifyMatchmakerPlayerLeftResult : public FPlayFabResu
 public:
     /** State of user leaving the Game Server Instance. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        EPlayerConnectionState PlayerState;
+        EPlayerConnectionState PlayerState = StaticCast<EPlayerConnectionState>(0);
 };
 
 /**
@@ -1761,7 +1761,7 @@ public:
      * region and use Tags (below) to specify your custom region.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        ERegion Region;
+        ERegion Region = StaticCast<ERegion>(0);
     /** IPV4 address of the game server instance. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
         FString ServerIPV4Address;
@@ -1822,7 +1822,7 @@ public:
         FString LobbyId;
     /** State to set for the specified game server instance. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        EGameInstanceState State;
+        EGameInstanceState State = StaticCast<EGameInstanceState>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -2220,7 +2220,7 @@ public:
         FString KeysToRemove;
     /** Permission to be applied to all user data keys written in this request. Defaults to "private" if not set. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
-        EUserDataPermission Permission;
+        EUserDataPermission Permission = StaticCast<EUserDataPermission>(0);
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
         FString PlayFabId;
@@ -3317,7 +3317,7 @@ public:
      * 'Specific', if the SpeificRevision parameter is specified, otherwise it is 'Live'.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Server-Side Cloud Script Models")
-        ECloudScriptRevisionOption RevisionSelection;
+        ECloudScriptRevisionOption RevisionSelection = StaticCast<ECloudScriptRevisionOption>(0);
     /** The specivic revision to execute, when RevisionSelection is set to 'Specific' */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Server-Side Cloud Script Models")
         int32 SpecificRevision = 0;
@@ -3462,7 +3462,7 @@ public:
         FString KeysToRemove;
     /** Permission to be applied to all user data keys in this request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Shared Group Data Models")
-        EUserDataPermission Permission;
+        EUserDataPermission Permission = StaticCast<EUserDataPermission>(0);
     /** Unique identifier for the shared group. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Shared Group Data Models")
         FString SharedGroupId;
@@ -3539,7 +3539,7 @@ public:
         UPlayFabJsonObject* MarketingData = nullptr;
     /** How the store was last updated (Admin or a third party). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
-        EPfSourceType Source;
+        EPfSourceType Source = StaticCast<EPfSourceType>(0);
     /** Array of items which can be purchased from this store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Title-Wide Data Management Models")
         TArray<UPlayFabJsonObject*> Store;

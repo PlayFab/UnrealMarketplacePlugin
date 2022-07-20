@@ -239,7 +239,7 @@ public:
         FString Token;
     /** The type of auth token of the player requesting the password reset. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
-        EAuthTokenType TokenType;
+        EAuthTokenType TokenType = StaticCast<EAuthTokenType>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -996,7 +996,7 @@ public:
         int32 MinFreeGameSlots = 0;
     /** the current status of the build validation and processing steps */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
-        EGameBuildStatus Status;
+        EGameBuildStatus Status = StaticCast<EGameBuildStatus>(0);
     /** time this build was last modified (or uploaded, if this build has never been modified) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Custom Server Management Models")
         FString Timestamp;
@@ -1045,7 +1045,7 @@ public:
         FString Players;
     /** region in which the Game Server Instance is running */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
-        ERegion Region;
+        ERegion Region = StaticCast<ERegion>(0);
     /** IPV4 address of the server */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Matchmaking Models")
         FString ServerIPV4Address;
@@ -1117,7 +1117,7 @@ struct PLAYFAB_API FAdminCreatePlayerStatisticDefinitionRequest : public FPlayFa
 public:
     /** the aggregation method to use in updating the statistic (defaults to last) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        EStatisticAggregationMethod AggregationMethod;
+        EStatisticAggregationMethod AggregationMethod = StaticCast<EStatisticAggregationMethod>(0);
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
@@ -1126,7 +1126,7 @@ public:
         FString StatisticName;
     /** interval at which the values of the statistic for all players are reset (resets begin at the next interval boundary) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        EStatisticResetIntervalOption VersionChangeInterval;
+        EStatisticResetIntervalOption VersionChangeInterval = StaticCast<EStatisticResetIntervalOption>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -1381,7 +1381,7 @@ public:
      * Manual. Manual will cause no change to the order state.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        EResolutionOutcome Outcome;
+        EResolutionOutcome Outcome = StaticCast<EResolutionOutcome>(0);
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString PlayFabId;
@@ -1425,7 +1425,7 @@ struct PLAYFAB_API FAdminUpdatePlayerStatisticDefinitionRequest : public FPlayFa
 public:
     /** the aggregation method to use in updating the statistic (defaults to last) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        EStatisticAggregationMethod AggregationMethod;
+        EStatisticAggregationMethod AggregationMethod = StaticCast<EStatisticAggregationMethod>(0);
     /** unique name of the statistic */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString StatisticName;
@@ -1434,7 +1434,7 @@ public:
      * the new interval boundary)
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        EStatisticResetIntervalOption VersionChangeInterval;
+        EStatisticResetIntervalOption VersionChangeInterval = StaticCast<EStatisticResetIntervalOption>(0);
 };
 
 USTRUCT(BlueprintType)
@@ -1474,7 +1474,7 @@ public:
         FString KeysToRemove;
     /** Permission to be applied to all user data keys written in this request. Defaults to "private" if not set. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
-        EUserDataPermission Permission;
+        EUserDataPermission Permission = StaticCast<EUserDataPermission>(0);
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Player Data Management Models")
         FString PlayFabId;
@@ -2190,7 +2190,7 @@ public:
         FString StartedAtRangeTo;
     /** Optional filter for task instances that are of a specific status. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        ETaskInstanceStatus StatusFilter;
+        ETaskInstanceStatus StatusFilter = StaticCast<ETaskInstanceStatus>(0);
     /**
      * Name or ID of the task whose instances are being queried. If not specified, return all task instances that satisfy
      * conditions set by other filters.
@@ -2294,7 +2294,7 @@ public:
         FString Schedule;
     /** Task type. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | ScheduledTask Models")
-        EScheduledTaskType Type;
+        EScheduledTaskType Type = StaticCast<EScheduledTaskType>(0);
 };
 
 
@@ -2766,7 +2766,7 @@ public:
         UPlayFabJsonObject* MarketingData = nullptr;
     /** How the store was last updated (Admin or a third party). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        EPfSourceType Source;
+        EPfSourceType Source = StaticCast<EPfSourceType>(0);
     /** Array of items which can be purchased from this store. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
         TArray<UPlayFabJsonObject*> Store;
@@ -3012,7 +3012,7 @@ public:
      * Messaging (GCM) for Android
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        EPushSetupPlatform Platform;
+        EPushSetupPlatform Platform = StaticCast<EPushSetupPlatform>(0);
 };
 
 USTRUCT(BlueprintType)

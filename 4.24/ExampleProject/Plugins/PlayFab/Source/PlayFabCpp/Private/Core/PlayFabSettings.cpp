@@ -12,8 +12,6 @@ namespace PlayFab
     FString PlayFabSettings::sdkVersion;
     FString PlayFabSettings::buildIdentifier;
     FString PlayFabSettings::versionString;
-    FString PlayFabSettings::connectionString;
-
     // Getters
     FString PlayFabSettings::GetClientSessionTicket()
     {
@@ -31,11 +29,6 @@ namespace PlayFab
     {
         return PlayFabCommon::PlayFabCommonUtils::GetLocalSettingsFileProperty(TEXT("LocalApiServer"));
     }
-    FString PlayFabSettings::GetConnectionString()
-    {
-        return IPlayFabCommonModuleInterface::Get().GetConnectionString();
-    }
-
     // Setters
     void PlayFabSettings::SetClientSessionTicket(const FString&  clientSessionTicket)
     {
@@ -44,9 +37,5 @@ namespace PlayFab
     void PlayFabSettings::SetEntityToken(const FString&  entityToken)
     {
         IPlayFabCommonModuleInterface::Get().SetEntityToken(entityToken);
-    }
-    void PlayFabSettings::SetConnectionString(const FString& connectionStr)
-    {
-        IPlayFabCommonModuleInterface::Get().SetConnectionString(connectionStr);
     }
 }

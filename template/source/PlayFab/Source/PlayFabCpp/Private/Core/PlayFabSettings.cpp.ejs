@@ -9,9 +9,6 @@ namespace PlayFab
     FString PlayFabSettings::sdkVersion;
     FString PlayFabSettings::buildIdentifier;
     FString PlayFabSettings::versionString;
-<% if (locals.azurezSdk) { %>
-    FString PlayFabSettings::endpoint;
-<% } %>
     // Getters
     FString PlayFabSettings::GetClientSessionTicket()
     {
@@ -29,12 +26,6 @@ namespace PlayFab
     {
         return PlayFabCommon::PlayFabCommonUtils::GetLocalSettingsFileProperty(TEXT("LocalApiServer"));
     }
-<% if (locals.azurezSdk) { %>
-    FString PlayFabSettings::GetEndpoint()
-    {
-        return IPlayFabCommonModuleInterface::Get().GetEndpoint();
-    }
-<% } %>
     // Setters
     void PlayFabSettings::SetClientSessionTicket(const FString&  clientSessionTicket)
     {
@@ -44,10 +35,4 @@ namespace PlayFab
     {
         IPlayFabCommonModuleInterface::Get().SetEntityToken(entityToken);
     }
-<% if (locals.azurezSdk) { %>
-    void PlayFabSettings::SetEndpoint(const FString& endpoint)
-    {
-        IPlayFabCommonModuleInterface::Get().SetEndpoint(endpoint);
-    }
-<% } %>
 }

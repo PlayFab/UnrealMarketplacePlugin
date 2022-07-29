@@ -18,11 +18,11 @@ struct PLAYFAB_API FPlayFabError
 
     /** Is there an error */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Error | Models")
-        bool hasError;
+        bool hasError = false;
 
     /** Holds the error code recieved from playfab. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Error | Models")
-        int32 ErrorCode;
+        int32 ErrorCode = 0;
 
     /** Holds the error name recieved from playfab. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Error | Models")

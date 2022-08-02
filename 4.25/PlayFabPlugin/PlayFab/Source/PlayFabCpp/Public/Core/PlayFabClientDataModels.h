@@ -2790,7 +2790,8 @@ namespace ClientModels
         LoginIdentityProviderFacebookInstantGames,
         LoginIdentityProviderOpenIdConnect,
         LoginIdentityProviderApple,
-        LoginIdentityProviderNintendoSwitchAccount
+        LoginIdentityProviderNintendoSwitchAccount,
+        LoginIdentityProviderGooglePlayGames
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -3680,6 +3681,37 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUserGooglePlayGamesInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Avatar image url of the Google Play Games player
+        FString GooglePlayGamesPlayerAvatarImageUrl;
+
+        // [optional] Display name of the Google Play Games player
+        FString GooglePlayGamesPlayerDisplayName;
+
+        // [optional] Google Play Games player ID
+        FString GooglePlayGamesPlayerId;
+
+        FUserGooglePlayGamesInfo() :
+            FPlayFabCppBaseModel(),
+            GooglePlayGamesPlayerAvatarImageUrl(),
+            GooglePlayGamesPlayerDisplayName(),
+            GooglePlayGamesPlayerId()
+            {}
+
+        FUserGooglePlayGamesInfo(const FUserGooglePlayGamesInfo& src) = default;
+
+        FUserGooglePlayGamesInfo(const TSharedPtr<FJsonObject>& obj) : FUserGooglePlayGamesInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserGooglePlayGamesInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUserIosDeviceInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] iOS device ID
@@ -3854,7 +3886,8 @@ namespace ClientModels
         UserOriginationFacebookInstantGamesId,
         UserOriginationOpenIdConnect,
         UserOriginationApple,
-        UserOriginationNintendoSwitchAccount
+        UserOriginationNintendoSwitchAccount,
+        UserOriginationGooglePlayGames
     };
 
     PLAYFABCPP_API void writeUserOriginationEnumJSON(UserOrigination enumVal, JsonWriter& writer);
@@ -3971,6 +4004,9 @@ namespace ClientModels
         // [optional] User Google account information, if a Google account has been linked
         TSharedPtr<FUserGoogleInfo> GoogleInfo;
 
+        // [optional] User Google Play Games account information, if a Google Play Games account has been linked
+        TSharedPtr<FUserGooglePlayGamesInfo> GooglePlayGamesInfo;
+
         // [optional] User iOS device information, if an iOS device has been linked
         TSharedPtr<FUserIosDeviceInfo> IosDeviceInfo;
 
@@ -4019,6 +4055,7 @@ namespace ClientModels
             FacebookInstantGamesIdInfo(nullptr),
             GameCenterInfo(nullptr),
             GoogleInfo(nullptr),
+            GooglePlayGamesInfo(nullptr),
             IosDeviceInfo(nullptr),
             KongregateInfo(nullptr),
             NintendoSwitchAccountInfo(nullptr),
@@ -8895,6 +8932,58 @@ namespace ClientModels
         }
 
         ~FLoginWithGoogleAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithGooglePlayGamesServicesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        FString EncryptedRequest;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
+        FString PlayerSecret;
+
+        /**
+         * [optional] OAuth 2.0 server authentication code obtained on the client by calling the requestServerSideAccess()
+         * (https://developers.google.com/games/services/android/signin) Google Play Games client API.
+         */
+        FString ServerAuthCode;
+
+        /**
+         * Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+         * title has been selected.
+         */
+        FString TitleId;
+
+        FLoginWithGooglePlayGamesServicesRequest() :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(),
+            CustomTags(),
+            EncryptedRequest(),
+            InfoRequestParameters(nullptr),
+            PlayerSecret(),
+            ServerAuthCode(),
+            TitleId()
+            {}
+
+        FLoginWithGooglePlayGamesServicesRequest(const FLoginWithGooglePlayGamesServicesRequest& src) = default;
+
+        FLoginWithGooglePlayGamesServicesRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithGooglePlayGamesServicesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithGooglePlayGamesServicesRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

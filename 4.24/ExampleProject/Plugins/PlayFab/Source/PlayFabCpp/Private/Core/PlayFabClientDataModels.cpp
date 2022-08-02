@@ -5578,6 +5578,7 @@ void PlayFab::ClientModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProv
     case LoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
     case LoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
     case LoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
+    case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     }
 }
 
@@ -5613,6 +5614,7 @@ ClientModels::LoginIdentityProvider PlayFab::ClientModels::readLoginIdentityProv
         _LoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), LoginIdentityProviderOpenIdConnect);
         _LoginIdentityProviderMap.Add(TEXT("Apple"), LoginIdentityProviderApple);
         _LoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), LoginIdentityProviderNintendoSwitchAccount);
+        _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
 
     }
 
@@ -7388,6 +7390,64 @@ bool PlayFab::ClientModels::FUserGoogleInfo::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FUserGooglePlayGamesInfo::~FUserGooglePlayGamesInfo()
+{
+
+}
+
+void PlayFab::ClientModels::FUserGooglePlayGamesInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (GooglePlayGamesPlayerAvatarImageUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesPlayerAvatarImageUrl"));
+        writer->WriteValue(GooglePlayGamesPlayerAvatarImageUrl);
+    }
+
+    if (GooglePlayGamesPlayerDisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesPlayerDisplayName"));
+        writer->WriteValue(GooglePlayGamesPlayerDisplayName);
+    }
+
+    if (GooglePlayGamesPlayerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesPlayerId"));
+        writer->WriteValue(GooglePlayGamesPlayerId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FUserGooglePlayGamesInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesPlayerAvatarImageUrlValue = obj->TryGetField(TEXT("GooglePlayGamesPlayerAvatarImageUrl"));
+    if (GooglePlayGamesPlayerAvatarImageUrlValue.IsValid() && !GooglePlayGamesPlayerAvatarImageUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (GooglePlayGamesPlayerAvatarImageUrlValue->TryGetString(TmpValue)) { GooglePlayGamesPlayerAvatarImageUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesPlayerDisplayNameValue = obj->TryGetField(TEXT("GooglePlayGamesPlayerDisplayName"));
+    if (GooglePlayGamesPlayerDisplayNameValue.IsValid() && !GooglePlayGamesPlayerDisplayNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (GooglePlayGamesPlayerDisplayNameValue->TryGetString(TmpValue)) { GooglePlayGamesPlayerDisplayName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesPlayerIdValue = obj->TryGetField(TEXT("GooglePlayGamesPlayerId"));
+    if (GooglePlayGamesPlayerIdValue.IsValid() && !GooglePlayGamesPlayerIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (GooglePlayGamesPlayerIdValue->TryGetString(TmpValue)) { GooglePlayGamesPlayerId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FUserIosDeviceInfo::~FUserIosDeviceInfo()
 {
 
@@ -7647,6 +7707,7 @@ void PlayFab::ClientModels::writeUserOriginationEnumJSON(UserOrigination enumVal
     case UserOriginationOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
     case UserOriginationApple: writer->WriteValue(TEXT("Apple")); break;
     case UserOriginationNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
+    case UserOriginationGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     }
 }
 
@@ -7684,6 +7745,7 @@ ClientModels::UserOrigination PlayFab::ClientModels::readUserOriginationFromValu
         _UserOriginationMap.Add(TEXT("OpenIdConnect"), UserOriginationOpenIdConnect);
         _UserOriginationMap.Add(TEXT("Apple"), UserOriginationApple);
         _UserOriginationMap.Add(TEXT("NintendoSwitchAccount"), UserOriginationNintendoSwitchAccount);
+        _UserOriginationMap.Add(TEXT("GooglePlayGames"), UserOriginationGooglePlayGames);
 
     }
 
@@ -7860,6 +7922,7 @@ PlayFab::ClientModels::FUserAccountInfo::~FUserAccountInfo()
     //if (FacebookInstantGamesIdInfo != nullptr) delete FacebookInstantGamesIdInfo;
     //if (GameCenterInfo != nullptr) delete GameCenterInfo;
     //if (GoogleInfo != nullptr) delete GoogleInfo;
+    //if (GooglePlayGamesInfo != nullptr) delete GooglePlayGamesInfo;
     //if (IosDeviceInfo != nullptr) delete IosDeviceInfo;
     //if (KongregateInfo != nullptr) delete KongregateInfo;
     //if (NintendoSwitchAccountInfo != nullptr) delete NintendoSwitchAccountInfo;
@@ -7920,6 +7983,12 @@ void PlayFab::ClientModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
     {
         writer->WriteIdentifierPrefix(TEXT("GoogleInfo"));
         GoogleInfo->writeJSON(writer);
+    }
+
+    if (GooglePlayGamesInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesInfo"));
+        GooglePlayGamesInfo->writeJSON(writer);
     }
 
     if (IosDeviceInfo.IsValid())
@@ -8055,6 +8124,12 @@ bool PlayFab::ClientModels::FUserAccountInfo::readFromValue(const TSharedPtr<FJs
     if (GoogleInfoValue.IsValid() && !GoogleInfoValue->IsNull())
     {
         GoogleInfo = MakeShareable(new FUserGoogleInfo(GoogleInfoValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesInfoValue = obj->TryGetField(TEXT("GooglePlayGamesInfo"));
+    if (GooglePlayGamesInfoValue.IsValid() && !GooglePlayGamesInfoValue->IsNull())
+    {
+        GooglePlayGamesInfo = MakeShareable(new FUserGooglePlayGamesInfo(GooglePlayGamesInfoValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> IosDeviceInfoValue = obj->TryGetField(TEXT("IosDeviceInfo"));
@@ -17362,6 +17437,127 @@ void PlayFab::ClientModels::FLoginWithGoogleAccountRequest::writeJSON(JsonWriter
 }
 
 bool PlayFab::ClientModels::FLoginWithGoogleAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
+    if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
+    {
+        FString TmpValue;
+        if (EncryptedRequestValue->TryGetString(TmpValue)) { EncryptedRequest = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayerSecretValue = obj->TryGetField(TEXT("PlayerSecret"));
+    if (PlayerSecretValue.IsValid() && !PlayerSecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayerSecretValue->TryGetString(TmpValue)) { PlayerSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerAuthCodeValue = obj->TryGetField(TEXT("ServerAuthCode"));
+    if (ServerAuthCodeValue.IsValid() && !ServerAuthCodeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerAuthCodeValue->TryGetString(TmpValue)) { ServerAuthCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FLoginWithGooglePlayGamesServicesRequest::~FLoginWithGooglePlayGamesServicesRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ClientModels::FLoginWithGooglePlayGamesServicesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
+
+    if (ServerAuthCode.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerAuthCode"));
+        writer->WriteValue(ServerAuthCode);
+    }
+
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithGooglePlayGamesServicesRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FLoginWithGooglePlayGamesServicesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

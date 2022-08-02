@@ -583,6 +583,7 @@ enum class ELoginIdentityProvider : uint8
     pfenum_OpenIdConnect = 18 UMETA(DisplayName = "OpenIdConnect"),
     pfenum_Apple = 19 UMETA(DisplayName = "Apple"),
     pfenum_NintendoSwitchAccount = 20 UMETA(DisplayName = "NintendoSwitchAccount"),
+    pfenum_GooglePlayGames = 21 UMETA(DisplayName = "GooglePlayGames"),
 };
 
 /** PushNotificationPlatform */
@@ -1264,6 +1265,7 @@ enum class EUserOrigination : uint8
     pfenum_OpenIdConnect = 20 UMETA(DisplayName = "OpenIdConnect"),
     pfenum_Apple = 21 UMETA(DisplayName = "Apple"),
     pfenum_NintendoSwitchAccount = 22 UMETA(DisplayName = "NintendoSwitchAccount"),
+    pfenum_GooglePlayGames = 23 UMETA(DisplayName = "GooglePlayGames"),
 };
 
 /** AdActivity */

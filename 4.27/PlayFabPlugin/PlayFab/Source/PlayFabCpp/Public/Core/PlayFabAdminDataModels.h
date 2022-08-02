@@ -5232,7 +5232,8 @@ namespace AdminModels
         LoginIdentityProviderFacebookInstantGames,
         LoginIdentityProviderOpenIdConnect,
         LoginIdentityProviderApple,
-        LoginIdentityProviderNintendoSwitchAccount
+        LoginIdentityProviderNintendoSwitchAccount,
+        LoginIdentityProviderGooglePlayGames
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -8082,6 +8083,37 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUserGooglePlayGamesInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Avatar image url of the Google Play Games player
+        FString GooglePlayGamesPlayerAvatarImageUrl;
+
+        // [optional] Display name of the Google Play Games player
+        FString GooglePlayGamesPlayerDisplayName;
+
+        // [optional] Google Play Games player ID
+        FString GooglePlayGamesPlayerId;
+
+        FUserGooglePlayGamesInfo() :
+            FPlayFabCppBaseModel(),
+            GooglePlayGamesPlayerAvatarImageUrl(),
+            GooglePlayGamesPlayerDisplayName(),
+            GooglePlayGamesPlayerId()
+            {}
+
+        FUserGooglePlayGamesInfo(const FUserGooglePlayGamesInfo& src) = default;
+
+        FUserGooglePlayGamesInfo(const TSharedPtr<FJsonObject>& obj) : FUserGooglePlayGamesInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserGooglePlayGamesInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUserIosDeviceInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] iOS device ID
@@ -8335,7 +8367,8 @@ namespace AdminModels
         UserOriginationFacebookInstantGamesId,
         UserOriginationOpenIdConnect,
         UserOriginationApple,
-        UserOriginationNintendoSwitchAccount
+        UserOriginationNintendoSwitchAccount,
+        UserOriginationGooglePlayGames
     };
 
     PLAYFABCPP_API void writeUserOriginationEnumJSON(UserOrigination enumVal, JsonWriter& writer);
@@ -8479,6 +8512,9 @@ namespace AdminModels
         // [optional] User Google account information, if a Google account has been linked
         TSharedPtr<FUserGoogleInfo> GoogleInfo;
 
+        // [optional] User Google Play Games account information, if a Google Play Games account has been linked
+        TSharedPtr<FUserGooglePlayGamesInfo> GooglePlayGamesInfo;
+
         // [optional] User iOS device information, if an iOS device has been linked
         TSharedPtr<FUserIosDeviceInfo> IosDeviceInfo;
 
@@ -8527,6 +8563,7 @@ namespace AdminModels
             FacebookInstantGamesIdInfo(nullptr),
             GameCenterInfo(nullptr),
             GoogleInfo(nullptr),
+            GooglePlayGamesInfo(nullptr),
             IosDeviceInfo(nullptr),
             KongregateInfo(nullptr),
             NintendoSwitchAccountInfo(nullptr),

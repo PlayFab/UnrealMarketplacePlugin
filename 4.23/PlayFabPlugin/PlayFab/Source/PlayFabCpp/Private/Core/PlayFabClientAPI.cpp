@@ -3139,6 +3139,48 @@ void UPlayFabClientAPI::OnLoginWithGoogleAccountResult(FHttpRequestPtr HttpReque
     }
 }
 
+bool UPlayFabClientAPI::LoginWithGooglePlayGamesServices(
+    ClientModels::FLoginWithGooglePlayGamesServicesRequest& request,
+    const FLoginWithGooglePlayGamesServicesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithGooglePlayGamesServices"), request.toJSONString(), TEXT(""), TEXT(""));
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLoginWithGooglePlayGamesServicesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnLoginWithGooglePlayGamesServicesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithGooglePlayGamesServicesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FLoginResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
+        if (outResult.SessionTicket.Len() > 0) {
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
+        }
+        if (outResult.EntityToken.IsValid()) {
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
+        }
+        if (outResult.PlayFabId.Len() > 0) {
+            outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
+        }
+        
+
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::LoginWithIOSDeviceID(
     ClientModels::FLoginWithIOSDeviceIDRequest& request,
     const FLoginWithIOSDeviceIDDelegate& SuccessDelegate,

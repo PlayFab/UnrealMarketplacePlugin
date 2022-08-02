@@ -4273,6 +4273,75 @@ void UPlayFabClientAPI::HelperLoginWithGoogleAccount(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
+/** Signs the user in using their Google Play Games account credentials */
+UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGooglePlayGamesServices(FClientLoginWithGooglePlayGamesServicesRequest request,
+    FDelegateOnSuccessLoginWithGooglePlayGamesServices onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithGooglePlayGamesServices = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithGooglePlayGamesServices);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/LoginWithGooglePlayGamesServices";
+    manager->returnsSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
+    }
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
+    }
+    if (request.ServerAuthCode.IsEmpty() || request.ServerAuthCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ServerAuthCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ServerAuthCode"), request.ServerAuthCode);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLoginWithGooglePlayGamesServices(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithGooglePlayGamesServices.IsBound())
+    {
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithGooglePlayGamesServices.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Signs the user in using the vendor-specific iOS device identifier, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
 UPlayFabClientAPI* UPlayFabClientAPI::LoginWithIOSDeviceID(FClientLoginWithIOSDeviceIDRequest request,
     FDelegateOnSuccessLoginWithIOSDeviceID onSuccess,

@@ -1056,6 +1056,64 @@ bool PlayFab::ServerModels::FUserGoogleInfo::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FUserGooglePlayGamesInfo::~FUserGooglePlayGamesInfo()
+{
+
+}
+
+void PlayFab::ServerModels::FUserGooglePlayGamesInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (GooglePlayGamesPlayerAvatarImageUrl.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesPlayerAvatarImageUrl"));
+        writer->WriteValue(GooglePlayGamesPlayerAvatarImageUrl);
+    }
+
+    if (GooglePlayGamesPlayerDisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesPlayerDisplayName"));
+        writer->WriteValue(GooglePlayGamesPlayerDisplayName);
+    }
+
+    if (GooglePlayGamesPlayerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesPlayerId"));
+        writer->WriteValue(GooglePlayGamesPlayerId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUserGooglePlayGamesInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesPlayerAvatarImageUrlValue = obj->TryGetField(TEXT("GooglePlayGamesPlayerAvatarImageUrl"));
+    if (GooglePlayGamesPlayerAvatarImageUrlValue.IsValid() && !GooglePlayGamesPlayerAvatarImageUrlValue->IsNull())
+    {
+        FString TmpValue;
+        if (GooglePlayGamesPlayerAvatarImageUrlValue->TryGetString(TmpValue)) { GooglePlayGamesPlayerAvatarImageUrl = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesPlayerDisplayNameValue = obj->TryGetField(TEXT("GooglePlayGamesPlayerDisplayName"));
+    if (GooglePlayGamesPlayerDisplayNameValue.IsValid() && !GooglePlayGamesPlayerDisplayNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (GooglePlayGamesPlayerDisplayNameValue->TryGetString(TmpValue)) { GooglePlayGamesPlayerDisplayName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesPlayerIdValue = obj->TryGetField(TEXT("GooglePlayGamesPlayerId"));
+    if (GooglePlayGamesPlayerIdValue.IsValid() && !GooglePlayGamesPlayerIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (GooglePlayGamesPlayerIdValue->TryGetString(TmpValue)) { GooglePlayGamesPlayerId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FUserIosDeviceInfo::~FUserIosDeviceInfo()
 {
 
@@ -1832,6 +1890,7 @@ void PlayFab::ServerModels::writeUserOriginationEnumJSON(UserOrigination enumVal
     case UserOriginationOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
     case UserOriginationApple: writer->WriteValue(TEXT("Apple")); break;
     case UserOriginationNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
+    case UserOriginationGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     }
 }
 
@@ -1869,6 +1928,7 @@ ServerModels::UserOrigination PlayFab::ServerModels::readUserOriginationFromValu
         _UserOriginationMap.Add(TEXT("OpenIdConnect"), UserOriginationOpenIdConnect);
         _UserOriginationMap.Add(TEXT("Apple"), UserOriginationApple);
         _UserOriginationMap.Add(TEXT("NintendoSwitchAccount"), UserOriginationNintendoSwitchAccount);
+        _UserOriginationMap.Add(TEXT("GooglePlayGames"), UserOriginationGooglePlayGames);
 
     }
 
@@ -2139,6 +2199,7 @@ PlayFab::ServerModels::FUserAccountInfo::~FUserAccountInfo()
     //if (FacebookInstantGamesIdInfo != nullptr) delete FacebookInstantGamesIdInfo;
     //if (GameCenterInfo != nullptr) delete GameCenterInfo;
     //if (GoogleInfo != nullptr) delete GoogleInfo;
+    //if (GooglePlayGamesInfo != nullptr) delete GooglePlayGamesInfo;
     //if (IosDeviceInfo != nullptr) delete IosDeviceInfo;
     //if (KongregateInfo != nullptr) delete KongregateInfo;
     //if (NintendoSwitchAccountInfo != nullptr) delete NintendoSwitchAccountInfo;
@@ -2199,6 +2260,12 @@ void PlayFab::ServerModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
     {
         writer->WriteIdentifierPrefix(TEXT("GoogleInfo"));
         GoogleInfo->writeJSON(writer);
+    }
+
+    if (GooglePlayGamesInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesInfo"));
+        GooglePlayGamesInfo->writeJSON(writer);
     }
 
     if (IosDeviceInfo.IsValid())
@@ -2334,6 +2401,12 @@ bool PlayFab::ServerModels::FUserAccountInfo::readFromValue(const TSharedPtr<FJs
     if (GoogleInfoValue.IsValid() && !GoogleInfoValue->IsNull())
     {
         GoogleInfo = MakeShareable(new FUserGoogleInfo(GoogleInfoValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesInfoValue = obj->TryGetField(TEXT("GooglePlayGamesInfo"));
+    if (GooglePlayGamesInfoValue.IsValid() && !GooglePlayGamesInfoValue->IsNull())
+    {
+        GooglePlayGamesInfo = MakeShareable(new FUserGooglePlayGamesInfo(GooglePlayGamesInfoValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> IosDeviceInfoValue = obj->TryGetField(TEXT("IosDeviceInfo"));
@@ -5720,6 +5793,7 @@ void PlayFab::ServerModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProv
     case LoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
     case LoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
     case LoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
+    case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     }
 }
 
@@ -5755,6 +5829,7 @@ ServerModels::LoginIdentityProvider PlayFab::ServerModels::readLoginIdentityProv
         _LoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), LoginIdentityProviderOpenIdConnect);
         _LoginIdentityProviderMap.Add(TEXT("Apple"), LoginIdentityProviderApple);
         _LoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), LoginIdentityProviderNintendoSwitchAccount);
+        _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
 
     }
 

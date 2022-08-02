@@ -550,6 +550,7 @@ namespace PlayFab
         PlayFabErrorAutomationInvalidRuleName = 1542,
         PlayFabErrorAutomationRuleAlreadyExists = 1543,
         PlayFabErrorAutomationRuleLimitExceeded = 1544,
+        PlayFabErrorInvalidGooglePlayGamesServerAuthCode = 1545,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

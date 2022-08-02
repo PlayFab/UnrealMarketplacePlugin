@@ -1111,6 +1111,19 @@ public:
         void HelperLoginWithGoogleAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithGooglePlayGamesServices, FClientLoginResult, result, UObject*, customData);
+
+    /** Signs the user in using their Google Play Games account credentials */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LoginWithGooglePlayGamesServices(FClientLoginWithGooglePlayGamesServicesRequest request,
+            FDelegateOnSuccessLoginWithGooglePlayGamesServices onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithGooglePlayGamesServices(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithIOSDeviceID, FClientLoginResult, result, UObject*, customData);
 
     /**
@@ -2549,6 +2562,7 @@ public:
     FDelegateOnSuccessLoginWithFacebookInstantGamesId OnSuccessLoginWithFacebookInstantGamesId;
     FDelegateOnSuccessLoginWithGameCenter OnSuccessLoginWithGameCenter;
     FDelegateOnSuccessLoginWithGoogleAccount OnSuccessLoginWithGoogleAccount;
+    FDelegateOnSuccessLoginWithGooglePlayGamesServices OnSuccessLoginWithGooglePlayGamesServices;
     FDelegateOnSuccessLoginWithIOSDeviceID OnSuccessLoginWithIOSDeviceID;
     FDelegateOnSuccessLoginWithKongregate OnSuccessLoginWithKongregate;
     FDelegateOnSuccessLoginWithNintendoServiceAccount OnSuccessLoginWithNintendoServiceAccount;

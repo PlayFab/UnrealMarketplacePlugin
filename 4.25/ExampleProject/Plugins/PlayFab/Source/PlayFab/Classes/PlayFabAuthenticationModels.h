@@ -36,6 +36,30 @@ class UPlayFabJsonObject;
 //////////////////////////////////////////////////////
 
 /**
+ * Delete a game_server entity. The caller can be the game_server entity attempting to delete itself. Or a title entity
+ * attempting to delete game_server entities for this title.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationDeleteRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The game_server entity to be removed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationEmptyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
  * This API must be called with X-SecretKey, X-Authentication or X-EntityToken headers. An optional EntityKey may be
  * included to attempt to set the resulting EntityToken to a specific entity, however the entity must be a relation of the
  * caller, such as the master_player_account of a character. If sending X-EntityToken the account will be marked as freshly

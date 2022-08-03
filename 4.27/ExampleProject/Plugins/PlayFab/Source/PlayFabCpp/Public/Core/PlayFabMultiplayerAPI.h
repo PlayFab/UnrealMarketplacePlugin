@@ -223,7 +223,10 @@ namespace PlayFab
          * Find lobbies which match certain criteria and contain friends of the caller. Friends optionally include Steam, Facebook and Xbox friends. Returns a maximum of 50 instances for client calls. This method is not callable by servers.
          */
         bool FindFriendLobbies(MultiplayerModels::FFindFriendLobbiesRequest& request, const FFindFriendLobbiesDelegate& SuccessDelegate = FFindFriendLobbiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Find all the lobbies that match certain criteria.
+        /**
+         * Find all the lobbies that match certain criteria.
+         * Find lobbies which match certain criteria. Returns a maximum of 500 entries for server callers, and 50 entries for client callers.
+         */
         bool FindLobbies(MultiplayerModels::FFindLobbiesRequest& request, const FFindLobbiesDelegate& SuccessDelegate = FFindLobbiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets a URL that can be used to download the specified asset. A sample pre-authenticated url -

@@ -22,6 +22,7 @@ namespace PlayFab
     class PLAYFABCPP_API UPlayFabAuthenticationInstanceAPI
     {
     public:
+        DECLARE_DELEGATE_OneParam(FDeleteDelegate, const AuthenticationModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FGetEntityTokenDelegate, const AuthenticationModels::FGetEntityTokenResponse&);
         DECLARE_DELEGATE_OneParam(FValidateEntityTokenDelegate, const AuthenticationModels::FValidateEntityTokenResponse&);
 
@@ -56,6 +57,11 @@ namespace PlayFab
 
         // ------------ Generated API calls
         /**
+         * Delete a game_server entity.
+         * Delete a game_server entity. The caller can be the game_server entity attempting to delete itself. Or a title entity attempting to delete game_server entities for this title.
+         */
+        bool Delete(AuthenticationModels::FDeleteRequest& request, const FDeleteDelegate& SuccessDelegate = FDeleteDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Method to exchange a legacy AuthenticationTicket or title SecretKey for an Entity Token or to refresh a still valid
          * Entity Token.
          * This API must be called with X-SecretKey, X-Authentication or X-EntityToken headers. An optional EntityKey may be included to attempt to set the resulting EntityToken to a specific entity, however the entity must be a relation of the caller, such as the master_player_account of a character. If sending X-EntityToken the account will be marked as freshly logged in and will issue a new token. If using X-Authentication or X-EntityToken the header must still be valid and cannot be expired or revoked.
@@ -69,6 +75,7 @@ namespace PlayFab
 
     private:
         // ------------ Generated result handlers
+        void OnDeleteResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetEntityTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetEntityTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnValidateEntityTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FValidateEntityTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 

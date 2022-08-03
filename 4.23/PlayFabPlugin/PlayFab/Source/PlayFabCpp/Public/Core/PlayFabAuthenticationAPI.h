@@ -18,6 +18,7 @@ namespace PlayFab
     class PLAYFABCPP_API UPlayFabAuthenticationAPI
     {
     public:
+        DECLARE_DELEGATE_OneParam(FDeleteDelegate, const AuthenticationModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FGetEntityTokenDelegate, const AuthenticationModels::FGetEntityTokenResponse&);
         DECLARE_DELEGATE_OneParam(FValidateEntityTokenDelegate, const AuthenticationModels::FValidateEntityTokenResponse&);
 
@@ -28,6 +29,11 @@ namespace PlayFab
         FString GetBuildIdentifier() const;
 
         // ------------ Generated API calls
+        /**
+         * Delete a game_server entity.
+         * Delete a game_server entity. The caller can be the game_server entity attempting to delete itself. Or a title entity attempting to delete game_server entities for this title.
+         */
+        bool Delete(AuthenticationModels::FDeleteRequest& request, const FDeleteDelegate& SuccessDelegate = FDeleteDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Method to exchange a legacy AuthenticationTicket or title SecretKey for an Entity Token or to refresh a still valid
          * Entity Token.
@@ -42,6 +48,7 @@ namespace PlayFab
 
     private:
         // ------------ Generated result handlers
+        void OnDeleteResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetEntityTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetEntityTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnValidateEntityTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FValidateEntityTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 

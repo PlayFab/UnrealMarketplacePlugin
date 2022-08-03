@@ -41,6 +41,51 @@ namespace AuthenticationModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeleteRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The game_server entity to be removed.
+        FEntityKey Entity;
+
+        FDeleteRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity()
+            {}
+
+        FDeleteRequest(const FDeleteRequest& src) = default;
+
+        FDeleteRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        FEmptyResponse() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FEmptyResponse(const FEmptyResponse& src) = default;
+
+        FEmptyResponse(const TSharedPtr<FJsonObject>& obj) : FEmptyResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEmptyResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FEntityLineage : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The Character Id of the associated entity.

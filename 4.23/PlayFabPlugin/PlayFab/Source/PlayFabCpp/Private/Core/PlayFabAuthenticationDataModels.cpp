@@ -60,6 +60,73 @@ bool PlayFab::AuthenticationModels::FEntityKey::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
+PlayFab::AuthenticationModels::FDeleteRequest::~FDeleteRequest()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FDeleteRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Entity"));
+    Entity.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FDeleteRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = FEntityKey(EntityValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FEmptyResponse::~FEmptyResponse()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FEmptyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FEmptyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::AuthenticationModels::FEntityLineage::~FEntityLineage()
 {
 

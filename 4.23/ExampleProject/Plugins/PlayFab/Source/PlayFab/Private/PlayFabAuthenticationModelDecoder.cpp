@@ -27,6 +27,15 @@
 // Authentication
 //////////////////////////////////////////////////////
 
+FAuthenticationEmptyResponse UPlayFabAuthenticationModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationEmptyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FAuthenticationGetEntityTokenResponse UPlayFabAuthenticationModelDecoder::decodeGetEntityTokenResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

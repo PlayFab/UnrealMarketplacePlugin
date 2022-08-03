@@ -63,6 +63,19 @@ public:
     // Authentication
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDelete, FAuthenticationEmptyResponse, result, UObject*, customData);
+
+    /** Delete a game_server entity. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* Delete(FAuthenticationDeleteRequest request,
+            FDelegateOnSuccessDelete onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDelete(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetEntityToken, FAuthenticationGetEntityTokenResponse, result, UObject*, customData);
 
     /**
@@ -109,6 +122,7 @@ public:
     UObject* mCustomData;
 
     FDelegateOnFailurePlayFabError OnFailure;
+    FDelegateOnSuccessDelete OnSuccessDelete;
     FDelegateOnSuccessGetEntityToken OnSuccessGetEntityToken;
     FDelegateOnSuccessValidateEntityToken OnSuccessValidateEntityToken;
 

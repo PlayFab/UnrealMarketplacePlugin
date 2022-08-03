@@ -79,6 +79,55 @@ FString UPlayFabAuthenticationAPI::PercentEncode(const FString& Text)
 ///////////////////////////////////////////////////////
 // Authentication
 //////////////////////////////////////////////////////
+/** Delete a game_server entity. */
+UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::Delete(FAuthenticationDeleteRequest request,
+    FDelegateOnSuccessDelete onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAuthenticationAPI* manager = NewObject<UPlayFabAuthenticationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDelete = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAuthenticationAPI::HelperDelete);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/GameServerIdentity/Delete";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAuthenticationRequestCompleted
+void UPlayFabAuthenticationAPI::HelperDelete(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDelete.IsBound())
+    {
+        FAuthenticationEmptyResponse ResultStruct = UPlayFabAuthenticationModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessDelete.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Method to exchange a legacy AuthenticationTicket or title SecretKey for an Entity Token or to refresh a still valid Entity Token. */
 UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::GetEntityToken(FAuthenticationGetEntityTokenRequest request,
     FDelegateOnSuccessGetEntityToken onSuccess,

@@ -1,8 +1,9 @@
+var ejs = require('ejs');
 var path = require("path");
 
 // Making resharper less noisy - These are defined in Generate.js
 if (typeof (generateApiSummaryLines) === "undefined") generateApiSummaryLines = function () { };
-if (typeof (getCompiledTemplate) === "undefined") getCompiledTemplate = function () { };
+//if (typeof (getCompiledTemplate) === "undefined") getCompiledTemplate = function () { };
 if (typeof (templatizeTree) === "undefined") templatizeTree = function () { };
 
 var maxEnumSize = 255;
@@ -43,18 +44,21 @@ function makeApi(api, copyright, sourceDir, apiOutputDir, subdir) {
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
         hasRequest: hasRequest
     };
+    var apiHeaderTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.h.ejs"));
+    var apiHeaderTemplate = ejs.render(apiHeaderTemplateFileAsString, apiLocals);//getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.h.ejs"));
+    writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "PlayFab" + api.name + "API.h"), apiHeaderTemplate);
 
-    var apiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.h.ejs"));
-    writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "PlayFab" + api.name + "API.h"), apiHeaderTemplate(apiLocals));
+    var instanceApiHeaderTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.h.ejs"));
+    var instanceApiHeaderTemplate = ejs.render(instanceApiHeaderTemplateFileAsString, apiLocals);// getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.h.ejs"));
+    writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "PlayFab" + api.name + "InstanceAPI.h"), instanceApiHeaderTemplate);
 
-    var instanceApiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.h.ejs"));
-    writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "PlayFab" + api.name + "InstanceAPI.h"), instanceApiHeaderTemplate(apiLocals));
+    var apiBodyTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.cpp.ejs"));
+    var apiBodyTemplate = ejs.render(apiBodyTemplateFileAsString, apiLocals);//getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.cpp.ejs"));
+    writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "API.cpp"), apiBodyTemplate);
 
-    var apiBodyTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.cpp.ejs"));
-    writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "API.cpp"), apiBodyTemplate(apiLocals));
-
-    var instanceApiBodyTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.cpp.ejs"));
-    writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "InstanceAPI.cpp"), instanceApiBodyTemplate(apiLocals));
+    var instanceApiBodyTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.cpp.ejs"));
+    var instanceApiBodyTemplate = ejs.render(instanceApiBodyTemplateFileAsString, apiLocals);//getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.cpp.ejs"));
+    writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "InstanceAPI.cpp"), instanceApiBodyTemplate);
 }
 
 function generateModels(apis, copyright, sourceDir, apiOutputDir, libraryName, subdir) {
@@ -82,11 +86,13 @@ function generateModels(apis, copyright, sourceDir, apiOutputDir, libraryName, s
             libraryName: libraryName
         };
 
-        var modelHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_DataModels.h.ejs"));
-        writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "/PlayFab" + api.name + "DataModels.h"), modelHeaderTemplate(modelLocals));
+        var modelHeaderFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_DataModels.h.ejs"));
+        var modelHeaderTemplate = ejs.render(modelHeaderFileAsString, modelLocals);//getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_DataModels.h.ejs"));
+        writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "/PlayFab" + api.name + "DataModels.h"), modelHeaderTemplate);
 
-        var modelBodyTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_DataModels.cpp.ejs"));
-        writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "DataModels.cpp"), modelBodyTemplate(modelLocals));
+        var modelBodyTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_DataModels.cpp.ejs"));
+        var modelBodyTemplate = ejs.render(modelBodyTemplateFileAsString, modelLocals);// getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_DataModels.cpp.ejs"));
+        writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "DataModels.cpp"), modelBodyTemplate);
     }
 }
 

@@ -1,8 +1,9 @@
+var ejs = require('ejs');
 var path = require("path");
 
 // Making resharper less noisy - These are defined in Generate.js
 if (typeof (generateApiSummaryLines) === "undefined") generateApiSummaryLines = function () { };
-if (typeof (getCompiledTemplate) === "undefined") getCompiledTemplate = function () { };
+// if (typeof (getCompiledTemplate) === "undefined") getCompiledTemplate = function () { };
 
 exports.makeBpCombinedAPI = function (apis, copyright, sourceDir, apiOutputDir, ueTargetVersion, sdkVersion, buildIdentifier) {
     apiOutputDir = path.join(apiOutputDir, "PlayFabPlugin");
@@ -51,20 +52,26 @@ function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName, ueTarget
         sdkVersion: sdkGlobals.sdkVersion
     };
 
-    var apiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.h.ejs"));
-    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Classes/PlayFab" + api.name + "API.h"), apiHeaderTemplate(apiLocals));
-    var apiCppTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.cpp.ejs"));
-    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Private/PlayFab" + api.name + "API.cpp"), apiCppTemplate(apiLocals));
+    var apiHeaderTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.h.ejs"));
+    var apiHeaderTemplate = ejs.render(apiHeaderTemplateFileAsString, apiLocals); //getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.h.ejs"));
+    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Classes/PlayFab" + api.name + "API.h"), apiHeaderTemplate);
+    var apiCppTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.cpp.ejs"));
+    var apiCppTemplate = ejs.render(apiCppTemplateFileAsString, apiLocals);// getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.cpp.ejs"));
+    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Private/PlayFab" + api.name + "API.cpp"), apiCppTemplate);
 
-    var apiPlayFabModelTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_Models.h.ejs"));
-    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Classes/PlayFab" + api.name + "Models.h"), apiPlayFabModelTemplate(apiLocals));
-    var apiPlayFabModelCppTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_Models.cpp.ejs"));
-    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Private/PlayFab" + api.name + "Models.cpp"), apiPlayFabModelCppTemplate(apiLocals));
+    var apiPlayFabModelFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_Models.h.ejs"));
+    var apiPlayFabModelTemplate = ejs.render(apiPlayFabModelFileAsString, apiLocals) ;//getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_Models.h.ejs"));
+    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Classes/PlayFab" + api.name + "Models.h"), apiPlayFabModelTemplate);
+    var apiPlayFabModelCppFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_Models.cpp.ejs"));
+    var apiPlayFabModelCppTemplate = ejs.render(apiPlayFabModelCppFileAsString, apiLocals);// getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_Models.cpp.ejs"));
+    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Private/PlayFab" + api.name + "Models.cpp"), apiPlayFabModelCppTemplate);
 
-    var apiPlayFabModelDecoderHTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_ModelDecoder.h.ejs"));
-    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Classes/PlayFab" + api.name + "ModelDecoder.h"), apiPlayFabModelDecoderHTemplate(apiLocals));
-    var apiPlayFabModelDecoderCppTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_ModelDecoder.cpp.ejs"));
-    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Private/PlayFab" + api.name + "ModelDecoder.cpp"), apiPlayFabModelDecoderCppTemplate(apiLocals));
+    var apiPlayFabModelDecoderHTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_ModelDecoder.h.ejs"));
+    var apiPlayFabModelDecoderHTemplate = ejs.render(apiPlayFabModelDecoderHTemplateFileAsString, apiLocals);//getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_ModelDecoder.h.ejs"));
+    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Classes/PlayFab" + api.name + "ModelDecoder.h"), apiPlayFabModelDecoderHTemplate);
+    var apiPlayFabModelDecoderCppTemplateFileAsString = readFile(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_ModelDecoder.cpp.ejs"));
+    var apiPlayFabModelDecoderCppTemplate = ejs.render(apiPlayFabModelDecoderCppTemplateFileAsString, apiLocals);//getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_ModelDecoder.cpp.ejs"));
+    writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Private/PlayFab" + api.name + "ModelDecoder.cpp"), apiPlayFabModelDecoderCppTemplate);
 }
 
 // Any playfab datatype names that conflict with Unreal datatype names need to be prefixed with "Pf-"

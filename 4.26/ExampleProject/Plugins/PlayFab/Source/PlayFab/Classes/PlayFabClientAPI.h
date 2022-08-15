@@ -219,6 +219,23 @@ public:
         void HelperGetPlayFabIDsFromGoogleIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs, FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult, result, UObject*, customData);
+
+    /**
+     * Retrieves the unique PlayFab identifiers for the given set of Google Play Games identifiers. The Google Play Games
+     * identifiers are the IDs for the user accounts, available as "playerId" in the Google Play Games Services - Players API
+     * calls.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* GetPlayFabIDsFromGooglePlayGamesPlayerIDs(FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromGooglePlayGamesPlayerIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromKongregateIDs, FClientGetPlayFabIDsFromKongregateIDsResult, result, UObject*, customData);
 
     /**
@@ -415,6 +432,22 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLinkGoogleAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkGooglePlayGamesServicesAccount, FClientLinkGooglePlayGamesServicesAccountResult, result, UObject*, customData);
+
+    /**
+     * Links the currently signed-in user account to their Google Play Games account, using their Google Play Games account
+     * credentials
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LinkGooglePlayGamesServicesAccount(FClientLinkGooglePlayGamesServicesAccountRequest request,
+            FDelegateOnSuccessLinkGooglePlayGamesServicesAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkGooglePlayGamesServicesAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkIOSDeviceID, FClientLinkIOSDeviceIDResult, result, UObject*, customData);
@@ -688,6 +721,19 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUnlinkGoogleAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkGooglePlayGamesServicesAccount, FClientUnlinkGooglePlayGamesServicesAccountResult, result, UObject*, customData);
+
+    /** Unlinks the related Google Play Games account from the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* UnlinkGooglePlayGamesServicesAccount(FClientUnlinkGooglePlayGamesServicesAccountRequest request,
+            FDelegateOnSuccessUnlinkGooglePlayGamesServicesAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkGooglePlayGamesServicesAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkIOSDeviceID, FClientUnlinkIOSDeviceIDResult, result, UObject*, customData);
@@ -2499,6 +2545,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromGameCenterIDs OnSuccessGetPlayFabIDsFromGameCenterIDs;
     FDelegateOnSuccessGetPlayFabIDsFromGenericIDs OnSuccessGetPlayFabIDsFromGenericIDs;
     FDelegateOnSuccessGetPlayFabIDsFromGoogleIDs OnSuccessGetPlayFabIDsFromGoogleIDs;
+    FDelegateOnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs OnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs;
     FDelegateOnSuccessGetPlayFabIDsFromKongregateIDs OnSuccessGetPlayFabIDsFromKongregateIDs;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoServiceAccountIds OnSuccessGetPlayFabIDsFromNintendoServiceAccountIds;
     FDelegateOnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds OnSuccessGetPlayFabIDsFromNintendoSwitchDeviceIds;
@@ -2513,6 +2560,7 @@ public:
     FDelegateOnSuccessLinkFacebookInstantGamesId OnSuccessLinkFacebookInstantGamesId;
     FDelegateOnSuccessLinkGameCenterAccount OnSuccessLinkGameCenterAccount;
     FDelegateOnSuccessLinkGoogleAccount OnSuccessLinkGoogleAccount;
+    FDelegateOnSuccessLinkGooglePlayGamesServicesAccount OnSuccessLinkGooglePlayGamesServicesAccount;
     FDelegateOnSuccessLinkIOSDeviceID OnSuccessLinkIOSDeviceID;
     FDelegateOnSuccessLinkKongregate OnSuccessLinkKongregate;
     FDelegateOnSuccessLinkNintendoServiceAccount OnSuccessLinkNintendoServiceAccount;
@@ -2533,6 +2581,7 @@ public:
     FDelegateOnSuccessUnlinkFacebookInstantGamesId OnSuccessUnlinkFacebookInstantGamesId;
     FDelegateOnSuccessUnlinkGameCenterAccount OnSuccessUnlinkGameCenterAccount;
     FDelegateOnSuccessUnlinkGoogleAccount OnSuccessUnlinkGoogleAccount;
+    FDelegateOnSuccessUnlinkGooglePlayGamesServicesAccount OnSuccessUnlinkGooglePlayGamesServicesAccount;
     FDelegateOnSuccessUnlinkIOSDeviceID OnSuccessUnlinkIOSDeviceID;
     FDelegateOnSuccessUnlinkKongregate OnSuccessUnlinkKongregate;
     FDelegateOnSuccessUnlinkNintendoServiceAccount OnSuccessUnlinkNintendoServiceAccount;

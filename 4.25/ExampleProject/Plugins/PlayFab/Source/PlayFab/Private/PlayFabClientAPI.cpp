@@ -686,6 +686,61 @@ void UPlayFabClientAPI::HelperGetPlayFabIDsFromGoogleIDs(FPlayFabBaseModel respo
     this->RemoveFromRoot();
 }
 
+/** Retrieves the unique PlayFab identifiers for the given set of Google Play Games identifiers. The Google Play Games identifiers are the IDs for the user accounts, available as "playerId" in the Google Play Games Services - Players API calls. */
+UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromGooglePlayGamesPlayerIDs(FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromGooglePlayGamesPlayerIDs);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromGooglePlayGamesPlayerIDs";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.GooglePlayGamesPlayerIDs.IsEmpty() || request.GooglePlayGamesPlayerIDs == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("GooglePlayGamesPlayerIDs"));
+    } else {
+        TArray<FString> GooglePlayGamesPlayerIDsArray;
+        FString(request.GooglePlayGamesPlayerIDs).ParseIntoArray(GooglePlayGamesPlayerIDsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("GooglePlayGamesPlayerIDs"), GooglePlayGamesPlayerIDsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperGetPlayFabIDsFromGooglePlayGamesPlayerIDs(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs.IsBound())
+    {
+        FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGooglePlayGamesPlayerIDsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromGooglePlayGamesPlayerIDs.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the unique PlayFab identifiers for the given set of Kongregate identifiers. The Kongregate identifiers are the IDs for the user accounts, available as "user_id" from the Kongregate API methods(ex: http://developers.kongregate.com/docs/client/getUserId). */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromKongregateIDs(FClientGetPlayFabIDsFromKongregateIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromKongregateIDs onSuccess,
@@ -1481,6 +1536,60 @@ void UPlayFabClientAPI::HelperLinkGoogleAccount(FPlayFabBaseModel response, UObj
     {
         FClientLinkGoogleAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkGoogleAccountResultResponse(response.responseData);
         OnSuccessLinkGoogleAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Links the currently signed-in user account to their Google Play Games account, using their Google Play Games account credentials */
+UPlayFabClientAPI* UPlayFabClientAPI::LinkGooglePlayGamesServicesAccount(FClientLinkGooglePlayGamesServicesAccountRequest request,
+    FDelegateOnSuccessLinkGooglePlayGamesServicesAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkGooglePlayGamesServicesAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkGooglePlayGamesServicesAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/LinkGooglePlayGamesServicesAccount";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.ServerAuthCode.IsEmpty() || request.ServerAuthCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ServerAuthCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ServerAuthCode"), request.ServerAuthCode);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLinkGooglePlayGamesServicesAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkGooglePlayGamesServicesAccount.IsBound())
+    {
+        FClientLinkGooglePlayGamesServicesAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeLinkGooglePlayGamesServicesAccountResultResponse(response.responseData);
+        OnSuccessLinkGooglePlayGamesServicesAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2558,6 +2667,54 @@ void UPlayFabClientAPI::HelperUnlinkGoogleAccount(FPlayFabBaseModel response, UO
     {
         FClientUnlinkGoogleAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkGoogleAccountResultResponse(response.responseData);
         OnSuccessUnlinkGoogleAccount.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unlinks the related Google Play Games account from the user's PlayFab account. */
+UPlayFabClientAPI* UPlayFabClientAPI::UnlinkGooglePlayGamesServicesAccount(FClientUnlinkGooglePlayGamesServicesAccountRequest request,
+    FDelegateOnSuccessUnlinkGooglePlayGamesServicesAccount onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkGooglePlayGamesServicesAccount = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkGooglePlayGamesServicesAccount);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/UnlinkGooglePlayGamesServicesAccount";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperUnlinkGooglePlayGamesServicesAccount(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkGooglePlayGamesServicesAccount.IsBound())
+    {
+        FClientUnlinkGooglePlayGamesServicesAccountResult ResultStruct = UPlayFabClientModelDecoder::decodeUnlinkGooglePlayGamesServicesAccountResultResponse(response.responseData);
+        OnSuccessUnlinkGooglePlayGamesServicesAccount.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

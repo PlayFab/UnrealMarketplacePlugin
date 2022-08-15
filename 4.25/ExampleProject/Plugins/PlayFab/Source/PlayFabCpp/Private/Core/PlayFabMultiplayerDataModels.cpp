@@ -2352,11 +2352,51 @@ bool PlayFab::MultiplayerModels::FPort::readFromValue(const TSharedPtr<FJsonObje
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FServerResourceConstraintParams::~FServerResourceConstraintParams()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FServerResourceConstraintParams::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("CpuLimit"));
+    writer->WriteValue(CpuLimit);
+
+    writer->WriteIdentifierPrefix(TEXT("MemoryLimitGB"));
+    writer->WriteValue(MemoryLimitGB);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FServerResourceConstraintParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CpuLimitValue = obj->TryGetField(TEXT("CpuLimit"));
+    if (CpuLimitValue.IsValid() && !CpuLimitValue->IsNull())
+    {
+        double TmpValue;
+        if (CpuLimitValue->TryGetNumber(TmpValue)) { CpuLimit = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MemoryLimitGBValue = obj->TryGetField(TEXT("MemoryLimitGB"));
+    if (MemoryLimitGBValue.IsValid() && !MemoryLimitGBValue->IsNull())
+    {
+        double TmpValue;
+        if (MemoryLimitGBValue->TryGetNumber(TmpValue)) { MemoryLimitGB = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::~FCreateBuildWithCustomContainerRequest()
 {
     //if (ContainerImageReference != nullptr) delete ContainerImageReference;
     //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
 
 }
 
@@ -2464,6 +2504,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
         item.writeJSON(writer);
     writer->WriteArrayEnd();
 
+
+    if (ServerResourceConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerResourceConstraints"));
+        ServerResourceConstraints->writeJSON(writer);
+    }
 
     if (UseStreamingForAssetDownloads.notNull())
     {
@@ -2581,6 +2627,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
         RegionConfigurations.Add(FBuildRegionParams(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> ServerResourceConstraintsValue = obj->TryGetField(TEXT("ServerResourceConstraints"));
+    if (ServerResourceConstraintsValue.IsValid() && !ServerResourceConstraintsValue->IsNull())
+    {
+        ServerResourceConstraints = MakeShareable(new FServerResourceConstraintParams(ServerResourceConstraintsValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonValue> UseStreamingForAssetDownloadsValue = obj->TryGetField(TEXT("UseStreamingForAssetDownloads"));
     if (UseStreamingForAssetDownloadsValue.IsValid() && !UseStreamingForAssetDownloadsValue->IsNull())
@@ -2715,6 +2767,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::~FCreateBui
     //if (CustomGameContainerImage != nullptr) delete CustomGameContainerImage;
     //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
 
 }
 
@@ -2831,6 +2884,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::writeJ
         writer->WriteArrayEnd();
     }
 
+
+    if (ServerResourceConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerResourceConstraints"));
+        ServerResourceConstraints->writeJSON(writer);
+    }
 
     if (ServerType.IsEmpty() == false)
     {
@@ -2965,6 +3024,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
     }
 
 
+    const TSharedPtr<FJsonValue> ServerResourceConstraintsValue = obj->TryGetField(TEXT("ServerResourceConstraints"));
+    if (ServerResourceConstraintsValue.IsValid() && !ServerResourceConstraintsValue->IsNull())
+    {
+        ServerResourceConstraints = MakeShareable(new FServerResourceConstraintParams(ServerResourceConstraintsValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> ServerTypeValue = obj->TryGetField(TEXT("ServerType"));
     if (ServerTypeValue.IsValid() && !ServerTypeValue->IsNull())
     {
@@ -3086,6 +3151,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::~FCreateBui
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
     //if (WindowsCrashDumpConfiguration != nullptr) delete WindowsCrashDumpConfiguration;
 
 }
@@ -3185,6 +3251,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
         item.writeJSON(writer);
     writer->WriteArrayEnd();
 
+
+    if (ServerResourceConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerResourceConstraints"));
+        ServerResourceConstraints->writeJSON(writer);
+    }
 
     if (!StartMultiplayerServerCommand.IsEmpty() == false)
     {
@@ -3313,6 +3385,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
     }
 
 
+    const TSharedPtr<FJsonValue> ServerResourceConstraintsValue = obj->TryGetField(TEXT("ServerResourceConstraints"));
+    if (ServerResourceConstraintsValue.IsValid() && !ServerResourceConstraintsValue->IsNull())
+    {
+        ServerResourceConstraints = MakeShareable(new FServerResourceConstraintParams(ServerResourceConstraintsValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> StartMultiplayerServerCommandValue = obj->TryGetField(TEXT("StartMultiplayerServerCommand"));
     if (StartMultiplayerServerCommandValue.IsValid() && !StartMultiplayerServerCommandValue->IsNull())
     {
@@ -3342,6 +3420,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::~FCreateBu
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
 
 }
 
@@ -3452,6 +3531,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
         writer->WriteArrayEnd();
     }
 
+
+    if (ServerResourceConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerResourceConstraints"));
+        ServerResourceConstraints->writeJSON(writer);
+    }
 
     if (ServerType.IsEmpty() == false)
     {
@@ -3585,6 +3670,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
         RegionConfigurations.Add(FBuildRegion(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> ServerResourceConstraintsValue = obj->TryGetField(TEXT("ServerResourceConstraints"));
+    if (ServerResourceConstraintsValue.IsValid() && !ServerResourceConstraintsValue->IsNull())
+    {
+        ServerResourceConstraints = MakeShareable(new FServerResourceConstraintParams(ServerResourceConstraintsValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonValue> ServerTypeValue = obj->TryGetField(TEXT("ServerType"));
     if (ServerTypeValue.IsValid() && !ServerTypeValue->IsNull())
@@ -6914,6 +7005,7 @@ PlayFab::MultiplayerModels::FGetBuildResponse::~FGetBuildResponse()
 {
     //if (CustomGameContainerImage != nullptr) delete CustomGameContainerImage;
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+    //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
 
 }
 
@@ -7030,6 +7122,12 @@ void PlayFab::MultiplayerModels::FGetBuildResponse::writeJSON(JsonWriter& writer
         writer->WriteArrayEnd();
     }
 
+
+    if (ServerResourceConstraints.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerResourceConstraints"));
+        ServerResourceConstraints->writeJSON(writer);
+    }
 
     if (ServerType.IsEmpty() == false)
     {
@@ -7164,6 +7262,12 @@ bool PlayFab::MultiplayerModels::FGetBuildResponse::readFromValue(const TSharedP
         RegionConfigurations.Add(FBuildRegion(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> ServerResourceConstraintsValue = obj->TryGetField(TEXT("ServerResourceConstraints"));
+    if (ServerResourceConstraintsValue.IsValid() && !ServerResourceConstraintsValue->IsNull())
+    {
+        ServerResourceConstraints = MakeShareable(new FServerResourceConstraintParams(ServerResourceConstraintsValue->AsObject()));
+    }
 
     const TSharedPtr<FJsonValue> ServerTypeValue = obj->TryGetField(TEXT("ServerType"));
     if (ServerTypeValue.IsValid() && !ServerTypeValue->IsNull())

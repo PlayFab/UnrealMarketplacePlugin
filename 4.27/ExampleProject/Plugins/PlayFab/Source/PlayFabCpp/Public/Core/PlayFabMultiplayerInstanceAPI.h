@@ -459,7 +459,7 @@ namespace PlayFab
         bool SubscribeToLobbyResource(MultiplayerModels::FSubscribeToLobbyResourceRequest& request, const FSubscribeToLobbyResourceDelegate& SuccessDelegate = FSubscribeToLobbyResourceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Unsubscribe from lobby notifications.
-         * Unsubscribe from lobby notifications. Only players may call this.
+         * Unsubscribe from lobby notifications.
          */
         bool UnsubscribeFromLobbyResource(MultiplayerModels::FUnsubscribeFromLobbyResourceRequest& request, const FUnsubscribeFromLobbyResourceDelegate& SuccessDelegate = FUnsubscribeFromLobbyResourceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

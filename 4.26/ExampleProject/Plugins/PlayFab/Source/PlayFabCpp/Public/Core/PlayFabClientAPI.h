@@ -69,6 +69,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromGameCenterIDsDelegate, const ClientModels::FGetPlayFabIDsFromGameCenterIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromGenericIDsDelegate, const ClientModels::FGetPlayFabIDsFromGenericIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromGoogleIDsDelegate, const ClientModels::FGetPlayFabIDsFromGoogleIDsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromGooglePlayGamesPlayerIDsDelegate, const ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromKongregateIDsDelegate, const ClientModels::FGetPlayFabIDsFromKongregateIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate, const ClientModels::FGetPlayFabIDsFromNintendoServiceAccountIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate, const ClientModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsResult&);
@@ -98,6 +99,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkFacebookInstantGamesIdDelegate, const ClientModels::FLinkFacebookInstantGamesIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkGameCenterAccountDelegate, const ClientModels::FLinkGameCenterAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkGoogleAccountDelegate, const ClientModels::FLinkGoogleAccountResult&);
+        DECLARE_DELEGATE_OneParam(FLinkGooglePlayGamesServicesAccountDelegate, const ClientModels::FLinkGooglePlayGamesServicesAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkIOSDeviceIDDelegate, const ClientModels::FLinkIOSDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FLinkKongregateDelegate, const ClientModels::FLinkKongregateAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkNintendoServiceAccountDelegate, const ClientModels::FEmptyResult&);
@@ -155,6 +157,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUnlinkFacebookInstantGamesIdDelegate, const ClientModels::FUnlinkFacebookInstantGamesIdResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkGameCenterAccountDelegate, const ClientModels::FUnlinkGameCenterAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkGoogleAccountDelegate, const ClientModels::FUnlinkGoogleAccountResult&);
+        DECLARE_DELEGATE_OneParam(FUnlinkGooglePlayGamesServicesAccountDelegate, const ClientModels::FUnlinkGooglePlayGamesServicesAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkIOSDeviceIDDelegate, const ClientModels::FUnlinkIOSDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkKongregateDelegate, const ClientModels::FUnlinkKongregateAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkNintendoServiceAccountDelegate, const ClientModels::FEmptyResponse&);
@@ -410,6 +413,12 @@ namespace PlayFab
          */
         bool GetPlayFabIDsFromGoogleIDs(ClientModels::FGetPlayFabIDsFromGoogleIDsRequest& request, const FGetPlayFabIDsFromGoogleIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromGoogleIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Retrieves the unique PlayFab identifiers for the given set of Google Play Games identifiers. The Google Play Games
+         * identifiers are the IDs for the user accounts, available as "playerId" in the Google Play Games Services - Players API
+         * calls.
+         */
+        bool GetPlayFabIDsFromGooglePlayGamesPlayerIDs(ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest& request, const FGetPlayFabIDsFromGooglePlayGamesPlayerIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromGooglePlayGamesPlayerIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Retrieves the unique PlayFab identifiers for the given set of Kongregate identifiers. The Kongregate identifiers are the
          * IDs for the user accounts, available as "user_id" from the Kongregate API methods(ex:
          * http://developers.kongregate.com/docs/client/getUserId).
@@ -534,6 +543,12 @@ namespace PlayFab
          * Google sign-in is accomplished by obtaining a Google OAuth 2.0 credential using the Google sign-in for Android APIs on the device and passing it to this API.
          */
         bool LinkGoogleAccount(ClientModels::FLinkGoogleAccountRequest& request, const FLinkGoogleAccountDelegate& SuccessDelegate = FLinkGoogleAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Links the currently signed-in user account to their Google Play Games account, using their Google Play Games account
+         * credentials
+         * Google Play Games sign-in is accomplished by obtaining a Google OAuth 2.0 credential using the Google Play Games sign-in for Android APIs on the device and passing it to this API.
+         */
+        bool LinkGooglePlayGamesServicesAccount(ClientModels::FLinkGooglePlayGamesServicesAccountRequest& request, const FLinkGooglePlayGamesServicesAccountDelegate& SuccessDelegate = FLinkGooglePlayGamesServicesAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the vendor-specific iOS device identifier to the user's PlayFab account
         bool LinkIOSDeviceID(ClientModels::FLinkIOSDeviceIDRequest& request, const FLinkIOSDeviceIDDelegate& SuccessDelegate = FLinkIOSDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Kongregate identifier to the user's PlayFab account
@@ -792,6 +807,8 @@ namespace PlayFab
          * (https://developers.google.com/android/reference/com/google/android/gms/auth/GoogleAuthUtil#public-methods).
          */
         bool UnlinkGoogleAccount(ClientModels::FUnlinkGoogleAccountRequest& request, const FUnlinkGoogleAccountDelegate& SuccessDelegate = FUnlinkGoogleAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the related Google Play Games account from the user's PlayFab account.
+        bool UnlinkGooglePlayGamesServicesAccount(ClientModels::FUnlinkGooglePlayGamesServicesAccountRequest& request, const FUnlinkGooglePlayGamesServicesAccountDelegate& SuccessDelegate = FUnlinkGooglePlayGamesServicesAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related iOS device identifier from the user's PlayFab account
         bool UnlinkIOSDeviceID(ClientModels::FUnlinkIOSDeviceIDRequest& request, const FUnlinkIOSDeviceIDDelegate& SuccessDelegate = FUnlinkIOSDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Kongregate identifier from the user's PlayFab account
@@ -960,6 +977,7 @@ namespace PlayFab
         void OnGetPlayFabIDsFromGameCenterIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGameCenterIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromGenericIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGenericIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromGoogleIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGoogleIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGooglePlayGamesPlayerIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromKongregateIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromKongregateIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoServiceAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoServiceAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromNintendoSwitchDeviceIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromNintendoSwitchDeviceIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -989,6 +1007,7 @@ namespace PlayFab
         void OnLinkFacebookInstantGamesIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkFacebookInstantGamesIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkGameCenterAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkGameCenterAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkGoogleAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkGoogleAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkGooglePlayGamesServicesAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkGooglePlayGamesServicesAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkNintendoServiceAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoServiceAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1046,6 +1065,7 @@ namespace PlayFab
         void OnUnlinkFacebookInstantGamesIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkFacebookInstantGamesIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkGameCenterAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkGameCenterAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkGoogleAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkGoogleAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkGooglePlayGamesServicesAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkGooglePlayGamesServicesAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkIOSDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkIOSDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkKongregateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkKongregateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkNintendoServiceAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkNintendoServiceAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

@@ -12268,6 +12268,114 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromGoogleIDsResult::readFromValue(con
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest::~FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("GooglePlayGamesPlayerIDs"));
+    for (const FString& item : GooglePlayGamesPlayerIDs)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("GooglePlayGamesPlayerIDs"), GooglePlayGamesPlayerIDs);
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FGooglePlayGamesPlayFabIdPair::~FGooglePlayGamesPlayFabIdPair()
+{
+
+}
+
+void PlayFab::ClientModels::FGooglePlayGamesPlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (GooglePlayGamesPlayerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GooglePlayGamesPlayerId"));
+        writer->WriteValue(GooglePlayGamesPlayerId);
+    }
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGooglePlayGamesPlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GooglePlayGamesPlayerIdValue = obj->TryGetField(TEXT("GooglePlayGamesPlayerId"));
+    if (GooglePlayGamesPlayerIdValue.IsValid() && !GooglePlayGamesPlayerIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (GooglePlayGamesPlayerIdValue->TryGetString(TmpValue)) { GooglePlayGamesPlayerId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult::~FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FGooglePlayGamesPlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FGooglePlayGamesPlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FGetPlayFabIDsFromKongregateIDsRequest::~FGetPlayFabIDsFromKongregateIDsRequest()
 {
 
@@ -15272,6 +15380,94 @@ void PlayFab::ClientModels::FLinkGoogleAccountResult::writeJSON(JsonWriter& writ
 }
 
 bool PlayFab::ClientModels::FLinkGoogleAccountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FLinkGooglePlayGamesServicesAccountRequest::~FLinkGooglePlayGamesServicesAccountRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FLinkGooglePlayGamesServicesAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (!ServerAuthCode.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkGooglePlayGamesServicesAccountRequest::ServerAuthCode, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerAuthCode"));
+        writer->WriteValue(ServerAuthCode);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FLinkGooglePlayGamesServicesAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerAuthCodeValue = obj->TryGetField(TEXT("ServerAuthCode"));
+    if (ServerAuthCodeValue.IsValid() && !ServerAuthCodeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerAuthCodeValue->TryGetString(TmpValue)) { ServerAuthCode = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FLinkGooglePlayGamesServicesAccountResult::~FLinkGooglePlayGamesServicesAccountResult()
+{
+
+}
+
+void PlayFab::ClientModels::FLinkGooglePlayGamesServicesAccountResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FLinkGooglePlayGamesServicesAccountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -22139,6 +22335,64 @@ void PlayFab::ClientModels::FUnlinkGoogleAccountResult::writeJSON(JsonWriter& wr
 }
 
 bool PlayFab::ClientModels::FUnlinkGoogleAccountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FUnlinkGooglePlayGamesServicesAccountRequest::~FUnlinkGooglePlayGamesServicesAccountRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FUnlinkGooglePlayGamesServicesAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FUnlinkGooglePlayGamesServicesAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FUnlinkGooglePlayGamesServicesAccountResult::~FUnlinkGooglePlayGamesServicesAccountResult()
+{
+
+}
+
+void PlayFab::ClientModels::FUnlinkGooglePlayGamesServicesAccountResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FUnlinkGooglePlayGamesServicesAccountResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

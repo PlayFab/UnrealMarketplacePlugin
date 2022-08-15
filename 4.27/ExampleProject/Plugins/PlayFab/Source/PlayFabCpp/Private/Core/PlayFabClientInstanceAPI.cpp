@@ -1671,6 +1671,37 @@ void UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromGoogleIDsResult(FHttpRequestP
     }
 }
 
+bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromGooglePlayGamesPlayerIDs(
+    ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest& request,
+    const FGetPlayFabIDsFromGooglePlayGamesPlayerIDsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayFabIDsFromGooglePlayGamesPlayerIDs"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGooglePlayGamesPlayerIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientInstanceAPI::GetPlayFabIDsFromKongregateIDs(
     ClientModels::FGetPlayFabIDsFromKongregateIDsRequest& request,
     const FGetPlayFabIDsFromKongregateIDsDelegate& SuccessDelegate,
@@ -2563,6 +2594,37 @@ bool UPlayFabClientInstanceAPI::LinkGoogleAccount(
 void UPlayFabClientInstanceAPI::OnLinkGoogleAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkGoogleAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FLinkGoogleAccountResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientInstanceAPI::LinkGooglePlayGamesServicesAccount(
+    ClientModels::FLinkGooglePlayGamesServicesAccountRequest& request,
+    const FLinkGooglePlayGamesServicesAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/LinkGooglePlayGamesServicesAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnLinkGooglePlayGamesServicesAccountResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnLinkGooglePlayGamesServicesAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkGooglePlayGamesServicesAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FLinkGooglePlayGamesServicesAccountResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -4575,6 +4637,37 @@ bool UPlayFabClientInstanceAPI::UnlinkGoogleAccount(
 void UPlayFabClientInstanceAPI::OnUnlinkGoogleAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkGoogleAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FUnlinkGoogleAccountResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientInstanceAPI::UnlinkGooglePlayGamesServicesAccount(
+    ClientModels::FUnlinkGooglePlayGamesServicesAccountRequest& request,
+    const FUnlinkGooglePlayGamesServicesAccountDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UnlinkGooglePlayGamesServicesAccount"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUnlinkGooglePlayGamesServicesAccountResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnUnlinkGooglePlayGamesServicesAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkGooglePlayGamesServicesAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FUnlinkGooglePlayGamesServicesAccountResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

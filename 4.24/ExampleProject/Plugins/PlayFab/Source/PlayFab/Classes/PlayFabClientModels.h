@@ -330,6 +330,27 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString GooglePlayGamesPlayerIDs;
+};
+
+/** For Google Play Games identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of Google Play Games identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -684,6 +705,39 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLinkGoogleAccountResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/**
+ * Google Play Games sign-in is accomplished by obtaining a Google OAuth 2.0 credential using the Google Play Games sign-in
+ * for Android APIs on the device and passing it to this API.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLinkGooglePlayGamesServicesAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * If another user is already linked to the account, unlink the other user and re-link. If the current user is already
+     * linked, link both accounts
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        bool ForceLink = false;
+    /**
+     * OAuth 2.0 server authentication code obtained on the client by calling the requestServerSideAccess()
+     * (https://developers.google.com/games/services/android/signin) Google Play Games client API.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString ServerAuthCode;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLinkGooglePlayGamesServicesAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1138,6 +1192,23 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientUnlinkGoogleAccountResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientUnlinkGooglePlayGamesServicesAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientUnlinkGooglePlayGamesServicesAccountResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -3435,11 +3506,7 @@ public:
         FString XboxToken;
 };
 
-/**
- * Note that the Position of the user in the results is for the overall leaderboard. If Facebook friends are included, make
- * sure the access token from previous LoginWithFacebook call is still valid and not expired. If Xbox Live friends are
- * included, make sure the access token from the previous LoginWithXbox call is still valid and not expired.
- */
+/** Note: the user's Position is relative to the overall leaderboard. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetLeaderboardResult : public FPlayFabResultCommon
 {

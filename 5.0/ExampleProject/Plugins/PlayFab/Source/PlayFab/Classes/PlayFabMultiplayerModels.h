@@ -448,7 +448,7 @@ public:
         FString Topic;
 };
 
-/** Request to unsubscribe from lobby notifications. Only a client can unsubscribe from notifications. */
+/** Request to unsubscribe from lobby notifications. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerUnsubscribeFromLobbyResourceRequest : public FPlayFabRequestCommon
 {
@@ -1186,6 +1186,9 @@ public:
     /** The region configurations for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The resource constraints to apply to each server on the VM (EXPERIMENTAL API) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* ServerResourceConstraints = nullptr;
     /**
      * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
      * disc.
@@ -1253,6 +1256,9 @@ public:
     /** The region configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The resource constraints to apply to each server on the VM (EXPERIMENTAL API) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* ServerResourceConstraints = nullptr;
     /** The type of game server being hosted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ServerType;
@@ -1321,6 +1327,9 @@ public:
     /** The region configurations for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The resource constraints to apply to each server on the VM (EXPERIMENTAL API) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* ServerResourceConstraints = nullptr;
     /** The command to run when the multiplayer server is started, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
@@ -1394,6 +1403,9 @@ public:
     /** The region configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The resource constraints to apply to each server on the VM (EXPERIMENTAL API) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* ServerResourceConstraints = nullptr;
     /** The type of game server being hosted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ServerType;
@@ -1935,6 +1947,9 @@ public:
     /** The region configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> RegionConfigurations;
+    /** The resource constraints to apply to each server on the VM. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* ServerResourceConstraints = nullptr;
     /** The type of game server being hosted. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ServerType;

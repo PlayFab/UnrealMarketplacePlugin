@@ -1208,6 +1208,36 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FServerResourceConstraintParams : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The maximum number of cores that each server is allowed to use.
+        double CpuLimit;
+
+        /**
+         * The maximum number of GiB of memory that each server is allowed to use. WARNING: After exceeding this limit, the server
+         * will be killed
+         */
+        double MemoryLimitGB;
+
+        FServerResourceConstraintParams() :
+            FPlayFabCppBaseModel(),
+            CpuLimit(0),
+            MemoryLimitGB(0)
+            {}
+
+        FServerResourceConstraintParams(const FServerResourceConstraintParams& src) = default;
+
+        FServerResourceConstraintParams(const TSharedPtr<FJsonObject>& obj) : FServerResourceConstraintParams()
+        {
+            readFromValue(obj);
+        }
+
+        ~FServerResourceConstraintParams();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateBuildWithCustomContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
@@ -1252,6 +1282,9 @@ namespace MultiplayerModels
         TArray<FPort> Ports;
         // The region configurations for the build.
         TArray<FBuildRegionParams> RegionConfigurations;
+        // [optional] The resource constraints to apply to each server on the VM (EXPERIMENTAL API)
+        TSharedPtr<FServerResourceConstraintParams> ServerResourceConstraints;
+
         /**
          * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
          * disc.
@@ -1277,6 +1310,7 @@ namespace MultiplayerModels
             MultiplayerServerCountPerVm(0),
             Ports(),
             RegionConfigurations(),
+            ServerResourceConstraints(nullptr),
             UseStreamingForAssetDownloads(),
             VmSize()
             {}
@@ -1411,6 +1445,9 @@ namespace MultiplayerModels
         TArray<FPort> Ports;
         // [optional] The region configuration for the build.
         TArray<FBuildRegion> RegionConfigurations;
+        // [optional] The resource constraints to apply to each server on the VM (EXPERIMENTAL API)
+        TSharedPtr<FServerResourceConstraintParams> ServerResourceConstraints;
+
         // [optional] The type of game server being hosted.
         FString ServerType;
 
@@ -1441,6 +1478,7 @@ namespace MultiplayerModels
             OsPlatform(),
             Ports(),
             RegionConfigurations(),
+            ServerResourceConstraints(nullptr),
             ServerType(),
             UseStreamingForAssetDownloads(),
             VmSize()
@@ -1564,6 +1602,9 @@ namespace MultiplayerModels
         TArray<FPort> Ports;
         // The region configurations for the build.
         TArray<FBuildRegionParams> RegionConfigurations;
+        // [optional] The resource constraints to apply to each server on the VM (EXPERIMENTAL API)
+        TSharedPtr<FServerResourceConstraintParams> ServerResourceConstraints;
+
         // The command to run when the multiplayer server is started, including any arguments.
         FString StartMultiplayerServerCommand;
 
@@ -1594,6 +1635,7 @@ namespace MultiplayerModels
             MultiplayerServerCountPerVm(0),
             Ports(),
             RegionConfigurations(),
+            ServerResourceConstraints(nullptr),
             StartMultiplayerServerCommand(),
             UseStreamingForAssetDownloads(),
             VmSize(),
@@ -1661,6 +1703,9 @@ namespace MultiplayerModels
         TArray<FPort> Ports;
         // [optional] The region configuration for the build.
         TArray<FBuildRegion> RegionConfigurations;
+        // [optional] The resource constraints to apply to each server on the VM (EXPERIMENTAL API)
+        TSharedPtr<FServerResourceConstraintParams> ServerResourceConstraints;
+
         // [optional] The type of game server being hosted.
         FString ServerType;
 
@@ -1693,6 +1738,7 @@ namespace MultiplayerModels
             OsPlatform(),
             Ports(),
             RegionConfigurations(),
+            ServerResourceConstraints(nullptr),
             ServerType(),
             StartMultiplayerServerCommand(),
             UseStreamingForAssetDownloads(),
@@ -3322,6 +3368,9 @@ namespace MultiplayerModels
         TArray<FPort> Ports;
         // [optional] The region configuration for the build.
         TArray<FBuildRegion> RegionConfigurations;
+        // [optional] The resource constraints to apply to each server on the VM.
+        TSharedPtr<FServerResourceConstraintParams> ServerResourceConstraints;
+
         // [optional] The type of game server being hosted.
         FString ServerType;
 
@@ -3352,6 +3401,7 @@ namespace MultiplayerModels
             OsPlatform(),
             Ports(),
             RegionConfigurations(),
+            ServerResourceConstraints(nullptr),
             ServerType(),
             StartMultiplayerServerCommand(),
             VmSize()

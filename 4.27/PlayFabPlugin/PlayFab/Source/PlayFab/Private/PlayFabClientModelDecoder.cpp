@@ -139,6 +139,17 @@ FClientGetPlayFabIDsFromGoogleIDsResult UPlayFabClientModelDecoder::decodeGetPla
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromGooglePlayGamesPlayerIDsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientGetPlayFabIDsFromKongregateIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromKongregateIDsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -274,6 +285,15 @@ FClientLinkGoogleAccountResult UPlayFabClientModelDecoder::decodeLinkGoogleAccou
 {
     // Temp ustruct
     FClientLinkGoogleAccountResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FClientLinkGooglePlayGamesServicesAccountResult UPlayFabClientModelDecoder::decodeLinkGooglePlayGamesServicesAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientLinkGooglePlayGamesServicesAccountResult tempStruct;
 
 
     return tempStruct;
@@ -438,6 +458,15 @@ FClientUnlinkGoogleAccountResult UPlayFabClientModelDecoder::decodeUnlinkGoogleA
 {
     // Temp ustruct
     FClientUnlinkGoogleAccountResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FClientUnlinkGooglePlayGamesServicesAccountResult UPlayFabClientModelDecoder::decodeUnlinkGooglePlayGamesServicesAccountResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientUnlinkGooglePlayGamesServicesAccountResult tempStruct;
 
 
     return tempStruct;

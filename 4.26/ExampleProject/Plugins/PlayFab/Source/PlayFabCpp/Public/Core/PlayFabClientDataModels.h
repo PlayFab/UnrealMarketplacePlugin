@@ -6188,6 +6188,77 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
+        TArray<FString> GooglePlayGamesPlayerIDs;
+        FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest() :
+            FPlayFabCppRequestCommon(),
+            GooglePlayGamesPlayerIDs()
+            {}
+
+        FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest(const FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest& src) = default;
+
+        FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGooglePlayGamesPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique Google Play Games identifier for a user.
+        FString GooglePlayGamesPlayerId;
+
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Google Play Games identifier.
+        FString PlayFabId;
+
+        FGooglePlayGamesPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            GooglePlayGamesPlayerId(),
+            PlayFabId()
+            {}
+
+        FGooglePlayGamesPlayFabIdPair(const FGooglePlayGamesPlayFabIdPair& src) = default;
+
+        FGooglePlayGamesPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FGooglePlayGamesPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGooglePlayGamesPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of Google Play Games identifiers to PlayFab identifiers.
+        TArray<FGooglePlayGamesPlayFabIdPair> Data;
+        FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult(const FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult& src) = default;
+
+        FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromKongregateIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers.
@@ -7897,6 +7968,61 @@ namespace ClientModels
         }
 
         ~FLinkGoogleAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkGooglePlayGamesServicesAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] If another user is already linked to the account, unlink the other user and re-link. If the current user is already
+         * linked, link both accounts
+         */
+        Boxed<bool> ForceLink;
+
+        /**
+         * OAuth 2.0 server authentication code obtained on the client by calling the requestServerSideAccess()
+         * (https://developers.google.com/games/services/android/signin) Google Play Games client API.
+         */
+        FString ServerAuthCode;
+
+        FLinkGooglePlayGamesServicesAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceLink(),
+            ServerAuthCode()
+            {}
+
+        FLinkGooglePlayGamesServicesAccountRequest(const FLinkGooglePlayGamesServicesAccountRequest& src) = default;
+
+        FLinkGooglePlayGamesServicesAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkGooglePlayGamesServicesAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkGooglePlayGamesServicesAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkGooglePlayGamesServicesAccountResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FLinkGooglePlayGamesServicesAccountResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FLinkGooglePlayGamesServicesAccountResult(const FLinkGooglePlayGamesServicesAccountResult& src) = default;
+
+        FLinkGooglePlayGamesServicesAccountResult(const TSharedPtr<FJsonObject>& obj) : FLinkGooglePlayGamesServicesAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkGooglePlayGamesServicesAccountResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -11185,6 +11311,47 @@ namespace ClientModels
         }
 
         ~FUnlinkGoogleAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkGooglePlayGamesServicesAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        FUnlinkGooglePlayGamesServicesAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags()
+            {}
+
+        FUnlinkGooglePlayGamesServicesAccountRequest(const FUnlinkGooglePlayGamesServicesAccountRequest& src) = default;
+
+        FUnlinkGooglePlayGamesServicesAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkGooglePlayGamesServicesAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkGooglePlayGamesServicesAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkGooglePlayGamesServicesAccountResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkGooglePlayGamesServicesAccountResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkGooglePlayGamesServicesAccountResult(const FUnlinkGooglePlayGamesServicesAccountResult& src) = default;
+
+        FUnlinkGooglePlayGamesServicesAccountResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkGooglePlayGamesServicesAccountResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkGooglePlayGamesServicesAccountResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

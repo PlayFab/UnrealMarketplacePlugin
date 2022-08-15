@@ -80,6 +80,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayFabIDsFromGoogleIDsResult decodeGetPlayFabIDsFromGoogleIDsResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayFabIDsFromGooglePlayGamesPlayerIDsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsResult decodeGetPlayFabIDsFromGooglePlayGamesPlayerIDsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetPlayFabIDsFromKongregateIDsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayFabIDsFromKongregateIDsResult decodeGetPlayFabIDsFromKongregateIDsResultResponse(UPlayFabJsonObject* response);
@@ -135,6 +139,10 @@ public:
     /** Decode the LinkGoogleAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientLinkGoogleAccountResult decodeLinkGoogleAccountResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the LinkGooglePlayGamesServicesAccountResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientLinkGooglePlayGamesServicesAccountResult decodeLinkGooglePlayGamesServicesAccountResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the LinkIOSDeviceIDResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
@@ -207,6 +215,10 @@ public:
     /** Decode the UnlinkGoogleAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientUnlinkGoogleAccountResult decodeUnlinkGoogleAccountResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UnlinkGooglePlayGamesServicesAccountResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientUnlinkGooglePlayGamesServicesAccountResult decodeUnlinkGooglePlayGamesServicesAccountResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UnlinkIOSDeviceIDResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")

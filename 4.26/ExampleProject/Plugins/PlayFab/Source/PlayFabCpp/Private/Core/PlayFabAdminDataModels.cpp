@@ -1406,12 +1406,6 @@ void PlayFab::AdminModels::FBanRequest::writeJSON(JsonWriter& writer) const
         writer->WriteValue(IPAddress);
     }
 
-    if (MACAddress.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MACAddress"));
-        writer->WriteValue(MACAddress);
-    }
-
     if (!PlayFabId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: BanRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
@@ -1447,13 +1441,6 @@ bool PlayFab::AdminModels::FBanRequest::readFromValue(const TSharedPtr<FJsonObje
     {
         FString TmpValue;
         if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MACAddressValue = obj->TryGetField(TEXT("MACAddress"));
-    if (MACAddressValue.IsValid() && !MACAddressValue->IsNull())
-    {
-        FString TmpValue;
-        if (MACAddressValue->TryGetString(TmpValue)) { MACAddress = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
@@ -19056,12 +19043,6 @@ void PlayFab::AdminModels::FUpdateBanRequest::writeJSON(JsonWriter& writer) cons
         writer->WriteValue(IPAddress);
     }
 
-    if (MACAddress.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MACAddress"));
-        writer->WriteValue(MACAddress);
-    }
-
     if (Permanent.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("Permanent"));
@@ -19105,13 +19086,6 @@ bool PlayFab::AdminModels::FUpdateBanRequest::readFromValue(const TSharedPtr<FJs
     {
         FString TmpValue;
         if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MACAddressValue = obj->TryGetField(TEXT("MACAddress"));
-    if (MACAddressValue.IsValid() && !MACAddressValue->IsNull())
-    {
-        FString TmpValue;
-        if (MACAddressValue->TryGetString(TmpValue)) { MACAddress = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> PermanentValue = obj->TryGetField(TEXT("Permanent"));

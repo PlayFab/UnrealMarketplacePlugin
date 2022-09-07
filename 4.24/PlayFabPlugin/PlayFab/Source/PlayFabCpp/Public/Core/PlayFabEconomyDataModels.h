@@ -14,7 +14,7 @@ namespace PlayFab
 namespace EconomyModels
 {
 
-    struct PLAYFABCPP_API FCatalogAlternateId : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FAlternateId : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Type of the alternate ID.
         FString Type;
@@ -22,20 +22,78 @@ namespace EconomyModels
         // [optional] Value of the alternate ID.
         FString Value;
 
-        FCatalogAlternateId() :
+        FAlternateId() :
             FPlayFabCppBaseModel(),
             Type(),
             Value()
             {}
 
-        FCatalogAlternateId(const FCatalogAlternateId& src) = default;
+        FAlternateId(const FAlternateId& src) = default;
 
-        FCatalogAlternateId(const TSharedPtr<FJsonObject>& obj) : FCatalogAlternateId()
+        FAlternateId(const TSharedPtr<FJsonObject>& obj) : FAlternateId()
         {
             readFromValue(obj);
         }
 
-        ~FCatalogAlternateId();
+        ~FAlternateId();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FInventoryItemReference : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The inventory item alternate id the request applies to.
+        TSharedPtr<FAlternateId> pfAlternateId;
+
+        // [optional] The inventory item id the request applies to.
+        FString Id;
+
+        // [optional] The inventory stack id the request should redeem to. (Default="default")
+        FString StackId;
+
+        FInventoryItemReference() :
+            FPlayFabCppBaseModel(),
+            pfAlternateId(nullptr),
+            Id(),
+            StackId()
+            {}
+
+        FInventoryItemReference(const FInventoryItemReference& src) = default;
+
+        FInventoryItemReference(const TSharedPtr<FJsonObject>& obj) : FInventoryItemReference()
+        {
+            readFromValue(obj);
+        }
+
+        ~FInventoryItemReference();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAddInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The amount to add to the current item amount.
+        int32 Amount;
+
+        // [optional] The inventory item the operation applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        FAddInventoryItemsOperation() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            Item(nullptr)
+            {}
+
+        FAddInventoryItemsOperation(const FAddInventoryItemsOperation& src) = default;
+
+        FAddInventoryItemsOperation(const TSharedPtr<FJsonObject>& obj) : FAddInventoryItemsOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddInventoryItemsOperation();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -63,6 +121,216 @@ namespace EconomyModels
         }
 
         ~FEntityKey();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FInventoryItem : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The amount of the item.
+        int32 Amount;
+
+        // [optional] The id of the item. This should correspond to the item id in the catalog.
+        FString Id;
+
+        // [optional] The stack id of the item.
+        FString StackId;
+
+        // [optional] The type of the item. This should correspond to the item type in the catalog.
+        FString Type;
+
+        FInventoryItem() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            Id(),
+            StackId(),
+            Type()
+            {}
+
+        FInventoryItem(const FInventoryItem& src) = default;
+
+        FInventoryItem(const TSharedPtr<FJsonObject>& obj) : FInventoryItem()
+        {
+            readFromValue(obj);
+        }
+
+        ~FInventoryItem();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAddInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The amount to add for the current item.
+        int32 Amount;
+
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The currency code of the real money transaction.
+        FString CurrencyCode;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The inventory item the request applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        // [optional] A list of Items to modify.
+        TArray<FInventoryItem> Items;
+        // [optional] Purchase price of the offer.
+        Boxed<int32> PurchasePrice;
+
+        // Indicates if the full inventory should be returned.
+        bool ReturnInventory;
+
+        FAddInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            Amount(0),
+            CollectionId(),
+            CurrencyCode(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            Item(nullptr),
+            Items(),
+            PurchasePrice(),
+            ReturnInventory(false)
+            {}
+
+        FAddInventoryItemsRequest(const FAddInventoryItemsRequest& src) = default;
+
+        FAddInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FAddInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAddInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The idempotency id used in the request.
+        FString IdempotencyId;
+
+        /**
+         * [optional] Details of the current inventory items. Null if ReturnInventory was set to false in request or InventoryTooLarge is set
+         * to true in response.
+         */
+        TArray<FInventoryItem> InventoryItems;
+        // Whether the number of inventory items is too large to be returned.
+        bool InventoryTooLarge;
+
+        // [optional] The ids of transactions that occurred as a result of the request.
+        TArray<FString> TransactionIds;
+        // [optional] The updated items for this request.
+        TArray<FInventoryItem> UpdatedItems;
+        FAddInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            IdempotencyId(),
+            InventoryItems(),
+            InventoryTooLarge(false),
+            TransactionIds(),
+            UpdatedItems()
+            {}
+
+        FAddInventoryItemsResponse(const FAddInventoryItemsResponse& src) = default;
+
+        FAddInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FAddInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogAlternateId : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Type of the alternate ID.
+        FString Type;
+
+        // [optional] Value of the alternate ID.
+        FString Value;
+
+        FCatalogAlternateId() :
+            FPlayFabCppBaseModel(),
+            Type(),
+            Value()
+            {}
+
+        FCatalogAlternateId(const FCatalogAlternateId& src) = default;
+
+        FCatalogAlternateId(const TSharedPtr<FJsonObject>& obj) : FCatalogAlternateId()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogAlternateId();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogSpecificConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The set of content types that will be used for validation.
+        TArray<FString> ContentTypes;
+        // [optional] The set of tags that will be used for validation.
+        TArray<FString> Tags;
+        FCatalogSpecificConfig() :
+            FPlayFabCppBaseModel(),
+            ContentTypes(),
+            Tags()
+            {}
+
+        FCatalogSpecificConfig(const FCatalogSpecificConfig& src) = default;
+
+        FCatalogSpecificConfig(const TSharedPtr<FJsonObject>& obj) : FCatalogSpecificConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogSpecificConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeepLinkFormat : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The format of the deep link to return. The format should contain '{id}' to represent where the item ID should be placed.
+        FString Format;
+
+        // [optional] The target platform for the deep link.
+        FString Platform;
+
+        FDeepLinkFormat() :
+            FPlayFabCppBaseModel(),
+            Format(),
+            Platform()
+            {}
+
+        FDeepLinkFormat(const FDeepLinkFormat& src) = default;
+
+        FDeepLinkFormat(const TSharedPtr<FJsonObject>& obj) : FDeepLinkFormat()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeepLinkFormat();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -184,6 +452,11 @@ namespace EconomyModels
     {
         // [optional] A list of player entity keys that will have admin permissions.
         TArray<FEntityKey> AdminEntities;
+        // [optional] The set of configuration that only applies to catalog items.
+        TSharedPtr<FCatalogSpecificConfig> Catalog;
+
+        // [optional] A list of deep link formats.
+        TArray<FDeepLinkFormat> DeepLinkFormats;
         // [optional] A list of display properties to index.
         TArray<FDisplayPropertyIndexInfo> DisplayPropertyIndexInfos;
         // [optional] The set of configuration that only applies to Files.
@@ -205,6 +478,8 @@ namespace EconomyModels
         FCatalogConfig() :
             FPlayFabCppBaseModel(),
             AdminEntities(),
+            Catalog(nullptr),
+            DeepLinkFormats(),
             DisplayPropertyIndexInfos(),
             File(nullptr),
             Image(nullptr),
@@ -269,6 +544,33 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeepLink : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Target platform for this deep link.
+        FString Platform;
+
+        // [optional] The deep link for this platform.
+        FString Url;
+
+        FDeepLink() :
+            FPlayFabCppBaseModel(),
+            Platform(),
+            Url()
+            {}
+
+        FDeepLink(const FDeepLink& src) = default;
+
+        FDeepLink(const TSharedPtr<FJsonObject>& obj) : FDeepLink()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeepLink();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FImage : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The image unique ID.
@@ -299,6 +601,108 @@ namespace EconomyModels
         }
 
         ~FImage();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPriceAmount : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The amount of the price.
+        int32 Amount;
+
+        // [optional] The Item Id of the price.
+        FString ItemId;
+
+        FCatalogPriceAmount() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            ItemId()
+            {}
+
+        FCatalogPriceAmount(const FCatalogPriceAmount& src) = default;
+
+        FCatalogPriceAmount(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceAmount()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPriceAmount();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPrice : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The amounts of the catalog item price.
+        TArray<FCatalogPriceAmount> Amounts;
+        FCatalogPrice() :
+            FPlayFabCppBaseModel(),
+            Amounts()
+            {}
+
+        FCatalogPrice(const FCatalogPrice& src) = default;
+
+        FCatalogPrice(const TSharedPtr<FJsonObject>& obj) : FCatalogPrice()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPrice();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPriceOptions : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Prices of the catalog item.
+        TArray<FCatalogPrice> Prices;
+        FCatalogPriceOptions() :
+            FPlayFabCppBaseModel(),
+            Prices()
+            {}
+
+        FCatalogPriceOptions(const FCatalogPriceOptions& src) = default;
+
+        FCatalogPriceOptions(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceOptions()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPriceOptions();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogItemReference : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The amount of the catalog item.
+        Boxed<int32> Amount;
+
+        // [optional] The unique ID of the catalog item.
+        FString Id;
+
+        // [optional] The prices the catalog item can be purchased for.
+        TSharedPtr<FCatalogPriceOptions> PriceOptions;
+
+        FCatalogItemReference() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            Id(),
+            PriceOptions(nullptr)
+            {}
+
+        FCatalogItemReference(const FCatalogItemReference& src) = default;
+
+        FCatalogItemReference(const TSharedPtr<FJsonObject>& obj) : FCatalogItemReference()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogItemReference();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -416,6 +820,138 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FFilterOptions : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The OData filter utilized. Mutually exclusive with 'IncludeAllItems'.
+        FString Filter;
+
+        // [optional] The flag that overrides the filter and allows for returning all catalog items. Mutually exclusive with 'Filter'.
+        Boxed<bool> IncludeAllItems;
+
+        FFilterOptions() :
+            FPlayFabCppBaseModel(),
+            Filter(),
+            IncludeAllItems()
+            {}
+
+        FFilterOptions(const FFilterOptions& src) = default;
+
+        FFilterOptions(const TSharedPtr<FJsonObject>& obj) : FFilterOptions()
+        {
+            readFromValue(obj);
+        }
+
+        ~FFilterOptions();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPriceAmountOverride : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The exact value that should be utilized in the override.
+        Boxed<int32> FixedValue;
+
+        // [optional] The id of the item this override should utilize.
+        FString ItemId;
+
+        /**
+         * [optional] The multiplier that will be applied to the base Catalog value to determine what value should be utilized in the
+         * override.
+         */
+        Boxed<double> Multiplier;
+
+        FCatalogPriceAmountOverride() :
+            FPlayFabCppBaseModel(),
+            FixedValue(),
+            ItemId(),
+            Multiplier()
+            {}
+
+        FCatalogPriceAmountOverride(const FCatalogPriceAmountOverride& src) = default;
+
+        FCatalogPriceAmountOverride(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceAmountOverride()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPriceAmountOverride();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPriceOverride : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The currency amounts utilized in the override for a singular price.
+        TArray<FCatalogPriceAmountOverride> Amounts;
+        FCatalogPriceOverride() :
+            FPlayFabCppBaseModel(),
+            Amounts()
+            {}
+
+        FCatalogPriceOverride(const FCatalogPriceOverride& src) = default;
+
+        FCatalogPriceOverride(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceOverride()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPriceOverride();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCatalogPriceOptionsOverride : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The prices utilized in the override.
+        TArray<FCatalogPriceOverride> Prices;
+        FCatalogPriceOptionsOverride() :
+            FPlayFabCppBaseModel(),
+            Prices()
+            {}
+
+        FCatalogPriceOptionsOverride(const FCatalogPriceOptionsOverride& src) = default;
+
+        FCatalogPriceOptionsOverride(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceOptionsOverride()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCatalogPriceOptionsOverride();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FStoreDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The options for the filter in filter-based stores. These options are mutually exclusive with item references.
+        TSharedPtr<FFilterOptions> pfFilterOptions;
+
+        // [optional] The global prices utilized in the store. These options are mutually exclusive with price options in item references.
+        TSharedPtr<FCatalogPriceOptionsOverride> PriceOptionsOverride;
+
+        FStoreDetails() :
+            FPlayFabCppBaseModel(),
+            pfFilterOptions(nullptr),
+            PriceOptionsOverride(nullptr)
+            {}
+
+        FStoreDetails(const FStoreDetails& src) = default;
+
+        FStoreDetails(const TSharedPtr<FJsonObject>& obj) : FStoreDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStoreDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCatalogItem : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The alternate IDs associated with this item.
@@ -431,6 +967,8 @@ namespace EconomyModels
         // [optional] The ID of the creator of this catalog item.
         TSharedPtr<FEntityKey> CreatorEntity;
 
+        // [optional] The set of platform specific deep links for this item.
+        TArray<FDeepLink> DeepLinks;
         /**
          * [optional] A dictionary of localized descriptions. Key is language code and localized string is the value. The neutral locale is
          * required.
@@ -456,6 +994,8 @@ namespace EconomyModels
         // [optional] Indicates if the item is hidden.
         Boxed<bool> IsHidden;
 
+        // [optional] The item references associated with this item.
+        TArray<FCatalogItemReference> ItemReferences;
         // [optional] A dictionary of localized keywords. Key is language code and localized list of keywords is the value.
         TMap<FString, FKeywordSet> Keywords;
         // [optional] The date and time this item was last updated.
@@ -464,11 +1004,19 @@ namespace EconomyModels
         // [optional] The moderation state for this item.
         TSharedPtr<FModerationState> Moderation;
 
+        // [optional] The platforms supported by this item.
+        TArray<FString> Platforms;
+        // [optional] The base price of this item.
+        TSharedPtr<FCatalogPriceOptions> PriceOptions;
+
         // [optional] Rating summary for this item.
         TSharedPtr<FRating> pfRating;
 
         // [optional] The date of when the item will be available. If not provided then the product will appear immediately.
         Boxed<FDateTime> StartDate;
+
+        // [optional] Optional details for stores items.
+        TSharedPtr<FStoreDetails> pfStoreDetails;
 
         // [optional] The list of tags that are associated with this item.
         TArray<FString> Tags;
@@ -477,7 +1025,7 @@ namespace EconomyModels
          * required.
          */
         TMap<FString, FString> Title;
-        // [optional] The high-level type of the item.
+        // [optional] The high-level type of the item. The following item types are supported: bundle, catalogItem, currency, store, ugc.
         FString Type;
 
         FCatalogItem() :
@@ -487,6 +1035,7 @@ namespace EconomyModels
             ContentType(),
             CreationDate(),
             CreatorEntity(nullptr),
+            DeepLinks(),
             Description(),
             DisplayProperties(),
             DisplayVersion(),
@@ -495,11 +1044,15 @@ namespace EconomyModels
             Id(),
             Images(),
             IsHidden(),
+            ItemReferences(),
             Keywords(),
             LastModifiedDate(),
             Moderation(nullptr),
+            Platforms(),
+            PriceOptions(nullptr),
             pfRating(nullptr),
             StartDate(),
+            pfStoreDetails(nullptr),
             Tags(),
             Title(),
             Type()
@@ -513,140 +1066,6 @@ namespace EconomyModels
         }
 
         ~FCatalogItem();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCatalogPriceAmount : public PlayFab::FPlayFabCppBaseModel
-    {
-        // The amount of the catalog price.
-        int32 Amount;
-
-        // [optional] The Item ID of the price.
-        FString Id;
-
-        FCatalogPriceAmount() :
-            FPlayFabCppBaseModel(),
-            Amount(0),
-            Id()
-            {}
-
-        FCatalogPriceAmount(const FCatalogPriceAmount& src) = default;
-
-        FCatalogPriceAmount(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceAmount()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCatalogPriceAmount();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCatalogPriceInstance : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The amounts of the catalog item price.
-        TArray<FCatalogPriceAmount> Amounts;
-        FCatalogPriceInstance() :
-            FPlayFabCppBaseModel(),
-            Amounts()
-            {}
-
-        FCatalogPriceInstance(const FCatalogPriceInstance& src) = default;
-
-        FCatalogPriceInstance(const TSharedPtr<FJsonObject>& obj) : FCatalogPriceInstance()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCatalogPriceInstance();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCatalogPrice : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Prices of the catalog item.
-        TArray<FCatalogPriceInstance> Prices;
-        // [optional] Real prices of the catalog item.
-        TArray<FCatalogPriceInstance> RealPrices;
-        // [optional] A standardized sorting key to allow proper sorting between items with prices in different currencies.
-        Boxed<int32> Sort;
-
-        FCatalogPrice() :
-            FPlayFabCppBaseModel(),
-            Prices(),
-            RealPrices(),
-            Sort()
-            {}
-
-        FCatalogPrice(const FCatalogPrice& src) = default;
-
-        FCatalogPrice(const TSharedPtr<FJsonObject>& obj) : FCatalogPrice()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCatalogPrice();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCatalogItemReference : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The amount of the catalog item.
-        Boxed<int32> Amount;
-
-        // [optional] The unique ID of the catalog item.
-        FString Id;
-
-        // [optional] The price of the catalog item.
-        TSharedPtr<FCatalogPrice> Price;
-
-        FCatalogItemReference() :
-            FPlayFabCppBaseModel(),
-            Amount(),
-            Id(),
-            Price(nullptr)
-            {}
-
-        FCatalogItemReference(const FCatalogItemReference& src) = default;
-
-        FCatalogItemReference(const TSharedPtr<FJsonObject>& obj) : FCatalogItemReference()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCatalogItemReference();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FCatalogSpecificConfig : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The set of content types that will be used for validation.
-        TArray<FString> ContentTypes;
-        // [optional] The set of tags that will be used for validation.
-        TArray<FString> Tags;
-        FCatalogSpecificConfig() :
-            FPlayFabCppBaseModel(),
-            ContentTypes(),
-            Tags()
-            {}
-
-        FCatalogSpecificConfig(const FCatalogSpecificConfig& src) = default;
-
-        FCatalogSpecificConfig(const TSharedPtr<FJsonObject>& obj) : FCatalogSpecificConfig()
-        {
-            readFromValue(obj);
-        }
-
-        ~FCatalogSpecificConfig();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -688,6 +1107,263 @@ namespace EconomyModels
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
+
+    enum CountryCode
+    {
+        CountryCodeAF,
+        CountryCodeAX,
+        CountryCodeAL,
+        CountryCodeDZ,
+        CountryCodeAS,
+        CountryCodeAD,
+        CountryCodeAO,
+        CountryCodeAI,
+        CountryCodeAQ,
+        CountryCodeAG,
+        CountryCodeAR,
+        CountryCodeAM,
+        CountryCodeAW,
+        CountryCodeAU,
+        CountryCodeAT,
+        CountryCodeAZ,
+        CountryCodeBS,
+        CountryCodeBH,
+        CountryCodeBD,
+        CountryCodeBB,
+        CountryCodeBY,
+        CountryCodeBE,
+        CountryCodeBZ,
+        CountryCodeBJ,
+        CountryCodeBM,
+        CountryCodeBT,
+        CountryCodeBO,
+        CountryCodeBQ,
+        CountryCodeBA,
+        CountryCodeBW,
+        CountryCodeBV,
+        CountryCodeBR,
+        CountryCodeIO,
+        CountryCodeBN,
+        CountryCodeBG,
+        CountryCodeBF,
+        CountryCodeBI,
+        CountryCodeKH,
+        CountryCodeCM,
+        CountryCodeCA,
+        CountryCodeCV,
+        CountryCodeKY,
+        CountryCodeCF,
+        CountryCodeTD,
+        CountryCodeCL,
+        CountryCodeCN,
+        CountryCodeCX,
+        CountryCodeCC,
+        CountryCodeCO,
+        CountryCodeKM,
+        CountryCodeCG,
+        CountryCodeCD,
+        CountryCodeCK,
+        CountryCodeCR,
+        CountryCodeCI,
+        CountryCodeHR,
+        CountryCodeCU,
+        CountryCodeCW,
+        CountryCodeCY,
+        CountryCodeCZ,
+        CountryCodeDK,
+        CountryCodeDJ,
+        CountryCodeDM,
+        CountryCodeDO,
+        CountryCodeEC,
+        CountryCodeEG,
+        CountryCodeSV,
+        CountryCodeGQ,
+        CountryCodeER,
+        CountryCodeEE,
+        CountryCodeET,
+        CountryCodeFK,
+        CountryCodeFO,
+        CountryCodeFJ,
+        CountryCodeFI,
+        CountryCodeFR,
+        CountryCodeGF,
+        CountryCodePF,
+        CountryCodeTF,
+        CountryCodeGA,
+        CountryCodeGM,
+        CountryCodeGE,
+        CountryCodeDE,
+        CountryCodeGH,
+        CountryCodeGI,
+        CountryCodeGR,
+        CountryCodeGL,
+        CountryCodeGD,
+        CountryCodeGP,
+        CountryCodeGU,
+        CountryCodeGT,
+        CountryCodeGG,
+        CountryCodeGN,
+        CountryCodeGW,
+        CountryCodeGY,
+        CountryCodeHT,
+        CountryCodeHM,
+        CountryCodeVA,
+        CountryCodeHN,
+        CountryCodeHK,
+        CountryCodeHU,
+        CountryCodeIS,
+        CountryCodeIN,
+        CountryCodeID,
+        CountryCodeIR,
+        CountryCodeIQ,
+        CountryCodeIE,
+        CountryCodeIM,
+        CountryCodeIL,
+        CountryCodeIT,
+        CountryCodeJM,
+        CountryCodeJP,
+        CountryCodeJE,
+        CountryCodeJO,
+        CountryCodeKZ,
+        CountryCodeKE,
+        CountryCodeKI,
+        CountryCodeKP,
+        CountryCodeKR,
+        CountryCodeKW,
+        CountryCodeKG,
+        CountryCodeLA,
+        CountryCodeLV,
+        CountryCodeLB,
+        CountryCodeLS,
+        CountryCodeLR,
+        CountryCodeLY,
+        CountryCodeLI,
+        CountryCodeLT,
+        CountryCodeLU,
+        CountryCodeMO,
+        CountryCodeMK,
+        CountryCodeMG,
+        CountryCodeMW,
+        CountryCodeMY,
+        CountryCodeMV,
+        CountryCodeML,
+        CountryCodeMT,
+        CountryCodeMH,
+        CountryCodeMQ,
+        CountryCodeMR,
+        CountryCodeMU,
+        CountryCodeYT,
+        CountryCodeMX,
+        CountryCodeFM,
+        CountryCodeMD,
+        CountryCodeMC,
+        CountryCodeMN,
+        CountryCodeME,
+        CountryCodeMS,
+        CountryCodeMA,
+        CountryCodeMZ,
+        CountryCodeMM,
+        CountryCodeNA,
+        CountryCodeNR,
+        CountryCodeNP,
+        CountryCodeNL,
+        CountryCodeNC,
+        CountryCodeNZ,
+        CountryCodeNI,
+        CountryCodeNE,
+        CountryCodeNG,
+        CountryCodeNU,
+        CountryCodeNF,
+        CountryCodeMP,
+        CountryCodeNO,
+        CountryCodeOM,
+        CountryCodePK,
+        CountryCodePW,
+        CountryCodePS,
+        CountryCodePA,
+        CountryCodePG,
+        CountryCodePY,
+        CountryCodePE,
+        CountryCodePH,
+        CountryCodePN,
+        CountryCodePL,
+        CountryCodePT,
+        CountryCodePR,
+        CountryCodeQA,
+        CountryCodeRE,
+        CountryCodeRO,
+        CountryCodeRU,
+        CountryCodeRW,
+        CountryCodeBL,
+        CountryCodeSH,
+        CountryCodeKN,
+        CountryCodeLC,
+        CountryCodeMF,
+        CountryCodePM,
+        CountryCodeVC,
+        CountryCodeWS,
+        CountryCodeSM,
+        CountryCodeST,
+        CountryCodeSA,
+        CountryCodeSN,
+        CountryCodeRS,
+        CountryCodeSC,
+        CountryCodeSL,
+        CountryCodeSG,
+        CountryCodeSX,
+        CountryCodeSK,
+        CountryCodeSI,
+        CountryCodeSB,
+        CountryCodeSO,
+        CountryCodeZA,
+        CountryCodeGS,
+        CountryCodeSS,
+        CountryCodeES,
+        CountryCodeLK,
+        CountryCodeSD,
+        CountryCodeSR,
+        CountryCodeSJ,
+        CountryCodeSZ,
+        CountryCodeSE,
+        CountryCodeCH,
+        CountryCodeSY,
+        CountryCodeTW,
+        CountryCodeTJ,
+        CountryCodeTZ,
+        CountryCodeTH,
+        CountryCodeTL,
+        CountryCodeTG,
+        CountryCodeTK,
+        CountryCodeTO,
+        CountryCodeTT,
+        CountryCodeTN,
+        CountryCodeTR,
+        CountryCodeTM,
+        CountryCodeTC,
+        CountryCodeTV,
+        CountryCodeUG,
+        CountryCodeUA,
+        CountryCodeAE,
+        CountryCodeGB,
+        CountryCodeUS,
+        CountryCodeUM,
+        CountryCodeUY,
+        CountryCodeUZ,
+        CountryCodeVU,
+        CountryCodeVE,
+        CountryCodeVN,
+        CountryCodeVG,
+        CountryCodeVI,
+        CountryCodeWF,
+        CountryCodeEH,
+        CountryCodeYE,
+        CountryCodeZM,
+        CountryCodeZW
+    };
+
+    PLAYFABCPP_API void writeCountryCodeEnumJSON(CountryCode enumVal, JsonWriter& writer);
+    PLAYFABCPP_API CountryCode readCountryCodeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API CountryCode readCountryCodeFromValue(const FString& value);
 
     struct PLAYFABCPP_API FCreateDraftItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
@@ -843,33 +1519,6 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeepLinkFormat : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The format of the deep link to return. The format should contain '{id}' to represent where the item ID should be placed.
-        FString Format;
-
-        // [optional] The target platform for the deep link.
-        FString Platform;
-
-        FDeepLinkFormat() :
-            FPlayFabCppBaseModel(),
-            Format(),
-            Platform()
-            {}
-
-        FDeepLinkFormat(const FDeepLinkFormat& src) = default;
-
-        FDeepLinkFormat(const TSharedPtr<FJsonObject>& obj) : FDeepLinkFormat()
-        {
-            readFromValue(obj);
-        }
-
-        ~FDeepLinkFormat();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FDeleteEntityItemReviewsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -910,6 +1559,142 @@ namespace EconomyModels
         }
 
         ~FDeleteEntityItemReviewsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteInventoryCollectionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The inventory collection id the request applies to.
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity the request is about. Set to the caller by default.
+        TSharedPtr<FEntityKey> Entity;
+
+        FDeleteInventoryCollectionRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr)
+            {}
+
+        FDeleteInventoryCollectionRequest(const FDeleteInventoryCollectionRequest& src) = default;
+
+        FDeleteInventoryCollectionRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteInventoryCollectionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteInventoryCollectionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteInventoryCollectionResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        FDeleteInventoryCollectionResponse() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeleteInventoryCollectionResponse(const FDeleteInventoryCollectionResponse& src) = default;
+
+        FDeleteInventoryCollectionResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteInventoryCollectionResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteInventoryCollectionResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The inventory item the operation applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        FDeleteInventoryItemsOperation() :
+            FPlayFabCppBaseModel(),
+            Item(nullptr)
+            {}
+
+        FDeleteInventoryItemsOperation(const FDeleteInventoryItemsOperation& src) = default;
+
+        FDeleteInventoryItemsOperation(const TSharedPtr<FJsonObject>& obj) : FDeleteInventoryItemsOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteInventoryItemsOperation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The inventory item the request applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        FDeleteInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            Item(nullptr)
+            {}
+
+        FDeleteInventoryItemsRequest(const FDeleteInventoryItemsRequest& src) = default;
+
+        FDeleteInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The idempotency id used in the request.
+        FString IdempotencyId;
+
+        // [optional] The ids of transactions that occurred as a result of the request.
+        TArray<FString> TransactionIds;
+        FDeleteInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            IdempotencyId(),
+            TransactionIds()
+            {}
+
+        FDeleteInventoryItemsResponse(const FDeleteInventoryItemsResponse& src) = default;
+
+        FDeleteInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteInventoryItemsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -968,20 +1753,280 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FFilterOptions : public PlayFab::FPlayFabCppBaseModel
+    struct PLAYFABCPP_API FPurchasePriceAmount : public PlayFab::FPlayFabCppBaseModel
     {
-        FFilterOptions() :
-            FPlayFabCppBaseModel()
+        // The amount of the inventory item to use in the purchase .
+        int32 Amount;
+
+        // [optional] The inventory item id to use in the purchase .
+        FString ItemId;
+
+        // [optional] The inventory stack id the to use in the purchase. Set to "default" by default
+        FString StackId;
+
+        FPurchasePriceAmount() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            ItemId(),
+            StackId()
             {}
 
-        FFilterOptions(const FFilterOptions& src) = default;
+        FPurchasePriceAmount(const FPurchasePriceAmount& src) = default;
 
-        FFilterOptions(const TSharedPtr<FJsonObject>& obj) : FFilterOptions()
+        FPurchasePriceAmount(const TSharedPtr<FJsonObject>& obj) : FPurchasePriceAmount()
         {
             readFromValue(obj);
         }
 
-        ~FFilterOptions();
+        ~FPurchasePriceAmount();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPurchaseInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The amount to purchase.
+        int32 Amount;
+
+        /**
+         * Indicates whether stacks reduced to an amount of 0 during the operation should be deleted from the inventory. (Default =
+         * false)
+         */
+        bool DeleteEmptyStacks;
+
+        // [optional] The inventory item the operation applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        /**
+         * [optional] The per-item price the item is expected to be purchased at. This must match a value configured in the Catalog or
+         * specified Store.
+         */
+        TArray<FPurchasePriceAmount> PriceAmounts;
+        // [optional] The id of the Store to purchase the item from.
+        FString StoreId;
+
+        FPurchaseInventoryItemsOperation() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            DeleteEmptyStacks(false),
+            Item(nullptr),
+            PriceAmounts(),
+            StoreId()
+            {}
+
+        FPurchaseInventoryItemsOperation(const FPurchaseInventoryItemsOperation& src) = default;
+
+        FPurchaseInventoryItemsOperation(const TSharedPtr<FJsonObject>& obj) : FPurchaseInventoryItemsOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPurchaseInventoryItemsOperation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSubtractInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The amount to subtract from the current item amount.
+        int32 Amount;
+
+        /**
+         * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory. (Default =
+         * false).
+         */
+        bool DeleteEmptyStacks;
+
+        // [optional] The inventory item the operation applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        FSubtractInventoryItemsOperation() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            DeleteEmptyStacks(false),
+            Item(nullptr)
+            {}
+
+        FSubtractInventoryItemsOperation(const FSubtractInventoryItemsOperation& src) = default;
+
+        FSubtractInventoryItemsOperation(const TSharedPtr<FJsonObject>& obj) : FSubtractInventoryItemsOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubtractInventoryItemsOperation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransferInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The amount to transfer.
+        int32 Amount;
+
+        /**
+         * Indicates whether stacks reduced to an amount of 0 during the operation should be deleted from the inventory. (Default =
+         * false)
+         */
+        bool DeleteEmptyStacks;
+
+        // [optional] The inventory item the operation is transferring from.
+        TSharedPtr<FInventoryItemReference> GivingItem;
+
+        // [optional] The inventory item the operation is transferring to.
+        TSharedPtr<FInventoryItemReference> ReceivingItem;
+
+        FTransferInventoryItemsOperation() :
+            FPlayFabCppBaseModel(),
+            Amount(0),
+            DeleteEmptyStacks(false),
+            GivingItem(nullptr),
+            ReceivingItem(nullptr)
+            {}
+
+        FTransferInventoryItemsOperation(const FTransferInventoryItemsOperation& src) = default;
+
+        FTransferInventoryItemsOperation(const TSharedPtr<FJsonObject>& obj) : FTransferInventoryItemsOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransferInventoryItemsOperation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The inventory item to update with the specified values.
+        TSharedPtr<FInventoryItem> Item;
+
+        FUpdateInventoryItemsOperation() :
+            FPlayFabCppBaseModel(),
+            Item(nullptr)
+            {}
+
+        FUpdateInventoryItemsOperation(const FUpdateInventoryItemsOperation& src) = default;
+
+        FUpdateInventoryItemsOperation(const TSharedPtr<FJsonObject>& obj) : FUpdateInventoryItemsOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateInventoryItemsOperation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FInventoryOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The add operation.
+        TSharedPtr<FAddInventoryItemsOperation> Add;
+
+        // [optional] The delete operation.
+        TSharedPtr<FDeleteInventoryItemsOperation> Delete;
+
+        // [optional] The purchase operation.
+        TSharedPtr<FPurchaseInventoryItemsOperation> Purchase;
+
+        // [optional] The subtract operation.
+        TSharedPtr<FSubtractInventoryItemsOperation> Subtract;
+
+        // [optional] The transfer operation.
+        TSharedPtr<FTransferInventoryItemsOperation> Transfer;
+
+        // [optional] The update operation.
+        TSharedPtr<FUpdateInventoryItemsOperation> Update;
+
+        FInventoryOperation() :
+            FPlayFabCppBaseModel(),
+            Add(nullptr),
+            Delete(nullptr),
+            Purchase(nullptr),
+            Subtract(nullptr),
+            Transfer(nullptr),
+            Update(nullptr)
+            {}
+
+        FInventoryOperation(const FInventoryOperation& src) = default;
+
+        FInventoryOperation(const TSharedPtr<FJsonObject>& obj) : FInventoryOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FInventoryOperation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExecuteInventoryOperationsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        /**
+         * [optional] The operations to run transactionally. The operations will be executed in-order sequentially and will succeed or fail as
+         * a batch.
+         */
+        TArray<FInventoryOperation> Operations;
+        FExecuteInventoryOperationsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            Operations()
+            {}
+
+        FExecuteInventoryOperationsRequest(const FExecuteInventoryOperationsRequest& src) = default;
+
+        FExecuteInventoryOperationsRequest(const TSharedPtr<FJsonObject>& obj) : FExecuteInventoryOperationsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteInventoryOperationsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExecuteInventoryOperationsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The idempotency id used in the request.
+        FString IdempotencyId;
+
+        // [optional] The ids of the transactions that occurred as a result of the request.
+        TArray<FString> TransactionIds;
+        FExecuteInventoryOperationsResponse() :
+            FPlayFabCppResultCommon(),
+            IdempotencyId(),
+            TransactionIds()
+            {}
+
+        FExecuteInventoryOperationsResponse(const FExecuteInventoryOperationsResponse& src) = default;
+
+        FExecuteInventoryOperationsResponse(const TSharedPtr<FJsonObject>& obj) : FExecuteInventoryOperationsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteInventoryOperationsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1163,12 +2208,16 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] OData Filter to specify ItemType.
+        FString Filter;
+
         FGetEntityDraftItemsRequest() :
             FPlayFabCppRequestCommon(),
             ContinuationToken(),
             Count(0),
             CustomTags(),
-            Entity(nullptr)
+            Entity(nullptr),
+            Filter()
             {}
 
         FGetEntityDraftItemsRequest(const FGetEntityDraftItemsRequest& src) = default;
@@ -1268,6 +2317,9 @@ namespace EconomyModels
         int32 Rating;
 
         // [optional] The ID of the author of the review.
+        TSharedPtr<FEntityKey> ReviewerEntity;
+
+        // [optional] Deprecated. Use ReviewerEntity instead. This property will be removed in a future release.
         FString ReviewerId;
 
         // [optional] The ID of the review.
@@ -1291,6 +2343,7 @@ namespace EconomyModels
             ItemVersion(),
             Locale(),
             Rating(0),
+            ReviewerEntity(nullptr),
             ReviewerId(),
             ReviewId(),
             ReviewText(),
@@ -1329,6 +2382,208 @@ namespace EconomyModels
         }
 
         ~FGetEntityItemReviewResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetInventoryCollectionIdsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] An opaque token used to retrieve the next page of collection ids, if any are available.
+        FString ContinuationToken;
+
+        // Number of items to retrieve. (Default = 10)
+        int32 Count;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity the request is about. Set to the caller by default.
+        TSharedPtr<FEntityKey> Entity;
+
+        FGetInventoryCollectionIdsRequest() :
+            FPlayFabCppRequestCommon(),
+            ContinuationToken(),
+            Count(0),
+            CustomTags(),
+            Entity(nullptr)
+            {}
+
+        FGetInventoryCollectionIdsRequest(const FGetInventoryCollectionIdsRequest& src) = default;
+
+        FGetInventoryCollectionIdsRequest(const TSharedPtr<FJsonObject>& obj) : FGetInventoryCollectionIdsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetInventoryCollectionIdsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetInventoryCollectionIdsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The requested inventory collection ids.
+        TArray<FString> CollectionIds;
+        // [optional] An opaque token used to retrieve the next page of collection ids, if any are available.
+        FString ContinuationToken;
+
+        FGetInventoryCollectionIdsResponse() :
+            FPlayFabCppResultCommon(),
+            CollectionIds(),
+            ContinuationToken()
+            {}
+
+        FGetInventoryCollectionIdsResponse(const FGetInventoryCollectionIdsResponse& src) = default;
+
+        FGetInventoryCollectionIdsResponse(const TSharedPtr<FJsonObject>& obj) : FGetInventoryCollectionIdsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetInventoryCollectionIdsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        /**
+         * [optional] An opaque token used to retrieve the next page of items in the inventory, if any are available. Should be null on
+         * initial request.
+         */
+        FString ContinuationToken;
+
+        // Number of items to retrieve. Maximum page size is 50. (Default=10)
+        int32 Count;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The filters to limit what is returned to the client.
+        FString Filter;
+
+        FGetInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            ContinuationToken(),
+            Count(0),
+            CustomTags(),
+            Entity(nullptr),
+            Filter()
+            {}
+
+        FGetInventoryItemsRequest(const FGetInventoryItemsRequest& src) = default;
+
+        FGetInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FGetInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] An opaque token used to retrieve the next page of items, if any are available.
+        FString ContinuationToken;
+
+        // [optional] The requested inventory items.
+        TArray<FInventoryItem> Items;
+        FGetInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            ContinuationToken(),
+            Items()
+            {}
+
+        FGetInventoryItemsResponse(const FGetInventoryItemsResponse& src) = default;
+
+        FGetInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FGetInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetItemContainersRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] An alternate ID associated with this item.
+        TSharedPtr<FCatalogAlternateId> AlternateId;
+
+        /**
+         * [optional] An opaque token used to retrieve the next page of items in the inventory, if any are available. Should be null on
+         * initial request.
+         */
+        FString ContinuationToken;
+
+        // Number of items to retrieve. Maximum page size is 25.
+        int32 Count;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The unique ID of the item.
+        FString Id;
+
+        FGetItemContainersRequest() :
+            FPlayFabCppRequestCommon(),
+            AlternateId(nullptr),
+            ContinuationToken(),
+            Count(0),
+            CustomTags(),
+            Entity(nullptr),
+            Id()
+            {}
+
+        FGetItemContainersRequest(const FGetItemContainersRequest& src) = default;
+
+        FGetItemContainersRequest(const TSharedPtr<FJsonObject>& obj) : FGetItemContainersRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetItemContainersRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetItemContainersResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] List of Bundles and Stores containing the requested items.
+        TArray<FCatalogItem> Containers;
+        // [optional] An opaque token used to retrieve the next page of items, if any are available.
+        FString ContinuationToken;
+
+        FGetItemContainersResponse() :
+            FPlayFabCppResultCommon(),
+            Containers(),
+            ContinuationToken()
+            {}
+
+        FGetItemContainersResponse(const FGetItemContainersResponse& src) = default;
+
+        FGetItemContainersResponse(const TSharedPtr<FJsonObject>& obj) : FGetItemContainersResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetItemContainersResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1705,6 +2960,85 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetMicrosoftStoreAccessTokensRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        FGetMicrosoftStoreAccessTokensRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags()
+            {}
+
+        FGetMicrosoftStoreAccessTokensRequest(const FGetMicrosoftStoreAccessTokensRequest& src) = default;
+
+        FGetMicrosoftStoreAccessTokensRequest(const TSharedPtr<FJsonObject>& obj) : FGetMicrosoftStoreAccessTokensRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetMicrosoftStoreAccessTokensRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetMicrosoftStoreAccessTokensResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * [optional] The collections access token for calling https://onestore.microsoft.com/b2b/keys/create/collections to obtain a
+         * CollectionsIdKey for the user
+         */
+        FString CollectionsAccessToken;
+
+        // The date the collections access token expires
+        FDateTime CollectionsAccessTokenExpirationDate;
+
+        FGetMicrosoftStoreAccessTokensResponse() :
+            FPlayFabCppResultCommon(),
+            CollectionsAccessToken(),
+            CollectionsAccessTokenExpirationDate(0)
+            {}
+
+        FGetMicrosoftStoreAccessTokensResponse(const FGetMicrosoftStoreAccessTokensResponse& src) = default;
+
+        FGetMicrosoftStoreAccessTokensResponse(const TSharedPtr<FJsonObject>& obj) : FGetMicrosoftStoreAccessTokensResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetMicrosoftStoreAccessTokensResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGooglePlayProductPurchase : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The Product ID (SKU) of the InApp product purchased from the Google Play store.
+        FString ProductId;
+
+        // [optional] The token provided to the player's device when the product was purchased
+        FString Token;
+
+        FGooglePlayProductPurchase() :
+            FPlayFabCppBaseModel(),
+            ProductId(),
+            Token()
+            {}
+
+        FGooglePlayProductPurchase(const FGooglePlayProductPurchase& src) = default;
+
+        FGooglePlayProductPurchase(const TSharedPtr<FJsonObject>& obj) : FGooglePlayProductPurchase()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGooglePlayProductPurchase();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum HelpfulnessVote
     {
         HelpfulnessVoteNone,
@@ -1742,44 +3076,6 @@ namespace EconomyModels
         }
 
         ~FPayoutDetails();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FPriceOverride : public PlayFab::FPlayFabCppBaseModel
-    {
-        FPriceOverride() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FPriceOverride(const FPriceOverride& src) = default;
-
-        FPriceOverride(const TSharedPtr<FJsonObject>& obj) : FPriceOverride()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPriceOverride();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FPricesOverride : public PlayFab::FPlayFabCppBaseModel
-    {
-        FPricesOverride() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FPricesOverride(const FPricesOverride& src) = default;
-
-        FPricesOverride(const TSharedPtr<FJsonObject>& obj) : FPricesOverride()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPricesOverride();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1846,6 +3142,91 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPurchaseInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The amount to purchase.
+        int32 Amount;
+
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory.
+         * (Default=false)
+         */
+        bool DeleteEmptyStacks;
+
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The inventory item the request applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        /**
+         * [optional] The per-item price the item is expected to be purchased at. This must match a value configured in the Catalog or
+         * specified Store.
+         */
+        TArray<FPurchasePriceAmount> PriceAmounts;
+        // [optional] The id of the Store to purchase the item from.
+        FString StoreId;
+
+        FPurchaseInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            Amount(0),
+            CollectionId(),
+            CustomTags(),
+            DeleteEmptyStacks(false),
+            Entity(nullptr),
+            IdempotencyId(),
+            Item(nullptr),
+            PriceAmounts(),
+            StoreId()
+            {}
+
+        FPurchaseInventoryItemsRequest(const FPurchaseInventoryItemsRequest& src) = default;
+
+        FPurchaseInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FPurchaseInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPurchaseInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPurchaseInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The idempotency id used in the request.
+        FString IdempotencyId;
+
+        // [optional] The ids of transactions that occurred as a result of the request.
+        TArray<FString> TransactionIds;
+        FPurchaseInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            IdempotencyId(),
+            TransactionIds()
+            {}
+
+        FPurchaseInventoryItemsResponse(const FPurchaseInventoryItemsResponse& src) = default;
+
+        FPurchaseInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FPurchaseInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPurchaseInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FPurchaseOverride : public PlayFab::FPlayFabCppBaseModel
     {
         FPurchaseOverride() :
@@ -1860,6 +3241,471 @@ namespace EconomyModels
         }
 
         ~FPurchaseOverride();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemAppleAppStoreInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The receipt provided by the Apple marketplace upon successful purchase.
+        FString Receipt;
+
+        FRedeemAppleAppStoreInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            Receipt()
+            {}
+
+        FRedeemAppleAppStoreInventoryItemsRequest(const FRedeemAppleAppStoreInventoryItemsRequest& src) = default;
+
+        FRedeemAppleAppStoreInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemAppleAppStoreInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemAppleAppStoreInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedemptionFailure : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The marketplace failure code.
+        FString FailureCode;
+
+        // [optional] The marketplace error details explaining why the offer failed to redeem.
+        FString FailureDetails;
+
+        // [optional] The transaction id in the external marketplace.
+        FString MarketplaceTransactionId;
+
+        // [optional] The ID of the offer being redeemed.
+        FString OfferId;
+
+        FRedemptionFailure() :
+            FPlayFabCppBaseModel(),
+            FailureCode(),
+            FailureDetails(),
+            MarketplaceTransactionId(),
+            OfferId()
+            {}
+
+        FRedemptionFailure(const FRedemptionFailure& src) = default;
+
+        FRedemptionFailure(const TSharedPtr<FJsonObject>& obj) : FRedemptionFailure()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedemptionFailure();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedemptionSuccess : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The transaction id in the external marketplace.
+        FString MarketplaceTransactionId;
+
+        // [optional] The ID of the offer being redeemed.
+        FString OfferId;
+
+        // The timestamp for when the redeem was completed.
+        FDateTime SuccessTimestamp;
+
+        FRedemptionSuccess() :
+            FPlayFabCppBaseModel(),
+            MarketplaceTransactionId(),
+            OfferId(),
+            SuccessTimestamp(0)
+            {}
+
+        FRedemptionSuccess(const FRedemptionSuccess& src) = default;
+
+        FRedemptionSuccess(const TSharedPtr<FJsonObject>& obj) : FRedemptionSuccess()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedemptionSuccess();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemAppleAppStoreInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of failed redemptions from the external marketplace.
+        TArray<FRedemptionFailure> Failed;
+        // [optional] The list of successful redemptions from the external marketplace.
+        TArray<FRedemptionSuccess> Succeeded;
+        // [optional] The Transaction IDs associated with the inventory modifications
+        TArray<FString> TransactionIds;
+        FRedeemAppleAppStoreInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Failed(),
+            Succeeded(),
+            TransactionIds()
+            {}
+
+        FRedeemAppleAppStoreInventoryItemsResponse(const FRedeemAppleAppStoreInventoryItemsResponse& src) = default;
+
+        FRedeemAppleAppStoreInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FRedeemAppleAppStoreInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemAppleAppStoreInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemGooglePlayInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The list of purchases to redeem
+        TArray<FGooglePlayProductPurchase> Purchases;
+        FRedeemGooglePlayInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            Purchases()
+            {}
+
+        FRedeemGooglePlayInventoryItemsRequest(const FRedeemGooglePlayInventoryItemsRequest& src) = default;
+
+        FRedeemGooglePlayInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemGooglePlayInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemGooglePlayInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemGooglePlayInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of failed redemptions from the external marketplace.
+        TArray<FRedemptionFailure> Failed;
+        // [optional] The list of successful redemptions from the external marketplace.
+        TArray<FRedemptionSuccess> Succeeded;
+        // [optional] The Transaction IDs associated with the inventory modifications
+        TArray<FString> TransactionIds;
+        FRedeemGooglePlayInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Failed(),
+            Succeeded(),
+            TransactionIds()
+            {}
+
+        FRedeemGooglePlayInventoryItemsResponse(const FRedeemGooglePlayInventoryItemsResponse& src) = default;
+
+        FRedeemGooglePlayInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FRedeemGooglePlayInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemGooglePlayInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemMicrosoftStoreInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The OneStore Collections Id Key used for AAD authentication.
+        FString CollectionsIdKey;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] Xbox Token used for delegated business partner authentication.
+        FString XboxToken;
+
+        FRedeemMicrosoftStoreInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CollectionsIdKey(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            XboxToken()
+            {}
+
+        FRedeemMicrosoftStoreInventoryItemsRequest(const FRedeemMicrosoftStoreInventoryItemsRequest& src) = default;
+
+        FRedeemMicrosoftStoreInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemMicrosoftStoreInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemMicrosoftStoreInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemMicrosoftStoreInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of failed redemptions from the external marketplace.
+        TArray<FRedemptionFailure> Failed;
+        // [optional] The list of successful redemptions from the external marketplace.
+        TArray<FRedemptionSuccess> Succeeded;
+        // [optional] The Transaction IDs associated with the inventory modifications
+        TArray<FString> TransactionIds;
+        FRedeemMicrosoftStoreInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Failed(),
+            Succeeded(),
+            TransactionIds()
+            {}
+
+        FRedeemMicrosoftStoreInventoryItemsResponse(const FRedeemMicrosoftStoreInventoryItemsResponse& src) = default;
+
+        FRedeemMicrosoftStoreInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FRedeemMicrosoftStoreInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemMicrosoftStoreInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemNintendoEShopInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The Nintendo provided token authorizing redemption
+        FString NintendoServiceAccountIdToken;
+
+        FRedeemNintendoEShopInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            NintendoServiceAccountIdToken()
+            {}
+
+        FRedeemNintendoEShopInventoryItemsRequest(const FRedeemNintendoEShopInventoryItemsRequest& src) = default;
+
+        FRedeemNintendoEShopInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemNintendoEShopInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemNintendoEShopInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemNintendoEShopInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of failed redemptions from the external marketplace.
+        TArray<FRedemptionFailure> Failed;
+        // [optional] The list of successful redemptions from the external marketplace.
+        TArray<FRedemptionSuccess> Succeeded;
+        // [optional] The Transaction IDs associated with the inventory modifications
+        TArray<FString> TransactionIds;
+        FRedeemNintendoEShopInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Failed(),
+            Succeeded(),
+            TransactionIds()
+            {}
+
+        FRedeemNintendoEShopInventoryItemsResponse(const FRedeemNintendoEShopInventoryItemsResponse& src) = default;
+
+        FRedeemNintendoEShopInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FRedeemNintendoEShopInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemNintendoEShopInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemPlayStationStoreInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Authorization code provided by the PlayStation OAuth provider.
+        FString AuthorizationCode;
+
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] Optional Service Label to pass into the request.
+        FString ServiceLabel;
+
+        FRedeemPlayStationStoreInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            AuthorizationCode(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            ServiceLabel()
+            {}
+
+        FRedeemPlayStationStoreInventoryItemsRequest(const FRedeemPlayStationStoreInventoryItemsRequest& src) = default;
+
+        FRedeemPlayStationStoreInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemPlayStationStoreInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemPlayStationStoreInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemPlayStationStoreInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of failed redemptions from the external marketplace.
+        TArray<FRedemptionFailure> Failed;
+        // [optional] The list of successful redemptions from the external marketplace.
+        TArray<FRedemptionSuccess> Succeeded;
+        // [optional] The Transaction IDs associated with the inventory modifications
+        TArray<FString> TransactionIds;
+        FRedeemPlayStationStoreInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Failed(),
+            Succeeded(),
+            TransactionIds()
+            {}
+
+        FRedeemPlayStationStoreInventoryItemsResponse(const FRedeemPlayStationStoreInventoryItemsResponse& src) = default;
+
+        FRedeemPlayStationStoreInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FRedeemPlayStationStoreInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemPlayStationStoreInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemSteamInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        FRedeemSteamInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId()
+            {}
+
+        FRedeemSteamInventoryItemsRequest(const FRedeemSteamInventoryItemsRequest& src) = default;
+
+        FRedeemSteamInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemSteamInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemSteamInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRedeemSteamInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of failed redemptions from the external marketplace.
+        TArray<FRedemptionFailure> Failed;
+        // [optional] The list of successful redemptions from the external marketplace.
+        TArray<FRedemptionSuccess> Succeeded;
+        // [optional] The Transaction IDs associated with the inventory modifications
+        TArray<FString> TransactionIds;
+        FRedeemSteamInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            Failed(),
+            Succeeded(),
+            TransactionIds()
+            {}
+
+        FRedeemSteamInventoryItemsResponse(const FRedeemSteamInventoryItemsResponse& src) = default;
+
+        FRedeemSteamInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FRedeemSteamInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRedeemSteamInventoryItemsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2102,6 +3948,33 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FStoreReference : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] An alternate ID of the store.
+        TSharedPtr<FCatalogAlternateId> AlternateId;
+
+        // [optional] The unique ID of the store.
+        FString Id;
+
+        FStoreReference() :
+            FPlayFabCppBaseModel(),
+            AlternateId(nullptr),
+            Id()
+            {}
+
+        FStoreReference(const FStoreReference& src) = default;
+
+        FStoreReference(const TSharedPtr<FJsonObject>& obj) : FStoreReference()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStoreReference();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSearchItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] An opaque token used to retrieve the next page of items, if any are available.
@@ -2130,6 +4003,9 @@ namespace EconomyModels
          */
         FString Select;
 
+        // [optional] The store to restrict the search request to.
+        TSharedPtr<FStoreReference> Store;
+
         FSearchItemsRequest() :
             FPlayFabCppRequestCommon(),
             ContinuationToken(),
@@ -2139,7 +4015,8 @@ namespace EconomyModels
             Filter(),
             OrderBy(),
             Search(),
-            Select()
+            Select(),
+            Store(nullptr)
             {}
 
         FSearchItemsRequest(const FSearchItemsRequest& src) = default;
@@ -2238,52 +4115,6 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FStoreDetails : public PlayFab::FPlayFabCppBaseModel
-    {
-        FStoreDetails() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FStoreDetails(const FStoreDetails& src) = default;
-
-        FStoreDetails(const TSharedPtr<FJsonObject>& obj) : FStoreDetails()
-        {
-            readFromValue(obj);
-        }
-
-        ~FStoreDetails();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FStoreInfo : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] An alternate ID of the store.
-        TSharedPtr<FCatalogAlternateId> AlternateId;
-
-        // [optional] The unique ID of the store.
-        FString Id;
-
-        FStoreInfo() :
-            FPlayFabCppBaseModel(),
-            AlternateId(nullptr),
-            Id()
-            {}
-
-        FStoreInfo(const FStoreInfo& src) = default;
-
-        FStoreInfo(const TSharedPtr<FJsonObject>& obj) : FStoreInfo()
-        {
-            readFromValue(obj);
-        }
-
-        ~FStoreInfo();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FSubmitItemReviewVoteRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] An alternate ID of the item associated with the review.
@@ -2368,6 +4199,101 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FSubtractInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The amount to add for the current item.
+        int32 Amount;
+
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory.
+         * (Default=false)
+         */
+        bool DeleteEmptyStacks;
+
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The inventory item the request applies to.
+        TSharedPtr<FInventoryItemReference> Item;
+
+        // [optional] A list of Items to modify.
+        TArray<FInventoryItem> Items;
+        // Indicates if the full inventory should be returned.
+        bool ReturnInventory;
+
+        FSubtractInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            Amount(0),
+            CollectionId(),
+            CustomTags(),
+            DeleteEmptyStacks(false),
+            Entity(nullptr),
+            IdempotencyId(),
+            Item(nullptr),
+            Items(),
+            ReturnInventory(false)
+            {}
+
+        FSubtractInventoryItemsRequest(const FSubtractInventoryItemsRequest& src) = default;
+
+        FSubtractInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FSubtractInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubtractInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSubtractInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The idempotency id used in the request.
+        FString IdempotencyId;
+
+        /**
+         * [optional] Details of the current inventory items. Null if ReturnInventory was set to false in request or InventoryTooLarge is set
+         * to true in response.
+         */
+        TArray<FInventoryItem> InventoryItems;
+        // Whether the number of inventory items is too large to be returned.
+        bool InventoryTooLarge;
+
+        // [optional] The ids of transactions that occurred as a result of the request.
+        TArray<FString> TransactionIds;
+        // [optional] The updated items for this request.
+        TArray<FInventoryItem> UpdatedItems;
+        FSubtractInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            IdempotencyId(),
+            InventoryItems(),
+            InventoryTooLarge(false),
+            TransactionIds(),
+            UpdatedItems()
+            {}
+
+        FSubtractInventoryItemsResponse(const FSubtractInventoryItemsResponse& src) = default;
+
+        FSubtractInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FSubtractInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubtractInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FTakedownItemReviewsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2407,6 +4333,96 @@ namespace EconomyModels
         }
 
         ~FTakedownItemReviewsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransferInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // The amount to transfer .
+        int32 Amount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory. (Default =
+         * false)
+         */
+        bool DeleteEmptyStacks;
+
+        // [optional] The inventory collection id the request is transferring from. (Default="default")
+        FString GivingCollectionId;
+
+        // [optional] The entity the request is transferring from. Set to the caller by default.
+        TSharedPtr<FEntityKey> GivingEntity;
+
+        // [optional] The inventory item the request is transferring from.
+        TSharedPtr<FInventoryItemReference> GivingItem;
+
+        // [optional] The idempotency id for the request.
+        FString IdempotencyId;
+
+        // [optional] The inventory collection id the request is transferring to. (Default="default")
+        FString ReceivingCollectionId;
+
+        // [optional] The entity the request is transferring to. Set to the caller by default.
+        TSharedPtr<FEntityKey> ReceivingEntity;
+
+        // [optional] The inventory item the request is transferring to.
+        TSharedPtr<FInventoryItemReference> ReceivingItem;
+
+        FTransferInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            Amount(0),
+            CustomTags(),
+            DeleteEmptyStacks(false),
+            GivingCollectionId(),
+            GivingEntity(nullptr),
+            GivingItem(nullptr),
+            IdempotencyId(),
+            ReceivingCollectionId(),
+            ReceivingEntity(nullptr),
+            ReceivingItem(nullptr)
+            {}
+
+        FTransferInventoryItemsRequest(const FTransferInventoryItemsRequest& src) = default;
+
+        FTransferInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FTransferInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransferInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransferInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The ids of transactions that occurred as a result of the request's giving action.
+        TArray<FString> GivingTransactionIds;
+        // [optional] The idempotency id for the request.
+        FString IdempotencyId;
+
+        // [optional] The ids of transactions that occurred as a result of the request's receiving action.
+        TArray<FString> ReceivingTransactionIds;
+        FTransferInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            GivingTransactionIds(),
+            IdempotencyId(),
+            ReceivingTransactionIds()
+            {}
+
+        FTransferInventoryItemsResponse(const FTransferInventoryItemsResponse& src) = default;
+
+        FTransferInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FTransferInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransferInventoryItemsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -2505,6 +4521,90 @@ namespace EconomyModels
         }
 
         ~FUpdateDraftItemResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        // [optional] The inventory item to update with the specified values.
+        TSharedPtr<FInventoryItem> Item;
+
+        // [optional] A list of Items to modify.
+        TArray<FInventoryItem> Items;
+        // Indicates if the full inventory should be returned.
+        bool ReturnInventory;
+
+        FUpdateInventoryItemsRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr),
+            IdempotencyId(),
+            Item(nullptr),
+            Items(),
+            ReturnInventory(false)
+            {}
+
+        FUpdateInventoryItemsRequest(const FUpdateInventoryItemsRequest& src) = default;
+
+        FUpdateInventoryItemsRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateInventoryItemsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateInventoryItemsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The idempotency id used in the request.
+        FString IdempotencyId;
+
+        /**
+         * [optional] Details of the current inventory items. Null if ReturnInventory was set to false in request or InventoryTooLarge is set
+         * to true in response.
+         */
+        TArray<FInventoryItem> InventoryItems;
+        // Whether the number of inventory items is too large to be returned.
+        bool InventoryTooLarge;
+
+        // [optional] The ids of transactions that occurred as a result of the request.
+        TArray<FString> TransactionIds;
+        // [optional] The updated items for this request.
+        TArray<FInventoryItem> UpdatedItems;
+        FUpdateInventoryItemsResponse() :
+            FPlayFabCppResultCommon(),
+            IdempotencyId(),
+            InventoryItems(),
+            InventoryTooLarge(false),
+            TransactionIds(),
+            UpdatedItems()
+            {}
+
+        FUpdateInventoryItemsResponse(const FUpdateInventoryItemsResponse& src) = default;
+
+        FUpdateInventoryItemsResponse(const TSharedPtr<FJsonObject>& obj) : FUpdateInventoryItemsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateInventoryItemsResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

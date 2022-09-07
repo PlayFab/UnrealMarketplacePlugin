@@ -2014,15 +2014,9 @@ struct PLAYFAB_API FMultiplayerGetMultiplayerServerDetailsRequest : public FPlay
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The guid string build ID of the multiplayer server to get details for. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString BuildId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** The region the multiplayer server is located in to get details for. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        FString Region;
     /**
      * The title generated guid string session ID of the multiplayer server to get details for. This is to keep track of
      * multiplayer server sessions.

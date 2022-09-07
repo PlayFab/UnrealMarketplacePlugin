@@ -104,6 +104,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerGetUserBansResult decodeGetUserBansResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the LinkNintendoSwitchDeviceIdResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerLinkNintendoSwitchDeviceIdResult decodeLinkNintendoSwitchDeviceIdResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the LinkPSNAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerLinkPSNAccountResult decodeLinkPSNAccountResultResponse(UPlayFabJsonObject* response);
@@ -140,6 +144,14 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerSendPushNotificationResult decodeSendPushNotificationResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the EmptyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UnlinkNintendoSwitchDeviceIdResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerUnlinkNintendoSwitchDeviceIdResult decodeUnlinkNintendoSwitchDeviceIdResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the UnlinkPSNAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerUnlinkPSNAccountResult decodeUnlinkPSNAccountResultResponse(UPlayFabJsonObject* response);
@@ -151,10 +163,6 @@ public:
     /** Decode the UnlinkXboxAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerUnlinkXboxAccountResult decodeUnlinkXboxAccountResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the EmptyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
-        static FServerEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the UpdateBansResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")

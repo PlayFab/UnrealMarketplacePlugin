@@ -806,7 +806,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkPSNAccount, FClientUnlinkPSNAccountResult, result, UObject*, customData);
 
-    /** Unlinks the related PSN :tm: account from the user's PlayFab account */
+    /** Unlinks the related PlayStation :tm: Network account from the user's PlayFab account */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* UnlinkPSNAccount(FClientUnlinkPSNAccountRequest request,
             FDelegateOnSuccessUnlinkPSNAccount onSuccess,
@@ -1715,7 +1715,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRefreshPSNAuthToken, FClientEmptyResponse, result, UObject*, customData);
 
-    /** Uses the supplied OAuth code to refresh the internally cached player PSN :tm: auth token */
+    /** Uses the supplied OAuth code to refresh the internally cached player PlayStation :tm: Network auth token */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* RefreshPSNAuthToken(FClientRefreshPSNAuthTokenRequest request,
             FDelegateOnSuccessRefreshPSNAuthToken onSuccess,

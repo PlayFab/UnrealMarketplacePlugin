@@ -418,21 +418,21 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         int32 IssuerId = 0;
-    /** Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers. */
+    /** Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNAccountIDs;
 };
 
-/** For PlayStation Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
+/** For PlayStation :tm: Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayFabIDsFromPSNAccountIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Mapping of PlayStation Network identifiers to PlayFab identifiers. */
+    /** Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         TArray<UPlayFabJsonObject*> Data;
 };
@@ -498,7 +498,7 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromXboxLiveIDsResult : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Mapping of PlayStation Network identifiers to PlayFab identifiers. */
+    /** Mapping of Xbox Live identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         TArray<UPlayFabJsonObject*> Data;
 };
@@ -867,7 +867,7 @@ struct PLAYFAB_API FClientLinkPSNAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Authentication code provided by the PlayStation Network. */
+    /** Authentication code provided by the PlayStation :tm: Network. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString AuthCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -876,10 +876,10 @@ public:
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         bool ForceLink = false;
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         int32 IssuerId = 0;
-    /** Redirect URI supplied to PSN when requesting an auth code */
+    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString RedirectUri;
 };
@@ -1796,7 +1796,8 @@ public:
         FString EncryptedRequest;
     /**
      * The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
-     * credential payload.
+     * credential payload. If you choose to ignore the expiration date for identity tokens, you will receive an NotAuthorized
+     * error if Apple rotates the signing key. In this case, users have to login to provide a fresh identity token.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString IdentityToken;
@@ -2248,17 +2249,18 @@ public:
 };
 
 /**
- * If this is the first time a user has signed in with the PlayStation Network account and CreateAccount is set to true, a
- * new PlayFab account will be created and linked to the PSN account. In this case, no email or username will be associated
- * with the PlayFab account. Otherwise, if no PlayFab account is linked to the PSN account, an error indicating this will
- * be returned, so that the title can guide the user through creation of a PlayFab account.
+ * If this is the first time a user has signed in with the PlayStation :tm: Network account and CreateAccount is set to
+ * true, a new PlayFab account will be created and linked to the PlayStation :tm: Network account. In this case, no email
+ * or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the PlayStation
+ * :tm: Network account, an error indicating this will be returned, so that the title can guide the user through creation
+ * of a PlayFab account.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithPSNRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Auth code provided by the PSN OAuth provider. */
+    /** Auth code provided by the PlayStation :tm: Network OAuth provider. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString AuthCode;
     /** Automatically create a PlayFab account if one is not currently linked to this ID. */
@@ -2273,13 +2275,13 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         int32 IssuerId = 0;
     /** Player secret that is used to verify API request signatures (Enterprise Only). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString PlayerSecret;
-    /** Redirect URI supplied to PSN when requesting an auth code */
+    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString RedirectUri;
 };
@@ -3172,7 +3174,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Id of the PSN service label to consume entitlements from */
+    /** Id of the PlayStation :tm: Network service label to consume entitlements from */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 ServiceLabel = 0;
 };
@@ -3218,13 +3220,13 @@ struct PLAYFAB_API FClientRefreshPSNAuthTokenRequest : public FPlayFabRequestCom
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Auth code returned by PSN OAuth system. */
+    /** Auth code returned by PlayStation :tm: Network OAuth system. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString AuthCode;
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         int32 IssuerId = 0;
-    /** Redirect URI supplied to PSN when requesting an auth code */
+    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Platform Specific Methods Models")
         FString RedirectUri;
 };

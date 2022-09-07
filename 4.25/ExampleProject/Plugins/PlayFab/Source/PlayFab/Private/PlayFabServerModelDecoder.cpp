@@ -202,6 +202,15 @@ FServerGetUserBansResult UPlayFabServerModelDecoder::decodeGetUserBansResultResp
     return tempStruct;
 }
 
+FServerLinkNintendoSwitchDeviceIdResult UPlayFabServerModelDecoder::decodeLinkNintendoSwitchDeviceIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerLinkNintendoSwitchDeviceIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerLinkPSNAccountResult UPlayFabServerModelDecoder::decodeLinkPSNAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -289,6 +298,24 @@ FServerSendPushNotificationResult UPlayFabServerModelDecoder::decodeSendPushNoti
     return tempStruct;
 }
 
+FServerEmptyResponse UPlayFabServerModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerEmptyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerUnlinkNintendoSwitchDeviceIdResult UPlayFabServerModelDecoder::decodeUnlinkNintendoSwitchDeviceIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkNintendoSwitchDeviceIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerUnlinkPSNAccountResult UPlayFabServerModelDecoder::decodeUnlinkPSNAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -311,15 +338,6 @@ FServerUnlinkXboxAccountResult UPlayFabServerModelDecoder::decodeUnlinkXboxAccou
 {
     // Temp ustruct
     FServerUnlinkXboxAccountResult tempStruct;
-
-
-    return tempStruct;
-}
-
-FServerEmptyResponse UPlayFabServerModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FServerEmptyResponse tempStruct;
 
 
     return tempStruct;

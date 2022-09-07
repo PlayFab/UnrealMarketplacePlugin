@@ -232,6 +232,9 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** OData Filter to specify ItemType. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        FString Filter;
 };
 
 USTRUCT(BlueprintType)
@@ -304,6 +307,48 @@ public:
     /** The item result. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Item = nullptr;
+};
+
+/** Given an item, return a set of bundles and stores containing the item. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetItemContainersRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** An alternate ID associated with this item. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        UPlayFabJsonObject* AlternateId = nullptr;
+    /**
+     * An opaque token used to retrieve the next page of items in the inventory, if any are available. Should be null on
+     * initial request.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        FString ContinuationToken;
+    /** Number of items to retrieve. Maximum page size is 25. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        int32 Count = 0;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The unique ID of the item. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        FString Id;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetItemContainersResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** List of Bundles and Stores containing the requested items. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        TArray<UPlayFabJsonObject*> Containers;
+    /** An opaque token used to retrieve the next page of items, if any are available. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        FString ContinuationToken;
 };
 
 USTRUCT(BlueprintType)
@@ -632,6 +677,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Select;
+    /** The store to restrict the search request to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        UPlayFabJsonObject* Store = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -782,4 +830,733 @@ public:
 ///////////////////////////////////////////////////////
 // Inventory
 //////////////////////////////////////////////////////
+
+/** Given an entity type, entity identifier and container details, will add the specified inventory items. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyAddInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The amount to add for the current item. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        int32 Amount = 0;
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The currency code of the real money transaction. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CurrencyCode;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The inventory item the request applies to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Item = nullptr;
+    /** A list of Items to modify. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Items;
+    /** Purchase price of the offer. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        int32 PurchasePrice = 0;
+    /** Indicates if the full inventory should be returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool ReturnInventory = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyAddInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The idempotency id used in the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /**
+     * Details of the current inventory items. Null if ReturnInventory was set to false in request or InventoryTooLarge is set
+     * to true in response.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> InventoryItems;
+    /** Whether the number of inventory items is too large to be returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool InventoryTooLarge = false;
+    /** The ids of transactions that occurred as a result of the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+    /** The updated items for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> UpdatedItems;
+};
+
+/** Delete an Inventory Collection by the specified Id for an Entity */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyDeleteInventoryCollectionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The inventory collection id the request applies to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity the request is about. Set to the caller by default. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyDeleteInventoryCollectionResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+/** Given an entity type, entity identifier and container details, will delete the entity's inventory items */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyDeleteInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The inventory item the request applies to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Item = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyDeleteInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The idempotency id used in the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The ids of transactions that occurred as a result of the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Execute a list of Inventory Operations for an Entity */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyExecuteInventoryOperationsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /**
+     * The operations to run transactionally. The operations will be executed in-order sequentially and will succeed or fail as
+     * a batch.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Operations;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyExecuteInventoryOperationsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The idempotency id used in the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The ids of the transactions that occurred as a result of the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Get a list of Inventory Collection Ids for the specified Entity */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetInventoryCollectionIdsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** An opaque token used to retrieve the next page of collection ids, if any are available. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ContinuationToken;
+    /** Number of items to retrieve. (Default = 10) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        int32 Count = 0;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity the request is about. Set to the caller by default. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetInventoryCollectionIdsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The requested inventory collection ids. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionIds;
+    /** An opaque token used to retrieve the next page of collection ids, if any are available. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ContinuationToken;
+};
+
+/** Given an entity type, entity identifier and container details, will get the entity's inventory items. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /**
+     * An opaque token used to retrieve the next page of items in the inventory, if any are available. Should be null on
+     * initial request.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ContinuationToken;
+    /** Number of items to retrieve. Maximum page size is 50. (Default=10) */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        int32 Count = 0;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The filters to limit what is returned to the client. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString Filter;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** An opaque token used to retrieve the next page of items, if any are available. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ContinuationToken;
+    /** The requested inventory items. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Items;
+};
+
+/** Gets the access tokens for Microsoft Store authentication. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetMicrosoftStoreAccessTokensRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetMicrosoftStoreAccessTokensResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * The collections access token for calling https://onestore.microsoft.com/b2b/keys/create/collections to obtain a
+     * CollectionsIdKey for the user
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionsAccessToken;
+    /** The date the collections access token expires */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionsAccessTokenExpirationDate;
+};
+
+/** Purchase a single item or bundle, paying the associated price. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyPurchaseInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The amount to purchase. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        int32 Amount = 0;
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory.
+     * (Default=false)
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool DeleteEmptyStacks = false;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The inventory item the request applies to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Item = nullptr;
+    /**
+     * The per-item price the item is expected to be purchased at. This must match a value configured in the Catalog or
+     * specified Store.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> PriceAmounts;
+    /** The id of the Store to purchase the item from. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString StoreId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyPurchaseInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The idempotency id used in the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The ids of transactions that occurred as a result of the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Redeem items from the Apple App Store. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemAppleAppStoreInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The receipt provided by the Apple marketplace upon successful purchase. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString Receipt;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemAppleAppStoreInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of failed redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Failed;
+    /** The list of successful redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Succeeded;
+    /** The Transaction IDs associated with the inventory modifications */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Redeem items from the Google Play Store. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemGooglePlayInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The list of purchases to redeem */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Purchases;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemGooglePlayInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of failed redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Failed;
+    /** The list of successful redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Succeeded;
+    /** The Transaction IDs associated with the inventory modifications */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Redeem items from the Microsoft Store. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemMicrosoftStoreInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The OneStore Collections Id Key used for AAD authentication. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionsIdKey;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** Xbox Token used for delegated business partner authentication. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString XboxToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemMicrosoftStoreInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of failed redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Failed;
+    /** The list of successful redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Succeeded;
+    /** The Transaction IDs associated with the inventory modifications */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Redeem items from the Nintendo EShop. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemNintendoEShopInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The Nintendo provided token authorizing redemption */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString NintendoServiceAccountIdToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemNintendoEShopInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of failed redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Failed;
+    /** The list of successful redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Succeeded;
+    /** The Transaction IDs associated with the inventory modifications */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Redeem items from the PlayStation Store. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemPlayStationStoreInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Authorization code provided by the PlayStation OAuth provider. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString AuthorizationCode;
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** Optional Service Label to pass into the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ServiceLabel;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemPlayStationStoreInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of failed redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Failed;
+    /** The list of successful redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Succeeded;
+    /** The Transaction IDs associated with the inventory modifications */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Redeem inventory items from Steam. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemSteamInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyRedeemSteamInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of failed redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Failed;
+    /** The list of successful redemptions from the external marketplace. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Succeeded;
+    /** The Transaction IDs associated with the inventory modifications */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+};
+
+/** Given an entity type, entity identifier and container details, will subtract the specified inventory items. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomySubtractInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The amount to add for the current item. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        int32 Amount = 0;
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory.
+     * (Default=false)
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool DeleteEmptyStacks = false;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The inventory item the request applies to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Item = nullptr;
+    /** A list of Items to modify. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Items;
+    /** Indicates if the full inventory should be returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool ReturnInventory = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomySubtractInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The idempotency id used in the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /**
+     * Details of the current inventory items. Null if ReturnInventory was set to false in request or InventoryTooLarge is set
+     * to true in response.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> InventoryItems;
+    /** Whether the number of inventory items is too large to be returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool InventoryTooLarge = false;
+    /** The ids of transactions that occurred as a result of the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+    /** The updated items for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> UpdatedItems;
+};
+
+/** Transfer the specified inventory items of an entity's container Id to another entity's container Id. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyTransferInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The amount to transfer . */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        int32 Amount = 0;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory. (Default =
+     * false)
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool DeleteEmptyStacks = false;
+    /** The inventory collection id the request is transferring from. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString GivingCollectionId;
+    /** The entity the request is transferring from. Set to the caller by default. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* GivingEntity = nullptr;
+    /** The inventory item the request is transferring from. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* GivingItem = nullptr;
+    /** The idempotency id for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The inventory collection id the request is transferring to. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ReceivingCollectionId;
+    /** The entity the request is transferring to. Set to the caller by default. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* ReceivingEntity = nullptr;
+    /** The inventory item the request is transferring to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* ReceivingItem = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyTransferInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The ids of transactions that occurred as a result of the request's giving action. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString GivingTransactionIds;
+    /** The idempotency id for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The ids of transactions that occurred as a result of the request's receiving action. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ReceivingTransactionIds;
+};
+
+/** Given an entity type, entity identifier and container details, will update the entity's inventory items */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyUpdateInventoryItemsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /** The inventory item to update with the specified values. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Item = nullptr;
+    /** A list of Items to modify. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Items;
+    /** Indicates if the full inventory should be returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool ReturnInventory = false;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyUpdateInventoryItemsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The idempotency id used in the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /**
+     * Details of the current inventory items. Null if ReturnInventory was set to false in request or InventoryTooLarge is set
+     * to true in response.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> InventoryItems;
+    /** Whether the number of inventory items is too large to be returned. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        bool InventoryTooLarge = false;
+    /** The ids of transactions that occurred as a result of the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString TransactionIds;
+    /** The updated items for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> UpdatedItems;
+};
 

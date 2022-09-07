@@ -2908,17 +2908,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::GetMultiplayerServerDetails(FMul
 
 
     // Serialize all the request properties to json
-    if (request.BuildId.IsEmpty() || request.BuildId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("BuildId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("BuildId"), request.BuildId);
-    }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.Region.IsEmpty() || request.Region == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("Region"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("Region"), request.Region);
-    }
     if (request.SessionId.IsEmpty() || request.SessionId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("SessionId"));
     } else {

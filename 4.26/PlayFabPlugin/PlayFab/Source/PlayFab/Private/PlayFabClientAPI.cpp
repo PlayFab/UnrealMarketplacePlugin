@@ -2976,7 +2976,7 @@ void UPlayFabClientAPI::HelperUnlinkOpenIdConnect(FPlayFabBaseModel response, UO
     this->RemoveFromRoot();
 }
 
-/** Unlinks the related PSN :tm: account from the user's PlayFab account */
+/** Unlinks the related PlayStation :tm: Network account from the user's PlayFab account */
 UPlayFabClientAPI* UPlayFabClientAPI::UnlinkPSNAccount(FClientUnlinkPSNAccountRequest request,
     FDelegateOnSuccessUnlinkPSNAccount onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6732,7 +6732,7 @@ void UPlayFabClientAPI::HelperConsumeXboxEntitlements(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Uses the supplied OAuth code to refresh the internally cached player PSN :tm: auth token */
+/** Uses the supplied OAuth code to refresh the internally cached player PlayStation :tm: Network auth token */
 UPlayFabClientAPI* UPlayFabClientAPI::RefreshPSNAuthToken(FClientRefreshPSNAuthTokenRequest request,
     FDelegateOnSuccessRefreshPSNAuthToken onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

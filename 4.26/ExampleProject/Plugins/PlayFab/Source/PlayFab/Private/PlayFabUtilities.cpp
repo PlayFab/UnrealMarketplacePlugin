@@ -665,6 +665,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 6001: returnText = "PartyVersionNotFound"; break;
     case 6002: returnText = "MultiplayerServerBuildReferencedByMatchmakingQueue"; break;
     case 6003: returnText = "MultiplayerServerBuildReferencedByBuildAlias"; break;
+    case 6004: returnText = "MultiplayerServerBuildAliasReferencedByMatchmakingQueue"; break;
     case 7000: returnText = "ExperimentationExperimentStopped"; break;
     case 7001: returnText = "ExperimentationExperimentRunning"; break;
     case 7002: returnText = "ExperimentationExperimentNotFound"; break;

@@ -659,7 +659,7 @@ namespace PlayFab
         /**
          * Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can
          * subsequently be used for API calls which require an authenticated user
-         * If this is the first time a user has signed in with the PlayStation Network account and CreateAccount is set to true, a new PlayFab account will be created and linked to the PSN account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the PSN account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
+         * If this is the first time a user has signed in with the PlayStation :tm: Network account and CreateAccount is set to true, a new PlayFab account will be created and linked to the PlayStation :tm: Network account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the PlayStation :tm: Network account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
          */
         bool LoginWithPSN(ClientModels::FLoginWithPSNRequest& request, const FLoginWithPSNDelegate& SuccessDelegate = FLoginWithPSNDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -707,7 +707,7 @@ namespace PlayFab
          * Coupon codes can be created for any item, or set of items, in the catalog for the title. This operation causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to re-use an already consumed code, or a code which has not yet been created in the service, will result in an error.
          */
         bool RedeemCoupon(ClientModels::FRedeemCouponRequest& request, const FRedeemCouponDelegate& SuccessDelegate = FRedeemCouponDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Uses the supplied OAuth code to refresh the internally cached player PSN :tm: auth token
+        // Uses the supplied OAuth code to refresh the internally cached player PlayStation :tm: Network auth token
         bool RefreshPSNAuthToken(ClientModels::FRefreshPSNAuthTokenRequest& request, const FRefreshPSNAuthTokenDelegate& SuccessDelegate = FRefreshPSNAuthTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Registers the iOS device to receive push notifications
@@ -822,7 +822,7 @@ namespace PlayFab
          * between a title and an Open ID Connect provider.
          */
         bool UnlinkOpenIdConnect(ClientModels::FUnlinkOpenIdConnectRequest& request, const FUnlinkOpenIdConnectDelegate& SuccessDelegate = FUnlinkOpenIdConnectDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Unlinks the related PSN :tm: account from the user's PlayFab account
+        // Unlinks the related PlayStation :tm: Network account from the user's PlayFab account
         bool UnlinkPSNAccount(ClientModels::FUnlinkPSNAccountRequest& request, const FUnlinkPSNAccountDelegate& SuccessDelegate = FUnlinkPSNAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Steam account from the user's PlayFab account
         bool UnlinkSteamAccount(ClientModels::FUnlinkSteamAccountRequest& request, const FUnlinkSteamAccountDelegate& SuccessDelegate = FUnlinkSteamAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

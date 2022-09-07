@@ -3780,14 +3780,8 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMultiplayerServerDetailsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The guid string build ID of the multiplayer server to get details for.
-        FString BuildId;
-
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] The region the multiplayer server is located in to get details for.
-        FString Region;
-
         /**
          * The title generated guid string session ID of the multiplayer server to get details for. This is to keep track of
          * multiplayer server sessions.
@@ -3796,9 +3790,7 @@ namespace MultiplayerModels
 
         FGetMultiplayerServerDetailsRequest() :
             FPlayFabCppRequestCommon(),
-            BuildId(),
             CustomTags(),
-            Region(),
             SessionId()
             {}
 

@@ -1471,9 +1471,9 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FPlayStation5Payload : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] An optional list of entitlement ids to query against PSN
+        // [optional] An optional list of entitlement ids to query against PlayStation :tm: Network
         TArray<FString> Ids;
-        // [optional] Id of the PSN service label to consume entitlements from
+        // [optional] Id of the PlayStation :tm: Network service label to consume entitlements from
         FString ServiceLabel;
 
         FPlayStation5Payload() :
@@ -1554,7 +1554,7 @@ namespace ClientModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // Id of the PSN service label to consume entitlements from
+        // Id of the PlayStation :tm: Network service label to consume entitlements from
         int32 ServiceLabel;
 
         FConsumePSNEntitlementsRequest() :
@@ -3206,10 +3206,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FUserPsnInfo : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] PSN account ID
+        // [optional] PlayStation :tm: Network account ID
         FString PsnAccountId;
 
-        // [optional] PSN online ID
+        // [optional] PlayStation :tm: Network online ID
         FString PsnOnlineId;
 
         FUserPsnInfo() :
@@ -3324,7 +3324,10 @@ namespace ClientModels
         // [optional] The profile of the user, if requested.
         TSharedPtr<FPlayerProfileModel> Profile;
 
-        // [optional] Available PSN information, if the user and PlayFab friend are both connected to PSN.
+        /**
+         * [optional] Available PlayStation :tm: Network information, if the user and PlayFab friend are both connected to PlayStation :tm:
+         * Network.
+         */
         TSharedPtr<FUserPsnInfo> PSNInfo;
 
         // [optional] Available Steam information (if the user and PlayFab friend are also connected in Steam).
@@ -4027,7 +4030,7 @@ namespace ClientModels
         // [optional] Personal information for the user which is considered more sensitive
         TSharedPtr<FUserPrivateAccountInfo> PrivateInfo;
 
-        // [optional] User PSN account information, if a PSN account has been linked
+        // [optional] User PlayStation :tm: Network account information, if a PlayStation :tm: Network account has been linked
         TSharedPtr<FUserPsnInfo> PsnInfo;
 
         // [optional] User Steam information, if a Steam account has been linked
@@ -6477,10 +6480,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
-        // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
+        // Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers.
         TArray<FString> PSNAccountIDs;
         FGetPlayFabIDsFromPSNAccountIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6503,10 +6506,13 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FPSNAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation Network identifier.
+        /**
+         * [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation :tm: Network
+         * identifier.
+         */
         FString PlayFabId;
 
-        // [optional] Unique PlayStation Network identifier for a user.
+        // [optional] Unique PlayStation :tm: Network identifier for a user.
         FString PSNAccountId;
 
         FPSNAccountPlayFabIdPair() :
@@ -6530,7 +6536,7 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        // [optional] Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers.
         TArray<FPSNAccountPlayFabIdPair> Data;
         FGetPlayFabIDsFromPSNAccountIDsResult() :
             FPlayFabCppResultCommon(),
@@ -6747,7 +6753,7 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        // [optional] Mapping of Xbox Live identifiers to PlayFab identifiers.
         TArray<FXboxLiveAccountPlayFabIdPair> Data;
         FGetPlayFabIDsFromXboxLiveIDsResult() :
             FPlayFabCppResultCommon(),
@@ -8259,7 +8265,7 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FLinkPSNAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Authentication code provided by the PlayStation Network.
+        // Authentication code provided by the PlayStation :tm: Network.
         FString AuthCode;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -8267,10 +8273,10 @@ namespace ClientModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
-        // Redirect URI supplied to PSN when requesting an auth code
+        // Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         FString RedirectUri;
 
         FLinkPSNAccountRequest() :
@@ -8715,7 +8721,8 @@ namespace ClientModels
 
         /**
          * The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
-         * credential payload.
+         * credential payload. If you choose to ignore the expiration date for identity tokens, you will receive an NotAuthorized
+         * error if Apple rotates the signing key. In this case, users have to login to provide a fresh identity token.
          */
         FString IdentityToken;
 
@@ -9422,7 +9429,7 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FLoginWithPSNRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Auth code provided by the PSN OAuth provider.
+        // [optional] Auth code provided by the PlayStation :tm: Network OAuth provider.
         FString AuthCode;
 
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
@@ -9436,13 +9443,13 @@ namespace ClientModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
-        // [optional] Redirect URI supplied to PSN when requesting an auth code
+        // [optional] Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         FString RedirectUri;
 
         /**
@@ -10164,13 +10171,13 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FRefreshPSNAuthTokenRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Auth code returned by PSN OAuth system.
+        // Auth code returned by PlayStation :tm: Network OAuth system.
         FString AuthCode;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
-        // Redirect URI supplied to PSN when requesting an auth code
+        // Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         FString RedirectUri;
 
         FRefreshPSNAuthTokenRequest() :

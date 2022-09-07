@@ -693,9 +693,6 @@ namespace AdminModels
         // [optional] IP address to be banned. May affect multiple players.
         FString IPAddress;
 
-        // [optional] MAC address to be banned. May affect multiple players.
-        FString MACAddress;
-
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -706,7 +703,6 @@ namespace AdminModels
             FPlayFabCppBaseModel(),
             DurationInHours(),
             IPAddress(),
-            MACAddress(),
             PlayFabId(),
             Reason()
             {}
@@ -8266,10 +8262,10 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FUserPsnInfo : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] PSN account ID
+        // [optional] PlayStation :tm: Network account ID
         FString PsnAccountId;
 
-        // [optional] PSN online ID
+        // [optional] PlayStation :tm: Network online ID
         FString PsnOnlineId;
 
         FUserPsnInfo() :
@@ -8535,7 +8531,7 @@ namespace AdminModels
         // [optional] Personal information for the user which is considered more sensitive
         TSharedPtr<FUserPrivateAccountInfo> PrivateInfo;
 
-        // [optional] User PSN account information, if a PSN account has been linked
+        // [optional] User PlayStation :tm: Network account information, if a PlayStation :tm: Network account has been linked
         TSharedPtr<FUserPsnInfo> PsnInfo;
 
         // [optional] User Steam information, if a Steam account has been linked
@@ -9959,9 +9955,6 @@ namespace AdminModels
         // [optional] The updated IP address for the ban. Null for no change.
         FString IPAddress;
 
-        // [optional] The updated MAC address for the ban. Null for no change.
-        FString MACAddress;
-
         // [optional] Whether to make this ban permanent. Set to true to make this ban permanent. This will not modify Active state.
         Boxed<bool> Permanent;
 
@@ -9974,7 +9967,6 @@ namespace AdminModels
             BanId(),
             Expires(),
             IPAddress(),
-            MACAddress(),
             Permanent(),
             Reason()
             {}

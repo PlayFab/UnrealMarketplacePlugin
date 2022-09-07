@@ -479,6 +479,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetEntityDraftItems(FEconomyGetEntityDra
     OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.Filter.IsEmpty() || request.Filter == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Filter"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Filter"), request.Filter);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -608,6 +613,67 @@ void UPlayFabEconomyAPI::HelperGetItem(FPlayFabBaseModel response, UObject* cust
     {
         FEconomyGetItemResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetItemResponseResponse(response.responseData);
         OnSuccessGetItem.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Search for a given item and return a set of bundles and stores containing the item */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItemContainers(FEconomyGetItemContainersRequest request,
+    FDelegateOnSuccessGetItemContainers onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetItemContainers = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetItemContainers);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Catalog/GetItemContainers";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AlternateId != nullptr) OutRestJsonObj->SetObjectField(TEXT("AlternateId"), request.AlternateId);
+    if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ContinuationToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.Id.IsEmpty() || request.Id == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Id"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Id"), request.Id);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperGetItemContainers(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetItemContainers.IsBound())
+    {
+        FEconomyGetItemContainersResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetItemContainersResponseResponse(response.responseData);
+        OnSuccessGetItemContainers.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -1201,6 +1267,7 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::SearchItems(FEconomySearchItemsRequest r
     } else {
         OutRestJsonObj->SetStringField(TEXT("Select"), request.Select);
     }
+    if (request.Store != nullptr) OutRestJsonObj->SetObjectField(TEXT("Store"), request.Store);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1505,6 +1572,1089 @@ void UPlayFabEconomyAPI::HelperUpdateDraftItem(FPlayFabBaseModel response, UObje
 ///////////////////////////////////////////////////////
 // Inventory
 //////////////////////////////////////////////////////
+/** Add inventory items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::AddInventoryItems(FEconomyAddInventoryItemsRequest request,
+    FDelegateOnSuccessAddInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessAddInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperAddInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/AddInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CurrencyCode.IsEmpty() || request.CurrencyCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CurrencyCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CurrencyCode"), request.CurrencyCode);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Item != nullptr) OutRestJsonObj->SetObjectField(TEXT("Item"), request.Item);
+    if (request.Items.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Items"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Items"), request.Items);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("PurchasePrice"), request.PurchasePrice);
+    OutRestJsonObj->SetBoolField(TEXT("ReturnInventory"), request.ReturnInventory);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperAddInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessAddInventoryItems.IsBound())
+    {
+        FEconomyAddInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeAddInventoryItemsResponseResponse(response.responseData);
+        OnSuccessAddInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Delete an Inventory Collection */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::DeleteInventoryCollection(FEconomyDeleteInventoryCollectionRequest request,
+    FDelegateOnSuccessDeleteInventoryCollection onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteInventoryCollection = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperDeleteInventoryCollection);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/DeleteInventoryCollection";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperDeleteInventoryCollection(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteInventoryCollection.IsBound())
+    {
+        FEconomyDeleteInventoryCollectionResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeDeleteInventoryCollectionResponseResponse(response.responseData);
+        OnSuccessDeleteInventoryCollection.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Delete inventory items */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::DeleteInventoryItems(FEconomyDeleteInventoryItemsRequest request,
+    FDelegateOnSuccessDeleteInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperDeleteInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/DeleteInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Item != nullptr) OutRestJsonObj->SetObjectField(TEXT("Item"), request.Item);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperDeleteInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteInventoryItems.IsBound())
+    {
+        FEconomyDeleteInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeDeleteInventoryItemsResponseResponse(response.responseData);
+        OnSuccessDeleteInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Execute a list of Inventory Operations */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::ExecuteInventoryOperations(FEconomyExecuteInventoryOperationsRequest request,
+    FDelegateOnSuccessExecuteInventoryOperations onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessExecuteInventoryOperations = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperExecuteInventoryOperations);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/ExecuteInventoryOperations";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Operations.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Operations"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Operations"), request.Operations);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperExecuteInventoryOperations(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessExecuteInventoryOperations.IsBound())
+    {
+        FEconomyExecuteInventoryOperationsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeExecuteInventoryOperationsResponseResponse(response.responseData);
+        OnSuccessExecuteInventoryOperations.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Get Inventory Collection Ids */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetInventoryCollectionIds(FEconomyGetInventoryCollectionIdsRequest request,
+    FDelegateOnSuccessGetInventoryCollectionIds onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetInventoryCollectionIds = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetInventoryCollectionIds);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/GetInventoryCollectionIds";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ContinuationToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperGetInventoryCollectionIds(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetInventoryCollectionIds.IsBound())
+    {
+        FEconomyGetInventoryCollectionIdsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetInventoryCollectionIdsResponseResponse(response.responseData);
+        OnSuccessGetInventoryCollectionIds.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Get current inventory items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetInventoryItems(FEconomyGetInventoryItemsRequest request,
+    FDelegateOnSuccessGetInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/GetInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ContinuationToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.Filter.IsEmpty() || request.Filter == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Filter"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Filter"), request.Filter);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperGetInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetInventoryItems.IsBound())
+    {
+        FEconomyGetInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetInventoryItemsResponseResponse(response.responseData);
+        OnSuccessGetInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Gets the access tokens. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetMicrosoftStoreAccessTokens(FEconomyGetMicrosoftStoreAccessTokensRequest request,
+    FDelegateOnSuccessGetMicrosoftStoreAccessTokens onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetMicrosoftStoreAccessTokens = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetMicrosoftStoreAccessTokens);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/GetMicrosoftStoreAccessTokens";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperGetMicrosoftStoreAccessTokens(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetMicrosoftStoreAccessTokens.IsBound())
+    {
+        FEconomyGetMicrosoftStoreAccessTokensResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetMicrosoftStoreAccessTokensResponseResponse(response.responseData);
+        OnSuccessGetMicrosoftStoreAccessTokens.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Purchase an item or bundle */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::PurchaseInventoryItems(FEconomyPurchaseInventoryItemsRequest request,
+    FDelegateOnSuccessPurchaseInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessPurchaseInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperPurchaseInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/PurchaseInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("DeleteEmptyStacks"), request.DeleteEmptyStacks);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Item != nullptr) OutRestJsonObj->SetObjectField(TEXT("Item"), request.Item);
+    if (request.PriceAmounts.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("PriceAmounts"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("PriceAmounts"), request.PriceAmounts);
+    }
+    if (request.StoreId.IsEmpty() || request.StoreId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("StoreId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("StoreId"), request.StoreId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperPurchaseInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessPurchaseInventoryItems.IsBound())
+    {
+        FEconomyPurchaseInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodePurchaseInventoryItemsResponseResponse(response.responseData);
+        OnSuccessPurchaseInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Redeem items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemAppleAppStoreInventoryItems(FEconomyRedeemAppleAppStoreInventoryItemsRequest request,
+    FDelegateOnSuccessRedeemAppleAppStoreInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRedeemAppleAppStoreInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperRedeemAppleAppStoreInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/RedeemAppleAppStoreInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Receipt.IsEmpty() || request.Receipt == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Receipt"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Receipt"), request.Receipt);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperRedeemAppleAppStoreInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRedeemAppleAppStoreInventoryItems.IsBound())
+    {
+        FEconomyRedeemAppleAppStoreInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemAppleAppStoreInventoryItemsResponseResponse(response.responseData);
+        OnSuccessRedeemAppleAppStoreInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Redeem items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemGooglePlayInventoryItems(FEconomyRedeemGooglePlayInventoryItemsRequest request,
+    FDelegateOnSuccessRedeemGooglePlayInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRedeemGooglePlayInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperRedeemGooglePlayInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/RedeemGooglePlayInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Purchases.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Purchases"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Purchases"), request.Purchases);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperRedeemGooglePlayInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRedeemGooglePlayInventoryItems.IsBound())
+    {
+        FEconomyRedeemGooglePlayInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemGooglePlayInventoryItemsResponseResponse(response.responseData);
+        OnSuccessRedeemGooglePlayInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Redeem items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemMicrosoftStoreInventoryItems(FEconomyRedeemMicrosoftStoreInventoryItemsRequest request,
+    FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRedeemMicrosoftStoreInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperRedeemMicrosoftStoreInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/RedeemMicrosoftStoreInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CollectionsIdKey.IsEmpty() || request.CollectionsIdKey == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionsIdKey"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionsIdKey"), request.CollectionsIdKey);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("XboxToken"), request.XboxToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperRedeemMicrosoftStoreInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRedeemMicrosoftStoreInventoryItems.IsBound())
+    {
+        FEconomyRedeemMicrosoftStoreInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemMicrosoftStoreInventoryItemsResponseResponse(response.responseData);
+        OnSuccessRedeemMicrosoftStoreInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Redeem items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemNintendoEShopInventoryItems(FEconomyRedeemNintendoEShopInventoryItemsRequest request,
+    FDelegateOnSuccessRedeemNintendoEShopInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRedeemNintendoEShopInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperRedeemNintendoEShopInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/RedeemNintendoEShopInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.NintendoServiceAccountIdToken.IsEmpty() || request.NintendoServiceAccountIdToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("NintendoServiceAccountIdToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("NintendoServiceAccountIdToken"), request.NintendoServiceAccountIdToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperRedeemNintendoEShopInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRedeemNintendoEShopInventoryItems.IsBound())
+    {
+        FEconomyRedeemNintendoEShopInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemNintendoEShopInventoryItemsResponseResponse(response.responseData);
+        OnSuccessRedeemNintendoEShopInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Redeem items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemPlayStationStoreInventoryItems(FEconomyRedeemPlayStationStoreInventoryItemsRequest request,
+    FDelegateOnSuccessRedeemPlayStationStoreInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRedeemPlayStationStoreInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperRedeemPlayStationStoreInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/RedeemPlayStationStoreInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AuthorizationCode.IsEmpty() || request.AuthorizationCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthorizationCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthorizationCode"), request.AuthorizationCode);
+    }
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.ServiceLabel.IsEmpty() || request.ServiceLabel == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ServiceLabel"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ServiceLabel"), request.ServiceLabel);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperRedeemPlayStationStoreInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRedeemPlayStationStoreInventoryItems.IsBound())
+    {
+        FEconomyRedeemPlayStationStoreInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemPlayStationStoreInventoryItemsResponseResponse(response.responseData);
+        OnSuccessRedeemPlayStationStoreInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Redeem items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemSteamInventoryItems(FEconomyRedeemSteamInventoryItemsRequest request,
+    FDelegateOnSuccessRedeemSteamInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRedeemSteamInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperRedeemSteamInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/RedeemSteamInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperRedeemSteamInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRedeemSteamInventoryItems.IsBound())
+    {
+        FEconomyRedeemSteamInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeRedeemSteamInventoryItemsResponseResponse(response.responseData);
+        OnSuccessRedeemSteamInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Subtract inventory items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::SubtractInventoryItems(FEconomySubtractInventoryItemsRequest request,
+    FDelegateOnSuccessSubtractInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessSubtractInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperSubtractInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/SubtractInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("DeleteEmptyStacks"), request.DeleteEmptyStacks);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Item != nullptr) OutRestJsonObj->SetObjectField(TEXT("Item"), request.Item);
+    if (request.Items.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Items"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Items"), request.Items);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("ReturnInventory"), request.ReturnInventory);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperSubtractInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessSubtractInventoryItems.IsBound())
+    {
+        FEconomySubtractInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeSubtractInventoryItemsResponseResponse(response.responseData);
+        OnSuccessSubtractInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Transfer inventory items. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::TransferInventoryItems(FEconomyTransferInventoryItemsRequest request,
+    FDelegateOnSuccessTransferInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessTransferInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperTransferInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/TransferInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetNumberField(TEXT("Amount"), request.Amount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("DeleteEmptyStacks"), request.DeleteEmptyStacks);
+    if (request.GivingCollectionId.IsEmpty() || request.GivingCollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("GivingCollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("GivingCollectionId"), request.GivingCollectionId);
+    }
+    if (request.GivingEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("GivingEntity"), request.GivingEntity);
+    if (request.GivingItem != nullptr) OutRestJsonObj->SetObjectField(TEXT("GivingItem"), request.GivingItem);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.ReceivingCollectionId.IsEmpty() || request.ReceivingCollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ReceivingCollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ReceivingCollectionId"), request.ReceivingCollectionId);
+    }
+    if (request.ReceivingEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("ReceivingEntity"), request.ReceivingEntity);
+    if (request.ReceivingItem != nullptr) OutRestJsonObj->SetObjectField(TEXT("ReceivingItem"), request.ReceivingItem);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperTransferInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessTransferInventoryItems.IsBound())
+    {
+        FEconomyTransferInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeTransferInventoryItemsResponseResponse(response.responseData);
+        OnSuccessTransferInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Update inventory items */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::UpdateInventoryItems(FEconomyUpdateInventoryItemsRequest request,
+    FDelegateOnSuccessUpdateInventoryItems onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateInventoryItems = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperUpdateInventoryItems);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/UpdateInventoryItems";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Item != nullptr) OutRestJsonObj->SetObjectField(TEXT("Item"), request.Item);
+    if (request.Items.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Items"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Items"), request.Items);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("ReturnInventory"), request.ReturnInventory);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperUpdateInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateInventoryItems.IsBound())
+    {
+        FEconomyUpdateInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeUpdateInventoryItemsResponseResponse(response.responseData);
+        OnSuccessUpdateInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 
 
 void UPlayFabEconomyAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)

@@ -76,6 +76,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog Models")
         static FEconomyGetItemResponse decodeGetItemResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetItemContainersResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog Models")
+        static FEconomyGetItemContainersResponse decodeGetItemContainersResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetItemModerationStateResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog Models")
         static FEconomyGetItemModerationStateResponse decodeGetItemModerationStateResponseResponse(UPlayFabJsonObject* response);
@@ -141,6 +145,74 @@ public:
     ///////////////////////////////////////////////////////
     // Inventory
     //////////////////////////////////////////////////////
+
+    /** Decode the AddInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyAddInventoryItemsResponse decodeAddInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the DeleteInventoryCollectionResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyDeleteInventoryCollectionResponse decodeDeleteInventoryCollectionResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the DeleteInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyDeleteInventoryItemsResponse decodeDeleteInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ExecuteInventoryOperationsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyExecuteInventoryOperationsResponse decodeExecuteInventoryOperationsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetInventoryCollectionIdsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyGetInventoryCollectionIdsResponse decodeGetInventoryCollectionIdsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyGetInventoryItemsResponse decodeGetInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetMicrosoftStoreAccessTokensResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyGetMicrosoftStoreAccessTokensResponse decodeGetMicrosoftStoreAccessTokensResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the PurchaseInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyPurchaseInventoryItemsResponse decodePurchaseInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the RedeemAppleAppStoreInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyRedeemAppleAppStoreInventoryItemsResponse decodeRedeemAppleAppStoreInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the RedeemGooglePlayInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyRedeemGooglePlayInventoryItemsResponse decodeRedeemGooglePlayInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the RedeemMicrosoftStoreInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyRedeemMicrosoftStoreInventoryItemsResponse decodeRedeemMicrosoftStoreInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the RedeemNintendoEShopInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyRedeemNintendoEShopInventoryItemsResponse decodeRedeemNintendoEShopInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the RedeemPlayStationStoreInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyRedeemPlayStationStoreInventoryItemsResponse decodeRedeemPlayStationStoreInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the RedeemSteamInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyRedeemSteamInventoryItemsResponse decodeRedeemSteamInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SubtractInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomySubtractInventoryItemsResponse decodeSubtractInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the TransferInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyTransferInventoryItemsResponse decodeTransferInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UpdateInventoryItemsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyUpdateInventoryItemsResponse decodeUpdateInventoryItemsResponseResponse(UPlayFabJsonObject* response);
 
 
 

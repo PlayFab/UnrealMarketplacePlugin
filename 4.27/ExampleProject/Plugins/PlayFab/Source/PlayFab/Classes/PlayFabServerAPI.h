@@ -295,6 +295,32 @@ public:
         void HelperGetUserBans(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkNintendoServiceAccount, FServerEmptyResult, result, UObject*, customData);
+
+    /** Links the Nintendo account associated with the token to the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LinkNintendoServiceAccount(FServerLinkNintendoServiceAccountRequest request,
+            FDelegateOnSuccessLinkNintendoServiceAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkNintendoServiceAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkNintendoSwitchDeviceId, FServerLinkNintendoSwitchDeviceIdResult, result, UObject*, customData);
+
+    /** Links the NintendoSwitchDeviceId to the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LinkNintendoSwitchDeviceId(FServerLinkNintendoSwitchDeviceIdRequest request,
+            FDelegateOnSuccessLinkNintendoSwitchDeviceId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkNintendoSwitchDeviceId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkPSNAccount, FServerLinkPSNAccountResult, result, UObject*, customData);
 
     /** Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account */
@@ -447,9 +473,35 @@ public:
         void HelperSendPushNotificationFromTemplate(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkNintendoServiceAccount, FServerEmptyResponse, result, UObject*, customData);
+
+    /** Unlinks the related Nintendo account from the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* UnlinkNintendoServiceAccount(FServerUnlinkNintendoServiceAccountRequest request,
+            FDelegateOnSuccessUnlinkNintendoServiceAccount onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkNintendoServiceAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkNintendoSwitchDeviceId, FServerUnlinkNintendoSwitchDeviceIdResult, result, UObject*, customData);
+
+    /** Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* UnlinkNintendoSwitchDeviceId(FServerUnlinkNintendoSwitchDeviceIdRequest request,
+            FDelegateOnSuccessUnlinkNintendoSwitchDeviceId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkNintendoSwitchDeviceId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkPSNAccount, FServerUnlinkPSNAccountResult, result, UObject*, customData);
 
-    /** Unlinks the related PSN account from the user's PlayFab account */
+    /** Unlinks the related PlayStation :tm: Network account from the user's PlayFab account */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabServerAPI* UnlinkPSNAccount(FServerUnlinkPSNAccountRequest request,
             FDelegateOnSuccessUnlinkPSNAccount onSuccess,
@@ -2036,6 +2088,8 @@ public:
     FDelegateOnSuccessGetServerCustomIDsFromPlayFabIDs OnSuccessGetServerCustomIDsFromPlayFabIDs;
     FDelegateOnSuccessGetUserAccountInfo OnSuccessGetUserAccountInfo;
     FDelegateOnSuccessGetUserBans OnSuccessGetUserBans;
+    FDelegateOnSuccessLinkNintendoServiceAccount OnSuccessLinkNintendoServiceAccount;
+    FDelegateOnSuccessLinkNintendoSwitchDeviceId OnSuccessLinkNintendoSwitchDeviceId;
     FDelegateOnSuccessLinkPSNAccount OnSuccessLinkPSNAccount;
     FDelegateOnSuccessLinkServerCustomId OnSuccessLinkServerCustomId;
     FDelegateOnSuccessLinkXboxAccount OnSuccessLinkXboxAccount;
@@ -2047,6 +2101,8 @@ public:
     FDelegateOnSuccessSendEmailFromTemplate OnSuccessSendEmailFromTemplate;
     FDelegateOnSuccessSendPushNotification OnSuccessSendPushNotification;
     FDelegateOnSuccessSendPushNotificationFromTemplate OnSuccessSendPushNotificationFromTemplate;
+    FDelegateOnSuccessUnlinkNintendoServiceAccount OnSuccessUnlinkNintendoServiceAccount;
+    FDelegateOnSuccessUnlinkNintendoSwitchDeviceId OnSuccessUnlinkNintendoSwitchDeviceId;
     FDelegateOnSuccessUnlinkPSNAccount OnSuccessUnlinkPSNAccount;
     FDelegateOnSuccessUnlinkServerCustomId OnSuccessUnlinkServerCustomId;
     FDelegateOnSuccessUnlinkXboxAccount OnSuccessUnlinkXboxAccount;

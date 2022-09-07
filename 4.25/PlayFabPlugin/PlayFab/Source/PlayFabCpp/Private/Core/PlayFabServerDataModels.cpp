@@ -2795,12 +2795,6 @@ void PlayFab::ServerModels::FBanRequest::writeJSON(JsonWriter& writer) const
         writer->WriteValue(IPAddress);
     }
 
-    if (MACAddress.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MACAddress"));
-        writer->WriteValue(MACAddress);
-    }
-
     if (!PlayFabId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: BanRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
@@ -2836,13 +2830,6 @@ bool PlayFab::ServerModels::FBanRequest::readFromValue(const TSharedPtr<FJsonObj
     {
         FString TmpValue;
         if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MACAddressValue = obj->TryGetField(TEXT("MACAddress"));
-    if (MACAddressValue.IsValid() && !MACAddressValue->IsNull())
-    {
-        FString TmpValue;
-        if (MACAddressValue->TryGetString(TmpValue)) { MACAddress = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
@@ -14339,6 +14326,197 @@ bool PlayFab::ServerModels::FGrantItemsToUsersResult::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FLinkNintendoServiceAccountRequest::~FLinkNintendoServiceAccountRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkNintendoServiceAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (!IdentityToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoServiceAccountRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentityToken"));
+        writer->WriteValue(IdentityToken);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoServiceAccountRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkNintendoServiceAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdentityTokenValue = obj->TryGetField(TEXT("IdentityToken"));
+    if (IdentityTokenValue.IsValid() && !IdentityTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdentityTokenValue->TryGetString(TmpValue)) { IdentityToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLinkNintendoSwitchDeviceIdRequest::~FLinkNintendoSwitchDeviceIdRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkNintendoSwitchDeviceIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (!NintendoSwitchDeviceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoSwitchDeviceIdRequest::NintendoSwitchDeviceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
+        writer->WriteValue(NintendoSwitchDeviceId);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkNintendoSwitchDeviceIdRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkNintendoSwitchDeviceIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NintendoSwitchDeviceIdValue = obj->TryGetField(TEXT("NintendoSwitchDeviceId"));
+    if (NintendoSwitchDeviceIdValue.IsValid() && !NintendoSwitchDeviceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (NintendoSwitchDeviceIdValue->TryGetString(TmpValue)) { NintendoSwitchDeviceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLinkNintendoSwitchDeviceIdResult::~FLinkNintendoSwitchDeviceIdResult()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkNintendoSwitchDeviceIdResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkNintendoSwitchDeviceIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FLinkPSNAccountRequest::~FLinkPSNAccountRequest()
 {
 
@@ -18780,6 +18958,150 @@ bool PlayFab::ServerModels::FSubtractUserVirtualCurrencyRequest::readFromValue(c
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FUnlinkNintendoServiceAccountRequest::~FUnlinkNintendoServiceAccountRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkNintendoServiceAccountRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkNintendoServiceAccountRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkNintendoServiceAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkNintendoSwitchDeviceIdRequest::~FUnlinkNintendoSwitchDeviceIdRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkNintendoSwitchDeviceIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (NintendoSwitchDeviceId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("NintendoSwitchDeviceId"));
+        writer->WriteValue(NintendoSwitchDeviceId);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkNintendoSwitchDeviceIdRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkNintendoSwitchDeviceIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NintendoSwitchDeviceIdValue = obj->TryGetField(TEXT("NintendoSwitchDeviceId"));
+    if (NintendoSwitchDeviceIdValue.IsValid() && !NintendoSwitchDeviceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (NintendoSwitchDeviceIdValue->TryGetString(TmpValue)) { NintendoSwitchDeviceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkNintendoSwitchDeviceIdResult::~FUnlinkNintendoSwitchDeviceIdResult()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkNintendoSwitchDeviceIdResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkNintendoSwitchDeviceIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FUnlinkPSNAccountRequest::~FUnlinkPSNAccountRequest()
 {
 
@@ -19406,12 +19728,6 @@ void PlayFab::ServerModels::FUpdateBanRequest::writeJSON(JsonWriter& writer) con
         writer->WriteValue(IPAddress);
     }
 
-    if (MACAddress.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MACAddress"));
-        writer->WriteValue(MACAddress);
-    }
-
     if (Permanent.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("Permanent"));
@@ -19455,13 +19771,6 @@ bool PlayFab::ServerModels::FUpdateBanRequest::readFromValue(const TSharedPtr<FJ
     {
         FString TmpValue;
         if (IPAddressValue->TryGetString(TmpValue)) { IPAddress = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MACAddressValue = obj->TryGetField(TEXT("MACAddress"));
-    if (MACAddressValue.IsValid() && !MACAddressValue->IsNull())
-    {
-        FString TmpValue;
-        if (MACAddressValue->TryGetString(TmpValue)) { MACAddress = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> PermanentValue = obj->TryGetField(TEXT("Permanent"));

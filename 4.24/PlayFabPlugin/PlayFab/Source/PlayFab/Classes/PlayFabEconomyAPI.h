@@ -189,6 +189,19 @@ public:
         void HelperGetItem(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetItemContainers, FEconomyGetItemContainersResponse, result, UObject*, customData);
+
+    /** Search for a given item and return a set of bundles and stores containing the item */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* GetItemContainers(FEconomyGetItemContainersRequest request,
+            FDelegateOnSuccessGetItemContainers onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Catalog ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetItemContainers(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetItemModerationState, FEconomyGetItemModerationStateResponse, result, UObject*, customData);
 
     /** Gets the moderation state for an item, including the concern category and string reason. */
@@ -390,6 +403,227 @@ public:
     ///////////////////////////////////////////////////////
     // Inventory
     //////////////////////////////////////////////////////
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddInventoryItems, FEconomyAddInventoryItemsResponse, result, UObject*, customData);
+
+    /** Add inventory items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* AddInventoryItems(FEconomyAddInventoryItemsRequest request,
+            FDelegateOnSuccessAddInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperAddInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteInventoryCollection, FEconomyDeleteInventoryCollectionResponse, result, UObject*, customData);
+
+    /** Delete an Inventory Collection */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* DeleteInventoryCollection(FEconomyDeleteInventoryCollectionRequest request,
+            FDelegateOnSuccessDeleteInventoryCollection onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteInventoryCollection(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteInventoryItems, FEconomyDeleteInventoryItemsResponse, result, UObject*, customData);
+
+    /** Delete inventory items */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* DeleteInventoryItems(FEconomyDeleteInventoryItemsRequest request,
+            FDelegateOnSuccessDeleteInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessExecuteInventoryOperations, FEconomyExecuteInventoryOperationsResponse, result, UObject*, customData);
+
+    /** Execute a list of Inventory Operations */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* ExecuteInventoryOperations(FEconomyExecuteInventoryOperationsRequest request,
+            FDelegateOnSuccessExecuteInventoryOperations onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperExecuteInventoryOperations(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetInventoryCollectionIds, FEconomyGetInventoryCollectionIdsResponse, result, UObject*, customData);
+
+    /** Get Inventory Collection Ids */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* GetInventoryCollectionIds(FEconomyGetInventoryCollectionIdsRequest request,
+            FDelegateOnSuccessGetInventoryCollectionIds onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetInventoryCollectionIds(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetInventoryItems, FEconomyGetInventoryItemsResponse, result, UObject*, customData);
+
+    /** Get current inventory items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* GetInventoryItems(FEconomyGetInventoryItemsRequest request,
+            FDelegateOnSuccessGetInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMicrosoftStoreAccessTokens, FEconomyGetMicrosoftStoreAccessTokensResponse, result, UObject*, customData);
+
+    /** Gets the access tokens. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* GetMicrosoftStoreAccessTokens(FEconomyGetMicrosoftStoreAccessTokensRequest request,
+            FDelegateOnSuccessGetMicrosoftStoreAccessTokens onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetMicrosoftStoreAccessTokens(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessPurchaseInventoryItems, FEconomyPurchaseInventoryItemsResponse, result, UObject*, customData);
+
+    /** Purchase an item or bundle */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* PurchaseInventoryItems(FEconomyPurchaseInventoryItemsRequest request,
+            FDelegateOnSuccessPurchaseInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperPurchaseInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemAppleAppStoreInventoryItems, FEconomyRedeemAppleAppStoreInventoryItemsResponse, result, UObject*, customData);
+
+    /** Redeem items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* RedeemAppleAppStoreInventoryItems(FEconomyRedeemAppleAppStoreInventoryItemsRequest request,
+            FDelegateOnSuccessRedeemAppleAppStoreInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRedeemAppleAppStoreInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemGooglePlayInventoryItems, FEconomyRedeemGooglePlayInventoryItemsResponse, result, UObject*, customData);
+
+    /** Redeem items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* RedeemGooglePlayInventoryItems(FEconomyRedeemGooglePlayInventoryItemsRequest request,
+            FDelegateOnSuccessRedeemGooglePlayInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRedeemGooglePlayInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems, FEconomyRedeemMicrosoftStoreInventoryItemsResponse, result, UObject*, customData);
+
+    /** Redeem items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* RedeemMicrosoftStoreInventoryItems(FEconomyRedeemMicrosoftStoreInventoryItemsRequest request,
+            FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRedeemMicrosoftStoreInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemNintendoEShopInventoryItems, FEconomyRedeemNintendoEShopInventoryItemsResponse, result, UObject*, customData);
+
+    /** Redeem items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* RedeemNintendoEShopInventoryItems(FEconomyRedeemNintendoEShopInventoryItemsRequest request,
+            FDelegateOnSuccessRedeemNintendoEShopInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRedeemNintendoEShopInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemPlayStationStoreInventoryItems, FEconomyRedeemPlayStationStoreInventoryItemsResponse, result, UObject*, customData);
+
+    /** Redeem items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* RedeemPlayStationStoreInventoryItems(FEconomyRedeemPlayStationStoreInventoryItemsRequest request,
+            FDelegateOnSuccessRedeemPlayStationStoreInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRedeemPlayStationStoreInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemSteamInventoryItems, FEconomyRedeemSteamInventoryItemsResponse, result, UObject*, customData);
+
+    /** Redeem items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* RedeemSteamInventoryItems(FEconomyRedeemSteamInventoryItemsRequest request,
+            FDelegateOnSuccessRedeemSteamInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRedeemSteamInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSubtractInventoryItems, FEconomySubtractInventoryItemsResponse, result, UObject*, customData);
+
+    /** Subtract inventory items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* SubtractInventoryItems(FEconomySubtractInventoryItemsRequest request,
+            FDelegateOnSuccessSubtractInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSubtractInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessTransferInventoryItems, FEconomyTransferInventoryItemsResponse, result, UObject*, customData);
+
+    /** Transfer inventory items. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* TransferInventoryItems(FEconomyTransferInventoryItemsRequest request,
+            FDelegateOnSuccessTransferInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperTransferInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateInventoryItems, FEconomyUpdateInventoryItemsResponse, result, UObject*, customData);
+
+    /** Update inventory items */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* UpdateInventoryItems(FEconomyUpdateInventoryItemsRequest request,
+            FDelegateOnSuccessUpdateInventoryItems onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
 
     /** PlayFab Request Info */
@@ -418,6 +652,7 @@ public:
     FDelegateOnSuccessGetEntityDraftItems OnSuccessGetEntityDraftItems;
     FDelegateOnSuccessGetEntityItemReview OnSuccessGetEntityItemReview;
     FDelegateOnSuccessGetItem OnSuccessGetItem;
+    FDelegateOnSuccessGetItemContainers OnSuccessGetItemContainers;
     FDelegateOnSuccessGetItemModerationState OnSuccessGetItemModerationState;
     FDelegateOnSuccessGetItemPublishStatus OnSuccessGetItemPublishStatus;
     FDelegateOnSuccessGetItemReviews OnSuccessGetItemReviews;
@@ -433,6 +668,23 @@ public:
     FDelegateOnSuccessTakedownItemReviews OnSuccessTakedownItemReviews;
     FDelegateOnSuccessUpdateCatalogConfig OnSuccessUpdateCatalogConfig;
     FDelegateOnSuccessUpdateDraftItem OnSuccessUpdateDraftItem;
+    FDelegateOnSuccessAddInventoryItems OnSuccessAddInventoryItems;
+    FDelegateOnSuccessDeleteInventoryCollection OnSuccessDeleteInventoryCollection;
+    FDelegateOnSuccessDeleteInventoryItems OnSuccessDeleteInventoryItems;
+    FDelegateOnSuccessExecuteInventoryOperations OnSuccessExecuteInventoryOperations;
+    FDelegateOnSuccessGetInventoryCollectionIds OnSuccessGetInventoryCollectionIds;
+    FDelegateOnSuccessGetInventoryItems OnSuccessGetInventoryItems;
+    FDelegateOnSuccessGetMicrosoftStoreAccessTokens OnSuccessGetMicrosoftStoreAccessTokens;
+    FDelegateOnSuccessPurchaseInventoryItems OnSuccessPurchaseInventoryItems;
+    FDelegateOnSuccessRedeemAppleAppStoreInventoryItems OnSuccessRedeemAppleAppStoreInventoryItems;
+    FDelegateOnSuccessRedeemGooglePlayInventoryItems OnSuccessRedeemGooglePlayInventoryItems;
+    FDelegateOnSuccessRedeemMicrosoftStoreInventoryItems OnSuccessRedeemMicrosoftStoreInventoryItems;
+    FDelegateOnSuccessRedeemNintendoEShopInventoryItems OnSuccessRedeemNintendoEShopInventoryItems;
+    FDelegateOnSuccessRedeemPlayStationStoreInventoryItems OnSuccessRedeemPlayStationStoreInventoryItems;
+    FDelegateOnSuccessRedeemSteamInventoryItems OnSuccessRedeemSteamInventoryItems;
+    FDelegateOnSuccessSubtractInventoryItems OnSuccessSubtractInventoryItems;
+    FDelegateOnSuccessTransferInventoryItems OnSuccessTransferInventoryItems;
+    FDelegateOnSuccessUpdateInventoryItems OnSuccessUpdateInventoryItems;
 
 private:
     UPROPERTY()

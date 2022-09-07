@@ -274,21 +274,21 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromPSNAccountIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         int32 IssuerId = 0;
-    /** Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers. */
+    /** Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString PSNAccountIDs;
 };
 
-/** For PlayStation Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
+/** For PlayStation :tm: Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerGetPlayFabIDsFromPSNAccountIDsResult : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Mapping of PlayStation Network identifiers to PlayFab identifiers. */
+    /** Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         TArray<UPlayFabJsonObject*> Data;
 };
@@ -354,7 +354,7 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromXboxLiveIDsResult : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Mapping of PlayStation Network identifiers to PlayFab identifiers. */
+    /** Mapping of Xbox Live identifiers to PlayFab identifiers. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         TArray<UPlayFabJsonObject*> Data;
 };
@@ -431,11 +431,59 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkNintendoServiceAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** If another user is already linked to a specific Nintendo Switch account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /**
+     * The JSON Web token (JWT) returned by Nintendo after login. Used to validate the request and find the user ID (Nintendo
+     * Switch subject) to link with.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString IdentityToken;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkNintendoSwitchDeviceIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** If another user is already linked to the Nintendo Switch Device ID, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** Nintendo Switch unique identifier for the user's device. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString NintendoSwitchDeviceId;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkNintendoSwitchDeviceIdResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLinkPSNAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Authentication code provided by the PlayStation Network. */
+    /** Authentication code provided by the PlayStation :tm: Network. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString AuthCode;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -444,13 +492,13 @@ public:
     /** If another user is already linked to the account, unlink the other user and re-link. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         bool ForceLink = false;
-    /** Id of the PSN issuer environment. If null, defaults to production environment. */
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         int32 IssuerId = 0;
     /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString PlayFabId;
-    /** Redirect URI supplied to PSN when requesting an auth code */
+    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString RedirectUri;
 };
@@ -725,6 +773,49 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerEmptyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkNintendoServiceAccountRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkNintendoSwitchDeviceIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Nintendo Switch Device identifier for the user. If not specified, the most recently signed in device ID will be used. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString NintendoSwitchDeviceId;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkNintendoSwitchDeviceIdResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlinkPSNAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -782,13 +873,6 @@ public:
 
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlinkXboxAccountResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerEmptyResponse : public FPlayFabResultCommon
 {
     GENERATED_USTRUCT_BODY()
 public:

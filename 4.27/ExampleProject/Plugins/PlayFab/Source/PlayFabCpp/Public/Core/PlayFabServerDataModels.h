@@ -772,10 +772,10 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FUserPsnInfo : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] PSN account ID
+        // [optional] PlayStation :tm: Network account ID
         FString PsnAccountId;
 
-        // [optional] PSN online ID
+        // [optional] PlayStation :tm: Network online ID
         FString PsnOnlineId;
 
         FUserPsnInfo() :
@@ -1238,7 +1238,7 @@ namespace ServerModels
         // [optional] Personal information for the user which is considered more sensitive
         TSharedPtr<FUserPrivateAccountInfo> PrivateInfo;
 
-        // [optional] User PSN account information, if a PSN account has been linked
+        // [optional] User PlayStation :tm: Network account information, if a PlayStation :tm: Network account has been linked
         TSharedPtr<FUserPsnInfo> PsnInfo;
 
         // [optional] User Steam information, if a Steam account has been linked
@@ -1452,9 +1452,6 @@ namespace ServerModels
         // [optional] IP address to be banned. May affect multiple players.
         FString IPAddress;
 
-        // [optional] MAC address to be banned. May affect multiple players.
-        FString MACAddress;
-
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
@@ -1465,7 +1462,6 @@ namespace ServerModels
             FPlayFabCppBaseModel(),
             DurationInHours(),
             IPAddress(),
-            MACAddress(),
             PlayFabId(),
             Reason()
             {}
@@ -3415,7 +3411,10 @@ namespace ServerModels
         // [optional] The profile of the user, if requested.
         TSharedPtr<FPlayerProfileModel> Profile;
 
-        // [optional] Available PSN information, if the user and PlayFab friend are both connected to PSN.
+        /**
+         * [optional] Available PlayStation :tm: Network information, if the user and PlayFab friend are both connected to PlayStation :tm:
+         * Network.
+         */
         TSharedPtr<FUserPsnInfo> PSNInfo;
 
         // [optional] Available Steam information (if the user and PlayFab friend are also connected in Steam).
@@ -5692,10 +5691,10 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
-        // Array of unique PlayStation Network identifiers for which the title needs to get PlayFab identifiers.
+        // Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers.
         TArray<FString> PSNAccountIDs;
         FGetPlayFabIDsFromPSNAccountIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -5718,10 +5717,13 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FPSNAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation Network identifier.
+        /**
+         * [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation :tm: Network
+         * identifier.
+         */
         FString PlayFabId;
 
-        // [optional] Unique PlayStation Network identifier for a user.
+        // [optional] Unique PlayStation :tm: Network identifier for a user.
         FString PSNAccountId;
 
         FPSNAccountPlayFabIdPair() :
@@ -5745,7 +5747,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromPSNAccountIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        // [optional] Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers.
         TArray<FPSNAccountPlayFabIdPair> Data;
         FGetPlayFabIDsFromPSNAccountIDsResult() :
             FPlayFabCppResultCommon(),
@@ -5962,7 +5964,7 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromXboxLiveIDsResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Mapping of PlayStation Network identifiers to PlayFab identifiers.
+        // [optional] Mapping of Xbox Live identifiers to PlayFab identifiers.
         TArray<FXboxLiveAccountPlayFabIdPair> Data;
         FGetPlayFabIDsFromXboxLiveIDsResult() :
             FPlayFabCppResultCommon(),
@@ -7236,9 +7238,99 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkNintendoServiceAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] If another user is already linked to a specific Nintendo Switch account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        /**
+         * The JSON Web token (JWT) returned by Nintendo after login. Used to validate the request and find the user ID (Nintendo
+         * Switch subject) to link with.
+         */
+        FString IdentityToken;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FLinkNintendoServiceAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceLink(),
+            IdentityToken(),
+            PlayFabId()
+            {}
+
+        FLinkNintendoServiceAccountRequest(const FLinkNintendoServiceAccountRequest& src) = default;
+
+        FLinkNintendoServiceAccountRequest(const TSharedPtr<FJsonObject>& obj) : FLinkNintendoServiceAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkNintendoServiceAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkNintendoSwitchDeviceIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] If another user is already linked to the Nintendo Switch Device ID, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // Nintendo Switch unique identifier for the user's device.
+        FString NintendoSwitchDeviceId;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FLinkNintendoSwitchDeviceIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceLink(),
+            NintendoSwitchDeviceId(),
+            PlayFabId()
+            {}
+
+        FLinkNintendoSwitchDeviceIdRequest(const FLinkNintendoSwitchDeviceIdRequest& src) = default;
+
+        FLinkNintendoSwitchDeviceIdRequest(const TSharedPtr<FJsonObject>& obj) : FLinkNintendoSwitchDeviceIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkNintendoSwitchDeviceIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkNintendoSwitchDeviceIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FLinkNintendoSwitchDeviceIdResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FLinkNintendoSwitchDeviceIdResult(const FLinkNintendoSwitchDeviceIdResult& src) = default;
+
+        FLinkNintendoSwitchDeviceIdResult(const TSharedPtr<FJsonObject>& obj) : FLinkNintendoSwitchDeviceIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkNintendoSwitchDeviceIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkPSNAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Authentication code provided by the PlayStation Network.
+        // Authentication code provided by the PlayStation :tm: Network.
         FString AuthCode;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -7246,13 +7338,13 @@ namespace ServerModels
         // [optional] If another user is already linked to the account, unlink the other user and re-link.
         Boxed<bool> ForceLink;
 
-        // [optional] Id of the PSN issuer environment. If null, defaults to production environment.
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
-        // Redirect URI supplied to PSN when requesting an auth code
+        // Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
         FString RedirectUri;
 
         FLinkPSNAccountRequest() :
@@ -9542,6 +9634,81 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUnlinkNintendoServiceAccountRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FUnlinkNintendoServiceAccountRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            PlayFabId()
+            {}
+
+        FUnlinkNintendoServiceAccountRequest(const FUnlinkNintendoServiceAccountRequest& src) = default;
+
+        FUnlinkNintendoServiceAccountRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkNintendoServiceAccountRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkNintendoServiceAccountRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkNintendoSwitchDeviceIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Nintendo Switch Device identifier for the user. If not specified, the most recently signed in device ID will be used.
+        FString NintendoSwitchDeviceId;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FUnlinkNintendoSwitchDeviceIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            NintendoSwitchDeviceId(),
+            PlayFabId()
+            {}
+
+        FUnlinkNintendoSwitchDeviceIdRequest(const FUnlinkNintendoSwitchDeviceIdRequest& src) = default;
+
+        FUnlinkNintendoSwitchDeviceIdRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkNintendoSwitchDeviceIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkNintendoSwitchDeviceIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkNintendoSwitchDeviceIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkNintendoSwitchDeviceIdResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkNintendoSwitchDeviceIdResult(const FUnlinkNintendoSwitchDeviceIdResult& src) = default;
+
+        FUnlinkNintendoSwitchDeviceIdResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkNintendoSwitchDeviceIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkNintendoSwitchDeviceIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUnlinkPSNAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -9844,9 +10011,6 @@ namespace ServerModels
         // [optional] The updated IP address for the ban. Null for no change.
         FString IPAddress;
 
-        // [optional] The updated MAC address for the ban. Null for no change.
-        FString MACAddress;
-
         // [optional] Whether to make this ban permanent. Set to true to make this ban permanent. This will not modify Active state.
         Boxed<bool> Permanent;
 
@@ -9859,7 +10023,6 @@ namespace ServerModels
             BanId(),
             Expires(),
             IPAddress(),
-            MACAddress(),
             Permanent(),
             Reason()
             {}

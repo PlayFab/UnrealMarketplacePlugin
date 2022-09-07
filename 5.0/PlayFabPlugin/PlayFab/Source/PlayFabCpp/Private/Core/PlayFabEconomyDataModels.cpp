@@ -11,12 +11,12 @@
 using namespace PlayFab;
 using namespace PlayFab::EconomyModels;
 
-PlayFab::EconomyModels::FAlternateId::~FAlternateId()
+PlayFab::EconomyModels::FCatalogAlternateId::~FCatalogAlternateId()
 {
 
 }
 
-void PlayFab::EconomyModels::FAlternateId::writeJSON(JsonWriter& writer) const
+void PlayFab::EconomyModels::FCatalogAlternateId::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
@@ -35,7 +35,7 @@ void PlayFab::EconomyModels::FAlternateId::writeJSON(JsonWriter& writer) const
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::EconomyModels::FAlternateId::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::EconomyModels::FCatalogAlternateId::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -51,106 +51,6 @@ bool PlayFab::EconomyModels::FAlternateId::readFromValue(const TSharedPtr<FJsonO
     {
         FString TmpValue;
         if (ValueValue->TryGetString(TmpValue)) { Value = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FInventoryItemReference::~FInventoryItemReference()
-{
-    //if (AlternateId != nullptr) delete AlternateId;
-
-}
-
-void PlayFab::EconomyModels::FInventoryItemReference::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (pfAlternateId.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("AlternateId"));
-        pfAlternateId->writeJSON(writer);
-    }
-
-    if (Id.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Id"));
-        writer->WriteValue(Id);
-    }
-
-    if (StackId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("StackId"));
-        writer->WriteValue(StackId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FInventoryItemReference::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AlternateIdValue = obj->TryGetField(TEXT("AlternateId"));
-    if (AlternateIdValue.IsValid() && !AlternateIdValue->IsNull())
-    {
-        pfAlternateId = MakeShareable(new FAlternateId(AlternateIdValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
-    if (IdValue.IsValid() && !IdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> StackIdValue = obj->TryGetField(TEXT("StackId"));
-    if (StackIdValue.IsValid() && !StackIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FAddInventoryItemsOperation::~FAddInventoryItemsOperation()
-{
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FAddInventoryItemsOperation::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FAddInventoryItemsOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
     }
 
     return HasSucceeded;
@@ -200,446 +100,6 @@ bool PlayFab::EconomyModels::FEntityKey::readFromValue(const TSharedPtr<FJsonObj
     {
         FString TmpValue;
         if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FInventoryItem::~FInventoryItem()
-{
-
-}
-
-void PlayFab::EconomyModels::FInventoryItem::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (Id.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Id"));
-        writer->WriteValue(Id);
-    }
-
-    if (StackId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("StackId"));
-        writer->WriteValue(StackId);
-    }
-
-    if (Type.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Type"));
-        writer->WriteValue(Type);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FInventoryItem::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
-    if (IdValue.IsValid() && !IdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> StackIdValue = obj->TryGetField(TEXT("StackId"));
-    if (StackIdValue.IsValid() && !StackIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TypeValue = obj->TryGetField(TEXT("Type"));
-    if (TypeValue.IsValid() && !TypeValue->IsNull())
-    {
-        FString TmpValue;
-        if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FAddInventoryItemsRequest::~FAddInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FAddInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CurrencyCode.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CurrencyCode"));
-        writer->WriteValue(CurrencyCode);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    if (Items.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Items"));
-        for (const FInventoryItem& item : Items)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (PurchasePrice.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("PurchasePrice"));
-        writer->WriteValue(PurchasePrice);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("ReturnInventory"));
-    writer->WriteValue(ReturnInventory);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FAddInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CurrencyCodeValue = obj->TryGetField(TEXT("CurrencyCode"));
-    if (CurrencyCodeValue.IsValid() && !CurrencyCodeValue->IsNull())
-    {
-        FString TmpValue;
-        if (CurrencyCodeValue->TryGetString(TmpValue)) { CurrencyCode = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
-    for (int32 Idx = 0; Idx < ItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = ItemsArray[Idx];
-        Items.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> PurchasePriceValue = obj->TryGetField(TEXT("PurchasePrice"));
-    if (PurchasePriceValue.IsValid() && !PurchasePriceValue->IsNull())
-    {
-        int32 TmpValue;
-        if (PurchasePriceValue->TryGetNumber(TmpValue)) { PurchasePrice = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ReturnInventoryValue = obj->TryGetField(TEXT("ReturnInventory"));
-    if (ReturnInventoryValue.IsValid() && !ReturnInventoryValue->IsNull())
-    {
-        bool TmpValue;
-        if (ReturnInventoryValue->TryGetBool(TmpValue)) { ReturnInventory = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FAddInventoryItemsResponse::~FAddInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FAddInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (InventoryItems.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("InventoryItems"));
-        for (const FInventoryItem& item : InventoryItems)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteIdentifierPrefix(TEXT("InventoryTooLarge"));
-    writer->WriteValue(InventoryTooLarge);
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (UpdatedItems.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("UpdatedItems"));
-        for (const FInventoryItem& item : UpdatedItems)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FAddInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&InventoryItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("InventoryItems"));
-    for (int32 Idx = 0; Idx < InventoryItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = InventoryItemsArray[Idx];
-        InventoryItems.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> InventoryTooLargeValue = obj->TryGetField(TEXT("InventoryTooLarge"));
-    if (InventoryTooLargeValue.IsValid() && !InventoryTooLargeValue->IsNull())
-    {
-        bool TmpValue;
-        if (InventoryTooLargeValue->TryGetBool(TmpValue)) { InventoryTooLarge = TmpValue; }
-    }
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    const TArray<TSharedPtr<FJsonValue>>&UpdatedItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("UpdatedItems"));
-    for (int32 Idx = 0; Idx < UpdatedItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = UpdatedItemsArray[Idx];
-        UpdatedItems.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogAlternateId::~FCatalogAlternateId()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogAlternateId::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Type.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Type"));
-        writer->WriteValue(Type);
-    }
-
-    if (Value.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Value"));
-        writer->WriteValue(Value);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogAlternateId::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> TypeValue = obj->TryGetField(TEXT("Type"));
-    if (TypeValue.IsValid() && !TypeValue->IsNull())
-    {
-        FString TmpValue;
-        if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
-    if (ValueValue.IsValid() && !ValueValue->IsNull())
-    {
-        FString TmpValue;
-        if (ValueValue->TryGetString(TmpValue)) { Value = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogSpecificConfig::~FCatalogSpecificConfig()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogSpecificConfig::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (ContentTypes.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("ContentTypes"));
-        for (const FString& item : ContentTypes)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Tags.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Tags"));
-        for (const FString& item : Tags)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogSpecificConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    obj->TryGetStringArrayField(TEXT("ContentTypes"), ContentTypes);
-
-    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FDeepLinkFormat::~FDeepLinkFormat()
-{
-
-}
-
-void PlayFab::EconomyModels::FDeepLinkFormat::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Format.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Format"));
-        writer->WriteValue(Format);
-    }
-
-    if (Platform.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Platform"));
-        writer->WriteValue(Platform);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FDeepLinkFormat::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> FormatValue = obj->TryGetField(TEXT("Format"));
-    if (FormatValue.IsValid() && !FormatValue->IsNull())
-    {
-        FString TmpValue;
-        if (FormatValue->TryGetString(TmpValue)) { Format = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> PlatformValue = obj->TryGetField(TEXT("Platform"));
-    if (PlatformValue.IsValid() && !PlatformValue->IsNull())
-    {
-        FString TmpValue;
-        if (PlatformValue->TryGetString(TmpValue)) { Platform = TmpValue; }
     }
 
     return HasSucceeded;
@@ -841,7 +301,6 @@ bool PlayFab::EconomyModels::FUserGeneratedContentSpecificConfig::readFromValue(
 
 PlayFab::EconomyModels::FCatalogConfig::~FCatalogConfig()
 {
-    //if (Catalog != nullptr) delete Catalog;
     //if (File != nullptr) delete File;
     //if (Image != nullptr) delete Image;
     //if (UserGeneratedContent != nullptr) delete UserGeneratedContent;
@@ -856,21 +315,6 @@ void PlayFab::EconomyModels::FCatalogConfig::writeJSON(JsonWriter& writer) const
     {
         writer->WriteArrayStart(TEXT("AdminEntities"));
         for (const FEntityKey& item : AdminEntities)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Catalog.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Catalog"));
-        Catalog->writeJSON(writer);
-    }
-
-    if (DeepLinkFormats.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("DeepLinkFormats"));
-        for (const FDeepLinkFormat& item : DeepLinkFormats)
             item.writeJSON(writer);
         writer->WriteArrayEnd();
     }
@@ -936,20 +380,6 @@ bool PlayFab::EconomyModels::FCatalogConfig::readFromValue(const TSharedPtr<FJso
     {
         TSharedPtr<FJsonValue> CurrentItem = AdminEntitiesArray[Idx];
         AdminEntities.Add(FEntityKey(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> CatalogValue = obj->TryGetField(TEXT("Catalog"));
-    if (CatalogValue.IsValid() && !CatalogValue->IsNull())
-    {
-        Catalog = MakeShareable(new FCatalogSpecificConfig(CatalogValue->AsObject()));
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&DeepLinkFormatsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("DeepLinkFormats"));
-    for (int32 Idx = 0; Idx < DeepLinkFormatsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = DeepLinkFormatsArray[Idx];
-        DeepLinkFormats.Add(FDeepLinkFormat(CurrentItem->AsObject()));
     }
 
 
@@ -1094,51 +524,6 @@ bool PlayFab::EconomyModels::FContent::readFromValue(const TSharedPtr<FJsonObjec
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FDeepLink::~FDeepLink()
-{
-
-}
-
-void PlayFab::EconomyModels::FDeepLink::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Platform.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Platform"));
-        writer->WriteValue(Platform);
-    }
-
-    if (Url.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Url"));
-        writer->WriteValue(Url);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FDeepLink::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> PlatformValue = obj->TryGetField(TEXT("Platform"));
-    if (PlatformValue.IsValid() && !PlatformValue->IsNull())
-    {
-        FString TmpValue;
-        if (PlatformValue->TryGetString(TmpValue)) { Platform = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> UrlValue = obj->TryGetField(TEXT("Url"));
-    if (UrlValue.IsValid() && !UrlValue->IsNull())
-    {
-        FString TmpValue;
-        if (UrlValue->TryGetString(TmpValue)) { Url = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FImage::~FImage()
 {
 
@@ -1205,178 +590,6 @@ bool PlayFab::EconomyModels::FImage::readFromValue(const TSharedPtr<FJsonObject>
     {
         FString TmpValue;
         if (UrlValue->TryGetString(TmpValue)) { Url = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogPriceAmount::~FCatalogPriceAmount()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogPriceAmount::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (ItemId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ItemId"));
-        writer->WriteValue(ItemId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogPriceAmount::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
-    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogPrice::~FCatalogPrice()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogPrice::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Amounts.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Amounts"));
-        for (const FCatalogPriceAmount& item : Amounts)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogPrice::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&AmountsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Amounts"));
-    for (int32 Idx = 0; Idx < AmountsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = AmountsArray[Idx];
-        Amounts.Add(FCatalogPriceAmount(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogPriceOptions::~FCatalogPriceOptions()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogPriceOptions::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Prices.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Prices"));
-        for (const FCatalogPrice& item : Prices)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogPriceOptions::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&PricesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Prices"));
-    for (int32 Idx = 0; Idx < PricesArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = PricesArray[Idx];
-        Prices.Add(FCatalogPrice(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogItemReference::~FCatalogItemReference()
-{
-    //if (PriceOptions != nullptr) delete PriceOptions;
-
-}
-
-void PlayFab::EconomyModels::FCatalogItemReference::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Amount.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Amount"));
-        writer->WriteValue(Amount);
-    }
-
-    if (Id.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Id"));
-        writer->WriteValue(Id);
-    }
-
-    if (PriceOptions.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("PriceOptions"));
-        PriceOptions->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogItemReference::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
-    if (IdValue.IsValid() && !IdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> PriceOptionsValue = obj->TryGetField(TEXT("PriceOptions"));
-    if (PriceOptionsValue.IsValid() && !PriceOptionsValue->IsNull())
-    {
-        PriceOptions = MakeShareable(new FCatalogPriceOptions(PriceOptionsValue->AsObject()));
     }
 
     return HasSucceeded;
@@ -1613,233 +826,11 @@ bool PlayFab::EconomyModels::FRating::readFromValue(const TSharedPtr<FJsonObject
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FFilterOptions::~FFilterOptions()
-{
-
-}
-
-void PlayFab::EconomyModels::FFilterOptions::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Filter.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Filter"));
-        writer->WriteValue(Filter);
-    }
-
-    if (IncludeAllItems.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeAllItems"));
-        writer->WriteValue(IncludeAllItems);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FFilterOptions::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> FilterValue = obj->TryGetField(TEXT("Filter"));
-    if (FilterValue.IsValid() && !FilterValue->IsNull())
-    {
-        FString TmpValue;
-        if (FilterValue->TryGetString(TmpValue)) { Filter = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> IncludeAllItemsValue = obj->TryGetField(TEXT("IncludeAllItems"));
-    if (IncludeAllItemsValue.IsValid() && !IncludeAllItemsValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeAllItemsValue->TryGetBool(TmpValue)) { IncludeAllItems = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogPriceAmountOverride::~FCatalogPriceAmountOverride()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogPriceAmountOverride::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (FixedValue.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("FixedValue"));
-        writer->WriteValue(FixedValue);
-    }
-
-    if (ItemId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ItemId"));
-        writer->WriteValue(ItemId);
-    }
-
-    if (Multiplier.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Multiplier"));
-        writer->WriteValue(Multiplier);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogPriceAmountOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> FixedValueValue = obj->TryGetField(TEXT("FixedValue"));
-    if (FixedValueValue.IsValid() && !FixedValueValue->IsNull())
-    {
-        int32 TmpValue;
-        if (FixedValueValue->TryGetNumber(TmpValue)) { FixedValue = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
-    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MultiplierValue = obj->TryGetField(TEXT("Multiplier"));
-    if (MultiplierValue.IsValid() && !MultiplierValue->IsNull())
-    {
-        double TmpValue;
-        if (MultiplierValue->TryGetNumber(TmpValue)) { Multiplier = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogPriceOverride::~FCatalogPriceOverride()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogPriceOverride::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Amounts.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Amounts"));
-        for (const FCatalogPriceAmountOverride& item : Amounts)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogPriceOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&AmountsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Amounts"));
-    for (int32 Idx = 0; Idx < AmountsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = AmountsArray[Idx];
-        Amounts.Add(FCatalogPriceAmountOverride(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FCatalogPriceOptionsOverride::~FCatalogPriceOptionsOverride()
-{
-
-}
-
-void PlayFab::EconomyModels::FCatalogPriceOptionsOverride::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Prices.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Prices"));
-        for (const FCatalogPriceOverride& item : Prices)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FCatalogPriceOptionsOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&PricesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Prices"));
-    for (int32 Idx = 0; Idx < PricesArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = PricesArray[Idx];
-        Prices.Add(FCatalogPriceOverride(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FStoreDetails::~FStoreDetails()
-{
-    //if (FilterOptions != nullptr) delete FilterOptions;
-    //if (PriceOptionsOverride != nullptr) delete PriceOptionsOverride;
-
-}
-
-void PlayFab::EconomyModels::FStoreDetails::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (pfFilterOptions.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("FilterOptions"));
-        pfFilterOptions->writeJSON(writer);
-    }
-
-    if (PriceOptionsOverride.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("PriceOptionsOverride"));
-        PriceOptionsOverride->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FStoreDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> FilterOptionsValue = obj->TryGetField(TEXT("FilterOptions"));
-    if (FilterOptionsValue.IsValid() && !FilterOptionsValue->IsNull())
-    {
-        pfFilterOptions = MakeShareable(new FFilterOptions(FilterOptionsValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> PriceOptionsOverrideValue = obj->TryGetField(TEXT("PriceOptionsOverride"));
-    if (PriceOptionsOverrideValue.IsValid() && !PriceOptionsOverrideValue->IsNull())
-    {
-        PriceOptionsOverride = MakeShareable(new FCatalogPriceOptionsOverride(PriceOptionsOverrideValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FCatalogItem::~FCatalogItem()
 {
     //if (CreatorEntity != nullptr) delete CreatorEntity;
     //if (Moderation != nullptr) delete Moderation;
-    //if (PriceOptions != nullptr) delete PriceOptions;
     //if (Rating != nullptr) delete Rating;
-    //if (StoreDetails != nullptr) delete StoreDetails;
 
 }
 
@@ -1882,15 +873,6 @@ void PlayFab::EconomyModels::FCatalogItem::writeJSON(JsonWriter& writer) const
         writer->WriteIdentifierPrefix(TEXT("CreatorEntity"));
         CreatorEntity->writeJSON(writer);
     }
-
-    if (DeepLinks.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("DeepLinks"));
-        for (const FDeepLink& item : DeepLinks)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
 
     if (Description.Num() != 0)
     {
@@ -1948,15 +930,6 @@ void PlayFab::EconomyModels::FCatalogItem::writeJSON(JsonWriter& writer) const
         writer->WriteValue(IsHidden);
     }
 
-    if (ItemReferences.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("ItemReferences"));
-        for (const FCatalogItemReference& item : ItemReferences)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
     if (Keywords.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("Keywords"));
@@ -1980,21 +953,6 @@ void PlayFab::EconomyModels::FCatalogItem::writeJSON(JsonWriter& writer) const
         Moderation->writeJSON(writer);
     }
 
-    if (Platforms.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Platforms"));
-        for (const FString& item : Platforms)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (PriceOptions.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("PriceOptions"));
-        PriceOptions->writeJSON(writer);
-    }
-
     if (pfRating.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Rating"));
@@ -2005,12 +963,6 @@ void PlayFab::EconomyModels::FCatalogItem::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("StartDate"));
         writeDatetime(StartDate, writer);
-    }
-
-    if (pfStoreDetails.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("StoreDetails"));
-        pfStoreDetails->writeJSON(writer);
     }
 
     if (Tags.Num() != 0)
@@ -2080,14 +1032,6 @@ bool PlayFab::EconomyModels::FCatalogItem::readFromValue(const TSharedPtr<FJsonO
         CreatorEntity = MakeShareable(new FEntityKey(CreatorEntityValue->AsObject()));
     }
 
-    const TArray<TSharedPtr<FJsonValue>>&DeepLinksArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("DeepLinks"));
-    for (int32 Idx = 0; Idx < DeepLinksArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = DeepLinksArray[Idx];
-        DeepLinks.Add(FDeepLink(CurrentItem->AsObject()));
-    }
-
-
     const TSharedPtr<FJsonObject>* DescriptionObject;
     if (obj->TryGetObjectField(TEXT("Description"), DescriptionObject))
     {
@@ -2144,14 +1088,6 @@ bool PlayFab::EconomyModels::FCatalogItem::readFromValue(const TSharedPtr<FJsonO
         if (IsHiddenValue->TryGetBool(TmpValue)) { IsHidden = TmpValue; }
     }
 
-    const TArray<TSharedPtr<FJsonValue>>&ItemReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ItemReferences"));
-    for (int32 Idx = 0; Idx < ItemReferencesArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = ItemReferencesArray[Idx];
-        ItemReferences.Add(FCatalogItemReference(CurrentItem->AsObject()));
-    }
-
-
     const TSharedPtr<FJsonObject>* KeywordsObject;
     if (obj->TryGetObjectField(TEXT("Keywords"), KeywordsObject))
     {
@@ -2172,14 +1108,6 @@ bool PlayFab::EconomyModels::FCatalogItem::readFromValue(const TSharedPtr<FJsonO
         Moderation = MakeShareable(new FModerationState(ModerationValue->AsObject()));
     }
 
-    obj->TryGetStringArrayField(TEXT("Platforms"), Platforms);
-
-    const TSharedPtr<FJsonValue> PriceOptionsValue = obj->TryGetField(TEXT("PriceOptions"));
-    if (PriceOptionsValue.IsValid() && !PriceOptionsValue->IsNull())
-    {
-        PriceOptions = MakeShareable(new FCatalogPriceOptions(PriceOptionsValue->AsObject()));
-    }
-
     const TSharedPtr<FJsonValue> RatingValue = obj->TryGetField(TEXT("Rating"));
     if (RatingValue.IsValid() && !RatingValue->IsNull())
     {
@@ -2190,12 +1118,6 @@ bool PlayFab::EconomyModels::FCatalogItem::readFromValue(const TSharedPtr<FJsonO
     if (StartDateValue.IsValid())
         StartDate = readDatetime(StartDateValue);
 
-
-    const TSharedPtr<FJsonValue> StoreDetailsValue = obj->TryGetField(TEXT("StoreDetails"));
-    if (StoreDetailsValue.IsValid() && !StoreDetailsValue->IsNull())
-    {
-        pfStoreDetails = MakeShareable(new FStoreDetails(StoreDetailsValue->AsObject()));
-    }
 
     obj->TryGetStringArrayField(TEXT("Tags"), Tags);
 
@@ -2214,6 +1136,249 @@ bool PlayFab::EconomyModels::FCatalogItem::readFromValue(const TSharedPtr<FJsonO
         FString TmpValue;
         if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FCatalogPriceAmount::~FCatalogPriceAmount()
+{
+
+}
+
+void PlayFab::EconomyModels::FCatalogPriceAmount::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Amount"));
+    writer->WriteValue(Amount);
+
+    if (Id.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FCatalogPriceAmount::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
+    if (IdValue.IsValid() && !IdValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FCatalogPriceInstance::~FCatalogPriceInstance()
+{
+
+}
+
+void PlayFab::EconomyModels::FCatalogPriceInstance::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Amounts.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Amounts"));
+        for (const FCatalogPriceAmount& item : Amounts)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FCatalogPriceInstance::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&AmountsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Amounts"));
+    for (int32 Idx = 0; Idx < AmountsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = AmountsArray[Idx];
+        Amounts.Add(FCatalogPriceAmount(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FCatalogPrice::~FCatalogPrice()
+{
+
+}
+
+void PlayFab::EconomyModels::FCatalogPrice::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Prices.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Prices"));
+        for (const FCatalogPriceInstance& item : Prices)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (RealPrices.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("RealPrices"));
+        for (const FCatalogPriceInstance& item : RealPrices)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Sort.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Sort"));
+        writer->WriteValue(Sort);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FCatalogPrice::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&PricesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Prices"));
+    for (int32 Idx = 0; Idx < PricesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PricesArray[Idx];
+        Prices.Add(FCatalogPriceInstance(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&RealPricesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("RealPrices"));
+    for (int32 Idx = 0; Idx < RealPricesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = RealPricesArray[Idx];
+        RealPrices.Add(FCatalogPriceInstance(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> SortValue = obj->TryGetField(TEXT("Sort"));
+    if (SortValue.IsValid() && !SortValue->IsNull())
+    {
+        int32 TmpValue;
+        if (SortValue->TryGetNumber(TmpValue)) { Sort = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FCatalogItemReference::~FCatalogItemReference()
+{
+    //if (Price != nullptr) delete Price;
+
+}
+
+void PlayFab::EconomyModels::FCatalogItemReference::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
+
+    if (Id.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
+
+    if (Price.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Price"));
+        Price->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FCatalogItemReference::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
+    if (IdValue.IsValid() && !IdValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PriceValue = obj->TryGetField(TEXT("Price"));
+    if (PriceValue.IsValid() && !PriceValue->IsNull())
+    {
+        Price = MakeShareable(new FCatalogPrice(PriceValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FCatalogSpecificConfig::~FCatalogSpecificConfig()
+{
+
+}
+
+void PlayFab::EconomyModels::FCatalogSpecificConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ContentTypes.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ContentTypes"));
+        for (const FString& item : ContentTypes)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Tags.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Tags"));
+        for (const FString& item : Tags)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FCatalogSpecificConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("ContentTypes"), ContentTypes);
+
+    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
 
     return HasSucceeded;
 }
@@ -2287,536 +1452,6 @@ bool PlayFab::EconomyModels::FContentFeed::readFromValue(const TSharedPtr<FJsonO
     bool HasSucceeded = true;
 
     return HasSucceeded;
-}
-
-void PlayFab::EconomyModels::writeCountryCodeEnumJSON(CountryCode enumVal, JsonWriter& writer)
-{
-    switch (enumVal)
-    {
-
-    case CountryCodeAF: writer->WriteValue(TEXT("AF")); break;
-    case CountryCodeAX: writer->WriteValue(TEXT("AX")); break;
-    case CountryCodeAL: writer->WriteValue(TEXT("AL")); break;
-    case CountryCodeDZ: writer->WriteValue(TEXT("DZ")); break;
-    case CountryCodeAS: writer->WriteValue(TEXT("AS")); break;
-    case CountryCodeAD: writer->WriteValue(TEXT("AD")); break;
-    case CountryCodeAO: writer->WriteValue(TEXT("AO")); break;
-    case CountryCodeAI: writer->WriteValue(TEXT("AI")); break;
-    case CountryCodeAQ: writer->WriteValue(TEXT("AQ")); break;
-    case CountryCodeAG: writer->WriteValue(TEXT("AG")); break;
-    case CountryCodeAR: writer->WriteValue(TEXT("AR")); break;
-    case CountryCodeAM: writer->WriteValue(TEXT("AM")); break;
-    case CountryCodeAW: writer->WriteValue(TEXT("AW")); break;
-    case CountryCodeAU: writer->WriteValue(TEXT("AU")); break;
-    case CountryCodeAT: writer->WriteValue(TEXT("AT")); break;
-    case CountryCodeAZ: writer->WriteValue(TEXT("AZ")); break;
-    case CountryCodeBS: writer->WriteValue(TEXT("BS")); break;
-    case CountryCodeBH: writer->WriteValue(TEXT("BH")); break;
-    case CountryCodeBD: writer->WriteValue(TEXT("BD")); break;
-    case CountryCodeBB: writer->WriteValue(TEXT("BB")); break;
-    case CountryCodeBY: writer->WriteValue(TEXT("BY")); break;
-    case CountryCodeBE: writer->WriteValue(TEXT("BE")); break;
-    case CountryCodeBZ: writer->WriteValue(TEXT("BZ")); break;
-    case CountryCodeBJ: writer->WriteValue(TEXT("BJ")); break;
-    case CountryCodeBM: writer->WriteValue(TEXT("BM")); break;
-    case CountryCodeBT: writer->WriteValue(TEXT("BT")); break;
-    case CountryCodeBO: writer->WriteValue(TEXT("BO")); break;
-    case CountryCodeBQ: writer->WriteValue(TEXT("BQ")); break;
-    case CountryCodeBA: writer->WriteValue(TEXT("BA")); break;
-    case CountryCodeBW: writer->WriteValue(TEXT("BW")); break;
-    case CountryCodeBV: writer->WriteValue(TEXT("BV")); break;
-    case CountryCodeBR: writer->WriteValue(TEXT("BR")); break;
-    case CountryCodeIO: writer->WriteValue(TEXT("IO")); break;
-    case CountryCodeBN: writer->WriteValue(TEXT("BN")); break;
-    case CountryCodeBG: writer->WriteValue(TEXT("BG")); break;
-    case CountryCodeBF: writer->WriteValue(TEXT("BF")); break;
-    case CountryCodeBI: writer->WriteValue(TEXT("BI")); break;
-    case CountryCodeKH: writer->WriteValue(TEXT("KH")); break;
-    case CountryCodeCM: writer->WriteValue(TEXT("CM")); break;
-    case CountryCodeCA: writer->WriteValue(TEXT("CA")); break;
-    case CountryCodeCV: writer->WriteValue(TEXT("CV")); break;
-    case CountryCodeKY: writer->WriteValue(TEXT("KY")); break;
-    case CountryCodeCF: writer->WriteValue(TEXT("CF")); break;
-    case CountryCodeTD: writer->WriteValue(TEXT("TD")); break;
-    case CountryCodeCL: writer->WriteValue(TEXT("CL")); break;
-    case CountryCodeCN: writer->WriteValue(TEXT("CN")); break;
-    case CountryCodeCX: writer->WriteValue(TEXT("CX")); break;
-    case CountryCodeCC: writer->WriteValue(TEXT("CC")); break;
-    case CountryCodeCO: writer->WriteValue(TEXT("CO")); break;
-    case CountryCodeKM: writer->WriteValue(TEXT("KM")); break;
-    case CountryCodeCG: writer->WriteValue(TEXT("CG")); break;
-    case CountryCodeCD: writer->WriteValue(TEXT("CD")); break;
-    case CountryCodeCK: writer->WriteValue(TEXT("CK")); break;
-    case CountryCodeCR: writer->WriteValue(TEXT("CR")); break;
-    case CountryCodeCI: writer->WriteValue(TEXT("CI")); break;
-    case CountryCodeHR: writer->WriteValue(TEXT("HR")); break;
-    case CountryCodeCU: writer->WriteValue(TEXT("CU")); break;
-    case CountryCodeCW: writer->WriteValue(TEXT("CW")); break;
-    case CountryCodeCY: writer->WriteValue(TEXT("CY")); break;
-    case CountryCodeCZ: writer->WriteValue(TEXT("CZ")); break;
-    case CountryCodeDK: writer->WriteValue(TEXT("DK")); break;
-    case CountryCodeDJ: writer->WriteValue(TEXT("DJ")); break;
-    case CountryCodeDM: writer->WriteValue(TEXT("DM")); break;
-    case CountryCodeDO: writer->WriteValue(TEXT("DO")); break;
-    case CountryCodeEC: writer->WriteValue(TEXT("EC")); break;
-    case CountryCodeEG: writer->WriteValue(TEXT("EG")); break;
-    case CountryCodeSV: writer->WriteValue(TEXT("SV")); break;
-    case CountryCodeGQ: writer->WriteValue(TEXT("GQ")); break;
-    case CountryCodeER: writer->WriteValue(TEXT("ER")); break;
-    case CountryCodeEE: writer->WriteValue(TEXT("EE")); break;
-    case CountryCodeET: writer->WriteValue(TEXT("ET")); break;
-    case CountryCodeFK: writer->WriteValue(TEXT("FK")); break;
-    case CountryCodeFO: writer->WriteValue(TEXT("FO")); break;
-    case CountryCodeFJ: writer->WriteValue(TEXT("FJ")); break;
-    case CountryCodeFI: writer->WriteValue(TEXT("FI")); break;
-    case CountryCodeFR: writer->WriteValue(TEXT("FR")); break;
-    case CountryCodeGF: writer->WriteValue(TEXT("GF")); break;
-    case CountryCodePF: writer->WriteValue(TEXT("PF")); break;
-    case CountryCodeTF: writer->WriteValue(TEXT("TF")); break;
-    case CountryCodeGA: writer->WriteValue(TEXT("GA")); break;
-    case CountryCodeGM: writer->WriteValue(TEXT("GM")); break;
-    case CountryCodeGE: writer->WriteValue(TEXT("GE")); break;
-    case CountryCodeDE: writer->WriteValue(TEXT("DE")); break;
-    case CountryCodeGH: writer->WriteValue(TEXT("GH")); break;
-    case CountryCodeGI: writer->WriteValue(TEXT("GI")); break;
-    case CountryCodeGR: writer->WriteValue(TEXT("GR")); break;
-    case CountryCodeGL: writer->WriteValue(TEXT("GL")); break;
-    case CountryCodeGD: writer->WriteValue(TEXT("GD")); break;
-    case CountryCodeGP: writer->WriteValue(TEXT("GP")); break;
-    case CountryCodeGU: writer->WriteValue(TEXT("GU")); break;
-    case CountryCodeGT: writer->WriteValue(TEXT("GT")); break;
-    case CountryCodeGG: writer->WriteValue(TEXT("GG")); break;
-    case CountryCodeGN: writer->WriteValue(TEXT("GN")); break;
-    case CountryCodeGW: writer->WriteValue(TEXT("GW")); break;
-    case CountryCodeGY: writer->WriteValue(TEXT("GY")); break;
-    case CountryCodeHT: writer->WriteValue(TEXT("HT")); break;
-    case CountryCodeHM: writer->WriteValue(TEXT("HM")); break;
-    case CountryCodeVA: writer->WriteValue(TEXT("VA")); break;
-    case CountryCodeHN: writer->WriteValue(TEXT("HN")); break;
-    case CountryCodeHK: writer->WriteValue(TEXT("HK")); break;
-    case CountryCodeHU: writer->WriteValue(TEXT("HU")); break;
-    case CountryCodeIS: writer->WriteValue(TEXT("IS")); break;
-    case CountryCodeIN: writer->WriteValue(TEXT("IN")); break;
-    case CountryCodeID: writer->WriteValue(TEXT("ID")); break;
-    case CountryCodeIR: writer->WriteValue(TEXT("IR")); break;
-    case CountryCodeIQ: writer->WriteValue(TEXT("IQ")); break;
-    case CountryCodeIE: writer->WriteValue(TEXT("IE")); break;
-    case CountryCodeIM: writer->WriteValue(TEXT("IM")); break;
-    case CountryCodeIL: writer->WriteValue(TEXT("IL")); break;
-    case CountryCodeIT: writer->WriteValue(TEXT("IT")); break;
-    case CountryCodeJM: writer->WriteValue(TEXT("JM")); break;
-    case CountryCodeJP: writer->WriteValue(TEXT("JP")); break;
-    case CountryCodeJE: writer->WriteValue(TEXT("JE")); break;
-    case CountryCodeJO: writer->WriteValue(TEXT("JO")); break;
-    case CountryCodeKZ: writer->WriteValue(TEXT("KZ")); break;
-    case CountryCodeKE: writer->WriteValue(TEXT("KE")); break;
-    case CountryCodeKI: writer->WriteValue(TEXT("KI")); break;
-    case CountryCodeKP: writer->WriteValue(TEXT("KP")); break;
-    case CountryCodeKR: writer->WriteValue(TEXT("KR")); break;
-    case CountryCodeKW: writer->WriteValue(TEXT("KW")); break;
-    case CountryCodeKG: writer->WriteValue(TEXT("KG")); break;
-    case CountryCodeLA: writer->WriteValue(TEXT("LA")); break;
-    case CountryCodeLV: writer->WriteValue(TEXT("LV")); break;
-    case CountryCodeLB: writer->WriteValue(TEXT("LB")); break;
-    case CountryCodeLS: writer->WriteValue(TEXT("LS")); break;
-    case CountryCodeLR: writer->WriteValue(TEXT("LR")); break;
-    case CountryCodeLY: writer->WriteValue(TEXT("LY")); break;
-    case CountryCodeLI: writer->WriteValue(TEXT("LI")); break;
-    case CountryCodeLT: writer->WriteValue(TEXT("LT")); break;
-    case CountryCodeLU: writer->WriteValue(TEXT("LU")); break;
-    case CountryCodeMO: writer->WriteValue(TEXT("MO")); break;
-    case CountryCodeMK: writer->WriteValue(TEXT("MK")); break;
-    case CountryCodeMG: writer->WriteValue(TEXT("MG")); break;
-    case CountryCodeMW: writer->WriteValue(TEXT("MW")); break;
-    case CountryCodeMY: writer->WriteValue(TEXT("MY")); break;
-    case CountryCodeMV: writer->WriteValue(TEXT("MV")); break;
-    case CountryCodeML: writer->WriteValue(TEXT("ML")); break;
-    case CountryCodeMT: writer->WriteValue(TEXT("MT")); break;
-    case CountryCodeMH: writer->WriteValue(TEXT("MH")); break;
-    case CountryCodeMQ: writer->WriteValue(TEXT("MQ")); break;
-    case CountryCodeMR: writer->WriteValue(TEXT("MR")); break;
-    case CountryCodeMU: writer->WriteValue(TEXT("MU")); break;
-    case CountryCodeYT: writer->WriteValue(TEXT("YT")); break;
-    case CountryCodeMX: writer->WriteValue(TEXT("MX")); break;
-    case CountryCodeFM: writer->WriteValue(TEXT("FM")); break;
-    case CountryCodeMD: writer->WriteValue(TEXT("MD")); break;
-    case CountryCodeMC: writer->WriteValue(TEXT("MC")); break;
-    case CountryCodeMN: writer->WriteValue(TEXT("MN")); break;
-    case CountryCodeME: writer->WriteValue(TEXT("ME")); break;
-    case CountryCodeMS: writer->WriteValue(TEXT("MS")); break;
-    case CountryCodeMA: writer->WriteValue(TEXT("MA")); break;
-    case CountryCodeMZ: writer->WriteValue(TEXT("MZ")); break;
-    case CountryCodeMM: writer->WriteValue(TEXT("MM")); break;
-    case CountryCodeNA: writer->WriteValue(TEXT("NA")); break;
-    case CountryCodeNR: writer->WriteValue(TEXT("NR")); break;
-    case CountryCodeNP: writer->WriteValue(TEXT("NP")); break;
-    case CountryCodeNL: writer->WriteValue(TEXT("NL")); break;
-    case CountryCodeNC: writer->WriteValue(TEXT("NC")); break;
-    case CountryCodeNZ: writer->WriteValue(TEXT("NZ")); break;
-    case CountryCodeNI: writer->WriteValue(TEXT("NI")); break;
-    case CountryCodeNE: writer->WriteValue(TEXT("NE")); break;
-    case CountryCodeNG: writer->WriteValue(TEXT("NG")); break;
-    case CountryCodeNU: writer->WriteValue(TEXT("NU")); break;
-    case CountryCodeNF: writer->WriteValue(TEXT("NF")); break;
-    case CountryCodeMP: writer->WriteValue(TEXT("MP")); break;
-    case CountryCodeNO: writer->WriteValue(TEXT("NO")); break;
-    case CountryCodeOM: writer->WriteValue(TEXT("OM")); break;
-    case CountryCodePK: writer->WriteValue(TEXT("PK")); break;
-    case CountryCodePW: writer->WriteValue(TEXT("PW")); break;
-    case CountryCodePS: writer->WriteValue(TEXT("PS")); break;
-    case CountryCodePA: writer->WriteValue(TEXT("PA")); break;
-    case CountryCodePG: writer->WriteValue(TEXT("PG")); break;
-    case CountryCodePY: writer->WriteValue(TEXT("PY")); break;
-    case CountryCodePE: writer->WriteValue(TEXT("PE")); break;
-    case CountryCodePH: writer->WriteValue(TEXT("PH")); break;
-    case CountryCodePN: writer->WriteValue(TEXT("PN")); break;
-    case CountryCodePL: writer->WriteValue(TEXT("PL")); break;
-    case CountryCodePT: writer->WriteValue(TEXT("PT")); break;
-    case CountryCodePR: writer->WriteValue(TEXT("PR")); break;
-    case CountryCodeQA: writer->WriteValue(TEXT("QA")); break;
-    case CountryCodeRE: writer->WriteValue(TEXT("RE")); break;
-    case CountryCodeRO: writer->WriteValue(TEXT("RO")); break;
-    case CountryCodeRU: writer->WriteValue(TEXT("RU")); break;
-    case CountryCodeRW: writer->WriteValue(TEXT("RW")); break;
-    case CountryCodeBL: writer->WriteValue(TEXT("BL")); break;
-    case CountryCodeSH: writer->WriteValue(TEXT("SH")); break;
-    case CountryCodeKN: writer->WriteValue(TEXT("KN")); break;
-    case CountryCodeLC: writer->WriteValue(TEXT("LC")); break;
-    case CountryCodeMF: writer->WriteValue(TEXT("MF")); break;
-    case CountryCodePM: writer->WriteValue(TEXT("PM")); break;
-    case CountryCodeVC: writer->WriteValue(TEXT("VC")); break;
-    case CountryCodeWS: writer->WriteValue(TEXT("WS")); break;
-    case CountryCodeSM: writer->WriteValue(TEXT("SM")); break;
-    case CountryCodeST: writer->WriteValue(TEXT("ST")); break;
-    case CountryCodeSA: writer->WriteValue(TEXT("SA")); break;
-    case CountryCodeSN: writer->WriteValue(TEXT("SN")); break;
-    case CountryCodeRS: writer->WriteValue(TEXT("RS")); break;
-    case CountryCodeSC: writer->WriteValue(TEXT("SC")); break;
-    case CountryCodeSL: writer->WriteValue(TEXT("SL")); break;
-    case CountryCodeSG: writer->WriteValue(TEXT("SG")); break;
-    case CountryCodeSX: writer->WriteValue(TEXT("SX")); break;
-    case CountryCodeSK: writer->WriteValue(TEXT("SK")); break;
-    case CountryCodeSI: writer->WriteValue(TEXT("SI")); break;
-    case CountryCodeSB: writer->WriteValue(TEXT("SB")); break;
-    case CountryCodeSO: writer->WriteValue(TEXT("SO")); break;
-    case CountryCodeZA: writer->WriteValue(TEXT("ZA")); break;
-    case CountryCodeGS: writer->WriteValue(TEXT("GS")); break;
-    case CountryCodeSS: writer->WriteValue(TEXT("SS")); break;
-    case CountryCodeES: writer->WriteValue(TEXT("ES")); break;
-    case CountryCodeLK: writer->WriteValue(TEXT("LK")); break;
-    case CountryCodeSD: writer->WriteValue(TEXT("SD")); break;
-    case CountryCodeSR: writer->WriteValue(TEXT("SR")); break;
-    case CountryCodeSJ: writer->WriteValue(TEXT("SJ")); break;
-    case CountryCodeSZ: writer->WriteValue(TEXT("SZ")); break;
-    case CountryCodeSE: writer->WriteValue(TEXT("SE")); break;
-    case CountryCodeCH: writer->WriteValue(TEXT("CH")); break;
-    case CountryCodeSY: writer->WriteValue(TEXT("SY")); break;
-    case CountryCodeTW: writer->WriteValue(TEXT("TW")); break;
-    case CountryCodeTJ: writer->WriteValue(TEXT("TJ")); break;
-    case CountryCodeTZ: writer->WriteValue(TEXT("TZ")); break;
-    case CountryCodeTH: writer->WriteValue(TEXT("TH")); break;
-    case CountryCodeTL: writer->WriteValue(TEXT("TL")); break;
-    case CountryCodeTG: writer->WriteValue(TEXT("TG")); break;
-    case CountryCodeTK: writer->WriteValue(TEXT("TK")); break;
-    case CountryCodeTO: writer->WriteValue(TEXT("TO")); break;
-    case CountryCodeTT: writer->WriteValue(TEXT("TT")); break;
-    case CountryCodeTN: writer->WriteValue(TEXT("TN")); break;
-    case CountryCodeTR: writer->WriteValue(TEXT("TR")); break;
-    case CountryCodeTM: writer->WriteValue(TEXT("TM")); break;
-    case CountryCodeTC: writer->WriteValue(TEXT("TC")); break;
-    case CountryCodeTV: writer->WriteValue(TEXT("TV")); break;
-    case CountryCodeUG: writer->WriteValue(TEXT("UG")); break;
-    case CountryCodeUA: writer->WriteValue(TEXT("UA")); break;
-    case CountryCodeAE: writer->WriteValue(TEXT("AE")); break;
-    case CountryCodeGB: writer->WriteValue(TEXT("GB")); break;
-    case CountryCodeUS: writer->WriteValue(TEXT("US")); break;
-    case CountryCodeUM: writer->WriteValue(TEXT("UM")); break;
-    case CountryCodeUY: writer->WriteValue(TEXT("UY")); break;
-    case CountryCodeUZ: writer->WriteValue(TEXT("UZ")); break;
-    case CountryCodeVU: writer->WriteValue(TEXT("VU")); break;
-    case CountryCodeVE: writer->WriteValue(TEXT("VE")); break;
-    case CountryCodeVN: writer->WriteValue(TEXT("VN")); break;
-    case CountryCodeVG: writer->WriteValue(TEXT("VG")); break;
-    case CountryCodeVI: writer->WriteValue(TEXT("VI")); break;
-    case CountryCodeWF: writer->WriteValue(TEXT("WF")); break;
-    case CountryCodeEH: writer->WriteValue(TEXT("EH")); break;
-    case CountryCodeYE: writer->WriteValue(TEXT("YE")); break;
-    case CountryCodeZM: writer->WriteValue(TEXT("ZM")); break;
-    case CountryCodeZW: writer->WriteValue(TEXT("ZW")); break;
-    }
-}
-
-EconomyModels::CountryCode PlayFab::EconomyModels::readCountryCodeFromValue(const TSharedPtr<FJsonValue>& value)
-{
-    return readCountryCodeFromValue(value.IsValid() ? value->AsString() : "");
-}
-
-EconomyModels::CountryCode PlayFab::EconomyModels::readCountryCodeFromValue(const FString& value)
-{
-    static TMap<FString, CountryCode> _CountryCodeMap;
-    if (_CountryCodeMap.Num() == 0)
-    {
-        // Auto-generate the map on the first use
-        _CountryCodeMap.Add(TEXT("AF"), CountryCodeAF);
-        _CountryCodeMap.Add(TEXT("AX"), CountryCodeAX);
-        _CountryCodeMap.Add(TEXT("AL"), CountryCodeAL);
-        _CountryCodeMap.Add(TEXT("DZ"), CountryCodeDZ);
-        _CountryCodeMap.Add(TEXT("AS"), CountryCodeAS);
-        _CountryCodeMap.Add(TEXT("AD"), CountryCodeAD);
-        _CountryCodeMap.Add(TEXT("AO"), CountryCodeAO);
-        _CountryCodeMap.Add(TEXT("AI"), CountryCodeAI);
-        _CountryCodeMap.Add(TEXT("AQ"), CountryCodeAQ);
-        _CountryCodeMap.Add(TEXT("AG"), CountryCodeAG);
-        _CountryCodeMap.Add(TEXT("AR"), CountryCodeAR);
-        _CountryCodeMap.Add(TEXT("AM"), CountryCodeAM);
-        _CountryCodeMap.Add(TEXT("AW"), CountryCodeAW);
-        _CountryCodeMap.Add(TEXT("AU"), CountryCodeAU);
-        _CountryCodeMap.Add(TEXT("AT"), CountryCodeAT);
-        _CountryCodeMap.Add(TEXT("AZ"), CountryCodeAZ);
-        _CountryCodeMap.Add(TEXT("BS"), CountryCodeBS);
-        _CountryCodeMap.Add(TEXT("BH"), CountryCodeBH);
-        _CountryCodeMap.Add(TEXT("BD"), CountryCodeBD);
-        _CountryCodeMap.Add(TEXT("BB"), CountryCodeBB);
-        _CountryCodeMap.Add(TEXT("BY"), CountryCodeBY);
-        _CountryCodeMap.Add(TEXT("BE"), CountryCodeBE);
-        _CountryCodeMap.Add(TEXT("BZ"), CountryCodeBZ);
-        _CountryCodeMap.Add(TEXT("BJ"), CountryCodeBJ);
-        _CountryCodeMap.Add(TEXT("BM"), CountryCodeBM);
-        _CountryCodeMap.Add(TEXT("BT"), CountryCodeBT);
-        _CountryCodeMap.Add(TEXT("BO"), CountryCodeBO);
-        _CountryCodeMap.Add(TEXT("BQ"), CountryCodeBQ);
-        _CountryCodeMap.Add(TEXT("BA"), CountryCodeBA);
-        _CountryCodeMap.Add(TEXT("BW"), CountryCodeBW);
-        _CountryCodeMap.Add(TEXT("BV"), CountryCodeBV);
-        _CountryCodeMap.Add(TEXT("BR"), CountryCodeBR);
-        _CountryCodeMap.Add(TEXT("IO"), CountryCodeIO);
-        _CountryCodeMap.Add(TEXT("BN"), CountryCodeBN);
-        _CountryCodeMap.Add(TEXT("BG"), CountryCodeBG);
-        _CountryCodeMap.Add(TEXT("BF"), CountryCodeBF);
-        _CountryCodeMap.Add(TEXT("BI"), CountryCodeBI);
-        _CountryCodeMap.Add(TEXT("KH"), CountryCodeKH);
-        _CountryCodeMap.Add(TEXT("CM"), CountryCodeCM);
-        _CountryCodeMap.Add(TEXT("CA"), CountryCodeCA);
-        _CountryCodeMap.Add(TEXT("CV"), CountryCodeCV);
-        _CountryCodeMap.Add(TEXT("KY"), CountryCodeKY);
-        _CountryCodeMap.Add(TEXT("CF"), CountryCodeCF);
-        _CountryCodeMap.Add(TEXT("TD"), CountryCodeTD);
-        _CountryCodeMap.Add(TEXT("CL"), CountryCodeCL);
-        _CountryCodeMap.Add(TEXT("CN"), CountryCodeCN);
-        _CountryCodeMap.Add(TEXT("CX"), CountryCodeCX);
-        _CountryCodeMap.Add(TEXT("CC"), CountryCodeCC);
-        _CountryCodeMap.Add(TEXT("CO"), CountryCodeCO);
-        _CountryCodeMap.Add(TEXT("KM"), CountryCodeKM);
-        _CountryCodeMap.Add(TEXT("CG"), CountryCodeCG);
-        _CountryCodeMap.Add(TEXT("CD"), CountryCodeCD);
-        _CountryCodeMap.Add(TEXT("CK"), CountryCodeCK);
-        _CountryCodeMap.Add(TEXT("CR"), CountryCodeCR);
-        _CountryCodeMap.Add(TEXT("CI"), CountryCodeCI);
-        _CountryCodeMap.Add(TEXT("HR"), CountryCodeHR);
-        _CountryCodeMap.Add(TEXT("CU"), CountryCodeCU);
-        _CountryCodeMap.Add(TEXT("CW"), CountryCodeCW);
-        _CountryCodeMap.Add(TEXT("CY"), CountryCodeCY);
-        _CountryCodeMap.Add(TEXT("CZ"), CountryCodeCZ);
-        _CountryCodeMap.Add(TEXT("DK"), CountryCodeDK);
-        _CountryCodeMap.Add(TEXT("DJ"), CountryCodeDJ);
-        _CountryCodeMap.Add(TEXT("DM"), CountryCodeDM);
-        _CountryCodeMap.Add(TEXT("DO"), CountryCodeDO);
-        _CountryCodeMap.Add(TEXT("EC"), CountryCodeEC);
-        _CountryCodeMap.Add(TEXT("EG"), CountryCodeEG);
-        _CountryCodeMap.Add(TEXT("SV"), CountryCodeSV);
-        _CountryCodeMap.Add(TEXT("GQ"), CountryCodeGQ);
-        _CountryCodeMap.Add(TEXT("ER"), CountryCodeER);
-        _CountryCodeMap.Add(TEXT("EE"), CountryCodeEE);
-        _CountryCodeMap.Add(TEXT("ET"), CountryCodeET);
-        _CountryCodeMap.Add(TEXT("FK"), CountryCodeFK);
-        _CountryCodeMap.Add(TEXT("FO"), CountryCodeFO);
-        _CountryCodeMap.Add(TEXT("FJ"), CountryCodeFJ);
-        _CountryCodeMap.Add(TEXT("FI"), CountryCodeFI);
-        _CountryCodeMap.Add(TEXT("FR"), CountryCodeFR);
-        _CountryCodeMap.Add(TEXT("GF"), CountryCodeGF);
-        _CountryCodeMap.Add(TEXT("PF"), CountryCodePF);
-        _CountryCodeMap.Add(TEXT("TF"), CountryCodeTF);
-        _CountryCodeMap.Add(TEXT("GA"), CountryCodeGA);
-        _CountryCodeMap.Add(TEXT("GM"), CountryCodeGM);
-        _CountryCodeMap.Add(TEXT("GE"), CountryCodeGE);
-        _CountryCodeMap.Add(TEXT("DE"), CountryCodeDE);
-        _CountryCodeMap.Add(TEXT("GH"), CountryCodeGH);
-        _CountryCodeMap.Add(TEXT("GI"), CountryCodeGI);
-        _CountryCodeMap.Add(TEXT("GR"), CountryCodeGR);
-        _CountryCodeMap.Add(TEXT("GL"), CountryCodeGL);
-        _CountryCodeMap.Add(TEXT("GD"), CountryCodeGD);
-        _CountryCodeMap.Add(TEXT("GP"), CountryCodeGP);
-        _CountryCodeMap.Add(TEXT("GU"), CountryCodeGU);
-        _CountryCodeMap.Add(TEXT("GT"), CountryCodeGT);
-        _CountryCodeMap.Add(TEXT("GG"), CountryCodeGG);
-        _CountryCodeMap.Add(TEXT("GN"), CountryCodeGN);
-        _CountryCodeMap.Add(TEXT("GW"), CountryCodeGW);
-        _CountryCodeMap.Add(TEXT("GY"), CountryCodeGY);
-        _CountryCodeMap.Add(TEXT("HT"), CountryCodeHT);
-        _CountryCodeMap.Add(TEXT("HM"), CountryCodeHM);
-        _CountryCodeMap.Add(TEXT("VA"), CountryCodeVA);
-        _CountryCodeMap.Add(TEXT("HN"), CountryCodeHN);
-        _CountryCodeMap.Add(TEXT("HK"), CountryCodeHK);
-        _CountryCodeMap.Add(TEXT("HU"), CountryCodeHU);
-        _CountryCodeMap.Add(TEXT("IS"), CountryCodeIS);
-        _CountryCodeMap.Add(TEXT("IN"), CountryCodeIN);
-        _CountryCodeMap.Add(TEXT("ID"), CountryCodeID);
-        _CountryCodeMap.Add(TEXT("IR"), CountryCodeIR);
-        _CountryCodeMap.Add(TEXT("IQ"), CountryCodeIQ);
-        _CountryCodeMap.Add(TEXT("IE"), CountryCodeIE);
-        _CountryCodeMap.Add(TEXT("IM"), CountryCodeIM);
-        _CountryCodeMap.Add(TEXT("IL"), CountryCodeIL);
-        _CountryCodeMap.Add(TEXT("IT"), CountryCodeIT);
-        _CountryCodeMap.Add(TEXT("JM"), CountryCodeJM);
-        _CountryCodeMap.Add(TEXT("JP"), CountryCodeJP);
-        _CountryCodeMap.Add(TEXT("JE"), CountryCodeJE);
-        _CountryCodeMap.Add(TEXT("JO"), CountryCodeJO);
-        _CountryCodeMap.Add(TEXT("KZ"), CountryCodeKZ);
-        _CountryCodeMap.Add(TEXT("KE"), CountryCodeKE);
-        _CountryCodeMap.Add(TEXT("KI"), CountryCodeKI);
-        _CountryCodeMap.Add(TEXT("KP"), CountryCodeKP);
-        _CountryCodeMap.Add(TEXT("KR"), CountryCodeKR);
-        _CountryCodeMap.Add(TEXT("KW"), CountryCodeKW);
-        _CountryCodeMap.Add(TEXT("KG"), CountryCodeKG);
-        _CountryCodeMap.Add(TEXT("LA"), CountryCodeLA);
-        _CountryCodeMap.Add(TEXT("LV"), CountryCodeLV);
-        _CountryCodeMap.Add(TEXT("LB"), CountryCodeLB);
-        _CountryCodeMap.Add(TEXT("LS"), CountryCodeLS);
-        _CountryCodeMap.Add(TEXT("LR"), CountryCodeLR);
-        _CountryCodeMap.Add(TEXT("LY"), CountryCodeLY);
-        _CountryCodeMap.Add(TEXT("LI"), CountryCodeLI);
-        _CountryCodeMap.Add(TEXT("LT"), CountryCodeLT);
-        _CountryCodeMap.Add(TEXT("LU"), CountryCodeLU);
-        _CountryCodeMap.Add(TEXT("MO"), CountryCodeMO);
-        _CountryCodeMap.Add(TEXT("MK"), CountryCodeMK);
-        _CountryCodeMap.Add(TEXT("MG"), CountryCodeMG);
-        _CountryCodeMap.Add(TEXT("MW"), CountryCodeMW);
-        _CountryCodeMap.Add(TEXT("MY"), CountryCodeMY);
-        _CountryCodeMap.Add(TEXT("MV"), CountryCodeMV);
-        _CountryCodeMap.Add(TEXT("ML"), CountryCodeML);
-        _CountryCodeMap.Add(TEXT("MT"), CountryCodeMT);
-        _CountryCodeMap.Add(TEXT("MH"), CountryCodeMH);
-        _CountryCodeMap.Add(TEXT("MQ"), CountryCodeMQ);
-        _CountryCodeMap.Add(TEXT("MR"), CountryCodeMR);
-        _CountryCodeMap.Add(TEXT("MU"), CountryCodeMU);
-        _CountryCodeMap.Add(TEXT("YT"), CountryCodeYT);
-        _CountryCodeMap.Add(TEXT("MX"), CountryCodeMX);
-        _CountryCodeMap.Add(TEXT("FM"), CountryCodeFM);
-        _CountryCodeMap.Add(TEXT("MD"), CountryCodeMD);
-        _CountryCodeMap.Add(TEXT("MC"), CountryCodeMC);
-        _CountryCodeMap.Add(TEXT("MN"), CountryCodeMN);
-        _CountryCodeMap.Add(TEXT("ME"), CountryCodeME);
-        _CountryCodeMap.Add(TEXT("MS"), CountryCodeMS);
-        _CountryCodeMap.Add(TEXT("MA"), CountryCodeMA);
-        _CountryCodeMap.Add(TEXT("MZ"), CountryCodeMZ);
-        _CountryCodeMap.Add(TEXT("MM"), CountryCodeMM);
-        _CountryCodeMap.Add(TEXT("NA"), CountryCodeNA);
-        _CountryCodeMap.Add(TEXT("NR"), CountryCodeNR);
-        _CountryCodeMap.Add(TEXT("NP"), CountryCodeNP);
-        _CountryCodeMap.Add(TEXT("NL"), CountryCodeNL);
-        _CountryCodeMap.Add(TEXT("NC"), CountryCodeNC);
-        _CountryCodeMap.Add(TEXT("NZ"), CountryCodeNZ);
-        _CountryCodeMap.Add(TEXT("NI"), CountryCodeNI);
-        _CountryCodeMap.Add(TEXT("NE"), CountryCodeNE);
-        _CountryCodeMap.Add(TEXT("NG"), CountryCodeNG);
-        _CountryCodeMap.Add(TEXT("NU"), CountryCodeNU);
-        _CountryCodeMap.Add(TEXT("NF"), CountryCodeNF);
-        _CountryCodeMap.Add(TEXT("MP"), CountryCodeMP);
-        _CountryCodeMap.Add(TEXT("NO"), CountryCodeNO);
-        _CountryCodeMap.Add(TEXT("OM"), CountryCodeOM);
-        _CountryCodeMap.Add(TEXT("PK"), CountryCodePK);
-        _CountryCodeMap.Add(TEXT("PW"), CountryCodePW);
-        _CountryCodeMap.Add(TEXT("PS"), CountryCodePS);
-        _CountryCodeMap.Add(TEXT("PA"), CountryCodePA);
-        _CountryCodeMap.Add(TEXT("PG"), CountryCodePG);
-        _CountryCodeMap.Add(TEXT("PY"), CountryCodePY);
-        _CountryCodeMap.Add(TEXT("PE"), CountryCodePE);
-        _CountryCodeMap.Add(TEXT("PH"), CountryCodePH);
-        _CountryCodeMap.Add(TEXT("PN"), CountryCodePN);
-        _CountryCodeMap.Add(TEXT("PL"), CountryCodePL);
-        _CountryCodeMap.Add(TEXT("PT"), CountryCodePT);
-        _CountryCodeMap.Add(TEXT("PR"), CountryCodePR);
-        _CountryCodeMap.Add(TEXT("QA"), CountryCodeQA);
-        _CountryCodeMap.Add(TEXT("RE"), CountryCodeRE);
-        _CountryCodeMap.Add(TEXT("RO"), CountryCodeRO);
-        _CountryCodeMap.Add(TEXT("RU"), CountryCodeRU);
-        _CountryCodeMap.Add(TEXT("RW"), CountryCodeRW);
-        _CountryCodeMap.Add(TEXT("BL"), CountryCodeBL);
-        _CountryCodeMap.Add(TEXT("SH"), CountryCodeSH);
-        _CountryCodeMap.Add(TEXT("KN"), CountryCodeKN);
-        _CountryCodeMap.Add(TEXT("LC"), CountryCodeLC);
-        _CountryCodeMap.Add(TEXT("MF"), CountryCodeMF);
-        _CountryCodeMap.Add(TEXT("PM"), CountryCodePM);
-        _CountryCodeMap.Add(TEXT("VC"), CountryCodeVC);
-        _CountryCodeMap.Add(TEXT("WS"), CountryCodeWS);
-        _CountryCodeMap.Add(TEXT("SM"), CountryCodeSM);
-        _CountryCodeMap.Add(TEXT("ST"), CountryCodeST);
-        _CountryCodeMap.Add(TEXT("SA"), CountryCodeSA);
-        _CountryCodeMap.Add(TEXT("SN"), CountryCodeSN);
-        _CountryCodeMap.Add(TEXT("RS"), CountryCodeRS);
-        _CountryCodeMap.Add(TEXT("SC"), CountryCodeSC);
-        _CountryCodeMap.Add(TEXT("SL"), CountryCodeSL);
-        _CountryCodeMap.Add(TEXT("SG"), CountryCodeSG);
-        _CountryCodeMap.Add(TEXT("SX"), CountryCodeSX);
-        _CountryCodeMap.Add(TEXT("SK"), CountryCodeSK);
-        _CountryCodeMap.Add(TEXT("SI"), CountryCodeSI);
-        _CountryCodeMap.Add(TEXT("SB"), CountryCodeSB);
-        _CountryCodeMap.Add(TEXT("SO"), CountryCodeSO);
-        _CountryCodeMap.Add(TEXT("ZA"), CountryCodeZA);
-        _CountryCodeMap.Add(TEXT("GS"), CountryCodeGS);
-        _CountryCodeMap.Add(TEXT("SS"), CountryCodeSS);
-        _CountryCodeMap.Add(TEXT("ES"), CountryCodeES);
-        _CountryCodeMap.Add(TEXT("LK"), CountryCodeLK);
-        _CountryCodeMap.Add(TEXT("SD"), CountryCodeSD);
-        _CountryCodeMap.Add(TEXT("SR"), CountryCodeSR);
-        _CountryCodeMap.Add(TEXT("SJ"), CountryCodeSJ);
-        _CountryCodeMap.Add(TEXT("SZ"), CountryCodeSZ);
-        _CountryCodeMap.Add(TEXT("SE"), CountryCodeSE);
-        _CountryCodeMap.Add(TEXT("CH"), CountryCodeCH);
-        _CountryCodeMap.Add(TEXT("SY"), CountryCodeSY);
-        _CountryCodeMap.Add(TEXT("TW"), CountryCodeTW);
-        _CountryCodeMap.Add(TEXT("TJ"), CountryCodeTJ);
-        _CountryCodeMap.Add(TEXT("TZ"), CountryCodeTZ);
-        _CountryCodeMap.Add(TEXT("TH"), CountryCodeTH);
-        _CountryCodeMap.Add(TEXT("TL"), CountryCodeTL);
-        _CountryCodeMap.Add(TEXT("TG"), CountryCodeTG);
-        _CountryCodeMap.Add(TEXT("TK"), CountryCodeTK);
-        _CountryCodeMap.Add(TEXT("TO"), CountryCodeTO);
-        _CountryCodeMap.Add(TEXT("TT"), CountryCodeTT);
-        _CountryCodeMap.Add(TEXT("TN"), CountryCodeTN);
-        _CountryCodeMap.Add(TEXT("TR"), CountryCodeTR);
-        _CountryCodeMap.Add(TEXT("TM"), CountryCodeTM);
-        _CountryCodeMap.Add(TEXT("TC"), CountryCodeTC);
-        _CountryCodeMap.Add(TEXT("TV"), CountryCodeTV);
-        _CountryCodeMap.Add(TEXT("UG"), CountryCodeUG);
-        _CountryCodeMap.Add(TEXT("UA"), CountryCodeUA);
-        _CountryCodeMap.Add(TEXT("AE"), CountryCodeAE);
-        _CountryCodeMap.Add(TEXT("GB"), CountryCodeGB);
-        _CountryCodeMap.Add(TEXT("US"), CountryCodeUS);
-        _CountryCodeMap.Add(TEXT("UM"), CountryCodeUM);
-        _CountryCodeMap.Add(TEXT("UY"), CountryCodeUY);
-        _CountryCodeMap.Add(TEXT("UZ"), CountryCodeUZ);
-        _CountryCodeMap.Add(TEXT("VU"), CountryCodeVU);
-        _CountryCodeMap.Add(TEXT("VE"), CountryCodeVE);
-        _CountryCodeMap.Add(TEXT("VN"), CountryCodeVN);
-        _CountryCodeMap.Add(TEXT("VG"), CountryCodeVG);
-        _CountryCodeMap.Add(TEXT("VI"), CountryCodeVI);
-        _CountryCodeMap.Add(TEXT("WF"), CountryCodeWF);
-        _CountryCodeMap.Add(TEXT("EH"), CountryCodeEH);
-        _CountryCodeMap.Add(TEXT("YE"), CountryCodeYE);
-        _CountryCodeMap.Add(TEXT("ZM"), CountryCodeZM);
-        _CountryCodeMap.Add(TEXT("ZW"), CountryCodeZW);
-
-    }
-
-    if (!value.IsEmpty())
-    {
-        auto output = _CountryCodeMap.Find(value);
-        if (output != nullptr)
-            return *output;
-    }
-
-    return CountryCodeAF; // Basically critical fail
 }
 
 PlayFab::EconomyModels::FCreateDraftItemRequest::~FCreateDraftItemRequest()
@@ -3095,6 +1730,51 @@ bool PlayFab::EconomyModels::FCreateUploadUrlsResponse::readFromValue(const TSha
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FDeepLinkFormat::~FDeepLinkFormat()
+{
+
+}
+
+void PlayFab::EconomyModels::FDeepLinkFormat::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Format.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Format"));
+        writer->WriteValue(Format);
+    }
+
+    if (Platform.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Platform"));
+        writer->WriteValue(Platform);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FDeepLinkFormat::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> FormatValue = obj->TryGetField(TEXT("Format"));
+    if (FormatValue.IsValid() && !FormatValue->IsNull())
+    {
+        FString TmpValue;
+        if (FormatValue->TryGetString(TmpValue)) { Format = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlatformValue = obj->TryGetField(TEXT("Platform"));
+    if (PlatformValue.IsValid() && !PlatformValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlatformValue->TryGetString(TmpValue)) { Platform = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FDeleteEntityItemReviewsRequest::~FDeleteEntityItemReviewsRequest()
 {
     //if (Entity != nullptr) delete Entity;
@@ -3162,256 +1842,6 @@ void PlayFab::EconomyModels::FDeleteEntityItemReviewsResponse::writeJSON(JsonWri
 bool PlayFab::EconomyModels::FDeleteEntityItemReviewsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FDeleteInventoryCollectionRequest::~FDeleteInventoryCollectionRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FDeleteInventoryCollectionRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FDeleteInventoryCollectionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FDeleteInventoryCollectionResponse::~FDeleteInventoryCollectionResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FDeleteInventoryCollectionResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FDeleteInventoryCollectionResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FDeleteInventoryItemsOperation::~FDeleteInventoryItemsOperation()
-{
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FDeleteInventoryItemsOperation::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FDeleteInventoryItemsOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FDeleteInventoryItemsRequest::~FDeleteInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FDeleteInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FDeleteInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FDeleteInventoryItemsResponse::~FDeleteInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FDeleteInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FDeleteInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
 
     return HasSucceeded;
 }
@@ -3513,523 +1943,21 @@ bool PlayFab::EconomyModels::FDeleteItemResponse::readFromValue(const TSharedPtr
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FPurchasePriceAmount::~FPurchasePriceAmount()
+PlayFab::EconomyModels::FFilterOptions::~FFilterOptions()
 {
 
 }
 
-void PlayFab::EconomyModels::FPurchasePriceAmount::writeJSON(JsonWriter& writer) const
+void PlayFab::EconomyModels::FFilterOptions::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (ItemId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ItemId"));
-        writer->WriteValue(ItemId);
-    }
-
-    if (StackId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("StackId"));
-        writer->WriteValue(StackId);
-    }
 
     writer->WriteObjectEnd();
 }
 
-bool PlayFab::EconomyModels::FPurchasePriceAmount::readFromValue(const TSharedPtr<FJsonObject>& obj)
+bool PlayFab::EconomyModels::FFilterOptions::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
-    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> StackIdValue = obj->TryGetField(TEXT("StackId"));
-    if (StackIdValue.IsValid() && !StackIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::~FPurchaseInventoryItemsOperation()
-{
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
-    writer->WriteValue(DeleteEmptyStacks);
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    if (PriceAmounts.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("PriceAmounts"));
-        for (const FPurchasePriceAmount& item : PriceAmounts)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (StoreId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("StoreId"));
-        writer->WriteValue(StoreId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> DeleteEmptyStacksValue = obj->TryGetField(TEXT("DeleteEmptyStacks"));
-    if (DeleteEmptyStacksValue.IsValid() && !DeleteEmptyStacksValue->IsNull())
-    {
-        bool TmpValue;
-        if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&PriceAmountsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PriceAmounts"));
-    for (int32 Idx = 0; Idx < PriceAmountsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = PriceAmountsArray[Idx];
-        PriceAmounts.Add(FPurchasePriceAmount(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> StoreIdValue = obj->TryGetField(TEXT("StoreId"));
-    if (StoreIdValue.IsValid() && !StoreIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (StoreIdValue->TryGetString(TmpValue)) { StoreId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FSubtractInventoryItemsOperation::~FSubtractInventoryItemsOperation()
-{
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FSubtractInventoryItemsOperation::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
-    writer->WriteValue(DeleteEmptyStacks);
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FSubtractInventoryItemsOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> DeleteEmptyStacksValue = obj->TryGetField(TEXT("DeleteEmptyStacks"));
-    if (DeleteEmptyStacksValue.IsValid() && !DeleteEmptyStacksValue->IsNull())
-    {
-        bool TmpValue;
-        if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FTransferInventoryItemsOperation::~FTransferInventoryItemsOperation()
-{
-    //if (GivingItem != nullptr) delete GivingItem;
-    //if (ReceivingItem != nullptr) delete ReceivingItem;
-
-}
-
-void PlayFab::EconomyModels::FTransferInventoryItemsOperation::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
-    writer->WriteValue(DeleteEmptyStacks);
-
-    if (GivingItem.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("GivingItem"));
-        GivingItem->writeJSON(writer);
-    }
-
-    if (ReceivingItem.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("ReceivingItem"));
-        ReceivingItem->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FTransferInventoryItemsOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> DeleteEmptyStacksValue = obj->TryGetField(TEXT("DeleteEmptyStacks"));
-    if (DeleteEmptyStacksValue.IsValid() && !DeleteEmptyStacksValue->IsNull())
-    {
-        bool TmpValue;
-        if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> GivingItemValue = obj->TryGetField(TEXT("GivingItem"));
-    if (GivingItemValue.IsValid() && !GivingItemValue->IsNull())
-    {
-        GivingItem = MakeShareable(new FInventoryItemReference(GivingItemValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> ReceivingItemValue = obj->TryGetField(TEXT("ReceivingItem"));
-    if (ReceivingItemValue.IsValid() && !ReceivingItemValue->IsNull())
-    {
-        ReceivingItem = MakeShareable(new FInventoryItemReference(ReceivingItemValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FUpdateInventoryItemsOperation::~FUpdateInventoryItemsOperation()
-{
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FUpdateInventoryItemsOperation::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FUpdateInventoryItemsOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItem(ItemValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FInventoryOperation::~FInventoryOperation()
-{
-    //if (Add != nullptr) delete Add;
-    //if (Delete != nullptr) delete Delete;
-    //if (Purchase != nullptr) delete Purchase;
-    //if (Subtract != nullptr) delete Subtract;
-    //if (Transfer != nullptr) delete Transfer;
-    //if (Update != nullptr) delete Update;
-
-}
-
-void PlayFab::EconomyModels::FInventoryOperation::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Add.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Add"));
-        Add->writeJSON(writer);
-    }
-
-    if (Delete.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Delete"));
-        Delete->writeJSON(writer);
-    }
-
-    if (Purchase.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Purchase"));
-        Purchase->writeJSON(writer);
-    }
-
-    if (Subtract.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Subtract"));
-        Subtract->writeJSON(writer);
-    }
-
-    if (Transfer.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Transfer"));
-        Transfer->writeJSON(writer);
-    }
-
-    if (Update.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Update"));
-        Update->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FInventoryOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AddValue = obj->TryGetField(TEXT("Add"));
-    if (AddValue.IsValid() && !AddValue->IsNull())
-    {
-        Add = MakeShareable(new FAddInventoryItemsOperation(AddValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> DeleteValue = obj->TryGetField(TEXT("Delete"));
-    if (DeleteValue.IsValid() && !DeleteValue->IsNull())
-    {
-        Delete = MakeShareable(new FDeleteInventoryItemsOperation(DeleteValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> PurchaseValue = obj->TryGetField(TEXT("Purchase"));
-    if (PurchaseValue.IsValid() && !PurchaseValue->IsNull())
-    {
-        Purchase = MakeShareable(new FPurchaseInventoryItemsOperation(PurchaseValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> SubtractValue = obj->TryGetField(TEXT("Subtract"));
-    if (SubtractValue.IsValid() && !SubtractValue->IsNull())
-    {
-        Subtract = MakeShareable(new FSubtractInventoryItemsOperation(SubtractValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> TransferValue = obj->TryGetField(TEXT("Transfer"));
-    if (TransferValue.IsValid() && !TransferValue->IsNull())
-    {
-        Transfer = MakeShareable(new FTransferInventoryItemsOperation(TransferValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> UpdateValue = obj->TryGetField(TEXT("Update"));
-    if (UpdateValue.IsValid() && !UpdateValue->IsNull())
-    {
-        Update = MakeShareable(new FUpdateInventoryItemsOperation(UpdateValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FExecuteInventoryOperationsRequest::~FExecuteInventoryOperationsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FExecuteInventoryOperationsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Operations.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Operations"));
-        for (const FInventoryOperation& item : Operations)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FExecuteInventoryOperationsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&OperationsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Operations"));
-    for (int32 Idx = 0; Idx < OperationsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = OperationsArray[Idx];
-        Operations.Add(FInventoryOperation(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FExecuteInventoryOperationsResponse::~FExecuteInventoryOperationsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FExecuteInventoryOperationsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FExecuteInventoryOperationsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
 
     return HasSucceeded;
 }
@@ -4380,12 +2308,6 @@ void PlayFab::EconomyModels::FGetEntityDraftItemsRequest::writeJSON(JsonWriter& 
         Entity->writeJSON(writer);
     }
 
-    if (Filter.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Filter"));
-        writer->WriteValue(Filter);
-    }
-
     writer->WriteObjectEnd();
 }
 
@@ -4420,13 +2342,6 @@ bool PlayFab::EconomyModels::FGetEntityDraftItemsRequest::readFromValue(const TS
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> FilterValue = obj->TryGetField(TEXT("Filter"));
-    if (FilterValue.IsValid() && !FilterValue->IsNull())
-    {
-        FString TmpValue;
-        if (FilterValue->TryGetString(TmpValue)) { Filter = TmpValue; }
     }
 
     return HasSucceeded;
@@ -4757,424 +2672,6 @@ bool PlayFab::EconomyModels::FGetEntityItemReviewResponse::readFromValue(const T
     if (ReviewValue.IsValid() && !ReviewValue->IsNull())
     {
         pfReview = MakeShareable(new FReview(ReviewValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetInventoryCollectionIdsRequest::~FGetInventoryCollectionIdsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FGetInventoryCollectionIdsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (ContinuationToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
-        writer->WriteValue(ContinuationToken);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("Count"));
-    writer->WriteValue(Count);
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetInventoryCollectionIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
-    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CountValue = obj->TryGetField(TEXT("Count"));
-    if (CountValue.IsValid() && !CountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (CountValue->TryGetNumber(TmpValue)) { Count = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetInventoryCollectionIdsResponse::~FGetInventoryCollectionIdsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FGetInventoryCollectionIdsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("CollectionIds"));
-        for (const FString& item : CollectionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (ContinuationToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
-        writer->WriteValue(ContinuationToken);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetInventoryCollectionIdsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    obj->TryGetStringArrayField(TEXT("CollectionIds"), CollectionIds);
-
-    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
-    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetInventoryItemsRequest::~FGetInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FGetInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (ContinuationToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
-        writer->WriteValue(ContinuationToken);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("Count"));
-    writer->WriteValue(Count);
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (Filter.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Filter"));
-        writer->WriteValue(Filter);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
-    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CountValue = obj->TryGetField(TEXT("Count"));
-    if (CountValue.IsValid() && !CountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (CountValue->TryGetNumber(TmpValue)) { Count = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> FilterValue = obj->TryGetField(TEXT("Filter"));
-    if (FilterValue.IsValid() && !FilterValue->IsNull())
-    {
-        FString TmpValue;
-        if (FilterValue->TryGetString(TmpValue)) { Filter = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetInventoryItemsResponse::~FGetInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FGetInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (ContinuationToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
-        writer->WriteValue(ContinuationToken);
-    }
-
-    if (Items.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Items"));
-        for (const FInventoryItem& item : Items)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
-    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
-    for (int32 Idx = 0; Idx < ItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = ItemsArray[Idx];
-        Items.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetItemContainersRequest::~FGetItemContainersRequest()
-{
-    //if (AlternateId != nullptr) delete AlternateId;
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FGetItemContainersRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (AlternateId.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("AlternateId"));
-        AlternateId->writeJSON(writer);
-    }
-
-    if (ContinuationToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
-        writer->WriteValue(ContinuationToken);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("Count"));
-    writer->WriteValue(Count);
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (Id.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Id"));
-        writer->WriteValue(Id);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetItemContainersRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AlternateIdValue = obj->TryGetField(TEXT("AlternateId"));
-    if (AlternateIdValue.IsValid() && !AlternateIdValue->IsNull())
-    {
-        AlternateId = MakeShareable(new FCatalogAlternateId(AlternateIdValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
-    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CountValue = obj->TryGetField(TEXT("Count"));
-    if (CountValue.IsValid() && !CountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (CountValue->TryGetNumber(TmpValue)) { Count = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
-    if (IdValue.IsValid() && !IdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetItemContainersResponse::~FGetItemContainersResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FGetItemContainersResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Containers.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Containers"));
-        for (const FCatalogItem& item : Containers)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (ContinuationToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
-        writer->WriteValue(ContinuationToken);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetItemContainersResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&ContainersArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Containers"));
-    for (int32 Idx = 0; Idx < ContainersArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = ContainersArray[Idx];
-        Containers.Add(FCatalogItem(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
-    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
     }
 
     return HasSucceeded;
@@ -5946,130 +3443,6 @@ bool PlayFab::EconomyModels::FGetItemsResponse::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensRequest::~FGetMicrosoftStoreAccessTokensRequest()
-{
-
-}
-
-void PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensResponse::~FGetMicrosoftStoreAccessTokensResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionsAccessToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionsAccessToken"));
-        writer->WriteValue(CollectionsAccessToken);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("CollectionsAccessTokenExpirationDate"));
-    writeDatetime(CollectionsAccessTokenExpirationDate, writer);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionsAccessTokenValue = obj->TryGetField(TEXT("CollectionsAccessToken"));
-    if (CollectionsAccessTokenValue.IsValid() && !CollectionsAccessTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionsAccessTokenValue->TryGetString(TmpValue)) { CollectionsAccessToken = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionsAccessTokenExpirationDateValue = obj->TryGetField(TEXT("CollectionsAccessTokenExpirationDate"));
-    if (CollectionsAccessTokenExpirationDateValue.IsValid())
-        CollectionsAccessTokenExpirationDate = readDatetime(CollectionsAccessTokenExpirationDateValue);
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FGooglePlayProductPurchase::~FGooglePlayProductPurchase()
-{
-
-}
-
-void PlayFab::EconomyModels::FGooglePlayProductPurchase::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (ProductId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ProductId"));
-        writer->WriteValue(ProductId);
-    }
-
-    if (Token.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Token"));
-        writer->WriteValue(Token);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FGooglePlayProductPurchase::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> ProductIdValue = obj->TryGetField(TEXT("ProductId"));
-    if (ProductIdValue.IsValid() && !ProductIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (ProductIdValue->TryGetString(TmpValue)) { ProductId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> TokenValue = obj->TryGetField(TEXT("Token"));
-    if (TokenValue.IsValid() && !TokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (TokenValue->TryGetString(TmpValue)) { Token = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
 void PlayFab::EconomyModels::writeHelpfulnessVoteEnumJSON(HelpfulnessVote enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -6162,6 +3535,44 @@ bool PlayFab::EconomyModels::FPayoutDetails::readFromValue(const TSharedPtr<FJso
         FString TmpValue;
         if (UaidValue->TryGetString(TmpValue)) { Uaid = TmpValue; }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FPriceOverride::~FPriceOverride()
+{
+
+}
+
+void PlayFab::EconomyModels::FPriceOverride::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPriceOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FPricesOverride::~FPricesOverride()
+{
+
+}
+
+void PlayFab::EconomyModels::FPricesOverride::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPricesOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
 
     return HasSucceeded;
 }
@@ -6276,190 +3687,6 @@ bool PlayFab::EconomyModels::FPublishDraftItemResponse::readFromValue(const TSha
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::~FPurchaseInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
-    writer->WriteValue(DeleteEmptyStacks);
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    if (PriceAmounts.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("PriceAmounts"));
-        for (const FPurchasePriceAmount& item : PriceAmounts)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (StoreId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("StoreId"));
-        writer->WriteValue(StoreId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> DeleteEmptyStacksValue = obj->TryGetField(TEXT("DeleteEmptyStacks"));
-    if (DeleteEmptyStacksValue.IsValid() && !DeleteEmptyStacksValue->IsNull())
-    {
-        bool TmpValue;
-        if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&PriceAmountsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PriceAmounts"));
-    for (int32 Idx = 0; Idx < PriceAmountsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = PriceAmountsArray[Idx];
-        PriceAmounts.Add(FPurchasePriceAmount(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> StoreIdValue = obj->TryGetField(TEXT("StoreId"));
-    if (StoreIdValue.IsValid() && !StoreIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (StoreIdValue->TryGetString(TmpValue)) { StoreId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::~FPurchaseInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FPurchaseOverride::~FPurchaseOverride()
 {
 
@@ -6475,1077 +3702,6 @@ void PlayFab::EconomyModels::FPurchaseOverride::writeJSON(JsonWriter& writer) co
 bool PlayFab::EconomyModels::FPurchaseOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsRequest::~FRedeemAppleAppStoreInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Receipt.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Receipt"));
-        writer->WriteValue(Receipt);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ReceiptValue = obj->TryGetField(TEXT("Receipt"));
-    if (ReceiptValue.IsValid() && !ReceiptValue->IsNull())
-    {
-        FString TmpValue;
-        if (ReceiptValue->TryGetString(TmpValue)) { Receipt = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedemptionFailure::~FRedemptionFailure()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedemptionFailure::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (FailureCode.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("FailureCode"));
-        writer->WriteValue(FailureCode);
-    }
-
-    if (FailureDetails.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("FailureDetails"));
-        writer->WriteValue(FailureDetails);
-    }
-
-    if (MarketplaceTransactionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MarketplaceTransactionId"));
-        writer->WriteValue(MarketplaceTransactionId);
-    }
-
-    if (OfferId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("OfferId"));
-        writer->WriteValue(OfferId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedemptionFailure::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> FailureCodeValue = obj->TryGetField(TEXT("FailureCode"));
-    if (FailureCodeValue.IsValid() && !FailureCodeValue->IsNull())
-    {
-        FString TmpValue;
-        if (FailureCodeValue->TryGetString(TmpValue)) { FailureCode = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> FailureDetailsValue = obj->TryGetField(TEXT("FailureDetails"));
-    if (FailureDetailsValue.IsValid() && !FailureDetailsValue->IsNull())
-    {
-        FString TmpValue;
-        if (FailureDetailsValue->TryGetString(TmpValue)) { FailureDetails = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> MarketplaceTransactionIdValue = obj->TryGetField(TEXT("MarketplaceTransactionId"));
-    if (MarketplaceTransactionIdValue.IsValid() && !MarketplaceTransactionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (MarketplaceTransactionIdValue->TryGetString(TmpValue)) { MarketplaceTransactionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> OfferIdValue = obj->TryGetField(TEXT("OfferId"));
-    if (OfferIdValue.IsValid() && !OfferIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (OfferIdValue->TryGetString(TmpValue)) { OfferId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedemptionSuccess::~FRedemptionSuccess()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedemptionSuccess::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (MarketplaceTransactionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("MarketplaceTransactionId"));
-        writer->WriteValue(MarketplaceTransactionId);
-    }
-
-    if (OfferId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("OfferId"));
-        writer->WriteValue(OfferId);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("SuccessTimestamp"));
-    writeDatetime(SuccessTimestamp, writer);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedemptionSuccess::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> MarketplaceTransactionIdValue = obj->TryGetField(TEXT("MarketplaceTransactionId"));
-    if (MarketplaceTransactionIdValue.IsValid() && !MarketplaceTransactionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (MarketplaceTransactionIdValue->TryGetString(TmpValue)) { MarketplaceTransactionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> OfferIdValue = obj->TryGetField(TEXT("OfferId"));
-    if (OfferIdValue.IsValid() && !OfferIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (OfferIdValue->TryGetString(TmpValue)) { OfferId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> SuccessTimestampValue = obj->TryGetField(TEXT("SuccessTimestamp"));
-    if (SuccessTimestampValue.IsValid())
-        SuccessTimestamp = readDatetime(SuccessTimestampValue);
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsResponse::~FRedeemAppleAppStoreInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Failed.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Failed"));
-        for (const FRedemptionFailure& item : Failed)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Succeeded.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Succeeded"));
-        for (const FRedemptionSuccess& item : Succeeded)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&FailedArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Failed"));
-    for (int32 Idx = 0; Idx < FailedArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = FailedArray[Idx];
-        Failed.Add(FRedemptionFailure(CurrentItem->AsObject()));
-    }
-
-
-    const TArray<TSharedPtr<FJsonValue>>&SucceededArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Succeeded"));
-    for (int32 Idx = 0; Idx < SucceededArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = SucceededArray[Idx];
-        Succeeded.Add(FRedemptionSuccess(CurrentItem->AsObject()));
-    }
-
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemGooglePlayInventoryItemsRequest::~FRedeemGooglePlayInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FRedeemGooglePlayInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Purchases.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Purchases"));
-        for (const FGooglePlayProductPurchase& item : Purchases)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemGooglePlayInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&PurchasesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Purchases"));
-    for (int32 Idx = 0; Idx < PurchasesArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = PurchasesArray[Idx];
-        Purchases.Add(FGooglePlayProductPurchase(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemGooglePlayInventoryItemsResponse::~FRedeemGooglePlayInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedeemGooglePlayInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Failed.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Failed"));
-        for (const FRedemptionFailure& item : Failed)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Succeeded.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Succeeded"));
-        for (const FRedemptionSuccess& item : Succeeded)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemGooglePlayInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&FailedArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Failed"));
-    for (int32 Idx = 0; Idx < FailedArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = FailedArray[Idx];
-        Failed.Add(FRedemptionFailure(CurrentItem->AsObject()));
-    }
-
-
-    const TArray<TSharedPtr<FJsonValue>>&SucceededArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Succeeded"));
-    for (int32 Idx = 0; Idx < SucceededArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = SucceededArray[Idx];
-        Succeeded.Add(FRedemptionSuccess(CurrentItem->AsObject()));
-    }
-
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsRequest::~FRedeemMicrosoftStoreInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CollectionsIdKey.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionsIdKey"));
-        writer->WriteValue(CollectionsIdKey);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (XboxToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("XboxToken"));
-        writer->WriteValue(XboxToken);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionsIdKeyValue = obj->TryGetField(TEXT("CollectionsIdKey"));
-    if (CollectionsIdKeyValue.IsValid() && !CollectionsIdKeyValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionsIdKeyValue->TryGetString(TmpValue)) { CollectionsIdKey = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> XboxTokenValue = obj->TryGetField(TEXT("XboxToken"));
-    if (XboxTokenValue.IsValid() && !XboxTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (XboxTokenValue->TryGetString(TmpValue)) { XboxToken = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsResponse::~FRedeemMicrosoftStoreInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Failed.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Failed"));
-        for (const FRedemptionFailure& item : Failed)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Succeeded.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Succeeded"));
-        for (const FRedemptionSuccess& item : Succeeded)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemMicrosoftStoreInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&FailedArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Failed"));
-    for (int32 Idx = 0; Idx < FailedArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = FailedArray[Idx];
-        Failed.Add(FRedemptionFailure(CurrentItem->AsObject()));
-    }
-
-
-    const TArray<TSharedPtr<FJsonValue>>&SucceededArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Succeeded"));
-    for (int32 Idx = 0; Idx < SucceededArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = SucceededArray[Idx];
-        Succeeded.Add(FRedemptionSuccess(CurrentItem->AsObject()));
-    }
-
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemNintendoEShopInventoryItemsRequest::~FRedeemNintendoEShopInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FRedeemNintendoEShopInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (NintendoServiceAccountIdToken.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("NintendoServiceAccountIdToken"));
-        writer->WriteValue(NintendoServiceAccountIdToken);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemNintendoEShopInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> NintendoServiceAccountIdTokenValue = obj->TryGetField(TEXT("NintendoServiceAccountIdToken"));
-    if (NintendoServiceAccountIdTokenValue.IsValid() && !NintendoServiceAccountIdTokenValue->IsNull())
-    {
-        FString TmpValue;
-        if (NintendoServiceAccountIdTokenValue->TryGetString(TmpValue)) { NintendoServiceAccountIdToken = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemNintendoEShopInventoryItemsResponse::~FRedeemNintendoEShopInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedeemNintendoEShopInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Failed.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Failed"));
-        for (const FRedemptionFailure& item : Failed)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Succeeded.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Succeeded"));
-        for (const FRedemptionSuccess& item : Succeeded)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemNintendoEShopInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&FailedArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Failed"));
-    for (int32 Idx = 0; Idx < FailedArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = FailedArray[Idx];
-        Failed.Add(FRedemptionFailure(CurrentItem->AsObject()));
-    }
-
-
-    const TArray<TSharedPtr<FJsonValue>>&SucceededArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Succeeded"));
-    for (int32 Idx = 0; Idx < SucceededArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = SucceededArray[Idx];
-        Succeeded.Add(FRedemptionSuccess(CurrentItem->AsObject()));
-    }
-
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsRequest::~FRedeemPlayStationStoreInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (AuthorizationCode.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("AuthorizationCode"));
-        writer->WriteValue(AuthorizationCode);
-    }
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (ServiceLabel.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ServiceLabel"));
-        writer->WriteValue(ServiceLabel);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AuthorizationCodeValue = obj->TryGetField(TEXT("AuthorizationCode"));
-    if (AuthorizationCodeValue.IsValid() && !AuthorizationCodeValue->IsNull())
-    {
-        FString TmpValue;
-        if (AuthorizationCodeValue->TryGetString(TmpValue)) { AuthorizationCode = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ServiceLabelValue = obj->TryGetField(TEXT("ServiceLabel"));
-    if (ServiceLabelValue.IsValid() && !ServiceLabelValue->IsNull())
-    {
-        FString TmpValue;
-        if (ServiceLabelValue->TryGetString(TmpValue)) { ServiceLabel = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsResponse::~FRedeemPlayStationStoreInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Failed.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Failed"));
-        for (const FRedemptionFailure& item : Failed)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Succeeded.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Succeeded"));
-        for (const FRedemptionSuccess& item : Succeeded)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&FailedArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Failed"));
-    for (int32 Idx = 0; Idx < FailedArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = FailedArray[Idx];
-        Failed.Add(FRedemptionFailure(CurrentItem->AsObject()));
-    }
-
-
-    const TArray<TSharedPtr<FJsonValue>>&SucceededArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Succeeded"));
-    for (int32 Idx = 0; Idx < SucceededArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = SucceededArray[Idx];
-        Succeeded.Add(FRedemptionSuccess(CurrentItem->AsObject()));
-    }
-
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemSteamInventoryItemsRequest::~FRedeemSteamInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-
-}
-
-void PlayFab::EconomyModels::FRedeemSteamInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemSteamInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRedeemSteamInventoryItemsResponse::~FRedeemSteamInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FRedeemSteamInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Failed.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Failed"));
-        for (const FRedemptionFailure& item : Failed)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Succeeded.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Succeeded"));
-        for (const FRedemptionSuccess& item : Succeeded)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRedeemSteamInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&FailedArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Failed"));
-    for (int32 Idx = 0; Idx < FailedArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = FailedArray[Idx];
-        Failed.Add(FRedemptionFailure(CurrentItem->AsObject()));
-    }
-
-
-    const TArray<TSharedPtr<FJsonValue>>&SucceededArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Succeeded"));
-    for (int32 Idx = 0; Idx < SucceededArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = SucceededArray[Idx];
-        Succeeded.Add(FRedemptionSuccess(CurrentItem->AsObject()));
-    }
-
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
 
     return HasSucceeded;
 }
@@ -7999,55 +4155,9 @@ bool PlayFab::EconomyModels::FScanResult::readFromValue(const TSharedPtr<FJsonOb
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FStoreReference::~FStoreReference()
-{
-    //if (AlternateId != nullptr) delete AlternateId;
-
-}
-
-void PlayFab::EconomyModels::FStoreReference::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (AlternateId.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("AlternateId"));
-        AlternateId->writeJSON(writer);
-    }
-
-    if (Id.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Id"));
-        writer->WriteValue(Id);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FStoreReference::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AlternateIdValue = obj->TryGetField(TEXT("AlternateId"));
-    if (AlternateIdValue.IsValid() && !AlternateIdValue->IsNull())
-    {
-        AlternateId = MakeShareable(new FCatalogAlternateId(AlternateIdValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
-    if (IdValue.IsValid() && !IdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FSearchItemsRequest::~FSearchItemsRequest()
 {
     //if (Entity != nullptr) delete Entity;
-    //if (Store != nullptr) delete Store;
 
 }
 
@@ -8103,12 +4213,6 @@ void PlayFab::EconomyModels::FSearchItemsRequest::writeJSON(JsonWriter& writer) 
     {
         writer->WriteIdentifierPrefix(TEXT("Select"));
         writer->WriteValue(Select);
-    }
-
-    if (Store.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Store"));
-        Store->writeJSON(writer);
     }
 
     writer->WriteObjectEnd();
@@ -8173,12 +4277,6 @@ bool PlayFab::EconomyModels::FSearchItemsRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (SelectValue->TryGetString(TmpValue)) { Select = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> StoreValue = obj->TryGetField(TEXT("Store"));
-    if (StoreValue.IsValid() && !StoreValue->IsNull())
-    {
-        Store = MakeShareable(new FStoreReference(StoreValue->AsObject()));
     }
 
     return HasSucceeded;
@@ -8338,6 +4436,70 @@ bool PlayFab::EconomyModels::FSetItemModerationStateResponse::readFromValue(cons
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FStoreDetails::~FStoreDetails()
+{
+
+}
+
+void PlayFab::EconomyModels::FStoreDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FStoreDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FStoreInfo::~FStoreInfo()
+{
+    //if (AlternateId != nullptr) delete AlternateId;
+
+}
+
+void PlayFab::EconomyModels::FStoreInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AlternateId.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AlternateId"));
+        AlternateId->writeJSON(writer);
+    }
+
+    if (Id.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Id"));
+        writer->WriteValue(Id);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FStoreInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AlternateIdValue = obj->TryGetField(TEXT("AlternateId"));
+    if (AlternateIdValue.IsValid() && !AlternateIdValue->IsNull())
+    {
+        AlternateId = MakeShareable(new FCatalogAlternateId(AlternateIdValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
+    if (IdValue.IsValid() && !IdValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdValue->TryGetString(TmpValue)) { Id = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FSubmitItemReviewVoteRequest::~FSubmitItemReviewVoteRequest()
 {
     //if (AlternateId != nullptr) delete AlternateId;
@@ -8485,231 +4647,6 @@ bool PlayFab::EconomyModels::FSubscriptionDetails::readFromValue(const TSharedPt
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FSubtractInventoryItemsRequest::~FSubtractInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FSubtractInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
-    writer->WriteValue(DeleteEmptyStacks);
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    if (Items.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Items"));
-        for (const FInventoryItem& item : Items)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteIdentifierPrefix(TEXT("ReturnInventory"));
-    writer->WriteValue(ReturnInventory);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FSubtractInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> DeleteEmptyStacksValue = obj->TryGetField(TEXT("DeleteEmptyStacks"));
-    if (DeleteEmptyStacksValue.IsValid() && !DeleteEmptyStacksValue->IsNull())
-    {
-        bool TmpValue;
-        if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
-    for (int32 Idx = 0; Idx < ItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = ItemsArray[Idx];
-        Items.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> ReturnInventoryValue = obj->TryGetField(TEXT("ReturnInventory"));
-    if (ReturnInventoryValue.IsValid() && !ReturnInventoryValue->IsNull())
-    {
-        bool TmpValue;
-        if (ReturnInventoryValue->TryGetBool(TmpValue)) { ReturnInventory = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FSubtractInventoryItemsResponse::~FSubtractInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FSubtractInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (InventoryItems.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("InventoryItems"));
-        for (const FInventoryItem& item : InventoryItems)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteIdentifierPrefix(TEXT("InventoryTooLarge"));
-    writer->WriteValue(InventoryTooLarge);
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (UpdatedItems.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("UpdatedItems"));
-        for (const FInventoryItem& item : UpdatedItems)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FSubtractInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&InventoryItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("InventoryItems"));
-    for (int32 Idx = 0; Idx < InventoryItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = InventoryItemsArray[Idx];
-        InventoryItems.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> InventoryTooLargeValue = obj->TryGetField(TEXT("InventoryTooLarge"));
-    if (InventoryTooLargeValue.IsValid() && !InventoryTooLargeValue->IsNull())
-    {
-        bool TmpValue;
-        if (InventoryTooLargeValue->TryGetBool(TmpValue)) { InventoryTooLarge = TmpValue; }
-    }
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    const TArray<TSharedPtr<FJsonValue>>&UpdatedItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("UpdatedItems"));
-    for (int32 Idx = 0; Idx < UpdatedItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = UpdatedItemsArray[Idx];
-        UpdatedItems.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FTakedownItemReviewsRequest::~FTakedownItemReviewsRequest()
 {
 
@@ -8781,210 +4718,6 @@ void PlayFab::EconomyModels::FTakedownItemReviewsResponse::writeJSON(JsonWriter&
 bool PlayFab::EconomyModels::FTakedownItemReviewsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FTransferInventoryItemsRequest::~FTransferInventoryItemsRequest()
-{
-    //if (GivingEntity != nullptr) delete GivingEntity;
-    //if (GivingItem != nullptr) delete GivingItem;
-    //if (ReceivingEntity != nullptr) delete ReceivingEntity;
-    //if (ReceivingItem != nullptr) delete ReceivingItem;
-
-}
-
-void PlayFab::EconomyModels::FTransferInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
-    writer->WriteValue(DeleteEmptyStacks);
-
-    if (GivingCollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("GivingCollectionId"));
-        writer->WriteValue(GivingCollectionId);
-    }
-
-    if (GivingEntity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("GivingEntity"));
-        GivingEntity->writeJSON(writer);
-    }
-
-    if (GivingItem.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("GivingItem"));
-        GivingItem->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (ReceivingCollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ReceivingCollectionId"));
-        writer->WriteValue(ReceivingCollectionId);
-    }
-
-    if (ReceivingEntity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("ReceivingEntity"));
-        ReceivingEntity->writeJSON(writer);
-    }
-
-    if (ReceivingItem.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("ReceivingItem"));
-        ReceivingItem->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FTransferInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
-    if (AmountValue.IsValid() && !AmountValue->IsNull())
-    {
-        int32 TmpValue;
-        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> DeleteEmptyStacksValue = obj->TryGetField(TEXT("DeleteEmptyStacks"));
-    if (DeleteEmptyStacksValue.IsValid() && !DeleteEmptyStacksValue->IsNull())
-    {
-        bool TmpValue;
-        if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> GivingCollectionIdValue = obj->TryGetField(TEXT("GivingCollectionId"));
-    if (GivingCollectionIdValue.IsValid() && !GivingCollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (GivingCollectionIdValue->TryGetString(TmpValue)) { GivingCollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> GivingEntityValue = obj->TryGetField(TEXT("GivingEntity"));
-    if (GivingEntityValue.IsValid() && !GivingEntityValue->IsNull())
-    {
-        GivingEntity = MakeShareable(new FEntityKey(GivingEntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> GivingItemValue = obj->TryGetField(TEXT("GivingItem"));
-    if (GivingItemValue.IsValid() && !GivingItemValue->IsNull())
-    {
-        GivingItem = MakeShareable(new FInventoryItemReference(GivingItemValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ReceivingCollectionIdValue = obj->TryGetField(TEXT("ReceivingCollectionId"));
-    if (ReceivingCollectionIdValue.IsValid() && !ReceivingCollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (ReceivingCollectionIdValue->TryGetString(TmpValue)) { ReceivingCollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ReceivingEntityValue = obj->TryGetField(TEXT("ReceivingEntity"));
-    if (ReceivingEntityValue.IsValid() && !ReceivingEntityValue->IsNull())
-    {
-        ReceivingEntity = MakeShareable(new FEntityKey(ReceivingEntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> ReceivingItemValue = obj->TryGetField(TEXT("ReceivingItem"));
-    if (ReceivingItemValue.IsValid() && !ReceivingItemValue->IsNull())
-    {
-        ReceivingItem = MakeShareable(new FInventoryItemReference(ReceivingItemValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FTransferInventoryItemsResponse::~FTransferInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FTransferInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (GivingTransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("GivingTransactionIds"));
-        for (const FString& item : GivingTransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (ReceivingTransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("ReceivingTransactionIds"));
-        for (const FString& item : ReceivingTransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FTransferInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    obj->TryGetStringArrayField(TEXT("GivingTransactionIds"), GivingTransactionIds);
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    obj->TryGetStringArrayField(TEXT("ReceivingTransactionIds"), ReceivingTransactionIds);
 
     return HasSucceeded;
 }
@@ -9150,211 +4883,6 @@ bool PlayFab::EconomyModels::FUpdateDraftItemResponse::readFromValue(const TShar
     {
         Item = MakeShareable(new FCatalogItem(ItemValue->AsObject()));
     }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FUpdateInventoryItemsRequest::~FUpdateInventoryItemsRequest()
-{
-    //if (Entity != nullptr) delete Entity;
-    //if (Item != nullptr) delete Item;
-
-}
-
-void PlayFab::EconomyModels::FUpdateInventoryItemsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CollectionId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
-        writer->WriteValue(CollectionId);
-    }
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
-    }
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (Item.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Item"));
-        Item->writeJSON(writer);
-    }
-
-    if (Items.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Items"));
-        for (const FInventoryItem& item : Items)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteIdentifierPrefix(TEXT("ReturnInventory"));
-    writer->WriteValue(ReturnInventory);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FUpdateInventoryItemsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
-    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
-    if (ItemValue.IsValid() && !ItemValue->IsNull())
-    {
-        Item = MakeShareable(new FInventoryItem(ItemValue->AsObject()));
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
-    for (int32 Idx = 0; Idx < ItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = ItemsArray[Idx];
-        Items.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> ReturnInventoryValue = obj->TryGetField(TEXT("ReturnInventory"));
-    if (ReturnInventoryValue.IsValid() && !ReturnInventoryValue->IsNull())
-    {
-        bool TmpValue;
-        if (ReturnInventoryValue->TryGetBool(TmpValue)) { ReturnInventory = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FUpdateInventoryItemsResponse::~FUpdateInventoryItemsResponse()
-{
-
-}
-
-void PlayFab::EconomyModels::FUpdateInventoryItemsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (IdempotencyId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
-        writer->WriteValue(IdempotencyId);
-    }
-
-    if (InventoryItems.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("InventoryItems"));
-        for (const FInventoryItem& item : InventoryItems)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteIdentifierPrefix(TEXT("InventoryTooLarge"));
-    writer->WriteValue(InventoryTooLarge);
-
-    if (TransactionIds.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("TransactionIds"));
-        for (const FString& item : TransactionIds)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (UpdatedItems.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("UpdatedItems"));
-        for (const FInventoryItem& item : UpdatedItems)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FUpdateInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
-    if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
-    }
-
-    const TArray<TSharedPtr<FJsonValue>>&InventoryItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("InventoryItems"));
-    for (int32 Idx = 0; Idx < InventoryItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = InventoryItemsArray[Idx];
-        InventoryItems.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> InventoryTooLargeValue = obj->TryGetField(TEXT("InventoryTooLarge"));
-    if (InventoryTooLargeValue.IsValid() && !InventoryTooLargeValue->IsNull())
-    {
-        bool TmpValue;
-        if (InventoryTooLargeValue->TryGetBool(TmpValue)) { InventoryTooLarge = TmpValue; }
-    }
-
-    obj->TryGetStringArrayField(TEXT("TransactionIds"), TransactionIds);
-
-    const TArray<TSharedPtr<FJsonValue>>&UpdatedItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("UpdatedItems"));
-    for (int32 Idx = 0; Idx < UpdatedItemsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = UpdatedItemsArray[Idx];
-        UpdatedItems.Add(FInventoryItem(CurrentItem->AsObject()));
-    }
-
 
     return HasSucceeded;
 }

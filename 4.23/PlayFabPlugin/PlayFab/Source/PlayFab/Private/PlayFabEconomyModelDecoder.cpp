@@ -129,6 +129,18 @@ FEconomyGetItemResponse UPlayFabEconomyModelDecoder::decodeGetItemResponseRespon
     return tempStruct;
 }
 
+FEconomyGetItemContainersResponse UPlayFabEconomyModelDecoder::decodeGetItemContainersResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyGetItemContainersResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Containers = !(dataObj->HasField("Containers")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Containers");
+    tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
+
+    return tempStruct;
+}
+
 FEconomyGetItemModerationStateResponse UPlayFabEconomyModelDecoder::decodeGetItemModerationStateResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -289,5 +301,213 @@ FEconomyUpdateDraftItemResponse UPlayFabEconomyModelDecoder::decodeUpdateDraftIt
 ///////////////////////////////////////////////////////
 // Inventory
 //////////////////////////////////////////////////////
+
+FEconomyAddInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeAddInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyAddInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyDeleteInventoryCollectionResponse UPlayFabEconomyModelDecoder::decodeDeleteInventoryCollectionResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyDeleteInventoryCollectionResponse tempStruct;
+
+
+    return tempStruct;
+}
+
+FEconomyDeleteInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeDeleteInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyDeleteInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyExecuteInventoryOperationsResponse UPlayFabEconomyModelDecoder::decodeExecuteInventoryOperationsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyExecuteInventoryOperationsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyGetInventoryCollectionIdsResponse UPlayFabEconomyModelDecoder::decodeGetInventoryCollectionIdsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyGetInventoryCollectionIdsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.CollectionIds = !(dataObj->HasField("CollectionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("CollectionIds"), TEXT(","));
+    tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
+
+    return tempStruct;
+}
+
+FEconomyGetInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeGetInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyGetInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
+    tempStruct.Items = !(dataObj->HasField("Items")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Items");
+
+    return tempStruct;
+}
+
+FEconomyGetMicrosoftStoreAccessTokensResponse UPlayFabEconomyModelDecoder::decodeGetMicrosoftStoreAccessTokensResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyGetMicrosoftStoreAccessTokensResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.CollectionsAccessToken = !(dataObj->HasField("CollectionsAccessToken")) ? TEXT("") : dataObj->GetStringField("CollectionsAccessToken");
+    tempStruct.CollectionsAccessTokenExpirationDate = !(dataObj->HasField("CollectionsAccessTokenExpirationDate")) ? TEXT("") : dataObj->GetStringField("CollectionsAccessTokenExpirationDate");
+
+    return tempStruct;
+}
+
+FEconomyPurchaseInventoryItemsResponse UPlayFabEconomyModelDecoder::decodePurchaseInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyPurchaseInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyRedeemAppleAppStoreInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemAppleAppStoreInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyRedeemAppleAppStoreInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Failed = !(dataObj->HasField("Failed")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Failed");
+    tempStruct.Succeeded = !(dataObj->HasField("Succeeded")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Succeeded");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyRedeemGooglePlayInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemGooglePlayInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyRedeemGooglePlayInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Failed = !(dataObj->HasField("Failed")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Failed");
+    tempStruct.Succeeded = !(dataObj->HasField("Succeeded")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Succeeded");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyRedeemMicrosoftStoreInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemMicrosoftStoreInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyRedeemMicrosoftStoreInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Failed = !(dataObj->HasField("Failed")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Failed");
+    tempStruct.Succeeded = !(dataObj->HasField("Succeeded")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Succeeded");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyRedeemNintendoEShopInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemNintendoEShopInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyRedeemNintendoEShopInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Failed = !(dataObj->HasField("Failed")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Failed");
+    tempStruct.Succeeded = !(dataObj->HasField("Succeeded")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Succeeded");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyRedeemPlayStationStoreInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemPlayStationStoreInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyRedeemPlayStationStoreInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Failed = !(dataObj->HasField("Failed")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Failed");
+    tempStruct.Succeeded = !(dataObj->HasField("Succeeded")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Succeeded");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyRedeemSteamInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeRedeemSteamInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyRedeemSteamInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Failed = !(dataObj->HasField("Failed")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Failed");
+    tempStruct.Succeeded = !(dataObj->HasField("Succeeded")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Succeeded");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomySubtractInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeSubtractInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomySubtractInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyTransferInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeTransferInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyTransferInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.GivingTransactionIds = !(dataObj->HasField("GivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("GivingTransactionIds"), TEXT(","));
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.ReceivingTransactionIds = !(dataObj->HasField("ReceivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ReceivingTransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
+FEconomyUpdateInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeUpdateInventoryItemsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyUpdateInventoryItemsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
 
 

@@ -35,6 +35,36 @@ class UPlayFabJsonObject;
 // Authentication
 //////////////////////////////////////////////////////
 
+/** Create or return a game_server entity token. Caller must be a title entity. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationAuthenticateCustomIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * The customId used to create and retrieve game_server entity tokens. This is unique at the title level. CustomId must be
+     * between 32 and 100 characters.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        FString CustomId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAuthenticationAuthenticateCustomIdResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The token generated used to set X-EntityToken for game_server calls. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        UPlayFabJsonObject* EntityToken = nullptr;
+    /** True if the account was newly created on this authentication. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Authentication | Authentication Models")
+        bool NewlyCreated = false;
+};
+
 /**
  * Delete a game_server entity. The caller can be the game_server entity attempting to delete itself. Or a title entity
  * attempting to delete game_server entities for this title.

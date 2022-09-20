@@ -14,6 +14,35 @@ namespace PlayFab
 namespace AuthenticationModels
 {
 
+    struct PLAYFABCPP_API FAuthenticateCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * The customId used to create and retrieve game_server entity tokens. This is unique at the title level. CustomId must be
+         * between 32 and 100 characters.
+         */
+        FString CustomId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        FAuthenticateCustomIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomId(),
+            CustomTags()
+            {}
+
+        FAuthenticateCustomIdRequest(const FAuthenticateCustomIdRequest& src) = default;
+
+        FAuthenticateCustomIdRequest(const TSharedPtr<FJsonObject>& obj) : FAuthenticateCustomIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAuthenticateCustomIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FEntityKey : public PlayFab::FPlayFabCppBaseModel
     {
         // Unique ID of the entity.
@@ -36,6 +65,64 @@ namespace AuthenticationModels
         }
 
         ~FEntityKey();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FEntityTokenResponse : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The entity id and type.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The token used to set X-EntityToken for all entity based API calls.
+        FString EntityToken;
+
+        // [optional] The time the token will expire, if it is an expiring token, in UTC.
+        Boxed<FDateTime> TokenExpiration;
+
+        FEntityTokenResponse() :
+            FPlayFabCppBaseModel(),
+            Entity(nullptr),
+            EntityToken(),
+            TokenExpiration()
+            {}
+
+        FEntityTokenResponse(const FEntityTokenResponse& src) = default;
+
+        FEntityTokenResponse(const TSharedPtr<FJsonObject>& obj) : FEntityTokenResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEntityTokenResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FAuthenticateCustomIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The token generated used to set X-EntityToken for game_server calls.
+        TSharedPtr<FEntityTokenResponse> EntityToken;
+
+        // True if the account was newly created on this authentication.
+        bool NewlyCreated;
+
+        FAuthenticateCustomIdResult() :
+            FPlayFabCppResultCommon(),
+            EntityToken(nullptr),
+            NewlyCreated(false)
+            {}
+
+        FAuthenticateCustomIdResult(const FAuthenticateCustomIdResult& src) = default;
+
+        FAuthenticateCustomIdResult(const TSharedPtr<FJsonObject>& obj) : FAuthenticateCustomIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAuthenticateCustomIdResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

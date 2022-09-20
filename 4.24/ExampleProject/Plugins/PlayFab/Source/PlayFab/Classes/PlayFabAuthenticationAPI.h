@@ -63,6 +63,19 @@ public:
     // Authentication
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAuthenticateGameServerWithCustomId, FAuthenticationAuthenticateCustomIdResult, result, UObject*, customData);
+
+    /** Create a game_server entity token and return a new or existing game_server entity. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAuthenticationAPI* AuthenticateGameServerWithCustomId(FAuthenticationAuthenticateCustomIdRequest request,
+            FDelegateOnSuccessAuthenticateGameServerWithCustomId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAuthenticationRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperAuthenticateGameServerWithCustomId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDelete, FAuthenticationEmptyResponse, result, UObject*, customData);
 
     /** Delete a game_server entity. */
@@ -122,6 +135,7 @@ public:
     UObject* mCustomData;
 
     FDelegateOnFailurePlayFabError OnFailure;
+    FDelegateOnSuccessAuthenticateGameServerWithCustomId OnSuccessAuthenticateGameServerWithCustomId;
     FDelegateOnSuccessDelete OnSuccessDelete;
     FDelegateOnSuccessGetEntityToken OnSuccessGetEntityToken;
     FDelegateOnSuccessValidateEntityToken OnSuccessValidateEntityToken;

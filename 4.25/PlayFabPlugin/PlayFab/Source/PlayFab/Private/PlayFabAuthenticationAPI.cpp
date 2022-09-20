@@ -79,6 +79,59 @@ FString UPlayFabAuthenticationAPI::PercentEncode(const FString& Text)
 ///////////////////////////////////////////////////////
 // Authentication
 //////////////////////////////////////////////////////
+/** Create a game_server entity token and return a new or existing game_server entity. */
+UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::AuthenticateGameServerWithCustomId(FAuthenticationAuthenticateCustomIdRequest request,
+    FDelegateOnSuccessAuthenticateGameServerWithCustomId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAuthenticationAPI* manager = NewObject<UPlayFabAuthenticationAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessAuthenticateGameServerWithCustomId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAuthenticationAPI::HelperAuthenticateGameServerWithCustomId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/GameServerIdentity/AuthenticateGameServerWithCustomId";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomId.IsEmpty() || request.CustomId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CustomId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CustomId"), request.CustomId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAuthenticationRequestCompleted
+void UPlayFabAuthenticationAPI::HelperAuthenticateGameServerWithCustomId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessAuthenticateGameServerWithCustomId.IsBound())
+    {
+        FAuthenticationAuthenticateCustomIdResult ResultStruct = UPlayFabAuthenticationModelDecoder::decodeAuthenticateCustomIdResultResponse(response.responseData);
+        OnSuccessAuthenticateGameServerWithCustomId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Delete a game_server entity. */
 UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::Delete(FAuthenticationDeleteRequest request,
     FDelegateOnSuccessDelete onSuccess,

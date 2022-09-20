@@ -42,6 +42,10 @@ public:
     // Authentication
     //////////////////////////////////////////////////////
 
+    /** Decode the AuthenticateCustomIdResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication Models")
+        static FAuthenticationAuthenticateCustomIdResult decodeAuthenticateCustomIdResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the EmptyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Authentication | Authentication Models")
         static FAuthenticationEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);

@@ -77,6 +77,36 @@ TSharedPtr<UPlayFabAuthenticationContext> UPlayFabAuthenticationInstanceAPI::Get
     return this->authContext;
 }
 
+bool UPlayFabAuthenticationInstanceAPI::AuthenticateGameServerWithCustomId(
+    AuthenticationModels::FAuthenticateCustomIdRequest& request,
+    const FAuthenticateGameServerWithCustomIdDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/GameServerIdentity/AuthenticateGameServerWithCustomId"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAuthenticationInstanceAPI::OnAuthenticateGameServerWithCustomIdResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAuthenticationInstanceAPI::OnAuthenticateGameServerWithCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAuthenticateGameServerWithCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AuthenticationModels::FAuthenticateCustomIdResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAuthenticationInstanceAPI::Delete(
     AuthenticationModels::FDeleteRequest& request,
     const FDeleteDelegate& SuccessDelegate,

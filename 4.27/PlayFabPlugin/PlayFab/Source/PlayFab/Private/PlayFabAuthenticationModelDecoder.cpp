@@ -27,6 +27,18 @@
 // Authentication
 //////////////////////////////////////////////////////
 
+FAuthenticationAuthenticateCustomIdResult UPlayFabAuthenticationModelDecoder::decodeAuthenticateCustomIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAuthenticationAuthenticateCustomIdResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.EntityToken = !(dataObj->HasField("EntityToken")) ? nullptr : dataObj->GetObjectField("EntityToken");
+    tempStruct.NewlyCreated = !(dataObj->HasField("NewlyCreated")) ? false : dataObj->GetBoolField("NewlyCreated");
+
+    return tempStruct;
+}
+
 FAuthenticationEmptyResponse UPlayFabAuthenticationModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

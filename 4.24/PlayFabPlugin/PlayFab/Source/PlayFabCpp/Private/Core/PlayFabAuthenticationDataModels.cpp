@@ -11,6 +11,62 @@
 using namespace PlayFab;
 using namespace PlayFab::AuthenticationModels;
 
+PlayFab::AuthenticationModels::FAuthenticateCustomIdRequest::~FAuthenticateCustomIdRequest()
+{
+
+}
+
+void PlayFab::AuthenticationModels::FAuthenticateCustomIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!CustomId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: AuthenticateCustomIdRequest::CustomId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomId"));
+        writer->WriteValue(CustomId);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FAuthenticateCustomIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CustomIdValue = obj->TryGetField(TEXT("CustomId"));
+    if (CustomIdValue.IsValid() && !CustomIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CustomIdValue->TryGetString(TmpValue)) { CustomId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AuthenticationModels::FEntityKey::~FEntityKey()
 {
 
@@ -55,6 +111,104 @@ bool PlayFab::AuthenticationModels::FEntityKey::readFromValue(const TSharedPtr<F
     {
         FString TmpValue;
         if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FEntityTokenResponse::~FEntityTokenResponse()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::AuthenticationModels::FEntityTokenResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (EntityToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityToken"));
+        writer->WriteValue(EntityToken);
+    }
+
+    if (TokenExpiration.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TokenExpiration"));
+        writeDatetime(TokenExpiration, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FEntityTokenResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> EntityTokenValue = obj->TryGetField(TEXT("EntityToken"));
+    if (EntityTokenValue.IsValid() && !EntityTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (EntityTokenValue->TryGetString(TmpValue)) { EntityToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TokenExpirationValue = obj->TryGetField(TEXT("TokenExpiration"));
+    if (TokenExpirationValue.IsValid())
+        TokenExpiration = readDatetime(TokenExpirationValue);
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AuthenticationModels::FAuthenticateCustomIdResult::~FAuthenticateCustomIdResult()
+{
+    //if (EntityToken != nullptr) delete EntityToken;
+
+}
+
+void PlayFab::AuthenticationModels::FAuthenticateCustomIdResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (EntityToken.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityToken"));
+        EntityToken->writeJSON(writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("NewlyCreated"));
+    writer->WriteValue(NewlyCreated);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AuthenticationModels::FAuthenticateCustomIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> EntityTokenValue = obj->TryGetField(TEXT("EntityToken"));
+    if (EntityTokenValue.IsValid() && !EntityTokenValue->IsNull())
+    {
+        EntityToken = MakeShareable(new FEntityTokenResponse(EntityTokenValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> NewlyCreatedValue = obj->TryGetField(TEXT("NewlyCreated"));
+    if (NewlyCreatedValue.IsValid() && !NewlyCreatedValue->IsNull())
+    {
+        bool TmpValue;
+        if (NewlyCreatedValue->TryGetBool(TmpValue)) { NewlyCreated = TmpValue; }
     }
 
     return HasSucceeded;

@@ -64,7 +64,7 @@ void ACloudScriptTestResultUploader::UploadToCloudscript(const TArray<class UPla
 
     TSharedPtr<FJsonObject> suiteJson = MakeShareable(new FJsonObject());
     // suiteJson->SetStringField(TEXT("name"), buildIdLc);
-    // suiteJson->SetNumberField(TEXT("time"), totalTime);
+    suiteJson->SetNumberField(TEXT("time"), totalTime);
     suiteJson->SetNumberField(TEXT("tests"), totalTests);
     // suiteJson->SetNumberField(TEXT("errors"), totalTimedout);
     suiteJson->SetNumberField(TEXT("failures"), totalFailures);

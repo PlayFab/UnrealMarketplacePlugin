@@ -592,7 +592,7 @@ function getContextContainer(isInstanceApi, getOrCreate) {
 }
 
 function getAuthParams(apiCall, isInstanceApi) {
-    if (apiCall.url === "/Authentication/GetEntityToken" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
+    if (apiCall.url === "/Authentication/GetEntityToken")
         return "authKey, authValue";
     else if (isInstanceApi && apiCall.auth === "EntityToken")
         return "TEXT(\"X-EntityToken\"), context->GetEntityToken()";
@@ -624,7 +624,7 @@ function getRequestActions(tabbing, apiCall, isInstanceApi) {
     if (apiCall.result === "LoginResult" || apiCall.request === "RegisterPlayFabUserRequest") {
         return tabbing + "if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)\n"
             + tabbing + "    request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;\n";
-    } else if (apiCall.url === "/Authentication/GetEntityToken" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId") {
+    } else if (apiCall.url === "/Authentication/GetEntityToken") {
         return tabbing + "FString authKey; FString authValue;\n"
             + tabbing + "FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();\n"
             + tabbing + "FString devSecretKey = GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;\n"

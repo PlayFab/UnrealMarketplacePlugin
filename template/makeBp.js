@@ -286,16 +286,16 @@ exports.generateApiSummary = generateApiSummary;
 
 function getAuthBools(tabbing, apiCall) {
     var output = "";
-    if (apiCall.auth === "EntityToken" || apiCall.url === "/Authentication/GetEntityToken")
+    if (apiCall.auth === "EntityToken" || apiCall.url === "/Authentication/GetEntityToken" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
         output += tabbing + "manager->useEntityToken = true;\n";
-    if (apiCall.auth === "SecretKey" || apiCall.url === "/Authentication/GetEntityToken")
+    if (apiCall.auth === "SecretKey" || apiCall.url === "/Authentication/GetEntityToken" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
         output += tabbing + "manager->useSecretKey = true;\n";
-    if (apiCall.auth === "SessionTicket" || apiCall.url === "/Authentication/GetEntityToken")
+    if (apiCall.auth === "SessionTicket" || apiCall.url === "/Authentication/GetEntityToken" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
         output += tabbing + "manager->useSessionTicket = true;\n";
 
-    if (apiCall.result === "LoginResult" || apiCall.result === "RegisterPlayFabUserResult")
+    if (apiCall.result === "LoginResult" || apiCall.result === "RegisterPlayFabUserResult" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
         output += tabbing + "manager->returnsSessionTicket = true;\n";
-    if (apiCall.url === "/Authentication/GetEntityToken")
+    if (apiCall.url === "/Authentication/GetEntityToken" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
         output += tabbing + "manager->returnsEntityToken = true;\n";
 
     return output;

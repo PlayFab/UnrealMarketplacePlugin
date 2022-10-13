@@ -6286,7 +6286,6 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleData(FAdminSetTitleDataRequest reque
 
 
     // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Key.IsEmpty() || request.Key == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Key"));
     } else {
@@ -6344,7 +6343,6 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleDataAndOverrides(FAdminSetTitleDataA
 
 
     // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.KeyValues.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("KeyValues"));
     } else {
@@ -6402,7 +6400,6 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::SetTitleInternalData(FAdminSetTitleDataReque
 
 
     // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Key.IsEmpty() || request.Key == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Key"));
     } else {

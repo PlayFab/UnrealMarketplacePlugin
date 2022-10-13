@@ -687,6 +687,9 @@ function getResultActions(tabbing, apiCall, isInstanceApi) {
     if (apiCall.url === "/Authentication/GetEntityToken")
         return tabbing + "if (outResult.EntityToken.Len() > 0)\n"
             + tabbing + "    " + getContextContainer(isInstanceApi, true) + "SetEntityToken(outResult.EntityToken);\n";
+    if (apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
+        return tabbing + "if (outResult.EntityToken != nullptr && outResult.EntityToken->EntityToken.Len() > 0)\n"
+            + tabbing + "    " + getContextContainer(isInstanceApi, true) + "SetEntityToken(outResult.EntityToken->EntityToken);\n";
     else if (apiCall.result === "LoginResult") {
         return tabbing + "outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();\n"
             + tabbing + "if (outResult.SessionTicket.Len() > 0) {\n"

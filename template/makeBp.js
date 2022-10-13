@@ -295,7 +295,7 @@ function getAuthBools(tabbing, apiCall) {
 
     if (apiCall.result === "LoginResult" || apiCall.result === "RegisterPlayFabUserResult")
         output += tabbing + "manager->returnsSessionTicket = true;\n";
-    if (apiCall.url === "/Authentication/GetEntityToken")
+    if (apiCall.url === "/Authentication/GetEntityToken" || apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
         output += tabbing + "manager->returnsEntityToken = true;\n";
 
     return output;

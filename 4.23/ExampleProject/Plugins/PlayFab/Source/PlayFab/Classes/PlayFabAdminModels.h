@@ -2936,9 +2936,6 @@ struct PLAYFAB_API FAdminSetTitleDataRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
      * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
@@ -2966,9 +2963,6 @@ struct PLAYFAB_API FAdminSetTitleDataAndOverridesRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Title-Wide Data Management Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
     /**
      * List of titleData key-value pairs to set/delete. Use an empty value to delete an existing key; use a non-empty value to
      * create/update a key.

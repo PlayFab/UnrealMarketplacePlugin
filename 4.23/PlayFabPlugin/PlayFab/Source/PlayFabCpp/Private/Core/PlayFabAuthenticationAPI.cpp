@@ -49,6 +49,8 @@ void UPlayFabAuthenticationAPI::OnAuthenticateGameServerWithCustomIdResult(FHttp
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
+        if (outResult.EntityToken != nullptr && outResult.EntityToken->EntityToken.Len() > 0)
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
         SuccessDelegate.ExecuteIfBound(outResult);
     }
     else

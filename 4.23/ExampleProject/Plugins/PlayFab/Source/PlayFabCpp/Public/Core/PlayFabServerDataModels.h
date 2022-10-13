@@ -9478,8 +9478,6 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
         /**
          * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
          * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
@@ -9491,7 +9489,6 @@ namespace ServerModels
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags(),
             Key(),
             Value()
             {}

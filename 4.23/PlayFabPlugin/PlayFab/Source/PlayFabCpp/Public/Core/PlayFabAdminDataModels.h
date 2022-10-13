@@ -9725,8 +9725,6 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataAndOverridesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
         /**
          * List of titleData key-value pairs to set/delete. Use an empty value to delete an existing key; use a non-empty value to
          * create/update a key.
@@ -9737,7 +9735,6 @@ namespace AdminModels
 
         FSetTitleDataAndOverridesRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags(),
             KeyValues(),
             OverrideLabel()
             {}
@@ -9776,8 +9773,6 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FSetTitleDataRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
         /**
          * key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
          * name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
@@ -9789,7 +9784,6 @@ namespace AdminModels
 
         FSetTitleDataRequest() :
             FPlayFabCppRequestCommon(),
-            CustomTags(),
             Key(),
             Value()
             {}

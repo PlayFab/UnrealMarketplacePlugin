@@ -100,6 +100,7 @@ UPlayFabAuthenticationAPI* UPlayFabAuthenticationAPI::AuthenticateGameServerWith
     manager->SetCallAuthenticationContext(request.AuthenticationContext);
     manager->PlayFabRequestURL = "/GameServerIdentity/AuthenticateGameServerWithCustomId";
     manager->useEntityToken = true;
+    manager->returnsEntityToken = true;
 
 
     // Serialize all the request properties to json

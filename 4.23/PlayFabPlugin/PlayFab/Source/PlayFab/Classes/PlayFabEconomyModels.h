@@ -653,7 +653,7 @@ public:
     /** An opaque token used to retrieve the next page of items, if any are available. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. Maximum page size is 225. Default value is 10. */
+    /** Number of items to retrieve. Maximum page size is 50. Default value is 10. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */

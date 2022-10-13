@@ -18608,17 +18608,6 @@ void PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
     writer->WriteArrayStart(TEXT("KeyValues"));
     for (const FTitleDataKeyValue& item : KeyValues)
         item.writeJSON(writer);
@@ -18637,15 +18626,6 @@ void PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::writeJSON(JsonWrite
 bool PlayFab::AdminModels::FSetTitleDataAndOverridesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
 
     const TArray<TSharedPtr<FJsonValue>>&KeyValuesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("KeyValues"));
     for (int32 Idx = 0; Idx < KeyValuesArray.Num(); Idx++)
@@ -18693,17 +18673,6 @@ void PlayFab::AdminModels::FSetTitleDataRequest::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
     if (!Key.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: SetTitleDataRequest::Key, PlayFab calls may not work if it remains empty."));
@@ -18726,15 +18695,6 @@ void PlayFab::AdminModels::FSetTitleDataRequest::writeJSON(JsonWriter& writer) c
 bool PlayFab::AdminModels::FSetTitleDataRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
 
     const TSharedPtr<FJsonValue> KeyValue = obj->TryGetField(TEXT("Key"));
     if (KeyValue.IsValid() && !KeyValue->IsNull())

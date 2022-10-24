@@ -9771,6 +9771,12 @@ void PlayFab::ServerModels::FGetPlayersInSegmentRequest::writeJSON(JsonWriter& w
         writer->WriteObjectEnd();
     }
 
+    if (GetProfilesAsync.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GetProfilesAsync"));
+        writer->WriteValue(GetProfilesAsync);
+    }
+
     if (MaxBatchSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("MaxBatchSize"));
@@ -9814,6 +9820,13 @@ bool PlayFab::ServerModels::FGetPlayersInSegmentRequest::readFromValue(const TSh
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> GetProfilesAsyncValue = obj->TryGetField(TEXT("GetProfilesAsync"));
+    if (GetProfilesAsyncValue.IsValid() && !GetProfilesAsyncValue->IsNull())
+    {
+        bool TmpValue;
+        if (GetProfilesAsyncValue->TryGetBool(TmpValue)) { GetProfilesAsync = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> MaxBatchSizeValue = obj->TryGetField(TEXT("MaxBatchSize"));

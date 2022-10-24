@@ -4093,6 +4093,7 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::GetPlayersInSegment(FAdminGetPlayersInSegmen
         OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("GetProfilesAsync"), request.GetProfilesAsync);
     OutRestJsonObj->SetNumberField(TEXT("MaxBatchSize"), request.MaxBatchSize);
     OutRestJsonObj->SetNumberField(TEXT("SecondsToLive"), request.SecondsToLive);
     if (request.SegmentId.IsEmpty() || request.SegmentId == "") {

@@ -226,7 +226,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsRequest : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000
+     * in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString FacebookIDs;
 };
@@ -247,7 +250,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookInstantGamesIdsRequest : publ
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 25 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString FacebookInstantGamesIds;
 };
@@ -268,7 +274,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGameCenterIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Game Center identifiers (the Player Identifier) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Game Center identifiers (the Player Identifier) for which the title needs to get PlayFab identifiers.
+     * The array cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString GameCenterIDs;
 };
@@ -313,7 +322,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGoogleIDsRequest : public FPlayFabReq
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Google identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Google identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString GoogleIDs;
 };
@@ -334,7 +346,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest : pub
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
+     * The array cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString GooglePlayGamesPlayerIDs;
 };
@@ -355,7 +370,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromKongregateIDsRequest : public FPlayFa
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers. The
+     * array cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString KongregateIDs;
 };
@@ -376,7 +394,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoServiceAccountIdsRequest : pu
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString NintendoAccountIds;
 };
@@ -397,7 +418,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : publ
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString NintendoSwitchDeviceIds;
 };
@@ -421,7 +445,10 @@ public:
     /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         int32 IssuerId = 0;
-    /** Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString PSNAccountIDs;
 };
@@ -442,7 +469,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString SteamStringIDs;
 };
@@ -463,7 +493,10 @@ struct PLAYFAB_API FClientGetPlayFabIDsFromTwitchIDsRequest : public FPlayFabReq
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. The array cannot
+     * exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString TwitchIds;
 };
@@ -487,7 +520,10 @@ public:
     /** The ID of Xbox Live sandbox. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString Sandbox;
-    /** Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. The array cannot
+     * exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString XboxLiveAccountIDs;
 };
@@ -2614,9 +2650,6 @@ struct PLAYFAB_API FClientGetCharacterLeaderboardRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Optional character type on which to filter the leaderboard entries. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        FString CharacterType;
     /** Maximum number of entries to retrieve. Default 10, maximum 100. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
         int32 MaxResultsCount = 0;
@@ -2668,9 +2701,6 @@ public:
     /** Unique PlayFab assigned ID for a specific character on which to center the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
         FString CharacterId;
-    /** Optional character type on which to filter the leaderboard entries. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
-        FString CharacterType;
     /** Maximum number of entries to retrieve. Default 10, maximum 100. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Characters Models")
         int32 MaxResultsCount = 0;
@@ -2867,6 +2897,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Indicates which other platforms' friends should be included in the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
+        EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
         bool IncludeFacebookFriends = false;
@@ -3475,6 +3508,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Indicates which other platforms' friends should be included in the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         bool IncludeFacebookFriends = false;
@@ -3533,6 +3569,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Indicates which other platforms' friends should be included in the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         bool IncludeFacebookFriends = false;

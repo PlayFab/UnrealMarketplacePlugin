@@ -146,6 +146,9 @@ public:
     /** Controls whether this query should link to friends made on the Steam network. Defaults to false */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         bool ExcludeSteamFriends = false;
+    /** Indicates which other platforms' friends this query should link to. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /**
      * OData style string that contains one or more filters. Only the following operators are supported: "and" (logical and),
      * "eq" (equal), "ne" (not equals), "ge" (greater than or equal), "gt" (greater than), "le" (less than or equal), and "lt"

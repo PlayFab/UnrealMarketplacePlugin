@@ -6051,6 +6051,72 @@ bool PlayFab::MultiplayerModels::FEnableMultiplayerServersForTitleResponse::read
     return HasSucceeded;
 }
 
+void PlayFab::MultiplayerModels::writeExternalFriendSourcesEnumJSON(ExternalFriendSources enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case ExternalFriendSourcesNone: writer->WriteValue(TEXT("None")); break;
+    case ExternalFriendSourcesSteam: writer->WriteValue(TEXT("Steam")); break;
+    case ExternalFriendSourcesFacebook: writer->WriteValue(TEXT("Facebook")); break;
+    case ExternalFriendSourcesSteamOrFacebook: writer->WriteValue(TEXT("SteamOrFacebook")); break;
+    case ExternalFriendSourcesXbox: writer->WriteValue(TEXT("Xbox")); break;
+    case ExternalFriendSourcesSteamOrXbox: writer->WriteValue(TEXT("SteamOrXbox")); break;
+    case ExternalFriendSourcesFacebookOrXbox: writer->WriteValue(TEXT("FacebookOrXbox")); break;
+    case ExternalFriendSourcesSteamOrFacebookOrXbox: writer->WriteValue(TEXT("SteamOrFacebookOrXbox")); break;
+    case ExternalFriendSourcesPsn: writer->WriteValue(TEXT("Psn")); break;
+    case ExternalFriendSourcesSteamOrPsn: writer->WriteValue(TEXT("SteamOrPsn")); break;
+    case ExternalFriendSourcesFacebookOrPsn: writer->WriteValue(TEXT("FacebookOrPsn")); break;
+    case ExternalFriendSourcesSteamOrFacebookOrPsn: writer->WriteValue(TEXT("SteamOrFacebookOrPsn")); break;
+    case ExternalFriendSourcesXboxOrPsn: writer->WriteValue(TEXT("XboxOrPsn")); break;
+    case ExternalFriendSourcesSteamOrXboxOrPsn: writer->WriteValue(TEXT("SteamOrXboxOrPsn")); break;
+    case ExternalFriendSourcesFacebookOrXboxOrPsn: writer->WriteValue(TEXT("FacebookOrXboxOrPsn")); break;
+    case ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn: writer->WriteValue(TEXT("SteamOrFacebookOrXboxOrPsn")); break;
+    case ExternalFriendSourcesAll: writer->WriteValue(TEXT("All")); break;
+    }
+}
+
+MultiplayerModels::ExternalFriendSources PlayFab::MultiplayerModels::readExternalFriendSourcesFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readExternalFriendSourcesFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::ExternalFriendSources PlayFab::MultiplayerModels::readExternalFriendSourcesFromValue(const FString& value)
+{
+    static TMap<FString, ExternalFriendSources> _ExternalFriendSourcesMap;
+    if (_ExternalFriendSourcesMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _ExternalFriendSourcesMap.Add(TEXT("None"), ExternalFriendSourcesNone);
+        _ExternalFriendSourcesMap.Add(TEXT("Steam"), ExternalFriendSourcesSteam);
+        _ExternalFriendSourcesMap.Add(TEXT("Facebook"), ExternalFriendSourcesFacebook);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebook"), ExternalFriendSourcesSteamOrFacebook);
+        _ExternalFriendSourcesMap.Add(TEXT("Xbox"), ExternalFriendSourcesXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrXbox"), ExternalFriendSourcesSteamOrXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrXbox"), ExternalFriendSourcesFacebookOrXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrXbox"), ExternalFriendSourcesSteamOrFacebookOrXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("Psn"), ExternalFriendSourcesPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrPsn"), ExternalFriendSourcesSteamOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrPsn"), ExternalFriendSourcesFacebookOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrPsn"), ExternalFriendSourcesSteamOrFacebookOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("XboxOrPsn"), ExternalFriendSourcesXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrXboxOrPsn"), ExternalFriendSourcesSteamOrXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrXboxOrPsn"), ExternalFriendSourcesFacebookOrXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrXboxOrPsn"), ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("All"), ExternalFriendSourcesAll);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _ExternalFriendSourcesMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return ExternalFriendSourcesNone; // Basically critical fail
+}
+
 PlayFab::MultiplayerModels::FPaginationRequest::~FPaginationRequest()
 {
 
@@ -6117,11 +6183,23 @@ void PlayFab::MultiplayerModels::FFindFriendLobbiesRequest::writeJSON(JsonWriter
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("ExcludeFacebookFriends"));
-    writer->WriteValue(ExcludeFacebookFriends);
+    if (ExcludeFacebookFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExcludeFacebookFriends"));
+        writer->WriteValue(ExcludeFacebookFriends);
+    }
 
-    writer->WriteIdentifierPrefix(TEXT("ExcludeSteamFriends"));
-    writer->WriteValue(ExcludeSteamFriends);
+    if (ExcludeSteamFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExcludeSteamFriends"));
+        writer->WriteValue(ExcludeSteamFriends);
+    }
+
+    if (ExternalPlatformFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExternalPlatformFriends"));
+        writeExternalFriendSourcesEnumJSON(ExternalPlatformFriends, writer);
+    }
 
     if (Filter.IsEmpty() == false)
     {
@@ -6176,6 +6254,8 @@ bool PlayFab::MultiplayerModels::FFindFriendLobbiesRequest::readFromValue(const 
         bool TmpValue;
         if (ExcludeSteamFriendsValue->TryGetBool(TmpValue)) { ExcludeSteamFriends = TmpValue; }
     }
+
+    ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
 
     const TSharedPtr<FJsonValue> FilterValue = obj->TryGetField(TEXT("Filter"));
     if (FilterValue.IsValid() && !FilterValue->IsNull())

@@ -5664,6 +5664,72 @@ bool PlayFab::ServerModels::FExecuteCloudScriptServerRequest::readFromValue(cons
     return HasSucceeded;
 }
 
+void PlayFab::ServerModels::writeExternalFriendSourcesEnumJSON(ExternalFriendSources enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case ExternalFriendSourcesNone: writer->WriteValue(TEXT("None")); break;
+    case ExternalFriendSourcesSteam: writer->WriteValue(TEXT("Steam")); break;
+    case ExternalFriendSourcesFacebook: writer->WriteValue(TEXT("Facebook")); break;
+    case ExternalFriendSourcesSteamOrFacebook: writer->WriteValue(TEXT("SteamOrFacebook")); break;
+    case ExternalFriendSourcesXbox: writer->WriteValue(TEXT("Xbox")); break;
+    case ExternalFriendSourcesSteamOrXbox: writer->WriteValue(TEXT("SteamOrXbox")); break;
+    case ExternalFriendSourcesFacebookOrXbox: writer->WriteValue(TEXT("FacebookOrXbox")); break;
+    case ExternalFriendSourcesSteamOrFacebookOrXbox: writer->WriteValue(TEXT("SteamOrFacebookOrXbox")); break;
+    case ExternalFriendSourcesPsn: writer->WriteValue(TEXT("Psn")); break;
+    case ExternalFriendSourcesSteamOrPsn: writer->WriteValue(TEXT("SteamOrPsn")); break;
+    case ExternalFriendSourcesFacebookOrPsn: writer->WriteValue(TEXT("FacebookOrPsn")); break;
+    case ExternalFriendSourcesSteamOrFacebookOrPsn: writer->WriteValue(TEXT("SteamOrFacebookOrPsn")); break;
+    case ExternalFriendSourcesXboxOrPsn: writer->WriteValue(TEXT("XboxOrPsn")); break;
+    case ExternalFriendSourcesSteamOrXboxOrPsn: writer->WriteValue(TEXT("SteamOrXboxOrPsn")); break;
+    case ExternalFriendSourcesFacebookOrXboxOrPsn: writer->WriteValue(TEXT("FacebookOrXboxOrPsn")); break;
+    case ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn: writer->WriteValue(TEXT("SteamOrFacebookOrXboxOrPsn")); break;
+    case ExternalFriendSourcesAll: writer->WriteValue(TEXT("All")); break;
+    }
+}
+
+ServerModels::ExternalFriendSources PlayFab::ServerModels::readExternalFriendSourcesFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readExternalFriendSourcesFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+ServerModels::ExternalFriendSources PlayFab::ServerModels::readExternalFriendSourcesFromValue(const FString& value)
+{
+    static TMap<FString, ExternalFriendSources> _ExternalFriendSourcesMap;
+    if (_ExternalFriendSourcesMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _ExternalFriendSourcesMap.Add(TEXT("None"), ExternalFriendSourcesNone);
+        _ExternalFriendSourcesMap.Add(TEXT("Steam"), ExternalFriendSourcesSteam);
+        _ExternalFriendSourcesMap.Add(TEXT("Facebook"), ExternalFriendSourcesFacebook);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebook"), ExternalFriendSourcesSteamOrFacebook);
+        _ExternalFriendSourcesMap.Add(TEXT("Xbox"), ExternalFriendSourcesXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrXbox"), ExternalFriendSourcesSteamOrXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrXbox"), ExternalFriendSourcesFacebookOrXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrXbox"), ExternalFriendSourcesSteamOrFacebookOrXbox);
+        _ExternalFriendSourcesMap.Add(TEXT("Psn"), ExternalFriendSourcesPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrPsn"), ExternalFriendSourcesSteamOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrPsn"), ExternalFriendSourcesFacebookOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrPsn"), ExternalFriendSourcesSteamOrFacebookOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("XboxOrPsn"), ExternalFriendSourcesXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrXboxOrPsn"), ExternalFriendSourcesSteamOrXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrXboxOrPsn"), ExternalFriendSourcesFacebookOrXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrXboxOrPsn"), ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn);
+        _ExternalFriendSourcesMap.Add(TEXT("All"), ExternalFriendSourcesAll);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _ExternalFriendSourcesMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return ExternalFriendSourcesNone; // Basically critical fail
+}
+
 PlayFab::ServerModels::FFacebookInstantGamesPlayFabIdPair::~FFacebookInstantGamesPlayFabIdPair()
 {
 
@@ -8095,6 +8161,12 @@ void PlayFab::ServerModels::FGetFriendLeaderboardRequest::writeJSON(JsonWriter& 
         writer->WriteObjectEnd();
     }
 
+    if (ExternalPlatformFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExternalPlatformFriends"));
+        writeExternalFriendSourcesEnumJSON(ExternalPlatformFriends, writer);
+    }
+
     if (IncludeFacebookFriends.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
@@ -8172,6 +8244,8 @@ bool PlayFab::ServerModels::FGetFriendLeaderboardRequest::readFromValue(const TS
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
+
+    ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
 
     const TSharedPtr<FJsonValue> IncludeFacebookFriendsValue = obj->TryGetField(TEXT("IncludeFacebookFriends"));
     if (IncludeFacebookFriendsValue.IsValid() && !IncludeFacebookFriendsValue->IsNull())
@@ -8266,6 +8340,12 @@ void PlayFab::ServerModels::FGetFriendsListRequest::writeJSON(JsonWriter& writer
         writer->WriteObjectEnd();
     }
 
+    if (ExternalPlatformFriends.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExternalPlatformFriends"));
+        writeExternalFriendSourcesEnumJSON(ExternalPlatformFriends, writer);
+    }
+
     if (IncludeFacebookFriends.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
@@ -8315,6 +8395,8 @@ bool PlayFab::ServerModels::FGetFriendsListRequest::readFromValue(const TSharedP
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
+
+    ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
 
     const TSharedPtr<FJsonValue> IncludeFacebookFriendsValue = obj->TryGetField(TEXT("IncludeFacebookFriends"));
     if (IncludeFacebookFriendsValue.IsValid() && !IncludeFacebookFriendsValue->IsNull())

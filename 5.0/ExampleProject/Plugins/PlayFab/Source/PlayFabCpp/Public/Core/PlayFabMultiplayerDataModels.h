@@ -2833,6 +2833,31 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum ExternalFriendSources
+    {
+        ExternalFriendSourcesNone,
+        ExternalFriendSourcesSteam,
+        ExternalFriendSourcesFacebook,
+        ExternalFriendSourcesSteamOrFacebook,
+        ExternalFriendSourcesXbox,
+        ExternalFriendSourcesSteamOrXbox,
+        ExternalFriendSourcesFacebookOrXbox,
+        ExternalFriendSourcesSteamOrFacebookOrXbox,
+        ExternalFriendSourcesPsn,
+        ExternalFriendSourcesSteamOrPsn,
+        ExternalFriendSourcesFacebookOrPsn,
+        ExternalFriendSourcesSteamOrFacebookOrPsn,
+        ExternalFriendSourcesXboxOrPsn,
+        ExternalFriendSourcesSteamOrXboxOrPsn,
+        ExternalFriendSourcesFacebookOrXboxOrPsn,
+        ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn,
+        ExternalFriendSourcesAll
+    };
+
+    PLAYFABCPP_API void writeExternalFriendSourcesEnumJSON(ExternalFriendSources enumVal, JsonWriter& writer);
+    PLAYFABCPP_API ExternalFriendSources readExternalFriendSourcesFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API ExternalFriendSources readExternalFriendSourcesFromValue(const FString& value);
+
     struct PLAYFABCPP_API FPaginationRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Continuation token returned as a result in a previous FindLobbies call. Cannot be specified by clients.
@@ -2864,11 +2889,14 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // Controls whether this query should link to friends made on the Facebook network. Defaults to false
-        bool ExcludeFacebookFriends;
+        // [optional] Controls whether this query should link to friends made on the Facebook network. Defaults to false
+        Boxed<bool> ExcludeFacebookFriends;
 
-        // Controls whether this query should link to friends made on the Steam network. Defaults to false
-        bool ExcludeSteamFriends;
+        // [optional] Controls whether this query should link to friends made on the Steam network. Defaults to false
+        Boxed<bool> ExcludeSteamFriends;
+
+        // [optional] Indicates which other platforms' friends this query should link to.
+        Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
         /**
          * [optional] OData style string that contains one or more filters. Only the following operators are supported: "and" (logical and),
@@ -2898,8 +2926,9 @@ namespace MultiplayerModels
         FFindFriendLobbiesRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            ExcludeFacebookFriends(false),
-            ExcludeSteamFriends(false),
+            ExcludeFacebookFriends(),
+            ExcludeSteamFriends(),
+            ExternalPlatformFriends(),
             Filter(),
             OrderBy(),
             Pagination(nullptr),

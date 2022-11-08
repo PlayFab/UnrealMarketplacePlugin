@@ -5629,11 +5629,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterLeaderboard(FClientGetCharacte
 
 
     // Serialize all the request properties to json
-    if (request.CharacterType.IsEmpty() || request.CharacterType == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("CharacterType"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("CharacterType"), request.CharacterType);
-    }
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     OutRestJsonObj->SetNumberField(TEXT("StartPosition"), request.StartPosition);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
@@ -5744,11 +5739,6 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetLeaderboardAroundCharacter(FClientGetLe
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
-    }
-    if (request.CharacterType.IsEmpty() || request.CharacterType == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("CharacterType"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("CharacterType"), request.CharacterType);
     }
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
@@ -6106,6 +6096,9 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendsList(FClientGetFriendsListReques
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    FString temp_ExternalPlatformFriends;
+    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+        OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     if (request.ProfileConstraints != nullptr) OutRestJsonObj->SetObjectField(TEXT("ProfileConstraints"), request.ProfileConstraints);
@@ -7202,6 +7195,9 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboard(FClientGetFriendLeade
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    FString temp_ExternalPlatformFriends;
+    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+        OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
@@ -7267,6 +7263,9 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboardAroundPlayer(FClientGe
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    FString temp_ExternalPlatformFriends;
+    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+        OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);

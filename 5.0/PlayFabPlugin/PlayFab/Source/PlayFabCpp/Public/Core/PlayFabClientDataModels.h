@@ -2664,6 +2664,31 @@ namespace ClientModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum ExternalFriendSources
+    {
+        ExternalFriendSourcesNone,
+        ExternalFriendSourcesSteam,
+        ExternalFriendSourcesFacebook,
+        ExternalFriendSourcesSteamOrFacebook,
+        ExternalFriendSourcesXbox,
+        ExternalFriendSourcesSteamOrXbox,
+        ExternalFriendSourcesFacebookOrXbox,
+        ExternalFriendSourcesSteamOrFacebookOrXbox,
+        ExternalFriendSourcesPsn,
+        ExternalFriendSourcesSteamOrPsn,
+        ExternalFriendSourcesFacebookOrPsn,
+        ExternalFriendSourcesSteamOrFacebookOrPsn,
+        ExternalFriendSourcesXboxOrPsn,
+        ExternalFriendSourcesSteamOrXboxOrPsn,
+        ExternalFriendSourcesFacebookOrXboxOrPsn,
+        ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn,
+        ExternalFriendSourcesAll
+    };
+
+    PLAYFABCPP_API void writeExternalFriendSourcesEnumJSON(ExternalFriendSources enumVal, JsonWriter& writer);
+    PLAYFABCPP_API ExternalFriendSources readExternalFriendSourcesFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API ExternalFriendSources readExternalFriendSourcesFromValue(const FString& value);
+
     struct PLAYFABCPP_API FFacebookInstantGamesPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Unique Facebook Instant Games identifier for a user.
@@ -4444,9 +4469,6 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetCharacterLeaderboardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Optional character type on which to filter the leaderboard entries.
-        FString CharacterType;
-
         // [optional] Maximum number of entries to retrieve. Default 10, maximum 100.
         Boxed<int32> MaxResultsCount;
 
@@ -4458,7 +4480,6 @@ namespace ClientModels
 
         FGetCharacterLeaderboardRequest() :
             FPlayFabCppRequestCommon(),
-            CharacterType(),
             MaxResultsCount(),
             StartPosition(0),
             StatisticName()
@@ -4692,6 +4713,9 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] Indicates which other platforms' friends should be included in the response.
+        Boxed<ExternalFriendSources> ExternalPlatformFriends;
+
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
         Boxed<bool> IncludeFacebookFriends;
 
@@ -4726,6 +4750,7 @@ namespace ClientModels
         FGetFriendLeaderboardAroundPlayerRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
+            ExternalPlatformFriends(),
             IncludeFacebookFriends(),
             IncludeSteamFriends(),
             MaxResultsCount(),
@@ -4823,6 +4848,9 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] Indicates which other platforms' friends should be included in the response.
+        Boxed<ExternalFriendSources> ExternalPlatformFriends;
+
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
         Boxed<bool> IncludeFacebookFriends;
 
@@ -4857,6 +4885,7 @@ namespace ClientModels
         FGetFriendLeaderboardRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
+            ExternalPlatformFriends(),
             IncludeFacebookFriends(),
             IncludeSteamFriends(),
             MaxResultsCount(),
@@ -4885,6 +4914,9 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] Indicates which other platforms' friends should be included in the response.
+        Boxed<ExternalFriendSources> ExternalPlatformFriends;
+
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
         Boxed<bool> IncludeFacebookFriends;
 
@@ -4904,6 +4936,7 @@ namespace ClientModels
         FGetFriendsListRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
+            ExternalPlatformFriends(),
             IncludeFacebookFriends(),
             IncludeSteamFriends(),
             ProfileConstraints(nullptr),
@@ -4950,9 +4983,6 @@ namespace ClientModels
         // Unique PlayFab assigned ID for a specific character on which to center the leaderboard.
         FString CharacterId;
 
-        // [optional] Optional character type on which to filter the leaderboard entries.
-        FString CharacterType;
-
         // [optional] Maximum number of entries to retrieve. Default 10, maximum 100.
         Boxed<int32> MaxResultsCount;
 
@@ -4962,7 +4992,6 @@ namespace ClientModels
         FGetLeaderboardAroundCharacterRequest() :
             FPlayFabCppRequestCommon(),
             CharacterId(),
-            CharacterType(),
             MaxResultsCount(),
             StatisticName()
             {}
@@ -5943,7 +5972,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000
+         * in length.
+         */
         TArray<FString> FacebookIDs;
         FGetPlayFabIDsFromFacebookIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -5987,7 +6019,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromFacebookInstantGamesIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers. The array
+         * cannot exceed 25 in length.
+         */
         TArray<FString> FacebookInstantGamesIds;
         FGetPlayFabIDsFromFacebookInstantGamesIdsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6031,7 +6066,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromGameCenterIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Game Center identifiers (the Player Identifier) for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Game Center identifiers (the Player Identifier) for which the title needs to get PlayFab identifiers.
+         * The array cannot exceed 2,000 in length.
+         */
         TArray<FString> GameCenterIDs;
         FGetPlayFabIDsFromGameCenterIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6122,7 +6160,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromGoogleIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Google identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Google identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers. The array
+         * cannot exceed 2,000 in length.
+         */
         TArray<FString> GoogleIDs;
         FGetPlayFabIDsFromGoogleIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6193,7 +6234,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Google Play Games identifiers (Google+ user IDs) for which the title needs to get PlayFab identifiers.
+         * The array cannot exceed 2,000 in length.
+         */
         TArray<FString> GooglePlayGamesPlayerIDs;
         FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6264,7 +6308,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromKongregateIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Kongregate identifiers (Kongregate's user_id) for which the title needs to get PlayFab identifiers. The
+         * array cannot exceed 2,000 in length.
+         */
         TArray<FString> KongregateIDs;
         FGetPlayFabIDsFromKongregateIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6335,7 +6382,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoServiceAccountIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
+         * cannot exceed 2,000 in length.
+         */
         TArray<FString> NintendoAccountIds;
         FGetPlayFabIDsFromNintendoServiceAccountIdsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6409,7 +6459,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. The array
+         * cannot exceed 2,000 in length.
+         */
         TArray<FString> NintendoSwitchDeviceIds;
         FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6483,7 +6536,10 @@ namespace ClientModels
         // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
         Boxed<int32> IssuerId;
 
-        // Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
+         * cannot exceed 2,000 in length.
+         */
         TArray<FString> PSNAccountIDs;
         FGetPlayFabIDsFromPSNAccountIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6558,7 +6614,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers.
+        /**
+         * [optional] Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. The array
+         * cannot exceed 2,000 in length.
+         */
         TArray<FString> SteamStringIDs;
         FGetPlayFabIDsFromSteamIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6629,7 +6688,10 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FGetPlayFabIDsFromTwitchIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. The array cannot
+         * exceed 2,000 in length.
+         */
         TArray<FString> TwitchIds;
         FGetPlayFabIDsFromTwitchIDsRequest() :
             FPlayFabCppRequestCommon(),
@@ -6703,7 +6765,10 @@ namespace ClientModels
         // [optional] The ID of Xbox Live sandbox.
         FString Sandbox;
 
-        // Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers.
+        /**
+         * Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. The array cannot
+         * exceed 2,000 in length.
+         */
         TArray<FString> XboxLiveAccountIDs;
         FGetPlayFabIDsFromXboxLiveIDsRequest() :
             FPlayFabCppRequestCommon(),

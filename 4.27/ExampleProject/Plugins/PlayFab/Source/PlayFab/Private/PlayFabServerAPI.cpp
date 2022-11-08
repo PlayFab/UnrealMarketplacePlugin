@@ -3771,6 +3771,9 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetFriendsList(FServerGetFriendsListReques
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    FString temp_ExternalPlatformFriends;
+    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+        OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
@@ -4493,6 +4496,9 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetFriendLeaderboard(FServerGetFriendLeade
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    FString temp_ExternalPlatformFriends;
+    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+        OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);

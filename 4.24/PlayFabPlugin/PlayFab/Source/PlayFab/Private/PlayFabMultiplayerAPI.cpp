@@ -219,6 +219,9 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::FindFriendLobbies(FMultiplayerFi
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("ExcludeFacebookFriends"), request.ExcludeFacebookFriends);
     OutRestJsonObj->SetBoolField(TEXT("ExcludeSteamFriends"), request.ExcludeSteamFriends);
+    FString temp_ExternalPlatformFriends;
+    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+        OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
     if (request.Filter.IsEmpty() || request.Filter == "") {
         OutRestJsonObj->SetFieldNull(TEXT("Filter"));
     } else {

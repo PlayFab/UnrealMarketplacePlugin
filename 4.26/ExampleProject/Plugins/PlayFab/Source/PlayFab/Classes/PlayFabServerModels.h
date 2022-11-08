@@ -166,7 +166,10 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookIDsRequest : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Facebook identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000
+     * in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString FacebookIDs;
 };
@@ -187,7 +190,10 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromFacebookInstantGamesIdsRequest : publ
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Facebook Instant Games identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 25 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString FacebookInstantGamesIds;
 };
@@ -232,7 +238,10 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromNintendoServiceAccountIdsRequest : pu
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Nintendo Switch Account identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString NintendoAccountIds;
 };
@@ -253,7 +262,10 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : publ
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Nintendo Switch Device identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString NintendoSwitchDeviceIds;
 };
@@ -277,7 +289,10 @@ public:
     /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         int32 IssuerId = 0;
-    /** Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString PSNAccountIDs;
 };
@@ -298,7 +313,10 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromSteamIDsRequest : public FPlayFabRequ
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Steam identifiers (Steam profile IDs) for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString SteamStringIDs;
 };
@@ -319,7 +337,10 @@ struct PLAYFAB_API FServerGetPlayFabIDsFromTwitchIDsRequest : public FPlayFabReq
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Twitch identifiers (Twitch's _id) for which the title needs to get PlayFab identifiers. The array cannot
+     * exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString TwitchIds;
 };
@@ -343,7 +364,10 @@ public:
     /** The ID of Xbox Live sandbox. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString Sandbox;
-    /** Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. */
+    /**
+     * Array of unique Xbox Live account identifiers for which the title needs to get PlayFab identifiers. The array cannot
+     * exceed 2,000 in length.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
         FString XboxLiveAccountIDs;
 };
@@ -1640,6 +1664,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Friend List Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Indicates which other platforms' friends should be included in the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Friend List Management Models")
+        EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Friend List Management Models")
         bool IncludeFacebookFriends = false;
@@ -1977,6 +2004,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Indicates which other platforms' friends should be included in the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
+        EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
         bool IncludeFacebookFriends = false;

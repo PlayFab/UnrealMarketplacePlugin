@@ -3268,11 +3268,6 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetCharacterLeaderboard(FServerGetCharacte
 
 
     // Serialize all the request properties to json
-    if (request.CharacterType.IsEmpty() || request.CharacterType == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("CharacterType"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("CharacterType"), request.CharacterType);
-    }
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     OutRestJsonObj->SetNumberField(TEXT("StartPosition"), request.StartPosition);
     if (request.StatisticName.IsEmpty() || request.StatisticName == "") {
@@ -3388,11 +3383,6 @@ UPlayFabServerAPI* UPlayFabServerAPI::GetLeaderboardAroundCharacter(FServerGetLe
         OutRestJsonObj->SetFieldNull(TEXT("CharacterId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("CharacterId"), request.CharacterId);
-    }
-    if (request.CharacterType.IsEmpty() || request.CharacterType == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("CharacterType"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("CharacterType"), request.CharacterType);
     }
     OutRestJsonObj->SetNumberField(TEXT("MaxResultsCount"), request.MaxResultsCount);
     if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {

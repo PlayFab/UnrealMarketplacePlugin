@@ -3862,9 +3862,6 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FGetCharacterLeaderboardRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Optional character type on which to filter the leaderboard entries.
-        FString CharacterType;
-
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
 
@@ -3876,7 +3873,6 @@ namespace ServerModels
 
         FGetCharacterLeaderboardRequest() :
             FPlayFabCppRequestCommon(),
-            CharacterType(),
             MaxResultsCount(0),
             StartPosition(0),
             StatisticName()
@@ -4265,9 +4261,6 @@ namespace ServerModels
         // Unique PlayFab assigned ID for a specific character owned by a user
         FString CharacterId;
 
-        // [optional] Optional character type on which to filter the leaderboard entries.
-        FString CharacterType;
-
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
 
@@ -4280,7 +4273,6 @@ namespace ServerModels
         FGetLeaderboardAroundCharacterRequest() :
             FPlayFabCppRequestCommon(),
             CharacterId(),
-            CharacterType(),
             MaxResultsCount(0),
             PlayFabId(),
             StatisticName()

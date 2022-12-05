@@ -1411,9 +1411,6 @@ struct PLAYFAB_API FServerGetCharacterLeaderboardRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Optional character type on which to filter the leaderboard entries. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
-        FString CharacterType;
     /** Maximum number of entries to retrieve. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
         int32 MaxResultsCount = 0;
@@ -1478,9 +1475,6 @@ public:
     /** Unique PlayFab assigned ID for a specific character owned by a user */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
         FString CharacterId;
-    /** Optional character type on which to filter the leaderboard entries. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
-        FString CharacterType;
     /** Maximum number of entries to retrieve. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Characters Models")
         int32 MaxResultsCount = 0;

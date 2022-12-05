@@ -7642,12 +7642,6 @@ void PlayFab::ServerModels::FGetCharacterLeaderboardRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    if (CharacterType.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CharacterType"));
-        writer->WriteValue(CharacterType);
-    }
-
     writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
     writer->WriteValue(MaxResultsCount);
 
@@ -7670,13 +7664,6 @@ void PlayFab::ServerModels::FGetCharacterLeaderboardRequest::writeJSON(JsonWrite
 bool PlayFab::ServerModels::FGetCharacterLeaderboardRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> CharacterTypeValue = obj->TryGetField(TEXT("CharacterType"));
-    if (CharacterTypeValue.IsValid() && !CharacterTypeValue->IsNull())
-    {
-        FString TmpValue;
-        if (CharacterTypeValue->TryGetString(TmpValue)) { CharacterType = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> MaxResultsCountValue = obj->TryGetField(TEXT("MaxResultsCount"));
     if (MaxResultsCountValue.IsValid() && !MaxResultsCountValue->IsNull())
@@ -8490,12 +8477,6 @@ void PlayFab::ServerModels::FGetLeaderboardAroundCharacterRequest::writeJSON(Jso
         writer->WriteValue(CharacterId);
     }
 
-    if (CharacterType.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("CharacterType"));
-        writer->WriteValue(CharacterType);
-    }
-
     writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
     writer->WriteValue(MaxResultsCount);
 
@@ -8531,13 +8512,6 @@ bool PlayFab::ServerModels::FGetLeaderboardAroundCharacterRequest::readFromValue
     {
         FString TmpValue;
         if (CharacterIdValue->TryGetString(TmpValue)) { CharacterId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> CharacterTypeValue = obj->TryGetField(TEXT("CharacterType"));
-    if (CharacterTypeValue.IsValid() && !CharacterTypeValue->IsNull())
-    {
-        FString TmpValue;
-        if (CharacterTypeValue->TryGetString(TmpValue)) { CharacterType = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> MaxResultsCountValue = obj->TryGetField(TEXT("MaxResultsCount"));

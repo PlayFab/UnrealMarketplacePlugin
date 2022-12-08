@@ -174,6 +174,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
         static FEconomyGetMicrosoftStoreAccessTokensResponse decodeGetMicrosoftStoreAccessTokensResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetTransactionHistoryResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyGetTransactionHistoryResponse decodeGetTransactionHistoryResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the PurchaseInventoryItemsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
         static FEconomyPurchaseInventoryItemsResponse decodePurchaseInventoryItemsResponseResponse(UPlayFabJsonObject* response);

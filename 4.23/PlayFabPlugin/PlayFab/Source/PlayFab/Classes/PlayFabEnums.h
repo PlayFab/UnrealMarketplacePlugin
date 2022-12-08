@@ -1297,20 +1297,9 @@ enum class EExternalFriendSources : uint8
     pfenum_None = 0 UMETA(DisplayName = "None"),
     pfenum_Steam = 1 UMETA(DisplayName = "Steam"),
     pfenum_Facebook = 2 UMETA(DisplayName = "Facebook"),
-    pfenum_SteamOrFacebook = 3 UMETA(DisplayName = "SteamOrFacebook"),
-    pfenum_Xbox = 4 UMETA(DisplayName = "Xbox"),
-    pfenum_SteamOrXbox = 5 UMETA(DisplayName = "SteamOrXbox"),
-    pfenum_FacebookOrXbox = 6 UMETA(DisplayName = "FacebookOrXbox"),
-    pfenum_SteamOrFacebookOrXbox = 7 UMETA(DisplayName = "SteamOrFacebookOrXbox"),
-    pfenum_Psn = 8 UMETA(DisplayName = "Psn"),
-    pfenum_SteamOrPsn = 9 UMETA(DisplayName = "SteamOrPsn"),
-    pfenum_FacebookOrPsn = 10 UMETA(DisplayName = "FacebookOrPsn"),
-    pfenum_SteamOrFacebookOrPsn = 11 UMETA(DisplayName = "SteamOrFacebookOrPsn"),
-    pfenum_XboxOrPsn = 12 UMETA(DisplayName = "XboxOrPsn"),
-    pfenum_SteamOrXboxOrPsn = 13 UMETA(DisplayName = "SteamOrXboxOrPsn"),
-    pfenum_FacebookOrXboxOrPsn = 14 UMETA(DisplayName = "FacebookOrXboxOrPsn"),
-    pfenum_SteamOrFacebookOrXboxOrPsn = 15 UMETA(DisplayName = "SteamOrFacebookOrXboxOrPsn"),
-    pfenum_All = 16 UMETA(DisplayName = "All"),
+    pfenum_Xbox = 3 UMETA(DisplayName = "Xbox"),
+    pfenum_Psn = 4 UMETA(DisplayName = "Psn"),
+    pfenum_All = 5 UMETA(DisplayName = "All"),
 };
 
 /** GameInstanceState */

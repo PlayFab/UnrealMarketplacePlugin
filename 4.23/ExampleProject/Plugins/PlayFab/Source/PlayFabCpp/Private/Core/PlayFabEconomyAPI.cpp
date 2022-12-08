@@ -717,6 +717,36 @@ void UPlayFabEconomyAPI::OnGetMicrosoftStoreAccessTokensResult(FHttpRequestPtr H
     }
 }
 
+bool UPlayFabEconomyAPI::GetTransactionHistory(
+    EconomyModels::FGetTransactionHistoryRequest& request,
+    const FGetTransactionHistoryDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
+    if (entityToken.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Inventory/GetTransactionHistory"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEconomyAPI::OnGetTransactionHistoryResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabEconomyAPI::OnGetTransactionHistoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionHistoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    EconomyModels::FGetTransactionHistoryResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabEconomyAPI::PublishDraftItem(
     EconomyModels::FPublishDraftItemRequest& request,
     const FPublishDraftItemDelegate& SuccessDelegate,

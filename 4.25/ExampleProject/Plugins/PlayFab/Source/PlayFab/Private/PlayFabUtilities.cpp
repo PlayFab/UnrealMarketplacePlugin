@@ -576,9 +576,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1543: returnText = "AutomationRuleAlreadyExists"; break;
     case 1544: returnText = "AutomationRuleLimitExceeded"; break;
     case 1545: returnText = "InvalidGooglePlayGamesServerAuthCode"; break;
-    case 1546: returnText = "StorageAccountNotFound"; break;
     case 1547: returnText = "PlayStreamConnectionFailed"; break;
     case 1548: returnText = "InvalidEventContents"; break;
+    case 1549: returnText = "InsightsV1Deprecated"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

@@ -2838,19 +2838,8 @@ namespace MultiplayerModels
         ExternalFriendSourcesNone,
         ExternalFriendSourcesSteam,
         ExternalFriendSourcesFacebook,
-        ExternalFriendSourcesSteamOrFacebook,
         ExternalFriendSourcesXbox,
-        ExternalFriendSourcesSteamOrXbox,
-        ExternalFriendSourcesFacebookOrXbox,
-        ExternalFriendSourcesSteamOrFacebookOrXbox,
         ExternalFriendSourcesPsn,
-        ExternalFriendSourcesSteamOrPsn,
-        ExternalFriendSourcesFacebookOrPsn,
-        ExternalFriendSourcesSteamOrFacebookOrPsn,
-        ExternalFriendSourcesXboxOrPsn,
-        ExternalFriendSourcesSteamOrXboxOrPsn,
-        ExternalFriendSourcesFacebookOrXboxOrPsn,
-        ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn,
         ExternalFriendSourcesAll
     };
 

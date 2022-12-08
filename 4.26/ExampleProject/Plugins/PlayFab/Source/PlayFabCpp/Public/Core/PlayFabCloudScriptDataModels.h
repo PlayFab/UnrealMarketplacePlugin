@@ -1570,8 +1570,8 @@ namespace CloudScriptModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // The entity to perform this action on.
-        FEntityKey Entity;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
 
         // The result of the function execution
         FExecuteFunctionResult FunctionResult;
@@ -1582,7 +1582,7 @@ namespace CloudScriptModels
         FPostFunctionResultForScheduledTaskRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            Entity(),
+            Entity(nullptr),
             FunctionResult(),
             ScheduledTaskId()
             {}

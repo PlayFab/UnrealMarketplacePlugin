@@ -2669,19 +2669,8 @@ namespace ClientModels
         ExternalFriendSourcesNone,
         ExternalFriendSourcesSteam,
         ExternalFriendSourcesFacebook,
-        ExternalFriendSourcesSteamOrFacebook,
         ExternalFriendSourcesXbox,
-        ExternalFriendSourcesSteamOrXbox,
-        ExternalFriendSourcesFacebookOrXbox,
-        ExternalFriendSourcesSteamOrFacebookOrXbox,
         ExternalFriendSourcesPsn,
-        ExternalFriendSourcesSteamOrPsn,
-        ExternalFriendSourcesFacebookOrPsn,
-        ExternalFriendSourcesSteamOrFacebookOrPsn,
-        ExternalFriendSourcesXboxOrPsn,
-        ExternalFriendSourcesSteamOrXboxOrPsn,
-        ExternalFriendSourcesFacebookOrXboxOrPsn,
-        ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn,
         ExternalFriendSourcesAll
     };
 
@@ -4713,7 +4702,10 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Indicates which other platforms' friends should be included in the response.
+        /**
+         * [optional] Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+         * comma-separated list of platforms.
+         */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
@@ -4848,7 +4840,10 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Indicates which other platforms' friends should be included in the response.
+        /**
+         * [optional] Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+         * comma-separated list of platforms.
+         */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
@@ -4914,7 +4909,10 @@ namespace ClientModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Indicates which other platforms' friends should be included in the response.
+        /**
+         * [optional] Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+         * comma-separated list of platforms.
+         */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.

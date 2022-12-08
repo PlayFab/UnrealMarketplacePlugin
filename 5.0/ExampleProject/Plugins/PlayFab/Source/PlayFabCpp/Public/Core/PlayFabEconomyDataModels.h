@@ -72,6 +72,29 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FInitialValues : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Game specific properties for display purposes.
+        FJsonKeeper DisplayProperties;
+
+        FInitialValues() :
+            FPlayFabCppBaseModel(),
+            DisplayProperties()
+            {}
+
+        FInitialValues(const FInitialValues& src) = default;
+
+        FInitialValues(const TSharedPtr<FJsonObject>& obj) : FInitialValues()
+        {
+            readFromValue(obj);
+        }
+
+        ~FInitialValues();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FAddInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
     {
         // The amount to add to the current item amount.
@@ -80,10 +103,14 @@ namespace EconomyModels
         // [optional] The inventory item the operation applies to.
         TSharedPtr<FInventoryItemReference> Item;
 
+        // [optional] The values to apply to a stack newly created by this operation.
+        TSharedPtr<FInitialValues> NewStackValues;
+
         FAddInventoryItemsOperation() :
             FPlayFabCppBaseModel(),
             Amount(0),
-            Item(nullptr)
+            Item(nullptr),
+            NewStackValues(nullptr)
             {}
 
         FAddInventoryItemsOperation(const FAddInventoryItemsOperation& src) = default;
@@ -139,11 +166,17 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The Idempotency ID for this request.
         FString IdempotencyId;
 
         // [optional] The inventory item the request applies to.
         TSharedPtr<FInventoryItemReference> Item;
+
+        // [optional] The values to apply to a stack newly created by this request.
+        TSharedPtr<FInitialValues> NewStackValues;
 
         FAddInventoryItemsRequest() :
             FPlayFabCppRequestCommon(),
@@ -151,8 +184,10 @@ namespace EconomyModels
             CollectionId(),
             CustomTags(),
             Entity(nullptr),
+            ETag(),
             IdempotencyId(),
-            Item(nullptr)
+            Item(nullptr),
+            NewStackValues(nullptr)
             {}
 
         FAddInventoryItemsRequest(const FAddInventoryItemsRequest& src) = default;
@@ -170,6 +205,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FAddInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The idempotency id used in the request.
         FString IdempotencyId;
 
@@ -177,6 +215,7 @@ namespace EconomyModels
         TArray<FString> TransactionIds;
         FAddInventoryItemsResponse() :
             FPlayFabCppResultCommon(),
+            ETag(),
             IdempotencyId(),
             TransactionIds()
             {}
@@ -1511,11 +1550,15 @@ namespace EconomyModels
         // [optional] The entity the request is about. Set to the caller by default.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         FDeleteInventoryCollectionRequest() :
             FPlayFabCppRequestCommon(),
             CollectionId(),
             CustomTags(),
-            Entity(nullptr)
+            Entity(nullptr),
+            ETag()
             {}
 
         FDeleteInventoryCollectionRequest(const FDeleteInventoryCollectionRequest& src) = default;
@@ -1583,6 +1626,9 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The Idempotency ID for this request.
         FString IdempotencyId;
 
@@ -1594,6 +1640,7 @@ namespace EconomyModels
             CollectionId(),
             CustomTags(),
             Entity(nullptr),
+            ETag(),
             IdempotencyId(),
             Item(nullptr)
             {}
@@ -1613,6 +1660,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FDeleteInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The idempotency id used in the request.
         FString IdempotencyId;
 
@@ -1620,6 +1670,7 @@ namespace EconomyModels
         TArray<FString> TransactionIds;
         FDeleteInventoryItemsResponse() :
             FPlayFabCppResultCommon(),
+            ETag(),
             IdempotencyId(),
             TransactionIds()
             {}
@@ -1735,6 +1786,9 @@ namespace EconomyModels
         // [optional] The inventory item the operation applies to.
         TSharedPtr<FInventoryItemReference> Item;
 
+        // [optional] The values to apply to a stack newly created by this operation.
+        TSharedPtr<FInitialValues> NewStackValues;
+
         /**
          * [optional] The per-item price the item is expected to be purchased at. This must match a value configured in the Catalog or
          * specified Store.
@@ -1748,6 +1802,7 @@ namespace EconomyModels
             Amount(0),
             DeleteEmptyStacks(false),
             Item(nullptr),
+            NewStackValues(nullptr),
             PriceAmounts(),
             StoreId()
             {}
@@ -1813,6 +1868,9 @@ namespace EconomyModels
         // [optional] The inventory item the operation is transferring from.
         TSharedPtr<FInventoryItemReference> GivingItem;
 
+        // [optional] The values to apply to a stack newly created by this operation.
+        TSharedPtr<FInitialValues> NewStackValues;
+
         // [optional] The inventory item the operation is transferring to.
         TSharedPtr<FInventoryItemReference> ReceivingItem;
 
@@ -1821,6 +1879,7 @@ namespace EconomyModels
             Amount(0),
             DeleteEmptyStacks(false),
             GivingItem(nullptr),
+            NewStackValues(nullptr),
             ReceivingItem(nullptr)
             {}
 
@@ -1842,6 +1901,9 @@ namespace EconomyModels
         // The amount of the item.
         int32 Amount;
 
+        // [optional] Game specific properties for display purposes. This is an arbitrary JSON blob.
+        FJsonKeeper DisplayProperties;
+
         // [optional] The id of the item. This should correspond to the item id in the catalog.
         FString Id;
 
@@ -1854,6 +1916,7 @@ namespace EconomyModels
         FInventoryItem() :
             FPlayFabCppBaseModel(),
             Amount(0),
+            DisplayProperties(),
             Id(),
             StackId(),
             Type()
@@ -1948,6 +2011,9 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The Idempotency ID for this request.
         FString IdempotencyId;
 
@@ -1961,6 +2027,7 @@ namespace EconomyModels
             CollectionId(),
             CustomTags(),
             Entity(nullptr),
+            ETag(),
             IdempotencyId(),
             Operations()
             {}
@@ -1980,6 +2047,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FExecuteInventoryOperationsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The idempotency id used in the request.
         FString IdempotencyId;
 
@@ -1987,6 +2057,7 @@ namespace EconomyModels
         TArray<FString> TransactionIds;
         FExecuteInventoryOperationsResponse() :
             FPlayFabCppResultCommon(),
+            ETag(),
             IdempotencyId(),
             TransactionIds()
             {}
@@ -2469,11 +2540,15 @@ namespace EconomyModels
         // [optional] An opaque token used to retrieve the next page of items, if any are available.
         FString ContinuationToken;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The requested inventory items.
         TArray<FInventoryItem> Items;
         FGetInventoryItemsResponse() :
             FPlayFabCppResultCommon(),
             ContinuationToken(),
+            ETag(),
             Items()
             {}
 
@@ -2984,6 +3059,260 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetTransactionHistoryRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] An opaque token used to retrieve the next page of items, if any are available. Should be null on initial request.
+        FString ContinuationToken;
+
+        // Number of items to retrieve. (Default = 10)
+        int32 Count;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] An OData filter used to refine the query.
+        FString Filter;
+
+        FGetTransactionHistoryRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            ContinuationToken(),
+            Count(0),
+            CustomTags(),
+            Entity(nullptr),
+            Filter()
+            {}
+
+        FGetTransactionHistoryRequest(const FGetTransactionHistoryRequest& src) = default;
+
+        FGetTransactionHistoryRequest(const TSharedPtr<FJsonObject>& obj) : FGetTransactionHistoryRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTransactionHistoryRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransactionOperation : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The amount of items in this transaction.
+        Boxed<int32> Amount;
+
+        // [optional] The item id of the items in this transaction.
+        FString ItemId;
+
+        // [optional] The type of item that the operation occurred on.
+        FString ItemType;
+
+        // [optional] The stack id of the items in this transaction.
+        FString StackId;
+
+        // [optional] The type of the operation that occurred.
+        FString Type;
+
+        FTransactionOperation() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            ItemId(),
+            ItemType(),
+            StackId(),
+            Type()
+            {}
+
+        FTransactionOperation(const FTransactionOperation& src) = default;
+
+        FTransactionOperation(const TSharedPtr<FJsonObject>& obj) : FTransactionOperation()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransactionOperation();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransactionPurchaseDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The id of the Store the item was purchased from or null.
+        FString StoreId;
+
+        FTransactionPurchaseDetails() :
+            FPlayFabCppBaseModel(),
+            StoreId()
+            {}
+
+        FTransactionPurchaseDetails(const FTransactionPurchaseDetails& src) = default;
+
+        FTransactionPurchaseDetails(const TSharedPtr<FJsonObject>& obj) : FTransactionPurchaseDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransactionPurchaseDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransactionRedeemDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The marketplace that the offer is being redeemed from.
+        FString Marketplace;
+
+        // [optional] The transaction Id returned from the marketplace.
+        FString MarketplaceTransactionId;
+
+        // [optional] The offer Id of the item being redeemed.
+        FString OfferId;
+
+        FTransactionRedeemDetails() :
+            FPlayFabCppBaseModel(),
+            Marketplace(),
+            MarketplaceTransactionId(),
+            OfferId()
+            {}
+
+        FTransactionRedeemDetails(const FTransactionRedeemDetails& src) = default;
+
+        FTransactionRedeemDetails(const TSharedPtr<FJsonObject>& obj) : FTransactionRedeemDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransactionRedeemDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransactionTransferDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The collection id the items were transferred from or null if it was the current collection.
+        FString GivingCollectionId;
+
+        // [optional] The entity the items were transferred from or null if it was the current entity.
+        TSharedPtr<FEntityKey> GivingEntity;
+
+        // [optional] The collection id the items were transferred to or null if it was the current collection.
+        FString ReceivingCollectionId;
+
+        // [optional] The entity the items were transferred to or null if it was the current entity.
+        TSharedPtr<FEntityKey> ReceivingEntity;
+
+        // [optional] The id of the transfer that occurred.
+        FString TransferId;
+
+        FTransactionTransferDetails() :
+            FPlayFabCppBaseModel(),
+            GivingCollectionId(),
+            GivingEntity(nullptr),
+            ReceivingCollectionId(),
+            ReceivingEntity(nullptr),
+            TransferId()
+            {}
+
+        FTransactionTransferDetails(const FTransactionTransferDetails& src) = default;
+
+        FTransactionTransferDetails(const TSharedPtr<FJsonObject>& obj) : FTransactionTransferDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransactionTransferDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTransaction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The API call that caused this transaction.
+        FString ApiName;
+
+        // [optional] The type of item that the the operation occurred on.
+        FString ItemType;
+
+        // [optional] The operations that occurred.
+        TArray<FTransactionOperation> Operations;
+        // [optional] The type of operation that was run.
+        FString OperationType;
+
+        // [optional] Additional details about the transaction. Null if it was not a purchase operation.
+        TSharedPtr<FTransactionPurchaseDetails> PurchaseDetails;
+
+        // [optional] Additional details about the transaction. Null if it was not a redeem operation.
+        TSharedPtr<FTransactionRedeemDetails> RedeemDetails;
+
+        // The time this transaction occurred in UTC.
+        FDateTime Timestamp;
+
+        // [optional] The id of the transaction. This should be treated like an opaque token.
+        FString TransactionId;
+
+        // [optional] Additional details about the transaction. Null if it was not a transfer operation.
+        TSharedPtr<FTransactionTransferDetails> TransferDetails;
+
+        FTransaction() :
+            FPlayFabCppBaseModel(),
+            ApiName(),
+            ItemType(),
+            Operations(),
+            OperationType(),
+            PurchaseDetails(nullptr),
+            RedeemDetails(nullptr),
+            Timestamp(0),
+            TransactionId(),
+            TransferDetails(nullptr)
+            {}
+
+        FTransaction(const FTransaction& src) = default;
+
+        FTransaction(const TSharedPtr<FJsonObject>& obj) : FTransaction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTransaction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetTransactionHistoryResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] An opaque token used to retrieve the next page of items, if any are available. Should be null on initial request.
+        FString ContinuationToken;
+
+        // [optional] The requested inventory transactions.
+        TArray<FTransaction> Transactions;
+        FGetTransactionHistoryResponse() :
+            FPlayFabCppResultCommon(),
+            ContinuationToken(),
+            Transactions()
+            {}
+
+        FGetTransactionHistoryResponse(const FGetTransactionHistoryResponse& src) = default;
+
+        FGetTransactionHistoryResponse(const TSharedPtr<FJsonObject>& obj) : FGetTransactionHistoryResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTransactionHistoryResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGooglePlayProductPurchase : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The Product ID (SKU) of the InApp product purchased from the Google Play store.
@@ -3121,11 +3450,17 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The Idempotency ID for this request.
         FString IdempotencyId;
 
         // [optional] The inventory item the request applies to.
         TSharedPtr<FInventoryItemReference> Item;
+
+        // [optional] The values to apply to a stack newly created by this request.
+        TSharedPtr<FInitialValues> NewStackValues;
 
         /**
          * [optional] The per-item price the item is expected to be purchased at. This must match a value configured in the Catalog or
@@ -3142,8 +3477,10 @@ namespace EconomyModels
             CustomTags(),
             DeleteEmptyStacks(false),
             Entity(nullptr),
+            ETag(),
             IdempotencyId(),
             Item(nullptr),
+            NewStackValues(nullptr),
             PriceAmounts(),
             StoreId()
             {}
@@ -3163,6 +3500,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FPurchaseInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The idempotency id used in the request.
         FString IdempotencyId;
 
@@ -3170,6 +3510,7 @@ namespace EconomyModels
         TArray<FString> TransactionIds;
         FPurchaseInventoryItemsResponse() :
             FPlayFabCppResultCommon(),
+            ETag(),
             IdempotencyId(),
             TransactionIds()
             {}
@@ -4154,6 +4495,9 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The Idempotency ID for this request.
         FString IdempotencyId;
 
@@ -4167,6 +4511,7 @@ namespace EconomyModels
             CustomTags(),
             DeleteEmptyStacks(false),
             Entity(nullptr),
+            ETag(),
             IdempotencyId(),
             Item(nullptr)
             {}
@@ -4186,6 +4531,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FSubtractInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The idempotency id used in the request.
         FString IdempotencyId;
 
@@ -4193,6 +4541,7 @@ namespace EconomyModels
         TArray<FString> TransactionIds;
         FSubtractInventoryItemsResponse() :
             FPlayFabCppResultCommon(),
+            ETag(),
             IdempotencyId(),
             TransactionIds()
             {}
@@ -4273,11 +4622,17 @@ namespace EconomyModels
         // [optional] The entity the request is transferring from. Set to the caller by default.
         TSharedPtr<FEntityKey> GivingEntity;
 
+        // [optional] ETags are used for concurrency checking when updating resources (before transferring from).
+        FString GivingETag;
+
         // [optional] The inventory item the request is transferring from.
         TSharedPtr<FInventoryItemReference> GivingItem;
 
         // [optional] The idempotency id for the request.
         FString IdempotencyId;
+
+        // [optional] The values to apply to a stack newly created by this request.
+        TSharedPtr<FInitialValues> NewStackValues;
 
         // [optional] The inventory collection id the request is transferring to. (Default="default")
         FString ReceivingCollectionId;
@@ -4295,8 +4650,10 @@ namespace EconomyModels
             DeleteEmptyStacks(false),
             GivingCollectionId(),
             GivingEntity(nullptr),
+            GivingETag(),
             GivingItem(nullptr),
             IdempotencyId(),
+            NewStackValues(nullptr),
             ReceivingCollectionId(),
             ReceivingEntity(nullptr),
             ReceivingItem(nullptr)
@@ -4317,6 +4674,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FTransferInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] ETags are used for concurrency checking when updating resources (after transferring from).
+        FString GivingETag;
+
         // [optional] The ids of transactions that occurred as a result of the request's giving action.
         TArray<FString> GivingTransactionIds;
         // [optional] The idempotency id for the request.
@@ -4326,6 +4686,7 @@ namespace EconomyModels
         TArray<FString> ReceivingTransactionIds;
         FTransferInventoryItemsResponse() :
             FPlayFabCppResultCommon(),
+            GivingETag(),
             GivingTransactionIds(),
             IdempotencyId(),
             ReceivingTransactionIds()
@@ -4452,6 +4813,9 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The Idempotency ID for this request.
         FString IdempotencyId;
 
@@ -4463,6 +4827,7 @@ namespace EconomyModels
             CollectionId(),
             CustomTags(),
             Entity(nullptr),
+            ETag(),
             IdempotencyId(),
             Item(nullptr)
             {}
@@ -4482,6 +4847,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FUpdateInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // [optional] ETags are used for concurrency checking when updating resources.
+        FString ETag;
+
         // [optional] The idempotency id used in the request.
         FString IdempotencyId;
 
@@ -4489,6 +4857,7 @@ namespace EconomyModels
         TArray<FString> TransactionIds;
         FUpdateInventoryItemsResponse() :
             FPlayFabCppResultCommon(),
+            ETag(),
             IdempotencyId(),
             TransactionIds()
             {}

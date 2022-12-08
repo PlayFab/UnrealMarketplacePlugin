@@ -11393,6 +11393,12 @@ void PlayFab::AdminModels::FPlayerProfile::writeJSON(JsonWriter& writer) const
         writeDatetime(BannedUntil, writer);
     }
 
+    if (ChurnPrediction.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChurnPrediction"));
+        writeChurnRiskLevelEnumJSON(ChurnPrediction, writer);
+    }
+
     if (ContactEmailAddresses.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("ContactEmailAddresses"));
@@ -11565,6 +11571,8 @@ bool PlayFab::AdminModels::FPlayerProfile::readFromValue(const TSharedPtr<FJsonO
     if (BannedUntilValue.IsValid())
         BannedUntil = readDatetime(BannedUntilValue);
 
+
+    ChurnPrediction = readChurnRiskLevelFromValue(obj->TryGetField(TEXT("ChurnPrediction")));
 
     const TArray<TSharedPtr<FJsonValue>>&ContactEmailAddressesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ContactEmailAddresses"));
     for (int32 Idx = 0; Idx < ContactEmailAddressesArray.Num(); Idx++)

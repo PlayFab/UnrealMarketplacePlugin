@@ -6010,6 +6010,9 @@ namespace AdminModels
         // [optional] Banned until UTC Date. If permanent ban this is set for 20 years after the original ban date.
         Boxed<FDateTime> BannedUntil;
 
+        // [optional] The prediction of the player to churn within the next seven days.
+        Boxed<ChurnRiskLevel> ChurnPrediction;
+
         // [optional] Array of contact email addresses associated with the player
         TArray<FContactEmailInfo> ContactEmailAddresses;
         // [optional] Player record created
@@ -6059,6 +6062,7 @@ namespace AdminModels
             AdCampaignAttributions(),
             AvatarUrl(),
             BannedUntil(),
+            ChurnPrediction(),
             ContactEmailAddresses(),
             Created(),
             DisplayName(),

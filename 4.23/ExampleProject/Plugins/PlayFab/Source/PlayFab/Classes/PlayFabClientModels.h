@@ -2897,7 +2897,10 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Indicates which other platforms' friends should be included in the response. */
+    /**
+     * Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+     * comma-separated list of platforms.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Friend List Management Models")
         EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */
@@ -3508,7 +3511,10 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Indicates which other platforms' friends should be included in the response. */
+    /**
+     * Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+     * comma-separated list of platforms.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */
@@ -3569,7 +3575,10 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Indicates which other platforms' friends should be included in the response. */
+    /**
+     * Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+     * comma-separated list of platforms.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
     /** Indicates whether Facebook friends should be included in the response. Default is true. */

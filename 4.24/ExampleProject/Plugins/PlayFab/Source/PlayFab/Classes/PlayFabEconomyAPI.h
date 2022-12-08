@@ -495,6 +495,19 @@ public:
         void HelperGetMicrosoftStoreAccessTokens(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTransactionHistory, FEconomyGetTransactionHistoryResponse, result, UObject*, customData);
+
+    /** Get transaction history. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* GetTransactionHistory(FEconomyGetTransactionHistoryRequest request,
+            FDelegateOnSuccessGetTransactionHistory onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetTransactionHistory(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessPurchaseInventoryItems, FEconomyPurchaseInventoryItemsResponse, result, UObject*, customData);
 
     /** Purchase an item or bundle */
@@ -675,6 +688,7 @@ public:
     FDelegateOnSuccessGetInventoryCollectionIds OnSuccessGetInventoryCollectionIds;
     FDelegateOnSuccessGetInventoryItems OnSuccessGetInventoryItems;
     FDelegateOnSuccessGetMicrosoftStoreAccessTokens OnSuccessGetMicrosoftStoreAccessTokens;
+    FDelegateOnSuccessGetTransactionHistory OnSuccessGetTransactionHistory;
     FDelegateOnSuccessPurchaseInventoryItems OnSuccessPurchaseInventoryItems;
     FDelegateOnSuccessRedeemAppleAppStoreInventoryItems OnSuccessRedeemAppleAppStoreInventoryItems;
     FDelegateOnSuccessRedeemGooglePlayInventoryItems OnSuccessRedeemGooglePlayInventoryItems;

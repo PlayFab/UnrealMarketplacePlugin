@@ -1604,12 +1604,18 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::AddInventoryItems(FEconomyAddInventoryIt
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.ETag.IsEmpty() || request.ETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ETag"), request.ETag);
+    }
     if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
     }
     if (request.Item != nullptr) OutRestJsonObj->SetObjectField(TEXT("Item"), request.Item);
+    if (request.NewStackValues != nullptr) OutRestJsonObj->SetObjectField(TEXT("NewStackValues"), request.NewStackValues);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1664,6 +1670,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::DeleteInventoryCollection(FEconomyDelete
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.ETag.IsEmpty() || request.ETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ETag"), request.ETag);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1718,6 +1729,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::DeleteInventoryItems(FEconomyDeleteInven
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.ETag.IsEmpty() || request.ETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ETag"), request.ETag);
+    }
     if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
     } else {
@@ -1778,6 +1794,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::ExecuteInventoryOperations(FEconomyExecu
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.ETag.IsEmpty() || request.ETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ETag"), request.ETag);
+    }
     if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
     } else {
@@ -1979,6 +2000,71 @@ void UPlayFabEconomyAPI::HelperGetMicrosoftStoreAccessTokens(FPlayFabBaseModel r
     this->RemoveFromRoot();
 }
 
+/** Get transaction history. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetTransactionHistory(FEconomyGetTransactionHistoryRequest request,
+    FDelegateOnSuccessGetTransactionHistory onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetTransactionHistory = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetTransactionHistory);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/GetTransactionHistory";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.ContinuationToken.IsEmpty() || request.ContinuationToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ContinuationToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ContinuationToken"), request.ContinuationToken);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("Count"), request.Count);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.Filter.IsEmpty() || request.Filter == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Filter"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Filter"), request.Filter);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperGetTransactionHistory(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetTransactionHistory.IsBound())
+    {
+        FEconomyGetTransactionHistoryResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetTransactionHistoryResponseResponse(response.responseData);
+        OnSuccessGetTransactionHistory.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Purchase an item or bundle */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::PurchaseInventoryItems(FEconomyPurchaseInventoryItemsRequest request,
     FDelegateOnSuccessPurchaseInventoryItems onSuccess,
@@ -2012,12 +2098,18 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::PurchaseInventoryItems(FEconomyPurchaseI
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("DeleteEmptyStacks"), request.DeleteEmptyStacks);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.ETag.IsEmpty() || request.ETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ETag"), request.ETag);
+    }
     if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
     }
     if (request.Item != nullptr) OutRestJsonObj->SetObjectField(TEXT("Item"), request.Item);
+    if (request.NewStackValues != nullptr) OutRestJsonObj->SetObjectField(TEXT("NewStackValues"), request.NewStackValues);
     if (request.PriceAmounts.Num() == 0) {
         OutRestJsonObj->SetFieldNull(TEXT("PriceAmounts"));
     } else {
@@ -2443,6 +2535,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::SubtractInventoryItems(FEconomySubtractI
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("DeleteEmptyStacks"), request.DeleteEmptyStacks);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.ETag.IsEmpty() || request.ETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ETag"), request.ETag);
+    }
     if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
     } else {
@@ -2505,12 +2602,18 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::TransferInventoryItems(FEconomyTransferI
         OutRestJsonObj->SetStringField(TEXT("GivingCollectionId"), request.GivingCollectionId);
     }
     if (request.GivingEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("GivingEntity"), request.GivingEntity);
+    if (request.GivingETag.IsEmpty() || request.GivingETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("GivingETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("GivingETag"), request.GivingETag);
+    }
     if (request.GivingItem != nullptr) OutRestJsonObj->SetObjectField(TEXT("GivingItem"), request.GivingItem);
     if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
     }
+    if (request.NewStackValues != nullptr) OutRestJsonObj->SetObjectField(TEXT("NewStackValues"), request.NewStackValues);
     if (request.ReceivingCollectionId.IsEmpty() || request.ReceivingCollectionId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ReceivingCollectionId"));
     } else {
@@ -2572,6 +2675,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::UpdateInventoryItems(FEconomyUpdateInven
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.ETag.IsEmpty() || request.ETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ETag"), request.ETag);
+    }
     if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
     } else {

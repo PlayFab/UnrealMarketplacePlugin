@@ -1926,6 +1926,18 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum ChurnRiskLevel
+    {
+        ChurnRiskLevelNoData,
+        ChurnRiskLevelLowRisk,
+        ChurnRiskLevelMediumRisk,
+        ChurnRiskLevelHighRisk
+    };
+
+    PLAYFABCPP_API void writeChurnRiskLevelEnumJSON(ChurnRiskLevel enumVal, JsonWriter& writer);
+    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const FString& value);
+
     enum CloudScriptRevisionOption
     {
         CloudScriptRevisionOptionLive,
@@ -2922,19 +2934,8 @@ namespace ServerModels
         ExternalFriendSourcesNone,
         ExternalFriendSourcesSteam,
         ExternalFriendSourcesFacebook,
-        ExternalFriendSourcesSteamOrFacebook,
         ExternalFriendSourcesXbox,
-        ExternalFriendSourcesSteamOrXbox,
-        ExternalFriendSourcesFacebookOrXbox,
-        ExternalFriendSourcesSteamOrFacebookOrXbox,
         ExternalFriendSourcesPsn,
-        ExternalFriendSourcesSteamOrPsn,
-        ExternalFriendSourcesFacebookOrPsn,
-        ExternalFriendSourcesSteamOrFacebookOrPsn,
-        ExternalFriendSourcesXboxOrPsn,
-        ExternalFriendSourcesSteamOrXboxOrPsn,
-        ExternalFriendSourcesFacebookOrXboxOrPsn,
-        ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn,
         ExternalFriendSourcesAll
     };
 
@@ -4118,7 +4119,10 @@ namespace ServerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Indicates which other platforms' friends should be included in the response.
+        /**
+         * [optional] Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+         * comma-separated list of platforms.
+         */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
@@ -4188,7 +4192,10 @@ namespace ServerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Indicates which other platforms' friends should be included in the response.
+        /**
+         * [optional] Indicates which other platforms' friends should be included in the response. In HTTP, it is represented as a
+         * comma-separated list of platforms.
+         */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
         // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
@@ -5072,6 +5079,9 @@ namespace ServerModels
         // [optional] Banned until UTC Date. If permanent ban this is set for 20 years after the original ban date.
         Boxed<FDateTime> BannedUntil;
 
+        // [optional] The prediction of the player to churn within the next seven days.
+        Boxed<ChurnRiskLevel> ChurnPrediction;
+
         // [optional] Array of contact email addresses associated with the player
         TArray<FContactEmailInfo> ContactEmailAddresses;
         // [optional] Player record created
@@ -5121,6 +5131,7 @@ namespace ServerModels
             AdCampaignAttributions(),
             AvatarUrl(),
             BannedUntil(),
+            ChurnPrediction(),
             ContactEmailAddresses(),
             Created(),
             DisplayName(),

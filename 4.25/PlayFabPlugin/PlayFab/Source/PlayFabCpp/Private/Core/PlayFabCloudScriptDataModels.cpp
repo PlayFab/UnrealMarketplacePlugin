@@ -3199,6 +3199,7 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequ
 
 PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::~FPostFunctionResultForScheduledTaskRequest()
 {
+    //if (Entity != nullptr) delete Entity;
 
 }
 
@@ -3217,8 +3218,11 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::wri
         writer->WriteObjectEnd();
     }
 
-    writer->WriteIdentifierPrefix(TEXT("Entity"));
-    Entity.writeJSON(writer);
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
 
     writer->WriteIdentifierPrefix(TEXT("FunctionResult"));
     FunctionResult.writeJSON(writer);
@@ -3245,7 +3249,7 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::rea
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
-        Entity = FEntityKey(EntityValue->AsObject());
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> FunctionResultValue = obj->TryGetField(TEXT("FunctionResult"));

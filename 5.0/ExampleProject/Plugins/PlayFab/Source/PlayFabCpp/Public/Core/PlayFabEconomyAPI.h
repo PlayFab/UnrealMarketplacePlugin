@@ -41,6 +41,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetItemReviewSummaryDelegate, const EconomyModels::FGetItemReviewSummaryResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemsDelegate, const EconomyModels::FGetItemsResponse&);
         DECLARE_DELEGATE_OneParam(FGetMicrosoftStoreAccessTokensDelegate, const EconomyModels::FGetMicrosoftStoreAccessTokensResponse&);
+        DECLARE_DELEGATE_OneParam(FGetTransactionHistoryDelegate, const EconomyModels::FGetTransactionHistoryResponse&);
         DECLARE_DELEGATE_OneParam(FPublishDraftItemDelegate, const EconomyModels::FPublishDraftItemResponse&);
         DECLARE_DELEGATE_OneParam(FPurchaseInventoryItemsDelegate, const EconomyModels::FPurchaseInventoryItemsResponse&);
         DECLARE_DELEGATE_OneParam(FRedeemAppleAppStoreInventoryItemsDelegate, const EconomyModels::FRedeemAppleAppStoreInventoryItemsResponse&);
@@ -145,6 +146,11 @@ namespace PlayFab
          * Gets the access tokens for Microsoft Store authentication.
          */
         bool GetMicrosoftStoreAccessTokens(EconomyModels::FGetMicrosoftStoreAccessTokensRequest& request, const FGetMicrosoftStoreAccessTokensDelegate& SuccessDelegate = FGetMicrosoftStoreAccessTokensDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Get transaction history.
+         * Get transaction history for specified entity and collection.
+         */
+        bool GetTransactionHistory(EconomyModels::FGetTransactionHistoryRequest& request, const FGetTransactionHistoryDelegate& SuccessDelegate = FGetTransactionHistoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Initiates a publish of an item from the working catalog to the public catalog.
          * The call kicks off a workflow to publish the item to the public catalog. The Publish Status API should be used to monitor the publish job.
@@ -253,6 +259,7 @@ namespace PlayFab
         void OnGetItemReviewSummaryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemReviewSummaryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetMicrosoftStoreAccessTokensResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMicrosoftStoreAccessTokensDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetTransactionHistoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTransactionHistoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPublishDraftItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPublishDraftItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPurchaseInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPurchaseInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRedeemAppleAppStoreInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemAppleAppStoreInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

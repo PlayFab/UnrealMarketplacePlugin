@@ -3812,6 +3812,46 @@ bool PlayFab::ServerModels::FCharacterResult::readFromValue(const TSharedPtr<FJs
     return HasSucceeded;
 }
 
+void PlayFab::ServerModels::writeChurnRiskLevelEnumJSON(ChurnRiskLevel enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case ChurnRiskLevelNoData: writer->WriteValue(TEXT("NoData")); break;
+    case ChurnRiskLevelLowRisk: writer->WriteValue(TEXT("LowRisk")); break;
+    case ChurnRiskLevelMediumRisk: writer->WriteValue(TEXT("MediumRisk")); break;
+    case ChurnRiskLevelHighRisk: writer->WriteValue(TEXT("HighRisk")); break;
+    }
+}
+
+ServerModels::ChurnRiskLevel PlayFab::ServerModels::readChurnRiskLevelFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readChurnRiskLevelFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+ServerModels::ChurnRiskLevel PlayFab::ServerModels::readChurnRiskLevelFromValue(const FString& value)
+{
+    static TMap<FString, ChurnRiskLevel> _ChurnRiskLevelMap;
+    if (_ChurnRiskLevelMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _ChurnRiskLevelMap.Add(TEXT("NoData"), ChurnRiskLevelNoData);
+        _ChurnRiskLevelMap.Add(TEXT("LowRisk"), ChurnRiskLevelLowRisk);
+        _ChurnRiskLevelMap.Add(TEXT("MediumRisk"), ChurnRiskLevelMediumRisk);
+        _ChurnRiskLevelMap.Add(TEXT("HighRisk"), ChurnRiskLevelHighRisk);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _ChurnRiskLevelMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return ChurnRiskLevelNoData; // Basically critical fail
+}
+
 void PlayFab::ServerModels::writeCloudScriptRevisionOptionEnumJSON(CloudScriptRevisionOption enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -5672,19 +5712,8 @@ void PlayFab::ServerModels::writeExternalFriendSourcesEnumJSON(ExternalFriendSou
     case ExternalFriendSourcesNone: writer->WriteValue(TEXT("None")); break;
     case ExternalFriendSourcesSteam: writer->WriteValue(TEXT("Steam")); break;
     case ExternalFriendSourcesFacebook: writer->WriteValue(TEXT("Facebook")); break;
-    case ExternalFriendSourcesSteamOrFacebook: writer->WriteValue(TEXT("SteamOrFacebook")); break;
     case ExternalFriendSourcesXbox: writer->WriteValue(TEXT("Xbox")); break;
-    case ExternalFriendSourcesSteamOrXbox: writer->WriteValue(TEXT("SteamOrXbox")); break;
-    case ExternalFriendSourcesFacebookOrXbox: writer->WriteValue(TEXT("FacebookOrXbox")); break;
-    case ExternalFriendSourcesSteamOrFacebookOrXbox: writer->WriteValue(TEXT("SteamOrFacebookOrXbox")); break;
     case ExternalFriendSourcesPsn: writer->WriteValue(TEXT("Psn")); break;
-    case ExternalFriendSourcesSteamOrPsn: writer->WriteValue(TEXT("SteamOrPsn")); break;
-    case ExternalFriendSourcesFacebookOrPsn: writer->WriteValue(TEXT("FacebookOrPsn")); break;
-    case ExternalFriendSourcesSteamOrFacebookOrPsn: writer->WriteValue(TEXT("SteamOrFacebookOrPsn")); break;
-    case ExternalFriendSourcesXboxOrPsn: writer->WriteValue(TEXT("XboxOrPsn")); break;
-    case ExternalFriendSourcesSteamOrXboxOrPsn: writer->WriteValue(TEXT("SteamOrXboxOrPsn")); break;
-    case ExternalFriendSourcesFacebookOrXboxOrPsn: writer->WriteValue(TEXT("FacebookOrXboxOrPsn")); break;
-    case ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn: writer->WriteValue(TEXT("SteamOrFacebookOrXboxOrPsn")); break;
     case ExternalFriendSourcesAll: writer->WriteValue(TEXT("All")); break;
     }
 }
@@ -5703,19 +5732,8 @@ ServerModels::ExternalFriendSources PlayFab::ServerModels::readExternalFriendSou
         _ExternalFriendSourcesMap.Add(TEXT("None"), ExternalFriendSourcesNone);
         _ExternalFriendSourcesMap.Add(TEXT("Steam"), ExternalFriendSourcesSteam);
         _ExternalFriendSourcesMap.Add(TEXT("Facebook"), ExternalFriendSourcesFacebook);
-        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebook"), ExternalFriendSourcesSteamOrFacebook);
         _ExternalFriendSourcesMap.Add(TEXT("Xbox"), ExternalFriendSourcesXbox);
-        _ExternalFriendSourcesMap.Add(TEXT("SteamOrXbox"), ExternalFriendSourcesSteamOrXbox);
-        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrXbox"), ExternalFriendSourcesFacebookOrXbox);
-        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrXbox"), ExternalFriendSourcesSteamOrFacebookOrXbox);
         _ExternalFriendSourcesMap.Add(TEXT("Psn"), ExternalFriendSourcesPsn);
-        _ExternalFriendSourcesMap.Add(TEXT("SteamOrPsn"), ExternalFriendSourcesSteamOrPsn);
-        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrPsn"), ExternalFriendSourcesFacebookOrPsn);
-        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrPsn"), ExternalFriendSourcesSteamOrFacebookOrPsn);
-        _ExternalFriendSourcesMap.Add(TEXT("XboxOrPsn"), ExternalFriendSourcesXboxOrPsn);
-        _ExternalFriendSourcesMap.Add(TEXT("SteamOrXboxOrPsn"), ExternalFriendSourcesSteamOrXboxOrPsn);
-        _ExternalFriendSourcesMap.Add(TEXT("FacebookOrXboxOrPsn"), ExternalFriendSourcesFacebookOrXboxOrPsn);
-        _ExternalFriendSourcesMap.Add(TEXT("SteamOrFacebookOrXboxOrPsn"), ExternalFriendSourcesSteamOrFacebookOrXboxOrPsn);
         _ExternalFriendSourcesMap.Add(TEXT("All"), ExternalFriendSourcesAll);
 
     }
@@ -10178,6 +10196,12 @@ void PlayFab::ServerModels::FPlayerProfile::writeJSON(JsonWriter& writer) const
         writeDatetime(BannedUntil, writer);
     }
 
+    if (ChurnPrediction.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChurnPrediction"));
+        writeChurnRiskLevelEnumJSON(ChurnPrediction, writer);
+    }
+
     if (ContactEmailAddresses.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("ContactEmailAddresses"));
@@ -10350,6 +10374,8 @@ bool PlayFab::ServerModels::FPlayerProfile::readFromValue(const TSharedPtr<FJson
     if (BannedUntilValue.IsValid())
         BannedUntil = readDatetime(BannedUntilValue);
 
+
+    ChurnPrediction = readChurnRiskLevelFromValue(obj->TryGetField(TEXT("ChurnPrediction")));
 
     const TArray<TSharedPtr<FJsonValue>>&ContactEmailAddressesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ContactEmailAddresses"));
     for (int32 Idx = 0; Idx < ContactEmailAddressesArray.Num(); Idx++)

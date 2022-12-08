@@ -308,6 +308,7 @@ FEconomyAddInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeAddInventor
     FEconomyAddInventoryItemsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
 
@@ -329,6 +330,7 @@ FEconomyDeleteInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeDeleteIn
     FEconomyDeleteInventoryItemsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
 
@@ -341,6 +343,7 @@ FEconomyExecuteInventoryOperationsResponse UPlayFabEconomyModelDecoder::decodeEx
     FEconomyExecuteInventoryOperationsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
 
@@ -366,6 +369,7 @@ FEconomyGetInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeGetInventor
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
+    tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.Items = !(dataObj->HasField("Items")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Items");
 
     return tempStruct;
@@ -383,12 +387,25 @@ FEconomyGetMicrosoftStoreAccessTokensResponse UPlayFabEconomyModelDecoder::decod
     return tempStruct;
 }
 
+FEconomyGetTransactionHistoryResponse UPlayFabEconomyModelDecoder::decodeGetTransactionHistoryResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyGetTransactionHistoryResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
+    tempStruct.Transactions = !(dataObj->HasField("Transactions")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Transactions");
+
+    return tempStruct;
+}
+
 FEconomyPurchaseInventoryItemsResponse UPlayFabEconomyModelDecoder::decodePurchaseInventoryItemsResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
     FEconomyPurchaseInventoryItemsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
 
@@ -479,6 +496,7 @@ FEconomySubtractInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeSubtra
     FEconomySubtractInventoryItemsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
 
@@ -491,6 +509,7 @@ FEconomyTransferInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeTransf
     FEconomyTransferInventoryItemsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.GivingETag = !(dataObj->HasField("GivingETag")) ? TEXT("") : dataObj->GetStringField("GivingETag");
     tempStruct.GivingTransactionIds = !(dataObj->HasField("GivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("GivingTransactionIds"), TEXT(","));
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.ReceivingTransactionIds = !(dataObj->HasField("ReceivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ReceivingTransactionIds"), TEXT(","));
@@ -504,6 +523,7 @@ FEconomyUpdateInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeUpdateIn
     FEconomyUpdateInventoryItemsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.TransactionIds = !(dataObj->HasField("TransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("TransactionIds"), TEXT(","));
 

@@ -114,9 +114,41 @@ bool PlayFab::EconomyModels::FInventoryItemReference::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FInitialValues::~FInitialValues()
+{
+
+}
+
+void PlayFab::EconomyModels::FInitialValues::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DisplayProperties.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayProperties"));
+        DisplayProperties.writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FInitialValues::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DisplayPropertiesValue = obj->TryGetField(TEXT("DisplayProperties"));
+    if (DisplayPropertiesValue.IsValid() && !DisplayPropertiesValue->IsNull())
+    {
+        DisplayProperties = FJsonKeeper(DisplayPropertiesValue);
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FAddInventoryItemsOperation::~FAddInventoryItemsOperation()
 {
     //if (Item != nullptr) delete Item;
+    //if (NewStackValues != nullptr) delete NewStackValues;
 
 }
 
@@ -131,6 +163,12 @@ void PlayFab::EconomyModels::FAddInventoryItemsOperation::writeJSON(JsonWriter& 
     {
         writer->WriteIdentifierPrefix(TEXT("Item"));
         Item->writeJSON(writer);
+    }
+
+    if (NewStackValues.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewStackValues"));
+        NewStackValues->writeJSON(writer);
     }
 
     writer->WriteObjectEnd();
@@ -151,6 +189,12 @@ bool PlayFab::EconomyModels::FAddInventoryItemsOperation::readFromValue(const TS
     if (ItemValue.IsValid() && !ItemValue->IsNull())
     {
         Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> NewStackValuesValue = obj->TryGetField(TEXT("NewStackValues"));
+    if (NewStackValuesValue.IsValid() && !NewStackValuesValue->IsNull())
+    {
+        NewStackValues = MakeShareable(new FInitialValues(NewStackValuesValue->AsObject()));
     }
 
     return HasSucceeded;
@@ -209,6 +253,7 @@ PlayFab::EconomyModels::FAddInventoryItemsRequest::~FAddInventoryItemsRequest()
 {
     //if (Entity != nullptr) delete Entity;
     //if (Item != nullptr) delete Item;
+    //if (NewStackValues != nullptr) delete NewStackValues;
 
 }
 
@@ -242,6 +287,12 @@ void PlayFab::EconomyModels::FAddInventoryItemsRequest::writeJSON(JsonWriter& wr
         Entity->writeJSON(writer);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -252,6 +303,12 @@ void PlayFab::EconomyModels::FAddInventoryItemsRequest::writeJSON(JsonWriter& wr
     {
         writer->WriteIdentifierPrefix(TEXT("Item"));
         Item->writeJSON(writer);
+    }
+
+    if (NewStackValues.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewStackValues"));
+        NewStackValues->writeJSON(writer);
     }
 
     writer->WriteObjectEnd();
@@ -290,6 +347,13 @@ bool PlayFab::EconomyModels::FAddInventoryItemsRequest::readFromValue(const TSha
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
     {
@@ -303,6 +367,12 @@ bool PlayFab::EconomyModels::FAddInventoryItemsRequest::readFromValue(const TSha
         Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> NewStackValuesValue = obj->TryGetField(TEXT("NewStackValues"));
+    if (NewStackValuesValue.IsValid() && !NewStackValuesValue->IsNull())
+    {
+        NewStackValues = MakeShareable(new FInitialValues(NewStackValuesValue->AsObject()));
+    }
+
     return HasSucceeded;
 }
 
@@ -314,6 +384,12 @@ PlayFab::EconomyModels::FAddInventoryItemsResponse::~FAddInventoryItemsResponse(
 void PlayFab::EconomyModels::FAddInventoryItemsResponse::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
 
     if (IdempotencyId.IsEmpty() == false)
     {
@@ -336,6 +412,13 @@ void PlayFab::EconomyModels::FAddInventoryItemsResponse::writeJSON(JsonWriter& w
 bool PlayFab::EconomyModels::FAddInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
@@ -3034,6 +3117,12 @@ void PlayFab::EconomyModels::FDeleteInventoryCollectionRequest::writeJSON(JsonWr
         Entity->writeJSON(writer);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3061,6 +3150,13 @@ bool PlayFab::EconomyModels::FDeleteInventoryCollectionRequest::readFromValue(co
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
     }
 
     return HasSucceeded;
@@ -3151,6 +3247,12 @@ void PlayFab::EconomyModels::FDeleteInventoryItemsRequest::writeJSON(JsonWriter&
         Entity->writeJSON(writer);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -3192,6 +3294,13 @@ bool PlayFab::EconomyModels::FDeleteInventoryItemsRequest::readFromValue(const T
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
     {
@@ -3217,6 +3326,12 @@ void PlayFab::EconomyModels::FDeleteInventoryItemsResponse::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -3238,6 +3353,13 @@ void PlayFab::EconomyModels::FDeleteInventoryItemsResponse::writeJSON(JsonWriter
 bool PlayFab::EconomyModels::FDeleteInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
@@ -3406,6 +3528,7 @@ bool PlayFab::EconomyModels::FPurchasePriceAmount::readFromValue(const TSharedPt
 PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::~FPurchaseInventoryItemsOperation()
 {
     //if (Item != nullptr) delete Item;
+    //if (NewStackValues != nullptr) delete NewStackValues;
 
 }
 
@@ -3423,6 +3546,12 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::writeJSON(JsonWri
     {
         writer->WriteIdentifierPrefix(TEXT("Item"));
         Item->writeJSON(writer);
+    }
+
+    if (NewStackValues.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewStackValues"));
+        NewStackValues->writeJSON(writer);
     }
 
     if (PriceAmounts.Num() != 0)
@@ -3465,6 +3594,12 @@ bool PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::readFromValue(con
     if (ItemValue.IsValid() && !ItemValue->IsNull())
     {
         Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> NewStackValuesValue = obj->TryGetField(TEXT("NewStackValues"));
+    if (NewStackValuesValue.IsValid() && !NewStackValuesValue->IsNull())
+    {
+        NewStackValues = MakeShareable(new FInitialValues(NewStackValuesValue->AsObject()));
     }
 
     const TArray<TSharedPtr<FJsonValue>>&PriceAmountsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PriceAmounts"));
@@ -3540,6 +3675,7 @@ bool PlayFab::EconomyModels::FSubtractInventoryItemsOperation::readFromValue(con
 PlayFab::EconomyModels::FTransferInventoryItemsOperation::~FTransferInventoryItemsOperation()
 {
     //if (GivingItem != nullptr) delete GivingItem;
+    //if (NewStackValues != nullptr) delete NewStackValues;
     //if (ReceivingItem != nullptr) delete ReceivingItem;
 
 }
@@ -3558,6 +3694,12 @@ void PlayFab::EconomyModels::FTransferInventoryItemsOperation::writeJSON(JsonWri
     {
         writer->WriteIdentifierPrefix(TEXT("GivingItem"));
         GivingItem->writeJSON(writer);
+    }
+
+    if (NewStackValues.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewStackValues"));
+        NewStackValues->writeJSON(writer);
     }
 
     if (ReceivingItem.IsValid())
@@ -3593,6 +3735,12 @@ bool PlayFab::EconomyModels::FTransferInventoryItemsOperation::readFromValue(con
         GivingItem = MakeShareable(new FInventoryItemReference(GivingItemValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> NewStackValuesValue = obj->TryGetField(TEXT("NewStackValues"));
+    if (NewStackValuesValue.IsValid() && !NewStackValuesValue->IsNull())
+    {
+        NewStackValues = MakeShareable(new FInitialValues(NewStackValuesValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> ReceivingItemValue = obj->TryGetField(TEXT("ReceivingItem"));
     if (ReceivingItemValue.IsValid() && !ReceivingItemValue->IsNull())
     {
@@ -3613,6 +3761,12 @@ void PlayFab::EconomyModels::FInventoryItem::writeJSON(JsonWriter& writer) const
 
     writer->WriteIdentifierPrefix(TEXT("Amount"));
     writer->WriteValue(Amount);
+
+    if (DisplayProperties.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayProperties"));
+        DisplayProperties.writeJSON(writer);
+    }
 
     if (Id.IsEmpty() == false)
     {
@@ -3644,6 +3798,12 @@ bool PlayFab::EconomyModels::FInventoryItem::readFromValue(const TSharedPtr<FJso
     {
         int32 TmpValue;
         if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DisplayPropertiesValue = obj->TryGetField(TEXT("DisplayProperties"));
+    if (DisplayPropertiesValue.IsValid() && !DisplayPropertiesValue->IsNull())
+    {
+        DisplayProperties = FJsonKeeper(DisplayPropertiesValue);
     }
 
     const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
@@ -3832,6 +3992,12 @@ void PlayFab::EconomyModels::FExecuteInventoryOperationsRequest::writeJSON(JsonW
         Entity->writeJSON(writer);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -3876,6 +4042,13 @@ bool PlayFab::EconomyModels::FExecuteInventoryOperationsRequest::readFromValue(c
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
     {
@@ -3903,6 +4076,12 @@ void PlayFab::EconomyModels::FExecuteInventoryOperationsResponse::writeJSON(Json
 {
     writer->WriteObjectStart();
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -3924,6 +4103,13 @@ void PlayFab::EconomyModels::FExecuteInventoryOperationsResponse::writeJSON(Json
 bool PlayFab::EconomyModels::FExecuteInventoryOperationsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
@@ -4899,6 +5085,12 @@ void PlayFab::EconomyModels::FGetInventoryItemsResponse::writeJSON(JsonWriter& w
         writer->WriteValue(ContinuationToken);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (Items.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Items"));
@@ -4920,6 +5112,13 @@ bool PlayFab::EconomyModels::FGetInventoryItemsResponse::readFromValue(const TSh
     {
         FString TmpValue;
         if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
     }
 
     const TArray<TSharedPtr<FJsonValue>>&ItemsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Items"));
@@ -5928,6 +6127,549 @@ bool PlayFab::EconomyModels::FGetMicrosoftStoreAccessTokensResponse::readFromVal
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FGetTransactionHistoryRequest::~FGetTransactionHistoryRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EconomyModels::FGetTransactionHistoryRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CollectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
+        writer->WriteValue(CollectionId);
+    }
+
+    if (ContinuationToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
+        writer->WriteValue(ContinuationToken);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Count"));
+    writer->WriteValue(Count);
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (Filter.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Filter"));
+        writer->WriteValue(Filter);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FGetTransactionHistoryRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
+    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
+    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CountValue = obj->TryGetField(TEXT("Count"));
+    if (CountValue.IsValid() && !CountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (CountValue->TryGetNumber(TmpValue)) { Count = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> FilterValue = obj->TryGetField(TEXT("Filter"));
+    if (FilterValue.IsValid() && !FilterValue->IsNull())
+    {
+        FString TmpValue;
+        if (FilterValue->TryGetString(TmpValue)) { Filter = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FTransactionOperation::~FTransactionOperation()
+{
+
+}
+
+void PlayFab::EconomyModels::FTransactionOperation::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
+
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
+
+    if (ItemType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemType"));
+        writer->WriteValue(ItemType);
+    }
+
+    if (StackId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StackId"));
+        writer->WriteValue(StackId);
+    }
+
+    if (Type.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Type"));
+        writer->WriteValue(Type);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FTransactionOperation::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
+    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemTypeValue = obj->TryGetField(TEXT("ItemType"));
+    if (ItemTypeValue.IsValid() && !ItemTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemTypeValue->TryGetString(TmpValue)) { ItemType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StackIdValue = obj->TryGetField(TEXT("StackId"));
+    if (StackIdValue.IsValid() && !StackIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TypeValue = obj->TryGetField(TEXT("Type"));
+    if (TypeValue.IsValid() && !TypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (TypeValue->TryGetString(TmpValue)) { Type = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FTransactionPurchaseDetails::~FTransactionPurchaseDetails()
+{
+
+}
+
+void PlayFab::EconomyModels::FTransactionPurchaseDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (StoreId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StoreId"));
+        writer->WriteValue(StoreId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FTransactionPurchaseDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> StoreIdValue = obj->TryGetField(TEXT("StoreId"));
+    if (StoreIdValue.IsValid() && !StoreIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StoreIdValue->TryGetString(TmpValue)) { StoreId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FTransactionRedeemDetails::~FTransactionRedeemDetails()
+{
+
+}
+
+void PlayFab::EconomyModels::FTransactionRedeemDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Marketplace.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Marketplace"));
+        writer->WriteValue(Marketplace);
+    }
+
+    if (MarketplaceTransactionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MarketplaceTransactionId"));
+        writer->WriteValue(MarketplaceTransactionId);
+    }
+
+    if (OfferId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OfferId"));
+        writer->WriteValue(OfferId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FTransactionRedeemDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> MarketplaceValue = obj->TryGetField(TEXT("Marketplace"));
+    if (MarketplaceValue.IsValid() && !MarketplaceValue->IsNull())
+    {
+        FString TmpValue;
+        if (MarketplaceValue->TryGetString(TmpValue)) { Marketplace = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MarketplaceTransactionIdValue = obj->TryGetField(TEXT("MarketplaceTransactionId"));
+    if (MarketplaceTransactionIdValue.IsValid() && !MarketplaceTransactionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (MarketplaceTransactionIdValue->TryGetString(TmpValue)) { MarketplaceTransactionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> OfferIdValue = obj->TryGetField(TEXT("OfferId"));
+    if (OfferIdValue.IsValid() && !OfferIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (OfferIdValue->TryGetString(TmpValue)) { OfferId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FTransactionTransferDetails::~FTransactionTransferDetails()
+{
+    //if (GivingEntity != nullptr) delete GivingEntity;
+    //if (ReceivingEntity != nullptr) delete ReceivingEntity;
+
+}
+
+void PlayFab::EconomyModels::FTransactionTransferDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (GivingCollectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GivingCollectionId"));
+        writer->WriteValue(GivingCollectionId);
+    }
+
+    if (GivingEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("GivingEntity"));
+        GivingEntity->writeJSON(writer);
+    }
+
+    if (ReceivingCollectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReceivingCollectionId"));
+        writer->WriteValue(ReceivingCollectionId);
+    }
+
+    if (ReceivingEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ReceivingEntity"));
+        ReceivingEntity->writeJSON(writer);
+    }
+
+    if (TransferId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TransferId"));
+        writer->WriteValue(TransferId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FTransactionTransferDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GivingCollectionIdValue = obj->TryGetField(TEXT("GivingCollectionId"));
+    if (GivingCollectionIdValue.IsValid() && !GivingCollectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (GivingCollectionIdValue->TryGetString(TmpValue)) { GivingCollectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GivingEntityValue = obj->TryGetField(TEXT("GivingEntity"));
+    if (GivingEntityValue.IsValid() && !GivingEntityValue->IsNull())
+    {
+        GivingEntity = MakeShareable(new FEntityKey(GivingEntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ReceivingCollectionIdValue = obj->TryGetField(TEXT("ReceivingCollectionId"));
+    if (ReceivingCollectionIdValue.IsValid() && !ReceivingCollectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ReceivingCollectionIdValue->TryGetString(TmpValue)) { ReceivingCollectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ReceivingEntityValue = obj->TryGetField(TEXT("ReceivingEntity"));
+    if (ReceivingEntityValue.IsValid() && !ReceivingEntityValue->IsNull())
+    {
+        ReceivingEntity = MakeShareable(new FEntityKey(ReceivingEntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TransferIdValue = obj->TryGetField(TEXT("TransferId"));
+    if (TransferIdValue.IsValid() && !TransferIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TransferIdValue->TryGetString(TmpValue)) { TransferId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FTransaction::~FTransaction()
+{
+    //if (PurchaseDetails != nullptr) delete PurchaseDetails;
+    //if (RedeemDetails != nullptr) delete RedeemDetails;
+    //if (TransferDetails != nullptr) delete TransferDetails;
+
+}
+
+void PlayFab::EconomyModels::FTransaction::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ApiName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ApiName"));
+        writer->WriteValue(ApiName);
+    }
+
+    if (ItemType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemType"));
+        writer->WriteValue(ItemType);
+    }
+
+    if (Operations.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Operations"));
+        for (const FTransactionOperation& item : Operations)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (OperationType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationType"));
+        writer->WriteValue(OperationType);
+    }
+
+    if (PurchaseDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PurchaseDetails"));
+        PurchaseDetails->writeJSON(writer);
+    }
+
+    if (RedeemDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RedeemDetails"));
+        RedeemDetails->writeJSON(writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Timestamp"));
+    writeDatetime(Timestamp, writer);
+
+    if (TransactionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TransactionId"));
+        writer->WriteValue(TransactionId);
+    }
+
+    if (TransferDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TransferDetails"));
+        TransferDetails->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FTransaction::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ApiNameValue = obj->TryGetField(TEXT("ApiName"));
+    if (ApiNameValue.IsValid() && !ApiNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (ApiNameValue->TryGetString(TmpValue)) { ApiName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemTypeValue = obj->TryGetField(TEXT("ItemType"));
+    if (ItemTypeValue.IsValid() && !ItemTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemTypeValue->TryGetString(TmpValue)) { ItemType = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&OperationsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Operations"));
+    for (int32 Idx = 0; Idx < OperationsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = OperationsArray[Idx];
+        Operations.Add(FTransactionOperation(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> OperationTypeValue = obj->TryGetField(TEXT("OperationType"));
+    if (OperationTypeValue.IsValid() && !OperationTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (OperationTypeValue->TryGetString(TmpValue)) { OperationType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PurchaseDetailsValue = obj->TryGetField(TEXT("PurchaseDetails"));
+    if (PurchaseDetailsValue.IsValid() && !PurchaseDetailsValue->IsNull())
+    {
+        PurchaseDetails = MakeShareable(new FTransactionPurchaseDetails(PurchaseDetailsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> RedeemDetailsValue = obj->TryGetField(TEXT("RedeemDetails"));
+    if (RedeemDetailsValue.IsValid() && !RedeemDetailsValue->IsNull())
+    {
+        RedeemDetails = MakeShareable(new FTransactionRedeemDetails(RedeemDetailsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> TimestampValue = obj->TryGetField(TEXT("Timestamp"));
+    if (TimestampValue.IsValid())
+        Timestamp = readDatetime(TimestampValue);
+
+
+    const TSharedPtr<FJsonValue> TransactionIdValue = obj->TryGetField(TEXT("TransactionId"));
+    if (TransactionIdValue.IsValid() && !TransactionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TransactionIdValue->TryGetString(TmpValue)) { TransactionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TransferDetailsValue = obj->TryGetField(TEXT("TransferDetails"));
+    if (TransferDetailsValue.IsValid() && !TransferDetailsValue->IsNull())
+    {
+        TransferDetails = MakeShareable(new FTransactionTransferDetails(TransferDetailsValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FGetTransactionHistoryResponse::~FGetTransactionHistoryResponse()
+{
+
+}
+
+void PlayFab::EconomyModels::FGetTransactionHistoryResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ContinuationToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ContinuationToken"));
+        writer->WriteValue(ContinuationToken);
+    }
+
+    if (Transactions.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Transactions"));
+        for (const FTransaction& item : Transactions)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FGetTransactionHistoryResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ContinuationTokenValue = obj->TryGetField(TEXT("ContinuationToken"));
+    if (ContinuationTokenValue.IsValid() && !ContinuationTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (ContinuationTokenValue->TryGetString(TmpValue)) { ContinuationToken = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&TransactionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Transactions"));
+    for (int32 Idx = 0; Idx < TransactionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = TransactionsArray[Idx];
+        Transactions.Add(FTransaction(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FGooglePlayProductPurchase::~FGooglePlayProductPurchase()
 {
 
@@ -6144,6 +6886,7 @@ PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::~FPurchaseInventoryItems
 {
     //if (Entity != nullptr) delete Entity;
     //if (Item != nullptr) delete Item;
+    //if (NewStackValues != nullptr) delete NewStackValues;
 
 }
 
@@ -6180,6 +6923,12 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::writeJSON(JsonWrite
         Entity->writeJSON(writer);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -6190,6 +6939,12 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::writeJSON(JsonWrite
     {
         writer->WriteIdentifierPrefix(TEXT("Item"));
         Item->writeJSON(writer);
+    }
+
+    if (NewStackValues.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewStackValues"));
+        NewStackValues->writeJSON(writer);
     }
 
     if (PriceAmounts.Num() != 0)
@@ -6250,6 +7005,13 @@ bool PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::readFromValue(const
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
     {
@@ -6261,6 +7023,12 @@ bool PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::readFromValue(const
     if (ItemValue.IsValid() && !ItemValue->IsNull())
     {
         Item = MakeShareable(new FInventoryItemReference(ItemValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> NewStackValuesValue = obj->TryGetField(TEXT("NewStackValues"));
+    if (NewStackValuesValue.IsValid() && !NewStackValuesValue->IsNull())
+    {
+        NewStackValues = MakeShareable(new FInitialValues(NewStackValuesValue->AsObject()));
     }
 
     const TArray<TSharedPtr<FJsonValue>>&PriceAmountsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PriceAmounts"));
@@ -6290,6 +7058,12 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -6311,6 +7085,13 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::writeJSON(JsonWrit
 bool PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
@@ -8311,6 +9092,12 @@ void PlayFab::EconomyModels::FSubtractInventoryItemsRequest::writeJSON(JsonWrite
         Entity->writeJSON(writer);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -8366,6 +9153,13 @@ bool PlayFab::EconomyModels::FSubtractInventoryItemsRequest::readFromValue(const
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
     {
@@ -8391,6 +9185,12 @@ void PlayFab::EconomyModels::FSubtractInventoryItemsResponse::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -8412,6 +9212,13 @@ void PlayFab::EconomyModels::FSubtractInventoryItemsResponse::writeJSON(JsonWrit
 bool PlayFab::EconomyModels::FSubtractInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
@@ -8504,6 +9311,7 @@ PlayFab::EconomyModels::FTransferInventoryItemsRequest::~FTransferInventoryItems
 {
     //if (GivingEntity != nullptr) delete GivingEntity;
     //if (GivingItem != nullptr) delete GivingItem;
+    //if (NewStackValues != nullptr) delete NewStackValues;
     //if (ReceivingEntity != nullptr) delete ReceivingEntity;
     //if (ReceivingItem != nullptr) delete ReceivingItem;
 
@@ -8542,6 +9350,12 @@ void PlayFab::EconomyModels::FTransferInventoryItemsRequest::writeJSON(JsonWrite
         GivingEntity->writeJSON(writer);
     }
 
+    if (GivingETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GivingETag"));
+        writer->WriteValue(GivingETag);
+    }
+
     if (GivingItem.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("GivingItem"));
@@ -8552,6 +9366,12 @@ void PlayFab::EconomyModels::FTransferInventoryItemsRequest::writeJSON(JsonWrite
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
         writer->WriteValue(IdempotencyId);
+    }
+
+    if (NewStackValues.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewStackValues"));
+        NewStackValues->writeJSON(writer);
     }
 
     if (ReceivingCollectionId.IsEmpty() == false)
@@ -8615,6 +9435,13 @@ bool PlayFab::EconomyModels::FTransferInventoryItemsRequest::readFromValue(const
         GivingEntity = MakeShareable(new FEntityKey(GivingEntityValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> GivingETagValue = obj->TryGetField(TEXT("GivingETag"));
+    if (GivingETagValue.IsValid() && !GivingETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (GivingETagValue->TryGetString(TmpValue)) { GivingETag = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> GivingItemValue = obj->TryGetField(TEXT("GivingItem"));
     if (GivingItemValue.IsValid() && !GivingItemValue->IsNull())
     {
@@ -8626,6 +9453,12 @@ bool PlayFab::EconomyModels::FTransferInventoryItemsRequest::readFromValue(const
     {
         FString TmpValue;
         if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> NewStackValuesValue = obj->TryGetField(TEXT("NewStackValues"));
+    if (NewStackValuesValue.IsValid() && !NewStackValuesValue->IsNull())
+    {
+        NewStackValues = MakeShareable(new FInitialValues(NewStackValuesValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> ReceivingCollectionIdValue = obj->TryGetField(TEXT("ReceivingCollectionId"));
@@ -8659,6 +9492,12 @@ void PlayFab::EconomyModels::FTransferInventoryItemsResponse::writeJSON(JsonWrit
 {
     writer->WriteObjectStart();
 
+    if (GivingETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("GivingETag"));
+        writer->WriteValue(GivingETag);
+    }
+
     if (GivingTransactionIds.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("GivingTransactionIds"));
@@ -8689,6 +9528,13 @@ void PlayFab::EconomyModels::FTransferInventoryItemsResponse::writeJSON(JsonWrit
 bool PlayFab::EconomyModels::FTransferInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> GivingETagValue = obj->TryGetField(TEXT("GivingETag"));
+    if (GivingETagValue.IsValid() && !GivingETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (GivingETagValue->TryGetString(TmpValue)) { GivingETag = TmpValue; }
+    }
 
     obj->TryGetStringArrayField(TEXT("GivingTransactionIds"), GivingTransactionIds);
 
@@ -8903,6 +9749,12 @@ void PlayFab::EconomyModels::FUpdateInventoryItemsRequest::writeJSON(JsonWriter&
         Entity->writeJSON(writer);
     }
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -8944,6 +9796,13 @@ bool PlayFab::EconomyModels::FUpdateInventoryItemsRequest::readFromValue(const T
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())
     {
@@ -8969,6 +9828,12 @@ void PlayFab::EconomyModels::FUpdateInventoryItemsResponse::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if (ETag.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ETag"));
+        writer->WriteValue(ETag);
+    }
+
     if (IdempotencyId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IdempotencyId"));
@@ -8990,6 +9855,13 @@ void PlayFab::EconomyModels::FUpdateInventoryItemsResponse::writeJSON(JsonWriter
 bool PlayFab::EconomyModels::FUpdateInventoryItemsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ETagValue = obj->TryGetField(TEXT("ETag"));
+    if (ETagValue.IsValid() && !ETagValue->IsNull())
+    {
+        FString TmpValue;
+        if (ETagValue->TryGetString(TmpValue)) { ETag = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IdempotencyIdValue = obj->TryGetField(TEXT("IdempotencyId"));
     if (IdempotencyIdValue.IsValid() && !IdempotencyIdValue->IsNull())

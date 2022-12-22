@@ -17,7 +17,7 @@ static FORCEINLINE bool GetEnumValueFromString(const FString& enumTypeName, cons
 #if ENGINE_MAJOR_VERSION == 5  
     UEnum* enumPtr = FindFirstObject<UEnum>(*enumTypeName, EFindFirstObjectOptions::ExactClass);
 #else
-	UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *enumTypeName, true);
+    UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *enumTypeName, true);
 #endif
     if (!enumPtr)
     {

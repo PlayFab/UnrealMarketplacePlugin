@@ -14,7 +14,11 @@
 template <typename EnumType>
 static FORCEINLINE bool GetEnumValueFromString(const FString& enumTypeName, const FString& input, EnumType& output)
 {
+#if ENGINE_MAJOR_VERSION == 5  
+    UEnum* enumPtr = FindFirstObject<UEnum>(*enumTypeName, EFindFirstObjectOptions::ExactClass);
+#else
     UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *enumTypeName, true);
+#endif
     if (!enumPtr)
     {
         output = EnumType(0);
@@ -37,7 +41,11 @@ static FORCEINLINE bool GetEnumValueFromString(const FString& enumTypeName, cons
 template<typename EnumType>
 static FORCEINLINE bool GetEnumValueToString(const FString& enumTypeName, const EnumType& input, FString& output)
 {
+#if ENGINE_MAJOR_VERSION == 5 
+    const UEnum* enumPtr = FindFirstObject<UEnum>(*enumTypeName, EFindFirstObjectOptions::ExactClass);
+#else
     const UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, *enumTypeName, true);
+#endif
     if (!enumPtr)
     {
         output = FString("0");

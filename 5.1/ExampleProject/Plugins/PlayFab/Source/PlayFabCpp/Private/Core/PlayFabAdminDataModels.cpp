@@ -2137,6 +2137,41 @@ AdminModels::ChurnRiskLevel PlayFab::AdminModels::readChurnRiskLevelFromValue(co
     return ChurnRiskLevelNoData; // Basically critical fail
 }
 
+PlayFab::AdminModels::FChurnPredictionSegmentFilter::~FChurnPredictionSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FChurnPredictionSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (RiskLevel.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RiskLevel"));
+        writeChurnRiskLevelEnumJSON(RiskLevel, writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FChurnPredictionSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    RiskLevel = readChurnRiskLevelFromValue(obj->TryGetField(TEXT("RiskLevel")));
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FCloudScriptFile::~FCloudScriptFile()
 {
 
@@ -6468,6 +6503,7 @@ PlayFab::AdminModels::FSegmentAndDefinition::~FSegmentAndDefinition()
 {
     //if (AdCampaignFilter != nullptr) delete AdCampaignFilter;
     //if (AllPlayersFilter != nullptr) delete AllPlayersFilter;
+    //if (ChurnPredictionFilter != nullptr) delete ChurnPredictionFilter;
     //if (FirstLoginDateFilter != nullptr) delete FirstLoginDateFilter;
     //if (FirstLoginFilter != nullptr) delete FirstLoginFilter;
     //if (LastLoginDateFilter != nullptr) delete LastLoginDateFilter;
@@ -6502,6 +6538,12 @@ void PlayFab::AdminModels::FSegmentAndDefinition::writeJSON(JsonWriter& writer) 
     {
         writer->WriteIdentifierPrefix(TEXT("AllPlayersFilter"));
         AllPlayersFilter->writeJSON(writer);
+    }
+
+    if (ChurnPredictionFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ChurnPredictionFilter"));
+        ChurnPredictionFilter->writeJSON(writer);
     }
 
     if (FirstLoginDateFilter.IsValid())
@@ -6623,6 +6665,12 @@ bool PlayFab::AdminModels::FSegmentAndDefinition::readFromValue(const TSharedPtr
     if (AllPlayersFilterValue.IsValid() && !AllPlayersFilterValue->IsNull())
     {
         AllPlayersFilter = MakeShareable(new FAllPlayersSegmentFilter(AllPlayersFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ChurnPredictionFilterValue = obj->TryGetField(TEXT("ChurnPredictionFilter"));
+    if (ChurnPredictionFilterValue.IsValid() && !ChurnPredictionFilterValue->IsNull())
+    {
+        ChurnPredictionFilter = MakeShareable(new FChurnPredictionSegmentFilter(ChurnPredictionFilterValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> FirstLoginDateFilterValue = obj->TryGetField(TEXT("FirstLoginDateFilter"));

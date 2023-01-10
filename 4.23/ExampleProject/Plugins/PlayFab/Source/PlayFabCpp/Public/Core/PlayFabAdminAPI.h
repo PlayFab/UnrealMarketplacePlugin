@@ -597,8 +597,11 @@ namespace PlayFab
          */
         bool SetStoreItems(AdminModels::FUpdateStoreItemsRequest& request, const FSetStoreItemsDelegate& SuccessDelegate = FSetStoreItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Creates and updates the key-value store of custom title settings which can be read by the client
-         * This API method is designed to store title specific values which can be read by the client. For example, a developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. This operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it already exists, the Value for that key will be overwritten with the new Value.
+         * Creates and updates the key-value store of custom title settings which can be read by the client. For example, a
+         * developer could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths,
+         * movement speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new
+         * build.
+         * This operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it already exists, the Value for that key will be overwritten with the new Value.
          */
         bool SetTitleData(AdminModels::FSetTitleDataRequest& request, const FSetTitleDataDelegate& SuccessDelegate = FSetTitleDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -607,8 +610,9 @@ namespace PlayFab
          */
         bool SetTitleDataAndOverrides(AdminModels::FSetTitleDataAndOverridesRequest& request, const FSetTitleDataAndOverridesDelegate& SuccessDelegate = FSetTitleDataAndOverridesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Updates the key-value store of custom title settings which cannot be read by the client
-         * This API method is designed to store title specific values which are accessible only by the server. These values can be used to tweak settings used by game servers and Cloud Scripts without the need to update and re-deploy. This operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it already exists, the Value for that key will be overwritten with the new Value.
+         * Updates the key-value store of custom title settings which cannot be read by the client. These values can be used to
+         * tweak settings used by game servers and Cloud Scripts without the need to update and re-deploy.
+         * This operation is additive. If a Key does not exist in the current dataset, it will be added with the specified Value. If it already exists, the Value for that key will be overwritten with the new Value.
          */
         bool SetTitleInternalData(AdminModels::FSetTitleDataRequest& request, const FSetTitleInternalDataDelegate& SuccessDelegate = FSetTitleInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

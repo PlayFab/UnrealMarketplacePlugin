@@ -3116,7 +3116,6 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForFunctionExecutionRequest:
 
 PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequest::~FPostFunctionResultForPlayerTriggeredActionRequest()
 {
-    //if (Entity != nullptr) delete Entity;
     //if (PlayStreamEventEnvelope != nullptr) delete PlayStreamEventEnvelope;
 
 }
@@ -3134,12 +3133,6 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequ
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("FunctionResult"));
@@ -3170,12 +3163,6 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequ
         }
     }
 
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
-    }
-
     const TSharedPtr<FJsonValue> FunctionResultValue = obj->TryGetField(TEXT("FunctionResult"));
     if (FunctionResultValue.IsValid() && !FunctionResultValue->IsNull())
     {
@@ -3199,7 +3186,6 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequ
 
 PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::~FPostFunctionResultForScheduledTaskRequest()
 {
-    //if (Entity != nullptr) delete Entity;
 
 }
 
@@ -3216,12 +3202,6 @@ void PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::wri
             writer->WriteValue((*It).Value);
         }
         writer->WriteObjectEnd();
-    }
-
-    if (Entity.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Entity"));
-        Entity->writeJSON(writer);
     }
 
     writer->WriteIdentifierPrefix(TEXT("FunctionResult"));
@@ -3244,12 +3224,6 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::rea
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
-    }
-
-    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
-    if (EntityValue.IsValid() && !EntityValue->IsNull())
-    {
-        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> FunctionResultValue = obj->TryGetField(TEXT("FunctionResult"));

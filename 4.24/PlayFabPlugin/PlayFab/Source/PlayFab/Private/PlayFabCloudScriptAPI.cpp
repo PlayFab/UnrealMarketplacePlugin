@@ -523,7 +523,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::PostFunctionResultForPlayerTrigg
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionResult != nullptr) OutRestJsonObj->SetObjectField(TEXT("FunctionResult"), request.FunctionResult);
     if (request.PlayerProfile != nullptr) OutRestJsonObj->SetObjectField(TEXT("PlayerProfile"), request.PlayerProfile);
     if (request.PlayStreamEventEnvelope != nullptr) OutRestJsonObj->SetObjectField(TEXT("PlayStreamEventEnvelope"), request.PlayStreamEventEnvelope);
@@ -576,7 +575,6 @@ UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::PostFunctionResultForScheduledTa
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.FunctionResult != nullptr) OutRestJsonObj->SetObjectField(TEXT("FunctionResult"), request.FunctionResult);
     if (request.ScheduledTaskId != nullptr) OutRestJsonObj->SetObjectField(TEXT("ScheduledTaskId"), request.ScheduledTaskId);
 

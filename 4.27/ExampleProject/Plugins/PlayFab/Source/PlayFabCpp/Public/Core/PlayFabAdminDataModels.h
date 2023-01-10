@@ -1061,6 +1061,33 @@ namespace AdminModels
     PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API ChurnRiskLevel readChurnRiskLevelFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FChurnPredictionSegmentFilter : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Comparison
+        Boxed<SegmentFilterComparison> Comparison;
+
+        // [optional] RiskLevel
+        Boxed<ChurnRiskLevel> RiskLevel;
+
+        FChurnPredictionSegmentFilter() :
+            FPlayFabCppBaseModel(),
+            Comparison(),
+            RiskLevel()
+            {}
+
+        FChurnPredictionSegmentFilter(const FChurnPredictionSegmentFilter& src) = default;
+
+        FChurnPredictionSegmentFilter(const TSharedPtr<FJsonObject>& obj) : FChurnPredictionSegmentFilter()
+        {
+            readFromValue(obj);
+        }
+
+        ~FChurnPredictionSegmentFilter();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCloudScriptFile : public PlayFab::FPlayFabCppBaseModel
     {
         // Contents of the Cloud Script javascript. Must be string-escaped javascript.
@@ -3355,6 +3382,9 @@ namespace AdminModels
         // [optional] property for all player filter.
         TSharedPtr<FAllPlayersSegmentFilter> AllPlayersFilter;
 
+        // [optional] Filter property for player churn risk level.
+        TSharedPtr<FChurnPredictionSegmentFilter> ChurnPredictionFilter;
+
         // [optional] Filter property for first login date.
         TSharedPtr<FFirstLoginDateSegmentFilter> FirstLoginDateFilter;
 
@@ -3410,6 +3440,7 @@ namespace AdminModels
             FPlayFabCppBaseModel(),
             AdCampaignFilter(nullptr),
             AllPlayersFilter(nullptr),
+            ChurnPredictionFilter(nullptr),
             FirstLoginDateFilter(nullptr),
             FirstLoginFilter(nullptr),
             LastLoginDateFilter(nullptr),

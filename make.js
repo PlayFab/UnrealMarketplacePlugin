@@ -74,6 +74,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
             httpRequestDatatype: ueTargetVersion.minor >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
             sdkVersion: sdkGlobals.sdkVersion,
             ueTargetVersionMinor: ueTargetVersion.minor, // This is actually used
+            ueTargetVersionMajor: ueTargetVersion.major,
             ueTargetVersion: ueTargetVersion.targetVersionShort,
             ueTargetVersionLong: ueTargetVersion.targetVersionLong,
             ueWhitelistPlatforms: ueTargetVersion.major < 5 ? ue4CompatPlatforms : ue5WhitelistPlatforms,

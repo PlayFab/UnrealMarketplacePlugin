@@ -1425,7 +1425,7 @@ struct PLAYFAB_API FEconomySubtractInventoryItemsRequest : public FPlayFabReques
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The amount to add for the current item. */
+    /** The amount to subtract for the current item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 Amount = 0;
     /** The id of the entity's collection to perform this action on. (Default="default") */

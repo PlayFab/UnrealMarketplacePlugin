@@ -156,8 +156,11 @@ void PlayFab::EconomyModels::FAddInventoryItemsOperation::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     if (Item.IsValid())
     {
@@ -261,8 +264,11 @@ void PlayFab::EconomyModels::FAddInventoryItemsRequest::writeJSON(JsonWriter& wr
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     if (CollectionId.IsEmpty() == false)
     {
@@ -3536,8 +3542,11 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
     writer->WriteValue(DeleteEmptyStacks);
@@ -3630,8 +3639,11 @@ void PlayFab::EconomyModels::FSubtractInventoryItemsOperation::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
     writer->WriteValue(DeleteEmptyStacks);
@@ -3759,8 +3771,11 @@ void PlayFab::EconomyModels::FInventoryItem::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     if (DisplayProperties.notNull())
     {
@@ -6894,8 +6909,11 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     if (CollectionId.IsEmpty() == false)
     {
@@ -9063,8 +9081,11 @@ void PlayFab::EconomyModels::FSubtractInventoryItemsRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     if (CollectionId.IsEmpty() == false)
     {

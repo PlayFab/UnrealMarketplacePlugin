@@ -97,8 +97,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FAddInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
     {
-        // The amount to add to the current item amount.
-        int32 Amount;
+        // [optional] The amount to add to the current item amount.
+        Boxed<int32> Amount;
 
         // [optional] The inventory item the operation applies to.
         TSharedPtr<FInventoryItemReference> Item;
@@ -108,7 +108,7 @@ namespace EconomyModels
 
         FAddInventoryItemsOperation() :
             FPlayFabCppBaseModel(),
-            Amount(0),
+            Amount(),
             Item(nullptr),
             NewStackValues(nullptr)
             {}
@@ -155,8 +155,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FAddInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The amount to add for the current item.
-        int32 Amount;
+        // [optional] The amount to add for the current item.
+        Boxed<int32> Amount;
 
         // [optional] The id of the entity's collection to perform this action on. (Default="default")
         FString CollectionId;
@@ -180,7 +180,7 @@ namespace EconomyModels
 
         FAddInventoryItemsRequest() :
             FPlayFabCppRequestCommon(),
-            Amount(0),
+            Amount(),
             CollectionId(),
             CustomTags(),
             Entity(nullptr),
@@ -1774,8 +1774,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FPurchaseInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
     {
-        // The amount to purchase.
-        int32 Amount;
+        // [optional] The amount to purchase.
+        Boxed<int32> Amount;
 
         /**
          * Indicates whether stacks reduced to an amount of 0 during the operation should be deleted from the inventory. (Default =
@@ -1799,7 +1799,7 @@ namespace EconomyModels
 
         FPurchaseInventoryItemsOperation() :
             FPlayFabCppBaseModel(),
-            Amount(0),
+            Amount(),
             DeleteEmptyStacks(false),
             Item(nullptr),
             NewStackValues(nullptr),
@@ -1822,8 +1822,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FSubtractInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
     {
-        // The amount to subtract from the current item amount.
-        int32 Amount;
+        // [optional] The amount to subtract from the current item amount.
+        Boxed<int32> Amount;
 
         /**
          * Indicates whether stacks reduced to an amount of 0 during the request should be deleted from the inventory. (Default =
@@ -1836,7 +1836,7 @@ namespace EconomyModels
 
         FSubtractInventoryItemsOperation() :
             FPlayFabCppBaseModel(),
-            Amount(0),
+            Amount(),
             DeleteEmptyStacks(false),
             Item(nullptr)
             {}
@@ -1898,8 +1898,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FInventoryItem : public PlayFab::FPlayFabCppBaseModel
     {
-        // The amount of the item.
-        int32 Amount;
+        // [optional] The amount of the item.
+        Boxed<int32> Amount;
 
         // [optional] Game specific properties for display purposes. This is an arbitrary JSON blob.
         FJsonKeeper DisplayProperties;
@@ -1915,7 +1915,7 @@ namespace EconomyModels
 
         FInventoryItem() :
             FPlayFabCppBaseModel(),
-            Amount(0),
+            Amount(),
             DisplayProperties(),
             Id(),
             StackId(),
@@ -3433,8 +3433,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FPurchaseInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The amount to purchase.
-        int32 Amount;
+        // [optional] The amount to purchase.
+        Boxed<int32> Amount;
 
         // [optional] The id of the entity's collection to perform this action on. (Default="default")
         FString CollectionId;
@@ -3472,7 +3472,7 @@ namespace EconomyModels
 
         FPurchaseInventoryItemsRequest() :
             FPlayFabCppRequestCommon(),
-            Amount(0),
+            Amount(),
             CollectionId(),
             CustomTags(),
             DeleteEmptyStacks(false),
@@ -4478,8 +4478,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FSubtractInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The amount to add for the current item.
-        int32 Amount;
+        // [optional] The amount to subtract for the current item.
+        Boxed<int32> Amount;
 
         // [optional] The id of the entity's collection to perform this action on. (Default="default")
         FString CollectionId;
@@ -4506,7 +4506,7 @@ namespace EconomyModels
 
         FSubtractInventoryItemsRequest() :
             FPlayFabCppRequestCommon(),
-            Amount(0),
+            Amount(),
             CollectionId(),
             CustomTags(),
             DeleteEmptyStacks(false),

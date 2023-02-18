@@ -6097,16 +6097,16 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendsList(FClientGetFriendsListReques
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     FString temp_ExternalPlatformFriends;
-    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
-        OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
-    OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
-    OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
-    if (request.ProfileConstraints != nullptr) OutRestJsonObj->SetObjectField(TEXT("ProfileConstraints"), request.ProfileConstraints);
-    if (request.XboxToken.IsEmpty() || request.XboxToken == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("XboxToken"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("XboxToken"), request.XboxToken);
+    if (GetEnumValueToString < EExternalFriendSources(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+    {
+        if (temp_ExternalPlatformFriends != "None")
+            OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);
     }
+
+    if (request.IncludeFacebookFriends)
+        OutRestJsonObj->SetBoolField(TEXT("IncludeFacebookFriends"), request.IncludeFacebookFriends);
+    if (request.IncludeSteamFriends)
+        OutRestJsonObj->SetBoolField(TEXT("IncludeSteamFriends"), request.IncludeSteamFriends);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

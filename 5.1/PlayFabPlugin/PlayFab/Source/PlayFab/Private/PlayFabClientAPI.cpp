@@ -6097,7 +6097,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::GetFriendsList(FClientGetFriendsListReques
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     FString temp_ExternalPlatformFriends;
-    if (GetEnumValueToString < EExternalFriendSources(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
+    if (GetEnumValueToString<EExternalFriendSources>(TEXT("EExternalFriendSources"), request.ExternalPlatformFriends, temp_ExternalPlatformFriends))
     {
         if (temp_ExternalPlatformFriends != "None")
             OutRestJsonObj->SetStringField(TEXT("ExternalPlatformFriends"), temp_ExternalPlatformFriends);

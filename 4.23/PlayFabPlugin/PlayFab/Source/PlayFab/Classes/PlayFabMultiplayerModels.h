@@ -1201,6 +1201,9 @@ public:
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
+    /** The configuration for the VmStartupScript for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* VmStartupScriptConfiguration = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1274,6 +1277,9 @@ public:
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
+    /** The configuration for the VmStartupScript feature for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* VmStartupScriptConfiguration = nullptr;
 };
 
 /** Creates a multiplayer server build with a managed container and returns information about the build creation request. */
@@ -1345,6 +1351,9 @@ public:
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
+    /** The configuration for the VmStartupScript for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* VmStartupScriptConfiguration = nullptr;
     /** The crash dump configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* WindowsCrashDumpConfiguration = nullptr;
@@ -1424,6 +1433,9 @@ public:
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
+    /** The configuration for the VmStartupScript feature for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* VmStartupScriptConfiguration = nullptr;
 };
 
 /**
@@ -1504,6 +1516,9 @@ public:
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
+    /** The configuration for the VmStartupScript for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* VmStartupScriptConfiguration = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1586,6 +1601,9 @@ public:
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
+    /** The configuration for the VmStartupScript feature for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* VmStartupScriptConfiguration = nullptr;
 };
 
 /**

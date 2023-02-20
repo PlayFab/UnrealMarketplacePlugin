@@ -3696,8 +3696,11 @@ void PlayFab::EconomyModels::FTransferInventoryItemsOperation::writeJSON(JsonWri
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
     writer->WriteValue(DeleteEmptyStacks);
@@ -9342,8 +9345,11 @@ void PlayFab::EconomyModels::FTransferInventoryItemsRequest::writeJSON(JsonWrite
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("Amount"));
-    writer->WriteValue(Amount);
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
 
     if (CustomTags.Num() != 0)
     {

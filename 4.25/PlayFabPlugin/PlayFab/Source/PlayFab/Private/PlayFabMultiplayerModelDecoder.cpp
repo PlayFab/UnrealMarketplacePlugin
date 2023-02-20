@@ -312,6 +312,7 @@ FMultiplayerCreateBuildWithCustomContainerResponse UPlayFabMultiplayerModelDecod
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
     tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
+    tempStruct.VmStartupScriptConfiguration = !(dataObj->HasField("VmStartupScriptConfiguration")) ? nullptr : dataObj->GetObjectField("VmStartupScriptConfiguration");
 
     return tempStruct;
 }
@@ -342,6 +343,7 @@ FMultiplayerCreateBuildWithManagedContainerResponse UPlayFabMultiplayerModelDeco
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
     tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
+    tempStruct.VmStartupScriptConfiguration = !(dataObj->HasField("VmStartupScriptConfiguration")) ? nullptr : dataObj->GetObjectField("VmStartupScriptConfiguration");
 
     return tempStruct;
 }
@@ -372,6 +374,7 @@ FMultiplayerCreateBuildWithProcessBasedServerResponse UPlayFabMultiplayerModelDe
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
     tempStruct.UseStreamingForAssetDownloads = !(dataObj->HasField("UseStreamingForAssetDownloads")) ? false : dataObj->GetBoolField("UseStreamingForAssetDownloads");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
+    tempStruct.VmStartupScriptConfiguration = !(dataObj->HasField("VmStartupScriptConfiguration")) ? nullptr : dataObj->GetObjectField("VmStartupScriptConfiguration");
 
     return tempStruct;
 }

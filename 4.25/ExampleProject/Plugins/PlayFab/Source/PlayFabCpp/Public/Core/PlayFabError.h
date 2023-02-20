@@ -559,6 +559,7 @@ namespace PlayFab
         PlayFabErrorAnalysisSubscriptionFoundAlready = 1552,
         PlayFabErrorAnalysisSubscriptionManagementInvalidInput = 1553,
         PlayFabErrorInvalidGameCenterId = 1554,
+        PlayFabErrorInvalidNintendoSwitchAccountId = 1555,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

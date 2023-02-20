@@ -584,6 +584,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1552: returnText = "AnalysisSubscriptionFoundAlready"; break;
     case 1553: returnText = "AnalysisSubscriptionManagementInvalidInput"; break;
     case 1554: returnText = "InvalidGameCenterId"; break;
+    case 1555: returnText = "InvalidNintendoSwitchAccountId"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

@@ -2391,12 +2391,41 @@ bool PlayFab::MultiplayerModels::FServerResourceConstraintParams::readFromValue(
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FVmStartupScriptParams::~FVmStartupScriptParams()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FVmStartupScriptParams::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("VmStartupScriptAssetReference"));
+    VmStartupScriptAssetReference.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FVmStartupScriptParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> VmStartupScriptAssetReferenceValue = obj->TryGetField(TEXT("VmStartupScriptAssetReference"));
+    if (VmStartupScriptAssetReferenceValue.IsValid() && !VmStartupScriptAssetReferenceValue->IsNull())
+    {
+        VmStartupScriptAssetReference = FAssetReferenceParams(VmStartupScriptAssetReferenceValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::~FCreateBuildWithCustomContainerRequest()
 {
     //if (ContainerImageReference != nullptr) delete ContainerImageReference;
     //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
     //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
+    //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
 }
 
@@ -2523,6 +2552,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
         writeAzureVmSizeEnumJSON(VmSize, writer);
     }
 
+    if (VmStartupScriptConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmStartupScriptConfiguration"));
+        VmStartupScriptConfiguration->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -2643,6 +2678,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
+    const TSharedPtr<FJsonValue> VmStartupScriptConfigurationValue = obj->TryGetField(TEXT("VmStartupScriptConfiguration"));
+    if (VmStartupScriptConfigurationValue.IsValid() && !VmStartupScriptConfigurationValue->IsNull())
+    {
+        VmStartupScriptConfiguration = MakeShareable(new FVmStartupScriptParams(VmStartupScriptConfigurationValue->AsObject()));
+    }
+
     return HasSucceeded;
 }
 
@@ -2762,12 +2803,41 @@ bool PlayFab::MultiplayerModels::FMonitoringApplicationConfiguration::readFromVa
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::~FVmStartupScriptConfiguration()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("VmStartupScriptAssetReference"));
+    VmStartupScriptAssetReference.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> VmStartupScriptAssetReferenceValue = obj->TryGetField(TEXT("VmStartupScriptAssetReference"));
+    if (VmStartupScriptAssetReferenceValue.IsValid() && !VmStartupScriptAssetReferenceValue->IsNull())
+    {
+        VmStartupScriptAssetReference = FAssetReference(VmStartupScriptAssetReferenceValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::~FCreateBuildWithCustomContainerResponse()
 {
     //if (CustomGameContainerImage != nullptr) delete CustomGameContainerImage;
     //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
     //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
+    //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
 }
 
@@ -2909,6 +2979,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::writeJ
         writeAzureVmSizeEnumJSON(VmSize, writer);
     }
 
+    if (pfVmStartupScriptConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmStartupScriptConfiguration"));
+        pfVmStartupScriptConfiguration->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3046,6 +3122,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
+    const TSharedPtr<FJsonValue> VmStartupScriptConfigurationValue = obj->TryGetField(TEXT("VmStartupScriptConfiguration"));
+    if (VmStartupScriptConfigurationValue.IsValid() && !VmStartupScriptConfigurationValue->IsNull())
+    {
+        pfVmStartupScriptConfiguration = MakeShareable(new FVmStartupScriptConfiguration(VmStartupScriptConfigurationValue->AsObject()));
+    }
+
     return HasSucceeded;
 }
 
@@ -3152,6 +3234,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::~FCreateBui
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
     //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
+    //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
     //if (WindowsCrashDumpConfiguration != nullptr) delete WindowsCrashDumpConfiguration;
 
 }
@@ -3278,6 +3361,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
     {
         writer->WriteIdentifierPrefix(TEXT("VmSize"));
         writeAzureVmSizeEnumJSON(VmSize, writer);
+    }
+
+    if (VmStartupScriptConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmStartupScriptConfiguration"));
+        VmStartupScriptConfiguration->writeJSON(writer);
     }
 
     if (pfWindowsCrashDumpConfiguration.IsValid())
@@ -3407,6 +3496,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
+    const TSharedPtr<FJsonValue> VmStartupScriptConfigurationValue = obj->TryGetField(TEXT("VmStartupScriptConfiguration"));
+    if (VmStartupScriptConfigurationValue.IsValid() && !VmStartupScriptConfigurationValue->IsNull())
+    {
+        VmStartupScriptConfiguration = MakeShareable(new FVmStartupScriptParams(VmStartupScriptConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> WindowsCrashDumpConfigurationValue = obj->TryGetField(TEXT("WindowsCrashDumpConfiguration"));
     if (WindowsCrashDumpConfigurationValue.IsValid() && !WindowsCrashDumpConfigurationValue->IsNull())
     {
@@ -3421,6 +3516,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::~FCreateBu
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
     //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
+    //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
 }
 
@@ -3562,6 +3658,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
         writeAzureVmSizeEnumJSON(VmSize, writer);
     }
 
+    if (pfVmStartupScriptConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmStartupScriptConfiguration"));
+        pfVmStartupScriptConfiguration->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3700,6 +3802,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
+    const TSharedPtr<FJsonValue> VmStartupScriptConfigurationValue = obj->TryGetField(TEXT("VmStartupScriptConfiguration"));
+    if (VmStartupScriptConfigurationValue.IsValid() && !VmStartupScriptConfigurationValue->IsNull())
+    {
+        pfVmStartupScriptConfiguration = MakeShareable(new FVmStartupScriptConfiguration(VmStartupScriptConfigurationValue->AsObject()));
+    }
+
     return HasSucceeded;
 }
 
@@ -3707,6 +3815,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::~FCreateB
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
 }
 
@@ -3832,6 +3941,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::writ
     {
         writer->WriteIdentifierPrefix(TEXT("VmSize"));
         writeAzureVmSizeEnumJSON(VmSize, writer);
+    }
+
+    if (VmStartupScriptConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmStartupScriptConfiguration"));
+        VmStartupScriptConfiguration->writeJSON(writer);
     }
 
     writer->WriteObjectEnd();
@@ -3961,6 +4076,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
 
+    const TSharedPtr<FJsonValue> VmStartupScriptConfigurationValue = obj->TryGetField(TEXT("VmStartupScriptConfiguration"));
+    if (VmStartupScriptConfigurationValue.IsValid() && !VmStartupScriptConfigurationValue->IsNull())
+    {
+        VmStartupScriptConfiguration = MakeShareable(new FVmStartupScriptParams(VmStartupScriptConfigurationValue->AsObject()));
+    }
+
     return HasSucceeded;
 }
 
@@ -3968,6 +4089,7 @@ PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::~FCreate
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
+    //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
 }
 
@@ -4109,6 +4231,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::wri
         writeAzureVmSizeEnumJSON(VmSize, writer);
     }
 
+    if (pfVmStartupScriptConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmStartupScriptConfiguration"));
+        pfVmStartupScriptConfiguration->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -4247,6 +4375,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::rea
     }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
+
+    const TSharedPtr<FJsonValue> VmStartupScriptConfigurationValue = obj->TryGetField(TEXT("VmStartupScriptConfiguration"));
+    if (VmStartupScriptConfigurationValue.IsValid() && !VmStartupScriptConfigurationValue->IsNull())
+    {
+        pfVmStartupScriptConfiguration = MakeShareable(new FVmStartupScriptConfiguration(VmStartupScriptConfigurationValue->AsObject()));
+    }
 
     return HasSucceeded;
 }

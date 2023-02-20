@@ -1817,6 +1817,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     FString temp_VmSize;
     if (GetEnumValueToString<EAzureVmSize>(TEXT("EAzureVmSize"), request.VmSize, temp_VmSize))
         OutRestJsonObj->SetStringField(TEXT("VmSize"), temp_VmSize);
+    if (request.VmStartupScriptConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("VmStartupScriptConfiguration"), request.VmStartupScriptConfiguration);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1913,6 +1914,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
     FString temp_VmSize;
     if (GetEnumValueToString<EAzureVmSize>(TEXT("EAzureVmSize"), request.VmSize, temp_VmSize))
         OutRestJsonObj->SetStringField(TEXT("VmSize"), temp_VmSize);
+    if (request.VmStartupScriptConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("VmStartupScriptConfiguration"), request.VmStartupScriptConfiguration);
     if (request.WindowsCrashDumpConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("WindowsCrashDumpConfiguration"), request.WindowsCrashDumpConfiguration);
 
     // Add Request to manager
@@ -2012,6 +2014,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithProcessBasedServe
     FString temp_VmSize;
     if (GetEnumValueToString<EAzureVmSize>(TEXT("EAzureVmSize"), request.VmSize, temp_VmSize))
         OutRestJsonObj->SetStringField(TEXT("VmSize"), temp_VmSize);
+    if (request.VmStartupScriptConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("VmStartupScriptConfiguration"), request.VmStartupScriptConfiguration);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

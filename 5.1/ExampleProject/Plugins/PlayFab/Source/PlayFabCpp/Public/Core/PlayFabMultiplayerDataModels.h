@@ -1238,6 +1238,29 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FVmStartupScriptParams : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Asset which contains the VmStartupScript script and any other required files.
+        FAssetReferenceParams VmStartupScriptAssetReference;
+
+        FVmStartupScriptParams() :
+            FPlayFabCppBaseModel(),
+            VmStartupScriptAssetReference()
+            {}
+
+        FVmStartupScriptParams(const FVmStartupScriptParams& src) = default;
+
+        FVmStartupScriptParams(const TSharedPtr<FJsonObject>& obj) : FVmStartupScriptParams()
+        {
+            readFromValue(obj);
+        }
+
+        ~FVmStartupScriptParams();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateBuildWithCustomContainerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**
@@ -1294,6 +1317,9 @@ namespace MultiplayerModels
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The configuration for the VmStartupScript for the build
+        TSharedPtr<FVmStartupScriptParams> VmStartupScriptConfiguration;
+
         FCreateBuildWithCustomContainerRequest() :
             FPlayFabCppRequestCommon(),
             AreAssetsReadonly(),
@@ -1312,7 +1338,8 @@ namespace MultiplayerModels
             RegionConfigurations(),
             ServerResourceConstraints(nullptr),
             UseStreamingForAssetDownloads(),
-            VmSize()
+            VmSize(),
+            VmStartupScriptConfiguration(nullptr)
             {}
 
         FCreateBuildWithCustomContainerRequest(const FCreateBuildWithCustomContainerRequest& src) = default;
@@ -1397,6 +1424,29 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FVmStartupScriptConfiguration : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Asset which contains the VmStartupScript script and any other required files.
+        FAssetReference VmStartupScriptAssetReference;
+
+        FVmStartupScriptConfiguration() :
+            FPlayFabCppBaseModel(),
+            VmStartupScriptAssetReference()
+            {}
+
+        FVmStartupScriptConfiguration(const FVmStartupScriptConfiguration& src) = default;
+
+        FVmStartupScriptConfiguration(const TSharedPtr<FJsonObject>& obj) : FVmStartupScriptConfiguration()
+        {
+            readFromValue(obj);
+        }
+
+        ~FVmStartupScriptConfiguration();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCreateBuildWithCustomContainerResponse : public PlayFab::FPlayFabCppResultCommon
     {
         /**
@@ -1460,6 +1510,9 @@ namespace MultiplayerModels
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The configuration for the VmStartupScript feature for the build
+        TSharedPtr<FVmStartupScriptConfiguration> pfVmStartupScriptConfiguration;
+
         FCreateBuildWithCustomContainerResponse() :
             FPlayFabCppResultCommon(),
             AreAssetsReadonly(),
@@ -1481,7 +1534,8 @@ namespace MultiplayerModels
             ServerResourceConstraints(nullptr),
             ServerType(),
             UseStreamingForAssetDownloads(),
-            VmSize()
+            VmSize(),
+            pfVmStartupScriptConfiguration(nullptr)
             {}
 
         FCreateBuildWithCustomContainerResponse(const FCreateBuildWithCustomContainerResponse& src) = default;
@@ -1617,6 +1671,9 @@ namespace MultiplayerModels
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The configuration for the VmStartupScript for the build
+        TSharedPtr<FVmStartupScriptParams> VmStartupScriptConfiguration;
+
         // [optional] The crash dump configuration for the build.
         TSharedPtr<FWindowsCrashDumpConfiguration> pfWindowsCrashDumpConfiguration;
 
@@ -1639,6 +1696,7 @@ namespace MultiplayerModels
             StartMultiplayerServerCommand(),
             UseStreamingForAssetDownloads(),
             VmSize(),
+            VmStartupScriptConfiguration(nullptr),
             pfWindowsCrashDumpConfiguration(nullptr)
             {}
 
@@ -1721,6 +1779,9 @@ namespace MultiplayerModels
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The configuration for the VmStartupScript feature for the build
+        TSharedPtr<FVmStartupScriptConfiguration> pfVmStartupScriptConfiguration;
+
         FCreateBuildWithManagedContainerResponse() :
             FPlayFabCppResultCommon(),
             AreAssetsReadonly(),
@@ -1742,7 +1803,8 @@ namespace MultiplayerModels
             ServerType(),
             StartMultiplayerServerCommand(),
             UseStreamingForAssetDownloads(),
-            VmSize()
+            VmSize(),
+            pfVmStartupScriptConfiguration(nullptr)
             {}
 
         FCreateBuildWithManagedContainerResponse(const FCreateBuildWithManagedContainerResponse& src) = default;
@@ -1823,6 +1885,9 @@ namespace MultiplayerModels
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The configuration for the VmStartupScript for the build
+        TSharedPtr<FVmStartupScriptParams> VmStartupScriptConfiguration;
+
         FCreateBuildWithProcessBasedServerRequest() :
             FPlayFabCppRequestCommon(),
             AreAssetsReadonly(),
@@ -1841,7 +1906,8 @@ namespace MultiplayerModels
             RegionConfigurations(),
             StartMultiplayerServerCommand(),
             UseStreamingForAssetDownloads(),
-            VmSize()
+            VmSize(),
+            VmStartupScriptConfiguration(nullptr)
             {}
 
         FCreateBuildWithProcessBasedServerRequest(const FCreateBuildWithProcessBasedServerRequest& src) = default;
@@ -1929,6 +1995,9 @@ namespace MultiplayerModels
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The configuration for the VmStartupScript feature for the build
+        TSharedPtr<FVmStartupScriptConfiguration> pfVmStartupScriptConfiguration;
+
         FCreateBuildWithProcessBasedServerResponse() :
             FPlayFabCppResultCommon(),
             AreAssetsReadonly(),
@@ -1950,7 +2019,8 @@ namespace MultiplayerModels
             ServerType(),
             StartMultiplayerServerCommand(),
             UseStreamingForAssetDownloads(),
-            VmSize()
+            VmSize(),
+            pfVmStartupScriptConfiguration(nullptr)
             {}
 
         FCreateBuildWithProcessBasedServerResponse(const FCreateBuildWithProcessBasedServerResponse& src) = default;

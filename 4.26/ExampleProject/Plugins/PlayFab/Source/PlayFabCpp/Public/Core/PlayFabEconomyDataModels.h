@@ -1856,8 +1856,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FTransferInventoryItemsOperation : public PlayFab::FPlayFabCppBaseModel
     {
-        // The amount to transfer.
-        int32 Amount;
+        // [optional] The amount to transfer.
+        Boxed<int32> Amount;
 
         /**
          * Indicates whether stacks reduced to an amount of 0 during the operation should be deleted from the inventory. (Default =
@@ -1876,7 +1876,7 @@ namespace EconomyModels
 
         FTransferInventoryItemsOperation() :
             FPlayFabCppBaseModel(),
-            Amount(0),
+            Amount(),
             DeleteEmptyStacks(false),
             GivingItem(nullptr),
             NewStackValues(nullptr),
@@ -4605,8 +4605,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FTransferInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // The amount to transfer .
-        int32 Amount;
+        // [optional] The amount to transfer .
+        Boxed<int32> Amount;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
@@ -4645,7 +4645,7 @@ namespace EconomyModels
 
         FTransferInventoryItemsRequest() :
             FPlayFabCppRequestCommon(),
-            Amount(0),
+            Amount(),
             CustomTags(),
             DeleteEmptyStacks(false),
             GivingCollectionId(),

@@ -585,6 +585,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1553: returnText = "AnalysisSubscriptionManagementInvalidInput"; break;
     case 1554: returnText = "InvalidGameCenterId"; break;
     case 1555: returnText = "InvalidNintendoSwitchAccountId"; break;
+    case 1556: returnText = "EntityAPIKeysNotSupported"; break;
+    case 1557: returnText = "IpAddressBanned"; break;
+    case 1558: returnText = "EntityLineageBanned"; break;
+    case 1559: returnText = "NamespaceMismatch"; break;
+    case 1560: returnText = "InvalidServiceConfiguration"; break;
+    case 1561: returnText = "InvalidNamespaceMismatch"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -731,6 +737,11 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 14001: returnText = "EventSamplingInvalidEventNamespace"; break;
     case 14002: returnText = "EventSamplingInvalidEventName"; break;
     case 14003: returnText = "EventSamplingRatioNotFound"; break;
+    case 14200: returnText = "TelemetryKeyNotFound"; break;
+    case 14201: returnText = "TelemetryKeyInvalidName"; break;
+    case 14202: returnText = "TelemetryKeyAlreadyExists"; break;
+    case 14203: returnText = "TelemetryKeyInvalid"; break;
+    case 14204: returnText = "TelemetryKeyCountOverLimit"; break;
     case 15000: returnText = "EventSinkConnectionInvalid"; break;
     case 15001: returnText = "EventSinkConnectionUnauthorized"; break;
     case 15002: returnText = "EventSinkRegionInvalid"; break;

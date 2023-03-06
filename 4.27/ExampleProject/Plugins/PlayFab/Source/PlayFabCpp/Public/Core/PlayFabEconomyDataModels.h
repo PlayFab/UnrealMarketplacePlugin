@@ -163,6 +163,9 @@ namespace EconomyModels
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] The duration to add to the current item expiration date.
+        Boxed<double> DurationInSeconds;
+
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -183,6 +186,7 @@ namespace EconomyModels
             Amount(),
             CollectionId(),
             CustomTags(),
+            DurationInSeconds(),
             Entity(nullptr),
             ETag(),
             IdempotencyId(),
@@ -613,9 +617,13 @@ namespace EconomyModels
     {
         // [optional] The amounts of the catalog item price.
         TArray<FCatalogPriceAmount> Amounts;
+        // [optional] The per-unit duration this price can be used to purchase.
+        Boxed<double> UnitDurationInSeconds;
+
         FCatalogPrice() :
             FPlayFabCppBaseModel(),
-            Amounts()
+            Amounts(),
+            UnitDurationInSeconds()
             {}
 
         FCatalogPrice(const FCatalogPrice& src) = default;
@@ -946,6 +954,13 @@ namespace EconomyModels
         // [optional] The set of platform specific deep links for this item.
         TArray<FDeepLink> DeepLinks;
         /**
+         * [optional] The Stack Id that will be used as default for this item in Inventory when an explicit one is not provided. This
+         * DefaultStackId can be a static stack id or '{guid}', which will generate a unique stack id for the item. If null,
+         * Inventory's default stack id will be used.
+         */
+        FString DefaultStackId;
+
+        /**
          * [optional] A dictionary of localized descriptions. Key is language code and localized string is the value. The neutral locale is
          * required.
          */
@@ -1012,6 +1027,7 @@ namespace EconomyModels
             CreationDate(),
             CreatorEntity(nullptr),
             DeepLinks(),
+            DefaultStackId(),
             Description(),
             DisplayProperties(),
             DisplayVersion(),
@@ -1783,6 +1799,9 @@ namespace EconomyModels
          */
         bool DeleteEmptyStacks;
 
+        // [optional] The duration to purchase.
+        Boxed<double> DurationInSeconds;
+
         // [optional] The inventory item the operation applies to.
         TSharedPtr<FInventoryItemReference> Item;
 
@@ -1801,6 +1820,7 @@ namespace EconomyModels
             FPlayFabCppBaseModel(),
             Amount(),
             DeleteEmptyStacks(false),
+            DurationInSeconds(),
             Item(nullptr),
             NewStackValues(nullptr),
             PriceAmounts(),
@@ -1831,6 +1851,9 @@ namespace EconomyModels
          */
         bool DeleteEmptyStacks;
 
+        // [optional] The duration to subtract from the current item expiration date.
+        Boxed<double> DurationInSeconds;
+
         // [optional] The inventory item the operation applies to.
         TSharedPtr<FInventoryItemReference> Item;
 
@@ -1838,6 +1861,7 @@ namespace EconomyModels
             FPlayFabCppBaseModel(),
             Amount(),
             DeleteEmptyStacks(false),
+            DurationInSeconds(),
             Item(nullptr)
             {}
 
@@ -1904,6 +1928,12 @@ namespace EconomyModels
         // [optional] Game specific properties for display purposes. This is an arbitrary JSON blob.
         FJsonKeeper DisplayProperties;
 
+        /**
+         * [optional] Only used for subscriptions. The date of when the item will expire in UTC. If not provided then the product will be
+         * available indefinitely.
+         */
+        Boxed<FDateTime> ExpirationDate;
+
         // [optional] The id of the item. This should correspond to the item id in the catalog.
         FString Id;
 
@@ -1917,6 +1947,7 @@ namespace EconomyModels
             FPlayFabCppBaseModel(),
             Amount(),
             DisplayProperties(),
+            ExpirationDate(),
             Id(),
             StackId(),
             Type()
@@ -3106,6 +3137,9 @@ namespace EconomyModels
         // [optional] The amount of items in this transaction.
         Boxed<int32> Amount;
 
+        // [optional] The duration modified in this transaction.
+        Boxed<double> DurationInSeconds;
+
         // [optional] The item id of the items in this transaction.
         FString ItemId;
 
@@ -3121,6 +3155,7 @@ namespace EconomyModels
         FTransactionOperation() :
             FPlayFabCppBaseModel(),
             Amount(),
+            DurationInSeconds(),
             ItemId(),
             ItemType(),
             StackId(),
@@ -3447,6 +3482,9 @@ namespace EconomyModels
          */
         bool DeleteEmptyStacks;
 
+        // [optional] The duration to purchase.
+        Boxed<double> DurationInSeconds;
+
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -3476,6 +3514,7 @@ namespace EconomyModels
             CollectionId(),
             CustomTags(),
             DeleteEmptyStacks(false),
+            DurationInSeconds(),
             Entity(nullptr),
             ETag(),
             IdempotencyId(),
@@ -4492,6 +4531,9 @@ namespace EconomyModels
          */
         bool DeleteEmptyStacks;
 
+        // [optional] The duration to subtract from the current item expiration date.
+        Boxed<double> DurationInSeconds;
+
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
@@ -4510,6 +4552,7 @@ namespace EconomyModels
             CollectionId(),
             CustomTags(),
             DeleteEmptyStacks(false),
+            DurationInSeconds(),
             Entity(nullptr),
             ETag(),
             IdempotencyId(),

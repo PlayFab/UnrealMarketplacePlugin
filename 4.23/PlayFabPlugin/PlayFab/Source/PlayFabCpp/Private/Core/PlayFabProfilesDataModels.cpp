@@ -1226,13 +1226,10 @@ void PlayFab::ProfilesModels::FSetEntityProfilePolicyRequest::writeJSON(JsonWrit
     writer->WriteIdentifierPrefix(TEXT("Entity"));
     Entity.writeJSON(writer);
 
-    if (Statements.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Statements"));
-        for (const FEntityPermissionStatement& item : Statements)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
+    writer->WriteArrayStart(TEXT("Statements"));
+    for (const FEntityPermissionStatement& item : Statements)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
 
 
     writer->WriteObjectEnd();

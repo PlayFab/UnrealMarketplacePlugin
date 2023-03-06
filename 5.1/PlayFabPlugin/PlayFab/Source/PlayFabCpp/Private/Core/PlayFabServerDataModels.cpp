@@ -15113,7 +15113,11 @@ void PlayFab::ServerModels::FLoginWithServerCustomIdRequest::writeJSON(JsonWrite
         writer->WriteValue(PlayerSecret);
     }
 
-    if (ServerCustomId.IsEmpty() == false)
+    if (!ServerCustomId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithServerCustomIdRequest::ServerCustomId, PlayFab calls may not work if it remains empty."));
+    }
+    else
     {
         writer->WriteIdentifierPrefix(TEXT("ServerCustomId"));
         writer->WriteValue(ServerCustomId);

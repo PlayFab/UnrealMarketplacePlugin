@@ -583,7 +583,7 @@ namespace ProfilesModels
         // The entity to perform this action on.
         FEntityKey Entity;
 
-        // [optional] The statements to include in the access policy.
+        // The statements to include in the access policy.
         TArray<FEntityPermissionStatement> Statements;
         FSetEntityProfilePolicyRequest() :
             FPlayFabCppRequestCommon(),

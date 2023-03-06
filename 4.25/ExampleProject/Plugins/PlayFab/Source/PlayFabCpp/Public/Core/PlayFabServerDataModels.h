@@ -4903,7 +4903,7 @@ namespace ServerModels
 
         /**
          * [optional] Number of seconds to keep the continuation token active. After token expiration it is not possible to continue paging
-         * results. Default is 300 (5 minutes). Maximum is 1,800 (30 minutes).
+         * results. Default is 300 (5 minutes). Maximum is 5,400 (90 minutes).
          */
         Boxed<uint32> SecondsToLive;
 
@@ -7651,7 +7651,7 @@ namespace ServerModels
         // [optional] Player secret that is used to verify API request signatures (Enterprise Only).
         FString PlayerSecret;
 
-        // [optional] The backend server identifier for this player.
+        // The backend server identifier for this player.
         FString ServerCustomId;
 
         FLoginWithServerCustomIdRequest() :

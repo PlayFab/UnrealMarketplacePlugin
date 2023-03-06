@@ -4403,6 +4403,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithGoogleAccount(FClientLoginWithGoo
     } else {
         OutRestJsonObj->SetStringField(TEXT("ServerAuthCode"), request.ServerAuthCode);
     }
+    OutRestJsonObj->SetBoolField(TEXT("SetEmail"), request.SetEmail);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager

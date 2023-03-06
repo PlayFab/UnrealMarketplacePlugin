@@ -1603,6 +1603,7 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::AddInventoryItems(FEconomyAddInventoryIt
         OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("DurationInSeconds"), request.DurationInSeconds);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.ETag.IsEmpty() || request.ETag == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ETag"));
@@ -2097,6 +2098,7 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::PurchaseInventoryItems(FEconomyPurchaseI
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("DeleteEmptyStacks"), request.DeleteEmptyStacks);
+    OutRestJsonObj->SetNumberField(TEXT("DurationInSeconds"), request.DurationInSeconds);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.ETag.IsEmpty() || request.ETag == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ETag"));
@@ -2534,6 +2536,7 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::SubtractInventoryItems(FEconomySubtractI
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("DeleteEmptyStacks"), request.DeleteEmptyStacks);
+    OutRestJsonObj->SetNumberField(TEXT("DurationInSeconds"), request.DurationInSeconds);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
     if (request.ETag.IsEmpty() || request.ETag == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ETag"));

@@ -287,6 +287,12 @@ void PlayFab::EconomyModels::FAddInventoryItemsRequest::writeJSON(JsonWriter& wr
         writer->WriteObjectEnd();
     }
 
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -345,6 +351,13 @@ bool PlayFab::EconomyModels::FAddInventoryItemsRequest::readFromValue(const TSha
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
@@ -1194,6 +1207,12 @@ void PlayFab::EconomyModels::FCatalogPrice::writeJSON(JsonWriter& writer) const
     }
 
 
+    if (UnitDurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UnitDurationInSeconds"));
+        writer->WriteValue(UnitDurationInSeconds);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -1208,6 +1227,13 @@ bool PlayFab::EconomyModels::FCatalogPrice::readFromValue(const TSharedPtr<FJson
         Amounts.Add(FCatalogPriceAmount(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> UnitDurationInSecondsValue = obj->TryGetField(TEXT("UnitDurationInSeconds"));
+    if (UnitDurationInSecondsValue.IsValid() && !UnitDurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (UnitDurationInSecondsValue->TryGetNumber(TmpValue)) { UnitDurationInSeconds = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -1816,6 +1842,12 @@ void PlayFab::EconomyModels::FCatalogItem::writeJSON(JsonWriter& writer) const
     }
 
 
+    if (DefaultStackId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DefaultStackId"));
+        writer->WriteValue(DefaultStackId);
+    }
+
     if (Description.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("Description"));
@@ -2011,6 +2043,13 @@ bool PlayFab::EconomyModels::FCatalogItem::readFromValue(const TSharedPtr<FJsonO
         DeepLinks.Add(FDeepLink(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> DefaultStackIdValue = obj->TryGetField(TEXT("DefaultStackId"));
+    if (DefaultStackIdValue.IsValid() && !DefaultStackIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (DefaultStackIdValue->TryGetString(TmpValue)) { DefaultStackId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonObject>* DescriptionObject;
     if (obj->TryGetObjectField(TEXT("Description"), DescriptionObject))
@@ -3551,6 +3590,12 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::writeJSON(JsonWri
     writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
     writer->WriteValue(DeleteEmptyStacks);
 
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
     if (Item.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Item"));
@@ -3597,6 +3642,13 @@ bool PlayFab::EconomyModels::FPurchaseInventoryItemsOperation::readFromValue(con
     {
         bool TmpValue;
         if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
@@ -3648,6 +3700,12 @@ void PlayFab::EconomyModels::FSubtractInventoryItemsOperation::writeJSON(JsonWri
     writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
     writer->WriteValue(DeleteEmptyStacks);
 
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
     if (Item.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Item"));
@@ -3673,6 +3731,13 @@ bool PlayFab::EconomyModels::FSubtractInventoryItemsOperation::readFromValue(con
     {
         bool TmpValue;
         if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
@@ -3786,6 +3851,12 @@ void PlayFab::EconomyModels::FInventoryItem::writeJSON(JsonWriter& writer) const
         DisplayProperties.writeJSON(writer);
     }
 
+    if (ExpirationDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpirationDate"));
+        writeDatetime(ExpirationDate, writer);
+    }
+
     if (Id.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Id"));
@@ -3823,6 +3894,11 @@ bool PlayFab::EconomyModels::FInventoryItem::readFromValue(const TSharedPtr<FJso
     {
         DisplayProperties = FJsonKeeper(DisplayPropertiesValue);
     }
+
+    const TSharedPtr<FJsonValue> ExpirationDateValue = obj->TryGetField(TEXT("ExpirationDate"));
+    if (ExpirationDateValue.IsValid())
+        ExpirationDate = readDatetime(ExpirationDateValue);
+
 
     const TSharedPtr<FJsonValue> IdValue = obj->TryGetField(TEXT("Id"));
     if (IdValue.IsValid() && !IdValue->IsNull())
@@ -6261,6 +6337,12 @@ void PlayFab::EconomyModels::FTransactionOperation::writeJSON(JsonWriter& writer
         writer->WriteValue(Amount);
     }
 
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
     if (ItemId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ItemId"));
@@ -6297,6 +6379,13 @@ bool PlayFab::EconomyModels::FTransactionOperation::readFromValue(const TSharedP
     {
         int32 TmpValue;
         if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
@@ -6938,6 +7027,12 @@ void PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::writeJSON(JsonWrite
     writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
     writer->WriteValue(DeleteEmptyStacks);
 
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -7018,6 +7113,13 @@ bool PlayFab::EconomyModels::FPurchaseInventoryItemsRequest::readFromValue(const
     {
         bool TmpValue;
         if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
@@ -9110,6 +9212,12 @@ void PlayFab::EconomyModels::FSubtractInventoryItemsRequest::writeJSON(JsonWrite
     writer->WriteIdentifierPrefix(TEXT("DeleteEmptyStacks"));
     writer->WriteValue(DeleteEmptyStacks);
 
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
     if (Entity.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Entity"));
@@ -9169,6 +9277,13 @@ bool PlayFab::EconomyModels::FSubtractInventoryItemsRequest::readFromValue(const
     {
         bool TmpValue;
         if (DeleteEmptyStacksValue->TryGetBool(TmpValue)) { DeleteEmptyStacks = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));

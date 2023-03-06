@@ -5865,7 +5865,7 @@ namespace AdminModels
 
         /**
          * [optional] Number of seconds to keep the continuation token active. After token expiration it is not possible to continue paging
-         * results. Default is 300 (5 minutes). Maximum is 1,800 (30 minutes).
+         * results. Default is 300 (5 minutes). Maximum is 5,400 (90 minutes).
          */
         Boxed<uint32> SecondsToLive;
 

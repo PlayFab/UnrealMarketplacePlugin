@@ -2057,6 +2057,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString ServerAuthCode;
+    /** Optional boolean to opt out of setting the MPA email when creating a Google account, defaults to true. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        bool SetEmail = false;
 };
 
 /**

@@ -17661,6 +17661,12 @@ void PlayFab::ClientModels::FLoginWithGoogleAccountRequest::writeJSON(JsonWriter
         writer->WriteValue(ServerAuthCode);
     }
 
+    if (SetEmail.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SetEmail"));
+        writer->WriteValue(SetEmail);
+    }
+
     if (!TitleId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithGoogleAccountRequest::TitleId, PlayFab calls may not work if it remains empty."));
@@ -17719,6 +17725,13 @@ bool PlayFab::ClientModels::FLoginWithGoogleAccountRequest::readFromValue(const 
     {
         FString TmpValue;
         if (ServerAuthCodeValue->TryGetString(TmpValue)) { ServerAuthCode = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SetEmailValue = obj->TryGetField(TEXT("SetEmail"));
+    if (SetEmailValue.IsValid() && !SetEmailValue->IsNull())
+    {
+        bool TmpValue;
+        if (SetEmailValue->TryGetBool(TmpValue)) { SetEmail = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));

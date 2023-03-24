@@ -1309,8 +1309,8 @@ namespace MultiplayerModels
         TSharedPtr<FServerResourceConstraintParams> ServerResourceConstraints;
 
         /**
-         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-         * disc.
+         * [optional] DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
+         * written first to disc.
          */
         Boxed<bool> UseStreamingForAssetDownloads;
 
@@ -1663,8 +1663,8 @@ namespace MultiplayerModels
         FString StartMultiplayerServerCommand;
 
         /**
-         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-         * disc.
+         * [optional] DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
+         * written first to disc.
          */
         Boxed<bool> UseStreamingForAssetDownloads;
 
@@ -1877,8 +1877,8 @@ namespace MultiplayerModels
         FString StartMultiplayerServerCommand;
 
         /**
-         * [optional] When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-         * disc.
+         * [optional] DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
+         * written first to disc.
          */
         Boxed<bool> UseStreamingForAssetDownloads;
 
@@ -3723,7 +3723,10 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FGetMatchmakingTicketResult : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
+        /**
+         * [optional] The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. Please retry
+         * if CancellationReason is RetryRequired.
+         */
         FString CancellationReasonString;
 
         // [optional] Change number used for differentiating older matchmaking status updates from newer ones.

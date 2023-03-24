@@ -872,7 +872,10 @@ struct PLAYFAB_API FMultiplayerGetMatchmakingTicketResult : public FPlayFabResul
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. */
+    /**
+     * The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state. Please retry
+     * if CancellationReason is RetryRequired.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Matchmaking Models")
         FString CancellationReasonString;
     /** Change number used for differentiating older matchmaking status updates from newer ones. */
@@ -1193,8 +1196,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* ServerResourceConstraints = nullptr;
     /**
-     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-     * disc.
+     * DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
+     * written first to disc.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         bool UseStreamingForAssetDownloads = false;
@@ -1343,8 +1346,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
     /**
-     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-     * disc.
+     * DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
+     * written first to disc.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         bool UseStreamingForAssetDownloads = false;
@@ -1508,8 +1511,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
     /**
-     * When true, assets will be downloaded and uncompressed in memory, without the compressedversion being written first to
-     * disc.
+     * DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
+     * written first to disc.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         bool UseStreamingForAssetDownloads = false;

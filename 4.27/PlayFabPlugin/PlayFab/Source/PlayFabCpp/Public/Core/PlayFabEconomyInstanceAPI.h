@@ -98,7 +98,7 @@ namespace PlayFab
 
         // ------------ Generated API calls
         /**
-         * Add inventory items.
+         * Add inventory items. Up to 3500 stacks of items can be added to a single inventory collection. Stack size is uncapped.
          * Given an entity type, entity identifier and container details, will add the specified inventory items.
          */
         bool AddInventoryItems(EconomyModels::FAddInventoryItemsRequest& request, const FAddInventoryItemsDelegate& SuccessDelegate = FAddInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -108,14 +108,18 @@ namespace PlayFab
          */
         bool CreateDraftItem(EconomyModels::FCreateDraftItemRequest& request, const FCreateDraftItemDelegate& SuccessDelegate = FCreateDraftItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Creates one or more upload URLs which can be used by the client to upload raw file data.
+         * Creates one or more upload URLs which can be used by the client to upload raw file data. Content URls and uploaded
+         * content will be garbage collected after 24 hours if not attached to a draft or published item. Detailed pricing info
+         * around uploading content can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/pricing/meters/catalog-meters
          * Upload URLs point to Azure Blobs; clients must follow the Microsoft Azure Storage Blob Service REST API pattern for uploading content. The response contains upload URLs and IDs for each file. The IDs and URLs returned must be added to the item metadata and committed using the CreateDraftItem or UpdateDraftItem Item APIs.
          */
         bool CreateUploadUrls(EconomyModels::FCreateUploadUrlsRequest& request, const FCreateUploadUrlsDelegate& SuccessDelegate = FCreateUploadUrlsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Deletes all reviews, helpfulness votes, and ratings submitted by the entity specified.
         bool DeleteEntityItemReviews(EconomyModels::FDeleteEntityItemReviewsRequest& request, const FDeleteEntityItemReviewsDelegate& SuccessDelegate = FDeleteEntityItemReviewsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Delete an Inventory Collection
+         * Delete an Inventory Collection. More information about Inventory Collections can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/collections
          * Delete an Inventory Collection by the specified Id for an Entity
          */
         bool DeleteInventoryCollection(EconomyModels::FDeleteInventoryCollectionRequest& request, const FDeleteInventoryCollectionDelegate& SuccessDelegate = FDeleteInventoryCollectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -127,22 +131,45 @@ namespace PlayFab
         // Removes an item from working catalog and all published versions from the public catalog.
         bool DeleteItem(EconomyModels::FDeleteItemRequest& request, const FDeleteItemDelegate& SuccessDelegate = FDeleteItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Execute a list of Inventory Operations
+         * Execute a list of Inventory Operations. A maximum list of 10 operations can be performed by a single request. There is
+         * also a limit to 250 items that can be modified/added in a single request. For example, adding a bundle with 50 items
+         * counts as 50 items modified. All operations must be done within a single inventory collection. This API has a reduced
+         * RPS compared to an individual inventory operation with Player Entities limited to 15 requests in 90 seconds and Title
+         * Entities limited to 500 requests in 10 seconds.
          * Execute a list of Inventory Operations for an Entity
          */
         bool ExecuteInventoryOperations(EconomyModels::FExecuteInventoryOperationsRequest& request, const FExecuteInventoryOperationsDelegate& SuccessDelegate = FExecuteInventoryOperationsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Gets the configuration for the catalog.
+        /**
+         * Gets the configuration for the catalog. Only Title Entities can call this API. There is a limit of 100 requests in 10
+         * seconds for this API. More information about the Catalog Config can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/settings
+         */
         bool GetCatalogConfig(EconomyModels::FGetCatalogConfigRequest& request, const FGetCatalogConfigDelegate& SuccessDelegate = FGetCatalogConfigDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves an item from the working catalog. This item represents the current working state of the item.
+        /**
+         * Retrieves an item from the working catalog. This item represents the current working state of the item. GetDraftItem
+         * does not work off a cache of the Catalog and should be used when trying to get recent item updates. However, please note
+         * that item references data is cached and may take a few moments for changes to propagate.
+         */
         bool GetDraftItem(EconomyModels::FGetDraftItemRequest& request, const FGetDraftItemDelegate& SuccessDelegate = FGetDraftItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves a paginated list of the items from the draft catalog.
+        /**
+         * Retrieves a paginated list of the items from the draft catalog. Up to 50 IDs can be retrieved in a single request.
+         * GetDraftItems does not work off a cache of the Catalog and should be used when trying to get recent item updates.
+         */
         bool GetDraftItems(EconomyModels::FGetDraftItemsRequest& request, const FGetDraftItemsDelegate& SuccessDelegate = FGetDraftItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves a paginated list of the items from the draft catalog created by the Entity.
+        /**
+         * Retrieves a paginated list of the items from the draft catalog created by the Entity. Up to 50 items can be returned at
+         * once. You can use continuation tokens to paginate through results that return greater than the limit.
+         * GetEntityDraftItems does not work off a cache of the Catalog and should be used when trying to get recent item updates.
+         */
         bool GetEntityDraftItems(EconomyModels::FGetEntityDraftItemsRequest& request, const FGetEntityDraftItemsDelegate& SuccessDelegate = FGetEntityDraftItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Gets the submitted review for the specified item by the authenticated entity.
+        /**
+         * Gets the submitted review for the specified item by the authenticated entity. Individual ratings and reviews data update
+         * in near real time with delays within a few seconds.
+         */
         bool GetEntityItemReview(EconomyModels::FGetEntityItemReviewRequest& request, const FGetEntityItemReviewDelegate& SuccessDelegate = FGetEntityItemReviewDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Get Inventory Collection Ids
+         * Get Inventory Collection Ids. Up to 50 Ids can be returned at once. You can use continuation tokens to paginate through
+         * results that return greater than the limit. It can take a few seconds for new collection Ids to show up.
          * Get a list of Inventory Collection Ids for the specified Entity
          */
         bool GetInventoryCollectionIds(EconomyModels::FGetInventoryCollectionIdsRequest& request, const FGetInventoryCollectionIdsDelegate& SuccessDelegate = FGetInventoryCollectionIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -151,22 +178,42 @@ namespace PlayFab
          * Given an entity type, entity identifier and container details, will get the entity's inventory items. 
          */
         bool GetInventoryItems(EconomyModels::FGetInventoryItemsRequest& request, const FGetInventoryItemsDelegate& SuccessDelegate = FGetInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves an item from the public catalog.
+        /**
+         * Retrieves an item from the public catalog. GetItem does not work off a cache of the Catalog and should be used when
+         * trying to get recent item updates. However, please note that item references data is cached and may take a few moments
+         * for changes to propagate.
+         */
         bool GetItem(EconomyModels::FGetItemRequest& request, const FGetItemDelegate& SuccessDelegate = FGetItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Search for a given item and return a set of bundles and stores containing the item
+         * Search for a given item and return a set of bundles and stores containing the item. Up to 50 items can be returned at
+         * once. You can use continuation tokens to paginate through results that return greater than the limit. This API is
+         * intended for tooling/automation scenarios and has a reduced RPS with Player Entities limited to 30 requests in 300
+         * seconds and Title Entities limited to 100 requests in 10 seconds.
          * Given an item, return a set of bundles and stores containing the item.
          */
         bool GetItemContainers(EconomyModels::FGetItemContainersRequest& request, const FGetItemContainersDelegate& SuccessDelegate = FGetItemContainersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Gets the moderation state for an item, including the concern category and string reason.
+        /**
+         * Gets the moderation state for an item, including the concern category and string reason. More information about
+         * moderation states can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/ugc/moderation
+         */
         bool GetItemModerationState(EconomyModels::FGetItemModerationStateRequest& request, const FGetItemModerationStateDelegate& SuccessDelegate = FGetItemModerationStateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets the status of a publish of an item.
         bool GetItemPublishStatus(EconomyModels::FGetItemPublishStatusRequest& request, const FGetItemPublishStatusDelegate& SuccessDelegate = FGetItemPublishStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Get a paginated set of reviews associated with the specified item.
+        /**
+         * Get a paginated set of reviews associated with the specified item. Individual ratings and reviews data update in near
+         * real time with delays within a few seconds.
+         */
         bool GetItemReviews(EconomyModels::FGetItemReviewsRequest& request, const FGetItemReviewsDelegate& SuccessDelegate = FGetItemReviewsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Get a summary of all reviews associated with the specified item.
+        /**
+         * Get a summary of all ratings and reviews associated with the specified item. Summary ratings data is cached with update
+         * data coming within 15 minutes.
+         */
         bool GetItemReviewSummary(EconomyModels::FGetItemReviewSummaryRequest& request, const FGetItemReviewSummaryDelegate& SuccessDelegate = FGetItemReviewSummaryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves items from the public catalog.
+        /**
+         * Retrieves items from the public catalog. Up to 50 items can be returned at once. GetItems does not work off a cache of
+         * the Catalog and should be used when trying to get recent item updates. However, please note that item references data is
+         * cached and may take a few moments for changes to propagate.
+         */
         bool GetItems(EconomyModels::FGetItemsRequest& request, const FGetItemsDelegate& SuccessDelegate = FGetItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets the access tokens.
@@ -174,17 +221,22 @@ namespace PlayFab
          */
         bool GetMicrosoftStoreAccessTokens(EconomyModels::FGetMicrosoftStoreAccessTokensRequest& request, const FGetMicrosoftStoreAccessTokensDelegate& SuccessDelegate = FGetMicrosoftStoreAccessTokensDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Get transaction history.
+         * Get transaction history for a player. Up to 50 Events can be returned at once. You can use continuation tokens to
+         * paginate through results that return greater than the limit. Getting transaction history has a lower RPS limit than
+         * getting a Player's inventory with Player Entities having a limit of 30 requests in 300 seconds and Title Entities having
+         * a limit of 100 requests in 10 seconds.
          * Get transaction history for specified entity and collection.
          */
         bool GetTransactionHistory(EconomyModels::FGetTransactionHistoryRequest& request, const FGetTransactionHistoryDelegate& SuccessDelegate = FGetTransactionHistoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Initiates a publish of an item from the working catalog to the public catalog.
+         * Initiates a publish of an item from the working catalog to the public catalog. You can use the GetItemPublishStatus API
+         * to track the state of the item publish.
          * The call kicks off a workflow to publish the item to the public catalog. The Publish Status API should be used to monitor the publish job.
          */
         bool PublishDraftItem(EconomyModels::FPublishDraftItemRequest& request, const FPublishDraftItemDelegate& SuccessDelegate = FPublishDraftItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Purchase an item or bundle
+         * Purchase an item or bundle. Up to 3500 stacks of items can be added to a single inventory collection. Stack size is
+         * uncapped.
          * Purchase a single item or bundle, paying the associated price.
          */
         bool PurchaseInventoryItems(EconomyModels::FPurchaseInventoryItemsRequest& request, const FPurchaseInventoryItemsDelegate& SuccessDelegate = FPurchaseInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -225,14 +277,23 @@ namespace PlayFab
          * Submit a report for an inappropriate review, allowing the submitting user to specify their concern.
          */
         bool ReportItemReview(EconomyModels::FReportItemReviewRequest& request, const FReportItemReviewDelegate& SuccessDelegate = FReportItemReviewDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Creates or updates a review for the specified item.
+        /**
+         * Creates or updates a review for the specified item. More information around the caching surrounding item ratings and
+         * reviews can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/ratings#ratings-design-and-caching
+         */
         bool ReviewItem(EconomyModels::FReviewItemRequest& request, const FReviewItemDelegate& SuccessDelegate = FReviewItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Executes a search against the public catalog using the provided search parameters and returns a set of paginated
-         * results.
+         * results. SearchItems uses a cache of the catalog with item updates taking up to a few minutes to propagate. You should
+         * use the GetItem API for when trying to immediately get recent item updates. More information about the Search API can be
+         * found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/search
          */
         bool SearchItems(EconomyModels::FSearchItemsRequest& request, const FSearchItemsDelegate& SuccessDelegate = FSearchItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Sets the moderation state for an item, including the concern category and string reason.
+        /**
+         * Sets the moderation state for an item, including the concern category and string reason. More information about
+         * moderation states can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/ugc/moderation
+         */
         bool SetItemModerationState(EconomyModels::FSetItemModerationStateRequest& request, const FSetItemModerationStateDelegate& SuccessDelegate = FSetItemModerationStateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Submit a vote for a review, indicating whether the review was helpful or unhelpful.
         bool SubmitItemReviewVote(EconomyModels::FSubmitItemReviewVoteRequest& request, const FSubmitItemReviewVoteDelegate& SuccessDelegate = FSubmitItemReviewVoteDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -247,11 +308,17 @@ namespace PlayFab
          */
         bool TakedownItemReviews(EconomyModels::FTakedownItemReviewsRequest& request, const FTakedownItemReviewsDelegate& SuccessDelegate = FTakedownItemReviewsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Transfer inventory items.
+         * Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer is in
+         * progress and will complete soon. More information about item transfer scenarios can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items
          * Transfer the specified inventory items of an entity's container Id to another entity's container Id.
          */
         bool TransferInventoryItems(EconomyModels::FTransferInventoryItemsRequest& request, const FTransferInventoryItemsDelegate& SuccessDelegate = FTransferInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Updates the configuration for the catalog.
+        /**
+         * Updates the configuration for the catalog. Only Title Entities can call this API. There is a limit of 10 requests in 10
+         * seconds for this API. More information about the Catalog Config can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/settings
+         */
         bool UpdateCatalogConfig(EconomyModels::FUpdateCatalogConfigRequest& request, const FUpdateCatalogConfigDelegate& SuccessDelegate = FUpdateCatalogConfigDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Update the metadata for an item in the working catalog.
         bool UpdateDraftItem(EconomyModels::FUpdateDraftItemRequest& request, const FUpdateDraftItemDelegate& SuccessDelegate = FUpdateDraftItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

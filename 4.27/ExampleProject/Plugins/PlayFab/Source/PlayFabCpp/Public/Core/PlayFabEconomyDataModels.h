@@ -74,7 +74,7 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FInitialValues : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Game specific properties for display purposes.
+        // [optional] Game specific properties for display purposes. The Display Properties field has a 1000 byte limit.
         FJsonKeeper DisplayProperties;
 
         FInitialValues() :
@@ -158,7 +158,10 @@ namespace EconomyModels
         // [optional] The amount to add for the current item.
         Boxed<int32> Amount;
 
-        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        /**
+         * [optional] The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+         * unlimited.
+         */
         FString CollectionId;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -169,10 +172,16 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
-        // [optional] The Idempotency ID for this request.
+        /**
+         * [optional] The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+         * be garbage collected eventually.
+         */
         FString IdempotencyId;
 
         // [optional] The inventory item the request applies to.
@@ -209,7 +218,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FAddInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
         // [optional] The idempotency id used in the request.
@@ -266,9 +278,15 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FCatalogSpecificConfig : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] The set of content types that will be used for validation.
+        /**
+         * [optional] The set of content types that will be used for validation. Each content type can have a maximum character length of 40
+         * and up to 128 types can be listed.
+         */
         TArray<FString> ContentTypes;
-        // [optional] The set of tags that will be used for validation.
+        /**
+         * [optional] The set of tags that will be used for validation. Each tag can have a maximum character length of 32 and up to 1024 tags
+         * can be listed.
+         */
         TArray<FString> Tags;
         FCatalogSpecificConfig() :
             FPlayFabCppBaseModel(),
@@ -358,9 +376,15 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FFileConfig : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] The set of content types that will be used for validation.
+        /**
+         * [optional] The set of content types that will be used for validation. Each content type can have a maximum character length of 40
+         * and up to 128 types can be listed.
+         */
         TArray<FString> ContentTypes;
-        // [optional] The set of tags that will be used for validation.
+        /**
+         * [optional] The set of tags that will be used for validation. Each tag can have a maximum character length of 32 and up to 1024 tags
+         * can be listed.
+         */
         TArray<FString> Tags;
         FFileConfig() :
             FPlayFabCppBaseModel(),
@@ -383,7 +407,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FImageConfig : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] The set of tags that will be used for validation.
+        /**
+         * [optional] The set of tags that will be used for validation. Each tag can have a maximum character length of 32 and up to 1024 tags
+         * can be listed.
+         */
         TArray<FString> Tags;
         FImageConfig() :
             FPlayFabCppBaseModel(),
@@ -430,14 +457,18 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FCatalogConfig : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] A list of player entity keys that will have admin permissions.
+        // [optional] A list of player entity keys that will have admin permissions. There is a maximum of 64 entities that can be added.
         TArray<FEntityKey> AdminEntities;
         // [optional] The set of configuration that only applies to catalog items.
         TSharedPtr<FCatalogSpecificConfig> Catalog;
 
-        // [optional] A list of deep link formats.
+        // [optional] A list of deep link formats. Up to 10 can be added.
         TArray<FDeepLinkFormat> DeepLinkFormats;
-        // [optional] A list of display properties to index.
+        /**
+         * [optional] A list of display properties to index. Up to 5 mappings can be added per Display Property Type. More info on display
+         * properties can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/content-types-tags-and-properties#displayproperties
+         */
         TArray<FDisplayPropertyIndexInfo> DisplayPropertyIndexInfos;
         // [optional] The set of configuration that only applies to Files.
         TSharedPtr<FFileConfig> File;
@@ -448,9 +479,12 @@ namespace EconomyModels
         // Flag defining whether catalog is enabled.
         bool IsCatalogEnabled;
 
-        // [optional] A list of Platforms that can be applied to catalog items.
+        /**
+         * [optional] A list of Platforms that can be applied to catalog items. Each platform can have a maximum character length of 40 and up
+         * to 128 platforms can be listed.
+         */
         TArray<FString> Platforms;
-        // [optional] A set of player entity keys that are allowed to review content.
+        // [optional] A set of player entity keys that are allowed to review content. There is a maximum of 64 entities that can be added.
         TArray<FEntityKey> ReviewerEntities;
         // [optional] The set of configuration that only applies to user generated contents.
         TSharedPtr<FUserGeneratedContentSpecificConfig> UserGeneratedContent;
@@ -487,15 +521,24 @@ namespace EconomyModels
         // [optional] The content unique ID.
         FString Id;
 
-        // [optional] The maximum client version that this content is compatible with.
+        /**
+         * [optional] The maximum client version that this content is compatible with. Client Versions can be up to 3 segments separated by
+         * periods(.) and each segment can have a maximum value of 65535.
+         */
         FString MaxClientVersion;
 
-        // [optional] The minimum client version that this content is compatible with.
+        /**
+         * [optional] The minimum client version that this content is compatible with. Client Versions can be up to 3 segments separated by
+         * periods(.) and each segment can have a maximum value of 65535.
+         */
         FString MinClientVersion;
 
-        // [optional] The list of tags that are associated with this content.
+        /**
+         * [optional] The list of tags that are associated with this content. Tags must be defined in the Catalog Config before being used in
+         * content.
+         */
         TArray<FString> Tags;
-        // [optional] The client-defined type of the content.
+        // [optional] The client-defined type of the content. Content Types must be defined in the Catalog Config before being used.
         FString Type;
 
         // [optional] The Azure CDN URL for retrieval of the catalog item binary content.
@@ -556,10 +599,13 @@ namespace EconomyModels
         // [optional] The image unique ID.
         FString Id;
 
-        // [optional] The client-defined tag associated with this image.
+        /**
+         * [optional] The client-defined tag associated with this image. Tags must be defined in the Catalog Config before being used in
+         * images
+         */
         FString Tag;
 
-        // [optional] The client-defined type of this image.
+        // [optional] Images can be defined as either a "thumbnail" or "screenshot". There can only be one "thumbnail" image per item.
         FString Type;
 
         // [optional] The URL for retrieval of the image.
@@ -615,9 +661,9 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FCatalogPrice : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] The amounts of the catalog item price.
+        // [optional] The amounts of the catalog item price. Each price can have up to 15 item amounts.
         TArray<FCatalogPriceAmount> Amounts;
-        // [optional] The per-unit duration this price can be used to purchase.
+        // [optional] The per-unit duration this price can be used to purchase. The maximum duration is 100 years.
         Boxed<double> UnitDurationInSeconds;
 
         FCatalogPrice() :
@@ -641,7 +687,7 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FCatalogPriceOptions : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Prices of the catalog item.
+        // [optional] Prices of the catalog item. An item can have up to 15 prices
         TArray<FCatalogPrice> Prices;
         FCatalogPriceOptions() :
             FPlayFabCppBaseModel(),
@@ -806,7 +852,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FFilterOptions : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] The OData filter utilized. Mutually exclusive with 'IncludeAllItems'.
+        /**
+         * [optional] The OData filter utilized. Mutually exclusive with 'IncludeAllItems'. More info about Filter Complexity limits can be
+         * found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/search#limits
+         */
         FString Filter;
 
         // [optional] The flag that overrides the filter and allows for returning all catalog items. Mutually exclusive with 'Filter'.
@@ -938,9 +987,12 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FCatalogItem : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] The alternate IDs associated with this item.
+        /**
+         * [optional] The alternate IDs associated with this item. An alternate ID can be set to 'FriendlyId' or any of the supported
+         * marketplace names.
+         */
         TArray<FCatalogAlternateId> AlternateIds;
-        // [optional] The set of contents associated with this item.
+        // [optional] The set of content/files associated with this item. Up to 100 files can be added to an item.
         TArray<FContent> Contents;
         // [optional] The client-defined type of the item.
         FString ContentType;
@@ -961,14 +1013,17 @@ namespace EconomyModels
         FString DefaultStackId;
 
         /**
-         * [optional] A dictionary of localized descriptions. Key is language code and localized string is the value. The neutral locale is
-         * required.
+         * [optional] A dictionary of localized descriptions. Key is language code and localized string is the value. The NEUTRAL locale is
+         * required. Descriptions have a 10000 character limit per country code.
          */
         TMap<FString, FString> Description;
-        // [optional] Game specific properties for display purposes. This is an arbitrary JSON blob.
+        /**
+         * [optional] Game specific properties for display purposes. This is an arbitrary JSON blob. The Display Properties field has a 10000
+         * byte limit per item.
+         */
         FJsonKeeper DisplayProperties;
 
-        // [optional] The user provided version of the item for display purposes.
+        // [optional] The user provided version of the item for display purposes. Maximum character length of 50.
         FString DisplayVersion;
 
         // [optional] The date of when the item will cease to be available. If not provided then the product will be available indefinitely.
@@ -980,14 +1035,23 @@ namespace EconomyModels
         // [optional] The unique ID of the item.
         FString Id;
 
-        // [optional] The images associated with this item. Images can be thumbnails or screenshots.
+        /**
+         * [optional] The images associated with this item. Images can be thumbnails or screenshots. Up to 100 images can be added to an item.
+         * Only .png, .jpg, .gif, and .bmp file types can be uploaded
+         */
         TArray<FImage> Images;
         // [optional] Indicates if the item is hidden.
         Boxed<bool> IsHidden;
 
-        // [optional] The item references associated with this item.
+        /**
+         * [optional] The item references associated with this item. For example, the items in a Bundle/Store/Subscription. Every item can
+         * have up to 50 item references.
+         */
         TArray<FCatalogItemReference> ItemReferences;
-        // [optional] A dictionary of localized keywords. Key is language code and localized list of keywords is the value.
+        /**
+         * [optional] A dictionary of localized keywords. Key is language code and localized list of keywords is the value. Keywords have a 50
+         * character limit per keyword and up to 32 keywords can be added per country code.
+         */
         TMap<FString, FKeywordSet> Keywords;
         // [optional] The date and time this item was last updated.
         Boxed<FDateTime> LastModifiedDate;
@@ -997,7 +1061,7 @@ namespace EconomyModels
 
         // [optional] The platforms supported by this item.
         TArray<FString> Platforms;
-        // [optional] The base price of this item.
+        // [optional] The prices the item can be purchased for.
         TSharedPtr<FCatalogPriceOptions> PriceOptions;
 
         // [optional] Rating summary for this item.
@@ -1009,11 +1073,11 @@ namespace EconomyModels
         // [optional] Optional details for stores items.
         TSharedPtr<FStoreDetails> pfStoreDetails;
 
-        // [optional] The list of tags that are associated with this item.
+        // [optional] The list of tags that are associated with this item. Up to 32 tags can be added to an item.
         TArray<FString> Tags;
         /**
-         * [optional] A dictionary of localized titles. Key is language code and localized string is the value. The neutral locale is
-         * required.
+         * [optional] A dictionary of localized titles. Key is language code and localized string is the value. The NEUTRAL locale is
+         * required. Titles have a 512 character limit per country code.
          */
         TMap<FString, FString> Title;
         // [optional] The high-level type of the item. The following item types are supported: bundle, catalogItem, currency, store, ugc.
@@ -1364,7 +1428,7 @@ namespace EconomyModels
         // [optional] Metadata describing the new catalog item to be created.
         TSharedPtr<FCatalogItem> Item;
 
-        // Whether the item should be published immediately.
+        // Whether the item should be published immediately. This value is optional, defaults to false.
         bool Publish;
 
         FCreateDraftItemRequest() :
@@ -1566,7 +1630,10 @@ namespace EconomyModels
         // [optional] The entity the request is about. Set to the caller by default.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
         FDeleteInventoryCollectionRequest() :
@@ -1634,7 +1701,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FDeleteInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        /**
+         * [optional] The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+         * unlimited.
+         */
         FString CollectionId;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -1642,10 +1712,16 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
-        // [optional] The Idempotency ID for this request.
+        /**
+         * [optional] The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+         * be garbage collected eventually.
+         */
         FString IdempotencyId;
 
         // [optional] The inventory item the request applies to.
@@ -1925,13 +2001,13 @@ namespace EconomyModels
         // [optional] The amount of the item.
         Boxed<int32> Amount;
 
-        // [optional] Game specific properties for display purposes. This is an arbitrary JSON blob.
+        /**
+         * [optional] Game specific properties for display purposes. This is an arbitrary JSON blob. The Display Properties field has a 1000
+         * byte limit.
+         */
         FJsonKeeper DisplayProperties;
 
-        /**
-         * [optional] Only used for subscriptions. The date of when the item will expire in UTC. If not provided then the product will be
-         * available indefinitely.
-         */
+        // [optional] Only used for subscriptions. The date of when the item will expire in UTC.
         Boxed<FDateTime> ExpirationDate;
 
         // [optional] The id of the item. This should correspond to the item id in the catalog.
@@ -2034,7 +2110,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FExecuteInventoryOperationsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        /**
+         * [optional] The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+         * unlimited.
+         */
         FString CollectionId;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2042,15 +2121,21 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
-        // [optional] The Idempotency ID for this request.
+        /**
+         * [optional] The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+         * be garbage collected eventually.
+         */
         FString IdempotencyId;
 
         /**
          * [optional] The operations to run transactionally. The operations will be executed in-order sequentially and will succeed or fail as
-         * a batch.
+         * a batch. Up to 10 operations can be added.
          */
         TArray<FInventoryOperation> Operations;
         FExecuteInventoryOperationsRequest() :
@@ -2078,7 +2163,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FExecuteInventoryOperationsResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
         // [optional] The idempotency id used in the request.
@@ -2274,7 +2362,7 @@ namespace EconomyModels
          */
         FString ContinuationToken;
 
-        // Number of items to retrieve. Maximum page size is 10.
+        // Number of items to retrieve. This value is optional. Default value is 10.
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2282,7 +2370,10 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] OData Filter to specify ItemType.
+        /**
+         * [optional] OData Filter to refine the items returned. CatalogItem properties 'type' can be used in the filter. For example: "type
+         * eq 'ugc'"
+         */
         FString Filter;
 
         FGetEntityDraftItemsRequest() :
@@ -2466,7 +2557,7 @@ namespace EconomyModels
         // [optional] An opaque token used to retrieve the next page of collection ids, if any are available.
         FString ContinuationToken;
 
-        // Number of items to retrieve. (Default = 10)
+        // Number of items to retrieve. This value is optional. The default value is 10
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2532,7 +2623,7 @@ namespace EconomyModels
          */
         FString ContinuationToken;
 
-        // Number of items to retrieve. Maximum page size is 50. (Default=10)
+        // Number of items to retrieve. This value is optional. Maximum page size is 50. The default value is 10
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2540,7 +2631,10 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] The filters to limit what is returned to the client.
+        /**
+         * [optional] OData Filter to refine the items returned. InventoryItem properties 'type', 'id', and 'stackId' can be used in the
+         * filter. For example: "type eq 'currency'"
+         */
         FString Filter;
 
         FGetInventoryItemsRequest() :
@@ -2571,7 +2665,10 @@ namespace EconomyModels
         // [optional] An opaque token used to retrieve the next page of items, if any are available.
         FString ContinuationToken;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
         // [optional] The requested inventory items.
@@ -2607,7 +2704,7 @@ namespace EconomyModels
          */
         FString ContinuationToken;
 
-        // Number of items to retrieve. Maximum page size is 25.
+        // Number of items to retrieve. This value is optional. Default value is 10.
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2859,7 +2956,7 @@ namespace EconomyModels
         // [optional] An opaque token used to retrieve the next page of items, if any are available.
         FString ContinuationToken;
 
-        // Number of items to retrieve. Maximum page size is 200. If not specified, defaults to 10.
+        // Number of items to retrieve. This value is optional. Default value is 10.
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2867,7 +2964,10 @@ namespace EconomyModels
         // [optional] The unique ID of the item.
         FString Id;
 
-        // [optional] An OData orderBy used to order the results of the query.
+        /**
+         * [optional] An OData orderBy used to order the results of the query. Possible values are Helpfulness, Rating, and Submitted (For
+         * example: "Submitted desc")
+         */
         FString OrderBy;
 
         FGetItemReviewsRequest() :
@@ -3098,7 +3198,7 @@ namespace EconomyModels
         // [optional] An opaque token used to retrieve the next page of items, if any are available. Should be null on initial request.
         FString ContinuationToken;
 
-        // Number of items to retrieve. (Default = 10)
+        // Number of items to retrieve. This value is optional. The default value is 10
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -3106,7 +3206,10 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] An OData filter used to refine the query.
+        /**
+         * [optional] An OData filter used to refine the TransactionHistory. Transaction property 'timestamp' can be used in the filter. For
+         * example: "timestamp ge 'timestamp ge'" By default, a 6 month timespan from the current date is used.
+         */
         FString Filter;
 
         FGetTransactionHistoryRequest() :
@@ -3471,7 +3574,10 @@ namespace EconomyModels
         // [optional] The amount to purchase.
         Boxed<int32> Amount;
 
-        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        /**
+         * [optional] The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+         * unlimited.
+         */
         FString CollectionId;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -3488,10 +3594,16 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
-        // [optional] The Idempotency ID for this request.
+        /**
+         * [optional] The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+         * be garbage collected eventually.
+         */
         FString IdempotencyId;
 
         // [optional] The inventory item the request applies to.
@@ -3539,7 +3651,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FPurchaseInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
         // [optional] The idempotency id used in the request.
@@ -4296,7 +4411,7 @@ namespace EconomyModels
         // [optional] An opaque token used to retrieve the next page of items, if any are available.
         FString ContinuationToken;
 
-        // Number of items to retrieve. Maximum page size is 50. Default value is 10.
+        // Number of items to retrieve. This value is optional. Maximum page size is 50. Default value is 10.
         int32 Count;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -4304,10 +4419,13 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] An OData filter used to refine the search query.
+        /**
+         * [optional] An OData filter used to refine the search query (For example: "type eq 'ugc'"). More info about Filter Complexity limits
+         * can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/search#limits
+         */
         FString Filter;
 
-        // [optional] An OData orderBy used to order the results of the search query.
+        // [optional] An OData orderBy used to order the results of the search query. For example: "rating/average asc"
         FString OrderBy;
 
         // [optional] The text to search for.
@@ -4520,7 +4638,10 @@ namespace EconomyModels
         // [optional] The amount to subtract for the current item.
         Boxed<int32> Amount;
 
-        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        /**
+         * [optional] The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+         * unlimited.
+         */
         FString CollectionId;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -4537,10 +4658,16 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
-        // [optional] The Idempotency ID for this request.
+        /**
+         * [optional] The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+         * be garbage collected eventually.
+         */
         FString IdempotencyId;
 
         // [optional] The inventory item the request applies to.
@@ -4574,7 +4701,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FSubtractInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
         // [optional] The idempotency id used in the request.
@@ -4665,7 +4795,10 @@ namespace EconomyModels
         // [optional] The entity the request is transferring from. Set to the caller by default.
         TSharedPtr<FEntityKey> GivingEntity;
 
-        // [optional] ETags are used for concurrency checking when updating resources (before transferring from).
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources (before transferring from). More information about using
+         * ETags can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString GivingETag;
 
         // [optional] The inventory item the request is transferring from.
@@ -4717,7 +4850,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FTransferInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] ETags are used for concurrency checking when updating resources (after transferring from).
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources (after transferring from). More information about using
+         * ETags can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString GivingETag;
 
         // [optional] The ids of transactions that occurred as a result of the request's giving action.
@@ -4800,7 +4936,7 @@ namespace EconomyModels
         // [optional] Updated metadata describing the catalog item to be updated.
         TSharedPtr<FCatalogItem> Item;
 
-        // Whether the item should be published immediately.
+        // Whether the item should be published immediately. This value is optional, defaults to false.
         bool Publish;
 
         FUpdateDraftItemRequest() :
@@ -4848,7 +4984,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FUpdateInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        /**
+         * [optional] The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+         * unlimited.
+         */
         FString CollectionId;
 
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -4856,10 +4995,16 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
-        // [optional] The Idempotency ID for this request.
+        /**
+         * [optional] The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+         * be garbage collected eventually.
+         */
         FString IdempotencyId;
 
         // [optional] The inventory item to update with the specified values.
@@ -4890,7 +5035,10 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FUpdateInventoryItemsResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] ETags are used for concurrency checking when updating resources.
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
         FString ETag;
 
         // [optional] The idempotency id used in the request.

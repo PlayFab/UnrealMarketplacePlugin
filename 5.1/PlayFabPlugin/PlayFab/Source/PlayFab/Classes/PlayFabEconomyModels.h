@@ -42,7 +42,7 @@ public:
     /** Metadata describing the new catalog item to be created. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Item = nullptr;
-    /** Whether the item should be published immediately. */
+    /** Whether the item should be published immediately. This value is optional, defaults to false. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         bool Publish = false;
 };
@@ -223,7 +223,7 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. Maximum page size is 10. */
+    /** Number of items to retrieve. This value is optional. Default value is 10. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -232,7 +232,10 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** OData Filter to specify ItemType. */
+    /**
+     * OData Filter to refine the items returned. CatalogItem properties 'type' can be used in the filter. For example: "type
+     * eq 'ugc'"
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Filter;
 };
@@ -324,7 +327,7 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. Maximum page size is 25. */
+    /** Number of items to retrieve. This value is optional. Default value is 10. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -420,7 +423,7 @@ public:
     /** An opaque token used to retrieve the next page of items, if any are available. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. Maximum page size is 200. If not specified, defaults to 10. */
+    /** Number of items to retrieve. This value is optional. Default value is 10. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -429,7 +432,10 @@ public:
     /** The unique ID of the item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Id;
-    /** An OData orderBy used to order the results of the query. */
+    /**
+     * An OData orderBy used to order the results of the query. Possible values are Helpfulness, Rating, and Submitted (For
+     * example: "Submitted desc")
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString OrderBy;
 };
@@ -653,7 +659,7 @@ public:
     /** An opaque token used to retrieve the next page of items, if any are available. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. Maximum page size is 50. Default value is 10. */
+    /** Number of items to retrieve. This value is optional. Maximum page size is 50. Default value is 10. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -662,10 +668,13 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** An OData filter used to refine the search query. */
+    /**
+     * An OData filter used to refine the search query (For example: "type eq 'ugc'"). More info about Filter Complexity limits
+     * can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/search#limits
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Filter;
-    /** An OData orderBy used to order the results of the search query. */
+    /** An OData orderBy used to order the results of the search query. For example: "rating/average asc" */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString OrderBy;
     /** The text to search for. */
@@ -811,7 +820,7 @@ public:
     /** Updated metadata describing the catalog item to be updated. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         UPlayFabJsonObject* Item = nullptr;
-    /** Whether the item should be published immediately. */
+    /** Whether the item should be published immediately. This value is optional, defaults to false. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         bool Publish = false;
 };
@@ -840,7 +849,10 @@ public:
     /** The amount to add for the current item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 Amount = 0;
-    /** The id of the entity's collection to perform this action on. (Default="default") */
+    /**
+     * The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+     * unlimited.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -852,10 +864,16 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
-    /** The Idempotency ID for this request. */
+    /**
+     * The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+     * be garbage collected eventually.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
     /** The inventory item the request applies to. */
@@ -871,7 +889,10 @@ struct PLAYFAB_API FEconomyAddInventoryItemsResponse : public FPlayFabResultComm
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
     /** The idempotency id used in the request. */
@@ -897,7 +918,10 @@ public:
     /** The entity the request is about. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
 };
@@ -915,7 +939,10 @@ struct PLAYFAB_API FEconomyDeleteInventoryItemsRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The id of the entity's collection to perform this action on. (Default="default") */
+    /**
+     * The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+     * unlimited.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -924,10 +951,16 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
-    /** The Idempotency ID for this request. */
+    /**
+     * The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+     * be garbage collected eventually.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
     /** The inventory item the request applies to. */
@@ -957,7 +990,10 @@ struct PLAYFAB_API FEconomyExecuteInventoryOperationsRequest : public FPlayFabRe
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The id of the entity's collection to perform this action on. (Default="default") */
+    /**
+     * The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+     * unlimited.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -966,15 +1002,21 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
-    /** The Idempotency ID for this request. */
+    /**
+     * The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+     * be garbage collected eventually.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
     /**
      * The operations to run transactionally. The operations will be executed in-order sequentially and will succeed or fail as
-     * a batch.
+     * a batch. Up to 10 operations can be added.
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         TArray<UPlayFabJsonObject*> Operations;
@@ -985,7 +1027,10 @@ struct PLAYFAB_API FEconomyExecuteInventoryOperationsResponse : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
     /** The idempotency id used in the request. */
@@ -1005,7 +1050,7 @@ public:
     /** An opaque token used to retrieve the next page of collection ids, if any are available. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. (Default = 10) */
+    /** Number of items to retrieve. This value is optional. The default value is 10 */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -1044,7 +1089,7 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. Maximum page size is 50. (Default=10) */
+    /** Number of items to retrieve. This value is optional. Maximum page size is 50. The default value is 10 */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -1053,7 +1098,10 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** The filters to limit what is returned to the client. */
+    /**
+     * OData Filter to refine the items returned. InventoryItem properties 'type', 'id', and 'stackId' can be used in the
+     * filter. For example: "type eq 'currency'"
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString Filter;
 };
@@ -1066,7 +1114,10 @@ public:
     /** An opaque token used to retrieve the next page of items, if any are available. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ContinuationToken;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
     /** The requested inventory items. */
@@ -1113,7 +1164,7 @@ public:
     /** An opaque token used to retrieve the next page of items, if any are available. Should be null on initial request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ContinuationToken;
-    /** Number of items to retrieve. (Default = 10) */
+    /** Number of items to retrieve. This value is optional. The default value is 10 */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 Count = 0;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -1122,7 +1173,10 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** An OData filter used to refine the query. */
+    /**
+     * An OData filter used to refine the TransactionHistory. Transaction property 'timestamp' can be used in the filter. For
+     * example: "timestamp ge 'timestamp ge'" By default, a 6 month timespan from the current date is used.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString Filter;
 };
@@ -1149,7 +1203,10 @@ public:
     /** The amount to purchase. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 Amount = 0;
-    /** The id of the entity's collection to perform this action on. (Default="default") */
+    /**
+     * The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+     * unlimited.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -1167,10 +1224,16 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
-    /** The Idempotency ID for this request. */
+    /**
+     * The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+     * be garbage collected eventually.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
     /** The inventory item the request applies to. */
@@ -1195,7 +1258,10 @@ struct PLAYFAB_API FEconomyPurchaseInventoryItemsResponse : public FPlayFabResul
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
     /** The idempotency id used in the request. */
@@ -1434,7 +1500,10 @@ public:
     /** The amount to subtract for the current item. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         int32 Amount = 0;
-    /** The id of the entity's collection to perform this action on. (Default="default") */
+    /**
+     * The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+     * unlimited.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -1452,10 +1521,16 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
-    /** The Idempotency ID for this request. */
+    /**
+     * The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+     * be garbage collected eventually.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
     /** The inventory item the request applies to. */
@@ -1468,7 +1543,10 @@ struct PLAYFAB_API FEconomySubtractInventoryItemsResponse : public FPlayFabResul
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
     /** The idempotency id used in the request. */
@@ -1503,7 +1581,10 @@ public:
     /** The entity the request is transferring from. Set to the caller by default. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* GivingEntity = nullptr;
-    /** ETags are used for concurrency checking when updating resources (before transferring from). */
+    /**
+     * ETags are used for concurrency checking when updating resources (before transferring from). More information about using
+     * ETags can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString GivingETag;
     /** The inventory item the request is transferring from. */
@@ -1531,7 +1612,10 @@ struct PLAYFAB_API FEconomyTransferInventoryItemsResponse : public FPlayFabResul
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** ETags are used for concurrency checking when updating resources (after transferring from). */
+    /**
+     * ETags are used for concurrency checking when updating resources (after transferring from). More information about using
+     * ETags can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString GivingETag;
     /** The ids of transactions that occurred as a result of the request's giving action. */
@@ -1551,7 +1635,10 @@ struct PLAYFAB_API FEconomyUpdateInventoryItemsRequest : public FPlayFabRequestC
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** The id of the entity's collection to perform this action on. (Default="default") */
+    /**
+     * The id of the entity's collection to perform this action on. (Default="default"). The number of inventory collections is
+     * unlimited.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString CollectionId;
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
@@ -1560,10 +1647,16 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
-    /** The Idempotency ID for this request. */
+    /**
+     * The Idempotency ID for this request. Idempotency IDs can be used to prevent operation replay in the medium term but will
+     * be garbage collected eventually.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
     /** The inventory item to update with the specified values. */
@@ -1576,7 +1669,10 @@ struct PLAYFAB_API FEconomyUpdateInventoryItemsResponse : public FPlayFabResultC
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** ETags are used for concurrency checking when updating resources. */
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ETag;
     /** The idempotency id used in the request. */

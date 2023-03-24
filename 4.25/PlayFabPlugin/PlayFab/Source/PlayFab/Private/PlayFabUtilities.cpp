@@ -742,6 +742,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 14202: returnText = "TelemetryKeyAlreadyExists"; break;
     case 14203: returnText = "TelemetryKeyInvalid"; break;
     case 14204: returnText = "TelemetryKeyCountOverLimit"; break;
+    case 14205: returnText = "TelemetryKeyDeactivated"; break;
     case 15000: returnText = "EventSinkConnectionInvalid"; break;
     case 15001: returnText = "EventSinkConnectionUnauthorized"; break;
     case 15002: returnText = "EventSinkRegionInvalid"; break;

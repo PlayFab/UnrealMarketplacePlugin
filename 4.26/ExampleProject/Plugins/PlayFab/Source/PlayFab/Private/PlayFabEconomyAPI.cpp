@@ -125,7 +125,7 @@ void UPlayFabEconomyAPI::HelperCreateDraftItem(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
-/** Creates one or more upload URLs which can be used by the client to upload raw file data. */
+/** Creates one or more upload URLs which can be used by the client to upload raw file data. Content URls and uploaded content will be garbage collected after 24 hours if not attached to a draft or published item. Detailed pricing info around uploading content can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/pricing/meters/catalog-meters */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::CreateUploadUrls(FEconomyCreateUploadUrlsRequest request,
     FDelegateOnSuccessCreateUploadUrls onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -282,7 +282,7 @@ void UPlayFabEconomyAPI::HelperDeleteItem(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
-/** Gets the configuration for the catalog. */
+/** Gets the configuration for the catalog. Only Title Entities can call this API. There is a limit of 100 requests in 10 seconds for this API. More information about the Catalog Config can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/settings */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetCatalogConfig(FEconomyGetCatalogConfigRequest request,
     FDelegateOnSuccessGetCatalogConfig onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -330,7 +330,7 @@ void UPlayFabEconomyAPI::HelperGetCatalogConfig(FPlayFabBaseModel response, UObj
     this->RemoveFromRoot();
 }
 
-/** Retrieves an item from the working catalog. This item represents the current working state of the item. */
+/** Retrieves an item from the working catalog. This item represents the current working state of the item. GetDraftItem does not work off a cache of the Catalog and should be used when trying to get recent item updates. However, please note that item references data is cached and may take a few moments for changes to propagate. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetDraftItem(FEconomyGetDraftItemRequest request,
     FDelegateOnSuccessGetDraftItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -385,7 +385,7 @@ void UPlayFabEconomyAPI::HelperGetDraftItem(FPlayFabBaseModel response, UObject*
     this->RemoveFromRoot();
 }
 
-/** Retrieves a paginated list of the items from the draft catalog. */
+/** Retrieves a paginated list of the items from the draft catalog. Up to 50 IDs can be retrieved in a single request. GetDraftItems does not work off a cache of the Catalog and should be used when trying to get recent item updates. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetDraftItems(FEconomyGetDraftItemsRequest request,
     FDelegateOnSuccessGetDraftItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -447,7 +447,7 @@ void UPlayFabEconomyAPI::HelperGetDraftItems(FPlayFabBaseModel response, UObject
     this->RemoveFromRoot();
 }
 
-/** Retrieves a paginated list of the items from the draft catalog created by the Entity. */
+/** Retrieves a paginated list of the items from the draft catalog created by the Entity. Up to 50 items can be returned at once. You can use continuation tokens to paginate through results that return greater than the limit. GetEntityDraftItems does not work off a cache of the Catalog and should be used when trying to get recent item updates. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetEntityDraftItems(FEconomyGetEntityDraftItemsRequest request,
     FDelegateOnSuccessGetEntityDraftItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -507,7 +507,7 @@ void UPlayFabEconomyAPI::HelperGetEntityDraftItems(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
-/** Gets the submitted review for the specified item by the authenticated entity. */
+/** Gets the submitted review for the specified item by the authenticated entity. Individual ratings and reviews data update in near real time with delays within a few seconds. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetEntityItemReview(FEconomyGetEntityItemReviewRequest request,
     FDelegateOnSuccessGetEntityItemReview onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -562,7 +562,7 @@ void UPlayFabEconomyAPI::HelperGetEntityItemReview(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
-/** Retrieves an item from the public catalog. */
+/** Retrieves an item from the public catalog. GetItem does not work off a cache of the Catalog and should be used when trying to get recent item updates. However, please note that item references data is cached and may take a few moments for changes to propagate. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItem(FEconomyGetItemRequest request,
     FDelegateOnSuccessGetItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -617,7 +617,7 @@ void UPlayFabEconomyAPI::HelperGetItem(FPlayFabBaseModel response, UObject* cust
     this->RemoveFromRoot();
 }
 
-/** Search for a given item and return a set of bundles and stores containing the item */
+/** Search for a given item and return a set of bundles and stores containing the item. Up to 50 items can be returned at once. You can use continuation tokens to paginate through results that return greater than the limit. This API is intended for tooling/automation scenarios and has a reduced RPS with Player Entities limited to 30 requests in 300 seconds and Title Entities limited to 100 requests in 10 seconds. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItemContainers(FEconomyGetItemContainersRequest request,
     FDelegateOnSuccessGetItemContainers onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -678,7 +678,7 @@ void UPlayFabEconomyAPI::HelperGetItemContainers(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
-/** Gets the moderation state for an item, including the concern category and string reason. */
+/** Gets the moderation state for an item, including the concern category and string reason. More information about moderation states can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/ugc/moderation */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItemModerationState(FEconomyGetItemModerationStateRequest request,
     FDelegateOnSuccessGetItemModerationState onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -787,7 +787,7 @@ void UPlayFabEconomyAPI::HelperGetItemPublishStatus(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
-/** Get a paginated set of reviews associated with the specified item. */
+/** Get a paginated set of reviews associated with the specified item. Individual ratings and reviews data update in near real time with delays within a few seconds. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItemReviews(FEconomyGetItemReviewsRequest request,
     FDelegateOnSuccessGetItemReviews onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -852,7 +852,7 @@ void UPlayFabEconomyAPI::HelperGetItemReviews(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
-/** Get a summary of all reviews associated with the specified item. */
+/** Get a summary of all ratings and reviews associated with the specified item. Summary ratings data is cached with update data coming within 15 minutes. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItemReviewSummary(FEconomyGetItemReviewSummaryRequest request,
     FDelegateOnSuccessGetItemReviewSummary onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -906,7 +906,7 @@ void UPlayFabEconomyAPI::HelperGetItemReviewSummary(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
-/** Retrieves items from the public catalog. */
+/** Retrieves items from the public catalog. Up to 50 items can be returned at once. GetItems does not work off a cache of the Catalog and should be used when trying to get recent item updates. However, please note that item references data is cached and may take a few moments for changes to propagate. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetItems(FEconomyGetItemsRequest request,
     FDelegateOnSuccessGetItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -968,7 +968,7 @@ void UPlayFabEconomyAPI::HelperGetItems(FPlayFabBaseModel response, UObject* cus
     this->RemoveFromRoot();
 }
 
-/** Initiates a publish of an item from the working catalog to the public catalog. */
+/** Initiates a publish of an item from the working catalog to the public catalog. You can use the GetItemPublishStatus API to track the state of the item publish. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::PublishDraftItem(FEconomyPublishDraftItemRequest request,
     FDelegateOnSuccessPublishDraftItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1159,7 +1159,7 @@ void UPlayFabEconomyAPI::HelperReportItemReview(FPlayFabBaseModel response, UObj
     this->RemoveFromRoot();
 }
 
-/** Creates or updates a review for the specified item. */
+/** Creates or updates a review for the specified item. More information around the caching surrounding item ratings and reviews can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/ratings#ratings-design-and-caching */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::ReviewItem(FEconomyReviewItemRequest request,
     FDelegateOnSuccessReviewItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1215,7 +1215,7 @@ void UPlayFabEconomyAPI::HelperReviewItem(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
-/** Executes a search against the public catalog using the provided search parameters and returns a set of paginated results. */
+/** Executes a search against the public catalog using the provided search parameters and returns a set of paginated results. SearchItems uses a cache of the catalog with item updates taking up to a few minutes to propagate. You should use the GetItem API for when trying to immediately get recent item updates. More information about the Search API can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/search */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::SearchItems(FEconomySearchItemsRequest request,
     FDelegateOnSuccessSearchItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1291,7 +1291,7 @@ void UPlayFabEconomyAPI::HelperSearchItems(FPlayFabBaseModel response, UObject* 
     this->RemoveFromRoot();
 }
 
-/** Sets the moderation state for an item, including the concern category and string reason. */
+/** Sets the moderation state for an item, including the concern category and string reason. More information about moderation states can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/ugc/moderation */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::SetItemModerationState(FEconomySetItemModerationStateRequest request,
     FDelegateOnSuccessSetItemModerationState onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1469,7 +1469,7 @@ void UPlayFabEconomyAPI::HelperTakedownItemReviews(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
-/** Updates the configuration for the catalog. */
+/** Updates the configuration for the catalog. Only Title Entities can call this API. There is a limit of 10 requests in 10 seconds for this API. More information about the Catalog Config can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/settings */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::UpdateCatalogConfig(FEconomyUpdateCatalogConfigRequest request,
     FDelegateOnSuccessUpdateCatalogConfig onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1572,7 +1572,7 @@ void UPlayFabEconomyAPI::HelperUpdateDraftItem(FPlayFabBaseModel response, UObje
 ///////////////////////////////////////////////////////
 // Inventory
 //////////////////////////////////////////////////////
-/** Add inventory items. */
+/** Add inventory items. Up to 3500 stacks of items can be added to a single inventory collection. Stack size is uncapped. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::AddInventoryItems(FEconomyAddInventoryItemsRequest request,
     FDelegateOnSuccessAddInventoryItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1640,7 +1640,7 @@ void UPlayFabEconomyAPI::HelperAddInventoryItems(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
-/** Delete an Inventory Collection */
+/** Delete an Inventory Collection. More information about Inventory Collections can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/collections */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::DeleteInventoryCollection(FEconomyDeleteInventoryCollectionRequest request,
     FDelegateOnSuccessDeleteInventoryCollection onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1764,7 +1764,7 @@ void UPlayFabEconomyAPI::HelperDeleteInventoryItems(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
-/** Execute a list of Inventory Operations */
+/** Execute a list of Inventory Operations. A maximum list of 10 operations can be performed by a single request. There is also a limit to 250 items that can be modified/added in a single request. For example, adding a bundle with 50 items counts as 50 items modified. All operations must be done within a single inventory collection. This API has a reduced RPS compared to an individual inventory operation with Player Entities limited to 15 requests in 90 seconds and Title Entities limited to 500 requests in 10 seconds. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::ExecuteInventoryOperations(FEconomyExecuteInventoryOperationsRequest request,
     FDelegateOnSuccessExecuteInventoryOperations onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -1833,7 +1833,7 @@ void UPlayFabEconomyAPI::HelperExecuteInventoryOperations(FPlayFabBaseModel resp
     this->RemoveFromRoot();
 }
 
-/** Get Inventory Collection Ids */
+/** Get Inventory Collection Ids. Up to 50 Ids can be returned at once. You can use continuation tokens to paginate through results that return greater than the limit. It can take a few seconds for new collection Ids to show up. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetInventoryCollectionIds(FEconomyGetInventoryCollectionIdsRequest request,
     FDelegateOnSuccessGetInventoryCollectionIds onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -2001,7 +2001,7 @@ void UPlayFabEconomyAPI::HelperGetMicrosoftStoreAccessTokens(FPlayFabBaseModel r
     this->RemoveFromRoot();
 }
 
-/** Get transaction history. */
+/** Get transaction history for a player. Up to 50 Events can be returned at once. You can use continuation tokens to paginate through results that return greater than the limit. Getting transaction history has a lower RPS limit than getting a Player's inventory with Player Entities having a limit of 30 requests in 300 seconds and Title Entities having a limit of 100 requests in 10 seconds. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetTransactionHistory(FEconomyGetTransactionHistoryRequest request,
     FDelegateOnSuccessGetTransactionHistory onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -2066,7 +2066,7 @@ void UPlayFabEconomyAPI::HelperGetTransactionHistory(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
-/** Purchase an item or bundle */
+/** Purchase an item or bundle. Up to 3500 stacks of items can be added to a single inventory collection. Stack size is uncapped. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::PurchaseInventoryItems(FEconomyPurchaseInventoryItemsRequest request,
     FDelegateOnSuccessPurchaseInventoryItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -2572,7 +2572,7 @@ void UPlayFabEconomyAPI::HelperSubtractInventoryItems(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Transfer inventory items. */
+/** Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer is in progress and will complete soon. More information about item transfer scenarios can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::TransferInventoryItems(FEconomyTransferInventoryItemsRequest request,
     FDelegateOnSuccessTransferInventoryItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

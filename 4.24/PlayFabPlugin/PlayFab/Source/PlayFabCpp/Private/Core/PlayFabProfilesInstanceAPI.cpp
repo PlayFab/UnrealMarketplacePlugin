@@ -197,6 +197,36 @@ void UPlayFabProfilesInstanceAPI::OnGetTitlePlayersFromMasterPlayerAccountIdsRes
     }
 }
 
+bool UPlayFabProfilesInstanceAPI::GetTitlePlayersFromXboxLiveIDs(
+    ProfilesModels::FGetTitlePlayersFromXboxLiveIDsRequest& request,
+    const FGetTitlePlayersFromXboxLiveIDsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Profile/GetTitlePlayersFromXboxLiveIDs"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProfilesInstanceAPI::OnGetTitlePlayersFromXboxLiveIDsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabProfilesInstanceAPI::OnGetTitlePlayersFromXboxLiveIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitlePlayersFromXboxLiveIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ProfilesModels::FGetTitlePlayersFromProviderIDsResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabProfilesInstanceAPI::SetGlobalPolicy(
     ProfilesModels::FSetGlobalPolicyRequest& request,
     const FSetGlobalPolicyDelegate& SuccessDelegate,

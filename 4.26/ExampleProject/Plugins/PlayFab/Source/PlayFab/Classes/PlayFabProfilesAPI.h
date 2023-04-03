@@ -111,6 +111,19 @@ public:
         void HelperGetTitlePlayersFromMasterPlayerAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetTitlePlayersFromXboxLiveIDs, FProfilesGetTitlePlayersFromProviderIDsResponse, result, UObject*, customData);
+
+    /** Retrieves the title player accounts associated with the given XUIDs. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabProfilesAPI* GetTitlePlayersFromXboxLiveIDs(FProfilesGetTitlePlayersFromXboxLiveIDsRequest request,
+            FDelegateOnSuccessGetTitlePlayersFromXboxLiveIDs onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabProfilesRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetTitlePlayersFromXboxLiveIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetGlobalPolicy, FProfilesSetGlobalPolicyResponse, result, UObject*, customData);
 
     /** Sets the global title access policy */
@@ -174,6 +187,7 @@ public:
     FDelegateOnSuccessGetProfile OnSuccessGetProfile;
     FDelegateOnSuccessGetProfiles OnSuccessGetProfiles;
     FDelegateOnSuccessGetTitlePlayersFromMasterPlayerAccountIds OnSuccessGetTitlePlayersFromMasterPlayerAccountIds;
+    FDelegateOnSuccessGetTitlePlayersFromXboxLiveIDs OnSuccessGetTitlePlayersFromXboxLiveIDs;
     FDelegateOnSuccessSetGlobalPolicy OnSuccessSetGlobalPolicy;
     FDelegateOnSuccessSetProfileLanguage OnSuccessSetProfileLanguage;
     FDelegateOnSuccessSetProfilePolicy OnSuccessSetProfilePolicy;

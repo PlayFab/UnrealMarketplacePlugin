@@ -14852,6 +14852,111 @@ bool PlayFab::ServerModels::FLinkServerCustomIdResult::readFromValue(const TShar
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FLinkSteamIdRequest::~FLinkSteamIdRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkSteamIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkSteamIdRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (!SteamId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkSteamIdRequest::SteamId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamId"));
+        writer->WriteValue(SteamId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkSteamIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SteamIdValue = obj->TryGetField(TEXT("SteamId"));
+    if (SteamIdValue.IsValid() && !SteamIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (SteamIdValue->TryGetString(TmpValue)) { SteamId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLinkSteamIdResult::~FLinkSteamIdResult()
+{
+
+}
+
+void PlayFab::ServerModels::FLinkSteamIdResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLinkSteamIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FLinkXboxAccountRequest::~FLinkXboxAccountRequest()
 {
 
@@ -19342,6 +19447,81 @@ void PlayFab::ServerModels::FUnlinkServerCustomIdResult::writeJSON(JsonWriter& w
 }
 
 bool PlayFab::ServerModels::FUnlinkServerCustomIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkSteamIdRequest::~FUnlinkSteamIdRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkSteamIdRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UnlinkSteamIdRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkSteamIdRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUnlinkSteamIdResult::~FUnlinkSteamIdResult()
+{
+
+}
+
+void PlayFab::ServerModels::FUnlinkSteamIdResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUnlinkSteamIdResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

@@ -229,6 +229,15 @@ FServerLinkServerCustomIdResult UPlayFabServerModelDecoder::decodeLinkServerCust
     return tempStruct;
 }
 
+FServerLinkSteamIdResult UPlayFabServerModelDecoder::decodeLinkSteamIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerLinkSteamIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerLinkXboxAccountResult UPlayFabServerModelDecoder::decodeLinkXboxAccountResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -329,6 +338,15 @@ FServerUnlinkServerCustomIdResult UPlayFabServerModelDecoder::decodeUnlinkServer
 {
     // Temp ustruct
     FServerUnlinkServerCustomIdResult tempStruct;
+
+
+    return tempStruct;
+}
+
+FServerUnlinkSteamIdResult UPlayFabServerModelDecoder::decodeUnlinkSteamIdResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUnlinkSteamIdResult tempStruct;
 
 
     return tempStruct;

@@ -153,6 +153,36 @@ public:
         UPlayFabJsonObject* TitlePlayerAccounts = nullptr;
 };
 
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProfilesGetTitlePlayersFromProviderIDsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Dictionary of provider identifiers mapped to title_player_account lineage. Missing lineage indicates the player either
+     * doesn't exist or doesn't play the requested title.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* TitlePlayerAccounts = nullptr;
+};
+
+/** Given a collection of Xbox IDs (XUIDs), returns all title player accounts. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProfilesGetTitlePlayersFromXboxLiveIDsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Xbox Sandbox the players had on their Xbox tokens. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        FString Sandbox;
+    /** List of Xbox Live XUIDs */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        FString XboxLiveIds;
+};
+
 /**
  * Updates the title access policy that is used before the profile's policy is inspected during a request. Policies are
  * compiled and cached for several minutes so an update here may not be reflected in behavior for a short time.

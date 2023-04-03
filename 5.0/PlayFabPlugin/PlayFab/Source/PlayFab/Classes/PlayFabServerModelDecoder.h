@@ -116,6 +116,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerLinkServerCustomIdResult decodeLinkServerCustomIdResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the LinkSteamIdResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerLinkSteamIdResult decodeLinkSteamIdResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the LinkXboxAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerLinkXboxAccountResult decodeLinkXboxAccountResultResponse(UPlayFabJsonObject* response);
@@ -159,6 +163,10 @@ public:
     /** Decode the UnlinkServerCustomIdResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerUnlinkServerCustomIdResult decodeUnlinkServerCustomIdResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UnlinkSteamIdResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerUnlinkSteamIdResult decodeUnlinkSteamIdResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UnlinkXboxAccountResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")

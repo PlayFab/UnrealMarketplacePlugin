@@ -561,6 +561,32 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkSteamIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** If another user is already linked to the account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+    /** Unique Steam identifier for a user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString SteamId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkSteamIdResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLinkXboxAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -883,6 +909,26 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkSteamIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Steam account. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerUnlinkSteamIdResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerUnlinkXboxAccountRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -1158,7 +1204,7 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Unique Steam identifier for a user */
+    /** Unique Steam identifier for a user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         FString SteamId;
 };
@@ -1211,7 +1257,7 @@ public:
     /** The id of Xbox Live sandbox. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         FString Sandbox;
-    /** Unique Xbox identifier for a user */
+    /** Unique Xbox identifier for a user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         FString XboxId;
 };

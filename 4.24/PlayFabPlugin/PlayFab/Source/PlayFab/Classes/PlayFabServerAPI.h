@@ -347,6 +347,19 @@ public:
         void HelperLinkServerCustomId(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkSteamId, FServerLinkSteamIdResult, result, UObject*, customData);
+
+    /** Links the Steam account associated with the provided Steam ID to the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LinkSteamId(FServerLinkSteamIdRequest request,
+            FDelegateOnSuccessLinkSteamId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkSteamId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkXboxAccount, FServerLinkXboxAccountResult, result, UObject*, customData);
 
     /** Links the Xbox Live account associated with the provided access code to the user's PlayFab account */
@@ -523,6 +536,19 @@ public:
     // Implements FOnPlayFabServerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUnlinkServerCustomId(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkSteamId, FServerUnlinkSteamIdResult, result, UObject*, customData);
+
+    /** Unlinks the Steam account associated with the provided Steam ID to the user's PlayFab account */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* UnlinkSteamId(FServerUnlinkSteamIdRequest request,
+            FDelegateOnSuccessUnlinkSteamId onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkSteamId(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkXboxAccount, FServerUnlinkXboxAccountResult, result, UObject*, customData);
@@ -2092,6 +2118,7 @@ public:
     FDelegateOnSuccessLinkNintendoSwitchDeviceId OnSuccessLinkNintendoSwitchDeviceId;
     FDelegateOnSuccessLinkPSNAccount OnSuccessLinkPSNAccount;
     FDelegateOnSuccessLinkServerCustomId OnSuccessLinkServerCustomId;
+    FDelegateOnSuccessLinkSteamId OnSuccessLinkSteamId;
     FDelegateOnSuccessLinkXboxAccount OnSuccessLinkXboxAccount;
     FDelegateOnSuccessRemoveGenericID OnSuccessRemoveGenericID;
     FDelegateOnSuccessRevokeAllBansForUser OnSuccessRevokeAllBansForUser;
@@ -2105,6 +2132,7 @@ public:
     FDelegateOnSuccessUnlinkNintendoSwitchDeviceId OnSuccessUnlinkNintendoSwitchDeviceId;
     FDelegateOnSuccessUnlinkPSNAccount OnSuccessUnlinkPSNAccount;
     FDelegateOnSuccessUnlinkServerCustomId OnSuccessUnlinkServerCustomId;
+    FDelegateOnSuccessUnlinkSteamId OnSuccessUnlinkSteamId;
     FDelegateOnSuccessUnlinkXboxAccount OnSuccessUnlinkXboxAccount;
     FDelegateOnSuccessUpdateAvatarUrl OnSuccessUpdateAvatarUrl;
     FDelegateOnSuccessUpdateBans OnSuccessUpdateBans;

@@ -1163,6 +1163,122 @@ bool PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse
     return HasSucceeded;
 }
 
+PlayFab::ProfilesModels::FGetTitlePlayersFromProviderIDsResponse::~FGetTitlePlayersFromProviderIDsResponse()
+{
+
+}
+
+void PlayFab::ProfilesModels::FGetTitlePlayersFromProviderIDsResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (TitlePlayerAccounts.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("TitlePlayerAccounts"));
+        for (TMap<FString, FEntityLineage>::TConstIterator It(TitlePlayerAccounts); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FGetTitlePlayersFromProviderIDsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* TitlePlayerAccountsObject;
+    if (obj->TryGetObjectField(TEXT("TitlePlayerAccounts"), TitlePlayerAccountsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*TitlePlayerAccountsObject)->Values); It; ++It)
+        {
+            TitlePlayerAccounts.Add(It.Key(), FEntityLineage(It.Value()->AsObject()));
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProfilesModels::FGetTitlePlayersFromXboxLiveIDsRequest::~FGetTitlePlayersFromXboxLiveIDsRequest()
+{
+
+}
+
+void PlayFab::ProfilesModels::FGetTitlePlayersFromXboxLiveIDsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Sandbox.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetTitlePlayersFromXboxLiveIDsRequest::Sandbox, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Sandbox"));
+        writer->WriteValue(Sandbox);
+    }
+
+    if (TitleId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
+    writer->WriteArrayStart(TEXT("XboxLiveIds"));
+    for (const FString& item : XboxLiveIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FGetTitlePlayersFromXboxLiveIDsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> SandboxValue = obj->TryGetField(TEXT("Sandbox"));
+    if (SandboxValue.IsValid() && !SandboxValue->IsNull())
+    {
+        FString TmpValue;
+        if (SandboxValue->TryGetString(TmpValue)) { Sandbox = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("XboxLiveIds"), XboxLiveIds);
+
+    return HasSucceeded;
+}
+
 void PlayFab::ProfilesModels::writeOperationTypesEnumJSON(OperationTypes enumVal, JsonWriter& writer)
 {
     switch (enumVal)

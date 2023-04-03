@@ -285,6 +285,68 @@ void UPlayFabProfilesAPI::HelperGetTitlePlayersFromMasterPlayerAccountIds(FPlayF
     this->RemoveFromRoot();
 }
 
+/** Retrieves the title player accounts associated with the given XUIDs. */
+UPlayFabProfilesAPI* UPlayFabProfilesAPI::GetTitlePlayersFromXboxLiveIDs(FProfilesGetTitlePlayersFromXboxLiveIDsRequest request,
+    FDelegateOnSuccessGetTitlePlayersFromXboxLiveIDs onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabProfilesAPI* manager = NewObject<UPlayFabProfilesAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetTitlePlayersFromXboxLiveIDs = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProfilesAPI::HelperGetTitlePlayersFromXboxLiveIDs);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Profile/GetTitlePlayersFromXboxLiveIDs";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Sandbox.IsEmpty() || request.Sandbox == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Sandbox"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Sandbox"), request.Sandbox);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+    // Check to see if string is empty
+    if (request.XboxLiveIds.IsEmpty() || request.XboxLiveIds == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("XboxLiveIds"));
+    } else {
+        TArray<FString> XboxLiveIdsArray;
+        FString(request.XboxLiveIds).ParseIntoArray(XboxLiveIdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("XboxLiveIds"), XboxLiveIdsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabProfilesRequestCompleted
+void UPlayFabProfilesAPI::HelperGetTitlePlayersFromXboxLiveIDs(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetTitlePlayersFromXboxLiveIDs.IsBound())
+    {
+        FProfilesGetTitlePlayersFromProviderIDsResponse ResultStruct = UPlayFabProfilesModelDecoder::decodeGetTitlePlayersFromProviderIDsResponseResponse(response.responseData);
+        OnSuccessGetTitlePlayersFromXboxLiveIDs.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Sets the global title access policy  */
 UPlayFabProfilesAPI* UPlayFabProfilesAPI::SetGlobalPolicy(FProfilesSetGlobalPolicyRequest request,
     FDelegateOnSuccessSetGlobalPolicy onSuccess,

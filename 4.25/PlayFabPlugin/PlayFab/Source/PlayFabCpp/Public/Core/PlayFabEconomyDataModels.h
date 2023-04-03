@@ -100,6 +100,9 @@ namespace EconomyModels
         // [optional] The amount to add to the current item amount.
         Boxed<int32> Amount;
 
+        // [optional] The duration to add to the current item expiration date.
+        Boxed<double> DurationInSeconds;
+
         // [optional] The inventory item the operation applies to.
         TSharedPtr<FInventoryItemReference> Item;
 
@@ -109,6 +112,7 @@ namespace EconomyModels
         FAddInventoryItemsOperation() :
             FPlayFabCppBaseModel(),
             Amount(),
+            DurationInSeconds(),
             Item(nullptr),
             NewStackValues(nullptr)
             {}
@@ -4020,7 +4024,7 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FRedeemPlayStationStoreInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // [optional] Authorization code provided by the PlayStation OAuth provider.
+        // [optional] Auth code returned by PlayStation :tm: Network OAuth system.
         FString AuthorizationCode;
 
         // [optional] The id of the entity's collection to perform this action on. (Default="default")
@@ -4031,6 +4035,9 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
+        // [optional] Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
+        FString RedirectUri;
+
         // [optional] Optional Service Label to pass into the request.
         FString ServiceLabel;
 
@@ -4040,6 +4047,7 @@ namespace EconomyModels
             CollectionId(),
             CustomTags(),
             Entity(nullptr),
+            RedirectUri(),
             ServiceLabel()
             {}
 

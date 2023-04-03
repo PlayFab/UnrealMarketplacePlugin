@@ -564,6 +564,64 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetTitlePlayersFromProviderIDsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * [optional] Dictionary of provider identifiers mapped to title_player_account lineage. Missing lineage indicates the player either
+         * doesn't exist or doesn't play the requested title.
+         */
+        TMap<FString, FEntityLineage> TitlePlayerAccounts;
+        FGetTitlePlayersFromProviderIDsResponse() :
+            FPlayFabCppResultCommon(),
+            TitlePlayerAccounts()
+            {}
+
+        FGetTitlePlayersFromProviderIDsResponse(const FGetTitlePlayersFromProviderIDsResponse& src) = default;
+
+        FGetTitlePlayersFromProviderIDsResponse(const TSharedPtr<FJsonObject>& obj) : FGetTitlePlayersFromProviderIDsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitlePlayersFromProviderIDsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetTitlePlayersFromXboxLiveIDsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Xbox Sandbox the players had on their Xbox tokens.
+        FString Sandbox;
+
+        // [optional] Optional ID of title to get players from, required if calling using a master_player_account.
+        FString TitleId;
+
+        // List of Xbox Live XUIDs
+        TArray<FString> XboxLiveIds;
+        FGetTitlePlayersFromXboxLiveIDsRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Sandbox(),
+            TitleId(),
+            XboxLiveIds()
+            {}
+
+        FGetTitlePlayersFromXboxLiveIDsRequest(const FGetTitlePlayersFromXboxLiveIDsRequest& src) = default;
+
+        FGetTitlePlayersFromXboxLiveIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetTitlePlayersFromXboxLiveIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTitlePlayersFromXboxLiveIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum OperationTypes
     {
         OperationTypesCreated,

@@ -1425,7 +1425,7 @@ struct PLAYFAB_API FEconomyRedeemPlayStationStoreInventoryItemsRequest : public 
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Authorization code provided by the PlayStation OAuth provider. */
+    /** Auth code returned by PlayStation :tm: Network OAuth system. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString AuthorizationCode;
     /** The id of the entity's collection to perform this action on. (Default="default") */
@@ -1437,6 +1437,9 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
+    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString RedirectUri;
     /** Optional Service Label to pass into the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ServiceLabel;

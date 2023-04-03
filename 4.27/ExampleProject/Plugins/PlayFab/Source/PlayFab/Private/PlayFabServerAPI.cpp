@@ -1239,6 +1239,65 @@ void UPlayFabServerAPI::HelperLinkServerCustomId(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
+/** Links the Steam account associated with the provided Steam ID to the user's PlayFab account  */
+UPlayFabServerAPI* UPlayFabServerAPI::LinkSteamId(FServerLinkSteamIdRequest request,
+    FDelegateOnSuccessLinkSteamId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkSteamId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLinkSteamId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LinkSteamId";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.SteamId.IsEmpty() || request.SteamId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SteamId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SteamId"), request.SteamId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLinkSteamId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkSteamId.IsBound())
+    {
+        FServerLinkSteamIdResult ResultStruct = UPlayFabServerModelDecoder::decodeLinkSteamIdResultResponse(response.responseData);
+        OnSuccessLinkSteamId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Links the Xbox Live account associated with the provided access code to the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::LinkXboxAccount(FServerLinkXboxAccountRequest request,
     FDelegateOnSuccessLinkXboxAccount onSuccess,
@@ -2002,6 +2061,59 @@ void UPlayFabServerAPI::HelperUnlinkServerCustomId(FPlayFabBaseModel response, U
     {
         FServerUnlinkServerCustomIdResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkServerCustomIdResultResponse(response.responseData);
         OnSuccessUnlinkServerCustomId.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unlinks the Steam account associated with the provided Steam ID to the user's PlayFab account  */
+UPlayFabServerAPI* UPlayFabServerAPI::UnlinkSteamId(FServerUnlinkSteamIdRequest request,
+    FDelegateOnSuccessUnlinkSteamId onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkSteamId = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUnlinkSteamId);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UnlinkSteamId";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUnlinkSteamId(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkSteamId.IsBound())
+    {
+        FServerUnlinkSteamIdResult ResultStruct = UPlayFabServerModelDecoder::decodeUnlinkSteamIdResultResponse(response.responseData);
+        OnSuccessUnlinkSteamId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

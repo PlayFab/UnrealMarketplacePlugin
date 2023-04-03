@@ -694,6 +694,7 @@ namespace PlayFab
         PlayFabErrorAsyncExportNotInFlight = 10011,
         PlayFabErrorAsyncExportNotFound = 10012,
         PlayFabErrorAsyncExportRateLimitExceeded = 10013,
+        PlayFabErrorAnalyticsSegmentCountOverLimit = 10014,
         PlayFabErrorSnapshotNotFound = 11000,
         PlayFabErrorInventoryApiNotImplemented = 12000,
         PlayFabErrorLobbyDoesNotExist = 13000,

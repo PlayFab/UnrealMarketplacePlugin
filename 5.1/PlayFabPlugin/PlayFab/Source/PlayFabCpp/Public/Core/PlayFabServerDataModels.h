@@ -7513,6 +7513,59 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkSteamIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Xbox Live identifier.
+        FString PlayFabId;
+
+        // Unique Steam identifier for a user.
+        FString SteamId;
+
+        FLinkSteamIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceLink(),
+            PlayFabId(),
+            SteamId()
+            {}
+
+        FLinkSteamIdRequest(const FLinkSteamIdRequest& src) = default;
+
+        FLinkSteamIdRequest(const TSharedPtr<FJsonObject>& obj) : FLinkSteamIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkSteamIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkSteamIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FLinkSteamIdResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FLinkSteamIdResult(const FLinkSteamIdResult& src) = default;
+
+        FLinkSteamIdResult(const TSharedPtr<FJsonObject>& obj) : FLinkSteamIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkSteamIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkXboxAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -7686,7 +7739,7 @@ namespace ServerModels
         // [optional] Flags for which pieces of info to return for the user.
         TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
 
-        // Unique Steam identifier for a user
+        // Unique Steam identifier for a user.
         FString SteamId;
 
         FLoginWithSteamIdRequest() :
@@ -7723,7 +7776,7 @@ namespace ServerModels
         // The id of Xbox Live sandbox.
         FString Sandbox;
 
-        // Unique Xbox identifier for a user
+        // Unique Xbox identifier for a user.
         FString XboxId;
 
         FLoginWithXboxIdRequest() :
@@ -9866,6 +9919,51 @@ namespace ServerModels
         }
 
         ~FUnlinkServerCustomIdResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkSteamIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Steam account.
+        FString PlayFabId;
+
+        FUnlinkSteamIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            PlayFabId()
+            {}
+
+        FUnlinkSteamIdRequest(const FUnlinkSteamIdRequest& src) = default;
+
+        FUnlinkSteamIdRequest(const TSharedPtr<FJsonObject>& obj) : FUnlinkSteamIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkSteamIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUnlinkSteamIdResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FUnlinkSteamIdResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FUnlinkSteamIdResult(const FUnlinkSteamIdResult& src) = default;
+
+        FUnlinkSteamIdResult(const TSharedPtr<FJsonObject>& obj) : FUnlinkSteamIdResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUnlinkSteamIdResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

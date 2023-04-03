@@ -52,6 +52,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management Models")
         static FProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse decodeGetTitlePlayersFromMasterPlayerAccountIdsResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetTitlePlayersFromProviderIDsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management Models")
+        static FProfilesGetTitlePlayersFromProviderIDsResponse decodeGetTitlePlayersFromProviderIDsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the SetGlobalPolicyResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management Models")
         static FProfilesSetGlobalPolicyResponse decodeSetGlobalPolicyResponseResponse(UPlayFabJsonObject* response);

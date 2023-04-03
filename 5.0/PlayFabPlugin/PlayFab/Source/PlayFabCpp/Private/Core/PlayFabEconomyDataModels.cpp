@@ -162,6 +162,12 @@ void PlayFab::EconomyModels::FAddInventoryItemsOperation::writeJSON(JsonWriter& 
         writer->WriteValue(Amount);
     }
 
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
     if (Item.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("Item"));
@@ -186,6 +192,13 @@ bool PlayFab::EconomyModels::FAddInventoryItemsOperation::readFromValue(const TS
     {
         int32 TmpValue;
         if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        double TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ItemValue = obj->TryGetField(TEXT("Item"));
@@ -7995,6 +8008,12 @@ void PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsRequest::write
         Entity->writeJSON(writer);
     }
 
+    if (RedirectUri.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RedirectUri"));
+        writer->WriteValue(RedirectUri);
+    }
+
     if (ServiceLabel.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ServiceLabel"));
@@ -8035,6 +8054,13 @@ bool PlayFab::EconomyModels::FRedeemPlayStationStoreInventoryItemsRequest::readF
     if (EntityValue.IsValid() && !EntityValue->IsNull())
     {
         Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> RedirectUriValue = obj->TryGetField(TEXT("RedirectUri"));
+    if (RedirectUriValue.IsValid() && !RedirectUriValue->IsNull())
+    {
+        FString TmpValue;
+        if (RedirectUriValue->TryGetString(TmpValue)) { RedirectUri = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ServiceLabelValue = obj->TryGetField(TEXT("ServiceLabel"));

@@ -2422,6 +2422,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::RedeemPlayStationStoreInventoryItems(FEc
     }
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+    if (request.RedirectUri.IsEmpty() || request.RedirectUri == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("RedirectUri"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("RedirectUri"), request.RedirectUri);
+    }
     if (request.ServiceLabel.IsEmpty() || request.ServiceLabel == "") {
         OutRestJsonObj->SetFieldNull(TEXT("ServiceLabel"));
     } else {

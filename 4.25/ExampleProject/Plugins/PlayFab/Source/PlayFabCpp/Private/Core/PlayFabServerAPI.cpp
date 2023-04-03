@@ -2323,6 +2323,36 @@ void UPlayFabServerAPI::OnLinkServerCustomIdResult(FHttpRequestPtr HttpRequest, 
     }
 }
 
+bool UPlayFabServerAPI::LinkSteamId(
+    ServerModels::FLinkSteamIdRequest& request,
+    const FLinkSteamIdDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    if (devSecretKey.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Server/LinkSteamId"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabServerAPI::OnLinkSteamIdResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabServerAPI::OnLinkSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ServerModels::FLinkSteamIdResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabServerAPI::LinkXboxAccount(
     ServerModels::FLinkXboxAccountRequest& request,
     const FLinkXboxAccountDelegate& SuccessDelegate,
@@ -3572,6 +3602,36 @@ bool UPlayFabServerAPI::UnlinkServerCustomId(
 void UPlayFabServerAPI::OnUnlinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ServerModels::FUnlinkServerCustomIdResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabServerAPI::UnlinkSteamId(
+    ServerModels::FUnlinkSteamIdRequest& request,
+    const FUnlinkSteamIdDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString devSecretKey = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetDeveloperSecretKey() : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+    if (devSecretKey.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Server/UnlinkSteamId"), request.toJSONString(), TEXT("X-SecretKey"), devSecretKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabServerAPI::OnUnlinkSteamIdResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabServerAPI::OnUnlinkSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ServerModels::FUnlinkSteamIdResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

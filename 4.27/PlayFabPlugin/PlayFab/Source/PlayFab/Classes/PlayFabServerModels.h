@@ -1710,12 +1710,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Friend List Management Models")
         EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
-    /** Indicates whether Facebook friends should be included in the response. Default is true. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Friend List Management Models")
-        bool IncludeFacebookFriends = false;
-    /** Indicates whether Steam service friends should be included in the response. Default is true. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Friend List Management Models")
-        bool IncludeSteamFriends = false;
     /** PlayFab identifier of the player whose friend list to get. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Friend List Management Models")
         FString PlayFabId;
@@ -2053,12 +2047,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
         EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
-    /** Indicates whether Facebook friends should be included in the response. Default is true. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
-        bool IncludeFacebookFriends = false;
-    /** Indicates whether Steam service friends should be included in the response. Default is true. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
-        bool IncludeSteamFriends = false;
     /** Maximum number of entries to retrieve. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Player Data Management Models")
         int32 MaxResultsCount = 0;

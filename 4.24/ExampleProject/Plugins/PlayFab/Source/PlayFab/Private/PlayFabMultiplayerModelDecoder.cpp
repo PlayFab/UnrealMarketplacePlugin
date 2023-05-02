@@ -474,6 +474,7 @@ FMultiplayerGetBuildResponse UPlayFabMultiplayerModelDecoder::decodeGetBuildResp
     tempStruct.ServerType = !(dataObj->HasField("ServerType")) ? TEXT("") : dataObj->GetStringField("ServerType");
     tempStruct.StartMultiplayerServerCommand = !(dataObj->HasField("StartMultiplayerServerCommand")) ? TEXT("") : dataObj->GetStringField("StartMultiplayerServerCommand");
     GetEnumValueFromString<EAzureVmSize>(TEXT("EAzureVmSize"), dataObj->GetStringField("VmSize"), tempStruct.VmSize);
+    tempStruct.VmStartupScriptConfiguration = !(dataObj->HasField("VmStartupScriptConfiguration")) ? nullptr : dataObj->GetObjectField("VmStartupScriptConfiguration");
 
     return tempStruct;
 }

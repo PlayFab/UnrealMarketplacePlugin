@@ -1238,13 +1238,43 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FVmStartupScriptPortRequestParams : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The name for the port.
+        FString Name;
+
+        // The protocol for the port.
+        ProtocolType Protocol;
+
+        FVmStartupScriptPortRequestParams() :
+            FPlayFabCppBaseModel(),
+            Name(),
+            Protocol()
+            {}
+
+        FVmStartupScriptPortRequestParams(const FVmStartupScriptPortRequestParams& src) = default;
+
+        FVmStartupScriptPortRequestParams(const TSharedPtr<FJsonObject>& obj) : FVmStartupScriptPortRequestParams()
+        {
+            readFromValue(obj);
+        }
+
+        ~FVmStartupScriptPortRequestParams();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FVmStartupScriptParams : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Optional port requests (name/protocol) that will be used by the VmStartupScript. Max of 5 requests.
+        TArray<FVmStartupScriptPortRequestParams> PortRequests;
         // Asset which contains the VmStartupScript script and any other required files.
         FAssetReferenceParams VmStartupScriptAssetReference;
 
         FVmStartupScriptParams() :
             FPlayFabCppBaseModel(),
+            PortRequests(),
             VmStartupScriptAssetReference()
             {}
 
@@ -1424,13 +1454,43 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FVmStartupScriptPortRequest : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The name for the port.
+        FString Name;
+
+        // The protocol for the port.
+        ProtocolType Protocol;
+
+        FVmStartupScriptPortRequest() :
+            FPlayFabCppBaseModel(),
+            Name(),
+            Protocol()
+            {}
+
+        FVmStartupScriptPortRequest(const FVmStartupScriptPortRequest& src) = default;
+
+        FVmStartupScriptPortRequest(const TSharedPtr<FJsonObject>& obj) : FVmStartupScriptPortRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FVmStartupScriptPortRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FVmStartupScriptConfiguration : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Optional port requests (name/protocol) that will be used by the VmStartupScript. Max of 5 requests.
+        TArray<FVmStartupScriptPortRequest> PortRequests;
         // Asset which contains the VmStartupScript script and any other required files.
         FAssetReference VmStartupScriptAssetReference;
 
         FVmStartupScriptConfiguration() :
             FPlayFabCppBaseModel(),
+            PortRequests(),
             VmStartupScriptAssetReference()
             {}
 
@@ -2948,12 +3008,6 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // [optional] Controls whether this query should link to friends made on the Facebook network. Defaults to false
-        Boxed<bool> ExcludeFacebookFriends;
-
-        // [optional] Controls whether this query should link to friends made on the Steam network. Defaults to false
-        Boxed<bool> ExcludeSteamFriends;
-
         // [optional] Indicates which other platforms' friends this query should link to.
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
@@ -2985,8 +3039,6 @@ namespace MultiplayerModels
         FFindFriendLobbiesRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            ExcludeFacebookFriends(),
-            ExcludeSteamFriends(),
             ExternalPlatformFriends(),
             Filter(),
             OrderBy(),
@@ -3471,6 +3523,9 @@ namespace MultiplayerModels
         // [optional] The VM size the build was created on.
         Boxed<AzureVmSize> VmSize;
 
+        // [optional] The configuration for the VmStartupScript feature for the build
+        TSharedPtr<FVmStartupScriptConfiguration> pfVmStartupScriptConfiguration;
+
         FGetBuildResponse() :
             FPlayFabCppResultCommon(),
             AreAssetsReadonly(),
@@ -3492,7 +3547,8 @@ namespace MultiplayerModels
             ServerResourceConstraints(nullptr),
             ServerType(),
             StartMultiplayerServerCommand(),
-            VmSize()
+            VmSize(),
+            pfVmStartupScriptConfiguration(nullptr)
             {}
 
         FGetBuildResponse(const FGetBuildResponse& src) = default;

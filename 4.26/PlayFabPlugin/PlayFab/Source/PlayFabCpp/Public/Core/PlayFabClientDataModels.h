@@ -4708,12 +4708,6 @@ namespace ClientModels
          */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
-        // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
-        Boxed<bool> IncludeFacebookFriends;
-
-        // [optional] Indicates whether Steam service friends should be included in the response. Default is true.
-        Boxed<bool> IncludeSteamFriends;
-
         // [optional] Maximum number of entries to retrieve. Default 10, maximum 100.
         Boxed<int32> MaxResultsCount;
 
@@ -4743,8 +4737,6 @@ namespace ClientModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ExternalPlatformFriends(),
-            IncludeFacebookFriends(),
-            IncludeSteamFriends(),
             MaxResultsCount(),
             PlayFabId(),
             ProfileConstraints(nullptr),
@@ -4846,12 +4838,6 @@ namespace ClientModels
          */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
-        // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
-        Boxed<bool> IncludeFacebookFriends;
-
-        // [optional] Indicates whether Steam service friends should be included in the response. Default is true.
-        Boxed<bool> IncludeSteamFriends;
-
         // [optional] Maximum number of entries to retrieve. Default 10, maximum 100.
         Boxed<int32> MaxResultsCount;
 
@@ -4881,8 +4867,6 @@ namespace ClientModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ExternalPlatformFriends(),
-            IncludeFacebookFriends(),
-            IncludeSteamFriends(),
             MaxResultsCount(),
             ProfileConstraints(nullptr),
             StartPosition(0),
@@ -4915,12 +4899,6 @@ namespace ClientModels
          */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
-        // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
-        Boxed<bool> IncludeFacebookFriends;
-
-        // [optional] Indicates whether Steam service friends should be included in the response. Default is true.
-        Boxed<bool> IncludeSteamFriends;
-
         /**
          * [optional] If non-null, this determines which properties of the resulting player profiles to return. For API calls from the client,
          * only the allowed client profile properties for the title may be requested. These allowed properties are configured in
@@ -4935,8 +4913,6 @@ namespace ClientModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ExternalPlatformFriends(),
-            IncludeFacebookFriends(),
-            IncludeSteamFriends(),
             ProfileConstraints(nullptr),
             XboxToken()
             {}

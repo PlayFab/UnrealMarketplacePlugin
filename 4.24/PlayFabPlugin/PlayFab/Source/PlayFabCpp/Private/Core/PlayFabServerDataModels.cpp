@@ -8172,18 +8172,6 @@ void PlayFab::ServerModels::FGetFriendLeaderboardRequest::writeJSON(JsonWriter& 
         writeExternalFriendSourcesEnumJSON(ExternalPlatformFriends, writer);
     }
 
-    if (IncludeFacebookFriends.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
-        writer->WriteValue(IncludeFacebookFriends);
-    }
-
-    if (IncludeSteamFriends.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends"));
-        writer->WriteValue(IncludeSteamFriends);
-    }
-
     writer->WriteIdentifierPrefix(TEXT("MaxResultsCount"));
     writer->WriteValue(MaxResultsCount);
 
@@ -8251,20 +8239,6 @@ bool PlayFab::ServerModels::FGetFriendLeaderboardRequest::readFromValue(const TS
     }
 
     ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
-
-    const TSharedPtr<FJsonValue> IncludeFacebookFriendsValue = obj->TryGetField(TEXT("IncludeFacebookFriends"));
-    if (IncludeFacebookFriendsValue.IsValid() && !IncludeFacebookFriendsValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeFacebookFriendsValue->TryGetBool(TmpValue)) { IncludeFacebookFriends = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> IncludeSteamFriendsValue = obj->TryGetField(TEXT("IncludeSteamFriends"));
-    if (IncludeSteamFriendsValue.IsValid() && !IncludeSteamFriendsValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeSteamFriendsValue->TryGetBool(TmpValue)) { IncludeSteamFriends = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> MaxResultsCountValue = obj->TryGetField(TEXT("MaxResultsCount"));
     if (MaxResultsCountValue.IsValid() && !MaxResultsCountValue->IsNull())
@@ -8351,18 +8325,6 @@ void PlayFab::ServerModels::FGetFriendsListRequest::writeJSON(JsonWriter& writer
         writeExternalFriendSourcesEnumJSON(ExternalPlatformFriends, writer);
     }
 
-    if (IncludeFacebookFriends.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeFacebookFriends"));
-        writer->WriteValue(IncludeFacebookFriends);
-    }
-
-    if (IncludeSteamFriends.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeSteamFriends"));
-        writer->WriteValue(IncludeSteamFriends);
-    }
-
     if (!PlayFabId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: GetFriendsListRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
@@ -8402,20 +8364,6 @@ bool PlayFab::ServerModels::FGetFriendsListRequest::readFromValue(const TSharedP
     }
 
     ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
-
-    const TSharedPtr<FJsonValue> IncludeFacebookFriendsValue = obj->TryGetField(TEXT("IncludeFacebookFriends"));
-    if (IncludeFacebookFriendsValue.IsValid() && !IncludeFacebookFriendsValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeFacebookFriendsValue->TryGetBool(TmpValue)) { IncludeFacebookFriends = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> IncludeSteamFriendsValue = obj->TryGetField(TEXT("IncludeSteamFriends"));
-    if (IncludeSteamFriendsValue.IsValid() && !IncludeSteamFriendsValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeSteamFriendsValue->TryGetBool(TmpValue)) { IncludeSteamFriends = TmpValue; }
-    }
 
     const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
     if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())

@@ -4125,12 +4125,6 @@ namespace ServerModels
          */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
-        // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
-        Boxed<bool> IncludeFacebookFriends;
-
-        // [optional] Indicates whether Steam service friends should be included in the response. Default is true.
-        Boxed<bool> IncludeSteamFriends;
-
         // Maximum number of entries to retrieve.
         int32 MaxResultsCount;
 
@@ -4163,8 +4157,6 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ExternalPlatformFriends(),
-            IncludeFacebookFriends(),
-            IncludeSteamFriends(),
             MaxResultsCount(0),
             PlayFabId(),
             ProfileConstraints(nullptr),
@@ -4198,12 +4190,6 @@ namespace ServerModels
          */
         Boxed<ExternalFriendSources> ExternalPlatformFriends;
 
-        // [optional] Indicates whether Facebook friends should be included in the response. Default is true.
-        Boxed<bool> IncludeFacebookFriends;
-
-        // [optional] Indicates whether Steam service friends should be included in the response. Default is true.
-        Boxed<bool> IncludeSteamFriends;
-
         // PlayFab identifier of the player whose friend list to get.
         FString PlayFabId;
 
@@ -4221,8 +4207,6 @@ namespace ServerModels
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ExternalPlatformFriends(),
-            IncludeFacebookFriends(),
-            IncludeSteamFriends(),
             PlayFabId(),
             ProfileConstraints(nullptr),
             XboxToken()

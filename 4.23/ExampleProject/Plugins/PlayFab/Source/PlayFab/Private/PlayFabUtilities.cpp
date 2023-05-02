@@ -759,6 +759,16 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 16000: returnText = "OperationCanceled"; break;
     case 17000: returnText = "InvalidDisplayNameRandomSuffixLength"; break;
     case 17001: returnText = "AllowNonUniquePlayerDisplayNamesDisableNotAllowed"; break;
+    case 18000: returnText = "PartitionedEventInvalid"; break;
+    case 18001: returnText = "PartitionedEventCountOverLimit"; break;
+    case 19000: returnText = "PlayerCustomPropertiesPropertyNameTooLong"; break;
+    case 19001: returnText = "PlayerCustomPropertiesPropertyNameIsInvalid"; break;
+    case 19002: returnText = "PlayerCustomPropertiesStringPropertyValueTooLong"; break;
+    case 19003: returnText = "PlayerCustomPropertiesValueIsInvalidType"; break;
+    case 19004: returnText = "PlayerCustomPropertiesVersionMismatch"; break;
+    case 19005: returnText = "PlayerCustomPropertiesPropertyCountTooHigh"; break;
+    case 19006: returnText = "PlayerCustomPropertiesDuplicatePropertyName"; break;
+    case 19007: returnText = "PlayerCustomPropertiesPropertyDoesNotExist"; break;
     }
 
     // Return the text

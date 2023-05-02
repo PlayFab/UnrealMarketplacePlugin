@@ -140,12 +140,6 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Controls whether this query should link to friends made on the Facebook network. Defaults to false */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        bool ExcludeFacebookFriends = false;
-    /** Controls whether this query should link to friends made on the Steam network. Defaults to false */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        bool ExcludeSteamFriends = false;
     /** Indicates which other platforms' friends this query should link to. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         EExternalFriendSources ExternalPlatformFriends = StaticCast<EExternalFriendSources>(0);
@@ -1986,6 +1980,9 @@ public:
     /** The VM size the build was created on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
+    /** The configuration for the VmStartupScript feature for the build */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* VmStartupScriptConfiguration = nullptr;
 };
 
 /** Returns the details about a multiplayer server build alias. */

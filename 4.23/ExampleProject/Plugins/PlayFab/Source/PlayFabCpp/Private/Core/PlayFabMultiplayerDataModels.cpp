@@ -2391,6 +2391,47 @@ bool PlayFab::MultiplayerModels::FServerResourceConstraintParams::readFromValue(
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FVmStartupScriptPortRequestParams::~FVmStartupScriptPortRequestParams()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FVmStartupScriptPortRequestParams::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: VmStartupScriptPortRequestParams::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Protocol"));
+    writeProtocolTypeEnumJSON(Protocol, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FVmStartupScriptPortRequestParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    Protocol = readProtocolTypeFromValue(obj->TryGetField(TEXT("Protocol")));
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FVmStartupScriptParams::~FVmStartupScriptParams()
 {
 
@@ -2399,6 +2440,15 @@ PlayFab::MultiplayerModels::FVmStartupScriptParams::~FVmStartupScriptParams()
 void PlayFab::MultiplayerModels::FVmStartupScriptParams::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (PortRequests.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("PortRequests"));
+        for (const FVmStartupScriptPortRequestParams& item : PortRequests)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
 
     writer->WriteIdentifierPrefix(TEXT("VmStartupScriptAssetReference"));
     VmStartupScriptAssetReference.writeJSON(writer);
@@ -2409,6 +2459,14 @@ void PlayFab::MultiplayerModels::FVmStartupScriptParams::writeJSON(JsonWriter& w
 bool PlayFab::MultiplayerModels::FVmStartupScriptParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&PortRequestsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PortRequests"));
+    for (int32 Idx = 0; Idx < PortRequestsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PortRequestsArray[Idx];
+        PortRequests.Add(FVmStartupScriptPortRequestParams(CurrentItem->AsObject()));
+    }
+
 
     const TSharedPtr<FJsonValue> VmStartupScriptAssetReferenceValue = obj->TryGetField(TEXT("VmStartupScriptAssetReference"));
     if (VmStartupScriptAssetReferenceValue.IsValid() && !VmStartupScriptAssetReferenceValue->IsNull())
@@ -2803,6 +2861,47 @@ bool PlayFab::MultiplayerModels::FMonitoringApplicationConfiguration::readFromVa
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FVmStartupScriptPortRequest::~FVmStartupScriptPortRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FVmStartupScriptPortRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: VmStartupScriptPortRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Protocol"));
+    writeProtocolTypeEnumJSON(Protocol, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FVmStartupScriptPortRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    Protocol = readProtocolTypeFromValue(obj->TryGetField(TEXT("Protocol")));
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::~FVmStartupScriptConfiguration()
 {
 
@@ -2811,6 +2910,15 @@ PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::~FVmStartupScriptConf
 void PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    if (PortRequests.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("PortRequests"));
+        for (const FVmStartupScriptPortRequest& item : PortRequests)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
 
     writer->WriteIdentifierPrefix(TEXT("VmStartupScriptAssetReference"));
     VmStartupScriptAssetReference.writeJSON(writer);
@@ -2821,6 +2929,14 @@ void PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::writeJSON(JsonWr
 bool PlayFab::MultiplayerModels::FVmStartupScriptConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&PortRequestsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PortRequests"));
+    for (int32 Idx = 0; Idx < PortRequestsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PortRequestsArray[Idx];
+        PortRequests.Add(FVmStartupScriptPortRequest(CurrentItem->AsObject()));
+    }
+
 
     const TSharedPtr<FJsonValue> VmStartupScriptAssetReferenceValue = obj->TryGetField(TEXT("VmStartupScriptAssetReference"));
     if (VmStartupScriptAssetReferenceValue.IsValid() && !VmStartupScriptAssetReferenceValue->IsNull())
@@ -6295,18 +6411,6 @@ void PlayFab::MultiplayerModels::FFindFriendLobbiesRequest::writeJSON(JsonWriter
         writer->WriteObjectEnd();
     }
 
-    if (ExcludeFacebookFriends.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("ExcludeFacebookFriends"));
-        writer->WriteValue(ExcludeFacebookFriends);
-    }
-
-    if (ExcludeSteamFriends.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("ExcludeSteamFriends"));
-        writer->WriteValue(ExcludeSteamFriends);
-    }
-
     if (ExternalPlatformFriends.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("ExternalPlatformFriends"));
@@ -6351,20 +6455,6 @@ bool PlayFab::MultiplayerModels::FFindFriendLobbiesRequest::readFromValue(const 
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
-    }
-
-    const TSharedPtr<FJsonValue> ExcludeFacebookFriendsValue = obj->TryGetField(TEXT("ExcludeFacebookFriends"));
-    if (ExcludeFacebookFriendsValue.IsValid() && !ExcludeFacebookFriendsValue->IsNull())
-    {
-        bool TmpValue;
-        if (ExcludeFacebookFriendsValue->TryGetBool(TmpValue)) { ExcludeFacebookFriends = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> ExcludeSteamFriendsValue = obj->TryGetField(TEXT("ExcludeSteamFriends"));
-    if (ExcludeSteamFriendsValue.IsValid() && !ExcludeSteamFriendsValue->IsNull())
-    {
-        bool TmpValue;
-        if (ExcludeSteamFriendsValue->TryGetBool(TmpValue)) { ExcludeSteamFriends = TmpValue; }
     }
 
     ExternalPlatformFriends = readExternalFriendSourcesFromValue(obj->TryGetField(TEXT("ExternalPlatformFriends")));
@@ -7198,6 +7288,7 @@ PlayFab::MultiplayerModels::FGetBuildResponse::~FGetBuildResponse()
     //if (CustomGameContainerImage != nullptr) delete CustomGameContainerImage;
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
     //if (ServerResourceConstraints != nullptr) delete ServerResourceConstraints;
+    //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
 }
 
@@ -7339,6 +7430,12 @@ void PlayFab::MultiplayerModels::FGetBuildResponse::writeJSON(JsonWriter& writer
         writeAzureVmSizeEnumJSON(VmSize, writer);
     }
 
+    if (pfVmStartupScriptConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VmStartupScriptConfiguration"));
+        pfVmStartupScriptConfiguration->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -7476,6 +7573,12 @@ bool PlayFab::MultiplayerModels::FGetBuildResponse::readFromValue(const TSharedP
     }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
+
+    const TSharedPtr<FJsonValue> VmStartupScriptConfigurationValue = obj->TryGetField(TEXT("VmStartupScriptConfiguration"));
+    if (VmStartupScriptConfigurationValue.IsValid() && !VmStartupScriptConfigurationValue->IsNull())
+    {
+        pfVmStartupScriptConfiguration = MakeShareable(new FVmStartupScriptConfiguration(VmStartupScriptConfigurationValue->AsObject()));
+    }
 
     return HasSucceeded;
 }

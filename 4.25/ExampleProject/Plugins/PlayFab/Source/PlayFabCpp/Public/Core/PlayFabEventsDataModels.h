@@ -108,7 +108,7 @@ namespace EventsModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // Collection of events to write to PlayStream.
+        // The collection of events to write. Up to 200 events can be written per request.
         TArray<FEventContents> Events;
         FWriteEventsRequest() :
             FPlayFabCppRequestCommon(),

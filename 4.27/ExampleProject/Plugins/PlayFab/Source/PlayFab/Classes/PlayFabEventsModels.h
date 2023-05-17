@@ -43,7 +43,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Collection of events to write to PlayStream. */
+    /** The collection of events to write. Up to 200 events can be written per request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Events | PlayStream Events Models")
         TArray<UPlayFabJsonObject*> Events;
 };

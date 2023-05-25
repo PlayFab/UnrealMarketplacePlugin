@@ -1,0 +1,405 @@
+<%- copyright %>
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Automatically generated cpp file for the UE4 PlayFab plugin.
+//
+// API: <%- api.name %>
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "PlayFab<%- api.name %>API.h"
+#include "PlayFab<%- api.name %>Models.h"
+#include "PlayFab<%- api.name %>ModelDecoder.h"
+#include "PlayFabPrivate.h"
+#include "PlayFabEnums.h"
+#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
+
+UPlayFab<%- api.name %>API::UPlayFab<%- api.name %>API(const FObjectInitializer& ObjectInitializer)
+    : Super(ObjectInitializer)
+    , CallAuthenticationContext(nullptr)
+{
+}
+
+void UPlayFab<%- api.name %>API::SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext)
+{
+    CallAuthenticationContext = InAuthenticationContext;
+}
+
+void UPlayFab<%- api.name %>API::SetRequestObject(UPlayFabJsonObject* JsonObject)
+{
+    RequestJsonObj = JsonObject;
+}
+
+UPlayFabJsonObject* UPlayFab<%- api.name %>API::GetResponseObject()
+{
+    return ResponseJsonObj;
+}
+
+FString UPlayFab<%- api.name %>API::PercentEncode(const FString& Text)
+{
+    FString OutText = Text;
+
+    OutText = OutText.Replace(TEXT("!"), TEXT("%21"));
+    OutText = OutText.Replace(TEXT("\""), TEXT("%22"));
+    OutText = OutText.Replace(TEXT("#"), TEXT("%23"));
+    OutText = OutText.Replace(TEXT("$"), TEXT("%24"));
+    //OutText = OutText.Replace(TEXT("&"), TEXT("%26"));
+    OutText = OutText.Replace(TEXT("'"), TEXT("%27"));
+    OutText = OutText.Replace(TEXT("("), TEXT("%28"));
+    OutText = OutText.Replace(TEXT(")"), TEXT("%29"));
+    OutText = OutText.Replace(TEXT("*"), TEXT("%2A"));
+    OutText = OutText.Replace(TEXT("+"), TEXT("%2B"));
+    OutText = OutText.Replace(TEXT(","), TEXT("%2C"));
+    //OutText = OutText.Replace(TEXT("/"), TEXT("%2F"));
+    OutText = OutText.Replace(TEXT(":"), TEXT("%3A"));
+    OutText = OutText.Replace(TEXT(";"), TEXT("%3B"));
+    OutText = OutText.Replace(TEXT("="), TEXT("%3D"));
+    //OutText = OutText.Replace(TEXT("?"), TEXT("%3F"));
+    OutText = OutText.Replace(TEXT("@"), TEXT("%40"));
+    OutText = OutText.Replace(TEXT("["), TEXT("%5B"));
+    OutText = OutText.Replace(TEXT("]"), TEXT("%5D"));
+    OutText = OutText.Replace(TEXT("{"), TEXT("%7B"));
+    OutText = OutText.Replace(TEXT("}"), TEXT("%7D"));
+
+    return OutText;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Generated PlayFab <%- api.name %> API Functions
+//////////////////////////////////////////////////////////////////////////
+
+<%
+
+// This loop goes through the subgroups of the api and orders the functions in groups.
+// It makes it a little easier to navigate.
+
+// Array to hold already printed models. That way we dont duplicate
+var modelsArray = [];
+for(var subgroup in api.subgroups)
+{
+%>
+///////////////////////////////////////////////////////
+// <%- api.subgroups[subgroup].name %>
+//////////////////////////////////////////////////////
+<%
+
+    // This loop goes through all the api calls.
+    // It checks to see if the subgroup is the correct subgroup we are currently on.
+    // If so it creates the function definition with the summary text.
+    // This allows us to see the summary in UE4 when we hover over a node.
+
+    for(var i in api.calls)
+    {
+        var apiCall = api.calls[i];
+        if(apiCall.subgroup == api.subgroups[subgroup].name)
+        {
+
+              %>/** <%- apiCall.summary %> */
+<%            %>UPlayFab<%- api.name %>API* UPlayFab<%- api.name %>API::<%- apiCall.name %>(F<%- api.name %><%- apiCall.request %> request,
+<%            %>    FDelegateOnSuccess<%- apiCall.name %> onSuccess,
+<%            %>    FDelegateOnFailurePlayFabError onFailure,
+<%            %>    UObject* customData)
+<%            %>{
+<%            %>    // Objects containing request data
+<%            %>    UPlayFab<%- api.name %>API* manager = NewObject<UPlayFab<%- api.name %>API>();
+<%            %>    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+<%            %>    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+<%            %>    manager->mCustomData = customData;
+<%            %>
+<%            %>    // Assign delegates
+<%            %>    manager->OnSuccess<%- apiCall.name %> = onSuccess;
+<%            %>    manager->OnFailure = onFailure;
+<%            %>    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFab<%- api.name %>API::Helper<%- apiCall.name %>);
+<%            %>
+<%            %>    // Setup the request
+<%            %>    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+<%            %>    manager->PlayFabRequestURL = "<%- apiCall.url %>";
+<%            %><%- getAuthBools("    ", apiCall) %>
+<%            %><%- getCustomApiAssignmentLogic("    ", api, apiCall) %>
+<%            %>    // Serialize all the request properties to json
+<%          var properties = api.datatypes[apiCall.request].properties;
+            for(var z in properties) {
+                var objectRequestString = "";
+                var property = properties[z];
+%><%- getPropertySerialization("    ", property, datatype) %><% } %>
+<%            %>    // Add Request to manager
+<%            %>    manager->SetRequestObject(OutRestJsonObj);
+<%            %>
+<%            %>    return manager;
+<%            %>}
+<%            %><% if (apiCall.name == "WriteTelemetryEvents") {
+%><%            %>
+<%            %>/** Write batches of entity based events to as Telemetry events (bypass PlayStream) using a Telemetry Key. The namespace must be 'custom' or start with 'custom.' */
+<%            %>UPlayFab<%- api.name %>API* UPlayFab<%- api.name %>API::<%- apiCall.name %>(F<%- api.name %><%- apiCall.request %> request,
+<%            %>    FString telemetryKey,
+<%            %>    FDelegateOnSuccess<%- apiCall.name %> onSuccess,
+<%            %>    FDelegateOnFailurePlayFabError onFailure,
+<%            %>    UObject* customData)
+<%            %>{
+<%            %>    // Objects containing request data
+<%            %>    UPlayFab<%- api.name %>API* manager = NewObject<UPlayFab<%- api.name %>API>();
+<%            %>    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+<%            %>    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+<%            %>    manager->mCustomData = customData;
+<%            %>
+<%            %>    // Assign delegates
+<%            %>    manager->OnSuccess<%- apiCall.name %> = onSuccess;
+<%            %>    manager->OnFailure = onFailure;
+<%            %>    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFab<%- api.name %>API::Helper<%- apiCall.name %>);
+<%            %>
+<%            %>    // Setup the request
+<%            %>    manager->PlayFabRequestURL = "<%- apiCall.url %>";
+<%            %>    manager->useTelemetryKey = true;
+<%            %>    manager->telemetryKey = telemetryKey;
+<%            %><%- getCustomApiAssignmentLogic("    ", api, apiCall) %>
+<%            %>    // Serialize all the request properties to json
+<%          var properties = api.datatypes[apiCall.request].properties;
+            for(var z in properties) {
+                var objectRequestString = "";
+                var property = properties[z];
+%><%- getPropertySerialization("    ", property, datatype) %><% } %>
+<%            %>    // Add Request to manager
+<%            %>    manager->SetRequestObject(OutRestJsonObj);
+<%            %>
+<%            %>    return manager;
+<%            %>}
+<%            %><%}%>
+<%            %>// Implements FOnPlayFab<%- api.name %>RequestCompleted
+<%            %>void UPlayFab<%- api.name %>API::Helper<%- apiCall.name %>(FPlayFabBaseModel response, UObject* customData, bool successful)
+<%            %>{
+<%            %>    FPlayFabError error = response.responseError;
+<%            %>    if (error.hasError && OnFailure.IsBound())
+<%            %>    {
+<%            %>        OnFailure.Execute(error, customData);
+<%            %>    }
+<%            %>    else if (!error.hasError && OnSuccess<%- apiCall.name %>.IsBound())
+<%            %>    {
+<%
+                var found = false;
+                for(var datatypeIndex in api.datatypes)
+                {
+                    var datatype = api.datatypes[datatypeIndex];
+                    if ((datatype.name != apiCall.request && datatype.name != apiCall.result) // Skip my request and my result
+                      || datatype.name.endsWith("Request") // Requests are done separately
+                      || modelsArray.indexOf(datatype.name) > -1) // Check if datatype has been made already
+                    {
+                        continue;
+                    }
+
+                    // Add datatype name to array
+                    modelsArray.push(datatype.name);
+
+                    if (datatype.name == apiCall.result) {
+                        found = true;
+
+              %>        F<%- api.name %><%- apiCall.result %> ResultStruct = UPlayFab<%- api.name %>ModelDecoder::decode<%- getDataTypeSafeName(datatype, "name") %>Response(response.responseData);
+<%            %>        OnSuccess<%- apiCall.name %>.Execute(ResultStruct, mCustomData);
+<%
+                        break;
+                    }
+                }
+
+                if (!found) {
+              %>        F<%- api.name %><%- apiCall.result %> ResultStruct = UPlayFab<%- api.name %>ModelDecoder::decode<%- apiCall.result %>Response(response.responseData);
+<%            %>        ResultStruct.Request = RequestJsonObj;
+<%              if (apiCall.result === "LoginResult") {
+              %>        // CallAuthenticationContext was set in OnProcessRequestComplete
+<%            %>        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+<%              }
+              %>        OnSuccess<%- apiCall.name %>.Execute(ResultStruct, mCustomData);
+<%
+                }
+
+              %>    }
+<%            %>    this->RemoveFromRoot();
+<%            %>}
+<%            %>
+<%}
+    }
+} %>
+
+void UPlayFab<%- api.name %>API::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+{
+    // Be sure that we have no data from previous response
+    ResetResponseData();
+
+    if (!IsValidLowLevel())
+    {
+        UE_LOG(LogPlayFab, Error, TEXT("The request object is invalid during OnProcessRequestComplete."));
+        return;
+    }
+    if (!OnPlayFabResponse.IsBound())
+    {
+        UE_LOG(LogPlayFab, Error, TEXT("OnPlayFabResponse has come un-bound during OnProcessRequestComplete."));
+        return;
+    }
+
+    FPlayFabBaseModel myResponse;
+
+    // Check we have result to process further
+    if (!bWasSuccessful)
+    {
+        UE_LOG(LogPlayFab, Error, TEXT("Request failed: %s"), *Request->GetURL());
+
+        // Broadcast the result event
+        myResponse.responseError.hasError = true;
+        myResponse.responseError.ErrorCode = 503;
+        myResponse.responseError.ErrorName = "Unable to contact server";
+        myResponse.responseError.ErrorMessage = "Unable to contact server";
+
+        OnPlayFabResponse.Broadcast(myResponse, mCustomData, false);
+
+        return;
+    }
+
+    // Save response data as a string
+    ResponseContent = Response->GetContentAsString();
+
+    // Save response code as int32
+    ResponseCode = Response->GetResponseCode();
+
+    // Try to deserialize data to JSON
+    TSharedRef<TJsonReader<TCHAR>> JsonReader = TJsonReaderFactory<TCHAR>::Create(ResponseContent);
+    FJsonSerializer::Deserialize(JsonReader, ResponseJsonObj->GetRootObject());
+
+    // Decide whether the request was successful
+    bIsValidJsonResponse = bWasSuccessful && ResponseJsonObj->GetRootObject().IsValid();
+
+    // Log errors
+    if (!bIsValidJsonResponse)
+        UE_LOG(LogPlayFab, Warning, TEXT("JSON could not be decoded!"));
+
+    // Log response state
+    UE_LOG(LogPlayFab, Log, TEXT("Response : %s"), *ResponseContent);
+
+    myResponse.responseError.decodeError(ResponseJsonObj);
+    myResponse.responseData = ResponseJsonObj;
+    IPlayFab* pfSettings = &(IPlayFab::Get());
+<% if (hasClientOptions) { %>
+    if (returnsSessionTicket || returnsEntityToken)
+    {
+        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+    }
+    if (returnsSessionTicket && !myResponse.responseError.hasError)
+    {
+        // Auth Tokens
+        auto ResponseDataJSON = myResponse.responseData->GetObjectField("data");
+        {
+            FString NewSessionTicket = ResponseDataJSON->GetStringField("SessionTicket");
+            pfSettings->setSessionTicket(NewSessionTicket);
+            CallAuthenticationContext->SetClientSessionTicket(MoveTemp(NewSessionTicket));
+        }
+        if (ResponseDataJSON->HasField("EntityToken"))
+        {
+            FString NewEntityToken = ResponseDataJSON->GetObjectField("EntityToken")->GetStringField("EntityToken");
+            pfSettings->setEntityToken(NewEntityToken);
+            // Store entity token so that it can be added to the ResultStruct in the call-specific "Helper" callback
+            // which is responsible for forming response JSON into a semantic struct, and passing it to user code
+            CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+        }
+    }
+<% } %>
+    if (returnsEntityToken)
+    {
+<% if (!hasClientOptions) { 
+%>        CallAuthenticationContext = NewObject<UPlayFabAuthenticationContext>();
+<% }
+%>        FString NewEntityToken = myResponse.responseData->GetObjectField("data")->GetStringField("EntityToken");
+        pfSettings->setEntityToken(NewEntityToken);
+        CallAuthenticationContext->SetEntityToken(MoveTemp(NewEntityToken));
+    }
+
+    // Broadcast the result event
+    OnPlayFabResponse.Broadcast(myResponse, mCustomData, !myResponse.responseError.hasError);
+    pfSettings->ModifyPendingCallCount(-1);
+}
+
+void UPlayFab<%- api.name %>API::Activate()
+{
+    IPlayFab* pfSettings = &(IPlayFab::Get());
+
+    FString RequestUrl;
+    <%- getCustomApiActivationUrlLogic(api) %>
+
+    <%- httpRequestDatatype %> HttpRequest = FHttpModule::Get().CreateRequest();
+    HttpRequest->SetURL(RequestUrl);
+    HttpRequest->SetVerb(TEXT("POST"));
+
+    // Headers
+    // Only set one of the potential authentication headers.
+    bool AuthSet = false;
+
+    if (useEntityToken && !AuthSet)
+    {
+        FString AuthValue =
+        CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetEntityToken() : pfSettings->getEntityToken();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-EntityToken"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSessionTicket && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetClientSessionTicket()
+                                                                 : pfSettings->getSessionTicket();
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-Authorization"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useSecretKey && !AuthSet)
+    {
+        FString AuthValue = CallAuthenticationContext != nullptr ? CallAuthenticationContext->GetDeveloperSecretKey()
+                                                                 : GetDefault<UPlayFabRuntimeSettings>()->DeveloperSecretKey;
+        if (!AuthValue.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-SecretKey"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useTelemetryKey && !AuthSet)
+    {
+        if (!telemetryKey.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-TelemetryKey"), telemetryKey);
+            AuthSet = true;
+        }
+    }
+
+    HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
+    HttpRequest->SetHeader(TEXT("X-PlayFabSDK"), pfSettings->getVersionString());
+    HttpRequest->SetHeader(TEXT("X-ReportErrorAsSuccess"), TEXT("true")); // FHttpResponsePtr doesn't provide sufficient information when an error code is returned
+    for (TMap<FString, FString>::TConstIterator It(RequestHeaders); It; ++It)
+        HttpRequest->SetHeader(It.Key(), It.Value());
+
+    // Serialize data to json string
+    FString OutputString;
+    TSharedRef< TJsonWriter<> > Writer = TJsonWriterFactory<>::Create(&OutputString);
+    FJsonSerializer::Serialize(RequestJsonObj->GetRootObject().ToSharedRef(), Writer);
+
+    // Set Json content
+    HttpRequest->SetContentAsString(OutputString);
+
+    UE_LOG(LogPlayFab, Log, TEXT("Request: %s"), *OutputString);
+
+    // Bind event
+    HttpRequest->OnProcessRequestComplete().BindUObject(this, &UPlayFab<%- api.name %>API::OnProcessRequestComplete);
+
+    // Execute the request
+    pfSettings->ModifyPendingCallCount(1);
+    HttpRequest->ProcessRequest();
+}
+
+void UPlayFab<%- api.name %>API::ResetResponseData()
+{
+    if (ResponseJsonObj != nullptr)
+        ResponseJsonObj->Reset();
+    else
+        ResponseJsonObj = NewObject<UPlayFabJsonObject>();
+    bIsValidJsonResponse = false;
+}

@@ -130,7 +130,7 @@ for(var subgroup in api.subgroups)
 <%            %><% if (apiCall.name == "WriteTelemetryEvents") {
 %><%            %>
 <%            %>/** Write batches of entity based events to as Telemetry events (bypass PlayStream) using a Telemetry Key. The namespace must be 'custom' or start with 'custom.' */
-<%            %>UPlayFab<%- api.name %>API* UPlayFab<%- api.name %>API::<%- apiCall.name %>(F<%- api.name %><%- apiCall.request %> request,
+<%            %>UPlayFab<%- api.name %>API* UPlayFab<%- api.name %>API::<%- apiCall.name %>WithTelemetryKey(F<%- api.name %><%- apiCall.request %> request,
 <%            %>    FString telemetryKey,
 <%            %>    FDelegateOnSuccess<%- apiCall.name %> onSuccess,
 <%            %>    FDelegateOnFailurePlayFabError onFailure,

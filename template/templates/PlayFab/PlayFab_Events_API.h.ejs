@@ -88,7 +88,7 @@ public:
 <%            %>     * with 'custom.'
 <%            %>     */
 <%            %>    UFUNCTION(BlueprintCallable, Category = "PlayFab | <%- api.name %> | <%- api.subgroups[subgroup].name %> ", meta = (BlueprintInternalUseOnly = "true"))
-<%            %>        static UPlayFab<%- api.name %>API* <%- apiCall.name %>(F<%- api.name %><%- apiCall.request %> request, FString telemetryKey,
+<%            %>        static UPlayFab<%- api.name %>API* <%- apiCall.name %>WithTelemetryKey(F<%- api.name %><%- apiCall.request %> request, FString telemetryKey,
 <%            %>            FDelegateOnSuccess<%- apiCall.name %> onSuccess,
 <%            %>            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 <%            %><%}%>

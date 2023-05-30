@@ -146,6 +146,7 @@ namespace MultiplayerModels
         AzureVmFamilyFsv2,
         AzureVmFamilyDasv4,
         AzureVmFamilyDav4,
+        AzureVmFamilyDadsv5,
         AzureVmFamilyEav4,
         AzureVmFamilyEasv4,
         AzureVmFamilyEv4,
@@ -198,6 +199,10 @@ namespace MultiplayerModels
         AzureVmSizeStandard_D4a_v4,
         AzureVmSizeStandard_D8a_v4,
         AzureVmSizeStandard_D16a_v4,
+        AzureVmSizeStandard_D2ads_v5,
+        AzureVmSizeStandard_D4ads_v5,
+        AzureVmSizeStandard_D8ads_v5,
+        AzureVmSizeStandard_D16ads_v5,
         AzureVmSizeStandard_E2a_v4,
         AzureVmSizeStandard_E4a_v4,
         AzureVmSizeStandard_E8a_v4,
@@ -3954,6 +3959,37 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPublicIpAddress : public PlayFab::FPlayFabCppBaseModel
+    {
+        // FQDN of the public IP
+        FString FQDN;
+
+        // Server IP Address
+        FString IpAddress;
+
+        // Routing Type of the public IP.
+        FString RoutingType;
+
+        FPublicIpAddress() :
+            FPlayFabCppBaseModel(),
+            FQDN(),
+            IpAddress(),
+            RoutingType()
+            {}
+
+        FPublicIpAddress(const FPublicIpAddress& src) = default;
+
+        FPublicIpAddress(const TSharedPtr<FJsonObject>& obj) : FPublicIpAddress()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPublicIpAddress();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetMultiplayerServerDetailsResponse : public PlayFab::FPlayFabCppResultCommon
     {
         // [optional] The identity of the build in which the server was allocated.
@@ -3964,7 +4000,7 @@ namespace MultiplayerModels
         // [optional] The fully qualified domain name of the virtual machine that is hosting this multiplayer server.
         FString FQDN;
 
-        // [optional] The IPv4 address of the virtual machine that is hosting this multiplayer server.
+        // [optional] The public IPv4 address of the virtual machine that is hosting this multiplayer server.
         FString IPV4Address;
 
         // [optional] The time (UTC) at which a change in the multiplayer server state was observed.
@@ -3972,6 +4008,8 @@ namespace MultiplayerModels
 
         // [optional] The ports the multiplayer server uses.
         TArray<FPort> Ports;
+        // [optional] The list of public Ipv4 addresses associated with the server.
+        TArray<FPublicIpAddress> PublicIPV4Addresses;
         // [optional] The region the multiplayer server is located in.
         FString Region;
 
@@ -3995,6 +4033,7 @@ namespace MultiplayerModels
             IPV4Address(),
             LastStateTransitionTime(),
             Ports(),
+            PublicIPV4Addresses(),
             Region(),
             ServerId(),
             SessionId(),
@@ -5763,7 +5802,7 @@ namespace MultiplayerModels
         // [optional] The fully qualified domain name of the virtual machine that is hosting this multiplayer server.
         FString FQDN;
 
-        // [optional] The IPv4 address of the virtual machine that is hosting this multiplayer server.
+        // [optional] The public IPv4 address of the virtual machine that is hosting this multiplayer server.
         FString IPV4Address;
 
         // [optional] The time (UTC) at which a change in the multiplayer server state was observed.
@@ -5771,6 +5810,8 @@ namespace MultiplayerModels
 
         // [optional] The ports the multiplayer server uses.
         TArray<FPort> Ports;
+        // [optional] The list of public Ipv4 addresses associated with the server.
+        TArray<FPublicIpAddress> PublicIPV4Addresses;
         // [optional] The region the multiplayer server is located in.
         FString Region;
 
@@ -5794,6 +5835,7 @@ namespace MultiplayerModels
             IPV4Address(),
             LastStateTransitionTime(),
             Ports(),
+            PublicIPV4Addresses(),
             Region(),
             ServerId(),
             SessionId(),
@@ -5866,6 +5908,16 @@ namespace MultiplayerModels
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
+
+    enum RoutingType
+    {
+        RoutingTypeMicrosoft,
+        RoutingTypeInternet
+    };
+
+    PLAYFABCPP_API void writeRoutingTypeEnumJSON(RoutingType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API RoutingType readRoutingTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API RoutingType readRoutingTypeFromValue(const FString& value);
 
     enum ServerType
     {

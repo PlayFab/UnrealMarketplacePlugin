@@ -504,6 +504,7 @@ FMultiplayerGetMultiplayerServerDetailsResponse UPlayFabMultiplayerModelDecoder:
     tempStruct.IPV4Address = !(dataObj->HasField("IPV4Address")) ? TEXT("") : dataObj->GetStringField("IPV4Address");
     tempStruct.LastStateTransitionTime = !(dataObj->HasField("LastStateTransitionTime")) ? TEXT("") : dataObj->GetStringField("LastStateTransitionTime");
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
+    tempStruct.PublicIPV4Addresses = !(dataObj->HasField("PublicIPV4Addresses")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("PublicIPV4Addresses");
     tempStruct.Region = !(dataObj->HasField("Region")) ? TEXT("") : dataObj->GetStringField("Region");
     tempStruct.ServerId = !(dataObj->HasField("ServerId")) ? TEXT("") : dataObj->GetStringField("ServerId");
     tempStruct.SessionId = !(dataObj->HasField("SessionId")) ? TEXT("") : dataObj->GetStringField("SessionId");
@@ -720,6 +721,7 @@ FMultiplayerRequestMultiplayerServerResponse UPlayFabMultiplayerModelDecoder::de
     tempStruct.IPV4Address = !(dataObj->HasField("IPV4Address")) ? TEXT("") : dataObj->GetStringField("IPV4Address");
     tempStruct.LastStateTransitionTime = !(dataObj->HasField("LastStateTransitionTime")) ? TEXT("") : dataObj->GetStringField("LastStateTransitionTime");
     tempStruct.Ports = !(dataObj->HasField("Ports")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Ports");
+    tempStruct.PublicIPV4Addresses = !(dataObj->HasField("PublicIPV4Addresses")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("PublicIPV4Addresses");
     tempStruct.Region = !(dataObj->HasField("Region")) ? TEXT("") : dataObj->GetStringField("Region");
     tempStruct.ServerId = !(dataObj->HasField("ServerId")) ? TEXT("") : dataObj->GetStringField("ServerId");
     tempStruct.SessionId = !(dataObj->HasField("SessionId")) ? TEXT("") : dataObj->GetStringField("SessionId");

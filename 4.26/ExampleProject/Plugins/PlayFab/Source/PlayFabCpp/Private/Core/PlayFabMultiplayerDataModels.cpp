@@ -286,6 +286,7 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyFsv2: writer->WriteValue(TEXT("Fsv2")); break;
     case AzureVmFamilyDasv4: writer->WriteValue(TEXT("Dasv4")); break;
     case AzureVmFamilyDav4: writer->WriteValue(TEXT("Dav4")); break;
+    case AzureVmFamilyDadsv5: writer->WriteValue(TEXT("Dadsv5")); break;
     case AzureVmFamilyEav4: writer->WriteValue(TEXT("Eav4")); break;
     case AzureVmFamilyEasv4: writer->WriteValue(TEXT("Easv4")); break;
     case AzureVmFamilyEv4: writer->WriteValue(TEXT("Ev4")); break;
@@ -318,6 +319,7 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("Fsv2"), AzureVmFamilyFsv2);
         _AzureVmFamilyMap.Add(TEXT("Dasv4"), AzureVmFamilyDasv4);
         _AzureVmFamilyMap.Add(TEXT("Dav4"), AzureVmFamilyDav4);
+        _AzureVmFamilyMap.Add(TEXT("Dadsv5"), AzureVmFamilyDadsv5);
         _AzureVmFamilyMap.Add(TEXT("Eav4"), AzureVmFamilyEav4);
         _AzureVmFamilyMap.Add(TEXT("Easv4"), AzureVmFamilyEasv4);
         _AzureVmFamilyMap.Add(TEXT("Ev4"), AzureVmFamilyEv4);
@@ -380,6 +382,10 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_D4a_v4: writer->WriteValue(TEXT("Standard_D4a_v4")); break;
     case AzureVmSizeStandard_D8a_v4: writer->WriteValue(TEXT("Standard_D8a_v4")); break;
     case AzureVmSizeStandard_D16a_v4: writer->WriteValue(TEXT("Standard_D16a_v4")); break;
+    case AzureVmSizeStandard_D2ads_v5: writer->WriteValue(TEXT("Standard_D2ads_v5")); break;
+    case AzureVmSizeStandard_D4ads_v5: writer->WriteValue(TEXT("Standard_D4ads_v5")); break;
+    case AzureVmSizeStandard_D8ads_v5: writer->WriteValue(TEXT("Standard_D8ads_v5")); break;
+    case AzureVmSizeStandard_D16ads_v5: writer->WriteValue(TEXT("Standard_D16ads_v5")); break;
     case AzureVmSizeStandard_E2a_v4: writer->WriteValue(TEXT("Standard_E2a_v4")); break;
     case AzureVmSizeStandard_E4a_v4: writer->WriteValue(TEXT("Standard_E4a_v4")); break;
     case AzureVmSizeStandard_E8a_v4: writer->WriteValue(TEXT("Standard_E8a_v4")); break;
@@ -459,6 +465,10 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_D4a_v4"), AzureVmSizeStandard_D4a_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D8a_v4"), AzureVmSizeStandard_D8a_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_D16a_v4"), AzureVmSizeStandard_D16a_v4);
+        _AzureVmSizeMap.Add(TEXT("Standard_D2ads_v5"), AzureVmSizeStandard_D2ads_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D4ads_v5"), AzureVmSizeStandard_D4ads_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D8ads_v5"), AzureVmSizeStandard_D8ads_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D16ads_v5"), AzureVmSizeStandard_D16ads_v5);
         _AzureVmSizeMap.Add(TEXT("Standard_E2a_v4"), AzureVmSizeStandard_E2a_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_E4a_v4"), AzureVmSizeStandard_E4a_v4);
         _AzureVmSizeMap.Add(TEXT("Standard_E8a_v4"), AzureVmSizeStandard_E8a_v4);
@@ -8430,6 +8440,76 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsRequest::readFromVa
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FPublicIpAddress::~FPublicIpAddress()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FPublicIpAddress::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!FQDN.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PublicIpAddress::FQDN, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FQDN"));
+        writer->WriteValue(FQDN);
+    }
+
+    if (!IpAddress.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PublicIpAddress::IpAddress, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IpAddress"));
+        writer->WriteValue(IpAddress);
+    }
+
+    if (!RoutingType.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: PublicIpAddress::RoutingType, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoutingType"));
+        writer->WriteValue(RoutingType);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FPublicIpAddress::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> FQDNValue = obj->TryGetField(TEXT("FQDN"));
+    if (FQDNValue.IsValid() && !FQDNValue->IsNull())
+    {
+        FString TmpValue;
+        if (FQDNValue->TryGetString(TmpValue)) { FQDN = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IpAddressValue = obj->TryGetField(TEXT("IpAddress"));
+    if (IpAddressValue.IsValid() && !IpAddressValue->IsNull())
+    {
+        FString TmpValue;
+        if (IpAddressValue->TryGetString(TmpValue)) { IpAddress = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RoutingTypeValue = obj->TryGetField(TEXT("RoutingType"));
+    if (RoutingTypeValue.IsValid() && !RoutingTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (RoutingTypeValue->TryGetString(TmpValue)) { RoutingType = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::~FGetMultiplayerServerDetailsResponse()
 {
 
@@ -8476,6 +8556,15 @@ void PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::writeJSON
     {
         writer->WriteArrayStart(TEXT("Ports"));
         for (const FPort& item : Ports)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (PublicIPV4Addresses.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("PublicIPV4Addresses"));
+        for (const FPublicIpAddress& item : PublicIPV4Addresses)
             item.writeJSON(writer);
         writer->WriteArrayEnd();
     }
@@ -8557,6 +8646,14 @@ bool PlayFab::MultiplayerModels::FGetMultiplayerServerDetailsResponse::readFromV
     {
         TSharedPtr<FJsonValue> CurrentItem = PortsArray[Idx];
         Ports.Add(FPort(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&PublicIPV4AddressesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PublicIPV4Addresses"));
+    for (int32 Idx = 0; Idx < PublicIPV4AddressesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PublicIPV4AddressesArray[Idx];
+        PublicIPV4Addresses.Add(FPublicIpAddress(CurrentItem->AsObject()));
     }
 
 
@@ -12103,6 +12200,15 @@ void PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::writeJSON(Js
     }
 
 
+    if (PublicIPV4Addresses.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("PublicIPV4Addresses"));
+        for (const FPublicIpAddress& item : PublicIPV4Addresses)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (Region.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("Region"));
@@ -12179,6 +12285,14 @@ bool PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::readFromValu
     {
         TSharedPtr<FJsonValue> CurrentItem = PortsArray[Idx];
         Ports.Add(FPort(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&PublicIPV4AddressesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("PublicIPV4Addresses"));
+    for (int32 Idx = 0; Idx < PublicIPV4AddressesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PublicIPV4AddressesArray[Idx];
+        PublicIPV4Addresses.Add(FPublicIpAddress(CurrentItem->AsObject()));
     }
 
 
@@ -12315,6 +12429,42 @@ bool PlayFab::MultiplayerModels::FRolloverContainerRegistryCredentialsResponse::
     }
 
     return HasSucceeded;
+}
+
+void PlayFab::MultiplayerModels::writeRoutingTypeEnumJSON(RoutingType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case RoutingTypeMicrosoft: writer->WriteValue(TEXT("Microsoft")); break;
+    case RoutingTypeInternet: writer->WriteValue(TEXT("Internet")); break;
+    }
+}
+
+MultiplayerModels::RoutingType PlayFab::MultiplayerModels::readRoutingTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readRoutingTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::RoutingType PlayFab::MultiplayerModels::readRoutingTypeFromValue(const FString& value)
+{
+    static TMap<FString, RoutingType> _RoutingTypeMap;
+    if (_RoutingTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _RoutingTypeMap.Add(TEXT("Microsoft"), RoutingTypeMicrosoft);
+        _RoutingTypeMap.Add(TEXT("Internet"), RoutingTypeInternet);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _RoutingTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return RoutingTypeMicrosoft; // Basically critical fail
 }
 
 void PlayFab::MultiplayerModels::writeServerTypeEnumJSON(ServerType enumVal, JsonWriter& writer)

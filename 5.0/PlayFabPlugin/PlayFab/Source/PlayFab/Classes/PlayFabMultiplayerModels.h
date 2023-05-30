@@ -2060,7 +2060,7 @@ public:
     /** The fully qualified domain name of the virtual machine that is hosting this multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString FQDN;
-    /** The IPv4 address of the virtual machine that is hosting this multiplayer server. */
+    /** The public IPv4 address of the virtual machine that is hosting this multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString IPV4Address;
     /** The time (UTC) at which a change in the multiplayer server state was observed. */
@@ -2069,6 +2069,9 @@ public:
     /** The ports the multiplayer server uses. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> Ports;
+    /** The list of public Ipv4 addresses associated with the server. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> PublicIPV4Addresses;
     /** The region the multiplayer server is located in. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Region;
@@ -2632,7 +2635,7 @@ public:
     /** The fully qualified domain name of the virtual machine that is hosting this multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString FQDN;
-    /** The IPv4 address of the virtual machine that is hosting this multiplayer server. */
+    /** The public IPv4 address of the virtual machine that is hosting this multiplayer server. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString IPV4Address;
     /** The time (UTC) at which a change in the multiplayer server state was observed. */
@@ -2641,6 +2644,9 @@ public:
     /** The ports the multiplayer server uses. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> Ports;
+    /** The list of public Ipv4 addresses associated with the server. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> PublicIPV4Addresses;
     /** The region the multiplayer server is located in. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Region;

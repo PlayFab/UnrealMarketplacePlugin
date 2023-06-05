@@ -44,16 +44,19 @@ function makeApi(api, copyright, sourceDir, apiOutputDir, subdir) {
         hasRequest: hasRequest
     };
 
-    var apiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.h.ejs"));
+    var templateName = api.name == "Events" ? "PlayFab_Events_API" : "PlayFab_API";
+    var instTemplateName = api.name == "Events" ? "PlayFab_Events_InstanceAPI" : "PlayFab_InstanceAPI";
+
+    var apiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/" + templateName + ".h.ejs"));
     writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "PlayFab" + api.name + "API.h"), apiHeaderTemplate(apiLocals));
 
-    var instanceApiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.h.ejs"));
+    var instanceApiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/" + instTemplateName + ".h.ejs"));
     writeFile(path.resolve(apiOutputDir, "Public/" + subdir + "PlayFab" + api.name + "InstanceAPI.h"), instanceApiHeaderTemplate(apiLocals));
 
-    var apiBodyTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_API.cpp.ejs"));
+    var apiBodyTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/" + templateName + ".cpp.ejs"));
     writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "API.cpp"), apiBodyTemplate(apiLocals));
 
-    var instanceApiBodyTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/PlayFab_InstanceAPI.cpp.ejs"));
+    var instanceApiBodyTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFabCpp/core/" + instTemplateName + ".cpp.ejs"));
     writeFile(path.resolve(apiOutputDir, "Private/" + subdir + "PlayFab" + api.name + "InstanceAPI.cpp"), instanceApiBodyTemplate(apiLocals));
 }
 

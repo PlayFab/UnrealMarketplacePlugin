@@ -1,0 +1,160 @@
+<%- copyright %>
+
+#pragma once
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Automatically generated header file for the UE4 PlayFab plugin.
+// This header file contains the function definitions.
+//
+// API: <%- api.name %>
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+#include "CoreMinimal.h"
+#include "Http.h"
+#include "Net/OnlineBlueprintCallProxyBase.h"
+#include "PlayFabBaseModel.h"
+#include "PlayFab<%- api.name %>Models.h"
+#include "PlayFab<%- api.name %>API.generated.h"
+
+class UPlayFabAuthenticationContext;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnPlayFab<%- api.name %>RequestCompleted, FPlayFabBaseModel, response, UObject*, customData, bool, successful);
+
+UCLASS(Blueprintable, BlueprintType)
+class PLAYFAB_API UPlayFab<%- api.name %>API : public UOnlineBlueprintCallProxyBase
+{
+    GENERATED_UCLASS_BODY()
+
+public:
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnFailurePlayFabError, FPlayFabError, error, UObject*, customData);
+
+    UPROPERTY(BlueprintAssignable)
+        FOnPlayFab<%- api.name %>RequestCompleted OnPlayFabResponse;
+
+    void SetCallAuthenticationContext(UPlayFabAuthenticationContext* InAuthenticationContext);
+
+    /** Set the Request Json object */
+    void SetRequestObject(UPlayFabJsonObject* JsonObject);
+
+    /** Get the Response Json object */
+    UPlayFabJsonObject* GetResponseObject();
+
+    /** Applies percent-encoding to text */
+    static FString PercentEncode(const FString& Text);
+
+    /** Reset saved response data */
+    void ResetResponseData();
+
+    /** UOnlineBlueprintCallProxyBase interface */
+    virtual void Activate() override;
+
+    //////////////////////////////////////////////////////////////////////////
+    // Generated PlayFab <%- api.name %> API Functions
+    //////////////////////////////////////////////////////////////////////////
+<%
+    // This loop goes through the subgroups of the api and orders the functions in groups.
+    // It makes it a little easier to navigate.
+    for(var subgroup in api.subgroups)
+    {
+    %>
+    ///////////////////////////////////////////////////////
+    // <%- api.subgroups[subgroup].name %>
+    //////////////////////////////////////////////////////
+<%
+
+        // This loop goes through all the api calls.
+        // It checks to see if the subgroup is the correct subgroup we are currently on.
+        // If so it creates the function definition with the summary text.
+        // This allows us to see the summary in UE4 when we hover over a node.
+
+        for(var i in api.calls)
+        {
+            var apiCall = api.calls[i];
+            if(apiCall.subgroup == api.subgroups[subgroup].name)
+            {
+
+              %>    // callbacks
+<%            %>    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccess<%- apiCall.name %>, F<%- api.name %><%- apiCall.result %>, result, UObject*, customData);
+<%            %>
+<%            %><%- generateApiSummary("    ", apiCall, "summary")
+%><%          %>    UFUNCTION(BlueprintCallable, Category = "PlayFab | <%- api.name %> | <%- api.subgroups[subgroup].name %> ", meta = (BlueprintInternalUseOnly = "true"))
+<%            %>        static UPlayFab<%- api.name %>API* <%- apiCall.name %>(F<%- api.name %><%- apiCall.request %> request,
+<%            %>            FDelegateOnSuccess<%- apiCall.name %> onSuccess,
+<%            %>            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+<%            %>
+<%            %><% if (apiCall.name == "WriteTelemetryEvents") {
+%><%            %>    /**
+<%            %>     * Write batches of entity based events to as Telemetry events (bypass PlayStream) using a Telemetry Key. The namespace must be 'custom' or start
+<%            %>     * with 'custom.'
+<%            %>     */
+<%            %>    UFUNCTION(BlueprintCallable, Category = "PlayFab | <%- api.name %> | <%- api.subgroups[subgroup].name %> ", meta = (BlueprintInternalUseOnly = "true"))
+<%            %>        static UPlayFab<%- api.name %>API* <%- apiCall.name %>WithTelemetryKey(F<%- api.name %><%- apiCall.request %> request, FString telemetryKey,
+<%            %>            FDelegateOnSuccess<%- apiCall.name %> onSuccess,
+<%            %>            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+<%            %><%}%>
+<%            %>    // Implements FOnPlayFab<%- api.name %>RequestCompleted
+<%            %>    UFUNCTION(BlueprintCallable, Category = "PlayFab | <%- api.name %> | <%- api.subgroups[subgroup].name %> ", meta = (BlueprintInternalUseOnly = "true"))
+<%            %>        void Helper<%- apiCall.name %>(FPlayFabBaseModel response, UObject* customData, bool successful);
+<%            %>
+<%
+            }
+        }
+    } %>
+
+    /** PlayFab Request Info */
+    FString PlayFabRequestURL;
+<% if (api.name === "CloudScript") {
+%>    FString PlayFabRequestFullURL;
+<% } %>
+    bool useEntityToken = false;
+    bool useTelemetryKey = false;
+    bool useSecretKey = false;
+    bool useSessionTicket = false;
+    bool returnsSessionTicket = false;
+    bool returnsEntityToken = false;
+
+    /** Is the response valid JSON? */
+    bool bIsValidJsonResponse;
+    FString ResponseContent;
+    int32 ResponseCode;
+    UObject* mCustomData;
+    FString telemetryKey;
+
+    FDelegateOnFailurePlayFabError OnFailure;
+<%
+    for(var subgroup in api.subgroups)
+    {
+        for(var i in api.calls)
+        {
+            var apiCall = api.calls[i];
+            if(apiCall.subgroup == api.subgroups[subgroup].name)
+            {
+                var apiCall = api.calls[i];
+                if(apiCall.subgroup == api.subgroups[subgroup].name)
+                {
+                          %>    FDelegateOnSuccess<%- apiCall.name %> OnSuccess<%- apiCall.name %>;
+<%
+                }
+            }
+        }
+    }
+%>
+private:
+    UPROPERTY()
+        UPlayFabAuthenticationContext* CallAuthenticationContext;
+
+    /** Internal bind function for the IHTTPRequest::OnProcessRequestCompleted() event */
+    void OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+
+protected:
+    /** Internal request data stored as JSON */
+    UPROPERTY()
+        UPlayFabJsonObject* RequestJsonObj;
+
+    /** Response data stored as JSON */
+    UPROPERTY()
+        UPlayFabJsonObject* ResponseJsonObj;
+
+    /** Mapping of header section to values. Used to generate final header string for request */
+    TMap<FString, FString> RequestHeaders;
+};

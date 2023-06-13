@@ -16054,6 +16054,12 @@ void PlayFab::ClientModels::FLinkSteamAccountRequest::writeJSON(JsonWriter& writ
         writer->WriteValue(SteamTicket);
     }
 
+    if (TicketIsServiceSpecific.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TicketIsServiceSpecific"));
+        writer->WriteValue(TicketIsServiceSpecific);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -16082,6 +16088,13 @@ bool PlayFab::ClientModels::FLinkSteamAccountRequest::readFromValue(const TShare
     {
         FString TmpValue;
         if (SteamTicketValue->TryGetString(TmpValue)) { SteamTicket = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TicketIsServiceSpecificValue = obj->TryGetField(TEXT("TicketIsServiceSpecific"));
+    if (TicketIsServiceSpecificValue.IsValid() && !TicketIsServiceSpecificValue->IsNull())
+    {
+        bool TmpValue;
+        if (TicketIsServiceSpecificValue->TryGetBool(TmpValue)) { TicketIsServiceSpecific = TmpValue; }
     }
 
     return HasSucceeded;
@@ -18757,6 +18770,12 @@ void PlayFab::ClientModels::FLoginWithSteamRequest::writeJSON(JsonWriter& writer
         writer->WriteValue(SteamTicket);
     }
 
+    if (TicketIsServiceSpecific.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("TicketIsServiceSpecific"));
+        writer->WriteValue(TicketIsServiceSpecific);
+    }
+
     if (!TitleId.IsEmpty() == false)
     {
         UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithSteamRequest::TitleId, PlayFab calls may not work if it remains empty."));
@@ -18815,6 +18834,13 @@ bool PlayFab::ClientModels::FLoginWithSteamRequest::readFromValue(const TSharedP
     {
         FString TmpValue;
         if (SteamTicketValue->TryGetString(TmpValue)) { SteamTicket = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TicketIsServiceSpecificValue = obj->TryGetField(TEXT("TicketIsServiceSpecific"));
+    if (TicketIsServiceSpecificValue.IsValid() && !TicketIsServiceSpecificValue->IsNull())
+    {
+        bool TmpValue;
+        if (TicketIsServiceSpecificValue->TryGetBool(TmpValue)) { TicketIsServiceSpecific = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));

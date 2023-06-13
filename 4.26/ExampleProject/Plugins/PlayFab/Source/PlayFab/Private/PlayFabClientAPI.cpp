@@ -1977,6 +1977,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LinkSteamAccount(FClientLinkSteamAccountRe
     } else {
         OutRestJsonObj->SetStringField(TEXT("SteamTicket"), request.SteamTicket);
     }
+    OutRestJsonObj->SetBoolField(TEXT("TicketIsServiceSpecific"), request.TicketIsServiceSpecific);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -5045,6 +5046,7 @@ UPlayFabClientAPI* UPlayFabClientAPI::LoginWithSteam(FClientLoginWithSteamReques
     } else {
         OutRestJsonObj->SetStringField(TEXT("SteamTicket"), request.SteamTicket);
     }
+    OutRestJsonObj->SetBoolField(TEXT("TicketIsServiceSpecific"), request.TicketIsServiceSpecific);
     OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
 
     // Add Request to manager

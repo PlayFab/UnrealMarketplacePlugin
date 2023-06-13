@@ -1220,6 +1220,12 @@ void PlayFab::EconomyModels::FCatalogPrice::writeJSON(JsonWriter& writer) const
     }
 
 
+    if (UnitAmount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UnitAmount"));
+        writer->WriteValue(UnitAmount);
+    }
+
     if (UnitDurationInSeconds.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("UnitDurationInSeconds"));
@@ -1240,6 +1246,13 @@ bool PlayFab::EconomyModels::FCatalogPrice::readFromValue(const TSharedPtr<FJson
         Amounts.Add(FCatalogPriceAmount(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> UnitAmountValue = obj->TryGetField(TEXT("UnitAmount"));
+    if (UnitAmountValue.IsValid() && !UnitAmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (UnitAmountValue->TryGetNumber(TmpValue)) { UnitAmount = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> UnitDurationInSecondsValue = obj->TryGetField(TEXT("UnitDurationInSeconds"));
     if (UnitDurationInSecondsValue.IsValid() && !UnitDurationInSecondsValue->IsNull())

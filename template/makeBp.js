@@ -51,9 +51,10 @@ function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName, ueTarget
         sdkVersion: sdkGlobals.sdkVersion
     };
 
-    var apiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.h.ejs"));
+    var templateName = api.name == "Events" ? "PlayFab_Events_API" : "PlayFab_API";
+    var apiHeaderTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/" + templateName + ".h.ejs"));
     writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Classes/PlayFab" + api.name + "API.h"), apiHeaderTemplate(apiLocals));
-    var apiCppTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_API.cpp.ejs"));
+    var apiCppTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/" + templateName + ".cpp.ejs"));
     writeFile(path.resolve(apiOutputDir, "PlayFab/Source/PlayFab/Private/PlayFab" + api.name + "API.cpp"), apiCppTemplate(apiLocals));
 
     var apiPlayFabModelTemplate = getCompiledTemplate(path.resolve(sourceDir, "template/templates/PlayFab/PlayFab_Models.h.ejs"));

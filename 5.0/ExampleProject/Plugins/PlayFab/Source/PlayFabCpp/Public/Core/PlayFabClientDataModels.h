@@ -8372,11 +8372,18 @@ namespace ClientModels
          */
         FString SteamTicket;
 
+        /**
+         * [optional] True if ticket was generated using ISteamUser::GetAuthTicketForWebAPI() using "AzurePlayFab" as the identity string.
+         * False if the ticket was generated with ISteamUser::GetAuthSessionTicket().
+         */
+        Boxed<bool> TicketIsServiceSpecific;
+
         FLinkSteamAccountRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             ForceLink(),
-            SteamTicket()
+            SteamTicket(),
+            TicketIsServiceSpecific()
             {}
 
         FLinkSteamAccountRequest(const FLinkSteamAccountRequest& src) = default;
@@ -9550,6 +9557,12 @@ namespace ClientModels
         FString SteamTicket;
 
         /**
+         * [optional] True if ticket was generated using ISteamUser::GetAuthTicketForWebAPI() using "AzurePlayFab" as the identity string.
+         * False if the ticket was generated with ISteamUser::GetAuthSessionTicket().
+         */
+        Boxed<bool> TicketIsServiceSpecific;
+
+        /**
          * Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
          * title has been selected.
          */
@@ -9563,6 +9576,7 @@ namespace ClientModels
             InfoRequestParameters(nullptr),
             PlayerSecret(),
             SteamTicket(),
+            TicketIsServiceSpecific(),
             TitleId()
             {}
 

@@ -667,12 +667,16 @@ namespace EconomyModels
     {
         // [optional] The amounts of the catalog item price. Each price can have up to 15 item amounts.
         TArray<FCatalogPriceAmount> Amounts;
+        // [optional] The per-unit amount this price can be used to purchase.
+        Boxed<int32> UnitAmount;
+
         // [optional] The per-unit duration this price can be used to purchase. The maximum duration is 100 years.
         Boxed<double> UnitDurationInSeconds;
 
         FCatalogPrice() :
             FPlayFabCppBaseModel(),
             Amounts(),
+            UnitAmount(),
             UnitDurationInSeconds()
             {}
 

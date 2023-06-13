@@ -73,6 +73,17 @@ bool UPlayFabEventsAPI::WriteTelemetryEvents(
     return HttpRequest->ProcessRequest();
 }
 
+bool UPlayFabEventsAPI::WriteTelemetryEvents(
+    EventsModels::FWriteEventsRequest& request,
+    FString telemetryKey,
+    const FWriteTelemetryEventsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Event/WriteTelemetryEvents"), request.toJSONString(), TEXT("X-TelemetryKey"), telemetryKey);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabEventsAPI::OnWriteTelemetryEventsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
 void UPlayFabEventsAPI::OnWriteTelemetryEventsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FWriteTelemetryEventsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     EventsModels::FWriteEventsResponse outResult;

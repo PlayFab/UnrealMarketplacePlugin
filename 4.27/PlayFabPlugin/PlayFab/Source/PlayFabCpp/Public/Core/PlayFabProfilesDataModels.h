@@ -238,7 +238,7 @@ namespace ProfilesModels
     {
         // [optional] Child statistic values
         TMap<FString, FEntityStatisticChildValue> ChildStatistics;
-        // [optional] Statistic metadata
+        // [optional] Metadata associated with the Statistic.
         FString Metadata;
 
         // [optional] Statistic name

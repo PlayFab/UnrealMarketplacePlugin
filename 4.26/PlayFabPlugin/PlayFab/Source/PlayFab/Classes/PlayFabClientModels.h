@@ -951,6 +951,12 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString SteamTicket;
+    /**
+     * True if ticket was generated using ISteamUser::GetAuthTicketForWebAPI() using "AzurePlayFab" as the identity string.
+     * False if the ticket was generated with ISteamUser::GetAuthSessionTicket().
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        bool TicketIsServiceSpecific = false;
 };
 
 USTRUCT(BlueprintType)
@@ -2363,6 +2369,12 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString SteamTicket;
+    /**
+     * True if ticket was generated using ISteamUser::GetAuthTicketForWebAPI() using "AzurePlayFab" as the identity string.
+     * False if the ticket was generated with ISteamUser::GetAuthSessionTicket().
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        bool TicketIsServiceSpecific = false;
 };
 
 /**

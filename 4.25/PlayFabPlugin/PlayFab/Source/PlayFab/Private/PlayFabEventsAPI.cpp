@@ -169,6 +169,43 @@ UPlayFabEventsAPI* UPlayFabEventsAPI::WriteTelemetryEvents(FEventsWriteEventsReq
     return manager;
 }
 
+/** Write batches of entity based events to as Telemetry events (bypass PlayStream) using a Telemetry Key. The namespace must be 'custom' or start with 'custom.' */
+UPlayFabEventsAPI* UPlayFabEventsAPI::WriteTelemetryEventsWithTelemetryKey(FEventsWriteEventsRequest request,
+    FString telemetryKey,
+    FDelegateOnSuccessWriteTelemetryEvents onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEventsAPI* manager = NewObject<UPlayFabEventsAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessWriteTelemetryEvents = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEventsAPI::HelperWriteTelemetryEvents);
+
+    // Setup the request
+    manager->PlayFabRequestURL = "/Event/WriteTelemetryEvents";
+    manager->useTelemetryKey = true;
+    manager->telemetryKey = telemetryKey;
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Events.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Events"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Events"), request.Events);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
 // Implements FOnPlayFabEventsRequestCompleted
 void UPlayFabEventsAPI::HelperWriteTelemetryEvents(FPlayFabBaseModel response, UObject* customData, bool successful)
 {
@@ -304,6 +341,15 @@ void UPlayFabEventsAPI::Activate()
         if (!AuthValue.IsEmpty())
         {
             HttpRequest->SetHeader(TEXT("X-SecretKey"), AuthValue);
+            AuthSet = true;
+        }
+    }
+
+    if (useTelemetryKey && !AuthSet)
+    {
+        if (!telemetryKey.IsEmpty())
+        {
+            HttpRequest->SetHeader(TEXT("X-TelemetryKey"), telemetryKey);
             AuthSet = true;
         }
     }

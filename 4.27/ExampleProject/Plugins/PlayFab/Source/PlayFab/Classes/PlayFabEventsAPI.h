@@ -71,6 +71,7 @@ public:
             FDelegateOnSuccessWriteEvents onSuccess,
             FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 
+
     // Implements FOnPlayFabEventsRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperWriteEvents(FPlayFabBaseModel response, UObject* customData, bool successful);
@@ -87,6 +88,15 @@ public:
             FDelegateOnSuccessWriteTelemetryEvents onSuccess,
             FDelegateOnFailurePlayFabError onFailure, UObject* customData);
 
+    /**
+     * Write batches of entity based events to as Telemetry events (bypass PlayStream) using a Telemetry Key. The namespace must be 'custom' or start
+     * with 'custom.'
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEventsAPI* WriteTelemetryEventsWithTelemetryKey(FEventsWriteEventsRequest request, FString telemetryKey,
+            FDelegateOnSuccessWriteTelemetryEvents onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
     // Implements FOnPlayFabEventsRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperWriteTelemetryEvents(FPlayFabBaseModel response, UObject* customData, bool successful);
@@ -97,6 +107,7 @@ public:
     FString PlayFabRequestURL;
 
     bool useEntityToken = false;
+    bool useTelemetryKey = false;
     bool useSecretKey = false;
     bool useSessionTicket = false;
     bool returnsSessionTicket = false;
@@ -107,6 +118,7 @@ public:
     FString ResponseContent;
     int32 ResponseCode;
     UObject* mCustomData;
+    FString telemetryKey;
 
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessWriteEvents OnSuccessWriteEvents;

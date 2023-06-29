@@ -745,7 +745,9 @@ namespace PlayFab
         PlayFabErrorPlayerCustomPropertiesVersionMismatch = 19004,
         PlayFabErrorPlayerCustomPropertiesPropertyCountTooHigh = 19005,
         PlayFabErrorPlayerCustomPropertiesDuplicatePropertyName = 19006,
-        PlayFabErrorPlayerCustomPropertiesPropertyDoesNotExist = 19007
+        PlayFabErrorPlayerCustomPropertiesPropertyDoesNotExist = 19007,
+        PlayFabErrorAddonAlreadyExists = 19008,
+        PlayFabErrorAddonDoesntExist = 19009
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

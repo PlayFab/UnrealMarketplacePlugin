@@ -1252,6 +1252,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::SearchItems(FEconomySearchItemsRequest r
     } else {
         OutRestJsonObj->SetStringField(TEXT("Filter"), request.Filter);
     }
+    if (request.Language.IsEmpty() || request.Language == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Language"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Language"), request.Language);
+    }
     if (request.OrderBy.IsEmpty() || request.OrderBy == "") {
         OutRestJsonObj->SetFieldNull(TEXT("OrderBy"));
     } else {

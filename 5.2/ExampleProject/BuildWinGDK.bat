@@ -2,18 +2,18 @@ rem # Note: In order to cook for Xbox / XboxOneGDK / WinGDK, the following envir
 rem #	GameDK : Points to the Microsoft GDK folder; Example: set "GameDK=C:\Program Files (x86)\\Microsoft GDK\\"
 rem #	GameDKLatest : Points to the GDK folder with the version number; Example: set "GameDKLatest=C:\Program Files (x86)\\Microsoft GDK\\210607\"
 
-echo ========== BUILDING XboxOneGDK ==========
+echo ========== BUILDING WinGDK ==========
 
 rem # Unreal Path, to change depending on your workspace setup.
 set uePath=C:\Program Files\Epic Games
 
 rem # Unreal Version, to change on every unreal version
-set ueVersion=5.1
+set ueVersion=5.2
 rem # Full Path. In theory it should not be edited (the engine path/version are the only ones that should be edited).
 set uatPath=%uePath%\UE_%ueVersion%\Engine\Build\BatchFiles\RunUAT.bat
 
 rem # Target Platform
-set targetPlatform=XboxOneGDK
+set targetPlatform=WinGDK
 
 rem # Destination Path, where the build will end up (relative to active directory).
 set archivePath=Build\%targetPlatform%

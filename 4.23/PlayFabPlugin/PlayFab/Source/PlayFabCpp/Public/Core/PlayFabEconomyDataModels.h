@@ -1088,7 +1088,10 @@ namespace EconomyModels
          * required. Titles have a 512 character limit per country code.
          */
         TMap<FString, FString> Title;
-        // [optional] The high-level type of the item. The following item types are supported: bundle, catalogItem, currency, store, ugc.
+        /**
+         * [optional] The high-level type of the item. The following item types are supported: bundle, catalogItem, currency, store, ugc,
+         * subscription.
+         */
         FString Type;
 
         FCatalogItem() :
@@ -4437,6 +4440,9 @@ namespace EconomyModels
          */
         FString Filter;
 
+        // [optional] The locale to be returned in the result.
+        FString Language;
+
         // [optional] An OData orderBy used to order the results of the search query. For example: "rating/average asc"
         FString OrderBy;
 
@@ -4459,6 +4465,7 @@ namespace EconomyModels
             CustomTags(),
             Entity(nullptr),
             Filter(),
+            Language(),
             OrderBy(),
             Search(),
             Select(),

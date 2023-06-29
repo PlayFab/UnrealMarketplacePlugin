@@ -9,7 +9,6 @@ set uePath=C:\Program Files\Epic Games
 
 rem # Unreal Version, to change on every unreal version
 set ueVersion=5.0
-
 rem # Full Path. In theory it should not be edited (the engine path/version are the only ones that should be edited).
 set uatPath=%uePath%\UE_%ueVersion%\Engine\Build\BatchFiles\RunUAT.bat
 

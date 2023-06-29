@@ -674,6 +674,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString Filter;
+    /** The locale to be returned in the result. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
+        FString Language;
     /** An OData orderBy used to order the results of the search query. For example: "rating/average asc" */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Catalog Models")
         FString OrderBy;

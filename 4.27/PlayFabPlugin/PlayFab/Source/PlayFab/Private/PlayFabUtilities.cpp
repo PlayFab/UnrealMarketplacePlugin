@@ -771,6 +771,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 19005: returnText = "PlayerCustomPropertiesPropertyCountTooHigh"; break;
     case 19006: returnText = "PlayerCustomPropertiesDuplicatePropertyName"; break;
     case 19007: returnText = "PlayerCustomPropertiesPropertyDoesNotExist"; break;
+    case 19008: returnText = "AddonAlreadyExists"; break;
+    case 19009: returnText = "AddonDoesntExist"; break;
     }
 
     // Return the text

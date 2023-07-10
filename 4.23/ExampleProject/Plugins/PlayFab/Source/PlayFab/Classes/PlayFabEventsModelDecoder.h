@@ -42,6 +42,26 @@ public:
     // PlayStream Events
     //////////////////////////////////////////////////////
 
+    /** Decode the CreateTelemetryKeyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsCreateTelemetryKeyResponse decodeCreateTelemetryKeyResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the DeleteTelemetryKeyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsDeleteTelemetryKeyResponse decodeDeleteTelemetryKeyResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetTelemetryKeyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsGetTelemetryKeyResponse decodeGetTelemetryKeyResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListTelemetryKeysResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsListTelemetryKeysResponse decodeListTelemetryKeysResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the SetTelemetryKeyActiveResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
+        static FEventsSetTelemetryKeyActiveResponse decodeSetTelemetryKeyActiveResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the WriteEventsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Events | PlayStream Events Models")
         static FEventsWriteEventsResponse decodeWriteEventsResponseResponse(UPlayFabJsonObject* response);

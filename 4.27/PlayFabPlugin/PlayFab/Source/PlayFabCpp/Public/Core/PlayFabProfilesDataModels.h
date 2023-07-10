@@ -203,41 +203,8 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FEntityStatisticChildValue : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] Child name value, if child statistic
-        FString ChildName;
-
-        // [optional] Child statistic metadata
-        FString Metadata;
-
-        // Child statistic value
-        int32 Value;
-
-        FEntityStatisticChildValue() :
-            FPlayFabCppBaseModel(),
-            ChildName(),
-            Metadata(),
-            Value(0)
-            {}
-
-        FEntityStatisticChildValue(const FEntityStatisticChildValue& src) = default;
-
-        FEntityStatisticChildValue(const TSharedPtr<FJsonObject>& obj) : FEntityStatisticChildValue()
-        {
-            readFromValue(obj);
-        }
-
-        ~FEntityStatisticChildValue();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FEntityStatisticValue : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Child statistic values
-        TMap<FString, FEntityStatisticChildValue> ChildStatistics;
         // [optional] Metadata associated with the Statistic.
         FString Metadata;
 
@@ -252,7 +219,6 @@ namespace ProfilesModels
 
         FEntityStatisticValue() :
             FPlayFabCppBaseModel(),
-            ChildStatistics(),
             Metadata(),
             Name(),
             Value(),
@@ -299,9 +265,6 @@ namespace ProfilesModels
         // [optional] The language on this profile.
         FString Language;
 
-        // [optional] Leaderboard metadata for the entity.
-        FString LeaderboardMetadata;
-
         // [optional] The lineage of this profile.
         TSharedPtr<FEntityLineage> Lineage;
 
@@ -330,7 +293,6 @@ namespace ProfilesModels
             ExperimentVariants(),
             Files(),
             Language(),
-            LeaderboardMetadata(),
             Lineage(nullptr),
             Objects(),
             Permissions(),

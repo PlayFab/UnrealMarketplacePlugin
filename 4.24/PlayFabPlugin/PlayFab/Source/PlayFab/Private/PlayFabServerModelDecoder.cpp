@@ -220,6 +220,15 @@ FServerLinkPSNAccountResult UPlayFabServerModelDecoder::decodeLinkPSNAccountResu
     return tempStruct;
 }
 
+FServerLinkPSNIdResponse UPlayFabServerModelDecoder::decodeLinkPSNIdResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerLinkPSNIdResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FServerLinkServerCustomIdResult UPlayFabServerModelDecoder::decodeLinkServerCustomIdResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

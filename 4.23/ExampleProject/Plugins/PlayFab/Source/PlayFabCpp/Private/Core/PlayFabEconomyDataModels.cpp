@@ -8816,6 +8816,12 @@ void PlayFab::EconomyModels::FSearchItemsRequest::writeJSON(JsonWriter& writer) 
         writer->WriteValue(Filter);
     }
 
+    if (Language.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Language"));
+        writer->WriteValue(Language);
+    }
+
     if (OrderBy.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("OrderBy"));
@@ -8881,6 +8887,13 @@ bool PlayFab::EconomyModels::FSearchItemsRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (FilterValue->TryGetString(TmpValue)) { Filter = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LanguageValue = obj->TryGetField(TEXT("Language"));
+    if (LanguageValue.IsValid() && !LanguageValue->IsNull())
+    {
+        FString TmpValue;
+        if (LanguageValue->TryGetString(TmpValue)) { Language = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> OrderByValue = obj->TryGetField(TEXT("OrderBy"));

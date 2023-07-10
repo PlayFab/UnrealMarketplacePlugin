@@ -60,6 +60,276 @@ bool PlayFab::EventsModels::FEntityKey::readFromValue(const TSharedPtr<FJsonObje
     return HasSucceeded;
 }
 
+PlayFab::EventsModels::FCreateTelemetryKeyRequest::~FCreateTelemetryKeyRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EventsModels::FCreateTelemetryKeyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (!KeyName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: CreateTelemetryKeyRequest::KeyName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyName"));
+        writer->WriteValue(KeyName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FCreateTelemetryKeyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> KeyNameValue = obj->TryGetField(TEXT("KeyName"));
+    if (KeyNameValue.IsValid() && !KeyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (KeyNameValue->TryGetString(TmpValue)) { KeyName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FTelemetryKeyDetails::~FTelemetryKeyDetails()
+{
+
+}
+
+void PlayFab::EventsModels::FTelemetryKeyDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("CreateTime"));
+    writeDatetime(CreateTime, writer);
+
+    writer->WriteIdentifierPrefix(TEXT("IsActive"));
+    writer->WriteValue(IsActive);
+
+    if (KeyValue.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyValue"));
+        writer->WriteValue(KeyValue);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("LastUpdateTime"));
+    writeDatetime(LastUpdateTime, writer);
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FTelemetryKeyDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateTimeValue = obj->TryGetField(TEXT("CreateTime"));
+    if (CreateTimeValue.IsValid())
+        CreateTime = readDatetime(CreateTimeValue);
+
+
+    const TSharedPtr<FJsonValue> IsActiveValue = obj->TryGetField(TEXT("IsActive"));
+    if (IsActiveValue.IsValid() && !IsActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (IsActiveValue->TryGetBool(TmpValue)) { IsActive = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> KeyValueValue = obj->TryGetField(TEXT("KeyValue"));
+    if (KeyValueValue.IsValid() && !KeyValueValue->IsNull())
+    {
+        FString TmpValue;
+        if (KeyValueValue->TryGetString(TmpValue)) { KeyValue = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LastUpdateTimeValue = obj->TryGetField(TEXT("LastUpdateTime"));
+    if (LastUpdateTimeValue.IsValid())
+        LastUpdateTime = readDatetime(LastUpdateTimeValue);
+
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FCreateTelemetryKeyResponse::~FCreateTelemetryKeyResponse()
+{
+    //if (NewKeyDetails != nullptr) delete NewKeyDetails;
+
+}
+
+void PlayFab::EventsModels::FCreateTelemetryKeyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (NewKeyDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NewKeyDetails"));
+        NewKeyDetails->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FCreateTelemetryKeyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NewKeyDetailsValue = obj->TryGetField(TEXT("NewKeyDetails"));
+    if (NewKeyDetailsValue.IsValid() && !NewKeyDetailsValue->IsNull())
+    {
+        NewKeyDetails = MakeShareable(new FTelemetryKeyDetails(NewKeyDetailsValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FDeleteTelemetryKeyRequest::~FDeleteTelemetryKeyRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EventsModels::FDeleteTelemetryKeyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (!KeyName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteTelemetryKeyRequest::KeyName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyName"));
+        writer->WriteValue(KeyName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDeleteTelemetryKeyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> KeyNameValue = obj->TryGetField(TEXT("KeyName"));
+    if (KeyNameValue.IsValid() && !KeyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (KeyNameValue->TryGetString(TmpValue)) { KeyName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FDeleteTelemetryKeyResponse::~FDeleteTelemetryKeyResponse()
+{
+
+}
+
+void PlayFab::EventsModels::FDeleteTelemetryKeyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("WasKeyDeleted"));
+    writer->WriteValue(WasKeyDeleted);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FDeleteTelemetryKeyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> WasKeyDeletedValue = obj->TryGetField(TEXT("WasKeyDeleted"));
+    if (WasKeyDeletedValue.IsValid() && !WasKeyDeletedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasKeyDeletedValue->TryGetBool(TmpValue)) { WasKeyDeleted = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EventsModels::FEventContents::~FEventContents()
 {
     //if (Entity != nullptr) delete Entity;
@@ -190,6 +460,316 @@ bool PlayFab::EventsModels::FEventContents::readFromValue(const TSharedPtr<FJson
     {
         FString TmpValue;
         if (PayloadJSONValue->TryGetString(TmpValue)) { PayloadJSON = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FGetTelemetryKeyRequest::~FGetTelemetryKeyRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EventsModels::FGetTelemetryKeyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (!KeyName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetTelemetryKeyRequest::KeyName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyName"));
+        writer->WriteValue(KeyName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FGetTelemetryKeyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> KeyNameValue = obj->TryGetField(TEXT("KeyName"));
+    if (KeyNameValue.IsValid() && !KeyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (KeyNameValue->TryGetString(TmpValue)) { KeyName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FGetTelemetryKeyResponse::~FGetTelemetryKeyResponse()
+{
+    //if (KeyDetails != nullptr) delete KeyDetails;
+
+}
+
+void PlayFab::EventsModels::FGetTelemetryKeyResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (KeyDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyDetails"));
+        KeyDetails->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FGetTelemetryKeyResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> KeyDetailsValue = obj->TryGetField(TEXT("KeyDetails"));
+    if (KeyDetailsValue.IsValid() && !KeyDetailsValue->IsNull())
+    {
+        KeyDetails = MakeShareable(new FTelemetryKeyDetails(KeyDetailsValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FListTelemetryKeysRequest::~FListTelemetryKeysRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EventsModels::FListTelemetryKeysRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FListTelemetryKeysRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FListTelemetryKeysResponse::~FListTelemetryKeysResponse()
+{
+
+}
+
+void PlayFab::EventsModels::FListTelemetryKeysResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (KeyDetails.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("KeyDetails"));
+        for (const FTelemetryKeyDetails& item : KeyDetails)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FListTelemetryKeysResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&KeyDetailsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("KeyDetails"));
+    for (int32 Idx = 0; Idx < KeyDetailsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = KeyDetailsArray[Idx];
+        KeyDetails.Add(FTelemetryKeyDetails(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FSetTelemetryKeyActiveRequest::~FSetTelemetryKeyActiveRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::EventsModels::FSetTelemetryKeyActiveRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("Active"));
+    writer->WriteValue(Active);
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (!KeyName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: SetTelemetryKeyActiveRequest::KeyName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyName"));
+        writer->WriteValue(KeyName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FSetTelemetryKeyActiveRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ActiveValue = obj->TryGetField(TEXT("Active"));
+    if (ActiveValue.IsValid() && !ActiveValue->IsNull())
+    {
+        bool TmpValue;
+        if (ActiveValue->TryGetBool(TmpValue)) { Active = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> KeyNameValue = obj->TryGetField(TEXT("KeyName"));
+    if (KeyNameValue.IsValid() && !KeyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (KeyNameValue->TryGetString(TmpValue)) { KeyName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EventsModels::FSetTelemetryKeyActiveResponse::~FSetTelemetryKeyActiveResponse()
+{
+    //if (KeyDetails != nullptr) delete KeyDetails;
+
+}
+
+void PlayFab::EventsModels::FSetTelemetryKeyActiveResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (KeyDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("KeyDetails"));
+        KeyDetails->writeJSON(writer);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("WasKeyUpdated"));
+    writer->WriteValue(WasKeyUpdated);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EventsModels::FSetTelemetryKeyActiveResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> KeyDetailsValue = obj->TryGetField(TEXT("KeyDetails"));
+    if (KeyDetailsValue.IsValid() && !KeyDetailsValue->IsNull())
+    {
+        KeyDetails = MakeShareable(new FTelemetryKeyDetails(KeyDetailsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> WasKeyUpdatedValue = obj->TryGetField(TEXT("WasKeyUpdated"));
+    if (WasKeyUpdatedValue.IsValid() && !WasKeyUpdatedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasKeyUpdatedValue->TryGetBool(TmpValue)) { WasKeyUpdated = TmpValue; }
     }
 
     return HasSucceeded;

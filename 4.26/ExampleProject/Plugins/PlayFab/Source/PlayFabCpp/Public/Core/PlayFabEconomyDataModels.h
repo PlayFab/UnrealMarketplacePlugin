@@ -1088,7 +1088,10 @@ namespace EconomyModels
          * required. Titles have a 512 character limit per country code.
          */
         TMap<FString, FString> Title;
-        // [optional] The high-level type of the item. The following item types are supported: bundle, catalogItem, currency, store, ugc.
+        /**
+         * [optional] The high-level type of the item. The following item types are supported: bundle, catalogItem, currency, store, ugc,
+         * subscription.
+         */
         FString Type;
 
         FCatalogItem() :
@@ -3215,8 +3218,11 @@ namespace EconomyModels
         TSharedPtr<FEntityKey> Entity;
 
         /**
-         * [optional] An OData filter used to refine the TransactionHistory. Transaction property 'timestamp' can be used in the filter. For
-         * example: "timestamp ge 'timestamp ge'" By default, a 6 month timespan from the current date is used.
+         * [optional] An OData filter used to refine the TransactionHistory. Transaction properties 'timestamp', 'transactionid', 'apiname'
+         * and 'operationtype' can be used in the filter. Properties 'transactionid', 'apiname', and 'operationtype' cannot be used
+         * together in a single request. The 'timestamp' property can be combined with 'apiname' or 'operationtype' in a single
+         * request. For example: "timestamp ge 2023-06-20T23:30Z" or "transactionid eq '10'" or "(timestamp ge 2023-06-20T23:30Z)
+         * and (apiname eq 'AddInventoryItems')". By default, a 6 month timespan from the current date is used.
          */
         FString Filter;
 
@@ -4437,6 +4443,9 @@ namespace EconomyModels
          */
         FString Filter;
 
+        // [optional] The locale to be returned in the result.
+        FString Language;
+
         // [optional] An OData orderBy used to order the results of the search query. For example: "rating/average asc"
         FString OrderBy;
 
@@ -4459,6 +4468,7 @@ namespace EconomyModels
             CustomTags(),
             Entity(nullptr),
             Filter(),
+            Language(),
             OrderBy(),
             Search(),
             Select(),

@@ -112,6 +112,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerLinkPSNAccountResult decodeLinkPSNAccountResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the LinkPSNIdResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
+        static FServerLinkPSNIdResponse decodeLinkPSNIdResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the LinkServerCustomIdResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management Models")
         static FServerLinkServerCustomIdResult decodeLinkServerCustomIdResultResponse(UPlayFabJsonObject* response);

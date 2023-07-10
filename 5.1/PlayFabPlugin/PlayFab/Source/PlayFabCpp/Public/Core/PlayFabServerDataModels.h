@@ -7444,6 +7444,63 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkPSNIdRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] If another user is already linked to the account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
+        Boxed<int32> IssuerId;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        // Id of the PlayStation :tm: Network user.
+        FString PSNUserId;
+
+        FLinkPSNIdRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceLink(),
+            IssuerId(),
+            PlayFabId(),
+            PSNUserId()
+            {}
+
+        FLinkPSNIdRequest(const FLinkPSNIdRequest& src) = default;
+
+        FLinkPSNIdRequest(const TSharedPtr<FJsonObject>& obj) : FLinkPSNIdRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkPSNIdRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLinkPSNIdResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        FLinkPSNIdResponse() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FLinkPSNIdResponse(const FLinkPSNIdResponse& src) = default;
+
+        FLinkPSNIdResponse(const TSharedPtr<FJsonObject>& obj) : FLinkPSNIdResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkPSNIdResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).

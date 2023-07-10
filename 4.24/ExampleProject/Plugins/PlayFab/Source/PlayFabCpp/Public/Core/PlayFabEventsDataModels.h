@@ -41,6 +41,151 @@ namespace EventsModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FCreateTelemetryKeyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        // The name of the new key. Telemetry key names must be unique within the scope of the title.
+        FString KeyName;
+
+        FCreateTelemetryKeyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity(nullptr),
+            KeyName()
+            {}
+
+        FCreateTelemetryKeyRequest(const FCreateTelemetryKeyRequest& src) = default;
+
+        FCreateTelemetryKeyRequest(const TSharedPtr<FJsonObject>& obj) : FCreateTelemetryKeyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateTelemetryKeyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FTelemetryKeyDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // When the key was created.
+        FDateTime CreateTime;
+
+        // Whether or not the key is currently active. Deactivated keys cannot be used for telemetry ingestion.
+        bool IsActive;
+
+        // [optional] The key that can be distributed to clients for use during telemetry ingestion.
+        FString KeyValue;
+
+        // When the key was last updated.
+        FDateTime LastUpdateTime;
+
+        // [optional] The name of the key. Telemetry key names are unique within the scope of the title.
+        FString Name;
+
+        FTelemetryKeyDetails() :
+            FPlayFabCppBaseModel(),
+            CreateTime(0),
+            IsActive(false),
+            KeyValue(),
+            LastUpdateTime(0),
+            Name()
+            {}
+
+        FTelemetryKeyDetails(const FTelemetryKeyDetails& src) = default;
+
+        FTelemetryKeyDetails(const TSharedPtr<FJsonObject>& obj) : FTelemetryKeyDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FTelemetryKeyDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FCreateTelemetryKeyResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Details about the newly created telemetry key.
+        TSharedPtr<FTelemetryKeyDetails> NewKeyDetails;
+
+        FCreateTelemetryKeyResponse() :
+            FPlayFabCppResultCommon(),
+            NewKeyDetails(nullptr)
+            {}
+
+        FCreateTelemetryKeyResponse(const FCreateTelemetryKeyResponse& src) = default;
+
+        FCreateTelemetryKeyResponse(const TSharedPtr<FJsonObject>& obj) : FCreateTelemetryKeyResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCreateTelemetryKeyResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteTelemetryKeyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        // The name of the key to delete.
+        FString KeyName;
+
+        FDeleteTelemetryKeyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity(nullptr),
+            KeyName()
+            {}
+
+        FDeleteTelemetryKeyRequest(const FDeleteTelemetryKeyRequest& src) = default;
+
+        FDeleteTelemetryKeyRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteTelemetryKeyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteTelemetryKeyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteTelemetryKeyResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Indicates whether or not the key was deleted. If false, no key with that name existed.
+        bool WasKeyDeleted;
+
+        FDeleteTelemetryKeyResponse() :
+            FPlayFabCppResultCommon(),
+            WasKeyDeleted(false)
+            {}
+
+        FDeleteTelemetryKeyResponse(const FDeleteTelemetryKeyResponse& src) = default;
+
+        FDeleteTelemetryKeyResponse(const TSharedPtr<FJsonObject>& obj) : FDeleteTelemetryKeyResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteTelemetryKeyResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FEventContents : public PlayFab::FPlayFabCppBaseModel
     {
         /**
@@ -99,6 +244,168 @@ namespace EventsModels
         }
 
         ~FEventContents();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetTelemetryKeyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        // The name of the key to retrieve.
+        FString KeyName;
+
+        FGetTelemetryKeyRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity(nullptr),
+            KeyName()
+            {}
+
+        FGetTelemetryKeyRequest(const FGetTelemetryKeyRequest& src) = default;
+
+        FGetTelemetryKeyRequest(const TSharedPtr<FJsonObject>& obj) : FGetTelemetryKeyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTelemetryKeyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetTelemetryKeyResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Details about the requested telemetry key.
+        TSharedPtr<FTelemetryKeyDetails> KeyDetails;
+
+        FGetTelemetryKeyResponse() :
+            FPlayFabCppResultCommon(),
+            KeyDetails(nullptr)
+            {}
+
+        FGetTelemetryKeyResponse(const FGetTelemetryKeyResponse& src) = default;
+
+        FGetTelemetryKeyResponse(const TSharedPtr<FJsonObject>& obj) : FGetTelemetryKeyResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetTelemetryKeyResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListTelemetryKeysRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        FListTelemetryKeysRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Entity(nullptr)
+            {}
+
+        FListTelemetryKeysRequest(const FListTelemetryKeysRequest& src) = default;
+
+        FListTelemetryKeysRequest(const TSharedPtr<FJsonObject>& obj) : FListTelemetryKeysRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListTelemetryKeysRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListTelemetryKeysResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The telemetry keys configured for the title.
+        TArray<FTelemetryKeyDetails> KeyDetails;
+        FListTelemetryKeysResponse() :
+            FPlayFabCppResultCommon(),
+            KeyDetails()
+            {}
+
+        FListTelemetryKeysResponse(const FListTelemetryKeysResponse& src) = default;
+
+        FListTelemetryKeysResponse(const TSharedPtr<FJsonObject>& obj) : FListTelemetryKeysResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListTelemetryKeysResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetTelemetryKeyActiveRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Whether to set the key to active (true) or deactivated (false).
+        bool Active;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        // The name of the key to update.
+        FString KeyName;
+
+        FSetTelemetryKeyActiveRequest() :
+            FPlayFabCppRequestCommon(),
+            Active(false),
+            CustomTags(),
+            Entity(nullptr),
+            KeyName()
+            {}
+
+        FSetTelemetryKeyActiveRequest(const FSetTelemetryKeyActiveRequest& src) = default;
+
+        FSetTelemetryKeyActiveRequest(const TSharedPtr<FJsonObject>& obj) : FSetTelemetryKeyActiveRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetTelemetryKeyActiveRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetTelemetryKeyActiveResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The most current details about the telemetry key that was to be updated.
+        TSharedPtr<FTelemetryKeyDetails> KeyDetails;
+
+        // Indicates whether or not the key was updated. If false, the key was already in the desired state.
+        bool WasKeyUpdated;
+
+        FSetTelemetryKeyActiveResponse() :
+            FPlayFabCppResultCommon(),
+            KeyDetails(nullptr),
+            WasKeyUpdated(false)
+            {}
+
+        FSetTelemetryKeyActiveResponse(const FSetTelemetryKeyActiveResponse& src) = default;
+
+        FSetTelemetryKeyActiveResponse(const TSharedPtr<FJsonObject>& obj) : FSetTelemetryKeyActiveResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetTelemetryKeyActiveResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

@@ -1189,12 +1189,6 @@ public:
     /** The resource constraints to apply to each server on the VM (EXPERIMENTAL API) */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* ServerResourceConstraints = nullptr;
-    /**
-     * DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-     * written first to disc.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
@@ -1339,12 +1333,6 @@ public:
     /** The command to run when the multiplayer server is started, including any arguments. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
-    /**
-     * DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-     * written first to disc.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);
@@ -1504,12 +1492,6 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString StartMultiplayerServerCommand;
-    /**
-     * DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-     * written first to disc.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
-        bool UseStreamingForAssetDownloads = false;
     /** The VM size to create the build on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         EAzureVmSize VmSize = StaticCast<EAzureVmSize>(0);

@@ -2608,12 +2608,6 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
         ServerResourceConstraints->writeJSON(writer);
     }
 
-    if (UseStreamingForAssetDownloads.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("UseStreamingForAssetDownloads"));
-        writer->WriteValue(UseStreamingForAssetDownloads);
-    }
-
     if (VmSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("VmSize"));
@@ -2735,13 +2729,6 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
     if (ServerResourceConstraintsValue.IsValid() && !ServerResourceConstraintsValue->IsNull())
     {
         ServerResourceConstraints = MakeShareable(new FServerResourceConstraintParams(ServerResourceConstraintsValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> UseStreamingForAssetDownloadsValue = obj->TryGetField(TEXT("UseStreamingForAssetDownloads"));
-    if (UseStreamingForAssetDownloadsValue.IsValid() && !UseStreamingForAssetDownloadsValue->IsNull())
-    {
-        bool TmpValue;
-        if (UseStreamingForAssetDownloadsValue->TryGetBool(TmpValue)) { UseStreamingForAssetDownloads = TmpValue; }
     }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
@@ -3477,12 +3464,6 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
         writer->WriteValue(StartMultiplayerServerCommand);
     }
 
-    if (UseStreamingForAssetDownloads.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("UseStreamingForAssetDownloads"));
-        writer->WriteValue(UseStreamingForAssetDownloads);
-    }
-
     if (VmSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("VmSize"));
@@ -3611,13 +3592,6 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
     {
         FString TmpValue;
         if (StartMultiplayerServerCommandValue->TryGetString(TmpValue)) { StartMultiplayerServerCommand = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> UseStreamingForAssetDownloadsValue = obj->TryGetField(TEXT("UseStreamingForAssetDownloads"));
-    if (UseStreamingForAssetDownloadsValue.IsValid() && !UseStreamingForAssetDownloadsValue->IsNull())
-    {
-        bool TmpValue;
-        if (UseStreamingForAssetDownloadsValue->TryGetBool(TmpValue)) { UseStreamingForAssetDownloads = TmpValue; }
     }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));
@@ -4057,12 +4031,6 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::writ
         writer->WriteValue(StartMultiplayerServerCommand);
     }
 
-    if (UseStreamingForAssetDownloads.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("UseStreamingForAssetDownloads"));
-        writer->WriteValue(UseStreamingForAssetDownloads);
-    }
-
     if (VmSize.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("VmSize"));
@@ -4191,13 +4159,6 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
     {
         FString TmpValue;
         if (StartMultiplayerServerCommandValue->TryGetString(TmpValue)) { StartMultiplayerServerCommand = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> UseStreamingForAssetDownloadsValue = obj->TryGetField(TEXT("UseStreamingForAssetDownloads"));
-    if (UseStreamingForAssetDownloadsValue.IsValid() && !UseStreamingForAssetDownloadsValue->IsNull())
-    {
-        bool TmpValue;
-        if (UseStreamingForAssetDownloadsValue->TryGetBool(TmpValue)) { UseStreamingForAssetDownloads = TmpValue; }
     }
 
     VmSize = readAzureVmSizeFromValue(obj->TryGetField(TEXT("VmSize")));

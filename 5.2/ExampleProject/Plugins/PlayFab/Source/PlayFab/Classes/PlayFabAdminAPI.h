@@ -719,7 +719,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRefundPurchase, FAdminRefundPurchaseResponse, result, UObject*, customData);
 
-    /** Attempts to process an order refund through the original real money payment provider. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Attempts to process an order refund through the original real money payment provider.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* RefundPurchase(FAdminRefundPurchaseRequest request,
             FDelegateOnSuccessRefundPurchase onSuccess,
@@ -745,7 +748,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessResolvePurchaseDispute, FAdminResolvePurchaseDisputeResponse, result, UObject*, customData);
 
-    /** Attempts to resolve a dispute with the original order's payment provider. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Attempts to resolve a dispute with the original order's payment provider.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* ResolvePurchaseDispute(FAdminResolvePurchaseDisputeRequest request,
             FDelegateOnSuccessResolvePurchaseDispute onSuccess,
@@ -853,7 +859,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddUserVirtualCurrency, FAdminModifyUserVirtualCurrencyResult, result, UObject*, customData);
 
-    /** Increments the specified virtual currency by the stated amount */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Increments the specified virtual currency by the stated amount
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* AddUserVirtualCurrency(FAdminAddUserVirtualCurrencyRequest request,
             FDelegateOnSuccessAddUserVirtualCurrency onSuccess,
@@ -866,7 +875,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessCheckLimitedEditionItemAvailability, FAdminCheckLimitedEditionItemAvailabilityResult, result, UObject*, customData);
 
-    /** Checks the global count for the limited edition item. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Checks the global count for the limited edition item.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* CheckLimitedEditionItemAvailability(FAdminCheckLimitedEditionItemAvailabilityRequest request,
             FDelegateOnSuccessCheckLimitedEditionItemAvailability onSuccess,
@@ -879,7 +891,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetUserInventory, FAdminGetUserInventoryResult, result, UObject*, customData);
 
-    /** Retrieves the specified user's current inventory of virtual goods */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the specified user's current inventory of virtual goods
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* GetUserInventory(FAdminGetUserInventoryRequest request,
             FDelegateOnSuccessGetUserInventory onSuccess,
@@ -892,7 +907,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGrantItemsToUsers, FAdminGrantItemsToUsersResult, result, UObject*, customData);
 
-    /** Adds the specified items to the specified user inventories */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Adds the specified items to the specified user inventories
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* GrantItemsToUsers(FAdminGrantItemsToUsersRequest request,
             FDelegateOnSuccessGrantItemsToUsers onSuccess,
@@ -905,7 +923,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessIncrementLimitedEditionItemAvailability, FAdminIncrementLimitedEditionItemAvailabilityResult, result, UObject*, customData);
 
-    /** Increases the global count for the given scarce resource. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Increases the global count for the given scarce resource.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* IncrementLimitedEditionItemAvailability(FAdminIncrementLimitedEditionItemAvailabilityRequest request,
             FDelegateOnSuccessIncrementLimitedEditionItemAvailability onSuccess,
@@ -918,7 +939,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRevokeInventoryItem, FAdminRevokeInventoryResult, result, UObject*, customData);
 
-    /** Revokes access to an item in a user's inventory */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Revokes access to an item in a user's inventory
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* RevokeInventoryItem(FAdminRevokeInventoryItemRequest request,
             FDelegateOnSuccessRevokeInventoryItem onSuccess,
@@ -931,7 +955,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRevokeInventoryItems, FAdminRevokeInventoryItemsResult, result, UObject*, customData);
 
-    /** Revokes access for up to 25 items across multiple users and characters. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Revokes access for up to 25 items across multiple users and characters.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* RevokeInventoryItems(FAdminRevokeInventoryItemsRequest request,
             FDelegateOnSuccessRevokeInventoryItems onSuccess,
@@ -944,7 +971,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSubtractUserVirtualCurrency, FAdminModifyUserVirtualCurrencyResult, result, UObject*, customData);
 
-    /** Decrements the specified virtual currency by the stated amount */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Decrements the specified virtual currency by the stated amount
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* SubtractUserVirtualCurrency(FAdminSubtractUserVirtualCurrencyRequest request,
             FDelegateOnSuccessSubtractUserVirtualCurrency onSuccess,
@@ -1399,8 +1429,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddVirtualCurrencyTypes, FAdminBlankResult, result, UObject*, customData);
 
     /**
-     * Adds one or more virtual currencies to the set defined for the title. Virtual Currencies have a maximum value of
-     * 2,147,483,647 when granted to a player. Any value over that will be discarded.
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Adds one or more virtual currencies to the set defined for the title. Virtual Currencies have a maximum
+     * value of 2,147,483,647 when granted to a player. Any value over that will be discarded.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* AddVirtualCurrencyTypes(FAdminAddVirtualCurrencyTypesRequest request,
@@ -1414,7 +1445,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteStore, FAdminDeleteStoreResult, result, UObject*, customData);
 
-    /** Deletes an existing virtual item store */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Deletes an existing virtual item store
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* DeleteStore(FAdminDeleteStoreRequest request,
             FDelegateOnSuccessDeleteStore onSuccess,
@@ -1440,7 +1474,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetCatalogItems, FAdminGetCatalogItemsResult, result, UObject*, customData);
 
-    /** Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* GetCatalogItems(FAdminGetCatalogItemsRequest request,
             FDelegateOnSuccessGetCatalogItems onSuccess,
@@ -1466,7 +1503,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetRandomResultTables, FAdminGetRandomResultTablesResult, result, UObject*, customData);
 
-    /** Retrieves the random drop table configuration for the title */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the random drop table configuration for the title
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* GetRandomResultTables(FAdminGetRandomResultTablesRequest request,
             FDelegateOnSuccessGetRandomResultTables onSuccess,
@@ -1479,7 +1519,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetStoreItems, FAdminGetStoreItemsResult, result, UObject*, customData);
 
-    /** Retrieves the set of items defined for the specified store, including all prices defined */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the set of items defined for the specified store, including all prices defined
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* GetStoreItems(FAdminGetStoreItemsRequest request,
             FDelegateOnSuccessGetStoreItems onSuccess,
@@ -1518,7 +1561,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListVirtualCurrencyTypes, FAdminListVirtualCurrencyTypesResult, result, UObject*, customData);
 
-    /** Retuns the list of all defined virtual currencies for the title */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retuns the list of all defined virtual currencies for the title
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* ListVirtualCurrencyTypes(FAdminListVirtualCurrencyTypesRequest request,
             FDelegateOnSuccessListVirtualCurrencyTypes onSuccess,
@@ -1531,7 +1577,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveVirtualCurrencyTypes, FAdminBlankResult, result, UObject*, customData);
 
-    /** Removes one or more virtual currencies from the set defined for the title. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Removes one or more virtual currencies from the set defined for the title.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* RemoveVirtualCurrencyTypes(FAdminRemoveVirtualCurrencyTypesRequest request,
             FDelegateOnSuccessRemoveVirtualCurrencyTypes onSuccess,
@@ -1544,7 +1593,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetCatalogItems, FAdminUpdateCatalogItemsResult, result, UObject*, customData);
 
-    /** Creates the catalog configuration of all virtual goods for the specified catalog version */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Creates the catalog configuration of all virtual goods for the specified catalog version
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* SetCatalogItems(FAdminUpdateCatalogItemsRequest request,
             FDelegateOnSuccessSetCatalogItems onSuccess,
@@ -1557,7 +1609,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetStoreItems, FAdminUpdateStoreItemsResult, result, UObject*, customData);
 
-    /** Sets all the items in one virtual store */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Sets all the items in one virtual store
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* SetStoreItems(FAdminUpdateStoreItemsRequest request,
             FDelegateOnSuccessSetStoreItems onSuccess,
@@ -1634,7 +1689,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateCatalogItems, FAdminUpdateCatalogItemsResult, result, UObject*, customData);
 
-    /** Updates the catalog configuration for virtual goods in the specified catalog version */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Updates the catalog configuration for virtual goods in the specified catalog version
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* UpdateCatalogItems(FAdminUpdateCatalogItemsRequest request,
             FDelegateOnSuccessUpdateCatalogItems onSuccess,
@@ -1647,7 +1705,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateRandomResultTables, FAdminUpdateRandomResultTablesResult, result, UObject*, customData);
 
-    /** Updates the random drop table configuration for the title */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Updates the random drop table configuration for the title
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* UpdateRandomResultTables(FAdminUpdateRandomResultTablesRequest request,
             FDelegateOnSuccessUpdateRandomResultTables onSuccess,
@@ -1660,7 +1721,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateStoreItems, FAdminUpdateStoreItemsResult, result, UObject*, customData);
 
-    /** Updates an existing virtual item store with new or modified items */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Updates an existing virtual item store with new or modified items
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabAdminAPI* UpdateStoreItems(FAdminUpdateStoreItemsRequest request,
             FDelegateOnSuccessUpdateStoreItems onSuccess,

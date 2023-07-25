@@ -6843,7 +6843,7 @@ void UPlayFabClientAPI::HelperRegisterForIOSPushNotification(FPlayFabBaseModel r
     this->RemoveFromRoot();
 }
 
-/** Restores all in-app purchases based on the given restore receipt */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Restores all in-app purchases based on the given restore receipt */
 UPlayFabClientAPI* UPlayFabClientAPI::RestoreIOSPurchases(FClientRestoreIOSPurchasesRequest request,
     FDelegateOnSuccessRestoreIOSPurchases onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6901,7 +6901,7 @@ void UPlayFabClientAPI::HelperRestoreIOSPurchases(FPlayFabBaseModel response, UO
     this->RemoveFromRoot();
 }
 
-/** Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches the purchased catalog item */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches the purchased catalog item */
 UPlayFabClientAPI* UPlayFabClientAPI::ValidateAmazonIAPReceipt(FClientValidateAmazonReceiptRequest request,
     FDelegateOnSuccessValidateAmazonIAPReceipt onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6970,7 +6970,7 @@ void UPlayFabClientAPI::HelperValidateAmazonIAPReceipt(FPlayFabBaseModel respons
     this->RemoveFromRoot();
 }
 
-/** Validates a Google Play purchase and gives the corresponding item to the player. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Validates a Google Play purchase and gives the corresponding item to the player. */
 UPlayFabClientAPI* UPlayFabClientAPI::ValidateGooglePlayPurchase(FClientValidateGooglePlayPurchaseRequest request,
     FDelegateOnSuccessValidateGooglePlayPurchase onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -7039,7 +7039,7 @@ void UPlayFabClientAPI::HelperValidateGooglePlayPurchase(FPlayFabBaseModel respo
     this->RemoveFromRoot();
 }
 
-/** Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the purchased catalog item */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the purchased catalog item */
 UPlayFabClientAPI* UPlayFabClientAPI::ValidateIOSReceipt(FClientValidateIOSReceiptRequest request,
     FDelegateOnSuccessValidateIOSReceipt onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -7103,7 +7103,7 @@ void UPlayFabClientAPI::HelperValidateIOSReceipt(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
-/** Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it matches the purchased catalog item */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it matches the purchased catalog item */
 UPlayFabClientAPI* UPlayFabClientAPI::ValidateWindowsStoreReceipt(FClientValidateWindowsReceiptRequest request,
     FDelegateOnSuccessValidateWindowsStoreReceipt onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -7967,7 +7967,7 @@ void UPlayFabClientAPI::HelperUpdateUserPublisherData(FPlayFabBaseModel response
 ///////////////////////////////////////////////////////
 // Player Item Management
 //////////////////////////////////////////////////////
-/** Increments the user's balance of the specified virtual currency by the stated amount */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Increments the user's balance of the specified virtual currency by the stated amount */
 UPlayFabClientAPI* UPlayFabClientAPI::AddUserVirtualCurrency(FClientAddUserVirtualCurrencyRequest request,
     FDelegateOnSuccessAddUserVirtualCurrency onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8021,7 +8021,7 @@ void UPlayFabClientAPI::HelperAddUserVirtualCurrency(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
-/** Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and virtual currency balances as appropriate */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and virtual currency balances as appropriate */
 UPlayFabClientAPI* UPlayFabClientAPI::ConfirmPurchase(FClientConfirmPurchaseRequest request,
     FDelegateOnSuccessConfirmPurchase onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8074,7 +8074,7 @@ void UPlayFabClientAPI::HelperConfirmPurchase(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
-/** Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory. */
 UPlayFabClientAPI* UPlayFabClientAPI::ConsumeItem(FClientConsumeItemRequest request,
     FDelegateOnSuccessConsumeItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8133,7 +8133,7 @@ void UPlayFabClientAPI::HelperConsumeItem(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
-/** Retrieves the specified character's current inventory of virtual goods */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the specified character's current inventory of virtual goods */
 UPlayFabClientAPI* UPlayFabClientAPI::GetCharacterInventory(FClientGetCharacterInventoryRequest request,
     FDelegateOnSuccessGetCharacterInventory onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8191,7 +8191,7 @@ void UPlayFabClientAPI::HelperGetCharacterInventory(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
-/** For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the client completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the client to create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the client completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the client to create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPaymentToken(FClientGetPaymentTokenRequest request,
     FDelegateOnSuccessGetPaymentToken onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8243,7 +8243,7 @@ void UPlayFabClientAPI::HelperGetPaymentToken(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
-/** Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that are still active. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that are still active. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPurchase(FClientGetPurchaseRequest request,
     FDelegateOnSuccessGetPurchase onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8295,7 +8295,7 @@ void UPlayFabClientAPI::HelperGetPurchase(FPlayFabBaseModel response, UObject* c
     this->RemoveFromRoot();
 }
 
-/** Retrieves the user's current inventory of virtual goods */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the user's current inventory of virtual goods */
 UPlayFabClientAPI* UPlayFabClientAPI::GetUserInventory(FClientGetUserInventoryRequest request,
     FDelegateOnSuccessGetUserInventory onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8343,7 +8343,7 @@ void UPlayFabClientAPI::HelperGetUserInventory(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
-/** Selects a payment option for purchase order created via StartPurchase */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Selects a payment option for purchase order created via StartPurchase */
 UPlayFabClientAPI* UPlayFabClientAPI::PayForPurchase(FClientPayForPurchaseRequest request,
     FDelegateOnSuccessPayForPurchase onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8411,7 +8411,7 @@ void UPlayFabClientAPI::HelperPayForPurchase(FPlayFabBaseModel response, UObject
     this->RemoveFromRoot();
 }
 
-/** Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as well as what the client believes the price to be. This lets the server fail the purchase if the price has changed. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as well as what the client believes the price to be. This lets the server fail the purchase if the price has changed. */
 UPlayFabClientAPI* UPlayFabClientAPI::PurchaseItem(FClientPurchaseItemRequest request,
     FDelegateOnSuccessPurchaseItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8485,7 +8485,7 @@ void UPlayFabClientAPI::HelperPurchaseItem(FPlayFabBaseModel response, UObject* 
     this->RemoveFromRoot();
 }
 
-/** Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the Economy->Catalogs tab in the PlayFab Game Manager. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the Economy->Catalogs tab in the PlayFab Game Manager. */
 UPlayFabClientAPI* UPlayFabClientAPI::RedeemCoupon(FClientRedeemCouponRequest request,
     FDelegateOnSuccessRedeemCoupon onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8548,7 +8548,7 @@ void UPlayFabClientAPI::HelperRedeemCoupon(FPlayFabBaseModel response, UObject* 
     this->RemoveFromRoot();
 }
 
-/** Creates an order for a list of items from the title catalog */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Creates an order for a list of items from the title catalog */
 UPlayFabClientAPI* UPlayFabClientAPI::StartPurchase(FClientStartPurchaseRequest request,
     FDelegateOnSuccessStartPurchase onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8611,7 +8611,7 @@ void UPlayFabClientAPI::HelperStartPurchase(FPlayFabBaseModel response, UObject*
     this->RemoveFromRoot();
 }
 
-/** Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make a VC balance negative with this API. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make a VC balance negative with this API. */
 UPlayFabClientAPI* UPlayFabClientAPI::SubtractUserVirtualCurrency(FClientSubtractUserVirtualCurrencyRequest request,
     FDelegateOnSuccessSubtractUserVirtualCurrency onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8666,7 +8666,7 @@ void UPlayFabClientAPI::HelperSubtractUserVirtualCurrency(FPlayFabBaseModel resp
     this->RemoveFromRoot();
 }
 
-/** Opens the specified container, with the specified key (when required), and returns the contents of the opened container. If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Opens the specified container, with the specified key (when required), and returns the contents of the opened container. If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem. */
 UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerInstance(FClientUnlockContainerInstanceRequest request,
     FDelegateOnSuccessUnlockContainerInstance onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -8734,7 +8734,7 @@ void UPlayFabClientAPI::HelperUnlockContainerInstance(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it using an appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it using an appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem. */
 UPlayFabClientAPI* UPlayFabClientAPI::UnlockContainerItem(FClientUnlockContainerItemRequest request,
     FDelegateOnSuccessUnlockContainerItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -9276,7 +9276,7 @@ void UPlayFabClientAPI::HelperUpdateSharedGroupData(FPlayFabBaseModel response, 
 ///////////////////////////////////////////////////////
 // Title-Wide Data Management
 //////////////////////////////////////////////////////
-/** Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
 UPlayFabClientAPI* UPlayFabClientAPI::GetCatalogItems(FClientGetCatalogItemsRequest request,
     FDelegateOnSuccessGetCatalogItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -9383,7 +9383,7 @@ void UPlayFabClientAPI::HelperGetPublisherData(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
-/** Retrieves the set of items defined for the specified store, including all prices defined */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the set of items defined for the specified store, including all prices defined */
 UPlayFabClientAPI* UPlayFabClientAPI::GetStoreItems(FClientGetStoreItemsRequest request,
     FDelegateOnSuccessGetStoreItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

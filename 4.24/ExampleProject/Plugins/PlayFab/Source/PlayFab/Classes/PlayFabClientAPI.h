@@ -1741,7 +1741,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRestoreIOSPurchases, FClientRestoreIOSPurchasesResult, result, UObject*, customData);
 
-    /** Restores all in-app purchases based on the given restore receipt */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Restores all in-app purchases based on the given restore receipt
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* RestoreIOSPurchases(FClientRestoreIOSPurchasesRequest request,
             FDelegateOnSuccessRestoreIOSPurchases onSuccess,
@@ -1755,8 +1758,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessValidateAmazonIAPReceipt, FClientValidateAmazonReceiptResult, result, UObject*, customData);
 
     /**
-     * Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches the
-     * purchased catalog item
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches
+     * the purchased catalog item
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ValidateAmazonIAPReceipt(FClientValidateAmazonReceiptRequest request,
@@ -1770,7 +1774,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessValidateGooglePlayPurchase, FClientValidateGooglePlayPurchaseResult, result, UObject*, customData);
 
-    /** Validates a Google Play purchase and gives the corresponding item to the player. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Validates a Google Play purchase and gives the corresponding item to the player.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ValidateGooglePlayPurchase(FClientValidateGooglePlayPurchaseRequest request,
             FDelegateOnSuccessValidateGooglePlayPurchase onSuccess,
@@ -1784,8 +1791,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessValidateIOSReceipt, FClientValidateIOSReceiptResult, result, UObject*, customData);
 
     /**
-     * Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the purchased
-     * catalog item
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the
+     * purchased catalog item
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ValidateIOSReceipt(FClientValidateIOSReceiptRequest request,
@@ -1800,8 +1808,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessValidateWindowsStoreReceipt, FClientValidateWindowsReceiptResult, result, UObject*, customData);
 
     /**
-     * Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it matches the
-     * purchased catalog item
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it
+     * matches the purchased catalog item
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Platform Specific Methods ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ValidateWindowsStoreReceipt(FClientValidateWindowsReceiptRequest request,
@@ -2007,7 +2016,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessAddUserVirtualCurrency, FClientModifyUserVirtualCurrencyResult, result, UObject*, customData);
 
-    /** Increments the user's balance of the specified virtual currency by the stated amount */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Increments the user's balance of the specified virtual currency by the stated amount
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* AddUserVirtualCurrency(FClientAddUserVirtualCurrencyRequest request,
             FDelegateOnSuccessAddUserVirtualCurrency onSuccess,
@@ -2021,8 +2033,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConfirmPurchase, FClientConfirmPurchaseResult, result, UObject*, customData);
 
     /**
-     * Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and virtual
-     * currency balances as appropriate
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and
+     * virtual currency balances as appropriate
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ConfirmPurchase(FClientConfirmPurchaseRequest request,
@@ -2036,7 +2049,11 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessConsumeItem, FClientConsumeItemResult, result, UObject*, customData);
 
-    /** Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory. */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's
+     * inventory.
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* ConsumeItem(FClientConsumeItemRequest request,
             FDelegateOnSuccessConsumeItem onSuccess,
@@ -2049,7 +2066,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetCharacterInventory, FClientGetCharacterInventoryResult, result, UObject*, customData);
 
-    /** Retrieves the specified character's current inventory of virtual goods */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the specified character's current inventory of virtual goods
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetCharacterInventory(FClientGetCharacterInventoryRequest request,
             FDelegateOnSuccessGetCharacterInventory onSuccess,
@@ -2063,9 +2083,10 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPaymentToken, FClientGetPaymentTokenResult, result, UObject*, customData);
 
     /**
-     * For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the client
-     * completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the client to
-     * create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment.
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the
+     * client completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the
+     * client to create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetPaymentToken(FClientGetPaymentTokenRequest request,
@@ -2080,8 +2101,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPurchase, FClientGetPurchaseResult, result, UObject*, customData);
 
     /**
-     * Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that are still
-     * active.
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that
+     * are still active.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetPurchase(FClientGetPurchaseRequest request,
@@ -2095,7 +2117,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetUserInventory, FClientGetUserInventoryResult, result, UObject*, customData);
 
-    /** Retrieves the user's current inventory of virtual goods */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the user's current inventory of virtual goods
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetUserInventory(FClientGetUserInventoryRequest request,
             FDelegateOnSuccessGetUserInventory onSuccess,
@@ -2108,7 +2133,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessPayForPurchase, FClientPayForPurchaseResult, result, UObject*, customData);
 
-    /** Selects a payment option for purchase order created via StartPurchase */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Selects a payment option for purchase order created via StartPurchase
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* PayForPurchase(FClientPayForPurchaseRequest request,
             FDelegateOnSuccessPayForPurchase onSuccess,
@@ -2122,8 +2150,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessPurchaseItem, FClientPurchaseItemResult, result, UObject*, customData);
 
     /**
-     * Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as well as what
-     * the client believes the price to be. This lets the server fail the purchase if the price has changed.
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as
+     * well as what the client believes the price to be. This lets the server fail the purchase if the price has changed.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* PurchaseItem(FClientPurchaseItemRequest request,
@@ -2138,7 +2167,8 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRedeemCoupon, FClientRedeemCouponResult, result, UObject*, customData);
 
     /**
-     * Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
      * Economy->Catalogs tab in the PlayFab Game Manager.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
@@ -2153,7 +2183,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessStartPurchase, FClientStartPurchaseResult, result, UObject*, customData);
 
-    /** Creates an order for a list of items from the title catalog */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Creates an order for a list of items from the title catalog
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* StartPurchase(FClientStartPurchaseRequest request,
             FDelegateOnSuccessStartPurchase onSuccess,
@@ -2167,8 +2200,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSubtractUserVirtualCurrency, FClientModifyUserVirtualCurrencyResult, result, UObject*, customData);
 
     /**
-     * Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make a VC
-     * balance negative with this API.
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make
+     * a VC balance negative with this API.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* SubtractUserVirtualCurrency(FClientSubtractUserVirtualCurrencyRequest request,
@@ -2183,9 +2217,10 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlockContainerInstance, FClientUnlockContainerItemResult, result, UObject*, customData);
 
     /**
-     * Opens the specified container, with the specified key (when required), and returns the contents of the opened container.
-     * If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented,
-     * consistent with the operation of ConsumeItem.
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Opens the specified container, with the specified key (when required), and returns the contents of the
+     * opened container. If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will
+     * be decremented, consistent with the operation of ConsumeItem.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* UnlockContainerInstance(FClientUnlockContainerInstanceRequest request,
@@ -2200,8 +2235,9 @@ public:
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlockContainerItem, FClientUnlockContainerItemResult, result, UObject*, customData);
 
     /**
-     * Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it using an
-     * appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it
+     * using an appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are
      * consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Item Management ", meta = (BlueprintInternalUseOnly = "true"))
@@ -2364,7 +2400,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetCatalogItems, FClientGetCatalogItemsResult, result, UObject*, customData);
 
-    /** Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetCatalogItems(FClientGetCatalogItemsRequest request,
             FDelegateOnSuccessGetCatalogItems onSuccess,
@@ -2390,7 +2429,10 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetStoreItems, FClientGetStoreItemsResult, result, UObject*, customData);
 
-    /** Retrieves the set of items defined for the specified store, including all prices defined */
+    /**
+     * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+     * version 2._ Retrieves the set of items defined for the specified store, including all prices defined
+     */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Title-Wide Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabClientAPI* GetStoreItems(FClientGetStoreItemsRequest request,
             FDelegateOnSuccessGetStoreItems onSuccess,

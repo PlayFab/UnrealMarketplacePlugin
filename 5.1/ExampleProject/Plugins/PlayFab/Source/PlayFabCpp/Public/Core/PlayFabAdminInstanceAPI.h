@@ -182,11 +182,15 @@ namespace PlayFab
          * This API will trigger a player_tag_added event and add a tag with the given TagName and PlayFabID to the corresponding player profile. TagName can be used for segmentation and it is limited to 256 characters. Also there is a limit on the number of tags a title can have.
          */
         bool AddPlayerTag(AdminModels::FAddPlayerTagRequest& request, const FAddPlayerTagDelegate& SuccessDelegate = FAddPlayerTagDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Increments the specified virtual currency by the stated amount
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Increments the specified virtual currency by the stated amount
+         */
         bool AddUserVirtualCurrency(AdminModels::FAddUserVirtualCurrencyRequest& request, const FAddUserVirtualCurrencyDelegate& SuccessDelegate = FAddUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Adds one or more virtual currencies to the set defined for the title. Virtual Currencies have a maximum value of
-         * 2,147,483,647 when granted to a player. Any value over that will be discarded.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Adds one or more virtual currencies to the set defined for the title. Virtual Currencies have a maximum
+         * value of 2,147,483,647 when granted to a player. Any value over that will be discarded.
          * This operation is additive. Any new currencies defined in the array will be added to the set of those available for the title, while any CurrencyCode identifiers matching existing ones in the game will be overwritten with the new values.
          */
         bool AddVirtualCurrencyTypes(AdminModels::FAddVirtualCurrencyTypesRequest& request, const FAddVirtualCurrencyTypesDelegate& SuccessDelegate = FAddVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -196,7 +200,8 @@ namespace PlayFab
          */
         bool BanUsers(AdminModels::FBanUsersRequest& request, const FBanUsersDelegate& SuccessDelegate = FBanUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Checks the global count for the limited edition item.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Checks the global count for the limited edition item.
          * This returns the total number of these items available.
          */
         bool CheckLimitedEditionItemAvailability(AdminModels::FCheckLimitedEditionItemAvailabilityRequest& request, const FCheckLimitedEditionItemAvailabilityDelegate& SuccessDelegate = FCheckLimitedEditionItemAvailabilityDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -266,7 +271,8 @@ namespace PlayFab
          */
         bool DeleteSegment(AdminModels::FDeleteSegmentRequest& request, const FDeleteSegmentDelegate& SuccessDelegate = FDeleteSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Deletes an existing virtual item store
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Deletes an existing virtual item store
          * This non-reversible operation will permanently delete the requested store.
          */
         bool DeleteStore(AdminModels::FDeleteStoreRequest& request, const FDeleteStoreDelegate& SuccessDelegate = FDeleteStoreDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -321,7 +327,10 @@ namespace PlayFab
          * Request has no paramaters.
          */
         bool GetAllSegments(AdminModels::FGetAllSegmentsRequest& request, const FGetAllSegmentsDelegate& SuccessDelegate = FGetAllSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+         */
         bool GetCatalogItems(AdminModels::FGetCatalogItemsRequest& request, const FGetCatalogItemsDelegate& SuccessDelegate = FGetCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets the contents and information of a specific Cloud Script revision.
         bool GetCloudScriptRevision(AdminModels::FGetCloudScriptRevisionRequest& request, const FGetCloudScriptRevisionDelegate& SuccessDelegate = FGetCloudScriptRevisionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -426,7 +435,10 @@ namespace PlayFab
          * This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles assigned to a publisher can use this API. For more information email helloplayfab@microsoft.com. This AdminAPI call for getting title data guarantees no delay in between update and retrieval of newly set data.
          */
         bool GetPublisherData(AdminModels::FGetPublisherDataRequest& request, const FGetPublisherDataDelegate& SuccessDelegate = FGetPublisherDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the random drop table configuration for the title
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the random drop table configuration for the title
+         */
         bool GetRandomResultTables(AdminModels::FGetRandomResultTablesRequest& request, const FGetRandomResultTablesDelegate& SuccessDelegate = FGetRandomResultTablesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the result of an export started by ExportPlayersInSegment API. If the ExportPlayersInSegment is successful and
@@ -442,7 +454,8 @@ namespace PlayFab
          */
         bool GetSegments(AdminModels::FGetSegmentsRequest& request, const FGetSegmentsDelegate& SuccessDelegate = FGetSegmentsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the set of items defined for the specified store, including all prices defined
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the set of items defined for the specified store, including all prices defined
          * A store contains an array of references to items defined in the catalog, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
          */
         bool GetStoreItems(AdminModels::FGetStoreItemsRequest& request, const FGetStoreItemsDelegate& SuccessDelegate = FGetStoreItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -484,7 +497,8 @@ namespace PlayFab
          */
         bool GetUserInternalData(AdminModels::FGetUserDataRequest& request, const FGetUserInternalDataDelegate& SuccessDelegate = FGetUserInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the specified user's current inventory of virtual goods
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the specified user's current inventory of virtual goods
          * All items currently in the user inventory will be returned, irrespective of how they were acquired (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the user's current inventory, and so will not be not included. There can be a delay of up to a half a second for inventory changes to be reflected in the GetUserInventory API response.
          */
         bool GetUserInventory(AdminModels::FGetUserInventoryRequest& request, const FGetUserInventoryDelegate& SuccessDelegate = FGetUserInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -509,12 +523,14 @@ namespace PlayFab
          */
         bool GetUserReadOnlyData(AdminModels::FGetUserDataRequest& request, const FGetUserReadOnlyDataDelegate& SuccessDelegate = FGetUserReadOnlyDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Adds the specified items to the specified user inventories
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Adds the specified items to the specified user inventories
          * This function directly adds inventory items to user inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToUsers(AdminModels::FGrantItemsToUsersRequest& request, const FGrantItemsToUsersDelegate& SuccessDelegate = FGrantItemsToUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Increases the global count for the given scarce resource.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Increases the global count for the given scarce resource.
          * This operation will increment the global counter for the number of these items available. This number cannot be decremented, except by actual grants.
          */
         bool IncrementLimitedEditionItemAvailability(AdminModels::FIncrementLimitedEditionItemAvailabilityRequest& request, const FIncrementLimitedEditionItemAvailabilityDelegate& SuccessDelegate = FIncrementLimitedEditionItemAvailabilityDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -528,14 +544,23 @@ namespace PlayFab
         bool ListOpenIdConnection(const FListOpenIdConnectionDelegate& SuccessDelegate = FListOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves a list of all Open ID Connect providers registered to a title.
         bool ListOpenIdConnection(AdminModels::FListOpenIdConnectionRequest& request, const FListOpenIdConnectionDelegate& SuccessDelegate = FListOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retuns the list of all defined virtual currencies for the title
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retuns the list of all defined virtual currencies for the title
+         */
 
         bool ListVirtualCurrencyTypes(const FListVirtualCurrencyTypesDelegate& SuccessDelegate = FListVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retuns the list of all defined virtual currencies for the title
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retuns the list of all defined virtual currencies for the title
+         */
         bool ListVirtualCurrencyTypes(AdminModels::FListVirtualCurrencyTypesRequest& request, const FListVirtualCurrencyTypesDelegate& SuccessDelegate = FListVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Updates the build details for the specified game server executable
         bool ModifyServerBuild(AdminModels::FModifyServerBuildRequest& request, const FModifyServerBuildDelegate& SuccessDelegate = FModifyServerBuildDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Attempts to process an order refund through the original real money payment provider.
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Attempts to process an order refund through the original real money payment provider.
+         */
         bool RefundPurchase(AdminModels::FRefundPurchaseRequest& request, const FRefundPurchaseDelegate& SuccessDelegate = FRefundPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Remove a given tag from a player profile. The tag's namespace is automatically generated based on the source of the tag.
@@ -543,7 +568,8 @@ namespace PlayFab
          */
         bool RemovePlayerTag(AdminModels::FRemovePlayerTagRequest& request, const FRemovePlayerTagDelegate& SuccessDelegate = FRemovePlayerTagDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Removes one or more virtual currencies from the set defined for the title.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Removes one or more virtual currencies from the set defined for the title.
          * Virtual currencies to be removed cannot have entries in any catalog nor store for the title. Note that this operation will not remove player balances for the removed currencies; if a deleted currency is recreated at any point, user balances will be in an undefined state.
          */
         bool RemoveVirtualCurrencyTypes(AdminModels::FRemoveVirtualCurrencyTypesRequest& request, const FRemoveVirtualCurrencyTypesDelegate& SuccessDelegate = FRemoveVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -562,7 +588,10 @@ namespace PlayFab
          * Note that this action cannot be un-done. All statistics for this user will be deleted, removing the user from all leaderboards for the game.
          */
         bool ResetUserStatistics(AdminModels::FResetUserStatisticsRequest& request, const FResetUserStatisticsDelegate& SuccessDelegate = FResetUserStatisticsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Attempts to resolve a dispute with the original order's payment provider.
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Attempts to resolve a dispute with the original order's payment provider.
+         */
         bool ResolvePurchaseDispute(AdminModels::FResolvePurchaseDisputeRequest& request, const FResolvePurchaseDisputeDelegate& SuccessDelegate = FResolvePurchaseDisputeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Revoke all active bans for a user.
@@ -575,12 +604,14 @@ namespace PlayFab
          */
         bool RevokeBans(AdminModels::FRevokeBansRequest& request, const FRevokeBansDelegate& SuccessDelegate = FRevokeBansDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Revokes access to an item in a user's inventory
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Revokes access to an item in a user's inventory
          * In cases where the inventory item in question is a "crate", and the items it contained have already been dispensed, this will not revoke access or otherwise remove the items which were dispensed.
          */
         bool RevokeInventoryItem(AdminModels::FRevokeInventoryItemRequest& request, const FRevokeInventoryItemDelegate& SuccessDelegate = FRevokeInventoryItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Revokes access for up to 25 items across multiple users and characters.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Revokes access for up to 25 items across multiple users and characters.
          * In cases where the inventory item in question is a "crate", and the items it contained have already been dispensed, this will not revoke access or otherwise remove the items which were dispensed.
          */
         bool RevokeInventoryItems(AdminModels::FRevokeInventoryItemsRequest& request, const FRevokeInventoryItemsDelegate& SuccessDelegate = FRevokeInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -597,7 +628,8 @@ namespace PlayFab
          */
         bool SendAccountRecoveryEmail(AdminModels::FSendAccountRecoveryEmailRequest& request, const FSendAccountRecoveryEmailDelegate& SuccessDelegate = FSendAccountRecoveryEmailDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Creates the catalog configuration of all virtual goods for the specified catalog version
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Creates the catalog configuration of all virtual goods for the specified catalog version
          * When used for SetCatalogItems, this operation is not additive. Using it will cause the indicated catalog version to be created from scratch. If there is an existing catalog with the version number in question, it will be deleted and replaced with only the items specified in this call. When used for UpdateCatalogItems, this operation is additive. Items with ItemId values not currently in the catalog will be added, while those with ItemId values matching items currently in the catalog will overwrite those items with the given values.
          */
         bool SetCatalogItems(AdminModels::FUpdateCatalogItemsRequest& request, const FSetCatalogItemsDelegate& SuccessDelegate = FSetCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -619,7 +651,8 @@ namespace PlayFab
          */
         bool SetPublisherData(AdminModels::FSetPublisherDataRequest& request, const FSetPublisherDataDelegate& SuccessDelegate = FSetPublisherDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Sets all the items in one virtual store
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Sets all the items in one virtual store
          * When used for SetStoreItems, this operation is not additive. Using it will cause the indicated virtual store to be created from scratch. If there is an existing store with the same storeId, it will be deleted and replaced with only the items specified in this call. When used for UpdateStoreItems, this operation is additive. Items with ItemId values not currently in the store will be added, while those with ItemId values matching items currently in the catalog will overwrite those items with the given values. In both cases, a store contains an array of references to items defined in the catalog, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
          */
         bool SetStoreItems(AdminModels::FUpdateStoreItemsRequest& request, const FSetStoreItemsDelegate& SuccessDelegate = FSetStoreItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -649,7 +682,10 @@ namespace PlayFab
          * When using the Apple Push Notification service (APNS) or the development version (APNS_SANDBOX), the APNS Private Key should be used as the Credential in this call. With Google Cloud Messaging (GCM), the Android API Key should be used. The current ARN (if one exists) can be overwritten by setting the OverwriteOldARN boolean to true.
          */
         bool SetupPushNotification(AdminModels::FSetupPushNotificationRequest& request, const FSetupPushNotificationDelegate& SuccessDelegate = FSetupPushNotificationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Decrements the specified virtual currency by the stated amount
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Decrements the specified virtual currency by the stated amount
+         */
         bool SubtractUserVirtualCurrency(AdminModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Updates information of a list of existing bans specified with Ban Ids.
@@ -657,7 +693,8 @@ namespace PlayFab
          */
         bool UpdateBans(AdminModels::FUpdateBansRequest& request, const FUpdateBansDelegate& SuccessDelegate = FUpdateBansDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Updates the catalog configuration for virtual goods in the specified catalog version
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Updates the catalog configuration for virtual goods in the specified catalog version
          * When used for SetCatalogItems, this operation is not additive. Using it will cause the indicated catalog version to be created from scratch. If there is an existing catalog with the version number in question, it will be deleted and replaced with only the items specified in this call. When used for UpdateCatalogItems, this operation is additive. Items with ItemId values not currently in the catalog will be added, while those with ItemId values matching items currently in the catalog will overwrite those items with the given values.
          */
         bool UpdateCatalogItems(AdminModels::FUpdateCatalogItemsRequest& request, const FUpdateCatalogItemsDelegate& SuccessDelegate = FUpdateCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -685,7 +722,8 @@ namespace PlayFab
          */
         bool UpdatePolicy(AdminModels::FUpdatePolicyRequest& request, const FUpdatePolicyDelegate& SuccessDelegate = FUpdatePolicyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Updates the random drop table configuration for the title
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Updates the random drop table configuration for the title
          * This operation is additive. Tables with TableId values not currently defined will be added, while those with TableId values matching Tables currently in the catalog will be overwritten with the given values.
          */
         bool UpdateRandomResultTables(AdminModels::FUpdateRandomResultTablesRequest& request, const FUpdateRandomResultTablesDelegate& SuccessDelegate = FUpdateRandomResultTablesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -695,7 +733,8 @@ namespace PlayFab
          */
         bool UpdateSegment(AdminModels::FUpdateSegmentRequest& request, const FUpdateSegmentDelegate& SuccessDelegate = FUpdateSegmentDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Updates an existing virtual item store with new or modified items
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Updates an existing virtual item store with new or modified items
          * When used for SetStoreItems, this operation is not additive. Using it will cause the indicated virtual store to be created from scratch. If there is an existing store with the same storeId, it will be deleted and replaced with only the items specified in this call. When used for UpdateStoreItems, this operation is additive. Items with ItemId values not currently in the store will be added, while those with ItemId values matching items currently in the catalog will overwrite those items with the given values. In both cases, a store contains an array of references to items defined in the catalog, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
          */
         bool UpdateStoreItems(AdminModels::FUpdateStoreItemsRequest& request, const FUpdateStoreItemsDelegate& SuccessDelegate = FUpdateStoreItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

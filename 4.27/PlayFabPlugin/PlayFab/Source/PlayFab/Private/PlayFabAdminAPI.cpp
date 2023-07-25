@@ -2758,7 +2758,7 @@ void UPlayFabAdminAPI::HelperIncrementPlayerStatisticVersion(FPlayFabBaseModel r
     this->RemoveFromRoot();
 }
 
-/** Attempts to process an order refund through the original real money payment provider. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Attempts to process an order refund through the original real money payment provider. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::RefundPurchase(FAdminRefundPurchaseRequest request,
     FDelegateOnSuccessRefundPurchase onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -2873,7 +2873,7 @@ void UPlayFabAdminAPI::HelperResetUserStatistics(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
-/** Attempts to resolve a dispute with the original order's payment provider. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Attempts to resolve a dispute with the original order's payment provider. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::ResolvePurchaseDispute(FAdminResolvePurchaseDisputeRequest request,
     FDelegateOnSuccessResolvePurchaseDispute onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3389,7 +3389,7 @@ void UPlayFabAdminAPI::HelperUpdateUserReadOnlyData(FPlayFabBaseModel response, 
 ///////////////////////////////////////////////////////
 // Player Item Management
 //////////////////////////////////////////////////////
-/** Increments the specified virtual currency by the stated amount */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Increments the specified virtual currency by the stated amount */
 UPlayFabAdminAPI* UPlayFabAdminAPI::AddUserVirtualCurrency(FAdminAddUserVirtualCurrencyRequest request,
     FDelegateOnSuccessAddUserVirtualCurrency onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3448,7 +3448,7 @@ void UPlayFabAdminAPI::HelperAddUserVirtualCurrency(FPlayFabBaseModel response, 
     this->RemoveFromRoot();
 }
 
-/** Checks the global count for the limited edition item. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Checks the global count for the limited edition item. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::CheckLimitedEditionItemAvailability(FAdminCheckLimitedEditionItemAvailabilityRequest request,
     FDelegateOnSuccessCheckLimitedEditionItemAvailability onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3505,7 +3505,7 @@ void UPlayFabAdminAPI::HelperCheckLimitedEditionItemAvailability(FPlayFabBaseMod
     this->RemoveFromRoot();
 }
 
-/** Retrieves the specified user's current inventory of virtual goods */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the specified user's current inventory of virtual goods */
 UPlayFabAdminAPI* UPlayFabAdminAPI::GetUserInventory(FAdminGetUserInventoryRequest request,
     FDelegateOnSuccessGetUserInventory onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3558,7 +3558,7 @@ void UPlayFabAdminAPI::HelperGetUserInventory(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
-/** Adds the specified items to the specified user inventories */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Adds the specified items to the specified user inventories */
 UPlayFabAdminAPI* UPlayFabAdminAPI::GrantItemsToUsers(FAdminGrantItemsToUsersRequest request,
     FDelegateOnSuccessGrantItemsToUsers onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3616,7 +3616,7 @@ void UPlayFabAdminAPI::HelperGrantItemsToUsers(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
-/** Increases the global count for the given scarce resource. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Increases the global count for the given scarce resource. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::IncrementLimitedEditionItemAvailability(FAdminIncrementLimitedEditionItemAvailabilityRequest request,
     FDelegateOnSuccessIncrementLimitedEditionItemAvailability onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3675,7 +3675,7 @@ void UPlayFabAdminAPI::HelperIncrementLimitedEditionItemAvailability(FPlayFabBas
     this->RemoveFromRoot();
 }
 
-/** Revokes access to an item in a user's inventory */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Revokes access to an item in a user's inventory */
 UPlayFabAdminAPI* UPlayFabAdminAPI::RevokeInventoryItem(FAdminRevokeInventoryItemRequest request,
     FDelegateOnSuccessRevokeInventoryItem onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3737,7 +3737,7 @@ void UPlayFabAdminAPI::HelperRevokeInventoryItem(FPlayFabBaseModel response, UOb
     this->RemoveFromRoot();
 }
 
-/** Revokes access for up to 25 items across multiple users and characters. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Revokes access for up to 25 items across multiple users and characters. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::RevokeInventoryItems(FAdminRevokeInventoryItemsRequest request,
     FDelegateOnSuccessRevokeInventoryItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -3789,7 +3789,7 @@ void UPlayFabAdminAPI::HelperRevokeInventoryItems(FPlayFabBaseModel response, UO
     this->RemoveFromRoot();
 }
 
-/** Decrements the specified virtual currency by the stated amount */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Decrements the specified virtual currency by the stated amount */
 UPlayFabAdminAPI* UPlayFabAdminAPI::SubtractUserVirtualCurrency(FAdminSubtractUserVirtualCurrencyRequest request,
     FDelegateOnSuccessSubtractUserVirtualCurrency onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -5540,7 +5540,7 @@ void UPlayFabAdminAPI::HelperAddNews(FPlayFabBaseModel response, UObject* custom
     this->RemoveFromRoot();
 }
 
-/** Adds one or more virtual currencies to the set defined for the title. Virtual Currencies have a maximum value of 2,147,483,647 when granted to a player. Any value over that will be discarded. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Adds one or more virtual currencies to the set defined for the title. Virtual Currencies have a maximum value of 2,147,483,647 when granted to a player. Any value over that will be discarded. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::AddVirtualCurrencyTypes(FAdminAddVirtualCurrencyTypesRequest request,
     FDelegateOnSuccessAddVirtualCurrencyTypes onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -5593,7 +5593,7 @@ void UPlayFabAdminAPI::HelperAddVirtualCurrencyTypes(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
-/** Deletes an existing virtual item store */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Deletes an existing virtual item store */
 UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteStore(FAdminDeleteStoreRequest request,
     FDelegateOnSuccessDeleteStore onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -5703,7 +5703,7 @@ void UPlayFabAdminAPI::HelperDeleteTitleDataOverride(FPlayFabBaseModel response,
     this->RemoveFromRoot();
 }
 
-/** Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties */
 UPlayFabAdminAPI* UPlayFabAdminAPI::GetCatalogItems(FAdminGetCatalogItemsRequest request,
     FDelegateOnSuccessGetCatalogItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -5810,7 +5810,7 @@ void UPlayFabAdminAPI::HelperGetPublisherData(FPlayFabBaseModel response, UObjec
     this->RemoveFromRoot();
 }
 
-/** Retrieves the random drop table configuration for the title */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the random drop table configuration for the title */
 UPlayFabAdminAPI* UPlayFabAdminAPI::GetRandomResultTables(FAdminGetRandomResultTablesRequest request,
     FDelegateOnSuccessGetRandomResultTables onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -5862,7 +5862,7 @@ void UPlayFabAdminAPI::HelperGetRandomResultTables(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
-/** Retrieves the set of items defined for the specified store, including all prices defined */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retrieves the set of items defined for the specified store, including all prices defined */
 UPlayFabAdminAPI* UPlayFabAdminAPI::GetStoreItems(FAdminGetStoreItemsRequest request,
     FDelegateOnSuccessGetStoreItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6040,7 +6040,7 @@ void UPlayFabAdminAPI::HelperGetTitleInternalData(FPlayFabBaseModel response, UO
     this->RemoveFromRoot();
 }
 
-/** Retuns the list of all defined virtual currencies for the title */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Retuns the list of all defined virtual currencies for the title */
 UPlayFabAdminAPI* UPlayFabAdminAPI::ListVirtualCurrencyTypes(FAdminListVirtualCurrencyTypesRequest request,
     FDelegateOnSuccessListVirtualCurrencyTypes onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6087,7 +6087,7 @@ void UPlayFabAdminAPI::HelperListVirtualCurrencyTypes(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Removes one or more virtual currencies from the set defined for the title. */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Removes one or more virtual currencies from the set defined for the title. */
 UPlayFabAdminAPI* UPlayFabAdminAPI::RemoveVirtualCurrencyTypes(FAdminRemoveVirtualCurrencyTypesRequest request,
     FDelegateOnSuccessRemoveVirtualCurrencyTypes onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6140,7 +6140,7 @@ void UPlayFabAdminAPI::HelperRemoveVirtualCurrencyTypes(FPlayFabBaseModel respon
     this->RemoveFromRoot();
 }
 
-/** Creates the catalog configuration of all virtual goods for the specified catalog version */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Creates the catalog configuration of all virtual goods for the specified catalog version */
 UPlayFabAdminAPI* UPlayFabAdminAPI::SetCatalogItems(FAdminUpdateCatalogItemsRequest request,
     FDelegateOnSuccessSetCatalogItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6199,7 +6199,7 @@ void UPlayFabAdminAPI::HelperSetCatalogItems(FPlayFabBaseModel response, UObject
     this->RemoveFromRoot();
 }
 
-/** Sets all the items in one virtual store */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Sets all the items in one virtual store */
 UPlayFabAdminAPI* UPlayFabAdminAPI::SetStoreItems(FAdminUpdateStoreItemsRequest request,
     FDelegateOnSuccessSetStoreItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6501,7 +6501,7 @@ void UPlayFabAdminAPI::HelperSetupPushNotification(FPlayFabBaseModel response, U
     this->RemoveFromRoot();
 }
 
-/** Updates the catalog configuration for virtual goods in the specified catalog version */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Updates the catalog configuration for virtual goods in the specified catalog version */
 UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateCatalogItems(FAdminUpdateCatalogItemsRequest request,
     FDelegateOnSuccessUpdateCatalogItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6561,7 +6561,7 @@ void UPlayFabAdminAPI::HelperUpdateCatalogItems(FPlayFabBaseModel response, UObj
     this->RemoveFromRoot();
 }
 
-/** Updates the random drop table configuration for the title */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Updates the random drop table configuration for the title */
 UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateRandomResultTables(FAdminUpdateRandomResultTablesRequest request,
     FDelegateOnSuccessUpdateRandomResultTables onSuccess,
     FDelegateOnFailurePlayFabError onFailure,
@@ -6619,7 +6619,7 @@ void UPlayFabAdminAPI::HelperUpdateRandomResultTables(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Updates an existing virtual item store with new or modified items */
+/** _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for version 2._ Updates an existing virtual item store with new or modified items */
 UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateStoreItems(FAdminUpdateStoreItemsRequest request,
     FDelegateOnSuccessUpdateStoreItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

@@ -1343,12 +1343,6 @@ namespace MultiplayerModels
         // [optional] The resource constraints to apply to each server on the VM (EXPERIMENTAL API)
         TSharedPtr<FServerResourceConstraintParams> ServerResourceConstraints;
 
-        /**
-         * [optional] DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-         * written first to disc.
-         */
-        Boxed<bool> UseStreamingForAssetDownloads;
-
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
@@ -1372,7 +1366,6 @@ namespace MultiplayerModels
             Ports(),
             RegionConfigurations(),
             ServerResourceConstraints(nullptr),
-            UseStreamingForAssetDownloads(),
             VmSize(),
             VmStartupScriptConfiguration(nullptr)
             {}
@@ -1727,12 +1720,6 @@ namespace MultiplayerModels
         // The command to run when the multiplayer server is started, including any arguments.
         FString StartMultiplayerServerCommand;
 
-        /**
-         * [optional] DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-         * written first to disc.
-         */
-        Boxed<bool> UseStreamingForAssetDownloads;
-
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
@@ -1759,7 +1746,6 @@ namespace MultiplayerModels
             RegionConfigurations(),
             ServerResourceConstraints(nullptr),
             StartMultiplayerServerCommand(),
-            UseStreamingForAssetDownloads(),
             VmSize(),
             VmStartupScriptConfiguration(nullptr),
             pfWindowsCrashDumpConfiguration(nullptr)
@@ -1941,12 +1927,6 @@ namespace MultiplayerModels
          */
         FString StartMultiplayerServerCommand;
 
-        /**
-         * [optional] DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-         * written first to disc.
-         */
-        Boxed<bool> UseStreamingForAssetDownloads;
-
         // [optional] The VM size to create the build on.
         Boxed<AzureVmSize> VmSize;
 
@@ -1970,7 +1950,6 @@ namespace MultiplayerModels
             Ports(),
             RegionConfigurations(),
             StartMultiplayerServerCommand(),
-            UseStreamingForAssetDownloads(),
             VmSize(),
             VmStartupScriptConfiguration(nullptr)
             {}

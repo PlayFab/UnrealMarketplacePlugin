@@ -195,7 +195,10 @@ namespace PlayFab
 
 
         // ------------ Generated API calls
-        // Increments the character's balance of the specified virtual currency by the stated amount
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Increments the character's balance of the specified virtual currency by the stated amount
+         */
         bool AddCharacterVirtualCurrency(ServerModels::FAddCharacterVirtualCurrencyRequest& request, const FAddCharacterVirtualCurrencyDelegate& SuccessDelegate = FAddCharacterVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Adds the Friend user to the friendlist of the user with PlayFabId. At least one of
@@ -220,7 +223,10 @@ namespace PlayFab
          * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
          */
         bool AddSharedGroupMembers(ServerModels::FAddSharedGroupMembersRequest& request, const FAddSharedGroupMembersDelegate& SuccessDelegate = FAddSharedGroupMembersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Increments the user's balance of the specified virtual currency by the stated amount
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Increments the user's balance of the specified virtual currency by the stated amount
+         */
         bool AddUserVirtualCurrency(ServerModels::FAddUserVirtualCurrencyRequest& request, const FAddUserVirtualCurrencyDelegate& SuccessDelegate = FAddUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Validated a client's session ticket, and if successful, returns details for that user
@@ -234,7 +240,11 @@ namespace PlayFab
          * The existence of each user will not be verified. When banning by IP or MAC address, multiple players may be affected, so use this feature with caution. Returns information about the new bans.
          */
         bool BanUsers(ServerModels::FBanUsersRequest& request, const FBanUsersDelegate& SuccessDelegate = FBanUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory.
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's
+         * inventory.
+         */
         bool ConsumeItem(ServerModels::FConsumeItemRequest& request, const FConsumeItemDelegate& SuccessDelegate = FConsumeItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Requests the creation of a shared group object, containing key/value pairs which may be updated by all members of the
@@ -265,8 +275,10 @@ namespace PlayFab
         // Inform the matchmaker that a Game Server Instance is removed.
         bool DeregisterGame(ServerModels::FDeregisterGameRequest& request, const FDeregisterGameDelegate& SuccessDelegate = FDeregisterGameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Returns the result of an evaluation of a Random Result Table - the ItemId from the game Catalog which would have been
-         * added to the player inventory, if the Random Result Table were added via a Bundle or a call to UnlockContainer.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Returns the result of an evaluation of a Random Result Table - the ItemId from the game Catalog which would
+         * have been added to the player inventory, if the Random Result Table were added via a Bundle or a call to
+         * UnlockContainer.
          */
         bool EvaluateRandomResultTable(ServerModels::FEvaluateRandomResultTableRequest& request, const FEvaluateRandomResultTableDelegate& SuccessDelegate = FEvaluateRandomResultTableDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -293,7 +305,10 @@ namespace PlayFab
          * Returns a list of every character that currently belongs to a user.
          */
         bool GetAllUsersCharacters(ServerModels::FListUsersCharactersRequest& request, const FGetAllUsersCharactersDelegate& SuccessDelegate = FGetAllUsersCharactersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+         */
         bool GetCatalogItems(ServerModels::FGetCatalogItemsRequest& request, const FGetCatalogItemsDelegate& SuccessDelegate = FGetCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the title-specific custom data for the user which is readable and writable by the client
@@ -306,7 +321,8 @@ namespace PlayFab
          */
         bool GetCharacterInternalData(ServerModels::FGetCharacterDataRequest& request, const FGetCharacterInternalDataDelegate& SuccessDelegate = FGetCharacterInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the specified character's current inventory of virtual goods
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the specified character's current inventory of virtual goods
          * All items currently in the character inventory will be returned, irrespective of how they were acquired (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the user's current inventory, and so will not be not included. Also returns their virtual currency balances.
          */
         bool GetCharacterInventory(ServerModels::FGetCharacterInventoryRequest& request, const FGetCharacterInventoryDelegate& SuccessDelegate = FGetCharacterInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -414,8 +430,9 @@ namespace PlayFab
          */
         bool GetPublisherData(ServerModels::FGetPublisherDataRequest& request, const FGetPublisherDataDelegate& SuccessDelegate = FGetPublisherDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the configuration information for the specified random results tables for the title, including all ItemId
-         * values and weights
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the configuration information for the specified random results tables for the title, including all
+         * ItemId values and weights
          */
         bool GetRandomResultTables(ServerModels::FGetRandomResultTablesRequest& request, const FGetRandomResultTablesDelegate& SuccessDelegate = FGetRandomResultTablesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the associated PlayFab account identifiers for the given set of server custom identifiers.
@@ -427,7 +444,9 @@ namespace PlayFab
          */
         bool GetSharedGroupData(ServerModels::FGetSharedGroupDataRequest& request, const FGetSharedGroupDataDelegate& SuccessDelegate = FGetSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the set of items defined for the specified store, including all prices defined, for the specified player
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the set of items defined for the specified store, including all prices defined, for the specified
+         * player
          * A store contains an array of references to items defined in one or more catalog versions of the game, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
          */
         bool GetStoreItems(ServerModels::FGetStoreItemsServerRequest& request, const FGetStoreItemsDelegate& SuccessDelegate = FGetStoreItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -475,7 +494,8 @@ namespace PlayFab
          */
         bool GetUserInternalData(ServerModels::FGetUserDataRequest& request, const FGetUserInternalDataDelegate& SuccessDelegate = FGetUserInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the specified user's current inventory of virtual goods
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the specified user's current inventory of virtual goods
          * All items currently in the user inventory will be returned, irrespective of how they were acquired (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the user's current inventory, and so will not be not included.
          */
         bool GetUserInventory(ServerModels::FGetUserInventoryRequest& request, const FGetUserInventoryDelegate& SuccessDelegate = FGetUserInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -506,17 +526,20 @@ namespace PlayFab
          */
         bool GrantCharacterToUser(ServerModels::FGrantCharacterToUserRequest& request, const FGrantCharacterToUserDelegate& SuccessDelegate = FGrantCharacterToUserDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Adds the specified items to the specified character's inventory
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Adds the specified items to the specified character's inventory
          * This function directly adds inventory items to the character's inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToCharacter(ServerModels::FGrantItemsToCharacterRequest& request, const FGrantItemsToCharacterDelegate& SuccessDelegate = FGrantItemsToCharacterDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Adds the specified items to the specified user's inventory
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Adds the specified items to the specified user's inventory
          * This function directly adds inventory items to the user's inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToUser(ServerModels::FGrantItemsToUserRequest& request, const FGrantItemsToUserDelegate& SuccessDelegate = FGrantItemsToUserDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Adds the specified items to the specified user inventories
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Adds the specified items to the specified user inventories
          * This function directly adds inventory items to user inventories. As a result of this operations, the user will not be charged any transaction fee, regardless of the inventory item catalog definition. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool GrantItemsToUsers(ServerModels::FGrantItemsToUsersRequest& request, const FGrantItemsToUsersDelegate& SuccessDelegate = FGrantItemsToUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -558,29 +581,34 @@ namespace PlayFab
          */
         bool LoginWithXboxId(ServerModels::FLoginWithXboxIdRequest& request, const FLoginWithXboxIdDelegate& SuccessDelegate = FLoginWithXboxIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Modifies the number of remaining uses of a player's inventory item
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Modifies the number of remaining uses of a player's inventory item
          * This function can both add and remove uses of an inventory item. If the number of uses drops below zero, the item will be removed from active inventory.
          */
         bool ModifyItemUses(ServerModels::FModifyItemUsesRequest& request, const FModifyItemUsesDelegate& SuccessDelegate = FModifyItemUsesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Moves an item from a character's inventory into another of the users's character's inventory.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Moves an item from a character's inventory into another of the users's character's inventory.
          * Transfers an item from a character to another character that is owned by the same user. This will remove the item from the character's inventory (until and unless it is moved back), and will enable the other character to make use of the item instead.
          */
         bool MoveItemToCharacterFromCharacter(ServerModels::FMoveItemToCharacterFromCharacterRequest& request, const FMoveItemToCharacterFromCharacterDelegate& SuccessDelegate = FMoveItemToCharacterFromCharacterDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Moves an item from a user's inventory into their character's inventory.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Moves an item from a user's inventory into their character's inventory.
          * Transfers an item from a user to a character she owns. This will remove the item from the user's inventory (until and unless it is moved back), and will enable the character to make use of the item instead.
          */
         bool MoveItemToCharacterFromUser(ServerModels::FMoveItemToCharacterFromUserRequest& request, const FMoveItemToCharacterFromUserDelegate& SuccessDelegate = FMoveItemToCharacterFromUserDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Moves an item from a character's inventory into the owning user's inventory.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Moves an item from a character's inventory into the owning user's inventory.
          * Transfers an item from a character to the owning user. This will remove the item from the character's inventory (until and unless it is moved back), and will enable the user to make use of the item instead.
          */
         bool MoveItemToUserFromCharacter(ServerModels::FMoveItemToUserFromCharacterRequest& request, const FMoveItemToUserFromCharacterDelegate& SuccessDelegate = FMoveItemToUserFromCharacterDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Informs the PlayFab match-making service that the user specified has left the Game Server Instance
         bool NotifyMatchmakerPlayerLeft(ServerModels::FNotifyMatchmakerPlayerLeftRequest& request, const FNotifyMatchmakerPlayerLeftDelegate& SuccessDelegate = FNotifyMatchmakerPlayerLeftDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
          * Economy->Catalogs tab in the PlayFab Game Manager.
          * Coupon codes can be created for any item, or set of items, in the catalog for the title. This operation causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to re-use an already consumed code, or a code which has not yet been created in the service, will result in an error.
          */
@@ -626,12 +654,14 @@ namespace PlayFab
          */
         bool RevokeBans(ServerModels::FRevokeBansRequest& request, const FRevokeBansDelegate& SuccessDelegate = FRevokeBansDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Revokes access to an item in a user's inventory
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Revokes access to an item in a user's inventory
          * In cases where the inventory item in question is a "crate", and the items it contained have already been dispensed, this will not revoke access or otherwise remove the items which were dispensed.
          */
         bool RevokeInventoryItem(ServerModels::FRevokeInventoryItemRequest& request, const FRevokeInventoryItemDelegate& SuccessDelegate = FRevokeInventoryItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Revokes access for up to 25 items across multiple users and characters.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Revokes access for up to 25 items across multiple users and characters.
          * In cases where the inventory item in question is a "crate", and the items it contained have already been dispensed, this will not revoke access or otherwise remove the items which were dispensed.
          */
         bool RevokeInventoryItems(ServerModels::FRevokeInventoryItemsRequest& request, const FRevokeInventoryItemsDelegate& SuccessDelegate = FRevokeInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -691,13 +721,15 @@ namespace PlayFab
          */
         bool SetTitleInternalData(ServerModels::FSetTitleDataRequest& request, const FSetTitleInternalDataDelegate& SuccessDelegate = FSetTitleInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Decrements the character's balance of the specified virtual currency by the stated amount. It is possible to make a VC
-         * balance negative with this API.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Decrements the character's balance of the specified virtual currency by the stated amount. It is possible to
+         * make a VC balance negative with this API.
          */
         bool SubtractCharacterVirtualCurrency(ServerModels::FSubtractCharacterVirtualCurrencyRequest& request, const FSubtractCharacterVirtualCurrencyDelegate& SuccessDelegate = FSubtractCharacterVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make a VC
-         * balance negative with this API.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make
+         * a VC balance negative with this API.
          */
         bool SubtractUserVirtualCurrency(ServerModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Nintendo account from the user's PlayFab account
@@ -713,16 +745,18 @@ namespace PlayFab
         // Unlinks the related Xbox Live account from the user's PlayFab account
         bool UnlinkXboxAccount(ServerModels::FUnlinkXboxAccountRequest& request, const FUnlinkXboxAccountDelegate& SuccessDelegate = FUnlinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Opens a specific container (ContainerItemInstanceId), with a specific key (KeyItemInstanceId, when required), and
-         * returns the contents of the opened container. If the container (and key when relevant) are consumable (RemainingUses >
-         * 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Opens a specific container (ContainerItemInstanceId), with a specific key (KeyItemInstanceId, when
+         * required), and returns the contents of the opened container. If the container (and key when relevant) are consumable
+         * (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
          * Specify the container and optionally the catalogVersion for the container to open
          */
         bool UnlockContainerInstance(ServerModels::FUnlockContainerInstanceRequest& request, const FUnlockContainerInstanceDelegate& SuccessDelegate = FUnlockContainerInstanceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Searches Player or Character inventory for any ItemInstance matching the given CatalogItemId, if necessary unlocks it
-         * using any appropriate key, and returns the contents of the opened container. If the container (and key when relevant)
-         * are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Searches Player or Character inventory for any ItemInstance matching the given CatalogItemId, if necessary
+         * unlocks it using any appropriate key, and returns the contents of the opened container. If the container (and key when
+         * relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of
          * ConsumeItem.
          * Specify the type of container to open and optionally the catalogVersion for the container to open
          */
@@ -779,7 +813,8 @@ namespace PlayFab
          */
         bool UpdateUserInternalData(ServerModels::FUpdateUserInternalDataRequest& request, const FUpdateUserInternalDataDelegate& SuccessDelegate = FUpdateUserInternalDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Updates the key-value pair data tagged to the specified item, which is read-only from the client.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Updates the key-value pair data tagged to the specified item, which is read-only from the client.
          * This function performs an additive update of the arbitrary JSON object containing the custom data for the item instance which belongs to the specified user. In updating the custom data object, keys which already exist in the object will have their values overwritten, while keys with null values will be removed. No other key-value pairs will be changed apart from those specified in the call.
          */
         bool UpdateUserInventoryItemCustomData(ServerModels::FUpdateUserInventoryItemDataRequest& request, const FUpdateUserInventoryItemCustomDataDelegate& SuccessDelegate = FUpdateUserInventoryItemCustomDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

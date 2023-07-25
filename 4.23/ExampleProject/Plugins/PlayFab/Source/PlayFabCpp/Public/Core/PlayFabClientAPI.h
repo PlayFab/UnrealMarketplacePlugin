@@ -227,7 +227,8 @@ namespace PlayFab
          */
         bool AddUsernamePassword(ClientModels::FAddUsernamePasswordRequest& request, const FAddUsernamePasswordDelegate& SuccessDelegate = FAddUsernamePasswordDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Increments the user's balance of the specified virtual currency by the stated amount
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Increments the user's balance of the specified virtual currency by the stated amount
          * This API must be enabled for use as an option in the game manager website. It is disabled by default.
          */
         bool AddUserVirtualCurrency(ClientModels::FAddUserVirtualCurrencyRequest& request, const FAddUserVirtualCurrencyDelegate& SuccessDelegate = FAddUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -248,12 +249,17 @@ namespace PlayFab
          */
         bool CancelTrade(ClientModels::FCancelTradeRequest& request, const FCancelTradeDelegate& SuccessDelegate = FCancelTradeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and virtual
-         * currency balances as appropriate
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory and
+         * virtual currency balances as appropriate
          * The final step in the purchasing process, this API finalizes the purchase with the payment provider, where applicable, adding virtual goods to the player inventory (including random drop table resolution and recursive addition of bundled items) and adjusting virtual currency balances for funds used or added. Note that this is a pull operation, and should be polled regularly when a purchase is in progress. Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation.
          */
         bool ConfirmPurchase(ClientModels::FConfirmPurchaseRequest& request, const FConfirmPurchaseDelegate& SuccessDelegate = FConfirmPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's inventory.
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's
+         * inventory.
+         */
         bool ConsumeItem(ClientModels::FConsumeItemRequest& request, const FConsumeItemDelegate& SuccessDelegate = FConsumeItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Grants the player's current entitlements from Microsoft Store's Collection API
         bool ConsumeMicrosoftStoreEntitlements(ClientModels::FConsumeMicrosoftStoreEntitlementsRequest& request, const FConsumeMicrosoftStoreEntitlementsDelegate& SuccessDelegate = FConsumeMicrosoftStoreEntitlementsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -295,7 +301,10 @@ namespace PlayFab
          * Returns a list of every character that currently belongs to a user.
          */
         bool GetAllUsersCharacters(ClientModels::FListUsersCharactersRequest& request, const FGetAllUsersCharactersDelegate& SuccessDelegate = FGetAllUsersCharactersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
+         */
         bool GetCatalogItems(ClientModels::FGetCatalogItemsRequest& request, const FGetCatalogItemsDelegate& SuccessDelegate = FGetCatalogItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the title-specific custom data for the character which is readable and writable by the client
@@ -303,7 +312,8 @@ namespace PlayFab
          */
         bool GetCharacterData(ClientModels::FGetCharacterDataRequest& request, const FGetCharacterDataDelegate& SuccessDelegate = FGetCharacterDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the specified character's current inventory of virtual goods
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the specified character's current inventory of virtual goods
          * All items currently in the character inventory will be returned, irrespective of how they were acquired (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer valid are not considered to be in the user's current inventory, and so will not be not included. Also returns their virtual currency balances.
          */
         bool GetCharacterInventory(ClientModels::FGetCharacterInventoryRequest& request, const FGetCharacterInventoryDelegate& SuccessDelegate = FGetCharacterInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -356,9 +366,10 @@ namespace PlayFab
         // Retrieves a list of all of the user's characters for the given statistic.
         bool GetLeaderboardForUserCharacters(ClientModels::FGetLeaderboardForUsersCharactersRequest& request, const FGetLeaderboardForUserCharactersDelegate& SuccessDelegate = FGetLeaderboardForUserCharactersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the client
-         * completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the client to
-         * create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ For payments flows where the provider requires playfab (the fulfiller) to initiate the transaction, but the
+         * client completes the rest of the flow. In the Xsolla case, the token returned here will be passed to Xsolla by the
+         * client to create a cart. Poll GetPurchase using the returned OrderId once you've completed the payment.
          */
         bool GetPaymentToken(ClientModels::FGetPaymentTokenRequest& request, const FGetPaymentTokenDelegate& SuccessDelegate = FGetPaymentTokenDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -449,8 +460,9 @@ namespace PlayFab
          */
         bool GetPublisherData(ClientModels::FGetPublisherDataRequest& request, const FGetPublisherDataDelegate& SuccessDelegate = FGetPublisherDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that are still
-         * active.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase that
+         * are still active.
          */
         bool GetPurchase(ClientModels::FGetPurchaseRequest& request, const FGetPurchaseDelegate& SuccessDelegate = FGetPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -461,7 +473,8 @@ namespace PlayFab
          */
         bool GetSharedGroupData(ClientModels::FGetSharedGroupDataRequest& request, const FGetSharedGroupDataDelegate& SuccessDelegate = FGetSharedGroupDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Retrieves the set of items defined for the specified store, including all prices defined
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the set of items defined for the specified store, including all prices defined
          * A store contains an array of references to items defined in one or more catalog versions of the game, along with the prices for the item, in both real world and virtual currencies. These prices act as an override to any prices defined in the catalog. In this way, the base definitions of the items may be defined in the catalog, with all associated properties, while the pricing can be set for each store, as needed. This allows for subsets of goods to be defined for different purposes (in order to simplify showing some, but not all catalog items to users, based upon different characteristics), along with unique prices. Note that all prices defined in the catalog and store definitions for the item are considered valid, and that a compromised client can be made to send a request for an item based upon any of these definitions. If no price is specified in the store for an item, the price set in the catalog should be displayed to the user.
          */
         bool GetStoreItems(ClientModels::FGetStoreItemsRequest& request, const FGetStoreItemsDelegate& SuccessDelegate = FGetStoreItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -495,7 +508,10 @@ namespace PlayFab
          * Data is stored as JSON key-value pairs. Every time the data is updated via any source, the version counter is incremented. If the Version parameter is provided, then this call will only return data if the current version on the system is greater than the value provided. If the Keys parameter is provided, the data object returned will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user data will be returned.
          */
         bool GetUserData(ClientModels::FGetUserDataRequest& request, const FGetUserDataDelegate& SuccessDelegate = FGetUserDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the user's current inventory of virtual goods
+        /**
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Retrieves the user's current inventory of virtual goods
+         */
         bool GetUserInventory(ClientModels::FGetUserInventoryRequest& request, const FGetUserInventoryDelegate& SuccessDelegate = FGetUserInventoryDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the publisher-specific custom data for the user which is readable and writable by the client
@@ -665,7 +681,7 @@ namespace PlayFab
         /**
          * Signs the user in using a Steam authentication ticket, returning a session identifier that can subsequently be used for
          * API calls which require an authenticated user
-         * Steam sign-in is accomplished with the Steam Session Ticket. More information on the Ticket can be found in the Steamworks SDK, here: https://partner.steamgames.com/documentation/auth (requires sign-in). NOTE: For Steam authentication to work, the title must be configured with the Steam Application ID and Web API Key in the PlayFab Game Manager (under Steam in the Add-ons Marketplace). You can obtain a Web API Key from the Permissions page of any Group associated with your App ID in the Steamworks site. If this is the first time a user has signed in with the Steam account and CreateAccount is set to true, a new PlayFab account will be created and linked to the provided account's Steam ID. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Steam account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
+         * Steam sign-in is accomplished with the Steam Session Ticket. More information on the Ticket can be found in the Steamworks SDK, here: https://partner.steamgames.com/documentation/auth. NOTE: For Steam authentication to work, the title must be configured with the Steam Application ID and Web API Key in the PlayFab Game Manager (under Steam in the Add-ons Marketplace). You can obtain a Web API Key from the Permissions page of any Group associated with your App ID in the Steamworks site. If this is the first time a user has signed in with the Steam account and CreateAccount is set to true, a new PlayFab account will be created and linked to the provided account's Steam ID. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Steam account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
          */
         bool LoginWithSteam(ClientModels::FLoginWithSteamRequest& request, const FLoginWithSteamDelegate& SuccessDelegate = FLoginWithSteamDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -691,18 +707,21 @@ namespace PlayFab
         // Opens a new outstanding trade. Note that a given item instance may only be in one open trade at a time.
         bool OpenTrade(ClientModels::FOpenTradeRequest& request, const FOpenTradeDelegate& SuccessDelegate = FOpenTradeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Selects a payment option for purchase order created via StartPurchase
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Selects a payment option for purchase order created via StartPurchase
          * This is the second step in the purchasing process, initiating the purchase transaction with the payment provider (if applicable). For payment provider scenarios, the title should next present the user with the payment provider'sinterface for payment. Once the player has completed the payment with the provider, the title should call ConfirmPurchase tofinalize the process and add the appropriate items to the player inventory.
          */
         bool PayForPurchase(ClientModels::FPayForPurchaseRequest& request, const FPayForPurchaseDelegate& SuccessDelegate = FPayForPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as well as what
-         * the client believes the price to be. This lets the server fail the purchase if the price has changed.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Buys a single item with virtual currency. You must specify both the virtual currency to use to purchase, as
+         * well as what the client believes the price to be. This lets the server fail the purchase if the price has changed.
          * Please note that the processing time for inventory grants and purchases increases fractionally the more items are in the inventory, and the more items are in the grant/purchase operation (with each item in a bundle being a distinct add).
          */
         bool PurchaseItem(ClientModels::FPurchaseItemRequest& request, const FPurchaseItemDelegate& SuccessDelegate = FPurchaseItemDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
          * Economy->Catalogs tab in the PlayFab Game Manager.
          * Coupon codes can be created for any item, or set of items, in the catalog for the title. This operation causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to re-use an already consumed code, or a code which has not yet been created in the service, will result in an error.
          */
@@ -752,7 +771,8 @@ namespace PlayFab
          */
         bool ReportPlayer(ClientModels::FReportPlayerClientRequest& request, const FReportPlayerDelegate& SuccessDelegate = FReportPlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Restores all in-app purchases based on the given restore receipt
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Restores all in-app purchases based on the given restore receipt
          * The title should obtain a refresh receipt via restoreCompletedTransactions in the SKPaymentQueue of the Apple StoreKit and pass that in to this call. The resultant receipt contains new receipt instances for all non-consumable goods previously purchased by the user. This API call iterates through every purchase in the receipt and restores the items if they still exist in the catalog and can be validated.
          */
         bool RestoreIOSPurchases(ClientModels::FRestoreIOSPurchasesRequest& request, const FRestoreIOSPurchasesDelegate& SuccessDelegate = FRestoreIOSPurchasesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -780,13 +800,15 @@ namespace PlayFab
          */
         bool SetPlayerSecret(ClientModels::FSetPlayerSecretRequest& request, const FSetPlayerSecretDelegate& SuccessDelegate = FSetPlayerSecretDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Creates an order for a list of items from the title catalog
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Creates an order for a list of items from the title catalog
          * This is the first step in the purchasing process. For security purposes, once the order (or "cart") has been created, additional inventory objects may no longer be added. In addition, inventory objects will be locked to the current prices, regardless of any subsequent changes at the catalog level which may occur during the next two steps.
          */
         bool StartPurchase(ClientModels::FStartPurchaseRequest& request, const FStartPurchaseDelegate& SuccessDelegate = FStartPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make a VC
-         * balance negative with this API.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Decrements the user's balance of the specified virtual currency by the stated amount. It is possible to make
+         * a VC balance negative with this API.
          * This API must be enabled for use as an option in the game manager website. It is disabled by default.
          */
         bool SubtractUserVirtualCurrency(ClientModels::FSubtractUserVirtualCurrencyRequest& request, const FSubtractUserVirtualCurrencyDelegate& SuccessDelegate = FSubtractUserVirtualCurrencyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
@@ -831,15 +853,17 @@ namespace PlayFab
         // Unlinks the related Xbox Live account from the user's PlayFab account
         bool UnlinkXboxAccount(ClientModels::FUnlinkXboxAccountRequest& request, const FUnlinkXboxAccountDelegate& SuccessDelegate = FUnlinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Opens the specified container, with the specified key (when required), and returns the contents of the opened container.
-         * If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented,
-         * consistent with the operation of ConsumeItem.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Opens the specified container, with the specified key (when required), and returns the contents of the
+         * opened container. If the container (and key when relevant) are consumable (RemainingUses > 0), their RemainingUses will
+         * be decremented, consistent with the operation of ConsumeItem.
          * Specify the container and optionally the catalogVersion for the container to open
          */
         bool UnlockContainerInstance(ClientModels::FUnlockContainerInstanceRequest& request, const FUnlockContainerInstanceDelegate& SuccessDelegate = FUnlockContainerInstanceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it using an
-         * appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Searches target inventory for an ItemInstance matching the given CatalogItemId, if necessary unlocks it
+         * using an appropriate key, and returns the contents of the opened container. If the container (and key when relevant) are
          * consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
          * Specify the type of container to open and optionally the catalogVersion for the container to open
          */
@@ -888,24 +912,28 @@ namespace PlayFab
          */
         bool UpdateUserTitleDisplayName(ClientModels::FUpdateUserTitleDisplayNameRequest& request, const FUpdateUserTitleDisplayNameDelegate& SuccessDelegate = FUpdateUserTitleDisplayNameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches the
-         * purchased catalog item
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that it matches
+         * the purchased catalog item
          */
         bool ValidateAmazonIAPReceipt(ClientModels::FValidateAmazonReceiptRequest& request, const FValidateAmazonIAPReceiptDelegate& SuccessDelegate = FValidateAmazonIAPReceiptDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Validates a Google Play purchase and gives the corresponding item to the player.
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Validates a Google Play purchase and gives the corresponding item to the player.
          * The packageName and productId are defined in the GooglePlay store. The productId must match the ItemId of the inventory item in the PlayFab catalog for the title. This enables the PlayFab service to securely validate that the purchase is for the correct item, in order to prevent uses from passing valid receipts as being for more expensive items (passing a receipt for a 99-cent purchase as being for a $19.99 purchase, for example). Each receipt may be validated only once to avoid granting the same item over and over from a single purchase.
          */
         bool ValidateGooglePlayPurchase(ClientModels::FValidateGooglePlayPurchaseRequest& request, const FValidateGooglePlayPurchaseDelegate& SuccessDelegate = FValidateGooglePlayPurchaseDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the purchased
-         * catalog item
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches the
+         * purchased catalog item
          * The CurrencyCode and PurchasePrice must match the price which was set up for the item in the Apple store. In addition, The ItemId of the inventory in the PlayFab Catalog must match the Product ID as it was set up in the Apple store. This enables the PlayFab service to securely validate that the purchase is for the correct item, in order to prevent uses from passing valid receipts as being for more expensive items (passing a receipt for a 99-cent purchase as being for a $19.99 purchase, for example).
          */
         bool ValidateIOSReceipt(ClientModels::FValidateIOSReceiptRequest& request, const FValidateIOSReceiptDelegate& SuccessDelegate = FValidateIOSReceiptDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
-         * Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it matches the
-         * purchased catalog item
+         * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
+         * version 2._ Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that it
+         * matches the purchased catalog item
          */
         bool ValidateWindowsStoreReceipt(ClientModels::FValidateWindowsReceiptRequest& request, const FValidateWindowsStoreReceiptDelegate& SuccessDelegate = FValidateWindowsStoreReceiptDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

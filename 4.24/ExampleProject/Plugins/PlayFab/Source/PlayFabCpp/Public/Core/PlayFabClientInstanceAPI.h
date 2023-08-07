@@ -764,7 +764,7 @@ namespace PlayFab
         bool RegisterForIOSPushNotification(ClientModels::FRegisterForIOSPushNotificationRequest& request, const FRegisterForIOSPushNotificationDelegate& SuccessDelegate = FRegisterForIOSPushNotificationDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Registers a new Playfab user account, returning a session identifier that can subsequently be used for API calls which
-         * require an authenticated user. You must supply either a username or an email address.
+         * require an authenticated user. You must supply a username and an email address.
          */
         bool RegisterPlayFabUser(ClientModels::FRegisterPlayFabUserRequest& request, const FRegisterPlayFabUserDelegate& SuccessDelegate = FRegisterPlayFabUserDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**

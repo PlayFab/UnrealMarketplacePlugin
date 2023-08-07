@@ -5212,7 +5212,7 @@ void UPlayFabClientAPI::HelperLoginWithXbox(FPlayFabBaseModel response, UObject*
     this->RemoveFromRoot();
 }
 
-/** Registers a new Playfab user account, returning a session identifier that can subsequently be used for API calls which require an authenticated user. You must supply either a username or an email address. */
+/** Registers a new Playfab user account, returning a session identifier that can subsequently be used for API calls which require an authenticated user. You must supply a username and an email address. */
 UPlayFabClientAPI* UPlayFabClientAPI::RegisterPlayFabUser(FClientRegisterPlayFabUserRequest request,
     FDelegateOnSuccessRegisterPlayFabUser onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

@@ -107,6 +107,7 @@ enum class EContinentCode : uint8
     pfenum_NA = 4 UMETA(DisplayName = "NA"),
     pfenum_OC = 5 UMETA(DisplayName = "OC"),
     pfenum_SA = 6 UMETA(DisplayName = "SA"),
+    pfenum_Unknown = 7 UMETA(DisplayName = "Unknown"),
 };
 
 /** CountryCode */
@@ -363,6 +364,7 @@ enum class ECountryCode : uint8
     pfenum_YE = 246 UMETA(DisplayName = "YE"),
     pfenum_ZM = 247 UMETA(DisplayName = "ZM"),
     pfenum_ZW = 248 UMETA(DisplayName = "ZW"),
+    pfenum_Unknown = 249 UMETA(DisplayName = "Unknown"),
 };
 
 /** Currency */

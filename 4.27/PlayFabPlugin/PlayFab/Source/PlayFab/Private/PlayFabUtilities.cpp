@@ -763,6 +763,11 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 17001: returnText = "AllowNonUniquePlayerDisplayNamesDisableNotAllowed"; break;
     case 18000: returnText = "PartitionedEventInvalid"; break;
     case 18001: returnText = "PartitionedEventCountOverLimit"; break;
+    case 18002: returnText = "ManageEventNamespaceInvalid"; break;
+    case 18003: returnText = "ManageEventNameInvalid"; break;
+    case 18004: returnText = "ManagedEventNotFound"; break;
+    case 18005: returnText = "ManageEventsInvalidRatio"; break;
+    case 18006: returnText = "ManagedEventInvalid"; break;
     case 19000: returnText = "PlayerCustomPropertiesPropertyNameTooLong"; break;
     case 19001: returnText = "PlayerCustomPropertiesPropertyNameIsInvalid"; break;
     case 19002: returnText = "PlayerCustomPropertiesStringPropertyValueTooLong"; break;

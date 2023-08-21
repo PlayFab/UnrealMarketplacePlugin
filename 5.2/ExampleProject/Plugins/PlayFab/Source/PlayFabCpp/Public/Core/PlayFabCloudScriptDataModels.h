@@ -106,7 +106,8 @@ namespace CloudScriptModels
         ContinentCodeEU,
         ContinentCodeNA,
         ContinentCodeOC,
-        ContinentCodeSA
+        ContinentCodeSA,
+        ContinentCodeUnknown
     };
 
     PLAYFABCPP_API void writeContinentCodeEnumJSON(ContinentCode enumVal, JsonWriter& writer);
@@ -363,7 +364,8 @@ namespace CloudScriptModels
         CountryCodeEH,
         CountryCodeYE,
         CountryCodeZM,
-        CountryCodeZW
+        CountryCodeZW,
+        CountryCodeUnknown
     };
 
     PLAYFABCPP_API void writeCountryCodeEnumJSON(CountryCode enumVal, JsonWriter& writer);

@@ -797,6 +797,29 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUserServerCustomIdInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Custom ID
+        FString CustomId;
+
+        FUserServerCustomIdInfo() :
+            FPlayFabCppBaseModel(),
+            CustomId()
+            {}
+
+        FUserServerCustomIdInfo(const FUserServerCustomIdInfo& src) = default;
+
+        FUserServerCustomIdInfo(const TSharedPtr<FJsonObject>& obj) : FUserServerCustomIdInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUserServerCustomIdInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum TitleActivationStatus
     {
         TitleActivationStatusNone,
@@ -1241,6 +1264,9 @@ namespace ServerModels
         // [optional] User PlayStation :tm: Network account information, if a PlayStation :tm: Network account has been linked
         TSharedPtr<FUserPsnInfo> PsnInfo;
 
+        // [optional] Server Custom ID information, if a server custom ID has been assigned
+        TSharedPtr<FUserServerCustomIdInfo> ServerCustomIdInfo;
+
         // [optional] User Steam information, if a Steam account has been linked
         TSharedPtr<FUserSteamInfo> SteamInfo;
 
@@ -1275,6 +1301,7 @@ namespace ServerModels
             PlayFabId(),
             PrivateInfo(nullptr),
             PsnInfo(nullptr),
+            ServerCustomIdInfo(nullptr),
             SteamInfo(nullptr),
             TitleInfo(nullptr),
             TwitchInfo(nullptr),
@@ -2095,7 +2122,8 @@ namespace ServerModels
         ContinentCodeEU,
         ContinentCodeNA,
         ContinentCodeOC,
-        ContinentCodeSA
+        ContinentCodeSA,
+        ContinentCodeUnknown
     };
 
     PLAYFABCPP_API void writeContinentCodeEnumJSON(ContinentCode enumVal, JsonWriter& writer);
@@ -2352,7 +2380,8 @@ namespace ServerModels
         CountryCodeEH,
         CountryCodeYE,
         CountryCodeZM,
-        CountryCodeZW
+        CountryCodeZW,
+        CountryCodeUnknown
     };
 
     PLAYFABCPP_API void writeCountryCodeEnumJSON(CountryCode enumVal, JsonWriter& writer);

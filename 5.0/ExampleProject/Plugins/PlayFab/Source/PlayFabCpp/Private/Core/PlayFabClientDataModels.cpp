@@ -3408,6 +3408,7 @@ void PlayFab::ClientModels::writeContinentCodeEnumJSON(ContinentCode enumVal, Js
     case ContinentCodeNA: writer->WriteValue(TEXT("NA")); break;
     case ContinentCodeOC: writer->WriteValue(TEXT("OC")); break;
     case ContinentCodeSA: writer->WriteValue(TEXT("SA")); break;
+    case ContinentCodeUnknown: writer->WriteValue(TEXT("Unknown")); break;
     }
 }
 
@@ -3429,6 +3430,7 @@ ClientModels::ContinentCode PlayFab::ClientModels::readContinentCodeFromValue(co
         _ContinentCodeMap.Add(TEXT("NA"), ContinentCodeNA);
         _ContinentCodeMap.Add(TEXT("OC"), ContinentCodeOC);
         _ContinentCodeMap.Add(TEXT("SA"), ContinentCodeSA);
+        _ContinentCodeMap.Add(TEXT("Unknown"), ContinentCodeUnknown);
 
     }
 
@@ -3696,6 +3698,7 @@ void PlayFab::ClientModels::writeCountryCodeEnumJSON(CountryCode enumVal, JsonWr
     case CountryCodeYE: writer->WriteValue(TEXT("YE")); break;
     case CountryCodeZM: writer->WriteValue(TEXT("ZM")); break;
     case CountryCodeZW: writer->WriteValue(TEXT("ZW")); break;
+    case CountryCodeUnknown: writer->WriteValue(TEXT("Unknown")); break;
     }
 }
 
@@ -3959,6 +3962,7 @@ ClientModels::CountryCode PlayFab::ClientModels::readCountryCodeFromValue(const 
         _CountryCodeMap.Add(TEXT("YE"), CountryCodeYE);
         _CountryCodeMap.Add(TEXT("ZM"), CountryCodeZM);
         _CountryCodeMap.Add(TEXT("ZW"), CountryCodeZW);
+        _CountryCodeMap.Add(TEXT("Unknown"), CountryCodeUnknown);
 
     }
 
@@ -7723,6 +7727,38 @@ bool PlayFab::ClientModels::FUserPrivateAccountInfo::readFromValue(const TShared
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FUserServerCustomIdInfo::~FUserServerCustomIdInfo()
+{
+
+}
+
+void PlayFab::ClientModels::FUserServerCustomIdInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomId"));
+        writer->WriteValue(CustomId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FUserServerCustomIdInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CustomIdValue = obj->TryGetField(TEXT("CustomId"));
+    if (CustomIdValue.IsValid() && !CustomIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CustomIdValue->TryGetString(TmpValue)) { CustomId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::ClientModels::writeUserOriginationEnumJSON(UserOrigination enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -7973,6 +8009,7 @@ PlayFab::ClientModels::FUserAccountInfo::~FUserAccountInfo()
     //if (NintendoSwitchDeviceIdInfo != nullptr) delete NintendoSwitchDeviceIdInfo;
     //if (PrivateInfo != nullptr) delete PrivateInfo;
     //if (PsnInfo != nullptr) delete PsnInfo;
+    //if (ServerCustomIdInfo != nullptr) delete ServerCustomIdInfo;
     //if (SteamInfo != nullptr) delete SteamInfo;
     //if (TitleInfo != nullptr) delete TitleInfo;
     //if (TwitchInfo != nullptr) delete TwitchInfo;
@@ -8084,6 +8121,12 @@ void PlayFab::ClientModels::FUserAccountInfo::writeJSON(JsonWriter& writer) cons
     {
         writer->WriteIdentifierPrefix(TEXT("PsnInfo"));
         PsnInfo->writeJSON(writer);
+    }
+
+    if (ServerCustomIdInfo.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerCustomIdInfo"));
+        ServerCustomIdInfo->writeJSON(writer);
     }
 
     if (SteamInfo.IsValid())
@@ -8225,6 +8268,12 @@ bool PlayFab::ClientModels::FUserAccountInfo::readFromValue(const TSharedPtr<FJs
     if (PsnInfoValue.IsValid() && !PsnInfoValue->IsNull())
     {
         PsnInfo = MakeShareable(new FUserPsnInfo(PsnInfoValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ServerCustomIdInfoValue = obj->TryGetField(TEXT("ServerCustomIdInfo"));
+    if (ServerCustomIdInfoValue.IsValid() && !ServerCustomIdInfoValue->IsNull())
+    {
+        ServerCustomIdInfo = MakeShareable(new FUserServerCustomIdInfo(ServerCustomIdInfoValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> SteamInfoValue = obj->TryGetField(TEXT("SteamInfo"));

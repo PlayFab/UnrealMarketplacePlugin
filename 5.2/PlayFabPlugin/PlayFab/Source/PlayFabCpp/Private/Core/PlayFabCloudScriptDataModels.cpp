@@ -205,6 +205,7 @@ void PlayFab::CloudScriptModels::writeContinentCodeEnumJSON(ContinentCode enumVa
     case ContinentCodeNA: writer->WriteValue(TEXT("NA")); break;
     case ContinentCodeOC: writer->WriteValue(TEXT("OC")); break;
     case ContinentCodeSA: writer->WriteValue(TEXT("SA")); break;
+    case ContinentCodeUnknown: writer->WriteValue(TEXT("Unknown")); break;
     }
 }
 
@@ -226,6 +227,7 @@ CloudScriptModels::ContinentCode PlayFab::CloudScriptModels::readContinentCodeFr
         _ContinentCodeMap.Add(TEXT("NA"), ContinentCodeNA);
         _ContinentCodeMap.Add(TEXT("OC"), ContinentCodeOC);
         _ContinentCodeMap.Add(TEXT("SA"), ContinentCodeSA);
+        _ContinentCodeMap.Add(TEXT("Unknown"), ContinentCodeUnknown);
 
     }
 
@@ -493,6 +495,7 @@ void PlayFab::CloudScriptModels::writeCountryCodeEnumJSON(CountryCode enumVal, J
     case CountryCodeYE: writer->WriteValue(TEXT("YE")); break;
     case CountryCodeZM: writer->WriteValue(TEXT("ZM")); break;
     case CountryCodeZW: writer->WriteValue(TEXT("ZW")); break;
+    case CountryCodeUnknown: writer->WriteValue(TEXT("Unknown")); break;
     }
 }
 
@@ -756,6 +759,7 @@ CloudScriptModels::CountryCode PlayFab::CloudScriptModels::readCountryCodeFromVa
         _CountryCodeMap.Add(TEXT("YE"), CountryCodeYE);
         _CountryCodeMap.Add(TEXT("ZM"), CountryCodeZM);
         _CountryCodeMap.Add(TEXT("ZW"), CountryCodeZW);
+        _CountryCodeMap.Add(TEXT("Unknown"), CountryCodeUnknown);
 
     }
 

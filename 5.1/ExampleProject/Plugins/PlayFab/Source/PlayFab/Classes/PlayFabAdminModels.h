@@ -60,13 +60,13 @@ public:
 /**
  * Deletes all data associated with the master player account, including data from all titles the player has played, such
  * as statistics, custom data, inventory, purchases, virtual currency balances, characters, group memberships, publisher
- * data, credential data, account linkages, friends list and PlayStream event history. Removes the player from all
- * leaderboards and player search indexes. Note, this API queues the player for deletion and returns a receipt immediately.
- * Record the receipt ID for future reference. It may take some time before all player data is fully deleted. Upon
- * completion of the deletion, an email will be sent to the notification email address configured for the title confirming
- * the deletion. Until the player data is fully deleted, attempts to recreate the player with the same user account in the
- * same title will fail with the 'AccountDeleted' error. It is highly recommended to know the impact of the deletion by
- * calling GetPlayedTitleList, before calling this API.
+ * data, credential data, account linkages, friends list, PlayStream event data, and telemetry event data. Removes the
+ * player from all leaderboards and player search indexes. Note, this API queues the player for deletion and returns a
+ * receipt immediately. Record the receipt ID for future reference. It may take some time before all player data is fully
+ * deleted. Upon completion of the deletion, an email will be sent to the notification email address configured for the
+ * title confirming the deletion. Until the player data is fully deleted, attempts to recreate the player with the same
+ * user account in the same title will fail with the 'AccountDeleted' error. It is highly recommended to know the impact of
+ * the deletion by calling GetPlayedTitleList, before calling this API.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminDeleteMasterPlayerAccountRequest : public FPlayFabRequestCommon
@@ -176,10 +176,10 @@ public:
 /**
  * Exports all data associated with the master player account, including data from all titles the player has played, such
  * as statistics, custom data, inventory, purchases, virtual currency balances, characters, group memberships, publisher
- * data, credential data, account linkages, friends list and PlayStream event history. Note, this API queues the player for
- * export and returns a receipt immediately. Record the receipt ID for future reference. It may take some time before the
- * export is available for download. Upon completion of the export, an email containing the URL to download the export dump
- * will be sent to the notification email address configured for the title.
+ * data, credential data, account linkages, friends list, PlayStream event data, and telemetry event data. Note, this API
+ * queues the player for export and returns a receipt immediately. Record the receipt ID for future reference. It may take
+ * some time before the export is available for download. Upon completion of the export, an email containing the URL to
+ * download the export dump will be sent to the notification email address configured for the title.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminExportMasterPlayerDataRequest : public FPlayFabRequestCommon

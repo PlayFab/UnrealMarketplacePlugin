@@ -1425,7 +1425,8 @@ namespace EconomyModels
         CountryCodeEH,
         CountryCodeYE,
         CountryCodeZM,
-        CountryCodeZW
+        CountryCodeZW,
+        CountryCodeUnknown
     };
 
     PLAYFABCPP_API void writeCountryCodeEnumJSON(CountryCode enumVal, JsonWriter& writer);

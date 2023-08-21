@@ -2532,6 +2532,7 @@ void PlayFab::EconomyModels::writeCountryCodeEnumJSON(CountryCode enumVal, JsonW
     case CountryCodeYE: writer->WriteValue(TEXT("YE")); break;
     case CountryCodeZM: writer->WriteValue(TEXT("ZM")); break;
     case CountryCodeZW: writer->WriteValue(TEXT("ZW")); break;
+    case CountryCodeUnknown: writer->WriteValue(TEXT("Unknown")); break;
     }
 }
 
@@ -2795,6 +2796,7 @@ EconomyModels::CountryCode PlayFab::EconomyModels::readCountryCodeFromValue(cons
         _CountryCodeMap.Add(TEXT("YE"), CountryCodeYE);
         _CountryCodeMap.Add(TEXT("ZM"), CountryCodeZM);
         _CountryCodeMap.Add(TEXT("ZW"), CountryCodeZW);
+        _CountryCodeMap.Add(TEXT("Unknown"), CountryCodeUnknown);
 
     }
 

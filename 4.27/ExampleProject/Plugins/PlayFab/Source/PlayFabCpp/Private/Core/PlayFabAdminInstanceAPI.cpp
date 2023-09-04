@@ -587,6 +587,36 @@ void UPlayFabAdminInstanceAPI::OnDeleteMasterPlayerAccountResult(FHttpRequestPtr
     }
 }
 
+bool UPlayFabAdminInstanceAPI::DeleteMasterPlayerEventData(
+    AdminModels::FDeleteMasterPlayerEventDataRequest& request,
+    const FDeleteMasterPlayerEventDataDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if(context->GetDeveloperSecretKey().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must first set your PlayFab developerSecretKey to use this function (Unreal Settings Menu, or in C++ code)"));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Admin/DeleteMasterPlayerEventData"), request.toJSONString(), TEXT("X-SecretKey"), context->GetDeveloperSecretKey());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabAdminInstanceAPI::OnDeleteMasterPlayerEventDataResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabAdminInstanceAPI::OnDeleteMasterPlayerEventDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMasterPlayerEventDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    AdminModels::FDeleteMasterPlayerEventDataResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabAdminInstanceAPI::DeleteMembershipSubscription(
     AdminModels::FDeleteMembershipSubscriptionRequest& request,
     const FDeleteMembershipSubscriptionDelegate& SuccessDelegate,

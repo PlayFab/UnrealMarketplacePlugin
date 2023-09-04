@@ -5026,6 +5026,7 @@ void PlayFab::AdminModels::writeSegmentLoginIdentityProviderEnumJSON(SegmentLogi
     case SegmentLoginIdentityProviderOpenIdConnect: writer->WriteValue(TEXT("OpenIdConnect")); break;
     case SegmentLoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
     case SegmentLoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
+    case SegmentLoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     }
 }
 
@@ -5061,6 +5062,7 @@ AdminModels::SegmentLoginIdentityProvider PlayFab::AdminModels::readSegmentLogin
         _SegmentLoginIdentityProviderMap.Add(TEXT("OpenIdConnect"), SegmentLoginIdentityProviderOpenIdConnect);
         _SegmentLoginIdentityProviderMap.Add(TEXT("Apple"), SegmentLoginIdentityProviderApple);
         _SegmentLoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), SegmentLoginIdentityProviderNintendoSwitchAccount);
+        _SegmentLoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), SegmentLoginIdentityProviderGooglePlayGames);
 
     }
 
@@ -7520,6 +7522,61 @@ bool PlayFab::AdminModels::FDeleteMasterPlayerAccountResult::readFromValue(const
     }
 
     obj->TryGetStringArrayField(TEXT("TitleIds"), TitleIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeleteMasterPlayerEventDataRequest::~FDeleteMasterPlayerEventDataRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteMasterPlayerEventDataRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteMasterPlayerEventDataRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteMasterPlayerEventDataRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeleteMasterPlayerEventDataResult::~FDeleteMasterPlayerEventDataResult()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteMasterPlayerEventDataResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteMasterPlayerEventDataResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
 
     return HasSucceeded;
 }

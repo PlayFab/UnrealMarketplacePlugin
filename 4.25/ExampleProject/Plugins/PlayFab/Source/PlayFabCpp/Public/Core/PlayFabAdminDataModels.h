@@ -2577,7 +2577,8 @@ namespace AdminModels
         SegmentLoginIdentityProviderFacebookInstantGames,
         SegmentLoginIdentityProviderOpenIdConnect,
         SegmentLoginIdentityProviderApple,
-        SegmentLoginIdentityProviderNintendoSwitchAccount
+        SegmentLoginIdentityProviderNintendoSwitchAccount,
+        SegmentLoginIdentityProviderGooglePlayGames
     };
 
     PLAYFABCPP_API void writeSegmentLoginIdentityProviderEnumJSON(SegmentLoginIdentityProvider enumVal, JsonWriter& writer);
@@ -3858,6 +3859,48 @@ namespace AdminModels
         }
 
         ~FDeleteMasterPlayerAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteMasterPlayerEventDataRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        FDeleteMasterPlayerEventDataRequest() :
+            FPlayFabCppRequestCommon(),
+            PlayFabId()
+            {}
+
+        FDeleteMasterPlayerEventDataRequest(const FDeleteMasterPlayerEventDataRequest& src) = default;
+
+        FDeleteMasterPlayerEventDataRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteMasterPlayerEventDataRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteMasterPlayerEventDataRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteMasterPlayerEventDataResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        FDeleteMasterPlayerEventDataResult() :
+            FPlayFabCppResultCommon()
+            {}
+
+        FDeleteMasterPlayerEventDataResult(const FDeleteMasterPlayerEventDataResult& src) = default;
+
+        FDeleteMasterPlayerEventDataResult(const TSharedPtr<FJsonObject>& obj) : FDeleteMasterPlayerEventDataResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteMasterPlayerEventDataResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

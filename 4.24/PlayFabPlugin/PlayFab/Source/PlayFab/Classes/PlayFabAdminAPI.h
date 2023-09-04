@@ -85,6 +85,19 @@ public:
         void HelperDeleteMasterPlayerAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteMasterPlayerEventData, FAdminDeleteMasterPlayerEventDataResult, result, UObject*, customData);
+
+    /** Deletes PlayStream and telemetry event data associated with the master player account from PlayFab storage */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteMasterPlayerEventData(FAdminDeleteMasterPlayerEventDataRequest request,
+            FDelegateOnSuccessDeleteMasterPlayerEventData onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteMasterPlayerEventData(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteMembershipSubscription, FAdminDeleteMembershipSubscriptionResult, result, UObject*, customData);
 
     /** Deletes a player's subscription */
@@ -1754,6 +1767,7 @@ public:
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessBanUsers OnSuccessBanUsers;
     FDelegateOnSuccessDeleteMasterPlayerAccount OnSuccessDeleteMasterPlayerAccount;
+    FDelegateOnSuccessDeleteMasterPlayerEventData OnSuccessDeleteMasterPlayerEventData;
     FDelegateOnSuccessDeleteMembershipSubscription OnSuccessDeleteMembershipSubscription;
     FDelegateOnSuccessDeletePlayer OnSuccessDeletePlayer;
     FDelegateOnSuccessDeleteTitle OnSuccessDeleteTitle;

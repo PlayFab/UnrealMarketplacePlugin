@@ -35,6 +35,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateSegmentDelegate, const AdminModels::FCreateSegmentResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteContentDelegate, const AdminModels::FBlankResult&);
         DECLARE_DELEGATE_OneParam(FDeleteMasterPlayerAccountDelegate, const AdminModels::FDeleteMasterPlayerAccountResult&);
+        DECLARE_DELEGATE_OneParam(FDeleteMasterPlayerEventDataDelegate, const AdminModels::FDeleteMasterPlayerEventDataResult&);
         DECLARE_DELEGATE_OneParam(FDeleteMembershipSubscriptionDelegate, const AdminModels::FDeleteMembershipSubscriptionResult&);
         DECLARE_DELEGATE_OneParam(FDeleteOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const AdminModels::FDeletePlayerResult&);
@@ -220,6 +221,11 @@ namespace PlayFab
          * Deletes all data associated with the master player account, including data from all titles the player has played, such as statistics, custom data, inventory, purchases, virtual currency balances, characters, group memberships, publisher data, credential data, account linkages, friends list, PlayStream event data, and telemetry event data. Removes the player from all leaderboards and player search indexes. Note, this API queues the player for deletion and returns a receipt immediately. Record the receipt ID for future reference. It may take some time before all player data is fully deleted. Upon completion of the deletion, an email will be sent to the notification email address configured for the title confirming the deletion. Until the player data is fully deleted, attempts to recreate the player with the same user account in the same title will fail with the 'AccountDeleted' error. It is highly recommended to know the impact of the deletion by calling GetPlayedTitleList, before calling this API.
          */
         bool DeleteMasterPlayerAccount(AdminModels::FDeleteMasterPlayerAccountRequest& request, const FDeleteMasterPlayerAccountDelegate& SuccessDelegate = FDeleteMasterPlayerAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Deletes PlayStream and telemetry event data associated with the master player account from PlayFab storage
+         * Deletes any PlayStream or telemetry event associated with the player from PlayFab. Note, this API queues the data for asynchronous deletion. It may take some time before the data is deleted.
+         */
+        bool DeleteMasterPlayerEventData(AdminModels::FDeleteMasterPlayerEventDataRequest& request, const FDeleteMasterPlayerEventDataDelegate& SuccessDelegate = FDeleteMasterPlayerEventDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Deletes a player's subscription
          * This API lets developers delete a membership subscription.
@@ -771,6 +777,7 @@ namespace PlayFab
         void OnCreateSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteContentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteMasterPlayerAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMasterPlayerAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteMasterPlayerEventDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMasterPlayerEventDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteMembershipSubscriptionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMembershipSubscriptionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

@@ -1633,6 +1633,12 @@ public:
     /** The idempotency id for the request. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString IdempotencyId;
+    /**
+     * The transfer operation status. Possible values are 'InProgress' or 'Completed'. If the operation has completed, the
+     * response code will be 200. Otherwise, it will be 202.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString OperationStatus;
     /** The ids of transactions that occurred as a result of the request's receiving action. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ReceivingTransactionIds;

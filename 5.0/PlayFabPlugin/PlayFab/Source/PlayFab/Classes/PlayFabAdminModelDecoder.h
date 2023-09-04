@@ -44,6 +44,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminDeleteMasterPlayerAccountResult decodeDeleteMasterPlayerAccountResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the DeleteMasterPlayerEventDataResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminDeleteMasterPlayerEventDataResult decodeDeleteMasterPlayerEventDataResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the DeleteMembershipSubscriptionResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminDeleteMembershipSubscriptionResult decodeDeleteMembershipSubscriptionResultResponse(UPlayFabJsonObject* response);

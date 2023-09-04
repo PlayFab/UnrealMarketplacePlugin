@@ -44,6 +44,15 @@ FAdminDeleteMasterPlayerAccountResult UPlayFabAdminModelDecoder::decodeDeleteMas
     return tempStruct;
 }
 
+FAdminDeleteMasterPlayerEventDataResult UPlayFabAdminModelDecoder::decodeDeleteMasterPlayerEventDataResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeleteMasterPlayerEventDataResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminDeleteMembershipSubscriptionResult UPlayFabAdminModelDecoder::decodeDeleteMembershipSubscriptionResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

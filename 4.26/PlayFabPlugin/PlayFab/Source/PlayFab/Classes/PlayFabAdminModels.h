@@ -97,6 +97,27 @@ public:
         FString TitleIds;
 };
 
+/**
+ * Deletes any PlayStream or telemetry event associated with the player from PlayFab. Note, this API queues the data for
+ * asynchronous deletion. It may take some time before the data is deleted.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteMasterPlayerEventDataRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Account Management Models")
+        FString PlayFabId;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FAdminDeleteMasterPlayerEventDataResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
 /** This API lets developers delete a membership subscription. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FAdminDeleteMembershipSubscriptionRequest : public FPlayFabRequestCommon

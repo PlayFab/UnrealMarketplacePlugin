@@ -1126,6 +1126,7 @@ enum class ESegmentLoginIdentityProvider : uint8
     pfenum_OpenIdConnect = 18 UMETA(DisplayName = "OpenIdConnect"),
     pfenum_Apple = 19 UMETA(DisplayName = "Apple"),
     pfenum_NintendoSwitchAccount = 20 UMETA(DisplayName = "NintendoSwitchAccount"),
+    pfenum_GooglePlayGames = 21 UMETA(DisplayName = "GooglePlayGames"),
 };
 
 /** SegmentPushNotificationDevicePlatform */

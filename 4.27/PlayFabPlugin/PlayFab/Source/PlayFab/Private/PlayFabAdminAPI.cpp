@@ -185,6 +185,58 @@ void UPlayFabAdminAPI::HelperDeleteMasterPlayerAccount(FPlayFabBaseModel respons
     this->RemoveFromRoot();
 }
 
+/** Deletes PlayStream and telemetry event data associated with the master player account from PlayFab storage */
+UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteMasterPlayerEventData(FAdminDeleteMasterPlayerEventDataRequest request,
+    FDelegateOnSuccessDeleteMasterPlayerEventData onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabAdminAPI* manager = NewObject<UPlayFabAdminAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteMasterPlayerEventData = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabAdminAPI::HelperDeleteMasterPlayerEventData);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Admin/DeleteMasterPlayerEventData";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabAdminRequestCompleted
+void UPlayFabAdminAPI::HelperDeleteMasterPlayerEventData(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteMasterPlayerEventData.IsBound())
+    {
+        FAdminDeleteMasterPlayerEventDataResult ResultStruct = UPlayFabAdminModelDecoder::decodeDeleteMasterPlayerEventDataResultResponse(response.responseData);
+        OnSuccessDeleteMasterPlayerEventData.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Deletes a player's subscription */
 UPlayFabAdminAPI* UPlayFabAdminAPI::DeleteMembershipSubscription(FAdminDeleteMembershipSubscriptionRequest request,
     FDelegateOnSuccessDeleteMembershipSubscription onSuccess,

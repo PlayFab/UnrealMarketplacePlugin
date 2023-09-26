@@ -693,7 +693,7 @@ function getResultActions(tabbing, apiCall, isInstanceApi) {
     if (apiCall.url === "/GameServerIdentity/AuthenticateGameServerWithCustomId")
         return tabbing + "if (outResult.EntityToken != nullptr && outResult.EntityToken->EntityToken.Len() > 0)\n"
             + tabbing + "    " + getContextContainer(isInstanceApi, true) + "SetEntityToken(outResult.EntityToken->EntityToken);\n";
-    else if (apiCall.result === "LoginResult") {
+    else if (apiCall.result === "LoginResult" || apiCall.result === "RegisterPlayFabUserResult") {
         return tabbing + "outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();\n"
             + tabbing + "if (outResult.SessionTicket.Len() > 0) {\n"
             + tabbing + "    " + getContextContainer(isInstanceApi, false) + "SetClientSessionTicket(outResult.SessionTicket);\n"
@@ -709,9 +709,5 @@ function getResultActions(tabbing, apiCall, isInstanceApi) {
             + tabbing + "}\n"
             + tabbing + "\n\n";
     }
-    else if (apiCall.result === "RegisterPlayFabUserResult")
-        return tabbing + "if (outResult.SessionTicket.Len() > 0)\n"
-            + tabbing + "    " + getContextContainer(isInstanceApi, true) + "SetClientSessionTicket(outResult.SessionTicket);\n"
-            + tabbing + "\n\n";
     return "";
 }

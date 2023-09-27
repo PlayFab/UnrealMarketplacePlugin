@@ -3621,6 +3621,12 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListContainerImageTags(FMultipla
     } else {
         OutRestJsonObj->SetStringField(TEXT("ImageName"), request.ImageName);
     }
+    OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
+    if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SkipToken"), request.SkipToken);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3993,6 +3999,68 @@ void UPlayFabMultiplayerAPI::HelperRequestMultiplayerServer(FPlayFabBaseModel re
     {
         FMultiplayerRequestMultiplayerServerResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeRequestMultiplayerServerResponseResponse(response.responseData);
         OnSuccessRequestMultiplayerServer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Request a party session. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::RequestPartyService(FMultiplayerRequestPartyServiceRequest request,
+    FDelegateOnSuccessRequestPartyService onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRequestPartyService = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperRequestPartyService);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Party/RequestPartyService";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.NetworkConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("NetworkConfiguration"), request.NetworkConfiguration);
+    if (request.PartyId.IsEmpty() || request.PartyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PartyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PartyId"), request.PartyId);
+    }
+    // Check to see if string is empty
+    if (request.PreferredRegions.IsEmpty() || request.PreferredRegions == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PreferredRegions"));
+    } else {
+        TArray<FString> PreferredRegionsArray;
+        FString(request.PreferredRegions).ParseIntoArray(PreferredRegionsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("PreferredRegions"), PreferredRegionsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperRequestPartyService(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRequestPartyService.IsBound())
+    {
+        FMultiplayerRequestPartyServiceResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeRequestPartyServiceResponseResponse(response.responseData);
+        OnSuccessRequestPartyService.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4420,6 +4488,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UploadCertificate(FMultiplayerUp
 
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceUpdate"), request.ForceUpdate);
     if (request.GameCertificate != nullptr) OutRestJsonObj->SetObjectField(TEXT("GameCertificate"), request.GameCertificate);
 
     // Add Request to manager

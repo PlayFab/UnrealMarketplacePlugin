@@ -654,6 +654,8 @@ FMultiplayerListContainerImageTagsResponse UPlayFabMultiplayerModelDecoder::deco
     FMultiplayerListContainerImageTagsResponse tempStruct;
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
+    tempStruct.PageSize = !(dataObj->HasField("PageSize")) ? 0 : int(dataObj->GetNumberField("PageSize"));
+    tempStruct.SkipToken = !(dataObj->HasField("SkipToken")) ? TEXT("") : dataObj->GetStringField("SkipToken");
     tempStruct.Tags = !(dataObj->HasField("Tags")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Tags"), TEXT(","));
 
     return tempStruct;
@@ -727,6 +729,19 @@ FMultiplayerRequestMultiplayerServerResponse UPlayFabMultiplayerModelDecoder::de
     tempStruct.SessionId = !(dataObj->HasField("SessionId")) ? TEXT("") : dataObj->GetStringField("SessionId");
     tempStruct.State = !(dataObj->HasField("State")) ? TEXT("") : dataObj->GetStringField("State");
     tempStruct.VmId = !(dataObj->HasField("VmId")) ? TEXT("") : dataObj->GetStringField("VmId");
+
+    return tempStruct;
+}
+
+FMultiplayerRequestPartyServiceResponse UPlayFabMultiplayerModelDecoder::decodeRequestPartyServiceResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerRequestPartyServiceResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.InvitationId = !(dataObj->HasField("InvitationId")) ? TEXT("") : dataObj->GetStringField("InvitationId");
+    tempStruct.PartyId = !(dataObj->HasField("PartyId")) ? TEXT("") : dataObj->GetStringField("PartyId");
+    tempStruct.SerializedNetworkDescriptor = !(dataObj->HasField("SerializedNetworkDescriptor")) ? TEXT("") : dataObj->GetStringField("SerializedNetworkDescriptor");
 
     return tempStruct;
 }

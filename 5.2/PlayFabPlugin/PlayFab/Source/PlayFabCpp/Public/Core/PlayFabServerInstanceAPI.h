@@ -37,7 +37,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const ServerModels::FDeletePlayerResult&);
         DECLARE_DELEGATE_OneParam(FDeletePushNotificationTemplateDelegate, const ServerModels::FDeletePushNotificationTemplateResult&);
         DECLARE_DELEGATE_OneParam(FDeleteSharedGroupDelegate, const ServerModels::FEmptyResponse&);
-        DECLARE_DELEGATE_OneParam(FDeregisterGameDelegate, const ServerModels::FDeregisterGameResponse&);
         DECLARE_DELEGATE_OneParam(FEvaluateRandomResultTableDelegate, const ServerModels::FEvaluateRandomResultTableResult&);
         DECLARE_DELEGATE_OneParam(FExecuteCloudScriptDelegate, const ServerModels::FExecuteCloudScriptResult&);
         DECLARE_DELEGATE_OneParam(FGetAllSegmentsDelegate, const ServerModels::FGetAllSegmentsResult&);
@@ -95,6 +94,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGrantItemsToUserDelegate, const ServerModels::FGrantItemsToUserResult&);
         DECLARE_DELEGATE_OneParam(FGrantItemsToUsersDelegate, const ServerModels::FGrantItemsToUsersResult&);
         DECLARE_DELEGATE_OneParam(FLinkNintendoServiceAccountDelegate, const ServerModels::FEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FLinkNintendoServiceAccountSubjectDelegate, const ServerModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FLinkNintendoSwitchDeviceIdDelegate, const ServerModels::FLinkNintendoSwitchDeviceIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkPSNAccountDelegate, const ServerModels::FLinkPSNAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkPSNIdDelegate, const ServerModels::FLinkPSNIdResponse&);
@@ -109,11 +109,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FMoveItemToCharacterFromCharacterDelegate, const ServerModels::FMoveItemToCharacterFromCharacterResult&);
         DECLARE_DELEGATE_OneParam(FMoveItemToCharacterFromUserDelegate, const ServerModels::FMoveItemToCharacterFromUserResult&);
         DECLARE_DELEGATE_OneParam(FMoveItemToUserFromCharacterDelegate, const ServerModels::FMoveItemToUserFromCharacterResult&);
-        DECLARE_DELEGATE_OneParam(FNotifyMatchmakerPlayerLeftDelegate, const ServerModels::FNotifyMatchmakerPlayerLeftResult&);
         DECLARE_DELEGATE_OneParam(FRedeemCouponDelegate, const ServerModels::FRedeemCouponResult&);
-        DECLARE_DELEGATE_OneParam(FRedeemMatchmakerTicketDelegate, const ServerModels::FRedeemMatchmakerTicketResult&);
-        DECLARE_DELEGATE_OneParam(FRefreshGameServerInstanceHeartbeatDelegate, const ServerModels::FRefreshGameServerInstanceHeartbeatResult&);
-        DECLARE_DELEGATE_OneParam(FRegisterGameDelegate, const ServerModels::FRegisterGameResponse&);
         DECLARE_DELEGATE_OneParam(FRemoveFriendDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FRemoveGenericIDDelegate, const ServerModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FRemovePlayerTagDelegate, const ServerModels::FRemovePlayerTagResult&);
@@ -129,9 +125,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSendPushNotificationDelegate, const ServerModels::FSendPushNotificationResult&);
         DECLARE_DELEGATE_OneParam(FSendPushNotificationFromTemplateDelegate, const ServerModels::FSendPushNotificationResult&);
         DECLARE_DELEGATE_OneParam(FSetFriendTagsDelegate, const ServerModels::FEmptyResponse&);
-        DECLARE_DELEGATE_OneParam(FSetGameServerInstanceDataDelegate, const ServerModels::FSetGameServerInstanceDataResult&);
-        DECLARE_DELEGATE_OneParam(FSetGameServerInstanceStateDelegate, const ServerModels::FSetGameServerInstanceStateResult&);
-        DECLARE_DELEGATE_OneParam(FSetGameServerInstanceTagsDelegate, const ServerModels::FSetGameServerInstanceTagsResult&);
         DECLARE_DELEGATE_OneParam(FSetPlayerSecretDelegate, const ServerModels::FSetPlayerSecretResult&);
         DECLARE_DELEGATE_OneParam(FSetPublisherDataDelegate, const ServerModels::FSetPublisherDataResult&);
         DECLARE_DELEGATE_OneParam(FSetTitleDataDelegate, const ServerModels::FSetTitleDataResult&);
@@ -272,8 +265,6 @@ namespace PlayFab
          * https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
          */
         bool DeleteSharedGroup(ServerModels::FDeleteSharedGroupRequest& request, const FDeleteSharedGroupDelegate& SuccessDelegate = FDeleteSharedGroupDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Inform the matchmaker that a Game Server Instance is removed.
-        bool DeregisterGame(ServerModels::FDeregisterGameRequest& request, const FDeregisterGameDelegate& SuccessDelegate = FDeregisterGameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
          * version 2._ Returns the result of an evaluation of a Random Result Table - the ItemId from the game Catalog which would
@@ -545,6 +536,8 @@ namespace PlayFab
         bool GrantItemsToUsers(ServerModels::FGrantItemsToUsersRequest& request, const FGrantItemsToUsersDelegate& SuccessDelegate = FGrantItemsToUsersDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Nintendo account associated with the token to the user's PlayFab account
         bool LinkNintendoServiceAccount(ServerModels::FLinkNintendoServiceAccountRequest& request, const FLinkNintendoServiceAccountDelegate& SuccessDelegate = FLinkNintendoServiceAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Links the Nintendo account associated with the Nintendo Service Account subject or id to the user's PlayFab account
+        bool LinkNintendoServiceAccountSubject(ServerModels::FLinkNintendoServiceAccountSubjectRequest& request, const FLinkNintendoServiceAccountSubjectDelegate& SuccessDelegate = FLinkNintendoServiceAccountSubjectDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the NintendoSwitchDeviceId to the user's PlayFab account
         bool LinkNintendoSwitchDeviceId(ServerModels::FLinkNintendoSwitchDeviceIdRequest& request, const FLinkNintendoSwitchDeviceIdDelegate& SuccessDelegate = FLinkNintendoSwitchDeviceIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the PlayStation :tm: Network account associated with the provided access code to the user's PlayFab account
@@ -604,8 +597,6 @@ namespace PlayFab
          * Transfers an item from a character to the owning user. This will remove the item from the character's inventory (until and unless it is moved back), and will enable the user to make use of the item instead.
          */
         bool MoveItemToUserFromCharacter(ServerModels::FMoveItemToUserFromCharacterRequest& request, const FMoveItemToUserFromCharacterDelegate& SuccessDelegate = FMoveItemToUserFromCharacterDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Informs the PlayFab match-making service that the user specified has left the Game Server Instance
-        bool NotifyMatchmakerPlayerLeft(ServerModels::FNotifyMatchmakerPlayerLeftRequest& request, const FNotifyMatchmakerPlayerLeftDelegate& SuccessDelegate = FNotifyMatchmakerPlayerLeftDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
          * version 2._ Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated via the
@@ -613,15 +604,6 @@ namespace PlayFab
          * Coupon codes can be created for any item, or set of items, in the catalog for the title. This operation causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to re-use an already consumed code, or a code which has not yet been created in the service, will result in an error.
          */
         bool RedeemCoupon(ServerModels::FRedeemCouponRequest& request, const FRedeemCouponDelegate& SuccessDelegate = FRedeemCouponDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Validates a Game Server session ticket and returns details about the user
-         * This function is used by a Game Server Instance to validate with the PlayFab service that a user has been registered as connected to the server. The Ticket is provided to the client either as a result of a call to StartGame or Matchmake, each of which return a Ticket specific to the Game Server Instance. This function will fail in any case where the Ticket presented is not valid for the specific Game Server Instance making the call. Note that data returned may be Personally Identifying Information (PII), such as email address, and so care should be taken in how this data is stored and managed. Since this call will always return the relevant information for users who have accessed the title, the recommendation is to not store this data locally.
-         */
-        bool RedeemMatchmakerTicket(ServerModels::FRedeemMatchmakerTicketRequest& request, const FRedeemMatchmakerTicketDelegate& SuccessDelegate = FRedeemMatchmakerTicketDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Set the state of the indicated Game Server Instance. Also update the heartbeat for the instance.
-        bool RefreshGameServerInstanceHeartbeat(ServerModels::FRefreshGameServerInstanceHeartbeatRequest& request, const FRefreshGameServerInstanceHeartbeatDelegate& SuccessDelegate = FRefreshGameServerInstanceHeartbeatDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Inform the matchmaker that a new Game Server Instance is added.
-        bool RegisterGame(ServerModels::FRegisterGameRequest& request, const FRegisterGameDelegate& SuccessDelegate = FRegisterGameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Removes the specified friend from the the user's friend list
         bool RemoveFriend(ServerModels::FRemoveFriendRequest& request, const FRemoveFriendDelegate& SuccessDelegate = FRemoveFriendDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Removes the specified generic service identifier from the player's PlayFab account.
@@ -693,12 +675,6 @@ namespace PlayFab
          * This operation is not additive. It will completely replace the tag list for the specified user. Please note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on a friend only included in the friends list from a social site integration (such as Facebook or Steam) will return the AccountNotFound error.
          */
         bool SetFriendTags(ServerModels::FSetFriendTagsRequest& request, const FSetFriendTagsDelegate& SuccessDelegate = FSetFriendTagsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Sets the custom data of the indicated Game Server Instance
-        bool SetGameServerInstanceData(ServerModels::FSetGameServerInstanceDataRequest& request, const FSetGameServerInstanceDataDelegate& SuccessDelegate = FSetGameServerInstanceDataDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Set the state of the indicated Game Server Instance.
-        bool SetGameServerInstanceState(ServerModels::FSetGameServerInstanceStateRequest& request, const FSetGameServerInstanceStateDelegate& SuccessDelegate = FSetGameServerInstanceStateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Set custom tags for the specified Game Server Instance
-        bool SetGameServerInstanceTags(ServerModels::FSetGameServerInstanceTagsRequest& request, const FSetGameServerInstanceTagsDelegate& SuccessDelegate = FSetGameServerInstanceTagsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Sets the player's secret if it is not already set. Player secrets are used to sign API requests. To reset a player's
          * secret use the Admin or Server API method SetPlayerSecret.
@@ -871,7 +847,6 @@ namespace PlayFab
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePushNotificationTemplateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePushNotificationTemplateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnDeregisterGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeregisterGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEvaluateRandomResultTableResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEvaluateRandomResultTableDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnExecuteCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetAllSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetAllSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -929,6 +904,7 @@ namespace PlayFab
         void OnGrantItemsToUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGrantItemsToUsersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantItemsToUsersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkNintendoServiceAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoServiceAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkNintendoServiceAccountSubjectResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoServiceAccountSubjectDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkNintendoSwitchDeviceIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkNintendoSwitchDeviceIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkPSNAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkPSNAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkPSNIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkPSNIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -943,11 +919,7 @@ namespace PlayFab
         void OnMoveItemToCharacterFromCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMoveItemToCharacterFromCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnMoveItemToCharacterFromUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMoveItemToCharacterFromUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnMoveItemToUserFromCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMoveItemToUserFromCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnNotifyMatchmakerPlayerLeftResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FNotifyMatchmakerPlayerLeftDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRedeemCouponResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemCouponDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnRedeemMatchmakerTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRedeemMatchmakerTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnRefreshGameServerInstanceHeartbeatResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRefreshGameServerInstanceHeartbeatDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnRegisterGameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRegisterGameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveFriendResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveFriendDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveGenericIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveGenericIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -963,9 +935,6 @@ namespace PlayFab
         void OnSendPushNotificationResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendPushNotificationDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSendPushNotificationFromTemplateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSendPushNotificationFromTemplateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetFriendTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetFriendTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnSetGameServerInstanceDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetGameServerInstanceDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnSetGameServerInstanceStateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetGameServerInstanceStateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnSetGameServerInstanceTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetGameServerInstanceTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPlayerSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPlayerSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetTitleDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTitleDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

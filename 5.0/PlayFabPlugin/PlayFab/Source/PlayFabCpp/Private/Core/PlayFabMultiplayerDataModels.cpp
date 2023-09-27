@@ -6149,6 +6149,54 @@ bool PlayFab::MultiplayerModels::FDeleteRemoteUserRequest::readFromValue(const T
     return HasSucceeded;
 }
 
+void PlayFab::MultiplayerModels::writeDirectPeerConnectivityOptionsEnumJSON(DirectPeerConnectivityOptions enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case DirectPeerConnectivityOptionsNone: writer->WriteValue(TEXT("None")); break;
+    case DirectPeerConnectivityOptionsSamePlatformType: writer->WriteValue(TEXT("SamePlatformType")); break;
+    case DirectPeerConnectivityOptionsDifferentPlatformType: writer->WriteValue(TEXT("DifferentPlatformType")); break;
+    case DirectPeerConnectivityOptionsAnyPlatformType: writer->WriteValue(TEXT("AnyPlatformType")); break;
+    case DirectPeerConnectivityOptionsSameEntityLoginProvider: writer->WriteValue(TEXT("SameEntityLoginProvider")); break;
+    case DirectPeerConnectivityOptionsDifferentEntityLoginProvider: writer->WriteValue(TEXT("DifferentEntityLoginProvider")); break;
+    case DirectPeerConnectivityOptionsAnyEntityLoginProvider: writer->WriteValue(TEXT("AnyEntityLoginProvider")); break;
+    case DirectPeerConnectivityOptionsAnyPlatformTypeAndEntityLoginProvider: writer->WriteValue(TEXT("AnyPlatformTypeAndEntityLoginProvider")); break;
+    }
+}
+
+MultiplayerModels::DirectPeerConnectivityOptions PlayFab::MultiplayerModels::readDirectPeerConnectivityOptionsFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readDirectPeerConnectivityOptionsFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::DirectPeerConnectivityOptions PlayFab::MultiplayerModels::readDirectPeerConnectivityOptionsFromValue(const FString& value)
+{
+    static TMap<FString, DirectPeerConnectivityOptions> _DirectPeerConnectivityOptionsMap;
+    if (_DirectPeerConnectivityOptionsMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("None"), DirectPeerConnectivityOptionsNone);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("SamePlatformType"), DirectPeerConnectivityOptionsSamePlatformType);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("DifferentPlatformType"), DirectPeerConnectivityOptionsDifferentPlatformType);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("AnyPlatformType"), DirectPeerConnectivityOptionsAnyPlatformType);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("SameEntityLoginProvider"), DirectPeerConnectivityOptionsSameEntityLoginProvider);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("DifferentEntityLoginProvider"), DirectPeerConnectivityOptionsDifferentEntityLoginProvider);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("AnyEntityLoginProvider"), DirectPeerConnectivityOptionsAnyEntityLoginProvider);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("AnyPlatformTypeAndEntityLoginProvider"), DirectPeerConnectivityOptionsAnyPlatformTypeAndEntityLoginProvider);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _DirectPeerConnectivityOptionsMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return DirectPeerConnectivityOptionsNone; // Basically critical fail
+}
+
 PlayFab::MultiplayerModels::FEmptyResponse::~FEmptyResponse()
 {
 
@@ -10807,6 +10855,18 @@ void PlayFab::MultiplayerModels::FListContainerImageTagsRequest::writeJSON(JsonW
         writer->WriteValue(ImageName);
     }
 
+    if (PageSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PageSize"));
+        writer->WriteValue(PageSize);
+    }
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -10830,6 +10890,20 @@ bool PlayFab::MultiplayerModels::FListContainerImageTagsRequest::readFromValue(c
         if (ImageNameValue->TryGetString(TmpValue)) { ImageName = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
+
     return HasSucceeded;
 }
 
@@ -10841,6 +10915,15 @@ PlayFab::MultiplayerModels::FListContainerImageTagsResponse::~FListContainerImag
 void PlayFab::MultiplayerModels::FListContainerImageTagsResponse::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("PageSize"));
+    writer->WriteValue(PageSize);
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
 
     if (Tags.Num() != 0)
     {
@@ -10857,6 +10940,20 @@ void PlayFab::MultiplayerModels::FListContainerImageTagsResponse::writeJSON(Json
 bool PlayFab::MultiplayerModels::FListContainerImageTagsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
 
     obj->TryGetStringArrayField(TEXT("Tags"), Tags);
 
@@ -11921,6 +12018,199 @@ MultiplayerModels::OsPlatform PlayFab::MultiplayerModels::readOsPlatformFromValu
     return OsPlatformWindows; // Basically critical fail
 }
 
+PlayFab::MultiplayerModels::FPartyInvitationConfiguration::~FPartyInvitationConfiguration()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FPartyInvitationConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (EntityKeys.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("EntityKeys"));
+        for (const FEntityKey& item : EntityKeys)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Identifier.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Identifier"));
+        writer->WriteValue(Identifier);
+    }
+
+    if (Revocability.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Revocability"));
+        writer->WriteValue(Revocability);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FPartyInvitationConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&EntityKeysArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("EntityKeys"));
+    for (int32 Idx = 0; Idx < EntityKeysArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = EntityKeysArray[Idx];
+        EntityKeys.Add(FEntityKey(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> IdentifierValue = obj->TryGetField(TEXT("Identifier"));
+    if (IdentifierValue.IsValid() && !IdentifierValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdentifierValue->TryGetString(TmpValue)) { Identifier = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RevocabilityValue = obj->TryGetField(TEXT("Revocability"));
+    if (RevocabilityValue.IsValid() && !RevocabilityValue->IsNull())
+    {
+        FString TmpValue;
+        if (RevocabilityValue->TryGetString(TmpValue)) { Revocability = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+void PlayFab::MultiplayerModels::writePartyInvitationRevocabilityEnumJSON(PartyInvitationRevocability enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case PartyInvitationRevocabilityCreator: writer->WriteValue(TEXT("Creator")); break;
+    case PartyInvitationRevocabilityAnyone: writer->WriteValue(TEXT("Anyone")); break;
+    }
+}
+
+MultiplayerModels::PartyInvitationRevocability PlayFab::MultiplayerModels::readPartyInvitationRevocabilityFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readPartyInvitationRevocabilityFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::PartyInvitationRevocability PlayFab::MultiplayerModels::readPartyInvitationRevocabilityFromValue(const FString& value)
+{
+    static TMap<FString, PartyInvitationRevocability> _PartyInvitationRevocabilityMap;
+    if (_PartyInvitationRevocabilityMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _PartyInvitationRevocabilityMap.Add(TEXT("Creator"), PartyInvitationRevocabilityCreator);
+        _PartyInvitationRevocabilityMap.Add(TEXT("Anyone"), PartyInvitationRevocabilityAnyone);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _PartyInvitationRevocabilityMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return PartyInvitationRevocabilityCreator; // Basically critical fail
+}
+
+PlayFab::MultiplayerModels::FPartyNetworkConfiguration::~FPartyNetworkConfiguration()
+{
+    //if (PartyInvitationConfiguration != nullptr) delete PartyInvitationConfiguration;
+
+}
+
+void PlayFab::MultiplayerModels::FPartyNetworkConfiguration::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DirectPeerConnectivityOptions.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DirectPeerConnectivityOptions"));
+        writer->WriteValue(DirectPeerConnectivityOptions);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("MaxDevices"));
+    writer->WriteValue(static_cast<int64>(MaxDevices));
+
+    writer->WriteIdentifierPrefix(TEXT("MaxDevicesPerUser"));
+    writer->WriteValue(static_cast<int64>(MaxDevicesPerUser));
+
+    writer->WriteIdentifierPrefix(TEXT("MaxEndpointsPerDevice"));
+    writer->WriteValue(static_cast<int64>(MaxEndpointsPerDevice));
+
+    writer->WriteIdentifierPrefix(TEXT("MaxUsers"));
+    writer->WriteValue(static_cast<int64>(MaxUsers));
+
+    writer->WriteIdentifierPrefix(TEXT("MaxUsersPerDevice"));
+    writer->WriteValue(static_cast<int64>(MaxUsersPerDevice));
+
+    if (pfPartyInvitationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PartyInvitationConfiguration"));
+        pfPartyInvitationConfiguration->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FPartyNetworkConfiguration::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> DirectPeerConnectivityOptionsValue = obj->TryGetField(TEXT("DirectPeerConnectivityOptions"));
+    if (DirectPeerConnectivityOptionsValue.IsValid() && !DirectPeerConnectivityOptionsValue->IsNull())
+    {
+        FString TmpValue;
+        if (DirectPeerConnectivityOptionsValue->TryGetString(TmpValue)) { DirectPeerConnectivityOptions = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MaxDevicesValue = obj->TryGetField(TEXT("MaxDevices"));
+    if (MaxDevicesValue.IsValid() && !MaxDevicesValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MaxDevicesValue->TryGetNumber(TmpValue)) { MaxDevices = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MaxDevicesPerUserValue = obj->TryGetField(TEXT("MaxDevicesPerUser"));
+    if (MaxDevicesPerUserValue.IsValid() && !MaxDevicesPerUserValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MaxDevicesPerUserValue->TryGetNumber(TmpValue)) { MaxDevicesPerUser = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MaxEndpointsPerDeviceValue = obj->TryGetField(TEXT("MaxEndpointsPerDevice"));
+    if (MaxEndpointsPerDeviceValue.IsValid() && !MaxEndpointsPerDeviceValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MaxEndpointsPerDeviceValue->TryGetNumber(TmpValue)) { MaxEndpointsPerDevice = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MaxUsersValue = obj->TryGetField(TEXT("MaxUsers"));
+    if (MaxUsersValue.IsValid() && !MaxUsersValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MaxUsersValue->TryGetNumber(TmpValue)) { MaxUsers = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> MaxUsersPerDeviceValue = obj->TryGetField(TEXT("MaxUsersPerDevice"));
+    if (MaxUsersPerDeviceValue.IsValid() && !MaxUsersPerDeviceValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (MaxUsersPerDeviceValue->TryGetNumber(TmpValue)) { MaxUsersPerDevice = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PartyInvitationConfigurationValue = obj->TryGetField(TEXT("PartyInvitationConfiguration"));
+    if (PartyInvitationConfigurationValue.IsValid() && !PartyInvitationConfigurationValue->IsNull())
+    {
+        pfPartyInvitationConfiguration = MakeShareable(new FPartyInvitationConfiguration(PartyInvitationConfigurationValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FRemoveMemberFromLobbyRequest::~FRemoveMemberFromLobbyRequest()
 {
     //if (MemberEntity != nullptr) delete MemberEntity;
@@ -12290,6 +12580,133 @@ bool PlayFab::MultiplayerModels::FRequestMultiplayerServerResponse::readFromValu
     {
         FString TmpValue;
         if (VmIdValue->TryGetString(TmpValue)) { VmId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FRequestPartyServiceRequest::~FRequestPartyServiceRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FRequestPartyServiceRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("NetworkConfiguration"));
+    NetworkConfiguration.writeJSON(writer);
+
+    if (PartyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PartyId"));
+        writer->WriteValue(PartyId);
+    }
+
+    writer->WriteArrayStart(TEXT("PreferredRegions"));
+    for (const FString& item : PreferredRegions)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FRequestPartyServiceRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NetworkConfigurationValue = obj->TryGetField(TEXT("NetworkConfiguration"));
+    if (NetworkConfigurationValue.IsValid() && !NetworkConfigurationValue->IsNull())
+    {
+        NetworkConfiguration = FPartyNetworkConfiguration(NetworkConfigurationValue->AsObject());
+    }
+
+    const TSharedPtr<FJsonValue> PartyIdValue = obj->TryGetField(TEXT("PartyId"));
+    if (PartyIdValue.IsValid() && !PartyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PartyIdValue->TryGetString(TmpValue)) { PartyId = TmpValue; }
+    }
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PreferredRegions"), PreferredRegions);
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FRequestPartyServiceResponse::~FRequestPartyServiceResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FRequestPartyServiceResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (InvitationId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("InvitationId"));
+        writer->WriteValue(InvitationId);
+    }
+
+    if (PartyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PartyId"));
+        writer->WriteValue(PartyId);
+    }
+
+    if (SerializedNetworkDescriptor.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SerializedNetworkDescriptor"));
+        writer->WriteValue(SerializedNetworkDescriptor);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FRequestPartyServiceResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> InvitationIdValue = obj->TryGetField(TEXT("InvitationId"));
+    if (InvitationIdValue.IsValid() && !InvitationIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (InvitationIdValue->TryGetString(TmpValue)) { InvitationId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PartyIdValue = obj->TryGetField(TEXT("PartyId"));
+    if (PartyIdValue.IsValid() && !PartyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PartyIdValue->TryGetString(TmpValue)) { PartyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SerializedNetworkDescriptorValue = obj->TryGetField(TEXT("SerializedNetworkDescriptor"));
+    if (SerializedNetworkDescriptorValue.IsValid() && !SerializedNetworkDescriptorValue->IsNull())
+    {
+        FString TmpValue;
+        if (SerializedNetworkDescriptorValue->TryGetString(TmpValue)) { SerializedNetworkDescriptor = TmpValue; }
     }
 
     return HasSucceeded;
@@ -13365,6 +13782,12 @@ void PlayFab::MultiplayerModels::FUploadCertificateRequest::writeJSON(JsonWriter
         writer->WriteObjectEnd();
     }
 
+    if (ForceUpdate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceUpdate"));
+        writer->WriteValue(ForceUpdate);
+    }
+
     writer->WriteIdentifierPrefix(TEXT("GameCertificate"));
     GameCertificate.writeJSON(writer);
 
@@ -13382,6 +13805,13 @@ bool PlayFab::MultiplayerModels::FUploadCertificateRequest::readFromValue(const 
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> ForceUpdateValue = obj->TryGetField(TEXT("ForceUpdate"));
+    if (ForceUpdateValue.IsValid() && !ForceUpdateValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceUpdateValue->TryGetBool(TmpValue)) { ForceUpdate = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> GameCertificateValue = obj->TryGetField(TEXT("GameCertificate"));

@@ -11,7 +11,6 @@
 // Api's
 #include "Core/PlayFabAdminAPI.h"
 #include "Core/PlayFabClientAPI.h"
-#include "Core/PlayFabMatchmakerAPI.h"
 #include "Core/PlayFabServerAPI.h"
 #include "Core/PlayFabAuthenticationAPI.h"
 #include "Core/PlayFabCloudScriptAPI.h"
@@ -35,7 +34,6 @@ class FPlayFabModule : public IPlayFabModuleInterface
 
     PlayFabAdminPtr GetAdminAPI() const override { return AdminAPI; };
     PlayFabClientPtr GetClientAPI() const override { return ClientAPI; };
-    PlayFabMatchmakerPtr GetMatchmakerAPI() const override { return MatchmakerAPI; };
     PlayFabServerPtr GetServerAPI() const override { return ServerAPI; };
     PlayFabAuthenticationPtr GetAuthenticationAPI() const override { return AuthenticationAPI; };
     PlayFabCloudScriptPtr GetCloudScriptAPI() const override { return CloudScriptAPI; };
@@ -51,7 +49,6 @@ class FPlayFabModule : public IPlayFabModuleInterface
 
     PlayFabAdminPtr AdminAPI;
     PlayFabClientPtr ClientAPI;
-    PlayFabMatchmakerPtr MatchmakerAPI;
     PlayFabServerPtr ServerAPI;
     PlayFabAuthenticationPtr AuthenticationAPI;
     PlayFabCloudScriptPtr CloudScriptAPI;
@@ -78,7 +75,6 @@ void FPlayFabModule::StartupModule()
     
     AdminAPI = MakeShareable(new PlayFab::UPlayFabAdminAPI());
     ClientAPI = MakeShareable(new PlayFab::UPlayFabClientAPI());
-    MatchmakerAPI = MakeShareable(new PlayFab::UPlayFabMatchmakerAPI());
     ServerAPI = MakeShareable(new PlayFab::UPlayFabServerAPI());
     AuthenticationAPI = MakeShareable(new PlayFab::UPlayFabAuthenticationAPI());
     CloudScriptAPI = MakeShareable(new PlayFab::UPlayFabCloudScriptAPI());

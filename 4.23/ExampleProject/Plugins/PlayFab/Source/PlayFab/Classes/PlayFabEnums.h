@@ -555,18 +555,6 @@ enum class EEmailVerificationStatus : uint8
     pfenum_Confirmed = 2 UMETA(DisplayName = "Confirmed"),
 };
 
-/** GameBuildStatus */
-
-UENUM(BlueprintType)
-enum class EGameBuildStatus : uint8
-{
-    pfenum_Available = 0 UMETA(DisplayName = "Available"),
-    pfenum_Validating = 1 UMETA(DisplayName = "Validating"),
-    pfenum_InvalidBuildPackage = 2 UMETA(DisplayName = "InvalidBuildPackage"),
-    pfenum_Processing = 3 UMETA(DisplayName = "Processing"),
-    pfenum_FailedToProcess = 4 UMETA(DisplayName = "FailedToProcess"),
-};
-
 /** LoginIdentityProvider */
 
 UENUM(BlueprintType)
@@ -613,20 +601,6 @@ enum class EPushSetupPlatform : uint8
     pfenum_GCM = 0 UMETA(DisplayName = "GCM"),
     pfenum_APNS = 1 UMETA(DisplayName = "APNS"),
     pfenum_APNS_SANDBOX = 2 UMETA(DisplayName = "APNS_SANDBOX"),
-};
-
-/** Region */
-
-UENUM(BlueprintType)
-enum class ERegion : uint8
-{
-    pfenum_USCentral = 0 UMETA(DisplayName = "USCentral"),
-    pfenum_USEast = 1 UMETA(DisplayName = "USEast"),
-    pfenum_EUWest = 2 UMETA(DisplayName = "EUWest"),
-    pfenum_Singapore = 3 UMETA(DisplayName = "Singapore"),
-    pfenum_Japan = 4 UMETA(DisplayName = "Japan"),
-    pfenum_Brazil = 5 UMETA(DisplayName = "Brazil"),
-    pfenum_Australia = 6 UMETA(DisplayName = "Australia"),
 };
 
 /** ResolutionOutcome */
@@ -1126,6 +1100,7 @@ enum class ESegmentLoginIdentityProvider : uint8
     pfenum_OpenIdConnect = 18 UMETA(DisplayName = "OpenIdConnect"),
     pfenum_Apple = 19 UMETA(DisplayName = "Apple"),
     pfenum_NintendoSwitchAccount = 20 UMETA(DisplayName = "NintendoSwitchAccount"),
+    pfenum_GooglePlayGames = 21 UMETA(DisplayName = "GooglePlayGames"),
 };
 
 /** SegmentPushNotificationDevicePlatform */
@@ -1312,27 +1287,6 @@ enum class EExternalFriendSources : uint8
     pfenum_All = 5 UMETA(DisplayName = "All"),
 };
 
-/** GameInstanceState */
-
-UENUM(BlueprintType)
-enum class EGameInstanceState : uint8
-{
-    pfenum_Open = 0 UMETA(DisplayName = "Open"),
-    pfenum_Closed = 1 UMETA(DisplayName = "Closed"),
-};
-
-/** MatchmakeStatus */
-
-UENUM(BlueprintType)
-enum class EMatchmakeStatus : uint8
-{
-    pfenum_Complete = 0 UMETA(DisplayName = "Complete"),
-    pfenum_Waiting = 1 UMETA(DisplayName = "Waiting"),
-    pfenum_GameNotFound = 2 UMETA(DisplayName = "GameNotFound"),
-    pfenum_NoAvailableSlots = 3 UMETA(DisplayName = "NoAvailableSlots"),
-    pfenum_SessionClosed = 4 UMETA(DisplayName = "SessionClosed"),
-};
-
 /** TradeStatus */
 
 UENUM(BlueprintType)
@@ -1372,17 +1326,6 @@ enum class ETransactionStatus : uint8
     pfenum_Stacked = 17 UMETA(DisplayName = "Stacked"),
     pfenum_Other = 18 UMETA(DisplayName = "Other"),
     pfenum_Failed = 19 UMETA(DisplayName = "Failed"),
-};
-
-/** PlayerConnectionState */
-
-UENUM(BlueprintType)
-enum class EPlayerConnectionState : uint8
-{
-    pfenum_Unassigned = 0 UMETA(DisplayName = "Unassigned"),
-    pfenum_Connecting = 1 UMETA(DisplayName = "Connecting"),
-    pfenum_Participating = 2 UMETA(DisplayName = "Participating"),
-    pfenum_Participated = 3 UMETA(DisplayName = "Participated"),
 };
 
 /** IdentifiedDeviceType */
@@ -1674,6 +1617,21 @@ enum class EContainerFlavor : uint8
     pfenum_Invalid = 3 UMETA(DisplayName = "Invalid"),
 };
 
+/** DirectPeerConnectivityOptions */
+
+UENUM(BlueprintType)
+enum class EDirectPeerConnectivityOptions : uint8
+{
+    pfenum_None = 0 UMETA(DisplayName = "None"),
+    pfenum_SamePlatformType = 1 UMETA(DisplayName = "SamePlatformType"),
+    pfenum_DifferentPlatformType = 2 UMETA(DisplayName = "DifferentPlatformType"),
+    pfenum_AnyPlatformType = 3 UMETA(DisplayName = "AnyPlatformType"),
+    pfenum_SameEntityLoginProvider = 4 UMETA(DisplayName = "SameEntityLoginProvider"),
+    pfenum_DifferentEntityLoginProvider = 5 UMETA(DisplayName = "DifferentEntityLoginProvider"),
+    pfenum_AnyEntityLoginProvider = 6 UMETA(DisplayName = "AnyEntityLoginProvider"),
+    pfenum_AnyPlatformTypeAndEntityLoginProvider = 7 UMETA(DisplayName = "AnyPlatformTypeAndEntityLoginProvider"),
+};
+
 /** MembershipLock */
 
 UENUM(BlueprintType)
@@ -1701,6 +1659,15 @@ enum class EOwnerMigrationPolicy : uint8
     pfenum_Automatic = 1 UMETA(DisplayName = "Automatic"),
     pfenum_Manual = 2 UMETA(DisplayName = "Manual"),
     pfenum_Server = 3 UMETA(DisplayName = "Server"),
+};
+
+/** PartyInvitationRevocability */
+
+UENUM(BlueprintType)
+enum class EPartyInvitationRevocability : uint8
+{
+    pfenum_Creator = 0 UMETA(DisplayName = "Creator"),
+    pfenum_Anyone = 1 UMETA(DisplayName = "Anyone"),
 };
 
 /** ProtocolType */

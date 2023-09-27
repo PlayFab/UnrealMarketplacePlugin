@@ -81,6 +81,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListVirtualMachineSummariesDelegate, const MultiplayerModels::FListVirtualMachineSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FRemoveMemberDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FRequestMultiplayerServerDelegate, const MultiplayerModels::FRequestMultiplayerServerResponse&);
+        DECLARE_DELEGATE_OneParam(FRequestPartyServiceDelegate, const MultiplayerModels::FRequestPartyServiceResponse&);
         DECLARE_DELEGATE_OneParam(FRolloverContainerRegistryCredentialsDelegate, const MultiplayerModels::FRolloverContainerRegistryCredentialsResponse&);
         DECLARE_DELEGATE_OneParam(FShutdownMultiplayerServerDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FSubscribeToLobbyResourceDelegate, const MultiplayerModels::FSubscribeToLobbyResourceResult&);
@@ -416,6 +417,11 @@ namespace PlayFab
          */
         bool RequestMultiplayerServer(MultiplayerModels::FRequestMultiplayerServerRequest& request, const FRequestMultiplayerServerDelegate& SuccessDelegate = FRequestMultiplayerServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Request a party session.
+         * Requests a party session from a particular set of builds if build alias params is provided, in any of the given preferred regions.
+         */
+        bool RequestPartyService(MultiplayerModels::FRequestPartyServiceRequest& request, const FRequestPartyServiceDelegate& SuccessDelegate = FRequestPartyServiceDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Rolls over the credentials to the container registry.
          * Gets new credentials to the container registry where game developers can upload custom container images to before creating a new build.
          */
@@ -533,6 +539,7 @@ namespace PlayFab
         void OnListVirtualMachineSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualMachineSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveMemberResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveMemberDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRequestMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRequestMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnRequestPartyServiceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRequestPartyServiceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRolloverContainerRegistryCredentialsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRolloverContainerRegistryCredentialsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnShutdownMultiplayerServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FShutdownMultiplayerServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSubscribeToLobbyResourceResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubscribeToLobbyResourceDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

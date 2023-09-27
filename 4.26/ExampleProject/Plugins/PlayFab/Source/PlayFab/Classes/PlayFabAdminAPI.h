@@ -85,6 +85,19 @@ public:
         void HelperDeleteMasterPlayerAccount(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteMasterPlayerEventData, FAdminDeleteMasterPlayerEventDataResult, result, UObject*, customData);
+
+    /** Deletes PlayStream and telemetry event data associated with the master player account from PlayFab storage */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeleteMasterPlayerEventData(FAdminDeleteMasterPlayerEventDataRequest request,
+            FDelegateOnSuccessDeleteMasterPlayerEventData onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteMasterPlayerEventData(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteMembershipSubscription, FAdminDeleteMembershipSubscriptionResult, result, UObject*, customData);
 
     /** Deletes a player's subscription */
@@ -520,49 +533,10 @@ public:
     ///////////////////////////////////////////////////////
     // Custom Server Management
     //////////////////////////////////////////////////////
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessModifyServerBuild, FAdminModifyServerBuildResult, result, UObject*, customData);
-
-    /** Updates the build details for the specified game server executable */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* ModifyServerBuild(FAdminModifyServerBuildRequest request,
-            FDelegateOnSuccessModifyServerBuild onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperModifyServerBuild(FPlayFabBaseModel response, UObject* customData, bool successful);
-
 
     ///////////////////////////////////////////////////////
     // Matchmaking
     //////////////////////////////////////////////////////
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMatchmakerGameInfo, FAdminGetMatchmakerGameInfoResult, result, UObject*, customData);
-
-    /** Retrieves the details for a specific completed session, including links to standard out and standard error logs */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* GetMatchmakerGameInfo(FAdminGetMatchmakerGameInfoRequest request,
-            FDelegateOnSuccessGetMatchmakerGameInfo onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetMatchmakerGameInfo(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMatchmakerGameModes, FAdminGetMatchmakerGameModesResult, result, UObject*, customData);
-
-    /** Retrieves the details of defined game modes for the specified game server executable */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabAdminAPI* GetMatchmakerGameModes(FAdminGetMatchmakerGameModesRequest request,
-            FDelegateOnSuccessGetMatchmakerGameModes onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabAdminRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetMatchmakerGameModes(FPlayFabBaseModel response, UObject* customData, bool successful);
-
 
     ///////////////////////////////////////////////////////
     // Player Data Management
@@ -1754,6 +1728,7 @@ public:
     FDelegateOnFailurePlayFabError OnFailure;
     FDelegateOnSuccessBanUsers OnSuccessBanUsers;
     FDelegateOnSuccessDeleteMasterPlayerAccount OnSuccessDeleteMasterPlayerAccount;
+    FDelegateOnSuccessDeleteMasterPlayerEventData OnSuccessDeleteMasterPlayerEventData;
     FDelegateOnSuccessDeleteMembershipSubscription OnSuccessDeleteMembershipSubscription;
     FDelegateOnSuccessDeletePlayer OnSuccessDeletePlayer;
     FDelegateOnSuccessDeleteTitle OnSuccessDeleteTitle;
@@ -1785,9 +1760,6 @@ public:
     FDelegateOnSuccessDeleteContent OnSuccessDeleteContent;
     FDelegateOnSuccessGetContentList OnSuccessGetContentList;
     FDelegateOnSuccessGetContentUploadUrl OnSuccessGetContentUploadUrl;
-    FDelegateOnSuccessModifyServerBuild OnSuccessModifyServerBuild;
-    FDelegateOnSuccessGetMatchmakerGameInfo OnSuccessGetMatchmakerGameInfo;
-    FDelegateOnSuccessGetMatchmakerGameModes OnSuccessGetMatchmakerGameModes;
     FDelegateOnSuccessCreatePlayerStatisticDefinition OnSuccessCreatePlayerStatisticDefinition;
     FDelegateOnSuccessGetDataReport OnSuccessGetDataReport;
     FDelegateOnSuccessGetPlayerStatisticDefinitions OnSuccessGetPlayerStatisticDefinitions;

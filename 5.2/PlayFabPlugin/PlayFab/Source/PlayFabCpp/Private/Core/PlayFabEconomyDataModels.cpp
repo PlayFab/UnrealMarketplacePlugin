@@ -7275,6 +7275,25 @@ bool PlayFab::EconomyModels::FPurchaseOverride::readFromValue(const TSharedPtr<F
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FPurchaseOverridesInfo::~FPurchaseOverridesInfo()
+{
+
+}
+
+void PlayFab::EconomyModels::FPurchaseOverridesInfo::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPurchaseOverridesInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsRequest::~FRedeemAppleAppStoreInventoryItemsRequest()
 {
     //if (Entity != nullptr) delete Entity;
@@ -9709,6 +9728,12 @@ void PlayFab::EconomyModels::FTransferInventoryItemsResponse::writeJSON(JsonWrit
         writer->WriteValue(IdempotencyId);
     }
 
+    if (OperationStatus.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationStatus"));
+        writer->WriteValue(OperationStatus);
+    }
+
     if (ReceivingTransactionIds.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("ReceivingTransactionIds"));
@@ -9739,6 +9764,13 @@ bool PlayFab::EconomyModels::FTransferInventoryItemsResponse::readFromValue(cons
     {
         FString TmpValue;
         if (IdempotencyIdValue->TryGetString(TmpValue)) { IdempotencyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> OperationStatusValue = obj->TryGetField(TEXT("OperationStatus"));
+    if (OperationStatusValue.IsValid() && !OperationStatusValue->IsNull())
+    {
+        FString TmpValue;
+        if (OperationStatusValue->TryGetString(TmpValue)) { OperationStatus = TmpValue; }
     }
 
     obj->TryGetStringArrayField(TEXT("ReceivingTransactionIds"), ReceivingTransactionIds);

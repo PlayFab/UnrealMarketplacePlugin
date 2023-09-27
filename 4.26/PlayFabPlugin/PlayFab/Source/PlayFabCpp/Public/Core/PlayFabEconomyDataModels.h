@@ -3716,6 +3716,25 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPurchaseOverridesInfo : public PlayFab::FPlayFabCppBaseModel
+    {
+        FPurchaseOverridesInfo() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FPurchaseOverridesInfo(const FPurchaseOverridesInfo& src) = default;
+
+        FPurchaseOverridesInfo(const TSharedPtr<FJsonObject>& obj) : FPurchaseOverridesInfo()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPurchaseOverridesInfo();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRedeemAppleAppStoreInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The id of the entity's collection to perform this action on. (Default="default")
@@ -4884,6 +4903,12 @@ namespace EconomyModels
         // [optional] The idempotency id for the request.
         FString IdempotencyId;
 
+        /**
+         * [optional] The transfer operation status. Possible values are 'InProgress' or 'Completed'. If the operation has completed, the
+         * response code will be 200. Otherwise, it will be 202.
+         */
+        FString OperationStatus;
+
         // [optional] The ids of transactions that occurred as a result of the request's receiving action.
         TArray<FString> ReceivingTransactionIds;
         FTransferInventoryItemsResponse() :
@@ -4891,6 +4916,7 @@ namespace EconomyModels
             GivingETag(),
             GivingTransactionIds(),
             IdempotencyId(),
+            OperationStatus(),
             ReceivingTransactionIds()
             {}
 

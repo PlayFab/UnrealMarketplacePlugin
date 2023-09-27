@@ -203,14 +203,48 @@ namespace ProfilesModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FEntityStatisticAttributeValue : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Metadata associated with the Statistic.
+        FString Metadata;
+
+        // [optional] Attribute name.
+        FString Name;
+
+        // [optional] Attribute Statistic scores.
+        TArray<FString> Scores;
+        FEntityStatisticAttributeValue() :
+            FPlayFabCppBaseModel(),
+            Metadata(),
+            Name(),
+            Scores()
+            {}
+
+        FEntityStatisticAttributeValue(const FEntityStatisticAttributeValue& src) = default;
+
+        FEntityStatisticAttributeValue(const TSharedPtr<FJsonObject>& obj) : FEntityStatisticAttributeValue()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEntityStatisticAttributeValue();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FEntityStatisticValue : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Attribute Statistic values.
+        TMap<FString, FEntityStatisticAttributeValue> AttributeStatistics;
         // [optional] Metadata associated with the Statistic.
         FString Metadata;
 
         // [optional] Statistic name
         FString Name;
 
+        // [optional] Statistic scores
+        TArray<FString> Scores;
         // [optional] Statistic value
         Boxed<int32> Value;
 
@@ -219,8 +253,10 @@ namespace ProfilesModels
 
         FEntityStatisticValue() :
             FPlayFabCppBaseModel(),
+            AttributeStatistics(),
             Metadata(),
             Name(),
+            Scores(),
             Value(),
             Version(0)
             {}

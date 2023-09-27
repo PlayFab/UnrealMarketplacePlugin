@@ -2872,6 +2872,22 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum DirectPeerConnectivityOptions
+    {
+        DirectPeerConnectivityOptionsNone,
+        DirectPeerConnectivityOptionsSamePlatformType,
+        DirectPeerConnectivityOptionsDifferentPlatformType,
+        DirectPeerConnectivityOptionsAnyPlatformType,
+        DirectPeerConnectivityOptionsSameEntityLoginProvider,
+        DirectPeerConnectivityOptionsDifferentEntityLoginProvider,
+        DirectPeerConnectivityOptionsAnyEntityLoginProvider,
+        DirectPeerConnectivityOptionsAnyPlatformTypeAndEntityLoginProvider
+    };
+
+    PLAYFABCPP_API void writeDirectPeerConnectivityOptionsEnumJSON(DirectPeerConnectivityOptions enumVal, JsonWriter& writer);
+    PLAYFABCPP_API DirectPeerConnectivityOptions readDirectPeerConnectivityOptionsFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API DirectPeerConnectivityOptions readDirectPeerConnectivityOptionsFromValue(const FString& value);
+
     struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppResultCommon
     {
         FEmptyResponse() :
@@ -5117,10 +5133,18 @@ namespace MultiplayerModels
         // [optional] The container images we want to list tags for.
         FString ImageName;
 
+        // [optional] The page size for the request.
+        Boxed<int32> PageSize;
+
+        // [optional] The skip token for the paged request.
+        FString SkipToken;
+
         FListContainerImageTagsRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            ImageName()
+            ImageName(),
+            PageSize(),
+            SkipToken()
             {}
 
         FListContainerImageTagsRequest(const FListContainerImageTagsRequest& src) = default;
@@ -5138,10 +5162,18 @@ namespace MultiplayerModels
 
     struct PLAYFABCPP_API FListContainerImageTagsResponse : public PlayFab::FPlayFabCppResultCommon
     {
+        // The page size on the response.
+        int32 PageSize;
+
+        // [optional] The skip token for the paged response.
+        FString SkipToken;
+
         // [optional] The list of tags for a particular container image.
         TArray<FString> Tags;
         FListContainerImageTagsResponse() :
             FPlayFabCppResultCommon(),
+            PageSize(0),
+            SkipToken(),
             Tags()
             {}
 
@@ -5686,6 +5718,100 @@ namespace MultiplayerModels
     PLAYFABCPP_API OsPlatform readOsPlatformFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API OsPlatform readOsPlatformFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FPartyInvitationConfiguration : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] The list of PlayFab EntityKeys that the invitation allows to authenticate into the network. If this list is empty, all
+         * users are allowed to authenticate using the invitation's identifier. This list may contain no more than 1024 items.
+         */
+        TArray<FEntityKey> EntityKeys;
+        // [optional] The invite identifier for this party. If this value is specified, it must be no longer than 127 characters.
+        FString Identifier;
+
+        // [optional] Controls which participants can revoke this invite.
+        FString Revocability;
+
+        FPartyInvitationConfiguration() :
+            FPlayFabCppBaseModel(),
+            EntityKeys(),
+            Identifier(),
+            Revocability()
+            {}
+
+        FPartyInvitationConfiguration(const FPartyInvitationConfiguration& src) = default;
+
+        FPartyInvitationConfiguration(const TSharedPtr<FJsonObject>& obj) : FPartyInvitationConfiguration()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPartyInvitationConfiguration();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum PartyInvitationRevocability
+    {
+        PartyInvitationRevocabilityCreator,
+        PartyInvitationRevocabilityAnyone
+    };
+
+    PLAYFABCPP_API void writePartyInvitationRevocabilityEnumJSON(PartyInvitationRevocability enumVal, JsonWriter& writer);
+    PLAYFABCPP_API PartyInvitationRevocability readPartyInvitationRevocabilityFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API PartyInvitationRevocability readPartyInvitationRevocabilityFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FPartyNetworkConfiguration : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Controls whether and how to support direct peer-to-peer connection attempts among devices in the network.
+        FString DirectPeerConnectivityOptions;
+
+        // The maximum number of devices allowed to connect to the network. Must be between 1 and 32, inclusive.
+        uint32 MaxDevices;
+
+        // The maximum number of devices allowed per user. Must be greater than 0.
+        uint32 MaxDevicesPerUser;
+
+        // The maximum number of endpoints allowed per device. Must be between 0 and 32, inclusive.
+        uint32 MaxEndpointsPerDevice;
+
+        // The maximum number of unique users allowed in the network. Must be greater than 0.
+        uint32 MaxUsers;
+
+        // The maximum number of users allowed per device. Must be between 1 and 8, inclusive.
+        uint32 MaxUsersPerDevice;
+
+        /**
+         * [optional] An optionally-specified configuration for the initial invitation for this party. If not provided, default configuration
+         * values will be used: a title-unique invitation identifier will be generated, the revocability will be Anyone, and the
+         * EntityID list will be empty.
+         */
+        TSharedPtr<FPartyInvitationConfiguration> pfPartyInvitationConfiguration;
+
+        FPartyNetworkConfiguration() :
+            FPlayFabCppBaseModel(),
+            DirectPeerConnectivityOptions(),
+            MaxDevices(0),
+            MaxDevicesPerUser(0),
+            MaxEndpointsPerDevice(0),
+            MaxUsers(0),
+            MaxUsersPerDevice(0),
+            pfPartyInvitationConfiguration(nullptr)
+            {}
+
+        FPartyNetworkConfiguration(const FPartyNetworkConfiguration& src) = default;
+
+        FPartyNetworkConfiguration(const TSharedPtr<FJsonObject>& obj) : FPartyNetworkConfiguration()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPartyNetworkConfiguration();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRemoveMemberFromLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -5832,6 +5958,76 @@ namespace MultiplayerModels
         }
 
         ~FRequestMultiplayerServerResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRequestPartyServiceRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The network configuration for this request.
+        FPartyNetworkConfiguration NetworkConfiguration;
+
+        // [optional] A guid string party ID created track the party session over its life.
+        FString PartyId;
+
+        /**
+         * The preferred regions to request a party session from. The party service will iterate through the regions in the
+         * specified order and allocate a party session from the first one that is available.
+         */
+        TArray<FString> PreferredRegions;
+        FRequestPartyServiceRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            NetworkConfiguration(),
+            PartyId(),
+            PreferredRegions()
+            {}
+
+        FRequestPartyServiceRequest(const FRequestPartyServiceRequest& src) = default;
+
+        FRequestPartyServiceRequest(const TSharedPtr<FJsonObject>& obj) : FRequestPartyServiceRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRequestPartyServiceRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FRequestPartyServiceResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * [optional] The invitation identifier supplied in the PartyInvitationConfiguration, or the PlayFab-generated guid if none was
+         * supplied.
+         */
+        FString InvitationId;
+
+        // [optional] The guid string party ID of the party session.
+        FString PartyId;
+
+        // [optional] A base-64 encoded string containing the serialized network descriptor for this party.
+        FString SerializedNetworkDescriptor;
+
+        FRequestPartyServiceResponse() :
+            FPlayFabCppResultCommon(),
+            InvitationId(),
+            PartyId(),
+            SerializedNetworkDescriptor()
+            {}
+
+        FRequestPartyServiceResponse(const FRequestPartyServiceResponse& src) = default;
+
+        FRequestPartyServiceResponse(const TSharedPtr<FJsonObject>& obj) : FRequestPartyServiceResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRequestPartyServiceResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -6322,12 +6518,16 @@ namespace MultiplayerModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
+        // [optional] Forces the certificate renewal if the certificate already exists. Default is false
+        Boxed<bool> ForceUpdate;
+
         // The game certificate to upload.
         FCertificate GameCertificate;
 
         FUploadCertificateRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
+            ForceUpdate(),
             GameCertificate()
             {}
 

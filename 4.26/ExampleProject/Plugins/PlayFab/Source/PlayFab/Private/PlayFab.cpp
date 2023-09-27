@@ -16,7 +16,6 @@
 
 #include "PlayFabAdminAPI.h" 
 #include "PlayFabClientAPI.h" 
-#include "PlayFabMatchmakerAPI.h" 
 #include "PlayFabServerAPI.h" 
 #include "PlayFabAuthenticationAPI.h" 
 #include "PlayFabCloudScriptAPI.h" 
@@ -41,7 +40,6 @@ class FPlayFab : public IPlayFab
 
         UPlayFabAdminAPI::StaticClass();
         UPlayFabClientAPI::StaticClass();
-        UPlayFabMatchmakerAPI::StaticClass();
         UPlayFabServerAPI::StaticClass();
         UPlayFabAuthenticationAPI::StaticClass();
         UPlayFabCloudScriptAPI::StaticClass();

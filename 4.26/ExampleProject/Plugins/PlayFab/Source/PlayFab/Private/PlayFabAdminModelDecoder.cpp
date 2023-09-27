@@ -44,6 +44,15 @@ FAdminDeleteMasterPlayerAccountResult UPlayFabAdminModelDecoder::decodeDeleteMas
     return tempStruct;
 }
 
+FAdminDeleteMasterPlayerEventDataResult UPlayFabAdminModelDecoder::decodeDeleteMasterPlayerEventDataResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeleteMasterPlayerEventDataResult tempStruct;
+
+
+    return tempStruct;
+}
+
 FAdminDeleteMembershipSubscriptionResult UPlayFabAdminModelDecoder::decodeDeleteMembershipSubscriptionResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -368,64 +377,11 @@ FAdminGetContentUploadUrlResult UPlayFabAdminModelDecoder::decodeGetContentUploa
 // Custom Server Management
 //////////////////////////////////////////////////////
 
-FAdminModifyServerBuildResult UPlayFabAdminModelDecoder::decodeModifyServerBuildResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminModifyServerBuildResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.ActiveRegions = !(dataObj->HasField("ActiveRegions")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ActiveRegions"), TEXT(","));
-    tempStruct.BuildId = !(dataObj->HasField("BuildId")) ? TEXT("") : dataObj->GetStringField("BuildId");
-    tempStruct.CommandLineTemplate = !(dataObj->HasField("CommandLineTemplate")) ? TEXT("") : dataObj->GetStringField("CommandLineTemplate");
-    tempStruct.Comment = !(dataObj->HasField("Comment")) ? TEXT("") : dataObj->GetStringField("Comment");
-    tempStruct.ExecutablePath = !(dataObj->HasField("ExecutablePath")) ? TEXT("") : dataObj->GetStringField("ExecutablePath");
-    tempStruct.MaxGamesPerHost = !(dataObj->HasField("MaxGamesPerHost")) ? 0 : int(dataObj->GetNumberField("MaxGamesPerHost"));
-    tempStruct.MinFreeGameSlots = !(dataObj->HasField("MinFreeGameSlots")) ? 0 : int(dataObj->GetNumberField("MinFreeGameSlots"));
-    GetEnumValueFromString<EGameBuildStatus>(TEXT("EGameBuildStatus"), dataObj->GetStringField("Status"), tempStruct.Status);
-    tempStruct.Timestamp = !(dataObj->HasField("Timestamp")) ? TEXT("") : dataObj->GetStringField("Timestamp");
-    tempStruct.TitleId = !(dataObj->HasField("TitleId")) ? TEXT("") : dataObj->GetStringField("TitleId");
-
-    return tempStruct;
-}
-
 
 
 ///////////////////////////////////////////////////////
 // Matchmaking
 //////////////////////////////////////////////////////
-
-FAdminGetMatchmakerGameInfoResult UPlayFabAdminModelDecoder::decodeGetMatchmakerGameInfoResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminGetMatchmakerGameInfoResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.BuildVersion = !(dataObj->HasField("BuildVersion")) ? TEXT("") : dataObj->GetStringField("BuildVersion");
-    tempStruct.EndTime = !(dataObj->HasField("EndTime")) ? TEXT("") : dataObj->GetStringField("EndTime");
-    tempStruct.LobbyId = !(dataObj->HasField("LobbyId")) ? TEXT("") : dataObj->GetStringField("LobbyId");
-    tempStruct.Mode = !(dataObj->HasField("Mode")) ? TEXT("") : dataObj->GetStringField("Mode");
-    tempStruct.Players = !(dataObj->HasField("Players")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("Players"), TEXT(","));
-    GetEnumValueFromString<ERegion>(TEXT("ERegion"), dataObj->GetStringField("Region"), tempStruct.Region);
-    tempStruct.ServerIPV4Address = !(dataObj->HasField("ServerIPV4Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV4Address");
-    tempStruct.ServerIPV6Address = !(dataObj->HasField("ServerIPV6Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV6Address");
-    tempStruct.ServerPort = !(dataObj->HasField("ServerPort")) ? 0 : int(dataObj->GetNumberField("ServerPort"));
-    tempStruct.ServerPublicDNSName = !(dataObj->HasField("ServerPublicDNSName")) ? TEXT("") : dataObj->GetStringField("ServerPublicDNSName");
-    tempStruct.StartTime = !(dataObj->HasField("StartTime")) ? TEXT("") : dataObj->GetStringField("StartTime");
-    tempStruct.TitleId = !(dataObj->HasField("TitleId")) ? TEXT("") : dataObj->GetStringField("TitleId");
-
-    return tempStruct;
-}
-
-FAdminGetMatchmakerGameModesResult UPlayFabAdminModelDecoder::decodeGetMatchmakerGameModesResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FAdminGetMatchmakerGameModesResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.GameModes = !(dataObj->HasField("GameModes")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("GameModes");
-
-    return tempStruct;
-}
 
 
 

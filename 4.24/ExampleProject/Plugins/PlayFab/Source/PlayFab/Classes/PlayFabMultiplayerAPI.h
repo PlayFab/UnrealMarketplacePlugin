@@ -954,6 +954,19 @@ public:
         void HelperRequestMultiplayerServer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRequestPartyService, FMultiplayerRequestPartyServiceResponse, result, UObject*, customData);
+
+    /** Request a party session. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* RequestPartyService(FMultiplayerRequestPartyServiceRequest request,
+            FDelegateOnSuccessRequestPartyService onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRequestPartyService(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRolloverContainerRegistryCredentials, FMultiplayerRolloverContainerRegistryCredentialsResponse, result, UObject*, customData);
 
     /** Rolls over the credentials to the container registry. */
@@ -1141,6 +1154,7 @@ public:
     FDelegateOnSuccessListTitleMultiplayerServersQuotaChanges OnSuccessListTitleMultiplayerServersQuotaChanges;
     FDelegateOnSuccessListVirtualMachineSummaries OnSuccessListVirtualMachineSummaries;
     FDelegateOnSuccessRequestMultiplayerServer OnSuccessRequestMultiplayerServer;
+    FDelegateOnSuccessRequestPartyService OnSuccessRequestPartyService;
     FDelegateOnSuccessRolloverContainerRegistryCredentials OnSuccessRolloverContainerRegistryCredentials;
     FDelegateOnSuccessShutdownMultiplayerServer OnSuccessShutdownMultiplayerServer;
     FDelegateOnSuccessUntagContainerImage OnSuccessUntagContainerImage;

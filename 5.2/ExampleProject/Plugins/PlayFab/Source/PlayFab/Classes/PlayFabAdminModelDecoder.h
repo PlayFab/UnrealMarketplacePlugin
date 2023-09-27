@@ -44,6 +44,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminDeleteMasterPlayerAccountResult decodeDeleteMasterPlayerAccountResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the DeleteMasterPlayerEventDataResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
+        static FAdminDeleteMasterPlayerEventDataResult decodeDeleteMasterPlayerEventDataResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the DeleteMembershipSubscriptionResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Account Management Models")
         static FAdminDeleteMembershipSubscriptionResult decodeDeleteMembershipSubscriptionResultResponse(UPlayFabJsonObject* response);
@@ -184,23 +188,11 @@ public:
     // Custom Server Management
     //////////////////////////////////////////////////////
 
-    /** Decode the ModifyServerBuildResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
-        static FAdminModifyServerBuildResult decodeModifyServerBuildResultResponse(UPlayFabJsonObject* response);
-
 
 
     ///////////////////////////////////////////////////////
     // Matchmaking
     //////////////////////////////////////////////////////
-
-    /** Decode the GetMatchmakerGameInfoResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminGetMatchmakerGameInfoResult decodeGetMatchmakerGameInfoResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the GetMatchmakerGameModesResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminGetMatchmakerGameModesResult decodeGetMatchmakerGameModesResultResponse(UPlayFabJsonObject* response);
 
 
 

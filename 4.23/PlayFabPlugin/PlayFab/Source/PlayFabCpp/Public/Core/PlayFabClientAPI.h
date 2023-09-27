@@ -46,11 +46,9 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetCharacterReadOnlyDataDelegate, const ClientModels::FGetCharacterDataResult&);
         DECLARE_DELEGATE_OneParam(FGetCharacterStatisticsDelegate, const ClientModels::FGetCharacterStatisticsResult&);
         DECLARE_DELEGATE_OneParam(FGetContentDownloadUrlDelegate, const ClientModels::FGetContentDownloadUrlResult&);
-        DECLARE_DELEGATE_OneParam(FGetCurrentGamesDelegate, const ClientModels::FCurrentGamesResult&);
         DECLARE_DELEGATE_OneParam(FGetFriendLeaderboardDelegate, const ClientModels::FGetLeaderboardResult&);
         DECLARE_DELEGATE_OneParam(FGetFriendLeaderboardAroundPlayerDelegate, const ClientModels::FGetFriendLeaderboardAroundPlayerResult&);
         DECLARE_DELEGATE_OneParam(FGetFriendsListDelegate, const ClientModels::FGetFriendsListResult&);
-        DECLARE_DELEGATE_OneParam(FGetGameServerRegionsDelegate, const ClientModels::FGameServerRegionsResult&);
         DECLARE_DELEGATE_OneParam(FGetLeaderboardDelegate, const ClientModels::FGetLeaderboardResult&);
         DECLARE_DELEGATE_OneParam(FGetLeaderboardAroundCharacterDelegate, const ClientModels::FGetLeaderboardAroundCharacterResult&);
         DECLARE_DELEGATE_OneParam(FGetLeaderboardAroundPlayerDelegate, const ClientModels::FGetLeaderboardAroundPlayerResult&);
@@ -128,7 +126,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLoginWithSteamDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithTwitchDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxDelegate, const ClientModels::FLoginResult&);
-        DECLARE_DELEGATE_OneParam(FMatchmakeDelegate, const ClientModels::FMatchmakeResult&);
         DECLARE_DELEGATE_OneParam(FOpenTradeDelegate, const ClientModels::FOpenTradeResponse&);
         DECLARE_DELEGATE_OneParam(FPayForPurchaseDelegate, const ClientModels::FPayForPurchaseResult&);
         DECLARE_DELEGATE_OneParam(FPurchaseItemDelegate, const ClientModels::FPurchaseItemResult&);
@@ -335,8 +332,6 @@ namespace PlayFab
          * please be aware that the Content service is specifically PlayFab's CDN offering, for which standard CDN rates apply.
          */
         bool GetContentDownloadUrl(ClientModels::FGetContentDownloadUrlRequest& request, const FGetContentDownloadUrlDelegate& SuccessDelegate = FGetContentDownloadUrlDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Get details about all current running game servers matching the given parameters.
-        bool GetCurrentGames(ClientModels::FCurrentGamesRequest& request, const FGetCurrentGamesDelegate& SuccessDelegate = FGetCurrentGamesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves a list of ranked friends of the current player for the given statistic, starting from the indicated point in
          * the leaderboard
@@ -352,8 +347,6 @@ namespace PlayFab
          * linked accounts (Facebook, Steam) are also included. You may optionally exclude some linked services' friends.
          */
         bool GetFriendsList(ClientModels::FGetFriendsListRequest& request, const FGetFriendsListDelegate& SuccessDelegate = FGetFriendsListDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Get details about the regions hosting game servers matching the given parameters.
-        bool GetGameServerRegions(ClientModels::FGameServerRegionsRequest& request, const FGetGameServerRegionsDelegate& SuccessDelegate = FGetGameServerRegionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves a list of ranked users for the given statistic, starting from the indicated point in the leaderboard
         bool GetLeaderboard(ClientModels::FGetLeaderboardRequest& request, const FGetLeaderboardDelegate& SuccessDelegate = FGetLeaderboardDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves a list of ranked characters for the given statistic, centered on the requested Character ID
@@ -695,15 +688,6 @@ namespace PlayFab
          * If this is the first time a user has signed in with the Xbox Live account and CreateAccount is set to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the Xbox Live account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
          */
         bool LoginWithXbox(ClientModels::FLoginWithXboxRequest& request, const FLoginWithXboxDelegate& SuccessDelegate = FLoginWithXboxDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Attempts to locate a game session matching the given parameters. If the goal is to match the player into a specific
-         * active session, only the LobbyId is required. Otherwise, the BuildVersion, GameMode, and Region are all required
-         * parameters. Note that parameters specified in the search are required (they are not weighting factors). If a slot is
-         * found in a server instance matching the parameters, the slot will be assigned to that player, removing it from the
-         * availabe set. In that case, the information on the game session will be returned, otherwise the Status returned will be
-         * GameNotFound.
-         */
-        bool Matchmake(ClientModels::FMatchmakeRequest& request, const FMatchmakeDelegate& SuccessDelegate = FMatchmakeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Opens a new outstanding trade. Note that a given item instance may only be in one open trade at a time.
         bool OpenTrade(ClientModels::FOpenTradeRequest& request, const FOpenTradeDelegate& SuccessDelegate = FOpenTradeDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -982,11 +966,9 @@ namespace PlayFab
         void OnGetCharacterReadOnlyDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCharacterReadOnlyDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetCharacterStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCharacterStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetContentDownloadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContentDownloadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetCurrentGamesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCurrentGamesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetFriendLeaderboardResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetFriendLeaderboardDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetFriendLeaderboardAroundPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetFriendLeaderboardAroundPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetFriendsListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetFriendsListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetGameServerRegionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameServerRegionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetLeaderboardResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLeaderboardDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetLeaderboardAroundCharacterResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLeaderboardAroundCharacterDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetLeaderboardAroundPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLeaderboardAroundPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1064,7 +1046,6 @@ namespace PlayFab
         void OnLoginWithSteamResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithSteamDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithTwitchResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithTwitchDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnMatchmakeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMatchmakeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnOpenTradeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FOpenTradeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPayForPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPayForPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPurchaseItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPurchaseItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

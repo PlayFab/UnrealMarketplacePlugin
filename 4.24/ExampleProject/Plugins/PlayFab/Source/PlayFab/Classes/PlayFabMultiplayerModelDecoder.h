@@ -254,6 +254,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerRequestMultiplayerServerResponse decodeRequestMultiplayerServerResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the RequestPartyServiceResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        static FMultiplayerRequestPartyServiceResponse decodeRequestPartyServiceResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the RolloverContainerRegistryCredentialsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerRolloverContainerRegistryCredentialsResponse decodeRolloverContainerRegistryCredentialsResponseResponse(UPlayFabJsonObject* response);

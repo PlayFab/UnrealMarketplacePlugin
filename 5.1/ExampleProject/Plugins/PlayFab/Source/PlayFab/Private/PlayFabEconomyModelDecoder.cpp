@@ -512,6 +512,7 @@ FEconomyTransferInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeTransf
     tempStruct.GivingETag = !(dataObj->HasField("GivingETag")) ? TEXT("") : dataObj->GetStringField("GivingETag");
     tempStruct.GivingTransactionIds = !(dataObj->HasField("GivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("GivingTransactionIds"), TEXT(","));
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.OperationStatus = !(dataObj->HasField("OperationStatus")) ? TEXT("") : dataObj->GetStringField("OperationStatus");
     tempStruct.ReceivingTransactionIds = !(dataObj->HasField("ReceivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ReceivingTransactionIds"), TEXT(","));
 
     return tempStruct;

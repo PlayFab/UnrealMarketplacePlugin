@@ -2597,51 +2597,6 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FDeregisterGameRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        // Unique identifier for the Game Server Instance that is being deregistered.
-        FString LobbyId;
-
-        FDeregisterGameRequest() :
-            FPlayFabCppRequestCommon(),
-            CustomTags(),
-            LobbyId()
-            {}
-
-        FDeregisterGameRequest(const FDeregisterGameRequest& src) = default;
-
-        FDeregisterGameRequest(const TSharedPtr<FJsonObject>& obj) : FDeregisterGameRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FDeregisterGameRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FDeregisterGameResponse : public PlayFab::FPlayFabCppResultCommon
-    {
-        FDeregisterGameResponse() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FDeregisterGameResponse(const FDeregisterGameResponse& src) = default;
-
-        FDeregisterGameResponse(const TSharedPtr<FJsonObject>& obj) : FDeregisterGameResponse()
-        {
-            readFromValue(obj);
-        }
-
-        ~FDeregisterGameResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FEmptyResponse : public PlayFab::FPlayFabCppResultCommon
     {
         FEmptyResponse() :
@@ -3512,16 +3467,6 @@ namespace ServerModels
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
-
-    enum GameInstanceState
-    {
-        GameInstanceStateOpen,
-        GameInstanceStateClosed
-    };
-
-    PLAYFABCPP_API void writeGameInstanceStateEnumJSON(GameInstanceState enumVal, JsonWriter& writer);
-    PLAYFABCPP_API GameInstanceState readGameInstanceStateFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API GameInstanceState readGameInstanceStateFromValue(const FString& value);
 
     struct PLAYFABCPP_API FGenericPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
     {
@@ -7359,6 +7304,40 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLinkNintendoServiceAccountSubjectRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] If another user is already linked to a specific Nintendo Service Account, unlink the other user and re-link.
+        Boxed<bool> ForceLink;
+
+        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        FString PlayFabId;
+
+        // The Nintendo Service Account subject or id to link to the PlayFab user.
+        FString Subject;
+
+        FLinkNintendoServiceAccountSubjectRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceLink(),
+            PlayFabId(),
+            Subject()
+            {}
+
+        FLinkNintendoServiceAccountSubjectRequest(const FLinkNintendoServiceAccountSubjectRequest& src) = default;
+
+        FLinkNintendoServiceAccountSubjectRequest(const TSharedPtr<FJsonObject>& obj) : FLinkNintendoServiceAccountSubjectRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLinkNintendoServiceAccountSubjectRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinkNintendoSwitchDeviceIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -8185,71 +8164,6 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FNotifyMatchmakerPlayerLeftRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        // Unique identifier of the Game Instance the user is leaving.
-        FString LobbyId;
-
-        // Unique PlayFab assigned ID of the user on whom the operation will be performed.
-        FString PlayFabId;
-
-        FNotifyMatchmakerPlayerLeftRequest() :
-            FPlayFabCppRequestCommon(),
-            CustomTags(),
-            LobbyId(),
-            PlayFabId()
-            {}
-
-        FNotifyMatchmakerPlayerLeftRequest(const FNotifyMatchmakerPlayerLeftRequest& src) = default;
-
-        FNotifyMatchmakerPlayerLeftRequest(const TSharedPtr<FJsonObject>& obj) : FNotifyMatchmakerPlayerLeftRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FNotifyMatchmakerPlayerLeftRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    enum PlayerConnectionState
-    {
-        PlayerConnectionStateUnassigned,
-        PlayerConnectionStateConnecting,
-        PlayerConnectionStateParticipating,
-        PlayerConnectionStateParticipated
-    };
-
-    PLAYFABCPP_API void writePlayerConnectionStateEnumJSON(PlayerConnectionState enumVal, JsonWriter& writer);
-    PLAYFABCPP_API PlayerConnectionState readPlayerConnectionStateFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API PlayerConnectionState readPlayerConnectionStateFromValue(const FString& value);
-
-    struct PLAYFABCPP_API FNotifyMatchmakerPlayerLeftResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] State of user leaving the Game Server Instance.
-        Boxed<PlayerConnectionState> PlayerState;
-
-        FNotifyMatchmakerPlayerLeftResult() :
-            FPlayFabCppResultCommon(),
-            PlayerState()
-            {}
-
-        FNotifyMatchmakerPlayerLeftResult(const FNotifyMatchmakerPlayerLeftResult& src) = default;
-
-        FNotifyMatchmakerPlayerLeftResult(const TSharedPtr<FJsonObject>& obj) : FNotifyMatchmakerPlayerLeftResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FNotifyMatchmakerPlayerLeftResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FPushNotificationPackage : public PlayFab::FPlayFabCppBaseModel
     {
         // Numerical badge to display on App icon (iOS only)
@@ -8348,213 +8262,6 @@ namespace ServerModels
         }
 
         ~FRedeemCouponResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRedeemMatchmakerTicketRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        // Unique identifier of the Game Server Instance that is asking for validation of the authorization ticket.
-        FString LobbyId;
-
-        // Server authorization ticket passed back from a call to Matchmake or StartGame.
-        FString Ticket;
-
-        FRedeemMatchmakerTicketRequest() :
-            FPlayFabCppRequestCommon(),
-            CustomTags(),
-            LobbyId(),
-            Ticket()
-            {}
-
-        FRedeemMatchmakerTicketRequest(const FRedeemMatchmakerTicketRequest& src) = default;
-
-        FRedeemMatchmakerTicketRequest(const TSharedPtr<FJsonObject>& obj) : FRedeemMatchmakerTicketRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRedeemMatchmakerTicketRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRedeemMatchmakerTicketResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] Error value if the ticket was not validated.
-        FString Error;
-
-        // Boolean indicating whether the ticket was validated by the PlayFab service.
-        bool TicketIsValid;
-
-        // [optional] User account information for the user validated.
-        TSharedPtr<FUserAccountInfo> UserInfo;
-
-        FRedeemMatchmakerTicketResult() :
-            FPlayFabCppResultCommon(),
-            Error(),
-            TicketIsValid(false),
-            UserInfo(nullptr)
-            {}
-
-        FRedeemMatchmakerTicketResult(const FRedeemMatchmakerTicketResult& src) = default;
-
-        FRedeemMatchmakerTicketResult(const TSharedPtr<FJsonObject>& obj) : FRedeemMatchmakerTicketResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRedeemMatchmakerTicketResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRefreshGameServerInstanceHeartbeatRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // Unique identifier of the Game Server Instance for which the heartbeat is updated.
-        FString LobbyId;
-
-        FRefreshGameServerInstanceHeartbeatRequest() :
-            FPlayFabCppRequestCommon(),
-            LobbyId()
-            {}
-
-        FRefreshGameServerInstanceHeartbeatRequest(const FRefreshGameServerInstanceHeartbeatRequest& src) = default;
-
-        FRefreshGameServerInstanceHeartbeatRequest(const TSharedPtr<FJsonObject>& obj) : FRefreshGameServerInstanceHeartbeatRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRefreshGameServerInstanceHeartbeatRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRefreshGameServerInstanceHeartbeatResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FRefreshGameServerInstanceHeartbeatResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FRefreshGameServerInstanceHeartbeatResult(const FRefreshGameServerInstanceHeartbeatResult& src) = default;
-
-        FRefreshGameServerInstanceHeartbeatResult(const TSharedPtr<FJsonObject>& obj) : FRefreshGameServerInstanceHeartbeatResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRefreshGameServerInstanceHeartbeatResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    enum Region
-    {
-        RegionUSCentral,
-        RegionUSEast,
-        RegionEUWest,
-        RegionSingapore,
-        RegionJapan,
-        RegionBrazil,
-        RegionAustralia
-    };
-
-    PLAYFABCPP_API void writeRegionEnumJSON(Region enumVal, JsonWriter& writer);
-    PLAYFABCPP_API Region readRegionFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API Region readRegionFromValue(const FString& value);
-
-    struct PLAYFABCPP_API FRegisterGameRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // Unique identifier of the build running on the Game Server Instance.
-        FString Build;
-
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        /**
-         * Game Mode the Game Server instance is running. Note that this must be defined in the Game Modes tab in the PlayFab Game
-         * Manager, along with the Build ID (the same Game Mode can be defined for multiple Build IDs).
-         */
-        FString GameMode;
-
-        // [optional] Previous lobby id if re-registering an existing game.
-        FString LobbyId;
-
-        /**
-         * Region in which the Game Server Instance is running. For matchmaking using non-AWS region names, set this to any AWS
-         * region and use Tags (below) to specify your custom region.
-         */
-        Region pfRegion;
-
-        // [optional] IPV4 address of the game server instance.
-        FString ServerIPV4Address;
-
-        // [optional] IPV6 address (if any) of the game server instance.
-        FString ServerIPV6Address;
-
-        // Port number for communication with the Game Server Instance.
-        FString ServerPort;
-
-        // [optional] Public DNS name (if any) of the server
-        FString ServerPublicDNSName;
-
-        // [optional] Tags for the Game Server Instance
-        TMap<FString, FString> Tags;
-        FRegisterGameRequest() :
-            FPlayFabCppRequestCommon(),
-            Build(),
-            CustomTags(),
-            GameMode(),
-            LobbyId(),
-            pfRegion(),
-            ServerIPV4Address(),
-            ServerIPV6Address(),
-            ServerPort(),
-            ServerPublicDNSName(),
-            Tags()
-            {}
-
-        FRegisterGameRequest(const FRegisterGameRequest& src) = default;
-
-        FRegisterGameRequest(const TSharedPtr<FJsonObject>& obj) : FRegisterGameRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRegisterGameRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRegisterGameResponse : public PlayFab::FPlayFabCppResultCommon
-    {
-        /**
-         * [optional] Unique identifier generated for the Game Server Instance that is registered. If LobbyId is specified in request and the
-         * game still exists in PlayFab, the LobbyId in request is returned. Otherwise a new lobby id will be returned.
-         */
-        FString LobbyId;
-
-        FRegisterGameResponse() :
-            FPlayFabCppResultCommon(),
-            LobbyId()
-            {}
-
-        FRegisterGameResponse(const FRegisterGameResponse& src) = default;
-
-        FRegisterGameResponse(const TSharedPtr<FJsonObject>& obj) : FRegisterGameResponse()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRegisterGameResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -9430,146 +9137,6 @@ namespace ServerModels
         }
 
         ~FSetFriendTagsRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetGameServerInstanceDataRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // Custom data to set for the specified game server instance.
-        FString GameServerData;
-
-        // Unique identifier of the Game Instance to be updated, in decimal format.
-        FString LobbyId;
-
-        FSetGameServerInstanceDataRequest() :
-            FPlayFabCppRequestCommon(),
-            GameServerData(),
-            LobbyId()
-            {}
-
-        FSetGameServerInstanceDataRequest(const FSetGameServerInstanceDataRequest& src) = default;
-
-        FSetGameServerInstanceDataRequest(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceDataRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetGameServerInstanceDataRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetGameServerInstanceDataResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FSetGameServerInstanceDataResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FSetGameServerInstanceDataResult(const FSetGameServerInstanceDataResult& src) = default;
-
-        FSetGameServerInstanceDataResult(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceDataResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetGameServerInstanceDataResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetGameServerInstanceStateRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // Unique identifier of the Game Instance to be updated, in decimal format.
-        FString LobbyId;
-
-        // State to set for the specified game server instance.
-        GameInstanceState State;
-
-        FSetGameServerInstanceStateRequest() :
-            FPlayFabCppRequestCommon(),
-            LobbyId(),
-            State()
-            {}
-
-        FSetGameServerInstanceStateRequest(const FSetGameServerInstanceStateRequest& src) = default;
-
-        FSetGameServerInstanceStateRequest(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceStateRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetGameServerInstanceStateRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetGameServerInstanceStateResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FSetGameServerInstanceStateResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FSetGameServerInstanceStateResult(const FSetGameServerInstanceStateResult& src) = default;
-
-        FSetGameServerInstanceStateResult(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceStateResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetGameServerInstanceStateResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetGameServerInstanceTagsRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // Unique identifier of the Game Server Instance to be updated.
-        FString LobbyId;
-
-        /**
-         * Tags to set for the specified Game Server Instance. Note that this is the complete list of tags to be associated with
-         * the Game Server Instance.
-         */
-        TMap<FString, FString> Tags;
-        FSetGameServerInstanceTagsRequest() :
-            FPlayFabCppRequestCommon(),
-            LobbyId(),
-            Tags()
-            {}
-
-        FSetGameServerInstanceTagsRequest(const FSetGameServerInstanceTagsRequest& src) = default;
-
-        FSetGameServerInstanceTagsRequest(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceTagsRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetGameServerInstanceTagsRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSetGameServerInstanceTagsResult : public PlayFab::FPlayFabCppResultCommon
-    {
-        FSetGameServerInstanceTagsResult() :
-            FPlayFabCppResultCommon()
-            {}
-
-        FSetGameServerInstanceTagsResult(const FSetGameServerInstanceTagsResult& src) = default;
-
-        FSetGameServerInstanceTagsResult(const TSharedPtr<FJsonObject>& obj) : FSetGameServerInstanceTagsResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSetGameServerInstanceTagsResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

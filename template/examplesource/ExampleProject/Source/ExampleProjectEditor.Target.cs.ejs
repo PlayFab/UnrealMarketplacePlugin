@@ -13,7 +13,7 @@ public class ExampleProjectEditorTarget : TargetRules
         ExtraModuleNames.AddRange(new string[] { "ExampleProject" });
         DefaultBuildSettings = BuildSettingsVersion.V2;
 <% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor > 0) { %>
-        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_<%- ueTargetVersionMinor %>;
 <% } %>
     }
 }

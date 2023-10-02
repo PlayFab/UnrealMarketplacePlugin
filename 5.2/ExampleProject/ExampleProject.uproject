@@ -2,7 +2,7 @@
     "FileVersion": 3,
     "EngineAssociation": "5.2",
     "Category": "PlayFab",
-    "Description": "PlayFab Blueprint SDK Example Project for Unreal Engine 4.",
+    "Description": "PlayFab Blueprint SDK Example Project for Unreal Engine 5.2.",
     "Modules": [
         {
             "Name": "ExampleProject",

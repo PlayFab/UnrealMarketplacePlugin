@@ -396,18 +396,6 @@ public:
     // Matchmaking
     //////////////////////////////////////////////////////
 
-    /** Decode the CurrentGamesResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking Models")
-        static FClientCurrentGamesResult decodeCurrentGamesResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the GameServerRegionsResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking Models")
-        static FClientGameServerRegionsResult decodeGameServerRegionsResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the MatchmakeResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking Models")
-        static FClientMatchmakeResult decodeMatchmakeResultResponse(UPlayFabJsonObject* response);
-
 
 
     ///////////////////////////////////////////////////////

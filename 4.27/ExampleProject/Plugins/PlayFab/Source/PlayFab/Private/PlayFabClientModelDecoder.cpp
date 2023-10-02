@@ -867,49 +867,6 @@ FClientSetFriendTagsResult UPlayFabClientModelDecoder::decodeSetFriendTagsResult
 // Matchmaking
 //////////////////////////////////////////////////////
 
-FClientCurrentGamesResult UPlayFabClientModelDecoder::decodeCurrentGamesResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientCurrentGamesResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.GameCount = !(dataObj->HasField("GameCount")) ? 0 : int(dataObj->GetNumberField("GameCount"));
-    tempStruct.Games = !(dataObj->HasField("Games")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Games");
-    tempStruct.PlayerCount = !(dataObj->HasField("PlayerCount")) ? 0 : int(dataObj->GetNumberField("PlayerCount"));
-
-    return tempStruct;
-}
-
-FClientGameServerRegionsResult UPlayFabClientModelDecoder::decodeGameServerRegionsResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientGameServerRegionsResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.Regions = !(dataObj->HasField("Regions")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Regions");
-
-    return tempStruct;
-}
-
-FClientMatchmakeResult UPlayFabClientModelDecoder::decodeMatchmakeResultResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientMatchmakeResult tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.Expires = !(dataObj->HasField("Expires")) ? TEXT("") : dataObj->GetStringField("Expires");
-    tempStruct.LobbyID = !(dataObj->HasField("LobbyID")) ? TEXT("") : dataObj->GetStringField("LobbyID");
-    tempStruct.PollWaitTimeMS = !(dataObj->HasField("PollWaitTimeMS")) ? 0 : int(dataObj->GetNumberField("PollWaitTimeMS"));
-    tempStruct.ServerIPV4Address = !(dataObj->HasField("ServerIPV4Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV4Address");
-    tempStruct.ServerIPV6Address = !(dataObj->HasField("ServerIPV6Address")) ? TEXT("") : dataObj->GetStringField("ServerIPV6Address");
-    tempStruct.ServerPort = !(dataObj->HasField("ServerPort")) ? 0 : int(dataObj->GetNumberField("ServerPort"));
-    tempStruct.ServerPublicDNSName = !(dataObj->HasField("ServerPublicDNSName")) ? TEXT("") : dataObj->GetStringField("ServerPublicDNSName");
-    GetEnumValueFromString<EMatchmakeStatus>(TEXT("EMatchmakeStatus"), dataObj->GetStringField("Status"), tempStruct.Status);
-    tempStruct.Ticket = !(dataObj->HasField("Ticket")) ? TEXT("") : dataObj->GetStringField("Ticket");
-
-    return tempStruct;
-}
-
 
 
 ///////////////////////////////////////////////////////

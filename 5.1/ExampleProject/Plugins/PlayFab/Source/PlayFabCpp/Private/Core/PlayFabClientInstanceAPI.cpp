@@ -950,37 +950,6 @@ void UPlayFabClientInstanceAPI::OnGetContentDownloadUrlResult(FHttpRequestPtr Ht
     }
 }
 
-bool UPlayFabClientInstanceAPI::GetCurrentGames(
-    ClientModels::FCurrentGamesRequest& request,
-    const FGetCurrentGamesDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (context->GetClientSessionTicket().Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
-        return false;
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetCurrentGames"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetCurrentGamesResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabClientInstanceAPI::OnGetCurrentGamesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCurrentGamesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ClientModels::FCurrentGamesResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabClientInstanceAPI::GetFriendLeaderboard(
     ClientModels::FGetFriendLeaderboardRequest& request,
     const FGetFriendLeaderboardDelegate& SuccessDelegate,
@@ -1063,37 +1032,6 @@ bool UPlayFabClientInstanceAPI::GetFriendsList(
 void UPlayFabClientInstanceAPI::OnGetFriendsListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetFriendsListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FGetFriendsListResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
-bool UPlayFabClientInstanceAPI::GetGameServerRegions(
-    ClientModels::FGameServerRegionsRequest& request,
-    const FGetGameServerRegionsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (context->GetClientSessionTicket().Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
-        return false;
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetGameServerRegions"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetGameServerRegionsResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabClientInstanceAPI::OnGetGameServerRegionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetGameServerRegionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ClientModels::FGameServerRegionsResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -3751,37 +3689,6 @@ void UPlayFabClientInstanceAPI::OnLoginWithXboxResult(FHttpRequestPtr HttpReques
     }
 }
 
-bool UPlayFabClientInstanceAPI::Matchmake(
-    ClientModels::FMatchmakeRequest& request,
-    const FMatchmakeDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
-    if (context->GetClientSessionTicket().Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
-        return false;
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/Matchmake"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnMatchmakeResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabClientInstanceAPI::OnMatchmakeResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMatchmakeDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ClientModels::FMatchmakeResult outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabClientInstanceAPI::OpenTrade(
     ClientModels::FOpenTradeRequest& request,
     const FOpenTradeDelegate& SuccessDelegate,
@@ -3989,8 +3896,19 @@ void UPlayFabClientInstanceAPI::OnRegisterPlayFabUserResult(FHttpRequestPtr Http
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
-        if (outResult.SessionTicket.Len() > 0)
+        outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
+        if (outResult.SessionTicket.Len() > 0) {
             GetOrCreateAuthenticationContext()->SetClientSessionTicket(outResult.SessionTicket);
+            outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
+        }
+        if (outResult.EntityToken.IsValid()) {
+            GetOrCreateAuthenticationContext()->SetEntityToken(outResult.EntityToken->EntityToken);
+            outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
+        }
+        if (outResult.PlayFabId.Len() > 0) {
+            this->authContext->SetPlayFabId(outResult.PlayFabId);
+            outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
+        }
         
 
         SuccessDelegate.ExecuteIfBound(outResult);

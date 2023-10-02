@@ -1056,6 +1056,66 @@ void UPlayFabServerAPI::HelperLinkNintendoServiceAccount(FPlayFabBaseModel respo
     this->RemoveFromRoot();
 }
 
+/** Links the Nintendo account associated with the Nintendo Service Account subject or id to the user's PlayFab account */
+UPlayFabServerAPI* UPlayFabServerAPI::LinkNintendoServiceAccountSubject(FServerLinkNintendoServiceAccountSubjectRequest request,
+    FDelegateOnSuccessLinkNintendoServiceAccountSubject onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkNintendoServiceAccountSubject = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLinkNintendoServiceAccountSubject);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LinkNintendoServiceAccountSubject";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.Subject.IsEmpty() || request.Subject == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Subject"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Subject"), request.Subject);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLinkNintendoServiceAccountSubject(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkNintendoServiceAccountSubject.IsBound())
+    {
+        FServerEmptyResult ResultStruct = UPlayFabServerModelDecoder::decodeEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLinkNintendoServiceAccountSubject.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Links the NintendoSwitchDeviceId to the user's PlayFab account */
 UPlayFabServerAPI* UPlayFabServerAPI::LinkNintendoSwitchDeviceId(FServerLinkNintendoSwitchDeviceIdRequest request,
     FDelegateOnSuccessLinkNintendoSwitchDeviceId onSuccess,
@@ -4098,479 +4158,6 @@ void UPlayFabServerAPI::HelperSetFriendTags(FPlayFabBaseModel response, UObject*
 ///////////////////////////////////////////////////////
 // Matchmaking
 //////////////////////////////////////////////////////
-/** Inform the matchmaker that a Game Server Instance is removed. */
-UPlayFabServerAPI* UPlayFabServerAPI::DeregisterGame(FServerDeregisterGameRequest request,
-    FDelegateOnSuccessDeregisterGame onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessDeregisterGame = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeregisterGame);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/DeregisterGame";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperDeregisterGame(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessDeregisterGame.IsBound())
-    {
-        FServerDeregisterGameResponse ResultStruct = UPlayFabServerModelDecoder::decodeDeregisterGameResponseResponse(response.responseData);
-        OnSuccessDeregisterGame.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Informs the PlayFab match-making service that the user specified has left the Game Server Instance */
-UPlayFabServerAPI* UPlayFabServerAPI::NotifyMatchmakerPlayerLeft(FServerNotifyMatchmakerPlayerLeftRequest request,
-    FDelegateOnSuccessNotifyMatchmakerPlayerLeft onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessNotifyMatchmakerPlayerLeft = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperNotifyMatchmakerPlayerLeft);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/NotifyMatchmakerPlayerLeft";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperNotifyMatchmakerPlayerLeft(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessNotifyMatchmakerPlayerLeft.IsBound())
-    {
-        FServerNotifyMatchmakerPlayerLeftResult ResultStruct = UPlayFabServerModelDecoder::decodeNotifyMatchmakerPlayerLeftResultResponse(response.responseData);
-        OnSuccessNotifyMatchmakerPlayerLeft.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Validates a Game Server session ticket and returns details about the user */
-UPlayFabServerAPI* UPlayFabServerAPI::RedeemMatchmakerTicket(FServerRedeemMatchmakerTicketRequest request,
-    FDelegateOnSuccessRedeemMatchmakerTicket onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessRedeemMatchmakerTicket = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRedeemMatchmakerTicket);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/RedeemMatchmakerTicket";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-    if (request.Ticket.IsEmpty() || request.Ticket == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("Ticket"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("Ticket"), request.Ticket);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperRedeemMatchmakerTicket(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessRedeemMatchmakerTicket.IsBound())
-    {
-        FServerRedeemMatchmakerTicketResult ResultStruct = UPlayFabServerModelDecoder::decodeRedeemMatchmakerTicketResultResponse(response.responseData);
-        OnSuccessRedeemMatchmakerTicket.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Set the state of the indicated Game Server Instance. Also update the heartbeat for the instance. */
-UPlayFabServerAPI* UPlayFabServerAPI::RefreshGameServerInstanceHeartbeat(FServerRefreshGameServerInstanceHeartbeatRequest request,
-    FDelegateOnSuccessRefreshGameServerInstanceHeartbeat onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessRefreshGameServerInstanceHeartbeat = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRefreshGameServerInstanceHeartbeat);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/RefreshGameServerInstanceHeartbeat";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperRefreshGameServerInstanceHeartbeat(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessRefreshGameServerInstanceHeartbeat.IsBound())
-    {
-        FServerRefreshGameServerInstanceHeartbeatResult ResultStruct = UPlayFabServerModelDecoder::decodeRefreshGameServerInstanceHeartbeatResultResponse(response.responseData);
-        OnSuccessRefreshGameServerInstanceHeartbeat.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Inform the matchmaker that a new Game Server Instance is added. */
-UPlayFabServerAPI* UPlayFabServerAPI::RegisterGame(FServerRegisterGameRequest request,
-    FDelegateOnSuccessRegisterGame onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessRegisterGame = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperRegisterGame);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/RegisterGame";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.Build.IsEmpty() || request.Build == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("Build"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("Build"), request.Build);
-    }
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-    if (request.GameMode.IsEmpty() || request.GameMode == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("GameMode"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("GameMode"), request.GameMode);
-    }
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-    FString temp_Region;
-    if (GetEnumValueToString<ERegion>(TEXT("ERegion"), request.Region, temp_Region))
-        OutRestJsonObj->SetStringField(TEXT("Region"), temp_Region);
-    if (request.ServerIPV4Address.IsEmpty() || request.ServerIPV4Address == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ServerIPV4Address"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ServerIPV4Address"), request.ServerIPV4Address);
-    }
-    if (request.ServerIPV6Address.IsEmpty() || request.ServerIPV6Address == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ServerIPV6Address"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ServerIPV6Address"), request.ServerIPV6Address);
-    }
-    if (request.ServerPort.IsEmpty() || request.ServerPort == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ServerPort"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ServerPort"), request.ServerPort);
-    }
-    if (request.ServerPublicDNSName.IsEmpty() || request.ServerPublicDNSName == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("ServerPublicDNSName"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("ServerPublicDNSName"), request.ServerPublicDNSName);
-    }
-    if (request.Tags != nullptr) OutRestJsonObj->SetObjectField(TEXT("Tags"), request.Tags);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperRegisterGame(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessRegisterGame.IsBound())
-    {
-        FServerRegisterGameResponse ResultStruct = UPlayFabServerModelDecoder::decodeRegisterGameResponseResponse(response.responseData);
-        OnSuccessRegisterGame.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Sets the custom data of the indicated Game Server Instance */
-UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceData(FServerSetGameServerInstanceDataRequest request,
-    FDelegateOnSuccessSetGameServerInstanceData onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessSetGameServerInstanceData = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetGameServerInstanceData);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/SetGameServerInstanceData";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.GameServerData.IsEmpty() || request.GameServerData == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("GameServerData"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("GameServerData"), request.GameServerData);
-    }
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperSetGameServerInstanceData(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessSetGameServerInstanceData.IsBound())
-    {
-        FServerSetGameServerInstanceDataResult ResultStruct = UPlayFabServerModelDecoder::decodeSetGameServerInstanceDataResultResponse(response.responseData);
-        OnSuccessSetGameServerInstanceData.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Set the state of the indicated Game Server Instance. */
-UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceState(FServerSetGameServerInstanceStateRequest request,
-    FDelegateOnSuccessSetGameServerInstanceState onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessSetGameServerInstanceState = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetGameServerInstanceState);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/SetGameServerInstanceState";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-    FString temp_State;
-    if (GetEnumValueToString<EGameInstanceState>(TEXT("EGameInstanceState"), request.State, temp_State))
-        OutRestJsonObj->SetStringField(TEXT("State"), temp_State);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperSetGameServerInstanceState(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessSetGameServerInstanceState.IsBound())
-    {
-        FServerSetGameServerInstanceStateResult ResultStruct = UPlayFabServerModelDecoder::decodeSetGameServerInstanceStateResultResponse(response.responseData);
-        OnSuccessSetGameServerInstanceState.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
-/** Set custom tags for the specified Game Server Instance */
-UPlayFabServerAPI* UPlayFabServerAPI::SetGameServerInstanceTags(FServerSetGameServerInstanceTagsRequest request,
-    FDelegateOnSuccessSetGameServerInstanceTags onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessSetGameServerInstanceTags = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperSetGameServerInstanceTags);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Server/SetGameServerInstanceTags";
-    manager->useSecretKey = true;
-
-
-    // Serialize all the request properties to json
-    if (request.LobbyId.IsEmpty() || request.LobbyId == "") {
-        OutRestJsonObj->SetFieldNull(TEXT("LobbyId"));
-    } else {
-        OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
-    }
-    if (request.Tags != nullptr) OutRestJsonObj->SetObjectField(TEXT("Tags"), request.Tags);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabServerRequestCompleted
-void UPlayFabServerAPI::HelperSetGameServerInstanceTags(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessSetGameServerInstanceTags.IsBound())
-    {
-        FServerSetGameServerInstanceTagsResult ResultStruct = UPlayFabServerModelDecoder::decodeSetGameServerInstanceTagsResultResponse(response.responseData);
-        OnSuccessSetGameServerInstanceTags.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
 
 ///////////////////////////////////////////////////////
 // Platform Specific Methods

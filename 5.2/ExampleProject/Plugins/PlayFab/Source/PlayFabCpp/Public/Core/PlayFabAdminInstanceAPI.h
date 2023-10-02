@@ -60,8 +60,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetContentListDelegate, const AdminModels::FGetContentListResult&);
         DECLARE_DELEGATE_OneParam(FGetContentUploadUrlDelegate, const AdminModels::FGetContentUploadUrlResult&);
         DECLARE_DELEGATE_OneParam(FGetDataReportDelegate, const AdminModels::FGetDataReportResult&);
-        DECLARE_DELEGATE_OneParam(FGetMatchmakerGameInfoDelegate, const AdminModels::FGetMatchmakerGameInfoResult&);
-        DECLARE_DELEGATE_OneParam(FGetMatchmakerGameModesDelegate, const AdminModels::FGetMatchmakerGameModesResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayedTitleListDelegate, const AdminModels::FGetPlayedTitleListResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerIdFromAuthTokenDelegate, const AdminModels::FGetPlayerIdFromAuthTokenResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerProfileDelegate, const AdminModels::FGetPlayerProfileResult&);
@@ -95,7 +93,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FIncrementPlayerStatisticVersionDelegate, const AdminModels::FIncrementPlayerStatisticVersionResult&);
         DECLARE_DELEGATE_OneParam(FListOpenIdConnectionDelegate, const AdminModels::FListOpenIdConnectionResponse&);
         DECLARE_DELEGATE_OneParam(FListVirtualCurrencyTypesDelegate, const AdminModels::FListVirtualCurrencyTypesResult&);
-        DECLARE_DELEGATE_OneParam(FModifyServerBuildDelegate, const AdminModels::FModifyServerBuildResult&);
         DECLARE_DELEGATE_OneParam(FRefundPurchaseDelegate, const AdminModels::FRefundPurchaseResponse&);
         DECLARE_DELEGATE_OneParam(FRemovePlayerTagDelegate, const AdminModels::FRemovePlayerTagResult&);
         DECLARE_DELEGATE_OneParam(FRemoveVirtualCurrencyTypesDelegate, const AdminModels::FBlankResult&);
@@ -369,13 +366,6 @@ namespace PlayFab
          * Gets the download URL for the requested report data (in CSV form). The reports available through this API call are those available in the Game Manager, in the Analytics->Reports tab.
          */
         bool GetDataReport(AdminModels::FGetDataReportRequest& request, const FGetDataReportDelegate& SuccessDelegate = FGetDataReportDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Retrieves the details for a specific completed session, including links to standard out and standard error logs
-        bool GetMatchmakerGameInfo(AdminModels::FGetMatchmakerGameInfoRequest& request, const FGetMatchmakerGameInfoDelegate& SuccessDelegate = FGetMatchmakerGameInfoDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        /**
-         * Retrieves the details of defined game modes for the specified game server executable
-         * These details are used by the PlayFab matchmaking service to determine if an existing Game Server Instance has room for additional users, and by the PlayFab game server management service to determine when a new Game Server Host should be created in order to prevent excess load on existing Hosts.
-         */
-        bool GetMatchmakerGameModes(AdminModels::FGetMatchmakerGameModesRequest& request, const FGetMatchmakerGameModesDelegate& SuccessDelegate = FGetMatchmakerGameModesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Get the list of titles that the player has played
          * Useful for identifying titles of which the player's data will be deleted by DeleteMasterPlayer.
@@ -561,8 +551,6 @@ namespace PlayFab
          * version 2._ Retuns the list of all defined virtual currencies for the title
          */
         bool ListVirtualCurrencyTypes(AdminModels::FListVirtualCurrencyTypesRequest& request, const FListVirtualCurrencyTypesDelegate& SuccessDelegate = FListVirtualCurrencyTypesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Updates the build details for the specified game server executable
-        bool ModifyServerBuild(AdminModels::FModifyServerBuildRequest& request, const FModifyServerBuildDelegate& SuccessDelegate = FModifyServerBuildDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
          * version 2._ Attempts to process an order refund through the original real money payment provider.
@@ -825,8 +813,6 @@ namespace PlayFab
         void OnGetContentListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContentListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetContentUploadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContentUploadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetDataReportResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDataReportDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetMatchmakerGameInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakerGameInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetMatchmakerGameModesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetMatchmakerGameModesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayedTitleListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayedTitleListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerIdFromAuthTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerIdFromAuthTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerProfileResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerProfileDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -860,7 +846,6 @@ namespace PlayFab
         void OnIncrementPlayerStatisticVersionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementPlayerStatisticVersionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualCurrencyTypesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnModifyServerBuildResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FModifyServerBuildDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRefundPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRefundPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemoveVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveVirtualCurrencyTypesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

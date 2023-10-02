@@ -477,6 +477,25 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLinkNintendoServiceAccountSubjectRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** If another user is already linked to a specific Nintendo Service Account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        bool ForceLink = false;
+    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString PlayFabId;
+    /** The Nintendo Service Account subject or id to link to the PlayFab user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Account Management Models")
+        FString Subject;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FServerLinkNintendoSwitchDeviceIdRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -1808,229 +1827,6 @@ public:
 ///////////////////////////////////////////////////////
 // Matchmaking
 //////////////////////////////////////////////////////
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerDeregisterGameRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** Unique identifier for the Game Server Instance that is being deregistered. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerDeregisterGameResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerNotifyMatchmakerPlayerLeftRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** Unique identifier of the Game Instance the user is leaving. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-    /** Unique PlayFab assigned ID of the user on whom the operation will be performed. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString PlayFabId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerNotifyMatchmakerPlayerLeftResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** State of user leaving the Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        EPlayerConnectionState PlayerState = StaticCast<EPlayerConnectionState>(0);
-};
-
-/**
- * This function is used by a Game Server Instance to validate with the PlayFab service that a user has been registered as
- * connected to the server. The Ticket is provided to the client either as a result of a call to StartGame or Matchmake,
- * each of which return a Ticket specific to the Game Server Instance. This function will fail in any case where the Ticket
- * presented is not valid for the specific Game Server Instance making the call. Note that data returned may be Personally
- * Identifying Information (PII), such as email address, and so care should be taken in how this data is stored and
- * managed. Since this call will always return the relevant information for users who have accessed the title, the
- * recommendation is to not store this data locally.
- */
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRedeemMatchmakerTicketRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /** Unique identifier of the Game Server Instance that is asking for validation of the authorization ticket. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-    /** Server authorization ticket passed back from a call to Matchmake or StartGame. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString Ticket;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRedeemMatchmakerTicketResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Error value if the ticket was not validated. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString Error;
-    /** Boolean indicating whether the ticket was validated by the PlayFab service. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        bool TicketIsValid = false;
-    /** User account information for the user validated. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* UserInfo = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRefreshGameServerInstanceHeartbeatRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique identifier of the Game Server Instance for which the heartbeat is updated. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRefreshGameServerInstanceHeartbeatResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRegisterGameRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique identifier of the build running on the Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString Build;
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-    /**
-     * Game Mode the Game Server instance is running. Note that this must be defined in the Game Modes tab in the PlayFab Game
-     * Manager, along with the Build ID (the same Game Mode can be defined for multiple Build IDs).
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString GameMode;
-    /** Previous lobby id if re-registering an existing game. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-    /**
-     * Region in which the Game Server Instance is running. For matchmaking using non-AWS region names, set this to any AWS
-     * region and use Tags (below) to specify your custom region.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        ERegion Region = StaticCast<ERegion>(0);
-    /** IPV4 address of the game server instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerIPV4Address;
-    /** IPV6 address (if any) of the game server instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerIPV6Address;
-    /** Port number for communication with the Game Server Instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerPort;
-    /** Public DNS name (if any) of the server */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString ServerPublicDNSName;
-    /** Tags for the Game Server Instance */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* Tags = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerRegisterGameResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /**
-     * Unique identifier generated for the Game Server Instance that is registered. If LobbyId is specified in request and the
-     * game still exists in PlayFab, the LobbyId in request is returned. Otherwise a new lobby id will be returned.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerSetGameServerInstanceDataRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Custom data to set for the specified game server instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString GameServerData;
-    /** Unique identifier of the Game Instance to be updated, in decimal format. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerSetGameServerInstanceDataResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerSetGameServerInstanceStateRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique identifier of the Game Instance to be updated, in decimal format. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-    /** State to set for the specified game server instance. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        EGameInstanceState State = StaticCast<EGameInstanceState>(0);
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerSetGameServerInstanceStateResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerSetGameServerInstanceTagsRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** Unique identifier of the Game Server Instance to be updated. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        FString LobbyId;
-    /**
-     * Tags to set for the specified Game Server Instance. Note that this is the complete list of tags to be associated with
-     * the Game Server Instance.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Matchmaking Models")
-        UPlayFabJsonObject* Tags = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerSetGameServerInstanceTagsResult : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-};
 
 
 ///////////////////////////////////////////////////////

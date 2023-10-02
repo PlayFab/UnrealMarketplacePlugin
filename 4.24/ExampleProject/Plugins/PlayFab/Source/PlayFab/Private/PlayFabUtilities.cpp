@@ -592,6 +592,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1560: returnText = "InvalidServiceConfiguration"; break;
     case 1561: returnText = "InvalidNamespaceMismatch"; break;
     case 1562: returnText = "LeaderboardColumnLengthMismatch"; break;
+    case 1563: returnText = "InvalidStatisticScore"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -736,6 +737,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 13009: returnText = "LobbyNewOwnerMustBeConnected"; break;
     case 13010: returnText = "LobbyCurrentOwnerStillConnected"; break;
     case 13011: returnText = "LobbyMemberIsNotOwner"; break;
+    case 13012: returnText = "LobbyAssociatedServerMismatch"; break;
+    case 13013: returnText = "LobbyAssociatedServerNotFound"; break;
+    case 13014: returnText = "LobbyAssociatedToDifferentServer"; break;
+    case 13015: returnText = "LobbyServerAlreadyAssociated"; break;
+    case 13016: returnText = "LobbyIsNotClientOwned"; break;
+    case 13017: returnText = "LobbyDoesNotUseConnections"; break;
     case 14000: returnText = "EventSamplingInvalidRatio"; break;
     case 14001: returnText = "EventSamplingInvalidEventNamespace"; break;
     case 14002: returnText = "EventSamplingInvalidEventName"; break;

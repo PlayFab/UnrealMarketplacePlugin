@@ -1591,52 +1591,6 @@ public:
     ///////////////////////////////////////////////////////
     // Matchmaking
     //////////////////////////////////////////////////////
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetCurrentGames, FClientCurrentGamesResult, result, UObject*, customData);
-
-    /** Get details about all current running game servers matching the given parameters. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* GetCurrentGames(FClientCurrentGamesRequest request,
-            FDelegateOnSuccessGetCurrentGames onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetCurrentGames(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetGameServerRegions, FClientGameServerRegionsResult, result, UObject*, customData);
-
-    /** Get details about the regions hosting game servers matching the given parameters. */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* GetGameServerRegions(FClientGameServerRegionsRequest request,
-            FDelegateOnSuccessGetGameServerRegions onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetGameServerRegions(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessMatchmake, FClientMatchmakeResult, result, UObject*, customData);
-
-    /**
-     * Attempts to locate a game session matching the given parameters. If the goal is to match the player into a specific
-     * active session, only the LobbyId is required. Otherwise, the BuildVersion, GameMode, and Region are all required
-     * parameters. Note that parameters specified in the search are required (they are not weighting factors). If a slot is
-     * found in a server instance matching the parameters, the slot will be assigned to that player, removing it from the
-     * availabe set. In that case, the information on the game session will be returned, otherwise the Status returned will be
-     * GameNotFound.
-     */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabClientAPI* Matchmake(FClientMatchmakeRequest request,
-            FDelegateOnSuccessMatchmake onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabClientRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Matchmaking ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperMatchmake(FPlayFabBaseModel response, UObject* customData, bool successful);
-
 
     ///////////////////////////////////////////////////////
     // Platform Specific Methods
@@ -2681,9 +2635,6 @@ public:
     FDelegateOnSuccessGetFriendsList OnSuccessGetFriendsList;
     FDelegateOnSuccessRemoveFriend OnSuccessRemoveFriend;
     FDelegateOnSuccessSetFriendTags OnSuccessSetFriendTags;
-    FDelegateOnSuccessGetCurrentGames OnSuccessGetCurrentGames;
-    FDelegateOnSuccessGetGameServerRegions OnSuccessGetGameServerRegions;
-    FDelegateOnSuccessMatchmake OnSuccessMatchmake;
     FDelegateOnSuccessAndroidDevicePushNotificationRegistration OnSuccessAndroidDevicePushNotificationRegistration;
     FDelegateOnSuccessConsumeMicrosoftStoreEntitlements OnSuccessConsumeMicrosoftStoreEntitlements;
     FDelegateOnSuccessConsumePS5Entitlements OnSuccessConsumePS5Entitlements;

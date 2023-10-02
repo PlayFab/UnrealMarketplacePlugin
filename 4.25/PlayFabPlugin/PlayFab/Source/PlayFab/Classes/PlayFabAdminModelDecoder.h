@@ -188,23 +188,11 @@ public:
     // Custom Server Management
     //////////////////////////////////////////////////////
 
-    /** Decode the ModifyServerBuildResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Custom Server Management Models")
-        static FAdminModifyServerBuildResult decodeModifyServerBuildResultResponse(UPlayFabJsonObject* response);
-
 
 
     ///////////////////////////////////////////////////////
     // Matchmaking
     //////////////////////////////////////////////////////
-
-    /** Decode the GetMatchmakerGameInfoResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminGetMatchmakerGameInfoResult decodeGetMatchmakerGameInfoResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the GetMatchmakerGameModesResult response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Matchmaking Models")
-        static FAdminGetMatchmakerGameModesResult decodeGetMatchmakerGameModesResultResponse(UPlayFabJsonObject* response);
 
 
 

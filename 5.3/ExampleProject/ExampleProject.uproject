@@ -1,0 +1,22 @@
+{
+    "FileVersion": 3,
+    "EngineAssociation": "5.3",
+    "Category": "PlayFab",
+    "Description": "PlayFab Blueprint SDK Example Project for Unreal Engine 5.3.",
+    "Modules": [
+        {
+            "Name": "ExampleProject",
+            "Type": "Runtime",
+            "LoadingPhase": "Default"
+        }
+    ],
+    "TargetPlatforms": [
+        "Android",
+        "AllDesktop",
+        "IOS",
+        "MacNoEditor",
+        "WindowsNoEditor",
+        "LinuxNoEditor",
+        "Switch"
+    ]
+}

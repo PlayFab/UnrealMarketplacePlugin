@@ -23,7 +23,6 @@ namespace PlayFab
 
     class UPlayFabAdminAPI;
     class UPlayFabClientAPI;
-    class UPlayFabMatchmakerAPI;
     class UPlayFabServerAPI;
     class UPlayFabAuthenticationAPI;
     class UPlayFabCloudScriptAPI;
@@ -40,7 +39,6 @@ namespace PlayFab
 
 typedef TSharedPtr<class PlayFab::UPlayFabAdminAPI> PlayFabAdminPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabClientAPI> PlayFabClientPtr;
-typedef TSharedPtr<class PlayFab::UPlayFabMatchmakerAPI> PlayFabMatchmakerPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabServerAPI> PlayFabServerPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabAuthenticationAPI> PlayFabAuthenticationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabCloudScriptAPI> PlayFabCloudScriptPtr;
@@ -89,7 +87,6 @@ public:
 
     virtual PlayFabAdminPtr GetAdminAPI() const = 0;
     virtual PlayFabClientPtr GetClientAPI() const = 0;
-    virtual PlayFabMatchmakerPtr GetMatchmakerAPI() const = 0;
     virtual PlayFabServerPtr GetServerAPI() const = 0;
     virtual PlayFabAuthenticationPtr GetAuthenticationAPI() const = 0;
     virtual PlayFabCloudScriptPtr GetCloudScriptAPI() const = 0;

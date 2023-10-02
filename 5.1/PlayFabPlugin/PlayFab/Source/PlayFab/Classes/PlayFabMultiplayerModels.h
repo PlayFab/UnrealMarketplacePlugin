@@ -2435,6 +2435,12 @@ public:
     /** The container images we want to list tags for. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString ImageName;
+    /** The page size for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
 };
 
 USTRUCT(BlueprintType)
@@ -2442,6 +2448,12 @@ struct PLAYFAB_API FMultiplayerListContainerImageTagsResponse : public FPlayFabR
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
     /** The list of tags for a particular container image. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString Tags;
@@ -2649,6 +2661,51 @@ public:
 };
 
 /**
+ * Requests a party session from a particular set of builds if build alias params is provided, in any of the given
+ * preferred regions.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerRequestPartyServiceRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The network configuration for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* NetworkConfiguration = nullptr;
+    /** A guid string party ID created track the party session over its life. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString PartyId;
+    /**
+     * The preferred regions to request a party session from. The party service will iterate through the regions in the
+     * specified order and allocate a party session from the first one that is available.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString PreferredRegions;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerRequestPartyServiceResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * The invitation identifier supplied in the PartyInvitationConfiguration, or the PlayFab-generated guid if none was
+     * supplied.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString InvitationId;
+    /** The guid string party ID of the party session. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString PartyId;
+    /** A base-64 encoded string containing the serialized network descriptor for this party. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SerializedNetworkDescriptor;
+};
+
+/**
  * Gets new credentials to the container registry where game developers can upload custom container images to before
  * creating a new build.
  */
@@ -2796,6 +2853,9 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* CustomTags = nullptr;
+    /** Forces the certificate renewal if the certificate already exists. Default is false */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool ForceUpdate = false;
     /** The game certificate to upload. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* GameCertificate = nullptr;

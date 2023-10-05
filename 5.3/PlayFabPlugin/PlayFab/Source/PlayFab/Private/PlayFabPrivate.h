@@ -21,4 +21,4 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogPlayFab, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabTests, Log, All);
 
-#include "PlayFab/Public/IPlayFab.h"
+#include "IPlayFab.h"

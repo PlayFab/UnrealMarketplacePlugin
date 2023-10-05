@@ -6,7 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PlayFab/Classes/PlayFabJsonObject.h"
+#include "PlayFabJsonObject.h"
 #include "PlayFabResultCommon.generated.h"
 
 USTRUCT(BlueprintType)

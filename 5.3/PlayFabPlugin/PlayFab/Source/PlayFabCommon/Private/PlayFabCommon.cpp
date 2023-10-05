@@ -11,7 +11,7 @@
 #endif // WITH_EDITOR
 
 #include "PlayFabCommonSettings.h"
-#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
+#include "PlayFabRuntimeSettings.h"
 
 #define LOCTEXT_NAMESPACE "FPlayFabCommonsModule"
 

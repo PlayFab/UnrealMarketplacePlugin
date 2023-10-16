@@ -2260,6 +2260,9 @@ namespace AdminModels
         // [optional] Manually specified information for an OpenID Connect issuer.
         TSharedPtr<FOpenIdIssuerInformation> IssuerInformation;
 
+        // [optional] Override the issuer name for user indexing and lookup.
+        FString IssuerOverride;
+
         FCreateOpenIdConnectionRequest() :
             FPlayFabCppRequestCommon(),
             ClientId(),
@@ -2267,7 +2270,8 @@ namespace AdminModels
             ConnectionId(),
             IgnoreNonce(),
             IssuerDiscoveryUrl(),
-            IssuerInformation(nullptr)
+            IssuerInformation(nullptr),
+            IssuerOverride()
             {}
 
         FCreateOpenIdConnectionRequest(const FCreateOpenIdConnectionRequest& src) = default;
@@ -7970,8 +7974,14 @@ namespace AdminModels
         // Shows if data about the connection will be loaded from the issuer's discovery document
         bool DiscoverConfiguration;
 
+        // [optional] Ignore 'nonce' claim in identity tokens.
+        Boxed<bool> IgnoreNonce;
+
         // [optional] Information for an OpenID Connect provider.
         TSharedPtr<FOpenIdIssuerInformation> IssuerInformation;
+
+        // [optional] Override the issuer name for user indexing and lookup.
+        FString IssuerOverride;
 
         FOpenIdConnection() :
             FPlayFabCppBaseModel(),
@@ -7979,7 +7989,9 @@ namespace AdminModels
             ClientSecret(),
             ConnectionId(),
             DiscoverConfiguration(false),
-            IssuerInformation(nullptr)
+            IgnoreNonce(),
+            IssuerInformation(nullptr),
+            IssuerOverride()
             {}
 
         FOpenIdConnection(const FOpenIdConnection& src) = default;
@@ -10253,19 +10265,27 @@ namespace AdminModels
         // A name for the connection that identifies it within the title.
         FString ConnectionId;
 
+        // [optional] Ignore 'nonce' claim in identity tokens.
+        Boxed<bool> IgnoreNonce;
+
         // [optional] The issuer URL or discovery document URL to read issuer information from
         FString IssuerDiscoveryUrl;
 
         // [optional] Manually specified information for an OpenID Connect issuer.
         TSharedPtr<FOpenIdIssuerInformation> IssuerInformation;
 
+        // [optional] Override the issuer name for user indexing and lookup.
+        FString IssuerOverride;
+
         FUpdateOpenIdConnectionRequest() :
             FPlayFabCppRequestCommon(),
             ClientId(),
             ClientSecret(),
             ConnectionId(),
+            IgnoreNonce(),
             IssuerDiscoveryUrl(),
-            IssuerInformation(nullptr)
+            IssuerInformation(nullptr),
+            IssuerOverride()
             {}
 
         FUpdateOpenIdConnectionRequest(const FUpdateOpenIdConnectionRequest& src) = default;

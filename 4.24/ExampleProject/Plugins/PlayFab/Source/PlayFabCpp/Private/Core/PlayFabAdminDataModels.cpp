@@ -4524,6 +4524,12 @@ void PlayFab::AdminModels::FCreateOpenIdConnectionRequest::writeJSON(JsonWriter&
         IssuerInformation->writeJSON(writer);
     }
 
+    if (IssuerOverride.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerOverride"));
+        writer->WriteValue(IssuerOverride);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -4570,6 +4576,13 @@ bool PlayFab::AdminModels::FCreateOpenIdConnectionRequest::readFromValue(const T
     if (IssuerInformationValue.IsValid() && !IssuerInformationValue->IsNull())
     {
         IssuerInformation = MakeShareable(new FOpenIdIssuerInformation(IssuerInformationValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IssuerOverrideValue = obj->TryGetField(TEXT("IssuerOverride"));
+    if (IssuerOverrideValue.IsValid() && !IssuerOverrideValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerOverrideValue->TryGetString(TmpValue)) { IssuerOverride = TmpValue; }
     }
 
     return HasSucceeded;
@@ -15317,10 +15330,22 @@ void PlayFab::AdminModels::FOpenIdConnection::writeJSON(JsonWriter& writer) cons
     writer->WriteIdentifierPrefix(TEXT("DiscoverConfiguration"));
     writer->WriteValue(DiscoverConfiguration);
 
+    if (IgnoreNonce.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IgnoreNonce"));
+        writer->WriteValue(IgnoreNonce);
+    }
+
     if (IssuerInformation.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("IssuerInformation"));
         IssuerInformation->writeJSON(writer);
+    }
+
+    if (IssuerOverride.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerOverride"));
+        writer->WriteValue(IssuerOverride);
     }
 
     writer->WriteObjectEnd();
@@ -15358,10 +15383,24 @@ bool PlayFab::AdminModels::FOpenIdConnection::readFromValue(const TSharedPtr<FJs
         if (DiscoverConfigurationValue->TryGetBool(TmpValue)) { DiscoverConfiguration = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> IgnoreNonceValue = obj->TryGetField(TEXT("IgnoreNonce"));
+    if (IgnoreNonceValue.IsValid() && !IgnoreNonceValue->IsNull())
+    {
+        bool TmpValue;
+        if (IgnoreNonceValue->TryGetBool(TmpValue)) { IgnoreNonce = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IssuerInformationValue = obj->TryGetField(TEXT("IssuerInformation"));
     if (IssuerInformationValue.IsValid() && !IssuerInformationValue->IsNull())
     {
         IssuerInformation = MakeShareable(new FOpenIdIssuerInformation(IssuerInformationValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IssuerOverrideValue = obj->TryGetField(TEXT("IssuerOverride"));
+    if (IssuerOverrideValue.IsValid() && !IssuerOverrideValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerOverrideValue->TryGetString(TmpValue)) { IssuerOverride = TmpValue; }
     }
 
     return HasSucceeded;
@@ -19418,6 +19457,12 @@ void PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::writeJSON(JsonWriter&
         writer->WriteValue(ConnectionId);
     }
 
+    if (IgnoreNonce.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IgnoreNonce"));
+        writer->WriteValue(IgnoreNonce);
+    }
+
     if (IssuerDiscoveryUrl.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IssuerDiscoveryUrl"));
@@ -19428,6 +19473,12 @@ void PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::writeJSON(JsonWriter&
     {
         writer->WriteIdentifierPrefix(TEXT("IssuerInformation"));
         IssuerInformation->writeJSON(writer);
+    }
+
+    if (IssuerOverride.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerOverride"));
+        writer->WriteValue(IssuerOverride);
     }
 
     writer->WriteObjectEnd();
@@ -19458,6 +19509,13 @@ bool PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::readFromValue(const T
         if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> IgnoreNonceValue = obj->TryGetField(TEXT("IgnoreNonce"));
+    if (IgnoreNonceValue.IsValid() && !IgnoreNonceValue->IsNull())
+    {
+        bool TmpValue;
+        if (IgnoreNonceValue->TryGetBool(TmpValue)) { IgnoreNonce = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> IssuerDiscoveryUrlValue = obj->TryGetField(TEXT("IssuerDiscoveryUrl"));
     if (IssuerDiscoveryUrlValue.IsValid() && !IssuerDiscoveryUrlValue->IsNull())
     {
@@ -19469,6 +19527,13 @@ bool PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::readFromValue(const T
     if (IssuerInformationValue.IsValid() && !IssuerInformationValue->IsNull())
     {
         IssuerInformation = MakeShareable(new FOpenIdIssuerInformation(IssuerInformationValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> IssuerOverrideValue = obj->TryGetField(TEXT("IssuerOverride"));
+    if (IssuerOverrideValue.IsValid() && !IssuerOverrideValue->IsNull())
+    {
+        FString TmpValue;
+        if (IssuerOverrideValue->TryGetString(TmpValue)) { IssuerOverride = TmpValue; }
     }
 
     return HasSucceeded;

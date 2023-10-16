@@ -1177,6 +1177,11 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::CreateOpenIdConnection(FAdminCreateOpenIdCon
         OutRestJsonObj->SetStringField(TEXT("IssuerDiscoveryUrl"), request.IssuerDiscoveryUrl);
     }
     if (request.IssuerInformation != nullptr) OutRestJsonObj->SetObjectField(TEXT("IssuerInformation"), request.IssuerInformation);
+    if (request.IssuerOverride.IsEmpty() || request.IssuerOverride == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IssuerOverride"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IssuerOverride"), request.IssuerOverride);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -1599,12 +1604,18 @@ UPlayFabAdminAPI* UPlayFabAdminAPI::UpdateOpenIdConnection(FAdminUpdateOpenIdCon
     } else {
         OutRestJsonObj->SetStringField(TEXT("ConnectionId"), request.ConnectionId);
     }
+    OutRestJsonObj->SetBoolField(TEXT("IgnoreNonce"), request.IgnoreNonce);
     if (request.IssuerDiscoveryUrl.IsEmpty() || request.IssuerDiscoveryUrl == "") {
         OutRestJsonObj->SetFieldNull(TEXT("IssuerDiscoveryUrl"));
     } else {
         OutRestJsonObj->SetStringField(TEXT("IssuerDiscoveryUrl"), request.IssuerDiscoveryUrl);
     }
     if (request.IssuerInformation != nullptr) OutRestJsonObj->SetObjectField(TEXT("IssuerInformation"), request.IssuerInformation);
+    if (request.IssuerOverride.IsEmpty() || request.IssuerOverride == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IssuerOverride"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IssuerOverride"), request.IssuerOverride);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

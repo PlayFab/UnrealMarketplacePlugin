@@ -586,6 +586,9 @@ public:
     /** Manually specified information for an OpenID Connect issuer. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         UPlayFabJsonObject* IssuerInformation = nullptr;
+    /** Override the issuer name for user indexing and lookup. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString IssuerOverride;
 };
 
 USTRUCT(BlueprintType)
@@ -757,12 +760,18 @@ public:
     /** A name for the connection that identifies it within the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString ConnectionId;
+    /** Ignore 'nonce' claim in identity tokens. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        bool IgnoreNonce = false;
     /** The issuer URL or discovery document URL to read issuer information from */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         FString IssuerDiscoveryUrl;
     /** Manually specified information for an OpenID Connect issuer. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
         UPlayFabJsonObject* IssuerInformation = nullptr;
+    /** Override the issuer name for user indexing and lookup. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Admin | Authentication Models")
+        FString IssuerOverride;
 };
 
 /**

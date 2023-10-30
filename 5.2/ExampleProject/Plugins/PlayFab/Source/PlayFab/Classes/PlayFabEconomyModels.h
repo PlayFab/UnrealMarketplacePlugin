@@ -1368,7 +1368,10 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** Xbox Token used for delegated business partner authentication. */
+    /**
+     * Xbox Token used for delegated business partner authentication. Token provided by the Xbox Live SDK method
+     * GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString XboxToken;
 };

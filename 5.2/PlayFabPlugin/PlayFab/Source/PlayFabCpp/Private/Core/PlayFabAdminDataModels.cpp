@@ -76,8 +76,11 @@ void PlayFab::AdminModels::FBanPlayerContent::writeJSON(JsonWriter& writer) cons
 {
     writer->WriteObjectStart();
 
-    writer->WriteIdentifierPrefix(TEXT("BanDurationHours"));
-    writer->WriteValue(BanDurationHours);
+    if (BanDurationHours.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("BanDurationHours"));
+        writer->WriteValue(BanDurationHours);
+    }
 
     if (BanReason.IsEmpty() == false)
     {

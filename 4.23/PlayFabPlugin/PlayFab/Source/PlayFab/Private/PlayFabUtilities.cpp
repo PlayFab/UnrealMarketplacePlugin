@@ -766,6 +766,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 15009: returnText = "EventSinkTenantNotFound"; break;
     case 15010: returnText = "EventSinkAadNotFound"; break;
     case 15011: returnText = "EventSinkDatabaseNotFound"; break;
+    case 15012: returnText = "EventSinkTitleUnauthorized"; break;
     case 16000: returnText = "OperationCanceled"; break;
     case 17000: returnText = "InvalidDisplayNameRandomSuffixLength"; break;
     case 17001: returnText = "AllowNonUniquePlayerDisplayNamesDisableNotAllowed"; break;
@@ -786,6 +787,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 19007: returnText = "PlayerCustomPropertiesPropertyDoesNotExist"; break;
     case 19008: returnText = "AddonAlreadyExists"; break;
     case 19009: returnText = "AddonDoesntExist"; break;
+    case 19100: returnText = "CopilotDisabled"; break;
+    case 19101: returnText = "CopilotInvalidRequest"; break;
     }
 
     // Return the text

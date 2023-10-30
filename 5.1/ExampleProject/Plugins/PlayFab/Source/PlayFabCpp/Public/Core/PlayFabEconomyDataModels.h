@@ -3937,7 +3937,10 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] Xbox Token used for delegated business partner authentication.
+        /**
+         * [optional] Xbox Token used for delegated business partner authentication. Token provided by the Xbox Live SDK method
+         * GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
+         */
         FString XboxToken;
 
         FRedeemMicrosoftStoreInventoryItemsRequest() :

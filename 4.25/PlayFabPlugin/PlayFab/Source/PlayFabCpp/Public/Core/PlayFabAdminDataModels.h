@@ -42,15 +42,15 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FBanPlayerContent : public PlayFab::FPlayFabCppBaseModel
     {
-        // Duration(in hours) to ban a player. If not provided, the player will be banned permanently.
-        int32 BanDurationHours;
+        // [optional] Duration(in hours) to ban a player. If not provided, the player will be banned permanently.
+        Boxed<int32> BanDurationHours;
 
         // [optional] Reason to ban a player
         FString BanReason;
 
         FBanPlayerContent() :
             FPlayFabCppBaseModel(),
-            BanDurationHours(0),
+            BanDurationHours(),
             BanReason()
             {}
 

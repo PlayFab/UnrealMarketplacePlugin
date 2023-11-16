@@ -67,6 +67,90 @@ bool PlayFab::AdminModels::FAbortTaskInstanceRequest::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FAddInventoryItemV2Content::~FAddInventoryItemV2Content()
+{
+
+}
+
+void PlayFab::AdminModels::FAddInventoryItemV2Content::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
+
+    if (CollectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
+        writer->WriteValue(CollectionId);
+    }
+
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
+
+    if (StackId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StackId"));
+        writer->WriteValue(StackId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FAddInventoryItemV2Content::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
+    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
+    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StackIdValue = obj->TryGetField(TEXT("StackId"));
+    if (StackIdValue.IsValid() && !StackIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FBanPlayerContent::~FBanPlayerContent()
 {
 
@@ -107,6 +191,64 @@ bool PlayFab::AdminModels::FBanPlayerContent::readFromValue(const TSharedPtr<FJs
     {
         FString TmpValue;
         if (BanReasonValue->TryGetString(TmpValue)) { BanReason = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeleteInventoryItemV2Content::~FDeleteInventoryItemV2Content()
+{
+
+}
+
+void PlayFab::AdminModels::FDeleteInventoryItemV2Content::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CollectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
+        writer->WriteValue(CollectionId);
+    }
+
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
+
+    if (StackId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StackId"));
+        writer->WriteValue(StackId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeleteInventoryItemV2Content::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
+    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
+    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StackIdValue = obj->TryGetField(TEXT("StackId"));
+    if (StackIdValue.IsValid() && !StackIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -498,9 +640,95 @@ bool PlayFab::AdminModels::FSendEmailContent::readFromValue(const TSharedPtr<FJs
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FSubtractInventoryItemV2Content::~FSubtractInventoryItemV2Content()
+{
+
+}
+
+void PlayFab::AdminModels::FSubtractInventoryItemV2Content::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Amount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Amount"));
+        writer->WriteValue(Amount);
+    }
+
+    if (CollectionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("CollectionId"));
+        writer->WriteValue(CollectionId);
+    }
+
+    if (DurationInSeconds.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
+        writer->WriteValue(DurationInSeconds);
+    }
+
+    if (ItemId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemId"));
+        writer->WriteValue(ItemId);
+    }
+
+    if (StackId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StackId"));
+        writer->WriteValue(StackId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FSubtractInventoryItemV2Content::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AmountValue = obj->TryGetField(TEXT("Amount"));
+    if (AmountValue.IsValid() && !AmountValue->IsNull())
+    {
+        int32 TmpValue;
+        if (AmountValue->TryGetNumber(TmpValue)) { Amount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CollectionIdValue = obj->TryGetField(TEXT("CollectionId"));
+    if (CollectionIdValue.IsValid() && !CollectionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CollectionIdValue->TryGetString(TmpValue)) { CollectionId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
+    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
+    {
+        int32 TmpValue;
+        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
+    if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemIdValue->TryGetString(TmpValue)) { ItemId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> StackIdValue = obj->TryGetField(TEXT("StackId"));
+    if (StackIdValue.IsValid() && !StackIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StackIdValue->TryGetString(TmpValue)) { StackId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FAction::~FAction()
 {
+    //if (AddInventoryItemV2Content != nullptr) delete AddInventoryItemV2Content;
     //if (BanPlayerContent != nullptr) delete BanPlayerContent;
+    //if (DeleteInventoryItemV2Content != nullptr) delete DeleteInventoryItemV2Content;
     //if (DeletePlayerContent != nullptr) delete DeletePlayerContent;
     //if (ExecuteCloudScriptContent != nullptr) delete ExecuteCloudScriptContent;
     //if (ExecuteFunctionContent != nullptr) delete ExecuteFunctionContent;
@@ -509,6 +737,7 @@ PlayFab::AdminModels::FAction::~FAction()
     //if (IncrementPlayerStatisticContent != nullptr) delete IncrementPlayerStatisticContent;
     //if (PushNotificationContent != nullptr) delete PushNotificationContent;
     //if (SendEmailContent != nullptr) delete SendEmailContent;
+    //if (SubtractInventoryItemV2Content != nullptr) delete SubtractInventoryItemV2Content;
 
 }
 
@@ -516,10 +745,22 @@ void PlayFab::AdminModels::FAction::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
+    if (pfAddInventoryItemV2Content.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AddInventoryItemV2Content"));
+        pfAddInventoryItemV2Content->writeJSON(writer);
+    }
+
     if (pfBanPlayerContent.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("BanPlayerContent"));
         pfBanPlayerContent->writeJSON(writer);
+    }
+
+    if (pfDeleteInventoryItemV2Content.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeleteInventoryItemV2Content"));
+        pfDeleteInventoryItemV2Content->writeJSON(writer);
     }
 
     if (pfDeletePlayerContent.IsValid())
@@ -570,6 +811,12 @@ void PlayFab::AdminModels::FAction::writeJSON(JsonWriter& writer) const
         pfSendEmailContent->writeJSON(writer);
     }
 
+    if (pfSubtractInventoryItemV2Content.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SubtractInventoryItemV2Content"));
+        pfSubtractInventoryItemV2Content->writeJSON(writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -577,10 +824,22 @@ bool PlayFab::AdminModels::FAction::readFromValue(const TSharedPtr<FJsonObject>&
 {
     bool HasSucceeded = true;
 
+    const TSharedPtr<FJsonValue> AddInventoryItemV2ContentValue = obj->TryGetField(TEXT("AddInventoryItemV2Content"));
+    if (AddInventoryItemV2ContentValue.IsValid() && !AddInventoryItemV2ContentValue->IsNull())
+    {
+        pfAddInventoryItemV2Content = MakeShareable(new FAddInventoryItemV2Content(AddInventoryItemV2ContentValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> BanPlayerContentValue = obj->TryGetField(TEXT("BanPlayerContent"));
     if (BanPlayerContentValue.IsValid() && !BanPlayerContentValue->IsNull())
     {
         pfBanPlayerContent = MakeShareable(new FBanPlayerContent(BanPlayerContentValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> DeleteInventoryItemV2ContentValue = obj->TryGetField(TEXT("DeleteInventoryItemV2Content"));
+    if (DeleteInventoryItemV2ContentValue.IsValid() && !DeleteInventoryItemV2ContentValue->IsNull())
+    {
+        pfDeleteInventoryItemV2Content = MakeShareable(new FDeleteInventoryItemV2Content(DeleteInventoryItemV2ContentValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> DeletePlayerContentValue = obj->TryGetField(TEXT("DeletePlayerContent"));
@@ -629,6 +888,12 @@ bool PlayFab::AdminModels::FAction::readFromValue(const TSharedPtr<FJsonObject>&
     if (SendEmailContentValue.IsValid() && !SendEmailContentValue->IsNull())
     {
         pfSendEmailContent = MakeShareable(new FSendEmailContent(SendEmailContentValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> SubtractInventoryItemV2ContentValue = obj->TryGetField(TEXT("SubtractInventoryItemV2Content"));
+    if (SubtractInventoryItemV2ContentValue.IsValid() && !SubtractInventoryItemV2ContentValue->IsNull())
+    {
+        pfSubtractInventoryItemV2Content = MakeShareable(new FSubtractInventoryItemV2Content(SubtractInventoryItemV2ContentValue->AsObject()));
     }
 
     return HasSucceeded;

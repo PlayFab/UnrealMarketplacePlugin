@@ -593,6 +593,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1561: returnText = "InvalidNamespaceMismatch"; break;
     case 1562: returnText = "LeaderboardColumnLengthMismatch"; break;
     case 1563: returnText = "InvalidStatisticScore"; break;
+    case 1564: returnText = "LeaderboardColumnsNotSpecified"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

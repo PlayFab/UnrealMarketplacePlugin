@@ -568,6 +568,7 @@ namespace PlayFab
         PlayFabErrorInvalidNamespaceMismatch = 1561,
         PlayFabErrorLeaderboardColumnLengthMismatch = 1562,
         PlayFabErrorInvalidStatisticScore = 1563,
+        PlayFabErrorLeaderboardColumnsNotSpecified = 1564,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

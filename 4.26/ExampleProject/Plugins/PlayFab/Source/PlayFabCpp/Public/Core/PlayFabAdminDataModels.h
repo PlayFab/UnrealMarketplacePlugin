@@ -40,6 +40,45 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FAddInventoryItemV2Content : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Amount of the item to be granted to a player
+        Boxed<int32> Amount;
+
+        // [optional] The collection id for where the item will be granted in the player inventory
+        FString CollectionId;
+
+        // [optional] The duration in seconds of the subscription to be granted to a player
+        Boxed<int32> DurationInSeconds;
+
+        // [optional] The id of item to be granted to the player
+        FString ItemId;
+
+        // [optional] The stack id for where the item will be granted in the player inventory
+        FString StackId;
+
+        FAddInventoryItemV2Content() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            CollectionId(),
+            DurationInSeconds(),
+            ItemId(),
+            StackId()
+            {}
+
+        FAddInventoryItemV2Content(const FAddInventoryItemV2Content& src) = default;
+
+        FAddInventoryItemV2Content(const TSharedPtr<FJsonObject>& obj) : FAddInventoryItemV2Content()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddInventoryItemV2Content();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FBanPlayerContent : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] Duration(in hours) to ban a player. If not provided, the player will be banned permanently.
@@ -62,6 +101,37 @@ namespace AdminModels
         }
 
         ~FBanPlayerContent();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteInventoryItemV2Content : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The collection id for where the item will be removed from the player inventory
+        FString CollectionId;
+
+        // [optional] The id of item to be removed from the player
+        FString ItemId;
+
+        // [optional] The stack id for where the item will be removed from the player inventory
+        FString StackId;
+
+        FDeleteInventoryItemV2Content() :
+            FPlayFabCppBaseModel(),
+            CollectionId(),
+            ItemId(),
+            StackId()
+            {}
+
+        FDeleteInventoryItemV2Content(const FDeleteInventoryItemV2Content& src) = default;
+
+        FDeleteInventoryItemV2Content(const TSharedPtr<FJsonObject>& obj) : FDeleteInventoryItemV2Content()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteInventoryItemV2Content();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -150,13 +220,13 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FGrantItemContent : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Publish cloudscript results as playstream event
+        // [optional] The catalog version of the item to be granted to the player
         FString CatalogVersion;
 
-        // [optional] Publish cloudscript results as playstream event
+        // [optional] The id of item to be granted to the player
         FString ItemId;
 
-        // Publish cloudscript results as playstream event
+        // Quantity of the item to be granted to a player
         int32 ItemQuantity;
 
         FGrantItemContent() :
@@ -287,10 +357,55 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FSubtractInventoryItemV2Content : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Amount of the item to removed from the player
+        Boxed<int32> Amount;
+
+        // [optional] The collection id for where the item will be removed from the player inventory
+        FString CollectionId;
+
+        // [optional] The duration in seconds to be removed from the subscription in the players inventory
+        Boxed<int32> DurationInSeconds;
+
+        // [optional] The id of item to be removed from the player
+        FString ItemId;
+
+        // [optional] The stack id for where the item will be removed from the player inventory
+        FString StackId;
+
+        FSubtractInventoryItemV2Content() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            CollectionId(),
+            DurationInSeconds(),
+            ItemId(),
+            StackId()
+            {}
+
+        FSubtractInventoryItemV2Content(const FSubtractInventoryItemV2Content& src) = default;
+
+        FSubtractInventoryItemV2Content(const TSharedPtr<FJsonObject>& obj) : FSubtractInventoryItemV2Content()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubtractInventoryItemV2Content();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FAction : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Action content to Add Inventory item v2
+        TSharedPtr<FAddInventoryItemV2Content> pfAddInventoryItemV2Content;
+
         // [optional] Action content to ban player
         TSharedPtr<FBanPlayerContent> pfBanPlayerContent;
+
+        // [optional] Action content to delete inventory item v2
+        TSharedPtr<FDeleteInventoryItemV2Content> pfDeleteInventoryItemV2Content;
 
         // [optional] Action content to delete player
         TSharedPtr<FDeletePlayerContent> pfDeletePlayerContent;
@@ -316,9 +431,14 @@ namespace AdminModels
         // [optional] Action content to send email
         TSharedPtr<FSendEmailContent> pfSendEmailContent;
 
+        // [optional] Action content to Subtract Inventory item v2
+        TSharedPtr<FSubtractInventoryItemV2Content> pfSubtractInventoryItemV2Content;
+
         FAction() :
             FPlayFabCppBaseModel(),
+            pfAddInventoryItemV2Content(nullptr),
             pfBanPlayerContent(nullptr),
+            pfDeleteInventoryItemV2Content(nullptr),
             pfDeletePlayerContent(nullptr),
             pfExecuteCloudScriptContent(nullptr),
             pfExecuteFunctionContent(nullptr),
@@ -326,7 +446,8 @@ namespace AdminModels
             pfGrantVirtualCurrencyContent(nullptr),
             pfIncrementPlayerStatisticContent(nullptr),
             pfPushNotificationContent(nullptr),
-            pfSendEmailContent(nullptr)
+            pfSendEmailContent(nullptr),
+            pfSubtractInventoryItemV2Content(nullptr)
             {}
 
         FAction(const FAction& src) = default;

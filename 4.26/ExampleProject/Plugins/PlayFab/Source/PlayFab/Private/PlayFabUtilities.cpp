@@ -738,10 +738,10 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 13009: returnText = "LobbyNewOwnerMustBeConnected"; break;
     case 13010: returnText = "LobbyCurrentOwnerStillConnected"; break;
     case 13011: returnText = "LobbyMemberIsNotOwner"; break;
-    case 13012: returnText = "LobbyAssociatedServerMismatch"; break;
-    case 13013: returnText = "LobbyAssociatedServerNotFound"; break;
-    case 13014: returnText = "LobbyAssociatedToDifferentServer"; break;
-    case 13015: returnText = "LobbyServerAlreadyAssociated"; break;
+    case 13012: returnText = "LobbyServerMismatch"; break;
+    case 13013: returnText = "LobbyServerNotFound"; break;
+    case 13014: returnText = "LobbyDifferentServerAlreadyJoined"; break;
+    case 13015: returnText = "LobbyServerAlreadyJoined"; break;
     case 13016: returnText = "LobbyIsNotClientOwned"; break;
     case 13017: returnText = "LobbyDoesNotUseConnections"; break;
     case 14000: returnText = "EventSamplingInvalidRatio"; break;
@@ -790,6 +790,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 19009: returnText = "AddonDoesntExist"; break;
     case 19100: returnText = "CopilotDisabled"; break;
     case 19101: returnText = "CopilotInvalidRequest"; break;
+    case 20000: returnText = "TrueSkillUnauthorized"; break;
     }
 
     // Return the text

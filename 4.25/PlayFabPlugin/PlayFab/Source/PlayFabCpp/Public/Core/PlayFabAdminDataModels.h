@@ -398,7 +398,7 @@ namespace AdminModels
 
     struct PLAYFABCPP_API FAction : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Action content to Add Inventory item v2
+        // [optional] Action content to add inventory item v2
         TSharedPtr<FAddInventoryItemV2Content> pfAddInventoryItemV2Content;
 
         // [optional] Action content to ban player
@@ -431,7 +431,7 @@ namespace AdminModels
         // [optional] Action content to send email
         TSharedPtr<FSendEmailContent> pfSendEmailContent;
 
-        // [optional] Action content to Subtract Inventory item v2
+        // [optional] Action content to subtract inventory item v2
         TSharedPtr<FSubtractInventoryItemV2Content> pfSubtractInventoryItemV2Content;
 
         FAction() :

@@ -1,4 +1,6 @@
-<%- copyright %>
+//////////////////////////////////////////////////////
+// Copyright (C) Microsoft. 2018. All rights reserved.
+//////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
 // PlayFab Main Header File
@@ -19,8 +21,4 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogPlayFab, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogPlayFabTests, Log, All);
 
-<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) )  { -%>
-#include "IPlayFab.h"
-<% } else { -%>
 #include "PlayFab/Public/IPlayFab.h"
-<% } -%>

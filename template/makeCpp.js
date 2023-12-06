@@ -15,7 +15,8 @@ exports.makeCppCombinedAPI = function (apis, copyright, sourceDir, baseApiOutput
         errorList: apis[0].errorList,
         errors: apis[0].errors,
         friendlyName: "PlayFab Cpp Module",
-        sdkVersion: sdkVersion
+        sdkVersion: sdkVersion,
+        ueTargetVersion: ueTargetVersion,
     };
 
     var subFolders = ["PlayFabPlugin"]; // Raw plugin folder
@@ -31,7 +32,7 @@ exports.makeCppCombinedAPI = function (apis, copyright, sourceDir, baseApiOutput
     }
 }
 
-function makeApi(api, copyright, sourceDir, apiOutputDir, subdir) {
+function makeApi(api, copyright, sourceDir, apiOutputDir, subdir, ueTargetVersion) {
     var apiLocals = {
         api: api,
         copyright: copyright,
@@ -41,7 +42,9 @@ function makeApi(api, copyright, sourceDir, apiOutputDir, subdir) {
         getCustomApiLogic: getCustomApiLogic,
         getResultActions: getResultActions,
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
-        hasRequest: hasRequest
+        hasRequest: hasRequest,
+        ueTargetVersionMajor: ueTargetVersion.major,
+        ueTargetVersionMinor: ueTargetVersion.minor,
     };
 
     var templateName = api.name == "Events" ? "PlayFab_Events_API" : "PlayFab_API";

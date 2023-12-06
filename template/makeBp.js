@@ -48,7 +48,9 @@ function makeApiFiles(api, copyright, apiOutputDir, sourceDir, libName, ueTarget
         hasClientOptions: getAuthMechanisms([api]).includes("SessionTicket"),
         httpRequestDatatype: ueTargetVersion.minor >= 26 ? "TSharedRef<IHttpRequest, ESPMode::ThreadSafe>" : "TSharedRef<IHttpRequest>",
         libName: libName,
-        sdkVersion: sdkGlobals.sdkVersion
+        sdkVersion: sdkGlobals.sdkVersion,
+        ueTargetVersionMajor: ueTargetVersion.major,
+        ueTargetVersionMinor: ueTargetVersion.minor
     };
 
     var templateName = api.name == "Events" ? "PlayFab_Events_API" : "PlayFab_API";

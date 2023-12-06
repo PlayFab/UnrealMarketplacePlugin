@@ -7,11 +7,11 @@
 #include "Dom/JsonValue.h"
 #include "Serialization/JsonWriter.h"
 #include "Serialization/JsonReader.h"
-<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) )  { %>
+<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) )  { -%>
 #include "PlayFabAuthenticationContext.h"
-<% } else { %>
+<% } else { -%>
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
-<% } %>
+<% } -%>
 #include <Policies/CondensedJsonPrintPolicy.h>
 
 namespace PlayFab

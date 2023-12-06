@@ -8,11 +8,11 @@
 #endif // WITH_EDITOR
 
 #include "PlayFabCommonSettings.h"
-<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) )  { %>
+<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) )  { -%>
 #include "PlayFabRuntimeSettings.h"
-<% } else { %>
+<% } else { -%>
 #include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
-<% } %>
+<% } -%>
 
 #define LOCTEXT_NAMESPACE "FPlayFabCommonsModule"
 

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabAuthenticationContext.h"
 #include "PlayFabRequestCommon.generated.h"
 
 /**

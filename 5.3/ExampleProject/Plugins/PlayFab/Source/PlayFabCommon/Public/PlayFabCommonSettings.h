@@ -6,7 +6,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
+#include "PlayFabRuntimeSettings.h"
 
 namespace PlayFabCommon
 {

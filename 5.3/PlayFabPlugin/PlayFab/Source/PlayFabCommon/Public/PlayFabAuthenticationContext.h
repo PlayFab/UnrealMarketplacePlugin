@@ -7,7 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "PlayFabCommonSettings.h"
-#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
+#include "PlayFabRuntimeSettings.h"
 #include "PlayFabAuthenticationContext.generated.h"
 
 /**

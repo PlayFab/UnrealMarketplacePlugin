@@ -14,8 +14,8 @@
 #include "PlayFabEconomyModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
-#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
-#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
+#include "PlayFabAuthenticationContext.h"
+#include "PlayFabCommonUtils.h"
 
 UPlayFabEconomyAPI::UPlayFabEconomyAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)

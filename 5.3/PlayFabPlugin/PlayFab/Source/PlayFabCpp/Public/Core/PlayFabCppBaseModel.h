@@ -10,7 +10,7 @@
 #include "Dom/JsonValue.h"
 #include "Serialization/JsonWriter.h"
 #include "Serialization/JsonReader.h"
-#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+#include "PlayFabAuthenticationContext.h"
 #include <Policies/CondensedJsonPrintPolicy.h>
 
 namespace PlayFab

@@ -14,8 +14,8 @@
 #include "PlayFabClientModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
-#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
-#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
+#include "PlayFabAuthenticationContext.h"
+#include "PlayFabCommonUtils.h"
 
 UPlayFabClientAPI::UPlayFabClientAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)

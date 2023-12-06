@@ -7,6 +7,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "PlayFabUtilities.h"
+<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) )  { -%>
+#include "PlayFabRuntimeSettings.h"
+<% } else { -%>
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
+<% } -%>
 #include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "IPlayFab.h"
 #include "PlayFabPrivate.h"

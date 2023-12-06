@@ -11,8 +11,13 @@
 #include "PlayFab<%- api.name %>ModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
+<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) )  { %>
+#include "PlayFabAuthenticationContext.h"
+#include "PlayFabCommonUtils.h"
+<% } else { %>
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
 #include "PlayFabCommon/Public/PlayFabCommonUtils.h"
+<% } %>
 
 UPlayFab<%- api.name %>API::UPlayFab<%- api.name %>API(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)

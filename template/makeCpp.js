@@ -27,7 +27,7 @@ exports.makeCppCombinedAPI = function (apis, copyright, sourceDir, baseApiOutput
         console.log("Generating UE4 C++ Module from " + sourceDir + " to " + apiOutputDir);
 
         for (var a = 0; a < apis.length; a++)
-            makeApi(apis[a], copyright, sourceDir, outputCodeDir, "Core/");
+            makeApi(apis[a], copyright, sourceDir, outputCodeDir, "Core/", ueTargetVersion);
         generateModels(apis, copyright, sourceDir, outputCodeDir, "All", "Core/");
     }
 }

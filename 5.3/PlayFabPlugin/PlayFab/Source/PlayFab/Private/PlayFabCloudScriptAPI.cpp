@@ -14,8 +14,8 @@
 #include "PlayFabCloudScriptModelDecoder.h"
 #include "PlayFabPrivate.h"
 #include "PlayFabEnums.h"
-#include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
-#include "PlayFabCommon/Public/PlayFabCommonUtils.h"
+#include "PlayFabAuthenticationContext.h"
+#include "PlayFabCommonUtils.h"
 
 UPlayFabCloudScriptAPI::UPlayFabCloudScriptAPI(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)

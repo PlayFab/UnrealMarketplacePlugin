@@ -9930,6 +9930,168 @@ bool PlayFab::MultiplayerModels::FJoinArrangedLobbyRequest::readFromValue(const 
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FJoinLobbyAsServerRequest::~FJoinLobbyAsServerRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FJoinLobbyAsServerRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!ConnectionString.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: JoinLobbyAsServerRequest::ConnectionString, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionString"));
+        writer->WriteValue(ConnectionString);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ServerData.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("ServerData"));
+        for (TMap<FString, FString>::TConstIterator It(ServerData); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("ServerEntity"));
+    ServerEntity.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FJoinLobbyAsServerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ConnectionStringValue = obj->TryGetField(TEXT("ConnectionString"));
+    if (ConnectionStringValue.IsValid() && !ConnectionStringValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionStringValue->TryGetString(TmpValue)) { ConnectionString = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* ServerDataObject;
+    if (obj->TryGetObjectField(TEXT("ServerData"), ServerDataObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*ServerDataObject)->Values); It; ++It)
+        {
+            ServerData.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ServerEntityValue = obj->TryGetField(TEXT("ServerEntity"));
+    if (ServerEntityValue.IsValid() && !ServerEntityValue->IsNull())
+    {
+        ServerEntity = FEntityKey(ServerEntityValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+void PlayFab::MultiplayerModels::writeServerDataStatusEnumJSON(ServerDataStatus enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case ServerDataStatusInitialized: writer->WriteValue(TEXT("Initialized")); break;
+    case ServerDataStatusIgnored: writer->WriteValue(TEXT("Ignored")); break;
+    }
+}
+
+MultiplayerModels::ServerDataStatus PlayFab::MultiplayerModels::readServerDataStatusFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readServerDataStatusFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+MultiplayerModels::ServerDataStatus PlayFab::MultiplayerModels::readServerDataStatusFromValue(const FString& value)
+{
+    static TMap<FString, ServerDataStatus> _ServerDataStatusMap;
+    if (_ServerDataStatusMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _ServerDataStatusMap.Add(TEXT("Initialized"), ServerDataStatusInitialized);
+        _ServerDataStatusMap.Add(TEXT("Ignored"), ServerDataStatusIgnored);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _ServerDataStatusMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return ServerDataStatusInitialized; // Basically critical fail
+}
+
+PlayFab::MultiplayerModels::FJoinLobbyAsServerResult::~FJoinLobbyAsServerResult()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FJoinLobbyAsServerResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!LobbyId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: JoinLobbyAsServerResult::LobbyId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyId"));
+        writer->WriteValue(LobbyId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("ServerDataStatus"));
+    writeServerDataStatusEnumJSON(pfServerDataStatus, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FJoinLobbyAsServerResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> LobbyIdValue = obj->TryGetField(TEXT("LobbyId"));
+    if (LobbyIdValue.IsValid() && !LobbyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (LobbyIdValue->TryGetString(TmpValue)) { LobbyId = TmpValue; }
+    }
+
+    pfServerDataStatus = readServerDataStatusFromValue(obj->TryGetField(TEXT("ServerDataStatus")));
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FJoinLobbyRequest::~FJoinLobbyRequest()
 {
     //if (MemberEntity != nullptr) delete MemberEntity;
@@ -10148,6 +10310,71 @@ void PlayFab::MultiplayerModels::FJoinMatchmakingTicketResult::writeJSON(JsonWri
 bool PlayFab::MultiplayerModels::FJoinMatchmakingTicketResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FLeaveLobbyAsServerRequest::~FLeaveLobbyAsServerRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FLeaveLobbyAsServerRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!LobbyId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LeaveLobbyAsServerRequest::LobbyId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyId"));
+        writer->WriteValue(LobbyId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("ServerEntity"));
+    ServerEntity.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FLeaveLobbyAsServerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> LobbyIdValue = obj->TryGetField(TEXT("LobbyId"));
+    if (LobbyIdValue.IsValid() && !LobbyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (LobbyIdValue->TryGetString(TmpValue)) { LobbyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerEntityValue = obj->TryGetField(TEXT("ServerEntity"));
+    if (ServerEntityValue.IsValid() && !ServerEntityValue->IsNull())
+    {
+        ServerEntity = FEntityKey(ServerEntityValue->AsObject());
+    }
 
     return HasSucceeded;
 }
@@ -13560,6 +13787,106 @@ bool PlayFab::MultiplayerModels::FUpdateBuildRegionsRequest::readFromValue(const
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::~FUpdateLobbyAsServerRequest()
+{
+    //if (Server != nullptr) delete Server;
+
+}
+
+void PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!LobbyId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateLobbyAsServerRequest::LobbyId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("LobbyId"));
+        writer->WriteValue(LobbyId);
+    }
+
+    if (Server.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Server"));
+        Server->writeJSON(writer);
+    }
+
+    if (ServerData.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("ServerData"));
+        for (TMap<FString, FString>::TConstIterator It(ServerData); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ServerDataToDelete.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("ServerDataToDelete"));
+        for (const FString& item : ServerDataToDelete)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> LobbyIdValue = obj->TryGetField(TEXT("LobbyId"));
+    if (LobbyIdValue.IsValid() && !LobbyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (LobbyIdValue->TryGetString(TmpValue)) { LobbyId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerValue = obj->TryGetField(TEXT("Server"));
+    if (ServerValue.IsValid() && !ServerValue->IsNull())
+    {
+        Server = MakeShareable(new FEntityKey(ServerValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonObject>* ServerDataObject;
+    if (obj->TryGetObjectField(TEXT("ServerData"), ServerDataObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*ServerDataObject)->Values); It; ++It)
+        {
+            ServerData.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    obj->TryGetStringArrayField(TEXT("ServerDataToDelete"), ServerDataToDelete);
 
     return HasSucceeded;
 }

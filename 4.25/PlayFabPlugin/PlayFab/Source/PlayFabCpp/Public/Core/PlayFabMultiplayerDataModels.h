@@ -4684,6 +4684,91 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FJoinLobbyAsServerRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * A field which indicates which lobby the game_server will be joining. This field is opaque to everyone except the Lobby
+         * service.
+         */
+        FString ConnectionString;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] The private key-value pairs which are visible to all entities in the lobby but can only be modified by the joined
+         * server.At most 30 key - value pairs may be stored here, keys are limited to 30 characters and values to 1000.The total
+         * size of all serverData values may not exceed 4096 bytes.
+         */
+        TMap<FString, FString> ServerData;
+        /**
+         * The game_server entity which is joining the Lobby. If a different game_server entity has already joined the request will
+         * fail unless the joined entity is disconnected, in which case the incoming game_server entity will replace the
+         * disconnected entity.
+         */
+        FEntityKey ServerEntity;
+
+        FJoinLobbyAsServerRequest() :
+            FPlayFabCppRequestCommon(),
+            ConnectionString(),
+            CustomTags(),
+            ServerData(),
+            ServerEntity()
+            {}
+
+        FJoinLobbyAsServerRequest(const FJoinLobbyAsServerRequest& src) = default;
+
+        FJoinLobbyAsServerRequest(const TSharedPtr<FJsonObject>& obj) : FJoinLobbyAsServerRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FJoinLobbyAsServerRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    enum ServerDataStatus
+    {
+        ServerDataStatusInitialized,
+        ServerDataStatusIgnored
+    };
+
+    PLAYFABCPP_API void writeServerDataStatusEnumJSON(ServerDataStatus enumVal, JsonWriter& writer);
+    PLAYFABCPP_API ServerDataStatus readServerDataStatusFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API ServerDataStatus readServerDataStatusFromValue(const FString& value);
+
+    struct PLAYFABCPP_API FJoinLobbyAsServerResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // Successfully joined lobby's id.
+        FString LobbyId;
+
+        /**
+         * A setting that describes the state of the ServerData after JoinLobbyAsServer call is completed. It is "Initialized", the
+         * first time a server joins the lobby. It is "Ignored" in any subsequent JoinLobbyAsServer calls after it has been
+         * initialized. Any new server taking over should call UpdateLobbyAsServer to update ServerData fields.
+         */
+        ServerDataStatus pfServerDataStatus;
+
+        FJoinLobbyAsServerResult() :
+            FPlayFabCppResultCommon(),
+            LobbyId(),
+            pfServerDataStatus()
+            {}
+
+        FJoinLobbyAsServerResult(const FJoinLobbyAsServerResult& src) = default;
+
+        FJoinLobbyAsServerResult(const TSharedPtr<FJsonObject>& obj) : FJoinLobbyAsServerResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FJoinLobbyAsServerResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FJoinLobbyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] A field which indicates which lobby the user will be joining. This field is opaque to everyone except the Lobby service.
@@ -4792,6 +4877,39 @@ namespace MultiplayerModels
         }
 
         ~FJoinMatchmakingTicketResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLeaveLobbyAsServerRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The id of the lobby.
+        FString LobbyId;
+
+        /**
+         * The game_server entity leaving the lobby. If the game_server was subscribed to notifications, it will be unsubscribed.
+         * If a the given game_server entity is not in the lobby, it will fail.
+         */
+        FEntityKey ServerEntity;
+
+        FLeaveLobbyAsServerRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            LobbyId(),
+            ServerEntity()
+            {}
+
+        FLeaveLobbyAsServerRequest(const FLeaveLobbyAsServerRequest& src) = default;
+
+        FLeaveLobbyAsServerRequest(const TSharedPtr<FJsonObject>& obj) : FLeaveLobbyAsServerRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLeaveLobbyAsServerRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -6397,6 +6515,55 @@ namespace MultiplayerModels
         }
 
         ~FUpdateBuildRegionsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateLobbyAsServerRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The id of the lobby.
+        FString LobbyId;
+
+        /**
+         * [optional] The lobby server. Optional. Set a different server as the joined server of the lobby (there can only be 1 joined
+         * server). When changing the server the previous server will automatically be unsubscribed.
+         */
+        TSharedPtr<FEntityKey> Server;
+
+        /**
+         * [optional] The private key-value pairs which are visible to all entities in the lobby and modifiable by the joined server.
+         * Optional. Sets or updates key-value pairs on the lobby. Only the current lobby lobby server can set serverData. Keys may
+         * be an arbitrary string of at most 30 characters. The total size of all serverData values may not exceed 4096 bytes.
+         * Values are not individually limited. There can be up to 30 key-value pairs stored here. Keys are case sensitive.
+         */
+        TMap<FString, FString> ServerData;
+        /**
+         * [optional] The keys to delete from the lobby serverData. Optional. Optional. Deletes key-value pairs on the lobby. Only the current
+         * joined lobby server can delete serverData. All the specified keys will be removed from the serverData. Keys that do not
+         * exist in the lobby are a no-op. If the key to delete exists in the serverData (same request) it will result in a bad
+         * request.
+         */
+        TArray<FString> ServerDataToDelete;
+        FUpdateLobbyAsServerRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            LobbyId(),
+            Server(nullptr),
+            ServerData(),
+            ServerDataToDelete()
+            {}
+
+        FUpdateLobbyAsServerRequest(const FUpdateLobbyAsServerRequest& src) = default;
+
+        FUpdateLobbyAsServerRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateLobbyAsServerRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateLobbyAsServerRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

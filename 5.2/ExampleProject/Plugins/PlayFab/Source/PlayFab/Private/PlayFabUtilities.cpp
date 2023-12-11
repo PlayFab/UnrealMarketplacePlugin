@@ -11,6 +11,7 @@
 
 #include "PlayFabUtilities.h"
 #include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
+#include "PlayFabCommon/Public/PlayFabRuntimeSettings.h"
 #include "IPlayFab.h"
 #include "PlayFabPrivate.h"
 
@@ -594,6 +595,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1562: returnText = "LeaderboardColumnLengthMismatch"; break;
     case 1563: returnText = "InvalidStatisticScore"; break;
     case 1564: returnText = "LeaderboardColumnsNotSpecified"; break;
+    case 1565: returnText = "LeaderboardMaxSizeTooLarge"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -637,6 +639,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 4012: returnText = "CatalogItemTypeInvalid"; break;
     case 4013: returnText = "CatalogBadRequest"; break;
     case 4014: returnText = "CatalogTooManyRequests"; break;
+    case 4015: returnText = "InvalidCatalogItemConfiguration"; break;
     case 5000: returnText = "ExportInvalidStatusUpdate"; break;
     case 5001: returnText = "ExportInvalidPrefix"; break;
     case 5002: returnText = "ExportBlobContainerDoesNotExist"; break;

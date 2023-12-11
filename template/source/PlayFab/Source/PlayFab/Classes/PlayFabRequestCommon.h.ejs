@@ -2,7 +2,11 @@
 
 #pragma once
 
+<% if ( ueTargetVersionMajor > 5 || (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 3) ) { -%>
+#include "PlayFabAuthenticationContext.h"
+<% } else { -%>
 #include "PlayFabCommon/Public/PlayFabAuthenticationContext.h"
+<% } -%>
 #include "PlayFabRequestCommon.generated.h"
 
 /**

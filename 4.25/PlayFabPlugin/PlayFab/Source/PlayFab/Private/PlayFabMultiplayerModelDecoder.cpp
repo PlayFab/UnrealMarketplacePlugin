@@ -88,6 +88,18 @@ FMultiplayerJoinLobbyResult UPlayFabMultiplayerModelDecoder::decodeJoinLobbyResu
     return tempStruct;
 }
 
+FMultiplayerJoinLobbyAsServerResult UPlayFabMultiplayerModelDecoder::decodeJoinLobbyAsServerResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FMultiplayerJoinLobbyAsServerResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.LobbyId = !(dataObj->HasField("LobbyId")) ? TEXT("") : dataObj->GetStringField("LobbyId");
+    GetEnumValueFromString<EServerDataStatus>(TEXT("EServerDataStatus"), dataObj->GetStringField("ServerDataStatus"), tempStruct.ServerDataStatus);
+
+    return tempStruct;
+}
+
 FMultiplayerSubscribeToLobbyResourceResult UPlayFabMultiplayerModelDecoder::decodeSubscribeToLobbyResourceResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

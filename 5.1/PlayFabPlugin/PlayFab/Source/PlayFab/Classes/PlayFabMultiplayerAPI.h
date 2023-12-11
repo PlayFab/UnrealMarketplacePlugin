@@ -163,6 +163,19 @@ public:
         void HelperJoinLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessJoinLobbyAsServer, FMultiplayerJoinLobbyAsServerResult, result, UObject*, customData);
+
+    /** Preview: Join a lobby as a server entity. This is restricted to client lobbies which are using connections. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* JoinLobbyAsServer(FMultiplayerJoinLobbyAsServerRequest request,
+            FDelegateOnSuccessJoinLobbyAsServer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperJoinLobbyAsServer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLeaveLobby, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
 
     /** Leave a lobby. */
@@ -174,6 +187,19 @@ public:
     // Implements FOnPlayFabMultiplayerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLeaveLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLeaveLobbyAsServer, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /** Preview: Request for server to leave a lobby. This is restricted to client owned lobbies which are using connections. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* LeaveLobbyAsServer(FMultiplayerLeaveLobbyAsServerRequest request,
+            FDelegateOnSuccessLeaveLobbyAsServer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLeaveLobbyAsServer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRemoveMember, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
@@ -226,6 +252,23 @@ public:
     // Implements FOnPlayFabMultiplayerRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUpdateLobby(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateLobbyAsServer, FMultiplayerLobbyEmptyResult, result, UObject*, customData);
+
+    /**
+     * Preview: Update fields related to a joined server in the lobby the server is in. Servers can keep a lobby from expiring
+     * by being the one to "update" the lobby in some way. Servers have no impact on last member leave/last member disconnect
+     * behavior.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UpdateLobbyAsServer(FMultiplayerUpdateLobbyAsServerRequest request,
+            FDelegateOnSuccessUpdateLobbyAsServer onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateLobbyAsServer(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
     ///////////////////////////////////////////////////////
@@ -1100,11 +1143,14 @@ public:
     FDelegateOnSuccessInviteToLobby OnSuccessInviteToLobby;
     FDelegateOnSuccessJoinArrangedLobby OnSuccessJoinArrangedLobby;
     FDelegateOnSuccessJoinLobby OnSuccessJoinLobby;
+    FDelegateOnSuccessJoinLobbyAsServer OnSuccessJoinLobbyAsServer;
     FDelegateOnSuccessLeaveLobby OnSuccessLeaveLobby;
+    FDelegateOnSuccessLeaveLobbyAsServer OnSuccessLeaveLobbyAsServer;
     FDelegateOnSuccessRemoveMember OnSuccessRemoveMember;
     FDelegateOnSuccessSubscribeToLobbyResource OnSuccessSubscribeToLobbyResource;
     FDelegateOnSuccessUnsubscribeFromLobbyResource OnSuccessUnsubscribeFromLobbyResource;
     FDelegateOnSuccessUpdateLobby OnSuccessUpdateLobby;
+    FDelegateOnSuccessUpdateLobbyAsServer OnSuccessUpdateLobbyAsServer;
     FDelegateOnSuccessCancelAllMatchmakingTicketsForPlayer OnSuccessCancelAllMatchmakingTicketsForPlayer;
     FDelegateOnSuccessCancelAllServerBackfillTicketsForPlayer OnSuccessCancelAllServerBackfillTicketsForPlayer;
     FDelegateOnSuccessCancelMatchmakingTicket OnSuccessCancelMatchmakingTicket;

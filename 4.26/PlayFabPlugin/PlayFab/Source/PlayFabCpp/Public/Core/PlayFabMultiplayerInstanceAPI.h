@@ -67,8 +67,10 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FInviteToLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FJoinArrangedLobbyDelegate, const MultiplayerModels::FJoinLobbyResult&);
         DECLARE_DELEGATE_OneParam(FJoinLobbyDelegate, const MultiplayerModels::FJoinLobbyResult&);
+        DECLARE_DELEGATE_OneParam(FJoinLobbyAsServerDelegate, const MultiplayerModels::FJoinLobbyAsServerResult&);
         DECLARE_DELEGATE_OneParam(FJoinMatchmakingTicketDelegate, const MultiplayerModels::FJoinMatchmakingTicketResult&);
         DECLARE_DELEGATE_OneParam(FLeaveLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FLeaveLobbyAsServerDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FListArchivedMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListAssetSummariesDelegate, const MultiplayerModels::FListAssetSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListBuildAliasesDelegate, const MultiplayerModels::FListBuildAliasesResponse&);
@@ -96,6 +98,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateBuildRegionsDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FUpdateLobbyAsServerDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FUploadCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
 
 
@@ -350,6 +353,11 @@ namespace PlayFab
         // Join a lobby.
         bool JoinLobby(MultiplayerModels::FJoinLobbyRequest& request, const FJoinLobbyDelegate& SuccessDelegate = FJoinLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Preview: Join a lobby as a server entity. This is restricted to client lobbies which are using connections.
+         * Preview: Join a lobby as a server entity.
+         */
+        bool JoinLobbyAsServer(MultiplayerModels::FJoinLobbyAsServerRequest& request, const FJoinLobbyAsServerDelegate& SuccessDelegate = FJoinLobbyAsServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Join a matchmaking ticket.
          * Add the player to a matchmaking ticket and specify all of its matchmaking attributes. Players can join a ticket if and only if their EntityKeys are already listed in the ticket's Members list. The matchmaking service automatically starts matching the ticket against other matchmaking tickets once all players have joined the ticket. It is not possible to join a ticket once it has started matching.
          */
@@ -359,6 +367,11 @@ namespace PlayFab
          * Leave a lobby. Members will also be automatically unsubscribed from the lobby.
          */
         bool LeaveLobby(MultiplayerModels::FLeaveLobbyRequest& request, const FLeaveLobbyDelegate& SuccessDelegate = FLeaveLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Preview: Request for server to leave a lobby. This is restricted to client owned lobbies which are using connections.
+         * Preview: Request for server to leave a lobby.
+         */
+        bool LeaveLobbyAsServer(MultiplayerModels::FLeaveLobbyAsServerRequest& request, const FLeaveLobbyAsServerDelegate& SuccessDelegate = FLeaveLobbyAsServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Lists archived multiplayer server sessions for a build.
          * Returns a list of archived multiplayer servers for a build in a specific region.
@@ -496,6 +509,13 @@ namespace PlayFab
         // Update a lobby.
         bool UpdateLobby(MultiplayerModels::FUpdateLobbyRequest& request, const FUpdateLobbyDelegate& SuccessDelegate = FUpdateLobbyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Preview: Update fields related to a joined server in the lobby the server is in. Servers can keep a lobby from expiring
+         * by being the one to "update" the lobby in some way. Servers have no impact on last member leave/last member disconnect
+         * behavior.
+         * Preview: Updates joined server information in lobby.
+         */
+        bool UpdateLobbyAsServer(MultiplayerModels::FUpdateLobbyAsServerRequest& request, const FUpdateLobbyAsServerDelegate& SuccessDelegate = FUpdateLobbyAsServerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Uploads a multiplayer server game certificate.
          * Uploads a multiplayer server game certificate.
          */
@@ -548,8 +568,10 @@ namespace PlayFab
         void OnInviteToLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FInviteToLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnJoinArrangedLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinArrangedLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnJoinLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnJoinLobbyAsServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinLobbyAsServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnJoinMatchmakingTicketResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FJoinMatchmakingTicketDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLeaveLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLeaveLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLeaveLobbyAsServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLeaveLobbyAsServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListArchivedMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListArchivedMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListAssetSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListAssetSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListBuildAliasesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListBuildAliasesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -577,6 +599,7 @@ namespace PlayFab
         void OnUpdateBuildRegionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateBuildRegionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateBuildRegionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateLobbyAsServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLobbyAsServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUploadCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };

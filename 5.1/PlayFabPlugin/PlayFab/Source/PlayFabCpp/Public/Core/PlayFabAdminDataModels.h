@@ -707,6 +707,45 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FAddInventoryItemsV2SegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Amount of the item to be granted to a player
+        Boxed<int32> Amount;
+
+        // [optional] The collection id for where the item will be granted in the player inventory
+        FString CollectionId;
+
+        // [optional] The duration in seconds of the subscription to be granted to a player
+        Boxed<int32> DurationInSeconds;
+
+        // [optional] The id of item to be granted to the player
+        FString ItemId;
+
+        // [optional] The stack id for where the item will be granted in the player inventory
+        FString StackId;
+
+        FAddInventoryItemsV2SegmentAction() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            CollectionId(),
+            DurationInSeconds(),
+            ItemId(),
+            StackId()
+            {}
+
+        FAddInventoryItemsV2SegmentAction(const FAddInventoryItemsV2SegmentAction& src) = default;
+
+        FAddInventoryItemsV2SegmentAction(const TSharedPtr<FJsonObject>& obj) : FAddInventoryItemsV2SegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FAddInventoryItemsV2SegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FAddLocalizedNewsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // Localized body text of the news.
@@ -2571,6 +2610,37 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FDeleteInventoryItemsV2SegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The collection id for where the item will be removed from the player inventory
+        FString CollectionId;
+
+        // [optional] The id of item to be removed from the player
+        FString ItemId;
+
+        // [optional] The stack id for where the item will be removed from the player inventory
+        FString StackId;
+
+        FDeleteInventoryItemsV2SegmentAction() :
+            FPlayFabCppBaseModel(),
+            CollectionId(),
+            ItemId(),
+            StackId()
+            {}
+
+        FDeleteInventoryItemsV2SegmentAction(const FDeleteInventoryItemsV2SegmentAction& src) = default;
+
+        FDeleteInventoryItemsV2SegmentAction(const TSharedPtr<FJsonObject>& obj) : FDeleteInventoryItemsV2SegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteInventoryItemsV2SegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeletePlayerSegmentAction : public PlayFab::FPlayFabCppBaseModel
     {
         FDeletePlayerSegmentAction() :
@@ -2814,10 +2884,55 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FSubtractInventoryItemsV2SegmentAction : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Amount of the item to removed from the player
+        Boxed<int32> Amount;
+
+        // [optional] The collection id for where the item will be removed from the player inventory
+        FString CollectionId;
+
+        // [optional] The duration in seconds to be removed from the subscription in the players inventory
+        Boxed<int32> DurationInSeconds;
+
+        // [optional] The id of item to be removed from the player
+        FString ItemId;
+
+        // [optional] The stack id for where the item will be removed from the player inventory
+        FString StackId;
+
+        FSubtractInventoryItemsV2SegmentAction() :
+            FPlayFabCppBaseModel(),
+            Amount(),
+            CollectionId(),
+            DurationInSeconds(),
+            ItemId(),
+            StackId()
+            {}
+
+        FSubtractInventoryItemsV2SegmentAction(const FSubtractInventoryItemsV2SegmentAction& src) = default;
+
+        FSubtractInventoryItemsV2SegmentAction(const TSharedPtr<FJsonObject>& obj) : FSubtractInventoryItemsV2SegmentAction()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSubtractInventoryItemsV2SegmentAction();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSegmentTrigger : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] Add inventory item v2 segment trigger action.
+        TSharedPtr<FAddInventoryItemsV2SegmentAction> AddInventoryItemsV2Action;
+
         // [optional] Ban player segment trigger action.
         TSharedPtr<FBanPlayerSegmentAction> BanPlayerAction;
+
+        // [optional] Delete inventory item v2 segment trigger action.
+        TSharedPtr<FDeleteInventoryItemsV2SegmentAction> DeleteInventoryItemsV2Action;
 
         // [optional] Delete player segment trigger action.
         TSharedPtr<FDeletePlayerSegmentAction> DeletePlayerAction;
@@ -2846,9 +2961,14 @@ namespace AdminModels
         // [optional] Push notification segment trigger action.
         TSharedPtr<FPushNotificationSegmentAction> PushNotificationAction;
 
+        // [optional] Subtract inventory item v2 segment trigger action.
+        TSharedPtr<FSubtractInventoryItemsV2SegmentAction> SubtractInventoryItemsV2Action;
+
         FSegmentTrigger() :
             FPlayFabCppBaseModel(),
+            AddInventoryItemsV2Action(nullptr),
             BanPlayerAction(nullptr),
+            DeleteInventoryItemsV2Action(nullptr),
             DeletePlayerAction(nullptr),
             DeletePlayerStatisticAction(nullptr),
             EmailNotificationAction(nullptr),
@@ -2857,7 +2977,8 @@ namespace AdminModels
             GrantItemAction(nullptr),
             GrantVirtualCurrencyAction(nullptr),
             IncrementPlayerStatisticAction(nullptr),
-            PushNotificationAction(nullptr)
+            PushNotificationAction(nullptr),
+            SubtractInventoryItemsV2Action(nullptr)
             {}
 
         FSegmentTrigger(const FSegmentTrigger& src) = default;

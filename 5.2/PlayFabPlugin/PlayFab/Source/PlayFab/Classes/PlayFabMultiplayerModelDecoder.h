@@ -60,6 +60,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
         static FMultiplayerJoinLobbyResult decodeJoinLobbyResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the JoinLobbyAsServerResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
+        static FMultiplayerJoinLobbyAsServerResult decodeJoinLobbyAsServerResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the SubscribeToLobbyResourceResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | Lobby Models")
         static FMultiplayerSubscribeToLobbyResourceResult decodeSubscribeToLobbyResourceResultResponse(UPlayFabJsonObject* response);

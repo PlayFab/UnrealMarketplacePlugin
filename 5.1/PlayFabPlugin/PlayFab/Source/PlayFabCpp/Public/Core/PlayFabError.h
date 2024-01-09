@@ -570,6 +570,7 @@ namespace PlayFab
         PlayFabErrorInvalidStatisticScore = 1563,
         PlayFabErrorLeaderboardColumnsNotSpecified = 1564,
         PlayFabErrorLeaderboardMaxSizeTooLarge = 1565,
+        PlayFabErrorInvalidAttributeStatisticsSpecified = 1566,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -745,6 +746,8 @@ namespace PlayFab
         PlayFabErrorEventSinkAadNotFound = 15010,
         PlayFabErrorEventSinkDatabaseNotFound = 15011,
         PlayFabErrorEventSinkTitleUnauthorized = 15012,
+        PlayFabErrorEventSinkInsufficientRoleAssignment = 15013,
+        PlayFabErrorEventSinkContainerNotFound = 15014,
         PlayFabErrorOperationCanceled = 16000,
         PlayFabErrorInvalidDisplayNameRandomSuffixLength = 17000,
         PlayFabErrorAllowNonUniquePlayerDisplayNamesDisableNotAllowed = 17001,
@@ -767,7 +770,23 @@ namespace PlayFab
         PlayFabErrorAddonDoesntExist = 19009,
         PlayFabErrorCopilotDisabled = 19100,
         PlayFabErrorCopilotInvalidRequest = 19101,
-        PlayFabErrorTrueSkillUnauthorized = 20000
+        PlayFabErrorTrueSkillUnauthorized = 20000,
+        PlayFabErrorTrueSkillBadRequest = 20001,
+        PlayFabErrorTrueSkillMatchResultAlreadySubmitted = 20002,
+        PlayFabErrorTrueSkillDuplicatePlayerInMatchResult = 20003,
+        PlayFabErrorTrueSkillInvalidRanksInMatchResult = 20004,
+        PlayFabErrorTrueSkillNoWinnerInMatchResult = 20005,
+        PlayFabErrorTrueSkillMissingRequiredConditionInMatchResult = 20006,
+        PlayFabErrorTrueSkillMissingRequiredEventInMatchResult = 20007,
+        PlayFabErrorTrueSkillUnknownEventInMatchResult = 20008,
+        PlayFabErrorTrueSkillUnknownConditionName = 20009,
+        PlayFabErrorTrueSkillUnknownConditionValue = 20010,
+        PlayFabErrorTrueSkillUnknownScenarioId = 20011,
+        PlayFabErrorTrueSkillUnknownModelId = 20012,
+        PlayFabErrorTrueSkillNoActiveModelInScenario = 20013,
+        PlayFabErrorStateShareUnauthorized = 21000,
+        PlayFabErrorStateShareStateNotFound = 21001,
+        PlayFabErrorStateShareLinkNotFound = 21002
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

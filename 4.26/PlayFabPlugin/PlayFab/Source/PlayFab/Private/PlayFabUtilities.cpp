@@ -596,6 +596,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1563: returnText = "InvalidStatisticScore"; break;
     case 1564: returnText = "LeaderboardColumnsNotSpecified"; break;
     case 1565: returnText = "LeaderboardMaxSizeTooLarge"; break;
+    case 1566: returnText = "InvalidAttributeStatisticsSpecified"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -771,6 +772,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 15010: returnText = "EventSinkAadNotFound"; break;
     case 15011: returnText = "EventSinkDatabaseNotFound"; break;
     case 15012: returnText = "EventSinkTitleUnauthorized"; break;
+    case 15013: returnText = "EventSinkInsufficientRoleAssignment"; break;
+    case 15014: returnText = "EventSinkContainerNotFound"; break;
     case 16000: returnText = "OperationCanceled"; break;
     case 17000: returnText = "InvalidDisplayNameRandomSuffixLength"; break;
     case 17001: returnText = "AllowNonUniquePlayerDisplayNamesDisableNotAllowed"; break;
@@ -794,6 +797,22 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 19100: returnText = "CopilotDisabled"; break;
     case 19101: returnText = "CopilotInvalidRequest"; break;
     case 20000: returnText = "TrueSkillUnauthorized"; break;
+    case 20001: returnText = "TrueSkillBadRequest"; break;
+    case 20002: returnText = "TrueSkillMatchResultAlreadySubmitted"; break;
+    case 20003: returnText = "TrueSkillDuplicatePlayerInMatchResult"; break;
+    case 20004: returnText = "TrueSkillInvalidRanksInMatchResult"; break;
+    case 20005: returnText = "TrueSkillNoWinnerInMatchResult"; break;
+    case 20006: returnText = "TrueSkillMissingRequiredConditionInMatchResult"; break;
+    case 20007: returnText = "TrueSkillMissingRequiredEventInMatchResult"; break;
+    case 20008: returnText = "TrueSkillUnknownEventInMatchResult"; break;
+    case 20009: returnText = "TrueSkillUnknownConditionName"; break;
+    case 20010: returnText = "TrueSkillUnknownConditionValue"; break;
+    case 20011: returnText = "TrueSkillUnknownScenarioId"; break;
+    case 20012: returnText = "TrueSkillUnknownModelId"; break;
+    case 20013: returnText = "TrueSkillNoActiveModelInScenario"; break;
+    case 21000: returnText = "StateShareUnauthorized"; break;
+    case 21001: returnText = "StateShareStateNotFound"; break;
+    case 21002: returnText = "StateShareLinkNotFound"; break;
     }
 
     // Return the text

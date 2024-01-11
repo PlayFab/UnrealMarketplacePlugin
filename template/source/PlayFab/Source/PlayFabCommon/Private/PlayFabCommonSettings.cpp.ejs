@@ -1,12 +1,14 @@
 <%- copyright %>
 
 #include "PlayFabCommonSettings.h"
+#include "Misc/EngineVersion.h"
 
 namespace PlayFabCommon
 {
     const FString PlayFabCommonSettings::sdkVersion = "<%- sdkVersion %>";
     const FString PlayFabCommonSettings::buildIdentifier = "<%- buildIdentifier %>";
     const FString PlayFabCommonSettings::versionString = "UE4MKPL-<%- sdkVersion %>";
+    const FString PlayFabCommonSettings::engineVersion = FEngineVersion::Current().ToString();
 
     FString PlayFabCommonSettings::clientSessionTicket;
     FString PlayFabCommonSettings::entityToken;

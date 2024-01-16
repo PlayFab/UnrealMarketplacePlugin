@@ -8,7 +8,23 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::sdkVersion = "<%- sdkVersion %>";
     const FString PlayFabCommonSettings::buildIdentifier = "<%- buildIdentifier %>";
     const FString PlayFabCommonSettings::versionString = "UE4MKPL-<%- sdkVersion %>";
-    const FString PlayFabCommonSettings::engineVersion = FEngineVersion::Current().ToString();
+    const FString PlayFabCommonSettings::engineVersion = "<%- ueTargetVersion %>";
+#if PLATFORM_WINDOWS
+    const FString PlayFabCommonSettings::platformVersion = "Windows";
+#elif PLATFORM_PS4
+    const FString PlayFabCommonSettings::platformVersion = "PS4";
+#elif PLATFORM_PS5
+    const FString PlayFabCommonSettings::platformVersion = "PS5";
+#elif PLATFORM_XBOXONE
+    const FString PlayFabCommonSettings::platformVersion = "GDK";
+#elif PLATFORM_IOS
+    const FString PlayFabCommonSettings::platformVersion = "iOS";
+#elif PLATFORM_ANDROID
+    const FString PlayFabCommonSettings::platformVersion = "Android";
+#else
+    const FString PlayFabCommonSettings::platformVersion = "Undefined";
+#endif
+
 
     FString PlayFabCommonSettings::clientSessionTicket;
     FString PlayFabCommonSettings::entityToken;

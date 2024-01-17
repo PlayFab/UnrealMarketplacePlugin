@@ -16,16 +16,16 @@ namespace PlayFabCommon
 #elif PLATFORM_PS5
     const FString PlayFabCommonSettings::platformString = "PS5";
 #elif PLATFORM_XBOXONE
-    const FString PlayFabCommonSettings::platformString = "GDK";
+    const FString PlayFabCommonSettings::platformString = "GDK"; 
 #elif PLATFORM_IOS
     const FString PlayFabCommonSettings::platformString = "iOS";
 #elif PLATFORM_ANDROID
     const FString PlayFabCommonSettings::platformString = "Android";
+#elif PLATFORM_SWITCH
+    const FString PlayFabCommonSettings::platformString = "Switch";
 #else
-    const FString PlayFabCommonSettings::platformString = "Undefined";
+    const FString PlayFabCommonSettings::platformString = UGameplayStatics::GetPlatformName();
 #endif
-    const FString PlayFabCommonSettings::testString = UGameplayStatics::GetPlatformName();
-
 
     FString PlayFabCommonSettings::clientSessionTicket;
     FString PlayFabCommonSettings::entityToken;

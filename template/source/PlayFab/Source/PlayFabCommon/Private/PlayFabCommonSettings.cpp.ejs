@@ -1,7 +1,7 @@
 <%- copyright %>
 
 #include "PlayFabCommonSettings.h"
-#include "Misc/EngineVersion.h"
+#include "Kismet/GameplayStatics.h"
 
 namespace PlayFabCommon
 {
@@ -22,6 +22,7 @@ namespace PlayFabCommon
 #else
     const FString PlayFabCommonSettings::platformString = "Undefined";
 #endif
+    const FString PlayFabCommonSettings::testString = UGameplayStatics::GetPlatformName();
 
 
     FString PlayFabCommonSettings::clientSessionTicket;

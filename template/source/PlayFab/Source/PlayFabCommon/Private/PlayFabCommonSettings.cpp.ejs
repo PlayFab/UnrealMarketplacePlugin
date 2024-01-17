@@ -10,19 +10,17 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::versionString = "UE4MKPL-<%- sdkVersion %>";
     const FString PlayFabCommonSettings::engineVersion = "<%- ueTargetVersion %>";
 #if PLATFORM_WINDOWS
-    const FString PlayFabCommonSettings::platformVersion = "Windows";
+    const FString PlayFabCommonSettings::platformString = "Windows";
 #elif PLATFORM_PS4
-    const FString PlayFabCommonSettings::platformVersion = "PS4";
-#elif PLATFORM_PS5
-    const FString PlayFabCommonSettings::platformVersion = "PS5";
+    const FString PlayFabCommonSettings::platformString = "PS4";
 #elif PLATFORM_XBOXONE
-    const FString PlayFabCommonSettings::platformVersion = "GDK";
+    const FString PlayFabCommonSettings::platformString = "GDK";
 #elif PLATFORM_IOS
-    const FString PlayFabCommonSettings::platformVersion = "iOS";
+    const FString PlayFabCommonSettings::platformString = "iOS";
 #elif PLATFORM_ANDROID
-    const FString PlayFabCommonSettings::platformVersion = "Android";
+    const FString PlayFabCommonSettings::platformString = "Android";
 #else
-    const FString PlayFabCommonSettings::platformVersion = "Undefined";
+    const FString PlayFabCommonSettings::platformString = "Undefined";
 #endif
 
 

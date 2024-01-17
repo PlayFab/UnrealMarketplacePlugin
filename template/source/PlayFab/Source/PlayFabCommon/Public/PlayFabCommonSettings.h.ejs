@@ -33,12 +33,12 @@ namespace PlayFabCommon
             if (rSettings->ProductionEnvironmentURL.StartsWith(TEXT("https://")))
             {
                 return rSettings->ProductionEnvironmentURL
-                    + urlPath + TEXT("?sdk=") + versionString + TEXT("&engine=") + engineVersion + TEXT("&platform=") + platformString;
+                    + urlPath + TEXT("?sdk=") + versionString + TEXT("&engineVer=") + engineVersion + TEXT("&platform=") + platformString;
             }
             else
             {
                 return TEXT("https://") + rSettings->TitleId + rSettings->ProductionEnvironmentURL
-                    + urlPath + TEXT("?sdk=") + versionString + TEXT("&engine=") + engineVersion + TEXT("&platform=") + platformString;
+                    + urlPath + TEXT("?sdk=") + versionString + TEXT("&engineVer=") + engineVersion + TEXT("&platform=") + platformString;
             }
         }
     };

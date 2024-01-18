@@ -1,7 +1,6 @@
 <%- copyright %>
 
 #include "PlayFabCommonSettings.h"
-#include "Kismet/GameplayStatics.h"
 
 namespace PlayFabCommon
 {
@@ -15,8 +14,6 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::platformString = "PS4";
 #elif PLATFORM_PS5
     const FString PlayFabCommonSettings::platformString = "PS5";
-#elif PLATFORM_XBOXONE
-    const FString PlayFabCommonSettings::platformString = "GDK"; 
 #elif PLATFORM_IOS
     const FString PlayFabCommonSettings::platformString = "iOS";
 #elif PLATFORM_ANDROID
@@ -24,7 +21,7 @@ namespace PlayFabCommon
 #elif PLATFORM_SWITCH
     const FString PlayFabCommonSettings::platformString = "Switch";
 #else
-    const FString PlayFabCommonSettings::platformString = UGameplayStatics::GetPlatformName();
+    const FString PlayFabCommonSettings::platformString = "Undefined";
 #endif
 
     FString PlayFabCommonSettings::clientSessionTicket;

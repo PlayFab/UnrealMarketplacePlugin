@@ -10,8 +10,6 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::sdkVersion = "1.135.240105";
     const FString PlayFabCommonSettings::buildIdentifier = "adobuild_unrealmarketplaceplugin_215";
     const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.135.240105";
-    const FString PlayFabCommonSettings::engineVersion = FEngineVersion::Current().ToString();
-
 
     FString PlayFabCommonSettings::clientSessionTicket;
     FString PlayFabCommonSettings::entityToken;

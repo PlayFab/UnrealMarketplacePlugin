@@ -1689,15 +1689,6 @@ enum class ERoutingType : uint8
     pfenum_Internet = 1 UMETA(DisplayName = "Internet"),
 };
 
-/** ServerDataStatus */
-
-UENUM(BlueprintType)
-enum class EServerDataStatus : uint8
-{
-    pfenum_Initialized = 0 UMETA(DisplayName = "Initialized"),
-    pfenum_Ignored = 1 UMETA(DisplayName = "Ignored"),
-};
-
 /** ServerType */
 
 UENUM(BlueprintType)

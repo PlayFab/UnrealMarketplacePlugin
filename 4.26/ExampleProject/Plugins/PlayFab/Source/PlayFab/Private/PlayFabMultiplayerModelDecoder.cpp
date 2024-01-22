@@ -95,7 +95,6 @@ FMultiplayerJoinLobbyAsServerResult UPlayFabMultiplayerModelDecoder::decodeJoinL
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.LobbyId = !(dataObj->HasField("LobbyId")) ? TEXT("") : dataObj->GetStringField("LobbyId");
-    GetEnumValueFromString<EServerDataStatus>(TEXT("EServerDataStatus"), dataObj->GetStringField("ServerDataStatus"), tempStruct.ServerDataStatus);
 
     return tempStruct;
 }

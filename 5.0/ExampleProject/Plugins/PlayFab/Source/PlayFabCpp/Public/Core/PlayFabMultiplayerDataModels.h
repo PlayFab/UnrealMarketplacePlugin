@@ -3646,6 +3646,36 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLobbyServer : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Opaque string, stored on a Subscribe call, which indicates the connection a joined server has with PubSub.
+        FString PubSubConnectionHandle;
+
+        // [optional] Key-value pairs specific to the joined server.
+        TMap<FString, FString> ServerData;
+        // [optional] The server entity key.
+        TSharedPtr<FEntityKey> ServerEntity;
+
+        FLobbyServer() :
+            FPlayFabCppBaseModel(),
+            PubSubConnectionHandle(),
+            ServerData(),
+            ServerEntity(nullptr)
+            {}
+
+        FLobbyServer(const FLobbyServer& src) = default;
+
+        FLobbyServer(const TSharedPtr<FJsonObject>& obj) : FLobbyServer()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLobbyServer();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLobby : public PlayFab::FPlayFabCppBaseModel
     {
         // A setting indicating who is allowed to join this lobby, as well as see it in queries.
@@ -3687,6 +3717,9 @@ namespace MultiplayerModels
 
         // [optional] Search data.
         TMap<FString, FString> SearchData;
+        // [optional] Preview: Lobby joined server. This is not the server owner, rather the server that has joined a client owned lobby.
+        TSharedPtr<FLobbyServer> Server;
+
         // A flag which determines if connections are used. Defaults to true. Only set on create.
         bool UseConnections;
 
@@ -3704,6 +3737,7 @@ namespace MultiplayerModels
             pfOwnerMigrationPolicy(),
             PubSubConnectionHandle(),
             SearchData(),
+            Server(nullptr),
             UseConnections(false)
             {}
 
@@ -4728,32 +4762,14 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    enum ServerDataStatus
-    {
-        ServerDataStatusInitialized,
-        ServerDataStatusIgnored
-    };
-
-    PLAYFABCPP_API void writeServerDataStatusEnumJSON(ServerDataStatus enumVal, JsonWriter& writer);
-    PLAYFABCPP_API ServerDataStatus readServerDataStatusFromValue(const TSharedPtr<FJsonValue>& value);
-    PLAYFABCPP_API ServerDataStatus readServerDataStatusFromValue(const FString& value);
-
     struct PLAYFABCPP_API FJoinLobbyAsServerResult : public PlayFab::FPlayFabCppResultCommon
     {
         // Successfully joined lobby's id.
         FString LobbyId;
 
-        /**
-         * A setting that describes the state of the ServerData after JoinLobbyAsServer call is completed. It is "Initialized", the
-         * first time a server joins the lobby. It is "Ignored" in any subsequent JoinLobbyAsServer calls after it has been
-         * initialized. Any new server taking over should call UpdateLobbyAsServer to update ServerData fields.
-         */
-        ServerDataStatus pfServerDataStatus;
-
         FJoinLobbyAsServerResult() :
             FPlayFabCppResultCommon(),
-            LobbyId(),
-            pfServerDataStatus()
+            LobbyId()
             {}
 
         FJoinLobbyAsServerResult(const FJoinLobbyAsServerResult& src) = default;
@@ -5564,10 +5580,14 @@ namespace MultiplayerModels
          */
         Boxed<bool> IncludeAllRegions;
 
+        // [optional] Indicates the Routing Preference used by the Qos servers. The default Routing Preference is Microsoft
+        FString RoutingPreference;
+
         FListQosServersForTitleRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
-            IncludeAllRegions()
+            IncludeAllRegions(),
+            RoutingPreference()
             {}
 
         FListQosServersForTitleRequest(const FListQosServersForTitleRequest& src) = default;
@@ -6528,12 +6548,6 @@ namespace MultiplayerModels
         FString LobbyId;
 
         /**
-         * [optional] The lobby server. Optional. Set a different server as the joined server of the lobby (there can only be 1 joined
-         * server). When changing the server the previous server will automatically be unsubscribed.
-         */
-        TSharedPtr<FEntityKey> Server;
-
-        /**
          * [optional] The private key-value pairs which are visible to all entities in the lobby and modifiable by the joined server.
          * Optional. Sets or updates key-value pairs on the lobby. Only the current lobby lobby server can set serverData. Keys may
          * be an arbitrary string of at most 30 characters. The total size of all serverData values may not exceed 4096 bytes.
@@ -6547,13 +6561,19 @@ namespace MultiplayerModels
          * request.
          */
         TArray<FString> ServerDataToDelete;
+        /**
+         * [optional] The lobby server. Optional. Set a different server as the joined server of the lobby (there can only be 1 joined
+         * server). When changing the server the previous server will automatically be unsubscribed.
+         */
+        TSharedPtr<FEntityKey> ServerEntity;
+
         FUpdateLobbyAsServerRequest() :
             FPlayFabCppRequestCommon(),
             CustomTags(),
             LobbyId(),
-            Server(nullptr),
             ServerData(),
-            ServerDataToDelete()
+            ServerDataToDelete(),
+            ServerEntity(nullptr)
             {}
 
         FUpdateLobbyAsServerRequest(const FUpdateLobbyAsServerRequest& src) = default;

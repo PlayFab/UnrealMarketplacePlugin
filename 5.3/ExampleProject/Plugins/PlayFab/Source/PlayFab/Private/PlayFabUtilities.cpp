@@ -597,6 +597,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1564: returnText = "LeaderboardColumnsNotSpecified"; break;
     case 1565: returnText = "LeaderboardMaxSizeTooLarge"; break;
     case 1566: returnText = "InvalidAttributeStatisticsSpecified"; break;
+    case 1567: returnText = "LeaderboardNotFound"; break;
+    case 1568: returnText = "TokenSigningKeyNotFound"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

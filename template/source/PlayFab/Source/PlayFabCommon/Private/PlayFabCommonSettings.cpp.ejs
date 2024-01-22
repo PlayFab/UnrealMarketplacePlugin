@@ -8,7 +8,7 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::buildIdentifier = "<%- buildIdentifier %>";
     const FString PlayFabCommonSettings::versionString = "UE4MKPL-<%- sdkVersion %>";
     const FString PlayFabCommonSettings::engineVersion = "<%- ueTargetVersion %>";
-#if defined(_XBOX_ONE) || defined(_XBOX) 
+#if defined(_XBOX_ONE) || defined(_XBOX) || defined(MICROSOFT_GAME_CORE)
     const FString PlayFabCommonSettings::platformString = "GDK";
 #elif defined(PLATFORM_PS4) && PLATFORM_PS4
     const FString PlayFabCommonSettings::platformString = "PS4";

@@ -16,9 +16,9 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::platformString = "PS5";
 #elif defined(PLATFORM_IOS) && PLATFORM_IOS
     const FString PlayFabCommonSettings::platformString = "iOS";
-#elif defined(PLATFORM_ANDROID) && PLATFORM_ANDROID
+#elif PLATFORM_ANDROID
     const FString PlayFabCommonSettings::platformString = "Android";
-#elif defined(PLATFORM_SWITCH) && PLATFORM_SWITCH
+#elif PLATFORM_SWITCH
     const FString PlayFabCommonSettings::platformString = "Switch";
 #elif PLATFORM_WINDOWS
     const FString PlayFabCommonSettings::platformString = "Windows";

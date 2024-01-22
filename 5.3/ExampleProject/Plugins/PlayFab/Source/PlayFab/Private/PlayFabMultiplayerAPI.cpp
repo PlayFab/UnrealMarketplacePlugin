@@ -1014,7 +1014,6 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateLobbyAsServer(FMultiplayer
     } else {
         OutRestJsonObj->SetStringField(TEXT("LobbyId"), request.LobbyId);
     }
-    if (request.Server != nullptr) OutRestJsonObj->SetObjectField(TEXT("Server"), request.Server);
     if (request.ServerData != nullptr) OutRestJsonObj->SetObjectField(TEXT("ServerData"), request.ServerData);
     // Check to see if string is empty
     if (request.ServerDataToDelete.IsEmpty() || request.ServerDataToDelete == "") {
@@ -1024,6 +1023,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UpdateLobbyAsServer(FMultiplayer
         FString(request.ServerDataToDelete).ParseIntoArray(ServerDataToDeleteArray, TEXT(","), false);
         OutRestJsonObj->SetStringArrayField(TEXT("ServerDataToDelete"), ServerDataToDeleteArray);
     }
+    if (request.ServerEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("ServerEntity"), request.ServerEntity);
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -3962,6 +3962,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListQosServersForTitle(FMultipla
     // Serialize all the request properties to json
     if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
     OutRestJsonObj->SetBoolField(TEXT("IncludeAllRegions"), request.IncludeAllRegions);
+    if (request.RoutingPreference.IsEmpty() || request.RoutingPreference == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("RoutingPreference"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("RoutingPreference"), request.RoutingPreference);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

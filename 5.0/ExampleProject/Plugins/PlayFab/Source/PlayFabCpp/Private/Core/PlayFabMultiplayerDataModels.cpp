@@ -7753,9 +7753,75 @@ bool PlayFab::MultiplayerModels::FGetLobbyRequest::readFromValue(const TSharedPt
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FLobbyServer::~FLobbyServer()
+{
+    //if (ServerEntity != nullptr) delete ServerEntity;
+
+}
+
+void PlayFab::MultiplayerModels::FLobbyServer::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PubSubConnectionHandle.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PubSubConnectionHandle"));
+        writer->WriteValue(PubSubConnectionHandle);
+    }
+
+    if (ServerData.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("ServerData"));
+        for (TMap<FString, FString>::TConstIterator It(ServerData); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ServerEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerEntity"));
+        ServerEntity->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FLobbyServer::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PubSubConnectionHandleValue = obj->TryGetField(TEXT("PubSubConnectionHandle"));
+    if (PubSubConnectionHandleValue.IsValid() && !PubSubConnectionHandleValue->IsNull())
+    {
+        FString TmpValue;
+        if (PubSubConnectionHandleValue->TryGetString(TmpValue)) { PubSubConnectionHandle = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* ServerDataObject;
+    if (obj->TryGetObjectField(TEXT("ServerData"), ServerDataObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*ServerDataObject)->Values); It; ++It)
+        {
+            ServerData.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ServerEntityValue = obj->TryGetField(TEXT("ServerEntity"));
+    if (ServerEntityValue.IsValid() && !ServerEntityValue->IsNull())
+    {
+        ServerEntity = MakeShareable(new FEntityKey(ServerEntityValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FLobby::~FLobby()
 {
     //if (Owner != nullptr) delete Owner;
+    //if (Server != nullptr) delete Server;
 
 }
 
@@ -7844,6 +7910,12 @@ void PlayFab::MultiplayerModels::FLobby::writeJSON(JsonWriter& writer) const
         writer->WriteObjectEnd();
     }
 
+    if (Server.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Server"));
+        Server->writeJSON(writer);
+    }
+
     writer->WriteIdentifierPrefix(TEXT("UseConnections"));
     writer->WriteValue(UseConnections);
 
@@ -7925,6 +7997,12 @@ bool PlayFab::MultiplayerModels::FLobby::readFromValue(const TSharedPtr<FJsonObj
         {
             SearchData.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    const TSharedPtr<FJsonValue> ServerValue = obj->TryGetField(TEXT("Server"));
+    if (ServerValue.IsValid() && !ServerValue->IsNull())
+    {
+        Server = MakeShareable(new FLobbyServer(ServerValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> UseConnectionsValue = obj->TryGetField(TEXT("UseConnections"));
@@ -10015,42 +10093,6 @@ bool PlayFab::MultiplayerModels::FJoinLobbyAsServerRequest::readFromValue(const 
     return HasSucceeded;
 }
 
-void PlayFab::MultiplayerModels::writeServerDataStatusEnumJSON(ServerDataStatus enumVal, JsonWriter& writer)
-{
-    switch (enumVal)
-    {
-
-    case ServerDataStatusInitialized: writer->WriteValue(TEXT("Initialized")); break;
-    case ServerDataStatusIgnored: writer->WriteValue(TEXT("Ignored")); break;
-    }
-}
-
-MultiplayerModels::ServerDataStatus PlayFab::MultiplayerModels::readServerDataStatusFromValue(const TSharedPtr<FJsonValue>& value)
-{
-    return readServerDataStatusFromValue(value.IsValid() ? value->AsString() : "");
-}
-
-MultiplayerModels::ServerDataStatus PlayFab::MultiplayerModels::readServerDataStatusFromValue(const FString& value)
-{
-    static TMap<FString, ServerDataStatus> _ServerDataStatusMap;
-    if (_ServerDataStatusMap.Num() == 0)
-    {
-        // Auto-generate the map on the first use
-        _ServerDataStatusMap.Add(TEXT("Initialized"), ServerDataStatusInitialized);
-        _ServerDataStatusMap.Add(TEXT("Ignored"), ServerDataStatusIgnored);
-
-    }
-
-    if (!value.IsEmpty())
-    {
-        auto output = _ServerDataStatusMap.Find(value);
-        if (output != nullptr)
-            return *output;
-    }
-
-    return ServerDataStatusInitialized; // Basically critical fail
-}
-
 PlayFab::MultiplayerModels::FJoinLobbyAsServerResult::~FJoinLobbyAsServerResult()
 {
 
@@ -10070,9 +10112,6 @@ void PlayFab::MultiplayerModels::FJoinLobbyAsServerResult::writeJSON(JsonWriter&
         writer->WriteValue(LobbyId);
     }
 
-    writer->WriteIdentifierPrefix(TEXT("ServerDataStatus"));
-    writeServerDataStatusEnumJSON(pfServerDataStatus, writer);
-
     writer->WriteObjectEnd();
 }
 
@@ -10086,8 +10125,6 @@ bool PlayFab::MultiplayerModels::FJoinLobbyAsServerResult::readFromValue(const T
         FString TmpValue;
         if (LobbyIdValue->TryGetString(TmpValue)) { LobbyId = TmpValue; }
     }
-
-    pfServerDataStatus = readServerDataStatusFromValue(obj->TryGetField(TEXT("ServerDataStatus")));
 
     return HasSucceeded;
 }
@@ -11724,6 +11761,12 @@ void PlayFab::MultiplayerModels::FListQosServersForTitleRequest::writeJSON(JsonW
         writer->WriteValue(IncludeAllRegions);
     }
 
+    if (RoutingPreference.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("RoutingPreference"));
+        writer->WriteValue(RoutingPreference);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -11745,6 +11788,13 @@ bool PlayFab::MultiplayerModels::FListQosServersForTitleRequest::readFromValue(c
     {
         bool TmpValue;
         if (IncludeAllRegionsValue->TryGetBool(TmpValue)) { IncludeAllRegions = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RoutingPreferenceValue = obj->TryGetField(TEXT("RoutingPreference"));
+    if (RoutingPreferenceValue.IsValid() && !RoutingPreferenceValue->IsNull())
+    {
+        FString TmpValue;
+        if (RoutingPreferenceValue->TryGetString(TmpValue)) { RoutingPreference = TmpValue; }
     }
 
     return HasSucceeded;
@@ -13793,7 +13843,7 @@ bool PlayFab::MultiplayerModels::FUpdateBuildRegionsRequest::readFromValue(const
 
 PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::~FUpdateLobbyAsServerRequest()
 {
-    //if (Server != nullptr) delete Server;
+    //if (ServerEntity != nullptr) delete ServerEntity;
 
 }
 
@@ -13822,12 +13872,6 @@ void PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::writeJSON(JsonWrit
         writer->WriteValue(LobbyId);
     }
 
-    if (Server.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("Server"));
-        Server->writeJSON(writer);
-    }
-
     if (ServerData.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("ServerData"));
@@ -13847,6 +13891,12 @@ void PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::writeJSON(JsonWrit
         writer->WriteArrayEnd();
     }
 
+
+    if (ServerEntity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerEntity"));
+        ServerEntity->writeJSON(writer);
+    }
 
     writer->WriteObjectEnd();
 }
@@ -13871,12 +13921,6 @@ bool PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::readFromValue(cons
         if (LobbyIdValue->TryGetString(TmpValue)) { LobbyId = TmpValue; }
     }
 
-    const TSharedPtr<FJsonValue> ServerValue = obj->TryGetField(TEXT("Server"));
-    if (ServerValue.IsValid() && !ServerValue->IsNull())
-    {
-        Server = MakeShareable(new FEntityKey(ServerValue->AsObject()));
-    }
-
     const TSharedPtr<FJsonObject>* ServerDataObject;
     if (obj->TryGetObjectField(TEXT("ServerData"), ServerDataObject))
     {
@@ -13887,6 +13931,12 @@ bool PlayFab::MultiplayerModels::FUpdateLobbyAsServerRequest::readFromValue(cons
     }
 
     obj->TryGetStringArrayField(TEXT("ServerDataToDelete"), ServerDataToDelete);
+
+    const TSharedPtr<FJsonValue> ServerEntityValue = obj->TryGetField(TEXT("ServerEntity"));
+    if (ServerEntityValue.IsValid() && !ServerEntityValue->IsNull())
+    {
+        ServerEntity = MakeShareable(new FEntityKey(ServerEntityValue->AsObject()));
+    }
 
     return HasSucceeded;
 }

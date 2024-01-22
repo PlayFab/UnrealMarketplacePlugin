@@ -413,13 +413,6 @@ public:
     /** Successfully joined lobby's id. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         FString LobbyId;
-    /**
-     * A setting that describes the state of the ServerData after JoinLobbyAsServer call is completed. It is "Initialized", the
-     * first time a server joins the lobby. It is "Ignored" in any subsequent JoinLobbyAsServer calls after it has been
-     * initialized. Any new server taking over should call UpdateLobbyAsServer to update ServerData fields.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        EServerDataStatus ServerDataStatus = StaticCast<EServerDataStatus>(0);
 };
 
 /** Request to leave a lobby. Only a client can leave a lobby. */
@@ -659,12 +652,6 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         FString LobbyId;
     /**
-     * The lobby server. Optional. Set a different server as the joined server of the lobby (there can only be 1 joined
-     * server). When changing the server the previous server will automatically be unsubscribed.
-     */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
-        UPlayFabJsonObject* Server = nullptr;
-    /**
      * The private key-value pairs which are visible to all entities in the lobby and modifiable by the joined server.
      * Optional. Sets or updates key-value pairs on the lobby. Only the current lobby lobby server can set serverData. Keys may
      * be an arbitrary string of at most 30 characters. The total size of all serverData values may not exceed 4096 bytes.
@@ -680,6 +667,12 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         FString ServerDataToDelete;
+    /**
+     * The lobby server. Optional. Set a different server as the joined server of the lobby (there can only be 1 joined
+     * server). When changing the server the previous server will automatically be unsubscribed.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
+        UPlayFabJsonObject* ServerEntity = nullptr;
 };
 
 
@@ -2614,6 +2607,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         bool IncludeAllRegions = false;
+    /** Indicates the Routing Preference used by the Qos servers. The default Routing Preference is Microsoft */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString RoutingPreference;
 };
 
 USTRUCT(BlueprintType)

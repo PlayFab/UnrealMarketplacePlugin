@@ -8,20 +8,20 @@ namespace PlayFabCommon
     const FString PlayFabCommonSettings::buildIdentifier = "<%- buildIdentifier %>";
     const FString PlayFabCommonSettings::versionString = "UE4MKPL-<%- sdkVersion %>";
     const FString PlayFabCommonSettings::engineVersion = "<%- ueTargetVersion %>";
-#if PLATFORM_WINDOWS
-    const FString PlayFabCommonSettings::platformString = "Windows";
-#elif PLATFORM_PS4
+#if defined(_XBOX_ONE) || defined(_XBOX) 
+    const FString PlayFabCommonSettings::platformString = "GDK";
+#elif defined(PLATFORM_PS4) && PLATFORM_PS4
     const FString PlayFabCommonSettings::platformString = "PS4";
-#elif PLATFORM_PS5
+#elif defined(PLATFORM_PS5) && PLATFORM_PS5
     const FString PlayFabCommonSettings::platformString = "PS5";
-#elif PLATFORM_IOS
+#elif defined(PLATFORM_IOS) && PLATFORM_IOS
     const FString PlayFabCommonSettings::platformString = "iOS";
-#elif PLATFORM_ANDROID
+#elif defined(PLATFORM_ANDROID) && PLATFORM_ANDROID
     const FString PlayFabCommonSettings::platformString = "Android";
-#elif PLATFORM_SWITCH
+#elif defined(PLATFORM_SWITCH) && PLATFORM_SWITCH
     const FString PlayFabCommonSettings::platformString = "Switch";
-#else
-    const FString PlayFabCommonSettings::platformString = "Undefined";
+#elif defined(PLATFORM_WINDOWS) && PLATFORM_WINDOWS
+    const FString PlayFabCommonSettings::platformString = "Windows";
 #endif
 
     FString PlayFabCommonSettings::clientSessionTicket;

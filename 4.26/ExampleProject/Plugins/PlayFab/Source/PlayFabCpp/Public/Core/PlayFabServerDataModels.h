@@ -5787,6 +5787,87 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNOnlineIDsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
+        Boxed<int32> IssuerId;
+
+        /**
+         * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
+         * cannot exceed 2,000 in length.
+         */
+        TArray<FString> PSNOnlineIDs;
+        FGetPlayFabIDsFromPSNOnlineIDsRequest() :
+            FPlayFabCppRequestCommon(),
+            IssuerId(),
+            PSNOnlineIDs()
+            {}
+
+        FGetPlayFabIDsFromPSNOnlineIDsRequest(const FGetPlayFabIDsFromPSNOnlineIDsRequest& src) = default;
+
+        FGetPlayFabIDsFromPSNOnlineIDsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromPSNOnlineIDsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromPSNOnlineIDsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FPSNOnlinePlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the PlayStation :tm: Network
+         * identifier.
+         */
+        FString PlayFabId;
+
+        // [optional] Unique PlayStation :tm: Network identifier for a user.
+        FString PSNOnlineId;
+
+        FPSNOnlinePlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            PSNOnlineId()
+            {}
+
+        FPSNOnlinePlayFabIdPair(const FPSNOnlinePlayFabIdPair& src) = default;
+
+        FPSNOnlinePlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FPSNOnlinePlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPSNOnlinePlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromPSNOnlineIDsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers.
+        TArray<FPSNOnlinePlayFabIdPair> Data;
+        FGetPlayFabIDsFromPSNOnlineIDsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromPSNOnlineIDsResult(const FGetPlayFabIDsFromPSNOnlineIDsResult& src) = default;
+
+        FGetPlayFabIDsFromPSNOnlineIDsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromPSNOnlineIDsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromPSNOnlineIDsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromSteamIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**

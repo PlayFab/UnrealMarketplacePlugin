@@ -12160,6 +12160,127 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromPSNAccountIDsResult::readFromValue
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FGetPlayFabIDsFromPSNOnlineIDsRequest::~FGetPlayFabIDsFromPSNOnlineIDsRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromPSNOnlineIDsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (IssuerId.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IssuerId"));
+        writer->WriteValue(IssuerId);
+    }
+
+    writer->WriteArrayStart(TEXT("PSNOnlineIDs"));
+    for (const FString& item : PSNOnlineIDs)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromPSNOnlineIDsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> IssuerIdValue = obj->TryGetField(TEXT("IssuerId"));
+    if (IssuerIdValue.IsValid() && !IssuerIdValue->IsNull())
+    {
+        int32 TmpValue;
+        if (IssuerIdValue->TryGetNumber(TmpValue)) { IssuerId = TmpValue; }
+    }
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PSNOnlineIDs"), PSNOnlineIDs);
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FPSNOnlinePlayFabIdPair::~FPSNOnlinePlayFabIdPair()
+{
+
+}
+
+void PlayFab::ClientModels::FPSNOnlinePlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (PSNOnlineId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PSNOnlineId"));
+        writer->WriteValue(PSNOnlineId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FPSNOnlinePlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PSNOnlineIdValue = obj->TryGetField(TEXT("PSNOnlineId"));
+    if (PSNOnlineIdValue.IsValid() && !PSNOnlineIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PSNOnlineIdValue->TryGetString(TmpValue)) { PSNOnlineId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FGetPlayFabIDsFromPSNOnlineIDsResult::~FGetPlayFabIDsFromPSNOnlineIDsResult()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromPSNOnlineIDsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FPSNOnlinePlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromPSNOnlineIDsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FPSNOnlinePlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FGetPlayFabIDsFromSteamIDsRequest::~FGetPlayFabIDsFromSteamIDsRequest()
 {
 

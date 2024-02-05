@@ -465,6 +465,33 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromPSNOnlineIDsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        int32 IssuerId = 0;
+    /**
+     * Array of unique PlayStation :tm: Network identifiers for which the title needs to get PlayFab identifiers. The array
+     * cannot exceed 2,000 in length.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString PSNOnlineIDs;
+};
+
+/** For PlayStation :tm: Network identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromPSNOnlineIDsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of PlayStation :tm: Network identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayFabIDsFromSteamIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

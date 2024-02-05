@@ -194,6 +194,17 @@ FClientGetPlayFabIDsFromPSNAccountIDsResult UPlayFabClientModelDecoder::decodeGe
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromPSNOnlineIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromPSNOnlineIDsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromPSNOnlineIDsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientGetPlayFabIDsFromSteamIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromSteamIDsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

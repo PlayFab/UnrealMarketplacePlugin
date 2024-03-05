@@ -7294,6 +7294,25 @@ bool PlayFab::EconomyModels::FPurchaseOverridesInfo::readFromValue(const TShared
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FRealMoneyPriceDetails::~FRealMoneyPriceDetails()
+{
+
+}
+
+void PlayFab::EconomyModels::FRealMoneyPriceDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FRealMoneyPriceDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FRedeemAppleAppStoreInventoryItemsRequest::~FRedeemAppleAppStoreInventoryItemsRequest()
 {
     //if (Entity != nullptr) delete Entity;

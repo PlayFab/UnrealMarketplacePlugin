@@ -599,6 +599,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1566: returnText = "InvalidAttributeStatisticsSpecified"; break;
     case 1567: returnText = "LeaderboardNotFound"; break;
     case 1568: returnText = "TokenSigningKeyNotFound"; break;
+    case 1569: returnText = "LeaderboardNameConflict"; break;
+    case 1570: returnText = "LinkedStatisticColumnMismatch"; break;
+    case 1571: returnText = "NoLinkedStatisticToLeaderboard"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

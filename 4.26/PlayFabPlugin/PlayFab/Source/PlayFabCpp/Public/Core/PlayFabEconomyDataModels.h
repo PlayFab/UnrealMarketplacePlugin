@@ -3735,6 +3735,25 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FRealMoneyPriceDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        FRealMoneyPriceDetails() :
+            FPlayFabCppBaseModel()
+            {}
+
+        FRealMoneyPriceDetails(const FRealMoneyPriceDetails& src) = default;
+
+        FRealMoneyPriceDetails(const TSharedPtr<FJsonObject>& obj) : FRealMoneyPriceDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRealMoneyPriceDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRedeemAppleAppStoreInventoryItemsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The id of the entity's collection to perform this action on. (Default="default")

@@ -602,6 +602,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1569: returnText = "LeaderboardNameConflict"; break;
     case 1570: returnText = "LinkedStatisticColumnMismatch"; break;
     case 1571: returnText = "NoLinkedStatisticToLeaderboard"; break;
+    case 1572: returnText = "StatDefinitionAlreadyLinkedToLeaderboard"; break;
+    case 1573: returnText = "LinkingStatsNotAllowedForEntityType"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

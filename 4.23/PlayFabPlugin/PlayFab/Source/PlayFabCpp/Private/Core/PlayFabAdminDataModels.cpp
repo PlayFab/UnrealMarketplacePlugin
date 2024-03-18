@@ -2183,6 +2183,12 @@ void PlayFab::AdminModels::FBanInfo::writeJSON(JsonWriter& writer) const
         writeDatetime(Expires, writer);
     }
 
+    if (IncludeMicrosoftFamily.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeMicrosoftFamily"));
+        writer->WriteValue(IncludeMicrosoftFamily);
+    }
+
     if (IPAddress.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IPAddress"));
@@ -2231,6 +2237,13 @@ bool PlayFab::AdminModels::FBanInfo::readFromValue(const TSharedPtr<FJsonObject>
     if (ExpiresValue.IsValid())
         Expires = readDatetime(ExpiresValue);
 
+
+    const TSharedPtr<FJsonValue> IncludeMicrosoftFamilyValue = obj->TryGetField(TEXT("IncludeMicrosoftFamily"));
+    if (IncludeMicrosoftFamilyValue.IsValid() && !IncludeMicrosoftFamilyValue->IsNull())
+    {
+        bool TmpValue;
+        if (IncludeMicrosoftFamilyValue->TryGetBool(TmpValue)) { IncludeMicrosoftFamily = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
     if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
@@ -2316,6 +2329,12 @@ void PlayFab::AdminModels::FBanRequest::writeJSON(JsonWriter& writer) const
         writer->WriteValue(static_cast<int64>(DurationInHours));
     }
 
+    if (IncludeMicrosoftFamily.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeMicrosoftFamily"));
+        writer->WriteValue(IncludeMicrosoftFamily);
+    }
+
     if (IPAddress.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IPAddress"));
@@ -2350,6 +2369,13 @@ bool PlayFab::AdminModels::FBanRequest::readFromValue(const TSharedPtr<FJsonObje
     {
         uint32 TmpValue;
         if (DurationInHoursValue->TryGetNumber(TmpValue)) { DurationInHours = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IncludeMicrosoftFamilyValue = obj->TryGetField(TEXT("IncludeMicrosoftFamily"));
+    if (IncludeMicrosoftFamilyValue.IsValid() && !IncludeMicrosoftFamilyValue->IsNull())
+    {
+        bool TmpValue;
+        if (IncludeMicrosoftFamilyValue->TryGetBool(TmpValue)) { IncludeMicrosoftFamily = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
@@ -19605,6 +19631,12 @@ void PlayFab::AdminModels::FUpdateBanRequest::writeJSON(JsonWriter& writer) cons
         writeDatetime(Expires, writer);
     }
 
+    if (IncludeMicrosoftFamily.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("IncludeMicrosoftFamily"));
+        writer->WriteValue(IncludeMicrosoftFamily);
+    }
+
     if (IPAddress.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IPAddress"));
@@ -19648,6 +19680,13 @@ bool PlayFab::AdminModels::FUpdateBanRequest::readFromValue(const TSharedPtr<FJs
     if (ExpiresValue.IsValid())
         Expires = readDatetime(ExpiresValue);
 
+
+    const TSharedPtr<FJsonValue> IncludeMicrosoftFamilyValue = obj->TryGetField(TEXT("IncludeMicrosoftFamily"));
+    if (IncludeMicrosoftFamilyValue.IsValid() && !IncludeMicrosoftFamilyValue->IsNull())
+    {
+        bool TmpValue;
+        if (IncludeMicrosoftFamilyValue->TryGetBool(TmpValue)) { IncludeMicrosoftFamily = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
     if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())

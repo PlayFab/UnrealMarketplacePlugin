@@ -1634,6 +1634,36 @@ bool PlayFab::EconomyModels::FFilterOptions::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FPermissions::~FPermissions()
+{
+
+}
+
+void PlayFab::EconomyModels::FPermissions::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (SegmentIds.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("SegmentIds"));
+        for (const FString& item : SegmentIds)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FPermissions::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("SegmentIds"), SegmentIds);
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FCatalogPriceAmountOverride::~FCatalogPriceAmountOverride()
 {
 
@@ -1767,6 +1797,7 @@ bool PlayFab::EconomyModels::FCatalogPriceOptionsOverride::readFromValue(const T
 PlayFab::EconomyModels::FStoreDetails::~FStoreDetails()
 {
     //if (FilterOptions != nullptr) delete FilterOptions;
+    //if (Permissions != nullptr) delete Permissions;
     //if (PriceOptionsOverride != nullptr) delete PriceOptionsOverride;
 
 }
@@ -1779,6 +1810,12 @@ void PlayFab::EconomyModels::FStoreDetails::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("FilterOptions"));
         pfFilterOptions->writeJSON(writer);
+    }
+
+    if (pfPermissions.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Permissions"));
+        pfPermissions->writeJSON(writer);
     }
 
     if (PriceOptionsOverride.IsValid())
@@ -1798,6 +1835,12 @@ bool PlayFab::EconomyModels::FStoreDetails::readFromValue(const TSharedPtr<FJson
     if (FilterOptionsValue.IsValid() && !FilterOptionsValue->IsNull())
     {
         pfFilterOptions = MakeShareable(new FFilterOptions(FilterOptionsValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PermissionsValue = obj->TryGetField(TEXT("Permissions"));
+    if (PermissionsValue.IsValid() && !PermissionsValue->IsNull())
+    {
+        pfPermissions = MakeShareable(new FPermissions(PermissionsValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> PriceOptionsOverrideValue = obj->TryGetField(TEXT("PriceOptionsOverride"));
@@ -6297,6 +6340,12 @@ void PlayFab::EconomyModels::FGetTransactionHistoryRequest::writeJSON(JsonWriter
         writer->WriteValue(Filter);
     }
 
+    if (OrderBy.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OrderBy"));
+        writer->WriteValue(OrderBy);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -6345,6 +6394,13 @@ bool PlayFab::EconomyModels::FGetTransactionHistoryRequest::readFromValue(const 
     {
         FString TmpValue;
         if (FilterValue->TryGetString(TmpValue)) { Filter = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> OrderByValue = obj->TryGetField(TEXT("OrderBy"));
+    if (OrderByValue.IsValid() && !OrderByValue->IsNull())
+    {
+        FString TmpValue;
+        if (OrderByValue->TryGetString(TmpValue)) { OrderBy = TmpValue; }
     }
 
     return HasSucceeded;

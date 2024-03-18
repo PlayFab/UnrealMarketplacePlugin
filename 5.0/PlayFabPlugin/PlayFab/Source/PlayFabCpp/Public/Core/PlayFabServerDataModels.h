@@ -1438,6 +1438,9 @@ namespace ServerModels
         // [optional] The time when this ban expires. Permanent bans do not have expiration date.
         Boxed<FDateTime> Expires;
 
+        // [optional] Whether or not the Microsoft family members are included in the ban.
+        Boxed<bool> IncludeMicrosoftFamily;
+
         // [optional] The IP address on which the ban was applied. May affect multiple players.
         FString IPAddress;
 
@@ -1453,6 +1456,7 @@ namespace ServerModels
             BanId(),
             Created(),
             Expires(),
+            IncludeMicrosoftFamily(),
             IPAddress(),
             PlayFabId(),
             Reason()
@@ -1476,6 +1480,9 @@ namespace ServerModels
         // [optional] The duration in hours for the ban. Leave this blank for a permanent ban.
         Boxed<uint32> DurationInHours;
 
+        // [optional] Whether the Microsoft family members should be included in the ban. May affect multiple players.
+        Boxed<bool> IncludeMicrosoftFamily;
+
         // [optional] IP address to be banned. May affect multiple players.
         FString IPAddress;
 
@@ -1488,6 +1495,7 @@ namespace ServerModels
         FBanRequest() :
             FPlayFabCppBaseModel(),
             DurationInHours(),
+            IncludeMicrosoftFamily(),
             IPAddress(),
             PlayFabId(),
             Reason()
@@ -9892,6 +9900,9 @@ namespace ServerModels
         // [optional] The updated expiration date for the ban. Null for no change.
         Boxed<FDateTime> Expires;
 
+        // [optional] The updated decision to ban the Microsoft family members to be updated. Null for no change.
+        Boxed<bool> IncludeMicrosoftFamily;
+
         // [optional] The updated IP address for the ban. Null for no change.
         FString IPAddress;
 
@@ -9906,6 +9917,7 @@ namespace ServerModels
             Active(),
             BanId(),
             Expires(),
+            IncludeMicrosoftFamily(),
             IPAddress(),
             Permanent(),
             Reason()

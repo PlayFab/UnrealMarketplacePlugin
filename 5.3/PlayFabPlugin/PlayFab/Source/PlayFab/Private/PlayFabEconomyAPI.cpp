@@ -2048,6 +2048,11 @@ UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetTransactionHistory(FEconomyGetTransac
     } else {
         OutRestJsonObj->SetStringField(TEXT("Filter"), request.Filter);
     }
+    if (request.OrderBy.IsEmpty() || request.OrderBy == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OrderBy"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OrderBy"), request.OrderBy);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);
@@ -2582,7 +2587,7 @@ void UPlayFabEconomyAPI::HelperSubtractInventoryItems(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer did not complete within the timeframe of the request. You can identify the pending operations by looking for OperationStatus = 'InProgress'. You can check on the operation status at anytime within 30 days of the request by passing the TransactionToken to the GetInventoryOperationStatus API. More information about item transfer scenarios can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items */
+/** Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer did not complete within the timeframe of the request. You can identify the pending operations by looking for OperationStatus = 'InProgress'. More information about item transfer scenarios can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::TransferInventoryItems(FEconomyTransferInventoryItemsRequest request,
     FDelegateOnSuccessTransferInventoryItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

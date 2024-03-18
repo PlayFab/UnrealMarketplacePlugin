@@ -576,6 +576,8 @@ namespace PlayFab
         PlayFabErrorLeaderboardNameConflict = 1569,
         PlayFabErrorLinkedStatisticColumnMismatch = 1570,
         PlayFabErrorNoLinkedStatisticToLeaderboard = 1571,
+        PlayFabErrorStatDefinitionAlreadyLinkedToLeaderboard = 1572,
+        PlayFabErrorLinkingStatsNotAllowedForEntityType = 1573,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,

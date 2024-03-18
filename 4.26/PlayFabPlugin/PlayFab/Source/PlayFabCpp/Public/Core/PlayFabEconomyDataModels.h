@@ -888,6 +888,31 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FPermissions : public PlayFab::FPlayFabCppBaseModel
+    {
+        /**
+         * [optional] The list of ids of Segments that the a player can be in to purchase from the store. When a value is provided, the player
+         * must be in at least one of the segments listed for the purchase to be allowed.
+         */
+        TArray<FString> SegmentIds;
+        FPermissions() :
+            FPlayFabCppBaseModel(),
+            SegmentIds()
+            {}
+
+        FPermissions(const FPermissions& src) = default;
+
+        FPermissions(const TSharedPtr<FJsonObject>& obj) : FPermissions()
+        {
+            readFromValue(obj);
+        }
+
+        ~FPermissions();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCatalogPriceAmountOverride : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The exact value that should be utilized in the override.
@@ -971,12 +996,16 @@ namespace EconomyModels
         // [optional] The options for the filter in filter-based stores. These options are mutually exclusive with item references.
         TSharedPtr<FFilterOptions> pfFilterOptions;
 
+        // [optional] The permissions that control which players can purchase from the store.
+        TSharedPtr<FPermissions> pfPermissions;
+
         // [optional] The global prices utilized in the store. These options are mutually exclusive with price options in item references.
         TSharedPtr<FCatalogPriceOptionsOverride> PriceOptionsOverride;
 
         FStoreDetails() :
             FPlayFabCppBaseModel(),
             pfFilterOptions(nullptr),
+            pfPermissions(nullptr),
             PriceOptionsOverride(nullptr)
             {}
 
@@ -3227,6 +3256,12 @@ namespace EconomyModels
          */
         FString Filter;
 
+        /**
+         * [optional] An OData orderby to order TransactionHistory results. The only supported values are 'timestamp asc' or 'timestamp desc'.
+         * Default orderby is 'timestamp asc'
+         */
+        FString OrderBy;
+
         FGetTransactionHistoryRequest() :
             FPlayFabCppRequestCommon(),
             CollectionId(),
@@ -3234,7 +3269,8 @@ namespace EconomyModels
             Count(0),
             CustomTags(),
             Entity(nullptr),
-            Filter()
+            Filter(),
+            OrderBy()
             {}
 
         FGetTransactionHistoryRequest(const FGetTransactionHistoryRequest& src) = default;

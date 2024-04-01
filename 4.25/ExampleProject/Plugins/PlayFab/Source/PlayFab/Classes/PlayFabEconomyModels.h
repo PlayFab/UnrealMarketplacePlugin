@@ -1044,6 +1044,85 @@ public:
         FString TransactionIds;
 };
 
+/** Transfer the specified list of inventory items of an entity's container Id to another entity's container Id. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyExecuteTransferOperationsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The inventory collection id the request is transferring from. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString GivingCollectionId;
+    /** The entity the request is transferring from. Set to the caller by default. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* GivingEntity = nullptr;
+    /**
+     * ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString GivingETag;
+    /** The idempotency id for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /**
+     * The transfer operations to run transactionally. The operations will be executed in-order sequentially and will succeed
+     * or fail as a batch. Up to 50 operations can be added.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        TArray<UPlayFabJsonObject*> Operations;
+    /** The inventory collection id the request is transferring to. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ReceivingCollectionId;
+    /** The entity the request is transferring to. Set to the caller by default. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* ReceivingEntity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyExecuteTransferOperationsResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * ETags are used for concurrency checking when updating resources (before transferring from). This value will be empty if
+     * the operation has not completed yet. More information about using ETags can be found here:
+     * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString GivingETag;
+    /** The ids of transactions that occurred as a result of the request's giving action. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString GivingTransactionIds;
+    /** The Idempotency ID for this request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString IdempotencyId;
+    /**
+     * The transfer operation status. Possible values are 'InProgress' or 'Completed'. If the operation has completed, the
+     * response code will be 200. Otherwise, it will be 202.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString OperationStatus;
+    /**
+     * The token that can be used to get the status of the transfer operation. This will only have a value if OperationStatus
+     * is 'InProgress'.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString OperationToken;
+    /**
+     * ETags are used for concurrency checking when updating resources (before transferring to). This value will be empty if
+     * the operation has not completed yet.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ReceivingETag;
+    /** The ids of transactions that occurred as a result of the request's receiving action. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString ReceivingTransactionIds;
+};
+
 /** Get a list of Inventory Collection Ids for the specified Entity */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FEconomyGetInventoryCollectionIdsRequest : public FPlayFabRequestCommon
@@ -1126,6 +1205,33 @@ public:
     /** The requested inventory items. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         TArray<UPlayFabJsonObject*> Items;
+};
+
+/** Get the status of an Inventory Operation using an OperationToken. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetInventoryOperationStatusRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The id of the entity's collection to perform this action on. (Default="default") */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString CollectionId;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The entity to perform this action on. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        UPlayFabJsonObject* Entity = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FEconomyGetInventoryOperationStatusResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The inventory operation status. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString OperationStatus;
 };
 
 /** Gets the access tokens for Microsoft Store authentication. */
@@ -1648,6 +1754,12 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString OperationStatus;
+    /**
+     * The token that can be used to get the status of the transfer operation. This will only have a value if OperationStatus
+     * is 'InProgress'.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
+        FString OperationToken;
     /** The ids of transactions that occurred as a result of the request's receiving action. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString ReceivingTransactionIds;

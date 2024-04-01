@@ -1838,6 +1838,81 @@ void UPlayFabEconomyAPI::HelperExecuteInventoryOperations(FPlayFabBaseModel resp
     this->RemoveFromRoot();
 }
 
+/** Transfer a list of inventory items. A maximum list of 50 operations can be performed by a single request. When the response code is 202, one or more operations did not complete within the timeframe of the request. You can identify the pending operations by looking for OperationStatus = 'InProgress'. You can check on the operation status at anytime within 1 day of the request by passing the TransactionToken to the GetInventoryOperationStatus API. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::ExecuteTransferOperations(FEconomyExecuteTransferOperationsRequest request,
+    FDelegateOnSuccessExecuteTransferOperations onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessExecuteTransferOperations = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperExecuteTransferOperations);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/ExecuteTransferOperations";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.GivingCollectionId.IsEmpty() || request.GivingCollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("GivingCollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("GivingCollectionId"), request.GivingCollectionId);
+    }
+    if (request.GivingEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("GivingEntity"), request.GivingEntity);
+    if (request.GivingETag.IsEmpty() || request.GivingETag == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("GivingETag"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("GivingETag"), request.GivingETag);
+    }
+    if (request.IdempotencyId.IsEmpty() || request.IdempotencyId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdempotencyId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdempotencyId"), request.IdempotencyId);
+    }
+    if (request.Operations.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Operations"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Operations"), request.Operations);
+    }
+    if (request.ReceivingCollectionId.IsEmpty() || request.ReceivingCollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ReceivingCollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ReceivingCollectionId"), request.ReceivingCollectionId);
+    }
+    if (request.ReceivingEntity != nullptr) OutRestJsonObj->SetObjectField(TEXT("ReceivingEntity"), request.ReceivingEntity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperExecuteTransferOperations(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessExecuteTransferOperations.IsBound())
+    {
+        FEconomyExecuteTransferOperationsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeExecuteTransferOperationsResponseResponse(response.responseData);
+        OnSuccessExecuteTransferOperations.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Get Inventory Collection Ids. Up to 50 Ids can be returned at once. You can use continuation tokens to paginate through results that return greater than the limit. It can take a few seconds for new collection Ids to show up. */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetInventoryCollectionIds(FEconomyGetInventoryCollectionIdsRequest request,
     FDelegateOnSuccessGetInventoryCollectionIds onSuccess,
@@ -1954,6 +2029,60 @@ void UPlayFabEconomyAPI::HelperGetInventoryItems(FPlayFabBaseModel response, UOb
     {
         FEconomyGetInventoryItemsResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetInventoryItemsResponseResponse(response.responseData);
         OnSuccessGetInventoryItems.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Get the status of an inventory operation using an OperationToken. You can check on the operation status at anytime within 1 day of the request by passing the TransactionToken to the this API. */
+UPlayFabEconomyAPI* UPlayFabEconomyAPI::GetInventoryOperationStatus(FEconomyGetInventoryOperationStatusRequest request,
+    FDelegateOnSuccessGetInventoryOperationStatus onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabEconomyAPI* manager = NewObject<UPlayFabEconomyAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetInventoryOperationStatus = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabEconomyAPI::HelperGetInventoryOperationStatus);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Inventory/GetInventoryOperationStatus";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CollectionId.IsEmpty() || request.CollectionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CollectionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CollectionId"), request.CollectionId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Entity != nullptr) OutRestJsonObj->SetObjectField(TEXT("Entity"), request.Entity);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabEconomyRequestCompleted
+void UPlayFabEconomyAPI::HelperGetInventoryOperationStatus(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetInventoryOperationStatus.IsBound())
+    {
+        FEconomyGetInventoryOperationStatusResponse ResultStruct = UPlayFabEconomyModelDecoder::decodeGetInventoryOperationStatusResponseResponse(response.responseData);
+        OnSuccessGetInventoryOperationStatus.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2587,7 +2716,7 @@ void UPlayFabEconomyAPI::HelperSubtractInventoryItems(FPlayFabBaseModel response
     this->RemoveFromRoot();
 }
 
-/** Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer did not complete within the timeframe of the request. You can identify the pending operations by looking for OperationStatus = 'InProgress'. More information about item transfer scenarios can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items */
+/** Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer did not complete within the timeframe of the request. You can identify the pending operations by looking for OperationStatus = 'InProgress'. You can check on the operation status at anytime within 1 day of the request by passing the TransactionToken to the GetInventoryOperationStatus API. More information about item transfer scenarios can be found here: https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items */
 UPlayFabEconomyAPI* UPlayFabEconomyAPI::TransferInventoryItems(FEconomyTransferInventoryItemsRequest request,
     FDelegateOnSuccessTransferInventoryItems onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

@@ -526,6 +526,24 @@ public:
         void HelperExecuteInventoryOperations(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessExecuteTransferOperations, FEconomyExecuteTransferOperationsResponse, result, UObject*, customData);
+
+    /**
+     * Transfer a list of inventory items. A maximum list of 50 operations can be performed by a single request. When the
+     * response code is 202, one or more operations did not complete within the timeframe of the request. You can identify the
+     * pending operations by looking for OperationStatus = 'InProgress'. You can check on the operation status at anytime
+     * within 1 day of the request by passing the TransactionToken to the GetInventoryOperationStatus API.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* ExecuteTransferOperations(FEconomyExecuteTransferOperationsRequest request,
+            FDelegateOnSuccessExecuteTransferOperations onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperExecuteTransferOperations(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetInventoryCollectionIds, FEconomyGetInventoryCollectionIdsResponse, result, UObject*, customData);
 
     /**
@@ -553,6 +571,22 @@ public:
     // Implements FOnPlayFabEconomyRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetInventoryOperationStatus, FEconomyGetInventoryOperationStatusResponse, result, UObject*, customData);
+
+    /**
+     * Get the status of an inventory operation using an OperationToken. You can check on the operation status at anytime
+     * within 1 day of the request by passing the TransactionToken to the this API.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabEconomyAPI* GetInventoryOperationStatus(FEconomyGetInventoryOperationStatusRequest request,
+            FDelegateOnSuccessGetInventoryOperationStatus onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabEconomyRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetInventoryOperationStatus(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetMicrosoftStoreAccessTokens, FEconomyGetMicrosoftStoreAccessTokensResponse, result, UObject*, customData);
@@ -698,7 +732,9 @@ public:
     /**
      * Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer did not
      * complete within the timeframe of the request. You can identify the pending operations by looking for OperationStatus =
-     * 'InProgress'. More information about item transfer scenarios can be found here:
+     * 'InProgress'. You can check on the operation status at anytime within 1 day of the request by passing the
+     * TransactionToken to the GetInventoryOperationStatus API. More information about item transfer scenarios can be found
+     * here:
      * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items
      */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory ", meta = (BlueprintInternalUseOnly = "true"))
@@ -771,8 +807,10 @@ public:
     FDelegateOnSuccessDeleteInventoryCollection OnSuccessDeleteInventoryCollection;
     FDelegateOnSuccessDeleteInventoryItems OnSuccessDeleteInventoryItems;
     FDelegateOnSuccessExecuteInventoryOperations OnSuccessExecuteInventoryOperations;
+    FDelegateOnSuccessExecuteTransferOperations OnSuccessExecuteTransferOperations;
     FDelegateOnSuccessGetInventoryCollectionIds OnSuccessGetInventoryCollectionIds;
     FDelegateOnSuccessGetInventoryItems OnSuccessGetInventoryItems;
+    FDelegateOnSuccessGetInventoryOperationStatus OnSuccessGetInventoryOperationStatus;
     FDelegateOnSuccessGetMicrosoftStoreAccessTokens OnSuccessGetMicrosoftStoreAccessTokens;
     FDelegateOnSuccessGetTransactionHistory OnSuccessGetTransactionHistory;
     FDelegateOnSuccessPurchaseInventoryItems OnSuccessPurchaseInventoryItems;

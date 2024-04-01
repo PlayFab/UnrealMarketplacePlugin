@@ -2235,6 +2235,119 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FExecuteTransferOperationsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The inventory collection id the request is transferring from. (Default="default")
+        FString GivingCollectionId;
+
+        // [optional] The entity the request is transferring from. Set to the caller by default.
+        TSharedPtr<FEntityKey> GivingEntity;
+
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
+        FString GivingETag;
+
+        // [optional] The idempotency id for the request.
+        FString IdempotencyId;
+
+        /**
+         * [optional] The transfer operations to run transactionally. The operations will be executed in-order sequentially and will succeed
+         * or fail as a batch. Up to 50 operations can be added.
+         */
+        TArray<FTransferInventoryItemsOperation> Operations;
+        // [optional] The inventory collection id the request is transferring to. (Default="default")
+        FString ReceivingCollectionId;
+
+        // [optional] The entity the request is transferring to. Set to the caller by default.
+        TSharedPtr<FEntityKey> ReceivingEntity;
+
+        FExecuteTransferOperationsRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            GivingCollectionId(),
+            GivingEntity(nullptr),
+            GivingETag(),
+            IdempotencyId(),
+            Operations(),
+            ReceivingCollectionId(),
+            ReceivingEntity(nullptr)
+            {}
+
+        FExecuteTransferOperationsRequest(const FExecuteTransferOperationsRequest& src) = default;
+
+        FExecuteTransferOperationsRequest(const TSharedPtr<FJsonObject>& obj) : FExecuteTransferOperationsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteTransferOperationsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FExecuteTransferOperationsResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources (before transferring from). This value will be empty if
+         * the operation has not completed yet. More information about using ETags can be found here:
+         * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/catalog/etags
+         */
+        FString GivingETag;
+
+        // [optional] The ids of transactions that occurred as a result of the request's giving action.
+        TArray<FString> GivingTransactionIds;
+        // [optional] The Idempotency ID for this request.
+        FString IdempotencyId;
+
+        /**
+         * [optional] The transfer operation status. Possible values are 'InProgress' or 'Completed'. If the operation has completed, the
+         * response code will be 200. Otherwise, it will be 202.
+         */
+        FString OperationStatus;
+
+        /**
+         * [optional] The token that can be used to get the status of the transfer operation. This will only have a value if OperationStatus
+         * is 'InProgress'.
+         */
+        FString OperationToken;
+
+        /**
+         * [optional] ETags are used for concurrency checking when updating resources (before transferring to). This value will be empty if
+         * the operation has not completed yet.
+         */
+        FString ReceivingETag;
+
+        // [optional] The ids of transactions that occurred as a result of the request's receiving action.
+        TArray<FString> ReceivingTransactionIds;
+        FExecuteTransferOperationsResponse() :
+            FPlayFabCppResultCommon(),
+            GivingETag(),
+            GivingTransactionIds(),
+            IdempotencyId(),
+            OperationStatus(),
+            OperationToken(),
+            ReceivingETag(),
+            ReceivingTransactionIds()
+            {}
+
+        FExecuteTransferOperationsResponse(const FExecuteTransferOperationsResponse& src) = default;
+
+        FExecuteTransferOperationsResponse(const TSharedPtr<FJsonObject>& obj) : FExecuteTransferOperationsResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FExecuteTransferOperationsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetCatalogConfigRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -2729,6 +2842,59 @@ namespace EconomyModels
         }
 
         ~FGetInventoryItemsResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetInventoryOperationStatusRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The id of the entity's collection to perform this action on. (Default="default")
+        FString CollectionId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The entity to perform this action on.
+        TSharedPtr<FEntityKey> Entity;
+
+        FGetInventoryOperationStatusRequest() :
+            FPlayFabCppRequestCommon(),
+            CollectionId(),
+            CustomTags(),
+            Entity(nullptr)
+            {}
+
+        FGetInventoryOperationStatusRequest(const FGetInventoryOperationStatusRequest& src) = default;
+
+        FGetInventoryOperationStatusRequest(const TSharedPtr<FJsonObject>& obj) : FGetInventoryOperationStatusRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetInventoryOperationStatusRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetInventoryOperationStatusResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The inventory operation status.
+        FString OperationStatus;
+
+        FGetInventoryOperationStatusResponse() :
+            FPlayFabCppResultCommon(),
+            OperationStatus()
+            {}
+
+        FGetInventoryOperationStatusResponse(const FGetInventoryOperationStatusResponse& src) = default;
+
+        FGetInventoryOperationStatusResponse(const TSharedPtr<FJsonObject>& obj) : FGetInventoryOperationStatusResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetInventoryOperationStatusResponse();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -4967,6 +5133,12 @@ namespace EconomyModels
          */
         FString OperationStatus;
 
+        /**
+         * [optional] The token that can be used to get the status of the transfer operation. This will only have a value if OperationStatus
+         * is 'InProgress'.
+         */
+        FString OperationToken;
+
         // [optional] The ids of transactions that occurred as a result of the request's receiving action.
         TArray<FString> ReceivingTransactionIds;
         FTransferInventoryItemsResponse() :
@@ -4975,6 +5147,7 @@ namespace EconomyModels
             GivingTransactionIds(),
             IdempotencyId(),
             OperationStatus(),
+            OperationToken(),
             ReceivingTransactionIds()
             {}
 

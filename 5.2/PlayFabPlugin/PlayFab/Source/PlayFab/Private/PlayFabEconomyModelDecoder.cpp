@@ -350,6 +350,23 @@ FEconomyExecuteInventoryOperationsResponse UPlayFabEconomyModelDecoder::decodeEx
     return tempStruct;
 }
 
+FEconomyExecuteTransferOperationsResponse UPlayFabEconomyModelDecoder::decodeExecuteTransferOperationsResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyExecuteTransferOperationsResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.GivingETag = !(dataObj->HasField("GivingETag")) ? TEXT("") : dataObj->GetStringField("GivingETag");
+    tempStruct.GivingTransactionIds = !(dataObj->HasField("GivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("GivingTransactionIds"), TEXT(","));
+    tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
+    tempStruct.OperationStatus = !(dataObj->HasField("OperationStatus")) ? TEXT("") : dataObj->GetStringField("OperationStatus");
+    tempStruct.OperationToken = !(dataObj->HasField("OperationToken")) ? TEXT("") : dataObj->GetStringField("OperationToken");
+    tempStruct.ReceivingETag = !(dataObj->HasField("ReceivingETag")) ? TEXT("") : dataObj->GetStringField("ReceivingETag");
+    tempStruct.ReceivingTransactionIds = !(dataObj->HasField("ReceivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ReceivingTransactionIds"), TEXT(","));
+
+    return tempStruct;
+}
+
 FEconomyGetInventoryCollectionIdsResponse UPlayFabEconomyModelDecoder::decodeGetInventoryCollectionIdsResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -371,6 +388,17 @@ FEconomyGetInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeGetInventor
     tempStruct.ContinuationToken = !(dataObj->HasField("ContinuationToken")) ? TEXT("") : dataObj->GetStringField("ContinuationToken");
     tempStruct.ETag = !(dataObj->HasField("ETag")) ? TEXT("") : dataObj->GetStringField("ETag");
     tempStruct.Items = !(dataObj->HasField("Items")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Items");
+
+    return tempStruct;
+}
+
+FEconomyGetInventoryOperationStatusResponse UPlayFabEconomyModelDecoder::decodeGetInventoryOperationStatusResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FEconomyGetInventoryOperationStatusResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.OperationStatus = !(dataObj->HasField("OperationStatus")) ? TEXT("") : dataObj->GetStringField("OperationStatus");
 
     return tempStruct;
 }
@@ -513,6 +541,7 @@ FEconomyTransferInventoryItemsResponse UPlayFabEconomyModelDecoder::decodeTransf
     tempStruct.GivingTransactionIds = !(dataObj->HasField("GivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("GivingTransactionIds"), TEXT(","));
     tempStruct.IdempotencyId = !(dataObj->HasField("IdempotencyId")) ? TEXT("") : dataObj->GetStringField("IdempotencyId");
     tempStruct.OperationStatus = !(dataObj->HasField("OperationStatus")) ? TEXT("") : dataObj->GetStringField("OperationStatus");
+    tempStruct.OperationToken = !(dataObj->HasField("OperationToken")) ? TEXT("") : dataObj->GetStringField("OperationToken");
     tempStruct.ReceivingTransactionIds = !(dataObj->HasField("ReceivingTransactionIds")) ? TEXT("") : FString::Join(dataObj->GetStringArrayField("ReceivingTransactionIds"), TEXT(","));
 
     return tempStruct;

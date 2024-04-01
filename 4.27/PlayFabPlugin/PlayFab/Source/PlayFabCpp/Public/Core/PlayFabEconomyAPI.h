@@ -26,6 +26,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteInventoryItemsDelegate, const EconomyModels::FDeleteInventoryItemsResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteItemDelegate, const EconomyModels::FDeleteItemResponse&);
         DECLARE_DELEGATE_OneParam(FExecuteInventoryOperationsDelegate, const EconomyModels::FExecuteInventoryOperationsResponse&);
+        DECLARE_DELEGATE_OneParam(FExecuteTransferOperationsDelegate, const EconomyModels::FExecuteTransferOperationsResponse&);
         DECLARE_DELEGATE_OneParam(FGetCatalogConfigDelegate, const EconomyModels::FGetCatalogConfigResponse&);
         DECLARE_DELEGATE_OneParam(FGetDraftItemDelegate, const EconomyModels::FGetDraftItemResponse&);
         DECLARE_DELEGATE_OneParam(FGetDraftItemsDelegate, const EconomyModels::FGetDraftItemsResponse&);
@@ -33,6 +34,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetEntityItemReviewDelegate, const EconomyModels::FGetEntityItemReviewResponse&);
         DECLARE_DELEGATE_OneParam(FGetInventoryCollectionIdsDelegate, const EconomyModels::FGetInventoryCollectionIdsResponse&);
         DECLARE_DELEGATE_OneParam(FGetInventoryItemsDelegate, const EconomyModels::FGetInventoryItemsResponse&);
+        DECLARE_DELEGATE_OneParam(FGetInventoryOperationStatusDelegate, const EconomyModels::FGetInventoryOperationStatusResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemDelegate, const EconomyModels::FGetItemResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemContainersDelegate, const EconomyModels::FGetItemContainersResponse&);
         DECLARE_DELEGATE_OneParam(FGetItemModerationStateDelegate, const EconomyModels::FGetItemModerationStateResponse&);
@@ -113,6 +115,14 @@ namespace PlayFab
          */
         bool ExecuteInventoryOperations(EconomyModels::FExecuteInventoryOperationsRequest& request, const FExecuteInventoryOperationsDelegate& SuccessDelegate = FExecuteInventoryOperationsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Transfer a list of inventory items. A maximum list of 50 operations can be performed by a single request. When the
+         * response code is 202, one or more operations did not complete within the timeframe of the request. You can identify the
+         * pending operations by looking for OperationStatus = 'InProgress'. You can check on the operation status at anytime
+         * within 1 day of the request by passing the TransactionToken to the GetInventoryOperationStatus API.
+         * Transfer the specified list of inventory items of an entity's container Id to another entity's container Id.
+         */
+        bool ExecuteTransferOperations(EconomyModels::FExecuteTransferOperationsRequest& request, const FExecuteTransferOperationsDelegate& SuccessDelegate = FExecuteTransferOperationsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Gets the configuration for the catalog. Only Title Entities can call this API. There is a limit of 100 requests in 10
          * seconds for this API. More information about the Catalog Config can be found here:
          * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/settings
@@ -151,6 +161,12 @@ namespace PlayFab
          * Given an entity type, entity identifier and container details, will get the entity's inventory items. 
          */
         bool GetInventoryItems(EconomyModels::FGetInventoryItemsRequest& request, const FGetInventoryItemsDelegate& SuccessDelegate = FGetInventoryItemsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Get the status of an inventory operation using an OperationToken. You can check on the operation status at anytime
+         * within 1 day of the request by passing the TransactionToken to the this API.
+         * Get the status of an Inventory Operation using an OperationToken.
+         */
+        bool GetInventoryOperationStatus(EconomyModels::FGetInventoryOperationStatusRequest& request, const FGetInventoryOperationStatusDelegate& SuccessDelegate = FGetInventoryOperationStatusDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves an item from the public catalog. GetItem does not work off a cache of the Catalog and should be used when
          * trying to get recent item updates. However, please note that item references data is cached and may take a few moments
@@ -283,7 +299,9 @@ namespace PlayFab
         /**
          * Transfer inventory items. When transferring across collections, a 202 response indicates that the transfer did not
          * complete within the timeframe of the request. You can identify the pending operations by looking for OperationStatus =
-         * 'InProgress'. More information about item transfer scenarios can be found here:
+         * 'InProgress'. You can check on the operation status at anytime within 1 day of the request by passing the
+         * TransactionToken to the GetInventoryOperationStatus API. More information about item transfer scenarios can be found
+         * here:
          * https://learn.microsoft.com/en-us/gaming/playfab/features/economy-v2/inventory/?tabs=inventory-game-manager#transfer-inventory-items
          * Transfer the specified inventory items of an entity's container Id to another entity's container Id.
          */
@@ -312,6 +330,7 @@ namespace PlayFab
         void OnDeleteInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnExecuteInventoryOperationsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteInventoryOperationsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnExecuteTransferOperationsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteTransferOperationsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetCatalogConfigResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetCatalogConfigDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetDraftItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDraftItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetDraftItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDraftItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -319,6 +338,7 @@ namespace PlayFab
         void OnGetEntityItemReviewResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetEntityItemReviewDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetInventoryCollectionIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryCollectionIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetInventoryItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetInventoryOperationStatusResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryOperationStatusDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemContainersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemContainersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetItemModerationStateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetItemModerationStateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

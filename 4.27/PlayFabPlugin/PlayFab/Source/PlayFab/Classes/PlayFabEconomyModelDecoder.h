@@ -162,6 +162,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
         static FEconomyExecuteInventoryOperationsResponse decodeExecuteInventoryOperationsResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ExecuteTransferOperationsResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyExecuteTransferOperationsResponse decodeExecuteTransferOperationsResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetInventoryCollectionIdsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
         static FEconomyGetInventoryCollectionIdsResponse decodeGetInventoryCollectionIdsResponseResponse(UPlayFabJsonObject* response);
@@ -169,6 +173,10 @@ public:
     /** Decode the GetInventoryItemsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
         static FEconomyGetInventoryItemsResponse decodeGetInventoryItemsResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetInventoryOperationStatusResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")
+        static FEconomyGetInventoryOperationStatusResponse decodeGetInventoryOperationStatusResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetMicrosoftStoreAccessTokensResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Economy | Inventory Models")

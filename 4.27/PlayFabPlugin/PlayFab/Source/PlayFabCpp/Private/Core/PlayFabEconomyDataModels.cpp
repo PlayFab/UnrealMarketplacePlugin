@@ -6764,6 +6764,12 @@ void PlayFab::EconomyModels::FTransactionOperation::writeJSON(JsonWriter& writer
         writer->WriteValue(DurationInSeconds);
     }
 
+    if (ItemFriendlyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ItemFriendlyId"));
+        writer->WriteValue(ItemFriendlyId);
+    }
+
     if (ItemId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ItemId"));
@@ -6809,6 +6815,13 @@ bool PlayFab::EconomyModels::FTransactionOperation::readFromValue(const TSharedP
         if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> ItemFriendlyIdValue = obj->TryGetField(TEXT("ItemFriendlyId"));
+    if (ItemFriendlyIdValue.IsValid() && !ItemFriendlyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ItemFriendlyIdValue->TryGetString(TmpValue)) { ItemFriendlyId = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> ItemIdValue = obj->TryGetField(TEXT("ItemId"));
     if (ItemIdValue.IsValid() && !ItemIdValue->IsNull())
     {
@@ -6849,6 +6862,12 @@ void PlayFab::EconomyModels::FTransactionPurchaseDetails::writeJSON(JsonWriter& 
 {
     writer->WriteObjectStart();
 
+    if (StoreFriendlyId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("StoreFriendlyId"));
+        writer->WriteValue(StoreFriendlyId);
+    }
+
     if (StoreId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("StoreId"));
@@ -6861,6 +6880,13 @@ void PlayFab::EconomyModels::FTransactionPurchaseDetails::writeJSON(JsonWriter& 
 bool PlayFab::EconomyModels::FTransactionPurchaseDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> StoreFriendlyIdValue = obj->TryGetField(TEXT("StoreFriendlyId"));
+    if (StoreFriendlyIdValue.IsValid() && !StoreFriendlyIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (StoreFriendlyIdValue->TryGetString(TmpValue)) { StoreFriendlyId = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> StoreIdValue = obj->TryGetField(TEXT("StoreId"));
     if (StoreIdValue.IsValid() && !StoreIdValue->IsNull())

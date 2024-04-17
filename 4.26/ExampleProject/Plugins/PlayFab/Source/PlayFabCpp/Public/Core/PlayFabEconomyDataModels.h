@@ -3460,6 +3460,9 @@ namespace EconomyModels
         // [optional] The duration modified in this transaction.
         Boxed<double> DurationInSeconds;
 
+        // [optional] The friendly id of the items in this transaction.
+        FString ItemFriendlyId;
+
         // [optional] The item id of the items in this transaction.
         FString ItemId;
 
@@ -3476,6 +3479,7 @@ namespace EconomyModels
             FPlayFabCppBaseModel(),
             Amount(),
             DurationInSeconds(),
+            ItemFriendlyId(),
             ItemId(),
             ItemType(),
             StackId(),
@@ -3497,11 +3501,15 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FTransactionPurchaseDetails : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The friendly id of the Store the item was purchased from or null.
+        FString StoreFriendlyId;
+
         // [optional] The id of the Store the item was purchased from or null.
         FString StoreId;
 
         FTransactionPurchaseDetails() :
             FPlayFabCppBaseModel(),
+            StoreFriendlyId(),
             StoreId()
             {}
 

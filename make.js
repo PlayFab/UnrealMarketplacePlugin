@@ -41,6 +41,7 @@ const ueTargetVersions = [
     new TargetVersion(5, 1, 0),
     new TargetVersion(5, 2, 0),
     new TargetVersion(5, 3, 0),
+    new TargetVersion(5, 4, 0),
 ];
 exports.ueTargetVersions = ueTargetVersions;
 

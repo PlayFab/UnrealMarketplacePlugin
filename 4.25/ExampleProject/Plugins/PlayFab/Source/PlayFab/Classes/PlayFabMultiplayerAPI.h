@@ -641,6 +641,19 @@ public:
         void HelperDeleteRemoteUser(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeleteSecret, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Deletes a multiplayer server game secret. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* DeleteSecret(FMultiplayerDeleteSecretRequest request,
+            FDelegateOnSuccessDeleteSecret onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeleteSecret(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessEnableMultiplayerServersForTitle, FMultiplayerEnableMultiplayerServersForTitleResponse, result, UObject*, customData);
 
     /** Enables the multiplayer server feature for a title. */
@@ -955,6 +968,19 @@ public:
         void HelperListQosServersForTitle(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListSecretSummaries, FMultiplayerListSecretSummariesResponse, result, UObject*, customData);
+
+    /** Lists multiplayer server game secrets for a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* ListSecretSummaries(FMultiplayerListSecretSummariesRequest request,
+            FDelegateOnSuccessListSecretSummaries onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListSecretSummaries(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListTitleMultiplayerServersQuotaChanges, FMultiplayerListTitleMultiplayerServersQuotaChangesResponse, result, UObject*, customData);
 
     /** List all server quota change requests for a title. */
@@ -1113,6 +1139,19 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUploadCertificate(FPlayFabBaseModel response, UObject* customData, bool successful);
 
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUploadSecret, FMultiplayerEmptyResponse, result, UObject*, customData);
+
+    /** Uploads a multiplayer server game secret. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabMultiplayerAPI* UploadSecret(FMultiplayerUploadSecretRequest request,
+            FDelegateOnSuccessUploadSecret onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabMultiplayerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUploadSecret(FPlayFabBaseModel response, UObject* customData, bool successful);
+
 
     ///////////////////////////////////////////////////////
     // TrueSkill
@@ -1178,6 +1217,7 @@ public:
     FDelegateOnSuccessDeleteCertificate OnSuccessDeleteCertificate;
     FDelegateOnSuccessDeleteContainerImageRepository OnSuccessDeleteContainerImageRepository;
     FDelegateOnSuccessDeleteRemoteUser OnSuccessDeleteRemoteUser;
+    FDelegateOnSuccessDeleteSecret OnSuccessDeleteSecret;
     FDelegateOnSuccessEnableMultiplayerServersForTitle OnSuccessEnableMultiplayerServersForTitle;
     FDelegateOnSuccessGetAssetDownloadUrl OnSuccessGetAssetDownloadUrl;
     FDelegateOnSuccessGetAssetUploadUrl OnSuccessGetAssetUploadUrl;
@@ -1201,6 +1241,7 @@ public:
     FDelegateOnSuccessListMultiplayerServers OnSuccessListMultiplayerServers;
     FDelegateOnSuccessListPartyQosServers OnSuccessListPartyQosServers;
     FDelegateOnSuccessListQosServersForTitle OnSuccessListQosServersForTitle;
+    FDelegateOnSuccessListSecretSummaries OnSuccessListSecretSummaries;
     FDelegateOnSuccessListTitleMultiplayerServersQuotaChanges OnSuccessListTitleMultiplayerServersQuotaChanges;
     FDelegateOnSuccessListVirtualMachineSummaries OnSuccessListVirtualMachineSummaries;
     FDelegateOnSuccessRequestMultiplayerServer OnSuccessRequestMultiplayerServer;
@@ -1213,6 +1254,7 @@ public:
     FDelegateOnSuccessUpdateBuildRegion OnSuccessUpdateBuildRegion;
     FDelegateOnSuccessUpdateBuildRegions OnSuccessUpdateBuildRegions;
     FDelegateOnSuccessUploadCertificate OnSuccessUploadCertificate;
+    FDelegateOnSuccessUploadSecret OnSuccessUploadSecret;
 
 private:
     UPROPERTY()

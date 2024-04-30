@@ -1970,6 +1970,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithCustomContainer(F
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("GameCertificateReferences"), request.GameCertificateReferences);
     }
+    if (request.GameSecretReferences.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("GameSecretReferences"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("GameSecretReferences"), request.GameSecretReferences);
+    }
     if (request.LinuxInstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("LinuxInstrumentationConfiguration"), request.LinuxInstrumentationConfiguration);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
     if (request.MonitoringApplicationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("MonitoringApplicationConfiguration"), request.MonitoringApplicationConfiguration);
@@ -2055,6 +2060,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithManagedContainer(
         OutRestJsonObj->SetFieldNull(TEXT("GameCertificateReferences"));
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("GameCertificateReferences"), request.GameCertificateReferences);
+    }
+    if (request.GameSecretReferences.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("GameSecretReferences"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("GameSecretReferences"), request.GameSecretReferences);
     }
     if (request.GameWorkingDirectory.IsEmpty() || request.GameWorkingDirectory == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GameWorkingDirectory"));
@@ -2149,6 +2159,11 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithProcessBasedServe
         OutRestJsonObj->SetFieldNull(TEXT("GameCertificateReferences"));
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("GameCertificateReferences"), request.GameCertificateReferences);
+    }
+    if (request.GameSecretReferences.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("GameSecretReferences"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("GameSecretReferences"), request.GameSecretReferences);
     }
     if (request.GameWorkingDirectory.IsEmpty() || request.GameWorkingDirectory == "") {
         OutRestJsonObj->SetFieldNull(TEXT("GameWorkingDirectory"));
@@ -2746,6 +2761,60 @@ void UPlayFabMultiplayerAPI::HelperDeleteRemoteUser(FPlayFabBaseModel response, 
         FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessDeleteRemoteUser.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Deletes a multiplayer server game secret. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::DeleteSecret(FMultiplayerDeleteSecretRequest request,
+    FDelegateOnSuccessDeleteSecret onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeleteSecret = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperDeleteSecret);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/DeleteSecret";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperDeleteSecret(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeleteSecret.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessDeleteSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -3990,6 +4059,60 @@ void UPlayFabMultiplayerAPI::HelperListQosServersForTitle(FPlayFabBaseModel resp
     this->RemoveFromRoot();
 }
 
+/** Lists multiplayer server game secrets for a title. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListSecretSummaries(FMultiplayerListSecretSummariesRequest request,
+    FDelegateOnSuccessListSecretSummaries onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListSecretSummaries = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperListSecretSummaries);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/ListSecretSummaries";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("PageSize"), request.PageSize);
+    if (request.SkipToken.IsEmpty() || request.SkipToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SkipToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("SkipToken"), request.SkipToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperListSecretSummaries(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListSecretSummaries.IsBound())
+    {
+        FMultiplayerListSecretSummariesResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeListSecretSummariesResponseResponse(response.responseData);
+        OnSuccessListSecretSummaries.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** List all server quota change requests for a title. */
 UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::ListTitleMultiplayerServersQuotaChanges(FMultiplayerListTitleMultiplayerServersQuotaChangesRequest request,
     FDelegateOnSuccessListTitleMultiplayerServersQuotaChanges onSuccess,
@@ -4689,6 +4812,57 @@ void UPlayFabMultiplayerAPI::HelperUploadCertificate(FPlayFabBaseModel response,
         FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessUploadCertificate.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Uploads a multiplayer server game secret. */
+UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::UploadSecret(FMultiplayerUploadSecretRequest request,
+    FDelegateOnSuccessUploadSecret onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabMultiplayerAPI* manager = NewObject<UPlayFabMultiplayerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUploadSecret = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabMultiplayerAPI::HelperUploadSecret);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/MultiplayerServer/UploadSecret";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceUpdate"), request.ForceUpdate);
+    if (request.GameSecret != nullptr) OutRestJsonObj->SetObjectField(TEXT("GameSecret"), request.GameSecret);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabMultiplayerRequestCompleted
+void UPlayFabMultiplayerAPI::HelperUploadSecret(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUploadSecret.IsBound())
+    {
+        FMultiplayerEmptyResponse ResultStruct = UPlayFabMultiplayerModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUploadSecret.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

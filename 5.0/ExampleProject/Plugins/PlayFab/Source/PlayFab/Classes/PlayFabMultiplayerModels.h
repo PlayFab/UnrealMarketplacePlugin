@@ -1273,6 +1273,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The game secrets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameSecretReferences;
     /** The Linux instrumentation configuration for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* LinuxInstrumentationConfiguration = nullptr;
@@ -1340,6 +1343,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The game secrets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameSecretReferences;
     /** The Linux instrumentation configuration for this build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* LinuxInstrumentationConfiguration = nullptr;
@@ -1408,6 +1414,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The game secrets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameSecretReferences;
     /**
      * The directory containing the game executable. This would be the start path of the game assets that contain the main game
      * server executable. If not provided, a best effort will be made to extract it from the start game command.
@@ -1481,6 +1490,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The game secrets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameSecretReferences;
     /**
      * The directory containing the game executable. This would be the start path of the game assets that contain the main game
      * server executable. If not provided, a best effort will be made to extract it from the start game command.
@@ -1558,6 +1570,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The game secrets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameSecretReferences;
     /**
      * The working directory for the game process. If this is not provided, the working directory will be set based on the
      * mount path of the game server executable.
@@ -1637,6 +1652,9 @@ public:
     /** The game certificates for the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         TArray<UPlayFabJsonObject*> GameCertificateReferences;
+    /** The game secrets for the build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> GameSecretReferences;
     /**
      * The working directory for the game process. If this is not provided, the working directory will be set based on the
      * mount path of the game server executable.
@@ -1898,6 +1916,20 @@ public:
     /** The virtual machine ID the multiplayer server is located on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString VmId;
+};
+
+/** Deletes a multiplayer server game secret. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerDeleteSecretRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The name of the secret. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString Name;
 };
 
 /**
@@ -2628,6 +2660,39 @@ public:
         FString SkipToken;
 };
 
+/** Returns a list of multiplayer server game secrets for a title. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListSecretSummariesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The page size for the request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The skip token for the paged request. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerListSecretSummariesResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The page size on the response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        int32 PageSize = 0;
+    /** The list of game secret. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        TArray<UPlayFabJsonObject*> SecretSummaries;
+    /** The skip token for the paged response. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        FString SkipToken;
+};
+
 /** List all server quota change requests for a title. */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FMultiplayerListTitleMultiplayerServersQuotaChangesRequest : public FPlayFabRequestCommon
@@ -2968,6 +3033,23 @@ public:
     /** The game certificate to upload. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* GameCertificate = nullptr;
+};
+
+/** Uploads a multiplayer server game secret. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FMultiplayerUploadSecretRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Forces the secret renewal if the secret already exists. Default is false */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        bool ForceUpdate = false;
+    /** The game secret to add. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* GameSecret = nullptr;
 };
 
 

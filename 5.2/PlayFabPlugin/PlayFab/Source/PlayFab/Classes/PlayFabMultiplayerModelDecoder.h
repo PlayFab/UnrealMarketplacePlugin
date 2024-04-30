@@ -246,6 +246,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerListQosServersForTitleResponse decodeListQosServersForTitleResponseResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ListSecretSummariesResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        static FMultiplayerListSecretSummariesResponse decodeListSecretSummariesResponseResponse(UPlayFabJsonObject* response);
+
     /** Decode the ListTitleMultiplayerServersQuotaChangesResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         static FMultiplayerListTitleMultiplayerServersQuotaChangesResponse decodeListTitleMultiplayerServersQuotaChangesResponseResponse(UPlayFabJsonObject* response);

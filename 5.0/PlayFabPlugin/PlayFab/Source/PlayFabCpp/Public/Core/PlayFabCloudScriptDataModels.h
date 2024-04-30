@@ -418,6 +418,37 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FEventHubFunctionModel : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The connection string for the event hub.
+        FString ConnectionString;
+
+        // [optional] The name of the event hub that triggers the Azure Function.
+        FString EventHubName;
+
+        // [optional] The name the function was registered under.
+        FString FunctionName;
+
+        FEventHubFunctionModel() :
+            FPlayFabCppBaseModel(),
+            ConnectionString(),
+            EventHubName(),
+            FunctionName()
+            {}
+
+        FEventHubFunctionModel(const FEventHubFunctionModel& src) = default;
+
+        FEventHubFunctionModel(const TSharedPtr<FJsonObject>& obj) : FEventHubFunctionModel()
+        {
+            readFromValue(obj);
+        }
+
+        ~FEventHubFunctionModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FScriptExecutionError : public PlayFab::FPlayFabCppBaseModel
     {
         /**
@@ -905,6 +936,28 @@ namespace CloudScriptModels
         }
 
         ~FLinkedPlatformAccountModel();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListEventHubFunctionsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of EventHub triggered functions that are currently registered for the title.
+        TArray<FEventHubFunctionModel> Functions;
+        FListEventHubFunctionsResult() :
+            FPlayFabCppResultCommon(),
+            Functions()
+            {}
+
+        FListEventHubFunctionsResult(const FListEventHubFunctionsResult& src) = default;
+
+        FListEventHubFunctionsResult(const TSharedPtr<FJsonObject>& obj) : FListEventHubFunctionsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListEventHubFunctionsResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1594,6 +1647,40 @@ namespace CloudScriptModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FRegisterEventHubFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // A connection string for the namespace of the event hub for the Azure Function.
+        FString ConnectionString;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the event hub for the Azure Function.
+        FString EventHubName;
+
+        // The name of the function to register
+        FString FunctionName;
+
+        FRegisterEventHubFunctionRequest() :
+            FPlayFabCppRequestCommon(),
+            ConnectionString(),
+            CustomTags(),
+            EventHubName(),
+            FunctionName()
+            {}
+
+        FRegisterEventHubFunctionRequest(const FRegisterEventHubFunctionRequest& src) = default;
+
+        FRegisterEventHubFunctionRequest(const TSharedPtr<FJsonObject>& obj) : FRegisterEventHubFunctionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRegisterEventHubFunctionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FRegisterHttpFunctionRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -1661,7 +1748,8 @@ namespace CloudScriptModels
     enum TriggerType
     {
         TriggerTypeHTTP,
-        TriggerTypeQueue
+        TriggerTypeQueue,
+        TriggerTypeEventHub
     };
 
     PLAYFABCPP_API void writeTriggerTypeEnumJSON(TriggerType enumVal, JsonWriter& writer);

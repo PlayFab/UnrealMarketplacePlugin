@@ -21,6 +21,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FExecuteEntityCloudScriptDelegate, const CloudScriptModels::FExecuteCloudScriptResult&);
         DECLARE_DELEGATE_OneParam(FExecuteFunctionDelegate, const CloudScriptModels::FExecuteFunctionResult&);
         DECLARE_DELEGATE_OneParam(FGetFunctionDelegate, const CloudScriptModels::FGetFunctionResult&);
+        DECLARE_DELEGATE_OneParam(FListEventHubFunctionsDelegate, const CloudScriptModels::FListEventHubFunctionsResult&);
         DECLARE_DELEGATE_OneParam(FListFunctionsDelegate, const CloudScriptModels::FListFunctionsResult&);
         DECLARE_DELEGATE_OneParam(FListHttpFunctionsDelegate, const CloudScriptModels::FListHttpFunctionsResult&);
         DECLARE_DELEGATE_OneParam(FListQueuedFunctionsDelegate, const CloudScriptModels::FListQueuedFunctionsResult&);
@@ -28,6 +29,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FPostFunctionResultForFunctionExecutionDelegate, const CloudScriptModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FPostFunctionResultForPlayerTriggeredActionDelegate, const CloudScriptModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FPostFunctionResultForScheduledTaskDelegate, const CloudScriptModels::FEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FRegisterEventHubFunctionDelegate, const CloudScriptModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FRegisterHttpFunctionDelegate, const CloudScriptModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FRegisterQueuedFunctionDelegate, const CloudScriptModels::FEmptyResult&);
         DECLARE_DELEGATE_OneParam(FUnregisterFunctionDelegate, const CloudScriptModels::FEmptyResult&);
@@ -53,6 +55,8 @@ namespace PlayFab
         bool ExecuteFunction(CloudScriptModels::FExecuteFunctionRequest& request, const FExecuteFunctionDelegate& SuccessDelegate = FExecuteFunctionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets registered Azure Functions for a given title id and function name.
         bool GetFunction(CloudScriptModels::FGetFunctionRequest& request, const FGetFunctionDelegate& SuccessDelegate = FGetFunctionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Lists all currently registered Event Hub triggered Azure Functions for a given title.
+        bool ListEventHubFunctions(CloudScriptModels::FListFunctionsRequest& request, const FListEventHubFunctionsDelegate& SuccessDelegate = FListEventHubFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Lists all currently registered Azure Functions for a given title.
         bool ListFunctions(CloudScriptModels::FListFunctionsRequest& request, const FListFunctionsDelegate& SuccessDelegate = FListFunctionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -70,6 +74,11 @@ namespace PlayFab
         bool PostFunctionResultForPlayerTriggeredAction(CloudScriptModels::FPostFunctionResultForPlayerTriggeredActionRequest& request, const FPostFunctionResultForPlayerTriggeredActionDelegate& SuccessDelegate = FPostFunctionResultForPlayerTriggeredActionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Generate a PlayStream event for the provided function result.
         bool PostFunctionResultForScheduledTask(CloudScriptModels::FPostFunctionResultForScheduledTaskRequest& request, const FPostFunctionResultForScheduledTaskDelegate& SuccessDelegate = FPostFunctionResultForScheduledTaskDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Registers an event hub triggered Azure Function with a title.
+         * A title can have many functions, RegisterEventHubFunction associates a function name with an event hub name and connection string.
+         */
+        bool RegisterEventHubFunction(CloudScriptModels::FRegisterEventHubFunctionRequest& request, const FRegisterEventHubFunctionDelegate& SuccessDelegate = FRegisterEventHubFunctionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Registers an HTTP triggered Azure function with a title.
         bool RegisterHttpFunction(CloudScriptModels::FRegisterHttpFunctionRequest& request, const FRegisterHttpFunctionDelegate& SuccessDelegate = FRegisterHttpFunctionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -85,6 +94,7 @@ namespace PlayFab
         void OnExecuteEntityCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteEntityCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnExecuteFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FExecuteFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListEventHubFunctionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListEventHubFunctionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListFunctionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListFunctionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListHttpFunctionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListHttpFunctionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQueuedFunctionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQueuedFunctionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -92,6 +102,7 @@ namespace PlayFab
         void OnPostFunctionResultForFunctionExecutionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPostFunctionResultForFunctionExecutionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPostFunctionResultForPlayerTriggeredActionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPostFunctionResultForPlayerTriggeredActionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnPostFunctionResultForScheduledTaskResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPostFunctionResultForScheduledTaskDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnRegisterEventHubFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRegisterEventHubFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRegisterHttpFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRegisterHttpFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRegisterQueuedFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRegisterQueuedFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnregisterFunctionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnregisterFunctionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

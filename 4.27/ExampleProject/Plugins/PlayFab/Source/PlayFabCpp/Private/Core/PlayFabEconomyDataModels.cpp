@@ -748,6 +748,74 @@ bool PlayFab::EconomyModels::FImageConfig::readFromValue(const TSharedPtr<FJsonO
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FCategoryRatingConfig::~FCategoryRatingConfig()
+{
+
+}
+
+void PlayFab::EconomyModels::FCategoryRatingConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FCategoryRatingConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::EconomyModels::FReviewConfig::~FReviewConfig()
+{
+
+}
+
+void PlayFab::EconomyModels::FReviewConfig::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CategoryRatings.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("CategoryRatings"));
+        for (const FCategoryRatingConfig& item : CategoryRatings)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FReviewConfig::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&CategoryRatingsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("CategoryRatings"));
+    for (int32 Idx = 0; Idx < CategoryRatingsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = CategoryRatingsArray[Idx];
+        CategoryRatings.Add(FCategoryRatingConfig(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FUserGeneratedContentSpecificConfig::~FUserGeneratedContentSpecificConfig()
 {
 
@@ -794,6 +862,7 @@ PlayFab::EconomyModels::FCatalogConfig::~FCatalogConfig()
     //if (Catalog != nullptr) delete Catalog;
     //if (File != nullptr) delete File;
     //if (Image != nullptr) delete Image;
+    //if (Review != nullptr) delete Review;
     //if (UserGeneratedContent != nullptr) delete UserGeneratedContent;
 
 }
@@ -858,6 +927,12 @@ void PlayFab::EconomyModels::FCatalogConfig::writeJSON(JsonWriter& writer) const
         writer->WriteArrayEnd();
     }
 
+
+    if (Review.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Review"));
+        Review->writeJSON(writer);
+    }
 
     if (ReviewerEntities.Num() != 0)
     {
@@ -931,6 +1006,12 @@ bool PlayFab::EconomyModels::FCatalogConfig::readFromValue(const TSharedPtr<FJso
     }
 
     obj->TryGetStringArrayField(TEXT("Platforms"), Platforms);
+
+    const TSharedPtr<FJsonValue> ReviewValue = obj->TryGetField(TEXT("Review"));
+    if (ReviewValue.IsValid() && !ReviewValue->IsNull())
+    {
+        Review = MakeShareable(new FReviewConfig(ReviewValue->AsObject()));
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&ReviewerEntitiesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("ReviewerEntities"));
     for (int32 Idx = 0; Idx < ReviewerEntitiesArray.Num(); Idx++)
@@ -5063,6 +5144,17 @@ void PlayFab::EconomyModels::FReview::writeJSON(JsonWriter& writer) const
 {
     writer->WriteObjectStart();
 
+    if (CategoryRatings.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CategoryRatings"));
+        for (TMap<FString, int32>::TConstIterator It(CategoryRatings); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
     writer->WriteIdentifierPrefix(TEXT("HelpfulNegative"));
     writer->WriteValue(HelpfulNegative);
 
@@ -5132,6 +5224,16 @@ void PlayFab::EconomyModels::FReview::writeJSON(JsonWriter& writer) const
 bool PlayFab::EconomyModels::FReview::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CategoryRatingsObject;
+    if (obj->TryGetObjectField(TEXT("CategoryRatings"), CategoryRatingsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CategoryRatingsObject)->Values); It; ++It)
+        {
+            int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            CategoryRatings.Add(It.Key(), TmpValue);
+        }
+    }
 
     const TSharedPtr<FJsonValue> HelpfulNegativeValue = obj->TryGetField(TEXT("HelpfulNegative"));
     if (HelpfulNegativeValue.IsValid() && !HelpfulNegativeValue->IsNull())

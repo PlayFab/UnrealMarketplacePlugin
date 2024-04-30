@@ -2183,12 +2183,6 @@ void PlayFab::AdminModels::FBanInfo::writeJSON(JsonWriter& writer) const
         writeDatetime(Expires, writer);
     }
 
-    if (IncludeMicrosoftFamily.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeMicrosoftFamily"));
-        writer->WriteValue(IncludeMicrosoftFamily);
-    }
-
     if (IPAddress.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IPAddress"));
@@ -2205,6 +2199,12 @@ void PlayFab::AdminModels::FBanInfo::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("Reason"));
         writer->WriteValue(Reason);
+    }
+
+    if (UserFamilyType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserFamilyType"));
+        writer->WriteValue(UserFamilyType);
     }
 
     writer->WriteObjectEnd();
@@ -2238,13 +2238,6 @@ bool PlayFab::AdminModels::FBanInfo::readFromValue(const TSharedPtr<FJsonObject>
         Expires = readDatetime(ExpiresValue);
 
 
-    const TSharedPtr<FJsonValue> IncludeMicrosoftFamilyValue = obj->TryGetField(TEXT("IncludeMicrosoftFamily"));
-    if (IncludeMicrosoftFamilyValue.IsValid() && !IncludeMicrosoftFamilyValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeMicrosoftFamilyValue->TryGetBool(TmpValue)) { IncludeMicrosoftFamily = TmpValue; }
-    }
-
     const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
     if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
     {
@@ -2264,6 +2257,13 @@ bool PlayFab::AdminModels::FBanInfo::readFromValue(const TSharedPtr<FJsonObject>
     {
         FString TmpValue;
         if (ReasonValue->TryGetString(TmpValue)) { Reason = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> UserFamilyTypeValue = obj->TryGetField(TEXT("UserFamilyType"));
+    if (UserFamilyTypeValue.IsValid() && !UserFamilyTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (UserFamilyTypeValue->TryGetString(TmpValue)) { UserFamilyType = TmpValue; }
     }
 
     return HasSucceeded;
@@ -2314,6 +2314,44 @@ bool PlayFab::AdminModels::FBanPlayerSegmentAction::readFromValue(const TSharedP
     return HasSucceeded;
 }
 
+void PlayFab::AdminModels::writeUserFamilyTypeEnumJSON(UserFamilyType enumVal, JsonWriter& writer)
+{
+    switch (enumVal)
+    {
+
+    case UserFamilyTypeNone: writer->WriteValue(TEXT("None")); break;
+    case UserFamilyTypeXbox: writer->WriteValue(TEXT("Xbox")); break;
+    case UserFamilyTypeSteam: writer->WriteValue(TEXT("Steam")); break;
+    }
+}
+
+AdminModels::UserFamilyType PlayFab::AdminModels::readUserFamilyTypeFromValue(const TSharedPtr<FJsonValue>& value)
+{
+    return readUserFamilyTypeFromValue(value.IsValid() ? value->AsString() : "");
+}
+
+AdminModels::UserFamilyType PlayFab::AdminModels::readUserFamilyTypeFromValue(const FString& value)
+{
+    static TMap<FString, UserFamilyType> _UserFamilyTypeMap;
+    if (_UserFamilyTypeMap.Num() == 0)
+    {
+        // Auto-generate the map on the first use
+        _UserFamilyTypeMap.Add(TEXT("None"), UserFamilyTypeNone);
+        _UserFamilyTypeMap.Add(TEXT("Xbox"), UserFamilyTypeXbox);
+        _UserFamilyTypeMap.Add(TEXT("Steam"), UserFamilyTypeSteam);
+
+    }
+
+    if (!value.IsEmpty())
+    {
+        auto output = _UserFamilyTypeMap.Find(value);
+        if (output != nullptr)
+            return *output;
+    }
+
+    return UserFamilyTypeNone; // Basically critical fail
+}
+
 PlayFab::AdminModels::FBanRequest::~FBanRequest()
 {
 
@@ -2327,12 +2365,6 @@ void PlayFab::AdminModels::FBanRequest::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("DurationInHours"));
         writer->WriteValue(static_cast<int64>(DurationInHours));
-    }
-
-    if (IncludeMicrosoftFamily.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeMicrosoftFamily"));
-        writer->WriteValue(IncludeMicrosoftFamily);
     }
 
     if (IPAddress.IsEmpty() == false)
@@ -2357,6 +2389,12 @@ void PlayFab::AdminModels::FBanRequest::writeJSON(JsonWriter& writer) const
         writer->WriteValue(Reason);
     }
 
+    if (pfUserFamilyType.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserFamilyType"));
+        writeUserFamilyTypeEnumJSON(pfUserFamilyType, writer);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -2369,13 +2407,6 @@ bool PlayFab::AdminModels::FBanRequest::readFromValue(const TSharedPtr<FJsonObje
     {
         uint32 TmpValue;
         if (DurationInHoursValue->TryGetNumber(TmpValue)) { DurationInHours = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> IncludeMicrosoftFamilyValue = obj->TryGetField(TEXT("IncludeMicrosoftFamily"));
-    if (IncludeMicrosoftFamilyValue.IsValid() && !IncludeMicrosoftFamilyValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeMicrosoftFamilyValue->TryGetBool(TmpValue)) { IncludeMicrosoftFamily = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
@@ -2398,6 +2429,8 @@ bool PlayFab::AdminModels::FBanRequest::readFromValue(const TSharedPtr<FJsonObje
         FString TmpValue;
         if (ReasonValue->TryGetString(TmpValue)) { Reason = TmpValue; }
     }
+
+    pfUserFamilyType = readUserFamilyTypeFromValue(obj->TryGetField(TEXT("UserFamilyType")));
 
     return HasSucceeded;
 }
@@ -19631,12 +19664,6 @@ void PlayFab::AdminModels::FUpdateBanRequest::writeJSON(JsonWriter& writer) cons
         writeDatetime(Expires, writer);
     }
 
-    if (IncludeMicrosoftFamily.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("IncludeMicrosoftFamily"));
-        writer->WriteValue(IncludeMicrosoftFamily);
-    }
-
     if (IPAddress.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("IPAddress"));
@@ -19653,6 +19680,12 @@ void PlayFab::AdminModels::FUpdateBanRequest::writeJSON(JsonWriter& writer) cons
     {
         writer->WriteIdentifierPrefix(TEXT("Reason"));
         writer->WriteValue(Reason);
+    }
+
+    if (pfUserFamilyType.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("UserFamilyType"));
+        writeUserFamilyTypeEnumJSON(pfUserFamilyType, writer);
     }
 
     writer->WriteObjectEnd();
@@ -19681,13 +19714,6 @@ bool PlayFab::AdminModels::FUpdateBanRequest::readFromValue(const TSharedPtr<FJs
         Expires = readDatetime(ExpiresValue);
 
 
-    const TSharedPtr<FJsonValue> IncludeMicrosoftFamilyValue = obj->TryGetField(TEXT("IncludeMicrosoftFamily"));
-    if (IncludeMicrosoftFamilyValue.IsValid() && !IncludeMicrosoftFamilyValue->IsNull())
-    {
-        bool TmpValue;
-        if (IncludeMicrosoftFamilyValue->TryGetBool(TmpValue)) { IncludeMicrosoftFamily = TmpValue; }
-    }
-
     const TSharedPtr<FJsonValue> IPAddressValue = obj->TryGetField(TEXT("IPAddress"));
     if (IPAddressValue.IsValid() && !IPAddressValue->IsNull())
     {
@@ -19708,6 +19734,8 @@ bool PlayFab::AdminModels::FUpdateBanRequest::readFromValue(const TSharedPtr<FJs
         FString TmpValue;
         if (ReasonValue->TryGetString(TmpValue)) { Reason = TmpValue; }
     }
+
+    pfUserFamilyType = readUserFamilyTypeFromValue(obj->TryGetField(TEXT("UserFamilyType")));
 
     return HasSucceeded;
 }

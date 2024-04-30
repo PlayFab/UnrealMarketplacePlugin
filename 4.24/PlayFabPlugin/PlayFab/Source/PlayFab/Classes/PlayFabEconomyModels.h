@@ -1558,7 +1558,7 @@ public:
     /** The entity to perform this action on. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         UPlayFabJsonObject* Entity = nullptr;
-    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
+    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Economy | Inventory Models")
         FString RedirectUri;
     /** Optional Service Label to pass into the request. */

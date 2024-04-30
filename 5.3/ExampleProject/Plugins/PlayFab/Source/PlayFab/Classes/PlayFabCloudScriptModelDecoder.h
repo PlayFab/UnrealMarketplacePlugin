@@ -48,6 +48,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         static FCloudScriptGetFunctionResult decodeGetFunctionResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ListEventHubFunctionsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        static FCloudScriptListEventHubFunctionsResult decodeListEventHubFunctionsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the ListFunctionsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         static FCloudScriptListFunctionsResult decodeListFunctionsResultResponse(UPlayFabJsonObject* response);

@@ -104,6 +104,19 @@ public:
         void HelperGetFunction(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListEventHubFunctions, FCloudScriptListEventHubFunctionsResult, result, UObject*, customData);
+
+    /** Lists all currently registered Event Hub triggered Azure Functions for a given title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabCloudScriptAPI* ListEventHubFunctions(FCloudScriptListFunctionsRequest request,
+            FDelegateOnSuccessListEventHubFunctions onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabCloudScriptRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListEventHubFunctions(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListFunctions, FCloudScriptListFunctionsResult, result, UObject*, customData);
 
     /** Lists all currently registered Azure Functions for a given title. */
@@ -195,6 +208,19 @@ public:
         void HelperPostFunctionResultForScheduledTask(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRegisterEventHubFunction, FCloudScriptEmptyResult, result, UObject*, customData);
+
+    /** Registers an event hub triggered Azure Function with a title. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabCloudScriptAPI* RegisterEventHubFunction(FCloudScriptRegisterEventHubFunctionRequest request,
+            FDelegateOnSuccessRegisterEventHubFunction onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabCloudScriptRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | CloudScript | Server-Side Cloud Script ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperRegisterEventHubFunction(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRegisterHttpFunction, FCloudScriptEmptyResult, result, UObject*, customData);
 
     /** Registers an HTTP triggered Azure function with a title. */
@@ -255,6 +281,7 @@ public:
     FDelegateOnSuccessExecuteEntityCloudScript OnSuccessExecuteEntityCloudScript;
     FDelegateOnSuccessExecuteFunction OnSuccessExecuteFunction;
     FDelegateOnSuccessGetFunction OnSuccessGetFunction;
+    FDelegateOnSuccessListEventHubFunctions OnSuccessListEventHubFunctions;
     FDelegateOnSuccessListFunctions OnSuccessListFunctions;
     FDelegateOnSuccessListHttpFunctions OnSuccessListHttpFunctions;
     FDelegateOnSuccessListQueuedFunctions OnSuccessListQueuedFunctions;
@@ -262,6 +289,7 @@ public:
     FDelegateOnSuccessPostFunctionResultForFunctionExecution OnSuccessPostFunctionResultForFunctionExecution;
     FDelegateOnSuccessPostFunctionResultForPlayerTriggeredAction OnSuccessPostFunctionResultForPlayerTriggeredAction;
     FDelegateOnSuccessPostFunctionResultForScheduledTask OnSuccessPostFunctionResultForScheduledTask;
+    FDelegateOnSuccessRegisterEventHubFunction OnSuccessRegisterEventHubFunction;
     FDelegateOnSuccessRegisterHttpFunction OnSuccessRegisterHttpFunction;
     FDelegateOnSuccessRegisterQueuedFunction OnSuccessRegisterQueuedFunction;
     FDelegateOnSuccessUnregisterFunction OnSuccessUnregisterFunction;

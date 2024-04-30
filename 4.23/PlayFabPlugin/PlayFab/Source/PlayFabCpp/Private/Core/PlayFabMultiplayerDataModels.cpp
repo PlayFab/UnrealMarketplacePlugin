@@ -2177,6 +2177,42 @@ bool PlayFab::MultiplayerModels::FGameCertificateReferenceParams::readFromValue(
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FGameSecretReferenceParams::~FGameSecretReferenceParams()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGameSecretReferenceParams::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GameSecretReferenceParams::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGameSecretReferenceParams::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FLinuxInstrumentationConfiguration::~FLinuxInstrumentationConfiguration()
 {
 
@@ -2566,6 +2602,15 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::writeJS
     }
 
 
+    if (GameSecretReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameSecretReferences"));
+        for (const FGameSecretReferenceParams& item : GameSecretReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (pfLinuxInstrumentationConfiguration.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("LinuxInstrumentationConfiguration"));
@@ -2683,6 +2728,14 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerRequest::readFro
     }
 
 
+    const TArray<TSharedPtr<FJsonValue>>&GameSecretReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameSecretReferences"));
+    for (int32 Idx = 0; Idx < GameSecretReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameSecretReferencesArray[Idx];
+        GameSecretReferences.Add(FGameSecretReferenceParams(CurrentItem->AsObject()));
+    }
+
+
     const TSharedPtr<FJsonValue> LinuxInstrumentationConfigurationValue = obj->TryGetField(TEXT("LinuxInstrumentationConfiguration"));
     if (LinuxInstrumentationConfigurationValue.IsValid() && !LinuxInstrumentationConfigurationValue->IsNull())
     {
@@ -2778,6 +2831,38 @@ bool PlayFab::MultiplayerModels::FGameCertificateReference::readFromValue(const 
         FString TmpValue;
         if (GsdkAliasValue->TryGetString(TmpValue)) { GsdkAlias = TmpValue; }
     }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FGameSecretReference::~FGameSecretReference()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FGameSecretReference::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FGameSecretReference::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
 
     const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
     if (NameValue.IsValid() && !NameValue->IsNull())
@@ -3020,6 +3105,15 @@ void PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::writeJ
     }
 
 
+    if (GameSecretReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameSecretReferences"));
+        for (const FGameSecretReference& item : GameSecretReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (pfLinuxInstrumentationConfiguration.IsValid())
     {
         writer->WriteIdentifierPrefix(TEXT("LinuxInstrumentationConfiguration"));
@@ -3161,6 +3255,14 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithCustomContainerResponse::readFr
     {
         TSharedPtr<FJsonValue> CurrentItem = GameCertificateReferencesArray[Idx];
         GameCertificateReferences.Add(FGameCertificateReference(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameSecretReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameSecretReferences"));
+    for (int32 Idx = 0; Idx < GameSecretReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameSecretReferencesArray[Idx];
+        GameSecretReferences.Add(FGameSecretReference(CurrentItem->AsObject()));
     }
 
 
@@ -3406,6 +3508,15 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::writeJ
     }
 
 
+    if (GameSecretReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameSecretReferences"));
+        for (const FGameSecretReferenceParams& item : GameSecretReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (GameWorkingDirectory.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
@@ -3529,6 +3640,14 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerRequest::readFr
     {
         TSharedPtr<FJsonValue> CurrentItem = GameCertificateReferencesArray[Idx];
         GameCertificateReferences.Add(FGameCertificateReferenceParams(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameSecretReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameSecretReferences"));
+    for (int32 Idx = 0; Idx < GameSecretReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameSecretReferencesArray[Idx];
+        GameSecretReferences.Add(FGameSecretReferenceParams(CurrentItem->AsObject()));
     }
 
 
@@ -3674,6 +3793,15 @@ void PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::write
     }
 
 
+    if (GameSecretReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameSecretReferences"));
+        for (const FGameSecretReference& item : GameSecretReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (GameWorkingDirectory.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
@@ -3814,6 +3942,14 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
     {
         TSharedPtr<FJsonValue> CurrentItem = GameCertificateReferencesArray[Idx];
         GameCertificateReferences.Add(FGameCertificateReference(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameSecretReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameSecretReferences"));
+    for (int32 Idx = 0; Idx < GameSecretReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameSecretReferencesArray[Idx];
+        GameSecretReferences.Add(FGameSecretReference(CurrentItem->AsObject()));
     }
 
 
@@ -3967,6 +4103,15 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::writ
     }
 
 
+    if (GameSecretReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameSecretReferences"));
+        for (const FGameSecretReferenceParams& item : GameSecretReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (GameWorkingDirectory.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
@@ -4088,6 +4233,14 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
     {
         TSharedPtr<FJsonValue> CurrentItem = GameCertificateReferencesArray[Idx];
         GameCertificateReferences.Add(FGameCertificateReferenceParams(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameSecretReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameSecretReferences"));
+    for (int32 Idx = 0; Idx < GameSecretReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameSecretReferencesArray[Idx];
+        GameSecretReferences.Add(FGameSecretReferenceParams(CurrentItem->AsObject()));
     }
 
 
@@ -4234,6 +4387,15 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::wri
     }
 
 
+    if (GameSecretReferences.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("GameSecretReferences"));
+        for (const FGameSecretReference& item : GameSecretReferences)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
     if (GameWorkingDirectory.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("GameWorkingDirectory"));
@@ -4374,6 +4536,14 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::rea
     {
         TSharedPtr<FJsonValue> CurrentItem = GameCertificateReferencesArray[Idx];
         GameCertificateReferences.Add(FGameCertificateReference(CurrentItem->AsObject()));
+    }
+
+
+    const TArray<TSharedPtr<FJsonValue>>&GameSecretReferencesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("GameSecretReferences"));
+    for (int32 Idx = 0; Idx < GameSecretReferencesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = GameSecretReferencesArray[Idx];
+        GameSecretReferences.Add(FGameSecretReference(CurrentItem->AsObject()));
     }
 
 
@@ -6146,6 +6316,62 @@ bool PlayFab::MultiplayerModels::FDeleteRemoteUserRequest::readFromValue(const T
     {
         FString TmpValue;
         if (VmIdValue->TryGetString(TmpValue)) { VmId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FDeleteSecretRequest::~FDeleteSecretRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FDeleteSecretRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeleteSecretRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FDeleteSecretRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
     }
 
     return HasSucceeded;
@@ -11859,6 +12085,186 @@ bool PlayFab::MultiplayerModels::FListQosServersForTitleResponse::readFromValue(
     return HasSucceeded;
 }
 
+PlayFab::MultiplayerModels::FListSecretSummariesRequest::~FListSecretSummariesRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListSecretSummariesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (PageSize.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("PageSize"));
+        writer->WriteValue(PageSize);
+    }
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListSecretSummariesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FSecretSummary::~FSecretSummary()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FSecretSummary::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ExpirationDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpirationDate"));
+        writeDatetime(ExpirationDate, writer);
+    }
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (Version.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Version"));
+        writer->WriteValue(Version);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FSecretSummary::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ExpirationDateValue = obj->TryGetField(TEXT("ExpirationDate"));
+    if (ExpirationDateValue.IsValid())
+        ExpirationDate = readDatetime(ExpirationDateValue);
+
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
+    if (VersionValue.IsValid() && !VersionValue->IsNull())
+    {
+        FString TmpValue;
+        if (VersionValue->TryGetString(TmpValue)) { Version = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FListSecretSummariesResponse::~FListSecretSummariesResponse()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FListSecretSummariesResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteIdentifierPrefix(TEXT("PageSize"));
+    writer->WriteValue(PageSize);
+
+    if (SecretSummaries.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("SecretSummaries"));
+        for (const FSecretSummary& item : SecretSummaries)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (SkipToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SkipToken"));
+        writer->WriteValue(SkipToken);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FListSecretSummariesResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PageSizeValue = obj->TryGetField(TEXT("PageSize"));
+    if (PageSizeValue.IsValid() && !PageSizeValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PageSizeValue->TryGetNumber(TmpValue)) { PageSize = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&SecretSummariesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("SecretSummaries"));
+    for (int32 Idx = 0; Idx < SecretSummariesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = SecretSummariesArray[Idx];
+        SecretSummaries.Add(FSecretSummary(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> SkipTokenValue = obj->TryGetField(TEXT("SkipToken"));
+    if (SkipTokenValue.IsValid() && !SkipTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (SkipTokenValue->TryGetString(TmpValue)) { SkipToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerRequest::~FListServerBackfillTicketsForPlayerRequest()
 {
 
@@ -13124,6 +13530,70 @@ MultiplayerModels::RoutingType PlayFab::MultiplayerModels::readRoutingTypeFromVa
     return RoutingTypeMicrosoft; // Basically critical fail
 }
 
+PlayFab::MultiplayerModels::FSecret::~FSecret()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FSecret::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ExpirationDate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpirationDate"));
+        writeDatetime(ExpirationDate, writer);
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: Secret::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (!Value.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: Secret::Value, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        writer->WriteValue(Value);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FSecret::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ExpirationDateValue = obj->TryGetField(TEXT("ExpirationDate"));
+    if (ExpirationDateValue.IsValid())
+        ExpirationDate = readDatetime(ExpirationDateValue);
+
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        FString TmpValue;
+        if (ValueValue->TryGetString(TmpValue)) { Value = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 void PlayFab::MultiplayerModels::writeServerTypeEnumJSON(ServerType enumVal, JsonWriter& writer)
 {
     switch (enumVal)
@@ -14197,6 +14667,67 @@ bool PlayFab::MultiplayerModels::FUploadCertificateRequest::readFromValue(const 
     if (GameCertificateValue.IsValid() && !GameCertificateValue->IsNull())
     {
         GameCertificate = FCertificate(GameCertificateValue->AsObject());
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::MultiplayerModels::FUploadSecretRequest::~FUploadSecretRequest()
+{
+
+}
+
+void PlayFab::MultiplayerModels::FUploadSecretRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ForceUpdate.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceUpdate"));
+        writer->WriteValue(ForceUpdate);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("GameSecret"));
+    GameSecret.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::MultiplayerModels::FUploadSecretRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ForceUpdateValue = obj->TryGetField(TEXT("ForceUpdate"));
+    if (ForceUpdateValue.IsValid() && !ForceUpdateValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceUpdateValue->TryGetBool(TmpValue)) { ForceUpdate = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> GameSecretValue = obj->TryGetField(TEXT("GameSecret"));
+    if (GameSecretValue.IsValid() && !GameSecretValue->IsNull())
+    {
+        GameSecret = FSecret(GameSecretValue->AsObject());
     }
 
     return HasSucceeded;

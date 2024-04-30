@@ -434,6 +434,51 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FCategoryRatingConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Name of the category.
+        FString Name;
+
+        FCategoryRatingConfig() :
+            FPlayFabCppBaseModel(),
+            Name()
+            {}
+
+        FCategoryRatingConfig(const FCategoryRatingConfig& src) = default;
+
+        FCategoryRatingConfig(const TSharedPtr<FJsonObject>& obj) : FCategoryRatingConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCategoryRatingConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FReviewConfig : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] A set of categories that can be applied toward ratings and reviews.
+        TArray<FCategoryRatingConfig> CategoryRatings;
+        FReviewConfig() :
+            FPlayFabCppBaseModel(),
+            CategoryRatings()
+            {}
+
+        FReviewConfig(const FReviewConfig& src) = default;
+
+        FReviewConfig(const TSharedPtr<FJsonObject>& obj) : FReviewConfig()
+        {
+            readFromValue(obj);
+        }
+
+        ~FReviewConfig();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUserGeneratedContentSpecificConfig : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The set of content types that will be used for validation.
@@ -488,6 +533,9 @@ namespace EconomyModels
          * to 128 platforms can be listed.
          */
         TArray<FString> Platforms;
+        // [optional] The set of configuration that only applies to Ratings and Reviews.
+        TSharedPtr<FReviewConfig> Review;
+
         // [optional] A set of player entity keys that are allowed to review content. There is a maximum of 128 entities that can be added.
         TArray<FEntityKey> ReviewerEntities;
         // [optional] The set of configuration that only applies to user generated contents.
@@ -503,6 +551,7 @@ namespace EconomyModels
             Image(nullptr),
             IsCatalogEnabled(false),
             Platforms(),
+            Review(nullptr),
             ReviewerEntities(),
             UserGeneratedContent(nullptr)
             {}
@@ -2614,6 +2663,8 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FReview : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The star rating associated with each selected category in this review.
+        TMap<FString, int32> CategoryRatings;
         // The number of negative helpfulness votes for this review.
         int32 HelpfulNegative;
 
@@ -2655,6 +2706,7 @@ namespace EconomyModels
 
         FReview() :
             FPlayFabCppBaseModel(),
+            CategoryRatings(),
             HelpfulNegative(0),
             HelpfulPositive(0),
             IsInstalled(false),
@@ -4297,7 +4349,7 @@ namespace EconomyModels
         // [optional] The entity to perform this action on.
         TSharedPtr<FEntityKey> Entity;
 
-        // [optional] Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
+        // [optional] Redirect URI supplied to PlayStation :tm: Network when requesting an auth code.
         FString RedirectUri;
 
         // [optional] Optional Service Label to pass into the request.

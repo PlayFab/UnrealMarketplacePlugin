@@ -1222,6 +1222,16 @@ enum class EUserDataPermission : uint8
     pfenum_Public = 1 UMETA(DisplayName = "Public"),
 };
 
+/** UserFamilyType */
+
+UENUM(BlueprintType)
+enum class EUserFamilyType : uint8
+{
+    pfenum_None = 0 UMETA(DisplayName = "None"),
+    pfenum_Xbox = 1 UMETA(DisplayName = "Xbox"),
+    pfenum_Steam = 2 UMETA(DisplayName = "Steam"),
+};
+
 /** UserOrigination */
 
 UENUM(BlueprintType)
@@ -1345,6 +1355,7 @@ enum class EPfTriggerType : uint8
 {
     pfenum_HTTP = 0 UMETA(DisplayName = "HTTP"),
     pfenum_Queue = 1 UMETA(DisplayName = "Queue"),
+    pfenum_EventHub = 2 UMETA(DisplayName = "EventHub"),
 };
 
 /** OperationTypes */

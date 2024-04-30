@@ -40,6 +40,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteContainerImageRepositoryDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FDeleteRemoteUserDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FDeleteSecretDelegate, const MultiplayerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FEnableMultiplayerServersForTitleDelegate, const MultiplayerModels::FEnableMultiplayerServersForTitleResponse&);
         DECLARE_DELEGATE_OneParam(FFindFriendLobbiesDelegate, const MultiplayerModels::FFindFriendLobbiesResult&);
         DECLARE_DELEGATE_OneParam(FFindLobbiesDelegate, const MultiplayerModels::FFindLobbiesResult&);
@@ -78,6 +79,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListMultiplayerServersDelegate, const MultiplayerModels::FListMultiplayerServersResponse&);
         DECLARE_DELEGATE_OneParam(FListPartyQosServersDelegate, const MultiplayerModels::FListPartyQosServersResponse&);
         DECLARE_DELEGATE_OneParam(FListQosServersForTitleDelegate, const MultiplayerModels::FListQosServersForTitleResponse&);
+        DECLARE_DELEGATE_OneParam(FListSecretSummariesDelegate, const MultiplayerModels::FListSecretSummariesResponse&);
         DECLARE_DELEGATE_OneParam(FListServerBackfillTicketsForPlayerDelegate, const MultiplayerModels::FListServerBackfillTicketsForPlayerResult&);
         DECLARE_DELEGATE_OneParam(FListTitleMultiplayerServersQuotaChangesDelegate, const MultiplayerModels::FListTitleMultiplayerServersQuotaChangesResponse&);
         DECLARE_DELEGATE_OneParam(FListVirtualMachineSummariesDelegate, const MultiplayerModels::FListVirtualMachineSummariesResponse&);
@@ -96,6 +98,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUpdateLobbyDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FUpdateLobbyAsServerDelegate, const MultiplayerModels::FLobbyEmptyResult&);
         DECLARE_DELEGATE_OneParam(FUploadCertificateDelegate, const MultiplayerModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUploadSecretDelegate, const MultiplayerModels::FEmptyResponse&);
 
         UPlayFabMultiplayerAPI();
         ~UPlayFabMultiplayerAPI();
@@ -217,6 +220,11 @@ namespace PlayFab
          * Deletes a remote user to log on to a VM for a multiplayer server build in a specific region. Returns user credential information necessary to log on.
          */
         bool DeleteRemoteUser(MultiplayerModels::FDeleteRemoteUserRequest& request, const FDeleteRemoteUserDelegate& SuccessDelegate = FDeleteRemoteUserDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Deletes a multiplayer server game secret.
+         * Deletes a multiplayer server game secret.
+         */
+        bool DeleteSecret(MultiplayerModels::FDeleteSecretRequest& request, const FDeleteSecretDelegate& SuccessDelegate = FDeleteSecretDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Enables the multiplayer server feature for a title.
          * Enables the multiplayer server feature for a title and returns the enabled status. The enabled status can be Initializing, Enabled, and Disabled. It can up to 20 minutes or more for the title to be enabled for the feature. On average, it can take up to 20 minutes for the title to be enabled for the feature.
@@ -404,6 +412,11 @@ namespace PlayFab
          */
         bool ListQosServersForTitle(MultiplayerModels::FListQosServersForTitleRequest& request, const FListQosServersForTitleDelegate& SuccessDelegate = FListQosServersForTitleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Lists multiplayer server game secrets for a title.
+         * Returns a list of multiplayer server game secrets for a title.
+         */
+        bool ListSecretSummaries(MultiplayerModels::FListSecretSummariesRequest& request, const FListSecretSummariesDelegate& SuccessDelegate = FListSecretSummariesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * List all server backfill ticket Ids the user is a member of.
          * List all server backfill ticket Ids the user is a member of.
          */
@@ -493,6 +506,11 @@ namespace PlayFab
          * Uploads a multiplayer server game certificate.
          */
         bool UploadCertificate(MultiplayerModels::FUploadCertificateRequest& request, const FUploadCertificateDelegate& SuccessDelegate = FUploadCertificateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Uploads a multiplayer server game secret.
+         * Uploads a multiplayer server game secret.
+         */
+        bool UploadSecret(MultiplayerModels::FUploadSecretRequest& request, const FUploadSecretDelegate& SuccessDelegate = FUploadSecretDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
 
     private:
         // ------------ Generated result handlers
@@ -518,6 +536,7 @@ namespace PlayFab
         void OnDeleteContainerImageRepositoryResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteContainerImageRepositoryDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteRemoteUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteRemoteUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeleteSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEnableMultiplayerServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEnableMultiplayerServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnFindFriendLobbiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindFriendLobbiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnFindLobbiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindLobbiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -556,6 +575,7 @@ namespace PlayFab
         void OnListMultiplayerServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListMultiplayerServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListPartyQosServersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPartyQosServersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListQosServersForTitleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListQosServersForTitleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListSecretSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListSecretSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListServerBackfillTicketsForPlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListServerBackfillTicketsForPlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListTitleMultiplayerServersQuotaChangesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListTitleMultiplayerServersQuotaChangesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualMachineSummariesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualMachineSummariesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -574,6 +594,7 @@ namespace PlayFab
         void OnUpdateLobbyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLobbyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateLobbyAsServerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLobbyAsServerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUploadCertificateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadCertificateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUploadSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };
 };

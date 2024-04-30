@@ -841,6 +841,64 @@ bool PlayFab::CloudScriptModels::FEntityKey::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
+PlayFab::CloudScriptModels::FEventHubFunctionModel::~FEventHubFunctionModel()
+{
+
+}
+
+void PlayFab::CloudScriptModels::FEventHubFunctionModel::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (ConnectionString.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionString"));
+        writer->WriteValue(ConnectionString);
+    }
+
+    if (EventHubName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventHubName"));
+        writer->WriteValue(EventHubName);
+    }
+
+    if (FunctionName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionName"));
+        writer->WriteValue(FunctionName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::CloudScriptModels::FEventHubFunctionModel::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ConnectionStringValue = obj->TryGetField(TEXT("ConnectionString"));
+    if (ConnectionStringValue.IsValid() && !ConnectionStringValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionStringValue->TryGetString(TmpValue)) { ConnectionString = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EventHubNameValue = obj->TryGetField(TEXT("EventHubName"));
+    if (EventHubNameValue.IsValid() && !EventHubNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (EventHubNameValue->TryGetString(TmpValue)) { EventHubName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> FunctionNameValue = obj->TryGetField(TEXT("FunctionName"));
+    if (FunctionNameValue.IsValid() && !FunctionNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (FunctionNameValue->TryGetString(TmpValue)) { FunctionName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::CloudScriptModels::FScriptExecutionError::~FScriptExecutionError()
 {
 
@@ -1831,6 +1889,42 @@ bool PlayFab::CloudScriptModels::FLinkedPlatformAccountModel::readFromValue(cons
         FString TmpValue;
         if (UsernameValue->TryGetString(TmpValue)) { Username = TmpValue; }
     }
+
+    return HasSucceeded;
+}
+
+PlayFab::CloudScriptModels::FListEventHubFunctionsResult::~FListEventHubFunctionsResult()
+{
+
+}
+
+void PlayFab::CloudScriptModels::FListEventHubFunctionsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Functions.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Functions"));
+        for (const FEventHubFunctionModel& item : Functions)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::CloudScriptModels::FListEventHubFunctionsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&FunctionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Functions"));
+    for (int32 Idx = 0; Idx < FunctionsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = FunctionsArray[Idx];
+        Functions.Add(FEventHubFunctionModel(CurrentItem->AsObject()));
+    }
+
 
     return HasSucceeded;
 }
@@ -3245,6 +3339,96 @@ bool PlayFab::CloudScriptModels::FPostFunctionResultForScheduledTaskRequest::rea
     return HasSucceeded;
 }
 
+PlayFab::CloudScriptModels::FRegisterEventHubFunctionRequest::~FRegisterEventHubFunctionRequest()
+{
+
+}
+
+void PlayFab::CloudScriptModels::FRegisterEventHubFunctionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!ConnectionString.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterEventHubFunctionRequest::ConnectionString, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("ConnectionString"));
+        writer->WriteValue(ConnectionString);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!EventHubName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterEventHubFunctionRequest::EventHubName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("EventHubName"));
+        writer->WriteValue(EventHubName);
+    }
+
+    if (!FunctionName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: RegisterEventHubFunctionRequest::FunctionName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("FunctionName"));
+        writer->WriteValue(FunctionName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::CloudScriptModels::FRegisterEventHubFunctionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> ConnectionStringValue = obj->TryGetField(TEXT("ConnectionString"));
+    if (ConnectionStringValue.IsValid() && !ConnectionStringValue->IsNull())
+    {
+        FString TmpValue;
+        if (ConnectionStringValue->TryGetString(TmpValue)) { ConnectionString = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EventHubNameValue = obj->TryGetField(TEXT("EventHubName"));
+    if (EventHubNameValue.IsValid() && !EventHubNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (EventHubNameValue->TryGetString(TmpValue)) { EventHubName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> FunctionNameValue = obj->TryGetField(TEXT("FunctionName"));
+    if (FunctionNameValue.IsValid() && !FunctionNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (FunctionNameValue->TryGetString(TmpValue)) { FunctionName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::CloudScriptModels::FRegisterHttpFunctionRequest::~FRegisterHttpFunctionRequest()
 {
 
@@ -3415,6 +3599,7 @@ void PlayFab::CloudScriptModels::writeTriggerTypeEnumJSON(TriggerType enumVal, J
 
     case TriggerTypeHTTP: writer->WriteValue(TEXT("HTTP")); break;
     case TriggerTypeQueue: writer->WriteValue(TEXT("Queue")); break;
+    case TriggerTypeEventHub: writer->WriteValue(TEXT("EventHub")); break;
     }
 }
 
@@ -3431,6 +3616,7 @@ CloudScriptModels::TriggerType PlayFab::CloudScriptModels::readTriggerTypeFromVa
         // Auto-generate the map on the first use
         _TriggerTypeMap.Add(TEXT("HTTP"), TriggerTypeHTTP);
         _TriggerTypeMap.Add(TEXT("Queue"), TriggerTypeQueue);
+        _TriggerTypeMap.Add(TEXT("EventHub"), TriggerTypeEventHub);
 
     }
 

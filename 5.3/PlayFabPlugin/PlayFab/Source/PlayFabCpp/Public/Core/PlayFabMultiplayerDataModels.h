@@ -1115,6 +1115,29 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGameSecretReferenceParams : public PlayFab::FPlayFabCppBaseModel
+    {
+        // The name of the game secret. This name should match the name of a secret that was previously added to this title.
+        FString Name;
+
+        FGameSecretReferenceParams() :
+            FPlayFabCppBaseModel(),
+            Name()
+            {}
+
+        FGameSecretReferenceParams(const FGameSecretReferenceParams& src) = default;
+
+        FGameSecretReferenceParams(const TSharedPtr<FJsonObject>& obj) : FGameSecretReferenceParams()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGameSecretReferenceParams();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLinuxInstrumentationConfiguration : public PlayFab::FPlayFabCppBaseModel
     {
         // Designates whether Linux instrumentation configuration will be enabled for this Build
@@ -1323,6 +1346,8 @@ namespace MultiplayerModels
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
+        // [optional] The game secrets for the build.
+        TArray<FGameSecretReferenceParams> GameSecretReferences;
         // [optional] The Linux instrumentation configuration for the build.
         TSharedPtr<FLinuxInstrumentationConfiguration> pfLinuxInstrumentationConfiguration;
 
@@ -1360,6 +1385,7 @@ namespace MultiplayerModels
             CustomTags(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameSecretReferences(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
             MonitoringApplicationConfiguration(nullptr),
@@ -1413,6 +1439,29 @@ namespace MultiplayerModels
         }
 
         ~FGameCertificateReference();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGameSecretReference : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The name of the game secret. This name should match the name of a secret that was previously added to this title.
+        FString Name;
+
+        FGameSecretReference() :
+            FPlayFabCppBaseModel(),
+            Name()
+            {}
+
+        FGameSecretReference(const FGameSecretReference& src) = default;
+
+        FGameSecretReference(const TSharedPtr<FJsonObject>& obj) : FGameSecretReference()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGameSecretReference();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -1536,6 +1585,8 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        // [optional] The game secrets for the build.
+        TArray<FGameSecretReference> GameSecretReferences;
         // [optional] The Linux instrumentation configuration for this build.
         TSharedPtr<FLinuxInstrumentationConfiguration> pfLinuxInstrumentationConfiguration;
 
@@ -1583,6 +1634,7 @@ namespace MultiplayerModels
             CustomGameContainerImage(nullptr),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameSecretReferences(),
             pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
             pfMonitoringApplicationConfiguration(nullptr),
@@ -1691,6 +1743,8 @@ namespace MultiplayerModels
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
+        // [optional] The game secrets for the build.
+        TArray<FGameSecretReferenceParams> GameSecretReferences;
         /**
          * [optional] The directory containing the game executable. This would be the start path of the game assets that contain the main game
          * server executable. If not provided, a best effort will be made to extract it from the start game command.
@@ -1738,6 +1792,7 @@ namespace MultiplayerModels
             CustomTags(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameSecretReferences(),
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
@@ -1789,6 +1844,8 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        // [optional] The game secrets for the build.
+        TArray<FGameSecretReference> GameSecretReferences;
         /**
          * [optional] The directory containing the game executable. This would be the start path of the game assets that contain the main game
          * server executable. If not provided, a best effort will be made to extract it from the start game command.
@@ -1843,6 +1900,7 @@ namespace MultiplayerModels
             CreationTime(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameSecretReferences(),
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             Metadata(),
@@ -1889,6 +1947,8 @@ namespace MultiplayerModels
         TArray<FAssetReferenceParams> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReferenceParams> GameCertificateReferences;
+        // [optional] The game secrets for the build.
+        TArray<FGameSecretReferenceParams> GameSecretReferences;
         /**
          * [optional] The working directory for the game process. If this is not provided, the working directory will be set based on the
          * mount path of the game server executable.
@@ -1941,6 +2001,7 @@ namespace MultiplayerModels
             CustomTags(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameSecretReferences(),
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             IsOSPreview(),
@@ -1992,6 +2053,8 @@ namespace MultiplayerModels
         TArray<FAssetReference> GameAssetReferences;
         // [optional] The game certificates for the build.
         TArray<FGameCertificateReference> GameCertificateReferences;
+        // [optional] The game secrets for the build.
+        TArray<FGameSecretReference> GameSecretReferences;
         /**
          * [optional] The working directory for the game process. If this is not provided, the working directory will be set based on the
          * mount path of the game server executable.
@@ -2052,6 +2115,7 @@ namespace MultiplayerModels
             CreationTime(),
             GameAssetReferences(),
             GameCertificateReferences(),
+            GameSecretReferences(),
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             IsOSPreview(),
@@ -2868,6 +2932,32 @@ namespace MultiplayerModels
         }
 
         ~FDeleteRemoteUserRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeleteSecretRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the secret.
+        FString Name;
+
+        FDeleteSecretRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Name()
+            {}
+
+        FDeleteSecretRequest(const FDeleteSecretRequest& src) = default;
+
+        FDeleteSecretRequest(const TSharedPtr<FJsonObject>& obj) : FDeleteSecretRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeleteSecretRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -5633,6 +5723,97 @@ namespace MultiplayerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FListSecretSummariesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The page size for the request.
+        Boxed<int32> PageSize;
+
+        // [optional] The skip token for the paged request.
+        FString SkipToken;
+
+        FListSecretSummariesRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            PageSize(),
+            SkipToken()
+            {}
+
+        FListSecretSummariesRequest(const FListSecretSummariesRequest& src) = default;
+
+        FListSecretSummariesRequest(const TSharedPtr<FJsonObject>& obj) : FListSecretSummariesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListSecretSummariesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSecretSummary : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Optional secret expiration date.
+        Boxed<FDateTime> ExpirationDate;
+
+        // [optional] The name of the secret.
+        FString Name;
+
+        // [optional] The secret version auto-generated after upload.
+        FString Version;
+
+        FSecretSummary() :
+            FPlayFabCppBaseModel(),
+            ExpirationDate(),
+            Name(),
+            Version()
+            {}
+
+        FSecretSummary(const FSecretSummary& src) = default;
+
+        FSecretSummary(const TSharedPtr<FJsonObject>& obj) : FSecretSummary()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSecretSummary();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListSecretSummariesResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // The page size on the response.
+        int32 PageSize;
+
+        // [optional] The list of game secret.
+        TArray<FSecretSummary> SecretSummaries;
+        // [optional] The skip token for the paged response.
+        FString SkipToken;
+
+        FListSecretSummariesResponse() :
+            FPlayFabCppResultCommon(),
+            PageSize(0),
+            SecretSummaries(),
+            SkipToken()
+            {}
+
+        FListSecretSummariesResponse(const FListSecretSummariesResponse& src) = default;
+
+        FListSecretSummariesResponse(const TSharedPtr<FJsonObject>& obj) : FListSecretSummariesResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListSecretSummariesResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FListServerBackfillTicketsForPlayerRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -6235,6 +6416,37 @@ namespace MultiplayerModels
     PLAYFABCPP_API RoutingType readRoutingTypeFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API RoutingType readRoutingTypeFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FSecret : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Optional secret expiration date.
+        Boxed<FDateTime> ExpirationDate;
+
+        // A name for the secret. This is used to reference secrets in build configurations.
+        FString Name;
+
+        // Secret value.
+        FString Value;
+
+        FSecret() :
+            FPlayFabCppBaseModel(),
+            ExpirationDate(),
+            Name(),
+            Value()
+            {}
+
+        FSecret(const FSecret& src) = default;
+
+        FSecret(const TSharedPtr<FJsonObject>& obj) : FSecret()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSecret();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     enum ServerType
     {
         ServerTypeContainer,
@@ -6727,6 +6939,36 @@ namespace MultiplayerModels
         }
 
         ~FUploadCertificateRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUploadSecretRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Forces the secret renewal if the secret already exists. Default is false
+        Boxed<bool> ForceUpdate;
+
+        // The game secret to add.
+        FSecret GameSecret;
+
+        FUploadSecretRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ForceUpdate(),
+            GameSecret()
+            {}
+
+        FUploadSecretRequest(const FUploadSecretRequest& src) = default;
+
+        FUploadSecretRequest(const TSharedPtr<FJsonObject>& obj) : FUploadSecretRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUploadSecretRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

@@ -253,6 +253,54 @@ void UPlayFabCloudScriptAPI::HelperGetFunction(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
+/** Lists all currently registered Event Hub triggered Azure Functions for a given title. */
+UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListEventHubFunctions(FCloudScriptListFunctionsRequest request,
+    FDelegateOnSuccessListEventHubFunctions onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabCloudScriptAPI* manager = NewObject<UPlayFabCloudScriptAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListEventHubFunctions = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabCloudScriptAPI::HelperListEventHubFunctions);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/CloudScript/ListEventHubFunctions";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabCloudScriptRequestCompleted
+void UPlayFabCloudScriptAPI::HelperListEventHubFunctions(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListEventHubFunctions.IsBound())
+    {
+        FCloudScriptListEventHubFunctionsResult ResultStruct = UPlayFabCloudScriptModelDecoder::decodeListEventHubFunctionsResultResponse(response.responseData);
+        OnSuccessListEventHubFunctions.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Lists all currently registered Azure Functions for a given title. */
 UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::ListFunctions(FCloudScriptListFunctionsRequest request,
     FDelegateOnSuccessListFunctions onSuccess,
@@ -597,6 +645,70 @@ void UPlayFabCloudScriptAPI::HelperPostFunctionResultForScheduledTask(FPlayFabBa
         FCloudScriptEmptyResult ResultStruct = UPlayFabCloudScriptModelDecoder::decodeEmptyResultResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessPostFunctionResultForScheduledTask.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Registers an event hub triggered Azure Function with a title. */
+UPlayFabCloudScriptAPI* UPlayFabCloudScriptAPI::RegisterEventHubFunction(FCloudScriptRegisterEventHubFunctionRequest request,
+    FDelegateOnSuccessRegisterEventHubFunction onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabCloudScriptAPI* manager = NewObject<UPlayFabCloudScriptAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessRegisterEventHubFunction = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabCloudScriptAPI::HelperRegisterEventHubFunction);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/CloudScript/RegisterEventHubFunction";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.ConnectionString.IsEmpty() || request.ConnectionString == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("ConnectionString"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("ConnectionString"), request.ConnectionString);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EventHubName.IsEmpty() || request.EventHubName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EventHubName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EventHubName"), request.EventHubName);
+    }
+    if (request.FunctionName.IsEmpty() || request.FunctionName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("FunctionName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("FunctionName"), request.FunctionName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabCloudScriptRequestCompleted
+void UPlayFabCloudScriptAPI::HelperRegisterEventHubFunction(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessRegisterEventHubFunction.IsBound())
+    {
+        FCloudScriptEmptyResult ResultStruct = UPlayFabCloudScriptModelDecoder::decodeEmptyResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessRegisterEventHubFunction.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

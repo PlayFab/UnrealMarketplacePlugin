@@ -199,6 +199,16 @@ public:
         FString TriggerType;
 };
 
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptListEventHubFunctionsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of EventHub triggered functions that are currently registered for the title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        TArray<UPlayFabJsonObject*> Functions;
+};
+
 /**
  * A title can have many functions, ListHttpFunctions will return a list of all the currently registered HTTP triggered
  * functions for a given title.
@@ -315,6 +325,29 @@ public:
     /** The id of the scheduled task that invoked the function. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
         UPlayFabJsonObject* ScheduledTaskId = nullptr;
+};
+
+/**
+ * A title can have many functions, RegisterEventHubFunction associates a function name with an event hub name and
+ * connection string.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FCloudScriptRegisterEventHubFunctionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** A connection string for the namespace of the event hub for the Azure Function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString ConnectionString;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The name of the event hub for the Azure Function. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString EventHubName;
+    /** The name of the function to register */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | CloudScript | Server-Side Cloud Script Models")
+        FString FunctionName;
 };
 
 USTRUCT(BlueprintType)

@@ -1086,9 +1086,6 @@ namespace AdminModels
         // [optional] The time when this ban expires. Permanent bans do not have expiration date.
         Boxed<FDateTime> Expires;
 
-        // [optional] Whether or not the Microsoft family members are included in the ban.
-        Boxed<bool> IncludeMicrosoftFamily;
-
         // [optional] The IP address on which the ban was applied. May affect multiple players.
         FString IPAddress;
 
@@ -1098,16 +1095,19 @@ namespace AdminModels
         // [optional] The reason why this ban was applied.
         FString Reason;
 
+        // [optional] The family type of the suer that is included in the ban.
+        FString UserFamilyType;
+
         FBanInfo() :
             FPlayFabCppBaseModel(),
             Active(false),
             BanId(),
             Created(),
             Expires(),
-            IncludeMicrosoftFamily(),
             IPAddress(),
             PlayFabId(),
-            Reason()
+            Reason(),
+            UserFamilyType()
             {}
 
         FBanInfo(const FBanInfo& src) = default;
@@ -1150,13 +1150,21 @@ namespace AdminModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    enum UserFamilyType
+    {
+        UserFamilyTypeNone,
+        UserFamilyTypeXbox,
+        UserFamilyTypeSteam
+    };
+
+    PLAYFABCPP_API void writeUserFamilyTypeEnumJSON(UserFamilyType enumVal, JsonWriter& writer);
+    PLAYFABCPP_API UserFamilyType readUserFamilyTypeFromValue(const TSharedPtr<FJsonValue>& value);
+    PLAYFABCPP_API UserFamilyType readUserFamilyTypeFromValue(const FString& value);
+
     struct PLAYFABCPP_API FBanRequest : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] The duration in hours for the ban. Leave this blank for a permanent ban.
         Boxed<uint32> DurationInHours;
-
-        // [optional] Whether the Microsoft family members should be included in the ban. May affect multiple players.
-        Boxed<bool> IncludeMicrosoftFamily;
 
         // [optional] IP address to be banned. May affect multiple players.
         FString IPAddress;
@@ -1167,13 +1175,16 @@ namespace AdminModels
         // [optional] The reason for this ban. Maximum 140 characters.
         FString Reason;
 
+        // [optional] The family type of the user that should be included in the ban if applicable. May affect multiple players.
+        Boxed<UserFamilyType> pfUserFamilyType;
+
         FBanRequest() :
             FPlayFabCppBaseModel(),
             DurationInHours(),
-            IncludeMicrosoftFamily(),
             IPAddress(),
             PlayFabId(),
-            Reason()
+            Reason(),
+            pfUserFamilyType()
             {}
 
         FBanRequest(const FBanRequest& src) = default;
@@ -10310,9 +10321,6 @@ namespace AdminModels
         // [optional] The updated expiration date for the ban. Null for no change.
         Boxed<FDateTime> Expires;
 
-        // [optional] The updated decision to ban the Microsoft family members to be updated. Null for no change.
-        Boxed<bool> IncludeMicrosoftFamily;
-
         // [optional] The updated IP address for the ban. Null for no change.
         FString IPAddress;
 
@@ -10322,15 +10330,18 @@ namespace AdminModels
         // [optional] The updated reason for the ban to be updated. Maximum 140 characters. Null for no change.
         FString Reason;
 
+        // [optional] The updated family type of the user that should be included in the ban. Null for no change.
+        Boxed<UserFamilyType> pfUserFamilyType;
+
         FUpdateBanRequest() :
             FPlayFabCppBaseModel(),
             Active(),
             BanId(),
             Expires(),
-            IncludeMicrosoftFamily(),
             IPAddress(),
             Permanent(),
-            Reason()
+            Reason(),
+            pfUserFamilyType()
             {}
 
         FUpdateBanRequest(const FUpdateBanRequest& src) = default;

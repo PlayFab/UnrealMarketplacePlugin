@@ -72,6 +72,17 @@ FCloudScriptGetFunctionResult UPlayFabCloudScriptModelDecoder::decodeGetFunction
     return tempStruct;
 }
 
+FCloudScriptListEventHubFunctionsResult UPlayFabCloudScriptModelDecoder::decodeListEventHubFunctionsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FCloudScriptListEventHubFunctionsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Functions = !(dataObj->HasField("Functions")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Functions");
+
+    return tempStruct;
+}
+
 FCloudScriptListFunctionsResult UPlayFabCloudScriptModelDecoder::decodeListFunctionsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

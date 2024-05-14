@@ -7840,6 +7840,48 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FLoginWithPSNRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Auth code provided by the PlayStation :tm: Network OAuth provider.
+        FString AuthCode;
+
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment.
+        Boxed<int32> IssuerId;
+
+        // Redirect URI supplied to PlayStation :tm: Network when requesting an auth code
+        FString RedirectUri;
+
+        FLoginWithPSNRequest() :
+            FPlayFabCppRequestCommon(),
+            AuthCode(),
+            CreateAccount(),
+            CustomTags(),
+            InfoRequestParameters(nullptr),
+            IssuerId(),
+            RedirectUri()
+            {}
+
+        FLoginWithPSNRequest(const FLoginWithPSNRequest& src) = default;
+
+        FLoginWithPSNRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithPSNRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithPSNRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FLoginWithServerCustomIdRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.

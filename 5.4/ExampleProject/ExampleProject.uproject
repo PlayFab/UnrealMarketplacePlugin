@@ -1,0 +1,28 @@
+{
+    "FileVersion": 3,
+    "EngineAssociation": "5.4",
+    "Category": "PlayFab",
+    "Description": "PlayFab Blueprint SDK Example Project for Unreal Engine 5.4.",
+    "Modules": [
+        {
+            "Name": "ExampleProject",
+            "Type": "Runtime",
+            "LoadingPhase": "Default"
+        }
+    ],
+	"Plugins": [
+		{
+			"Name": "AndroidFileServer",
+			"Enabled": false
+		}
+	],
+    "TargetPlatforms": [
+        "Android",
+        "AllDesktop",
+        "IOS",
+        "MacNoEditor",
+        "WindowsNoEditor",
+        "LinuxNoEditor",
+        "Switch"
+    ]
+}

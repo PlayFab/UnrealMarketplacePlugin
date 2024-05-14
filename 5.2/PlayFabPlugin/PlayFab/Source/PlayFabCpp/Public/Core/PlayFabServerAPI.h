@@ -98,6 +98,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkServerCustomIdDelegate, const ServerModels::FLinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkSteamIdDelegate, const ServerModels::FLinkSteamIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithPSNDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithSteamIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithXboxDelegate, const ServerModels::FServerLoginResult&);
@@ -527,6 +528,12 @@ namespace PlayFab
         // Links the Xbox Live account associated with the provided access code to the user's PlayFab account
         bool LinkXboxAccount(ServerModels::FLinkXboxAccountRequest& request, const FLinkXboxAccountDelegate& SuccessDelegate = FLinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can
+         * subsequently be used for API calls which require an authenticated user
+         * If this is the first time a user has signed in with the PlayStation :tm: Network account and CreateAccount is set to true, a new PlayFab account will be created and linked to the PlayStation :tm: Network account. In this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the PlayStation :tm: Network account, an error indicating this will be returned, so that the title can guide the user through creation of a PlayFab account.
+         */
+        bool LoginWithPSN(ServerModels::FLoginWithPSNRequest& request, const FLoginWithPSNDelegate& SuccessDelegate = FLoginWithPSNDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Securely login a game client from an external server backend using a custom identifier for that player. Server Custom ID
          * and Client Custom ID are mutually exclusive and cannot be used to retrieve the same player account.
          */
@@ -888,6 +895,7 @@ namespace PlayFab
         void OnLinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithPSNResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithPSNDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithXboxResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithXboxDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

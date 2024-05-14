@@ -2711,6 +2711,67 @@ void UPlayFabServerAPI::HelperAuthenticateSessionTicket(FPlayFabBaseModel respon
     this->RemoveFromRoot();
 }
 
+/** Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
+UPlayFabServerAPI* UPlayFabServerAPI::LoginWithPSN(FServerLoginWithPSNRequest request,
+    FDelegateOnSuccessLoginWithPSN onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithPSN = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithPSN);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LoginWithPSN";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AuthCode.IsEmpty() || request.AuthCode == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AuthCode"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AuthCode"), request.AuthCode);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    OutRestJsonObj->SetNumberField(TEXT("IssuerId"), request.IssuerId);
+    if (request.RedirectUri.IsEmpty() || request.RedirectUri == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("RedirectUri"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("RedirectUri"), request.RedirectUri);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLoginWithPSN(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithPSN.IsBound())
+    {
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        OnSuccessLoginWithPSN.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Securely login a game client from an external server backend using a custom identifier for that player. Server Custom ID and Client Custom ID are mutually exclusive and cannot be used to retrieve the same player account. */
 UPlayFabServerAPI* UPlayFabServerAPI::LoginWithServerCustomId(FServerLoginWithServerCustomIdRequest request,
     FDelegateOnSuccessLoginWithServerCustomId onSuccess,
@@ -2766,6 +2827,7 @@ void UPlayFabServerAPI::HelperLoginWithServerCustomId(FPlayFabBaseModel response
     else if (!error.hasError && OnSuccessLoginWithServerCustomId.IsBound())
     {
         FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
         OnSuccessLoginWithServerCustomId.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();

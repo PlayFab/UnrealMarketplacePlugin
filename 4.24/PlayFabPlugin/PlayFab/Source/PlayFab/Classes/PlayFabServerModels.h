@@ -1201,11 +1201,21 @@ public:
         UPlayFabJsonObject* UserInfo = nullptr;
 };
 
+/**
+ * If this is the first time a user has signed in with the PlayStation :tm: Network account and CreateAccount is set to
+ * true, a new PlayFab account will be created and linked to the PlayStation :tm: Network account. In this case, no email
+ * or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked to the PlayStation
+ * :tm: Network account, an error indicating this will be returned, so that the title can guide the user through creation
+ * of a PlayFab account.
+ */
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FServerLoginWithServerCustomIdRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FServerLoginWithPSNRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** Auth code provided by the PlayStation :tm: Network OAuth provider. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString AuthCode;
     /** Automatically create a PlayFab account if one is not currently linked to this ID. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         bool CreateAccount = false;
@@ -1215,12 +1225,12 @@ public:
     /** Flags for which pieces of info to return for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* InfoRequestParameters = nullptr;
-    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    /** Id of the PlayStation :tm: Network issuer environment. If null, defaults to production environment. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
-        FString PlayerSecret;
-    /** The backend server identifier for this player. */
+        int32 IssuerId = 0;
+    /** Redirect URI supplied to PlayStation :tm: Network when requesting an auth code */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
-        FString ServerCustomId;
+        FString RedirectUri;
 };
 
 USTRUCT(BlueprintType)
@@ -1255,6 +1265,28 @@ public:
     /** The experimentation treatments for this user at the time of login. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         UPlayFabJsonObject* TreatmentAssignment = nullptr;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FServerLoginWithServerCustomIdRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        bool CreateAccount = false;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString PlayerSecret;
+    /** The backend server identifier for this player. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
+        FString ServerCustomId;
 };
 
 /**

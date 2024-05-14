@@ -157,7 +157,9 @@ namespace MultiplayerModels
         AzureVmFamilyNCasT4_v3,
         AzureVmFamilyDdv4,
         AzureVmFamilyDdsv4,
-        AzureVmFamilyHBv3
+        AzureVmFamilyHBv3,
+        AzureVmFamilyDdv5,
+        AzureVmFamilyDdsv5
     };
 
     PLAYFABCPP_API void writeAzureVmFamilyEnumJSON(AzureVmFamily enumVal, JsonWriter& writer);
@@ -234,7 +236,17 @@ namespace MultiplayerModels
         AzureVmSizeStandard_HB120_32rs_v3,
         AzureVmSizeStandard_HB120_64rs_v3,
         AzureVmSizeStandard_HB120_96rs_v3,
-        AzureVmSizeStandard_HB120rs_v3
+        AzureVmSizeStandard_HB120rs_v3,
+        AzureVmSizeStandard_D2d_v5,
+        AzureVmSizeStandard_D4d_v5,
+        AzureVmSizeStandard_D8d_v5,
+        AzureVmSizeStandard_D16d_v5,
+        AzureVmSizeStandard_D32d_v5,
+        AzureVmSizeStandard_D2ds_v5,
+        AzureVmSizeStandard_D4ds_v5,
+        AzureVmSizeStandard_D8ds_v5,
+        AzureVmSizeStandard_D16ds_v5,
+        AzureVmSizeStandard_D32ds_v5
     };
 
     PLAYFABCPP_API void writeAzureVmSizeEnumJSON(AzureVmSize enumVal, JsonWriter& writer);
@@ -1955,7 +1967,7 @@ namespace MultiplayerModels
          */
         FString GameWorkingDirectory;
 
-        // [optional] The instrumentation configuration for the build.
+        // [optional] The instrumentation configuration for the Build. Used only if it is a Windows Build.
         TSharedPtr<FInstrumentationConfiguration> pfInstrumentationConfiguration;
 
         /**
@@ -1963,6 +1975,9 @@ namespace MultiplayerModels
          * detect any breaking changes before they are released to retail. Retail builds should set this value to false.
          */
         Boxed<bool> IsOSPreview;
+
+        // [optional] The Linux instrumentation configuration for the Build. Used only if it is a Linux Build.
+        TSharedPtr<FLinuxInstrumentationConfiguration> pfLinuxInstrumentationConfiguration;
 
         /**
          * [optional] Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
@@ -2005,6 +2020,7 @@ namespace MultiplayerModels
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             IsOSPreview(),
+            pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
             MonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),
@@ -2070,6 +2086,9 @@ namespace MultiplayerModels
          */
         Boxed<bool> IsOSPreview;
 
+        // [optional] The Linux instrumentation configuration for this build.
+        TSharedPtr<FLinuxInstrumentationConfiguration> pfLinuxInstrumentationConfiguration;
+
         // [optional] The metadata of the build.
         TMap<FString, FString> Metadata;
         // [optional] The configuration for the monitoring application for the build
@@ -2119,6 +2138,7 @@ namespace MultiplayerModels
             GameWorkingDirectory(),
             pfInstrumentationConfiguration(nullptr),
             IsOSPreview(),
+            pfLinuxInstrumentationConfiguration(nullptr),
             Metadata(),
             pfMonitoringApplicationConfiguration(nullptr),
             MultiplayerServerCountPerVm(0),

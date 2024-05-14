@@ -1579,7 +1579,7 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         FString GameWorkingDirectory;
-    /** The instrumentation configuration for the build. */
+    /** The instrumentation configuration for the Build. Used only if it is a Windows Build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* InstrumentationConfiguration = nullptr;
     /**
@@ -1588,6 +1588,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         bool IsOSPreview = false;
+    /** The Linux instrumentation configuration for the Build. Used only if it is a Linux Build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* LinuxInstrumentationConfiguration = nullptr;
     /**
      * Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
      * Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
@@ -1670,6 +1673,9 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         bool IsOSPreview = false;
+    /** The Linux instrumentation configuration for this build. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
+        UPlayFabJsonObject* LinuxInstrumentationConfiguration = nullptr;
     /** The metadata of the build. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | MultiplayerServer Models")
         UPlayFabJsonObject* Metadata = nullptr;

@@ -11,6 +11,10 @@ public class ExampleProjectTarget : TargetRules
     {
         Type = TargetType.Game;
         ExtraModuleNames.AddRange(new string[] { "ExampleProject" });
+<% if (ueTargetVersionMajor == 5 && ueTargetVersionMinor >= 4) { %>
+        DefaultBuildSettings = BuildSettingsVersion.V5;
+<% } else { %>
         DefaultBuildSettings = BuildSettingsVersion.V2;
+<% } %>
     }
 }

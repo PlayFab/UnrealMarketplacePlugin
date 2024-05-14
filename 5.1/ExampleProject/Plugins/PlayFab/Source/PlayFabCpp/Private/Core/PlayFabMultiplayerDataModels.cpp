@@ -299,6 +299,8 @@ void PlayFab::MultiplayerModels::writeAzureVmFamilyEnumJSON(AzureVmFamily enumVa
     case AzureVmFamilyDdv4: writer->WriteValue(TEXT("Ddv4")); break;
     case AzureVmFamilyDdsv4: writer->WriteValue(TEXT("Ddsv4")); break;
     case AzureVmFamilyHBv3: writer->WriteValue(TEXT("HBv3")); break;
+    case AzureVmFamilyDdv5: writer->WriteValue(TEXT("Ddv5")); break;
+    case AzureVmFamilyDdsv5: writer->WriteValue(TEXT("Ddsv5")); break;
     }
 }
 
@@ -332,6 +334,8 @@ MultiplayerModels::AzureVmFamily PlayFab::MultiplayerModels::readAzureVmFamilyFr
         _AzureVmFamilyMap.Add(TEXT("Ddv4"), AzureVmFamilyDdv4);
         _AzureVmFamilyMap.Add(TEXT("Ddsv4"), AzureVmFamilyDdsv4);
         _AzureVmFamilyMap.Add(TEXT("HBv3"), AzureVmFamilyHBv3);
+        _AzureVmFamilyMap.Add(TEXT("Ddv5"), AzureVmFamilyDdv5);
+        _AzureVmFamilyMap.Add(TEXT("Ddsv5"), AzureVmFamilyDdsv5);
 
     }
 
@@ -419,6 +423,16 @@ void PlayFab::MultiplayerModels::writeAzureVmSizeEnumJSON(AzureVmSize enumVal, J
     case AzureVmSizeStandard_HB120_64rs_v3: writer->WriteValue(TEXT("Standard_HB120_64rs_v3")); break;
     case AzureVmSizeStandard_HB120_96rs_v3: writer->WriteValue(TEXT("Standard_HB120_96rs_v3")); break;
     case AzureVmSizeStandard_HB120rs_v3: writer->WriteValue(TEXT("Standard_HB120rs_v3")); break;
+    case AzureVmSizeStandard_D2d_v5: writer->WriteValue(TEXT("Standard_D2d_v5")); break;
+    case AzureVmSizeStandard_D4d_v5: writer->WriteValue(TEXT("Standard_D4d_v5")); break;
+    case AzureVmSizeStandard_D8d_v5: writer->WriteValue(TEXT("Standard_D8d_v5")); break;
+    case AzureVmSizeStandard_D16d_v5: writer->WriteValue(TEXT("Standard_D16d_v5")); break;
+    case AzureVmSizeStandard_D32d_v5: writer->WriteValue(TEXT("Standard_D32d_v5")); break;
+    case AzureVmSizeStandard_D2ds_v5: writer->WriteValue(TEXT("Standard_D2ds_v5")); break;
+    case AzureVmSizeStandard_D4ds_v5: writer->WriteValue(TEXT("Standard_D4ds_v5")); break;
+    case AzureVmSizeStandard_D8ds_v5: writer->WriteValue(TEXT("Standard_D8ds_v5")); break;
+    case AzureVmSizeStandard_D16ds_v5: writer->WriteValue(TEXT("Standard_D16ds_v5")); break;
+    case AzureVmSizeStandard_D32ds_v5: writer->WriteValue(TEXT("Standard_D32ds_v5")); break;
     }
 }
 
@@ -502,6 +516,16 @@ MultiplayerModels::AzureVmSize PlayFab::MultiplayerModels::readAzureVmSizeFromVa
         _AzureVmSizeMap.Add(TEXT("Standard_HB120_64rs_v3"), AzureVmSizeStandard_HB120_64rs_v3);
         _AzureVmSizeMap.Add(TEXT("Standard_HB120_96rs_v3"), AzureVmSizeStandard_HB120_96rs_v3);
         _AzureVmSizeMap.Add(TEXT("Standard_HB120rs_v3"), AzureVmSizeStandard_HB120rs_v3);
+        _AzureVmSizeMap.Add(TEXT("Standard_D2d_v5"), AzureVmSizeStandard_D2d_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D4d_v5"), AzureVmSizeStandard_D4d_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D8d_v5"), AzureVmSizeStandard_D8d_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D16d_v5"), AzureVmSizeStandard_D16d_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D32d_v5"), AzureVmSizeStandard_D32d_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D2ds_v5"), AzureVmSizeStandard_D2ds_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D4ds_v5"), AzureVmSizeStandard_D4ds_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D8ds_v5"), AzureVmSizeStandard_D8ds_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D16ds_v5"), AzureVmSizeStandard_D16ds_v5);
+        _AzureVmSizeMap.Add(TEXT("Standard_D32ds_v5"), AzureVmSizeStandard_D32ds_v5);
 
     }
 
@@ -4052,6 +4076,7 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithManagedContainerResponse::readF
 PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::~FCreateBuildWithProcessBasedServerRequest()
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+    //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
     //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
@@ -4128,6 +4153,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::writ
     {
         writer->WriteIdentifierPrefix(TEXT("IsOSPreview"));
         writer->WriteValue(IsOSPreview);
+    }
+
+    if (pfLinuxInstrumentationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LinuxInstrumentationConfiguration"));
+        pfLinuxInstrumentationConfiguration->writeJSON(writer);
     }
 
     if (Metadata.Num() != 0)
@@ -4264,6 +4295,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
         if (IsOSPreviewValue->TryGetBool(TmpValue)) { IsOSPreview = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> LinuxInstrumentationConfigurationValue = obj->TryGetField(TEXT("LinuxInstrumentationConfiguration"));
+    if (LinuxInstrumentationConfigurationValue.IsValid() && !LinuxInstrumentationConfigurationValue->IsNull())
+    {
+        pfLinuxInstrumentationConfiguration = MakeShareable(new FLinuxInstrumentationConfiguration(LinuxInstrumentationConfigurationValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonObject>* MetadataObject;
     if (obj->TryGetObjectField(TEXT("Metadata"), MetadataObject))
     {
@@ -4330,6 +4367,7 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerRequest::read
 PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::~FCreateBuildWithProcessBasedServerResponse()
 {
     //if (InstrumentationConfiguration != nullptr) delete InstrumentationConfiguration;
+    //if (LinuxInstrumentationConfiguration != nullptr) delete LinuxInstrumentationConfiguration;
     //if (MonitoringApplicationConfiguration != nullptr) delete MonitoringApplicationConfiguration;
     //if (VmStartupScriptConfiguration != nullptr) delete VmStartupScriptConfiguration;
 
@@ -4412,6 +4450,12 @@ void PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::wri
     {
         writer->WriteIdentifierPrefix(TEXT("IsOSPreview"));
         writer->WriteValue(IsOSPreview);
+    }
+
+    if (pfLinuxInstrumentationConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LinuxInstrumentationConfiguration"));
+        pfLinuxInstrumentationConfiguration->writeJSON(writer);
     }
 
     if (Metadata.Num() != 0)
@@ -4565,6 +4609,12 @@ bool PlayFab::MultiplayerModels::FCreateBuildWithProcessBasedServerResponse::rea
     {
         bool TmpValue;
         if (IsOSPreviewValue->TryGetBool(TmpValue)) { IsOSPreview = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LinuxInstrumentationConfigurationValue = obj->TryGetField(TEXT("LinuxInstrumentationConfiguration"));
+    if (LinuxInstrumentationConfigurationValue.IsValid() && !LinuxInstrumentationConfigurationValue->IsNull())
+    {
+        pfLinuxInstrumentationConfiguration = MakeShareable(new FLinuxInstrumentationConfiguration(LinuxInstrumentationConfigurationValue->AsObject()));
     }
 
     const TSharedPtr<FJsonObject>* MetadataObject;

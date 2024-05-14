@@ -689,6 +689,22 @@ public:
         void HelperAuthenticateSessionTicket(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithPSN, FServerServerLoginResult, result, UObject*, customData);
+
+    /**
+     * Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can
+     * subsequently be used for API calls which require an authenticated user
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* LoginWithPSN(FServerLoginWithPSNRequest request,
+            FDelegateOnSuccessLoginWithPSN onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithPSN(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithServerCustomId, FServerServerLoginResult, result, UObject*, customData);
 
     /**
@@ -2139,6 +2155,7 @@ public:
     FDelegateOnSuccessWritePlayerEvent OnSuccessWritePlayerEvent;
     FDelegateOnSuccessWriteTitleEvent OnSuccessWriteTitleEvent;
     FDelegateOnSuccessAuthenticateSessionTicket OnSuccessAuthenticateSessionTicket;
+    FDelegateOnSuccessLoginWithPSN OnSuccessLoginWithPSN;
     FDelegateOnSuccessLoginWithServerCustomId OnSuccessLoginWithServerCustomId;
     FDelegateOnSuccessLoginWithSteamId OnSuccessLoginWithSteamId;
     FDelegateOnSuccessLoginWithXbox OnSuccessLoginWithXbox;

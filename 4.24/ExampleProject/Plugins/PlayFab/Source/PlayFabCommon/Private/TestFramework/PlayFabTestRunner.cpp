@@ -41,11 +41,11 @@ bool UTestTitleDataLoader::LoadFromCode()
 
     return false;
 
-    titleId = "<your title id>";
-    developerSecretKey = "<your title secret>";
-    userEmail = "<a valid email linked to LoginWithEmailAddress>";
+    // titleId = "<your title id>";
+    // developerSecretKey = "<your title secret>";
+    // userEmail = "<a valid email linked to LoginWithEmailAddress>";
 
-    return true;
+    // return true;
 }
 
 bool UTestTitleDataLoader::LoadFromFile()

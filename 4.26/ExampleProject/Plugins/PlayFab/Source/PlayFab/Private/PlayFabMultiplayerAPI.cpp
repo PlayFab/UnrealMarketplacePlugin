@@ -2172,6 +2172,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateBuildWithProcessBasedServe
     }
     if (request.InstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("InstrumentationConfiguration"), request.InstrumentationConfiguration);
     OutRestJsonObj->SetBoolField(TEXT("IsOSPreview"), request.IsOSPreview);
+    if (request.LinuxInstrumentationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("LinuxInstrumentationConfiguration"), request.LinuxInstrumentationConfiguration);
     if (request.Metadata != nullptr) OutRestJsonObj->SetObjectField(TEXT("Metadata"), request.Metadata);
     if (request.MonitoringApplicationConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("MonitoringApplicationConfiguration"), request.MonitoringApplicationConfiguration);
     OutRestJsonObj->SetNumberField(TEXT("MultiplayerServerCountPerVm"), request.MultiplayerServerCountPerVm);

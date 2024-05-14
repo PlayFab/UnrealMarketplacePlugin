@@ -1530,6 +1530,8 @@ enum class EAzureVmFamily : uint8
     pfenum_Ddv4 = 16 UMETA(DisplayName = "Ddv4"),
     pfenum_Ddsv4 = 17 UMETA(DisplayName = "Ddsv4"),
     pfenum_HBv3 = 18 UMETA(DisplayName = "HBv3"),
+    pfenum_Ddv5 = 19 UMETA(DisplayName = "Ddv5"),
+    pfenum_Ddsv5 = 20 UMETA(DisplayName = "Ddsv5"),
 };
 
 /** AzureVmSize */
@@ -1606,6 +1608,16 @@ enum class EAzureVmSize : uint8
     pfenum_Standard_HB120_64rs_v3 = 66 UMETA(DisplayName = "Standard_HB120_64rs_v3"),
     pfenum_Standard_HB120_96rs_v3 = 67 UMETA(DisplayName = "Standard_HB120_96rs_v3"),
     pfenum_Standard_HB120rs_v3 = 68 UMETA(DisplayName = "Standard_HB120rs_v3"),
+    pfenum_Standard_D2d_v5 = 69 UMETA(DisplayName = "Standard_D2d_v5"),
+    pfenum_Standard_D4d_v5 = 70 UMETA(DisplayName = "Standard_D4d_v5"),
+    pfenum_Standard_D8d_v5 = 71 UMETA(DisplayName = "Standard_D8d_v5"),
+    pfenum_Standard_D16d_v5 = 72 UMETA(DisplayName = "Standard_D16d_v5"),
+    pfenum_Standard_D32d_v5 = 73 UMETA(DisplayName = "Standard_D32d_v5"),
+    pfenum_Standard_D2ds_v5 = 74 UMETA(DisplayName = "Standard_D2ds_v5"),
+    pfenum_Standard_D4ds_v5 = 75 UMETA(DisplayName = "Standard_D4ds_v5"),
+    pfenum_Standard_D8ds_v5 = 76 UMETA(DisplayName = "Standard_D8ds_v5"),
+    pfenum_Standard_D16ds_v5 = 77 UMETA(DisplayName = "Standard_D16ds_v5"),
+    pfenum_Standard_D32ds_v5 = 78 UMETA(DisplayName = "Standard_D32ds_v5"),
 };
 
 /** CancellationReason */

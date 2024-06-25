@@ -610,6 +610,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1577: returnText = "StatisticDefinitionModificationNotAllowedWhileLinked"; break;
     case 1578: returnText = "LeaderboardUpdateNotAllowedWhileLinked"; break;
     case 1579: returnText = "CloudScriptAzureFunctionsEventHubRequestError"; break;
+    case 1580: returnText = "LeaderboardRateLimitExceeded"; break;
+    case 1581: returnText = "ExternalEntityNotAllowedForTier"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -856,9 +858,27 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20044: returnText = "TrueSkillJobAlreadyExists"; break;
     case 20045: returnText = "TrueSkillJobNotFound"; break;
     case 20046: returnText = "TrueSkillOperationCanceled"; break;
-    case 21000: returnText = "StateShareUnauthorized"; break;
-    case 21001: returnText = "StateShareStateNotFound"; break;
-    case 21002: returnText = "StateShareLinkNotFound"; break;
+    case 20047: returnText = "TrueSkillActiveModelLimitExceeded"; break;
+    case 20048: returnText = "TrueSkillTotalModelLimitExceeded"; break;
+    case 20049: returnText = "TrueSkillUnknownInitialModelId"; break;
+    case 20050: returnText = "TrueSkillUnauthorizedForJob"; break;
+    case 20051: returnText = "TrueSkillInvalidScenarioName"; break;
+    case 20052: returnText = "TrueSkillConditionStateIsRequired"; break;
+    case 20053: returnText = "TrueSkillEventStateIsRequired"; break;
+    case 20054: returnText = "TrueSkillDuplicateEvent"; break;
+    case 20055: returnText = "TrueSkillDuplicateCondition"; break;
+    case 20056: returnText = "TrueSkillInvalidAnomalyThreshold"; break;
+    case 20057: returnText = "TrueSkillConditionKeyLimitExceeded"; break;
+    case 20058: returnText = "TrueSkillConditionValuePerKeyLimitExceeded"; break;
+    case 20059: returnText = "TrueSkillEventLimitExceeded"; break;
+    case 21000: returnText = "StateShareForbidden"; break;
+    case 21001: returnText = "StateShareTitleNotInFlight"; break;
+    case 21002: returnText = "StateShareStateNotFound"; break;
+    case 21003: returnText = "StateShareLinkNotFound"; break;
+    case 21004: returnText = "StateShareStateRedemptionLimitExceeded"; break;
+    case 21005: returnText = "StateShareStateRedemptionLimitNotUpdated"; break;
+    case 21006: returnText = "StateShareCreatedStatesLimitExceeded"; break;
+    case 21007: returnText = "StateShareIdMissingOrMalformed"; break;
     }
 
     // Return the text

@@ -2225,7 +2225,7 @@ namespace EconomyModels
 
         /**
          * [optional] The operations to run transactionally. The operations will be executed in-order sequentially and will succeed or fail as
-         * a batch. Up to 10 operations can be added.
+         * a batch. Up to 50 operations can be added.
          */
         TArray<FInventoryOperation> Operations;
         FExecuteInventoryOperationsRequest() :

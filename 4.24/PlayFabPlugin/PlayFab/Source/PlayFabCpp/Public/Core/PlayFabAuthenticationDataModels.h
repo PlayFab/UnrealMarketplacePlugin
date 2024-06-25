@@ -277,7 +277,14 @@ namespace AuthenticationModels
     {
         IdentifiedDeviceTypeUnknown,
         IdentifiedDeviceTypeXboxOne,
-        IdentifiedDeviceTypeScarlett
+        IdentifiedDeviceTypeScarlett,
+        IdentifiedDeviceTypeWindowsOneCore,
+        IdentifiedDeviceTypeWindowsOneCoreMobile,
+        IdentifiedDeviceTypeWin32,
+        IdentifiedDeviceTypeandroid,
+        IdentifiedDeviceTypeiOS,
+        IdentifiedDeviceTypePlayStation,
+        IdentifiedDeviceTypeNintendo
     };
 
     PLAYFABCPP_API void writeIdentifiedDeviceTypeEnumJSON(IdentifiedDeviceType enumVal, JsonWriter& writer);
@@ -307,7 +314,8 @@ namespace AuthenticationModels
         LoginIdentityProviderOpenIdConnect,
         LoginIdentityProviderApple,
         LoginIdentityProviderNintendoSwitchAccount,
-        LoginIdentityProviderGooglePlayGames
+        LoginIdentityProviderGooglePlayGames,
+        LoginIdentityProviderXboxMobileStore
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);

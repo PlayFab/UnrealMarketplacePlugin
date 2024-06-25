@@ -2582,7 +2582,8 @@ namespace ClientModels
         LoginIdentityProviderOpenIdConnect,
         LoginIdentityProviderApple,
         LoginIdentityProviderNintendoSwitchAccount,
-        LoginIdentityProviderGooglePlayGames
+        LoginIdentityProviderGooglePlayGames,
+        LoginIdentityProviderXboxMobileStore
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -3617,7 +3618,8 @@ namespace ClientModels
         UserOriginationOpenIdConnect,
         UserOriginationApple,
         UserOriginationNintendoSwitchAccount,
-        UserOriginationGooglePlayGames
+        UserOriginationGooglePlayGames,
+        UserOriginationXboxMobileStore
     };
 
     PLAYFABCPP_API void writeUserOriginationEnumJSON(UserOrigination enumVal, JsonWriter& writer);

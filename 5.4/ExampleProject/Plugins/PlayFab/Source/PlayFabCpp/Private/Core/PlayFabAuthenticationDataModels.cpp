@@ -494,6 +494,13 @@ void PlayFab::AuthenticationModels::writeIdentifiedDeviceTypeEnumJSON(Identified
     case IdentifiedDeviceTypeUnknown: writer->WriteValue(TEXT("Unknown")); break;
     case IdentifiedDeviceTypeXboxOne: writer->WriteValue(TEXT("XboxOne")); break;
     case IdentifiedDeviceTypeScarlett: writer->WriteValue(TEXT("Scarlett")); break;
+    case IdentifiedDeviceTypeWindowsOneCore: writer->WriteValue(TEXT("WindowsOneCore")); break;
+    case IdentifiedDeviceTypeWindowsOneCoreMobile: writer->WriteValue(TEXT("WindowsOneCoreMobile")); break;
+    case IdentifiedDeviceTypeWin32: writer->WriteValue(TEXT("Win32")); break;
+    case IdentifiedDeviceTypeandroid: writer->WriteValue(TEXT("android")); break;
+    case IdentifiedDeviceTypeiOS: writer->WriteValue(TEXT("iOS")); break;
+    case IdentifiedDeviceTypePlayStation: writer->WriteValue(TEXT("PlayStation")); break;
+    case IdentifiedDeviceTypeNintendo: writer->WriteValue(TEXT("Nintendo")); break;
     }
 }
 
@@ -511,6 +518,13 @@ AuthenticationModels::IdentifiedDeviceType PlayFab::AuthenticationModels::readId
         _IdentifiedDeviceTypeMap.Add(TEXT("Unknown"), IdentifiedDeviceTypeUnknown);
         _IdentifiedDeviceTypeMap.Add(TEXT("XboxOne"), IdentifiedDeviceTypeXboxOne);
         _IdentifiedDeviceTypeMap.Add(TEXT("Scarlett"), IdentifiedDeviceTypeScarlett);
+        _IdentifiedDeviceTypeMap.Add(TEXT("WindowsOneCore"), IdentifiedDeviceTypeWindowsOneCore);
+        _IdentifiedDeviceTypeMap.Add(TEXT("WindowsOneCoreMobile"), IdentifiedDeviceTypeWindowsOneCoreMobile);
+        _IdentifiedDeviceTypeMap.Add(TEXT("Win32"), IdentifiedDeviceTypeWin32);
+        _IdentifiedDeviceTypeMap.Add(TEXT("android"), IdentifiedDeviceTypeandroid);
+        _IdentifiedDeviceTypeMap.Add(TEXT("iOS"), IdentifiedDeviceTypeiOS);
+        _IdentifiedDeviceTypeMap.Add(TEXT("PlayStation"), IdentifiedDeviceTypePlayStation);
+        _IdentifiedDeviceTypeMap.Add(TEXT("Nintendo"), IdentifiedDeviceTypeNintendo);
 
     }
 
@@ -551,6 +565,7 @@ void PlayFab::AuthenticationModels::writeLoginIdentityProviderEnumJSON(LoginIden
     case LoginIdentityProviderApple: writer->WriteValue(TEXT("Apple")); break;
     case LoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
     case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
+    case LoginIdentityProviderXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
     }
 }
 
@@ -587,6 +602,7 @@ AuthenticationModels::LoginIdentityProvider PlayFab::AuthenticationModels::readL
         _LoginIdentityProviderMap.Add(TEXT("Apple"), LoginIdentityProviderApple);
         _LoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), LoginIdentityProviderNintendoSwitchAccount);
         _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
+        _LoginIdentityProviderMap.Add(TEXT("XboxMobileStore"), LoginIdentityProviderXboxMobileStore);
 
     }
 

@@ -5470,6 +5470,12 @@ void PlayFab::MultiplayerModels::FServerDetails::writeJSON(JsonWriter& writer) c
         writer->WriteValue(Region);
     }
 
+    if (ServerId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("ServerId"));
+        writer->WriteValue(ServerId);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -5504,6 +5510,13 @@ bool PlayFab::MultiplayerModels::FServerDetails::readFromValue(const TSharedPtr<
     {
         FString TmpValue;
         if (RegionValue->TryGetString(TmpValue)) { Region = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ServerIdValue = obj->TryGetField(TEXT("ServerId"));
+    if (ServerIdValue.IsValid() && !ServerIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (ServerIdValue->TryGetString(TmpValue)) { ServerId = TmpValue; }
     }
 
     return HasSucceeded;

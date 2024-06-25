@@ -582,6 +582,7 @@ enum class ELoginIdentityProvider : uint8
     pfenum_Apple = 19 UMETA(DisplayName = "Apple"),
     pfenum_NintendoSwitchAccount = 20 UMETA(DisplayName = "NintendoSwitchAccount"),
     pfenum_GooglePlayGames = 21 UMETA(DisplayName = "GooglePlayGames"),
+    pfenum_XboxMobileStore = 22 UMETA(DisplayName = "XboxMobileStore"),
 };
 
 /** PushNotificationPlatform */
@@ -1261,6 +1262,7 @@ enum class EUserOrigination : uint8
     pfenum_Apple = 21 UMETA(DisplayName = "Apple"),
     pfenum_NintendoSwitchAccount = 22 UMETA(DisplayName = "NintendoSwitchAccount"),
     pfenum_GooglePlayGames = 23 UMETA(DisplayName = "GooglePlayGames"),
+    pfenum_XboxMobileStore = 24 UMETA(DisplayName = "XboxMobileStore"),
 };
 
 /** AdActivity */
@@ -1346,6 +1348,13 @@ enum class EIdentifiedDeviceType : uint8
     pfenum_Unknown = 0 UMETA(DisplayName = "Unknown"),
     pfenum_XboxOne = 1 UMETA(DisplayName = "XboxOne"),
     pfenum_Scarlett = 2 UMETA(DisplayName = "Scarlett"),
+    pfenum_WindowsOneCore = 3 UMETA(DisplayName = "WindowsOneCore"),
+    pfenum_WindowsOneCoreMobile = 4 UMETA(DisplayName = "WindowsOneCoreMobile"),
+    pfenum_Win32 = 5 UMETA(DisplayName = "Win32"),
+    pfenum_android = 6 UMETA(DisplayName = "android"),
+    pfenum_iOS = 7 UMETA(DisplayName = "iOS"),
+    pfenum_PlayStation = 8 UMETA(DisplayName = "PlayStation"),
+    pfenum_Nintendo = 9 UMETA(DisplayName = "Nintendo"),
 };
 
 /** TriggerType */

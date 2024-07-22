@@ -6453,6 +6453,7 @@ void PlayFab::MultiplayerModels::writeDirectPeerConnectivityOptionsEnumJSON(Dire
     case DirectPeerConnectivityOptionsDifferentEntityLoginProvider: writer->WriteValue(TEXT("DifferentEntityLoginProvider")); break;
     case DirectPeerConnectivityOptionsAnyEntityLoginProvider: writer->WriteValue(TEXT("AnyEntityLoginProvider")); break;
     case DirectPeerConnectivityOptionsAnyPlatformTypeAndEntityLoginProvider: writer->WriteValue(TEXT("AnyPlatformTypeAndEntityLoginProvider")); break;
+    case DirectPeerConnectivityOptionsOnlyServers: writer->WriteValue(TEXT("OnlyServers")); break;
     }
 }
 
@@ -6475,6 +6476,7 @@ MultiplayerModels::DirectPeerConnectivityOptions PlayFab::MultiplayerModels::rea
         _DirectPeerConnectivityOptionsMap.Add(TEXT("DifferentEntityLoginProvider"), DirectPeerConnectivityOptionsDifferentEntityLoginProvider);
         _DirectPeerConnectivityOptionsMap.Add(TEXT("AnyEntityLoginProvider"), DirectPeerConnectivityOptionsAnyEntityLoginProvider);
         _DirectPeerConnectivityOptionsMap.Add(TEXT("AnyPlatformTypeAndEntityLoginProvider"), DirectPeerConnectivityOptionsAnyPlatformTypeAndEntityLoginProvider);
+        _DirectPeerConnectivityOptionsMap.Add(TEXT("OnlyServers"), DirectPeerConnectivityOptionsOnlyServers);
 
     }
 

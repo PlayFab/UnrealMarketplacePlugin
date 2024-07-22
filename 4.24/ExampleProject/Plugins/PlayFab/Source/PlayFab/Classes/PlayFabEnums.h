@@ -1663,6 +1663,7 @@ enum class EDirectPeerConnectivityOptions : uint8
     pfenum_DifferentEntityLoginProvider = 5 UMETA(DisplayName = "DifferentEntityLoginProvider"),
     pfenum_AnyEntityLoginProvider = 6 UMETA(DisplayName = "AnyEntityLoginProvider"),
     pfenum_AnyPlatformTypeAndEntityLoginProvider = 7 UMETA(DisplayName = "AnyPlatformTypeAndEntityLoginProvider"),
+    pfenum_OnlyServers = 8 UMETA(DisplayName = "OnlyServers"),
 };
 
 /** MembershipLock */

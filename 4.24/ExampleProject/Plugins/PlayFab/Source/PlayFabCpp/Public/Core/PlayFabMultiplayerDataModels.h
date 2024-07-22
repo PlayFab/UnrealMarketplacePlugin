@@ -2996,7 +2996,8 @@ namespace MultiplayerModels
         DirectPeerConnectivityOptionsSameEntityLoginProvider,
         DirectPeerConnectivityOptionsDifferentEntityLoginProvider,
         DirectPeerConnectivityOptionsAnyEntityLoginProvider,
-        DirectPeerConnectivityOptionsAnyPlatformTypeAndEntityLoginProvider
+        DirectPeerConnectivityOptionsAnyPlatformTypeAndEntityLoginProvider,
+        DirectPeerConnectivityOptionsOnlyServers
     };
 
     PLAYFABCPP_API void writeDirectPeerConnectivityOptionsEnumJSON(DirectPeerConnectivityOptions enumVal, JsonWriter& writer);

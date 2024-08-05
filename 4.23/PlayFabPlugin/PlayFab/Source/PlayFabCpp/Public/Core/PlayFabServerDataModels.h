@@ -7567,7 +7567,7 @@ namespace ServerModels
         // Unique PlayFab assigned ID of the user on whom the operation will be performed.
         FString PlayFabId;
 
-        // Id of the PlayStation :tm: Network user.
+        // Id of the PlayStation :tm: Network user. Also known as the PSN Account Id.
         FString PSNUserId;
 
         FLinkPSNIdRequest() :

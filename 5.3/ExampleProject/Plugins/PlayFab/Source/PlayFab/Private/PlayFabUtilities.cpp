@@ -619,7 +619,11 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1586: returnText = "LinkedStatisticColumnNotFound"; break;
     case 1587: returnText = "LinkedStatisticColumnRequired"; break;
     case 1588: returnText = "MultipleLinkedStatisticsNotAllowed"; break;
-    case 1589: returnText = "MaxQueryableVerionsValueNotAllowedForTier"; break;
+    case 1589: returnText = "DuplicateLinkedStatisticColumnNameFound"; break;
+    case 1590: returnText = "AggregationTypeNotAllowedForMultiColumnStatistic"; break;
+    case 1591: returnText = "MaxQueryableVerionsValueNotAllowedForTier"; break;
+    case 1592: returnText = "StatisticDefinitionHasNullOrEmptyVersionConfiguration"; break;
+    case 1593: returnText = "StatisticColumnLengthMismatch"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;

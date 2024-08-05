@@ -20,6 +20,7 @@
 #include "Core/PlayFabExperimentationAPI.h"
 #include "Core/PlayFabInsightsAPI.h"
 #include "Core/PlayFabGroupsAPI.h"
+#include "Core/PlayFabLeaderboardsAPI.h"
 #include "Core/PlayFabLocalizationAPI.h"
 #include "Core/PlayFabMultiplayerAPI.h"
 #include "Core/PlayFabProfilesAPI.h"
@@ -43,6 +44,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabExperimentationPtr GetExperimentationAPI() const override { return ExperimentationAPI; };
     PlayFabInsightsPtr GetInsightsAPI() const override { return InsightsAPI; };
     PlayFabGroupsPtr GetGroupsAPI() const override { return GroupsAPI; };
+    PlayFabLeaderboardsPtr GetLeaderboardsAPI() const override { return LeaderboardsAPI; };
     PlayFabLocalizationPtr GetLocalizationAPI() const override { return LocalizationAPI; };
     PlayFabMultiplayerPtr GetMultiplayerAPI() const override { return MultiplayerAPI; };
     PlayFabProfilesPtr GetProfilesAPI() const override { return ProfilesAPI; };
@@ -58,6 +60,7 @@ class FPlayFabModule : public IPlayFabModuleInterface
     PlayFabExperimentationPtr ExperimentationAPI;
     PlayFabInsightsPtr InsightsAPI;
     PlayFabGroupsPtr GroupsAPI;
+    PlayFabLeaderboardsPtr LeaderboardsAPI;
     PlayFabLocalizationPtr LocalizationAPI;
     PlayFabMultiplayerPtr MultiplayerAPI;
     PlayFabProfilesPtr ProfilesAPI;
@@ -84,6 +87,7 @@ void FPlayFabModule::StartupModule()
     ExperimentationAPI = MakeShareable(new PlayFab::UPlayFabExperimentationAPI());
     InsightsAPI = MakeShareable(new PlayFab::UPlayFabInsightsAPI());
     GroupsAPI = MakeShareable(new PlayFab::UPlayFabGroupsAPI());
+    LeaderboardsAPI = MakeShareable(new PlayFab::UPlayFabLeaderboardsAPI());
     LocalizationAPI = MakeShareable(new PlayFab::UPlayFabLocalizationAPI());
     MultiplayerAPI = MakeShareable(new PlayFab::UPlayFabMultiplayerAPI());
     ProfilesAPI = MakeShareable(new PlayFab::UPlayFabProfilesAPI());

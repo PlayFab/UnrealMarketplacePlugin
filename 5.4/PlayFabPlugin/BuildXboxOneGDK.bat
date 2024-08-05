@@ -13,7 +13,7 @@ rem # Full Path. In theory it should not be edited (the engine path/version are 
 set uatPath=%uePath%\UE_%ueVersion%\Engine\Build\BatchFiles\RunUAT.bat
 
 rem # Target Platform
-set targetPlatform=XboxOneGDK
+set targetPlatform=XB1
 
 rem # Destination Path, where the build will end up (relative to active directory).
 set archivePath=Build\%targetPlatform%

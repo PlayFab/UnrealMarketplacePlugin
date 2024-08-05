@@ -1474,6 +1474,27 @@ enum class EExperimentType : uint8
     pfenum_Snapshot = 1 UMETA(DisplayName = "Snapshot"),
 };
 
+/** LeaderboardSortDirection */
+
+UENUM(BlueprintType)
+enum class ELeaderboardSortDirection : uint8
+{
+    pfenum_Descending = 0 UMETA(DisplayName = "Descending"),
+    pfenum_Ascending = 1 UMETA(DisplayName = "Ascending"),
+};
+
+/** ResetInterval */
+
+UENUM(BlueprintType)
+enum class EResetInterval : uint8
+{
+    pfenum_Manual = 0 UMETA(DisplayName = "Manual"),
+    pfenum_Hour = 1 UMETA(DisplayName = "Hour"),
+    pfenum_Day = 2 UMETA(DisplayName = "Day"),
+    pfenum_Week = 3 UMETA(DisplayName = "Week"),
+    pfenum_Month = 4 UMETA(DisplayName = "Month"),
+};
+
 /** AccessPolicy */
 
 UENUM(BlueprintType)

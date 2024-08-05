@@ -32,6 +32,7 @@ namespace PlayFab
     class UPlayFabExperimentationAPI;
     class UPlayFabInsightsAPI;
     class UPlayFabGroupsAPI;
+    class UPlayFabLeaderboardsAPI;
     class UPlayFabLocalizationAPI;
     class UPlayFabMultiplayerAPI;
     class UPlayFabProfilesAPI;
@@ -48,6 +49,7 @@ typedef TSharedPtr<class PlayFab::UPlayFabEventsAPI> PlayFabEventsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabExperimentationAPI> PlayFabExperimentationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabInsightsAPI> PlayFabInsightsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabGroupsAPI> PlayFabGroupsPtr;
+typedef TSharedPtr<class PlayFab::UPlayFabLeaderboardsAPI> PlayFabLeaderboardsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabLocalizationAPI> PlayFabLocalizationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabMultiplayerAPI> PlayFabMultiplayerPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabProfilesAPI> PlayFabProfilesPtr;
@@ -96,6 +98,7 @@ public:
     virtual PlayFabExperimentationPtr GetExperimentationAPI() const = 0;
     virtual PlayFabInsightsPtr GetInsightsAPI() const = 0;
     virtual PlayFabGroupsPtr GetGroupsAPI() const = 0;
+    virtual PlayFabLeaderboardsPtr GetLeaderboardsAPI() const = 0;
     virtual PlayFabLocalizationPtr GetLocalizationAPI() const = 0;
     virtual PlayFabMultiplayerPtr GetMultiplayerAPI() const = 0;
     virtual PlayFabProfilesPtr GetProfilesAPI() const = 0;

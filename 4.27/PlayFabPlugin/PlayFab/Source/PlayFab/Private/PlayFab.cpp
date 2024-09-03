@@ -25,10 +25,11 @@
 #include "PlayFabExperimentationAPI.h" 
 #include "PlayFabInsightsAPI.h" 
 #include "PlayFabGroupsAPI.h" 
-#include "PlayFabLeaderboardsAPI.h" 
+#include "PlayFabProgressionAPI.h" 
 #include "PlayFabLocalizationAPI.h" 
 #include "PlayFabMultiplayerAPI.h" 
 #include "PlayFabProfilesAPI.h" 
+#include "PlayFabAddonAPI.h" 
 
 class FPlayFab : public IPlayFab
 {
@@ -50,10 +51,11 @@ class FPlayFab : public IPlayFab
         UPlayFabExperimentationAPI::StaticClass();
         UPlayFabInsightsAPI::StaticClass();
         UPlayFabGroupsAPI::StaticClass();
-        UPlayFabLeaderboardsAPI::StaticClass();
+        UPlayFabProgressionAPI::StaticClass();
         UPlayFabLocalizationAPI::StaticClass();
         UPlayFabMultiplayerAPI::StaticClass();
         UPlayFabProfilesAPI::StaticClass();
+        UPlayFabAddonAPI::StaticClass();
     }
 
     virtual void ShutdownModule() override

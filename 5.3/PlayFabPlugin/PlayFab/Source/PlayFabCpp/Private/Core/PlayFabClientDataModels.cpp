@@ -16757,14 +16757,16 @@ void PlayFab::ClientModels::FLoginWithFacebookRequest::writeJSON(JsonWriter& wri
 {
     writer->WriteObjectStart();
 
-    if (!AccessToken.IsEmpty() == false)
-    {
-        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithFacebookRequest::AccessToken, PlayFab calls may not work if it remains empty."));
-    }
-    else
+    if (AccessToken.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("AccessToken"));
         writer->WriteValue(AccessToken);
+    }
+
+    if (AuthenticationToken.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AuthenticationToken"));
+        writer->WriteValue(AuthenticationToken);
     }
 
     if (CreateAccount.notNull())
@@ -16824,6 +16826,13 @@ bool PlayFab::ClientModels::FLoginWithFacebookRequest::readFromValue(const TShar
     {
         FString TmpValue;
         if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AuthenticationTokenValue = obj->TryGetField(TEXT("AuthenticationToken"));
+    if (AuthenticationTokenValue.IsValid() && !AuthenticationTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (AuthenticationTokenValue->TryGetString(TmpValue)) { AuthenticationToken = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));

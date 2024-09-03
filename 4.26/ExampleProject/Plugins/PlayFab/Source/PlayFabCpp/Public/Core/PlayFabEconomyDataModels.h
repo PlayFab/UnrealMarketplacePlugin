@@ -4058,18 +4058,18 @@ namespace EconomyModels
         // [optional] The marketplace error details explaining why the offer failed to redeem.
         FString FailureDetails;
 
+        // [optional] The Marketplace Alternate ID being redeemed.
+        FString MarketplaceAlternateId;
+
         // [optional] The transaction id in the external marketplace.
         FString MarketplaceTransactionId;
-
-        // [optional] The ID of the offer being redeemed.
-        FString OfferId;
 
         FRedemptionFailure() :
             FPlayFabCppBaseModel(),
             FailureCode(),
             FailureDetails(),
-            MarketplaceTransactionId(),
-            OfferId()
+            MarketplaceAlternateId(),
+            MarketplaceTransactionId()
             {}
 
         FRedemptionFailure(const FRedemptionFailure& src) = default;
@@ -4087,19 +4087,19 @@ namespace EconomyModels
 
     struct PLAYFABCPP_API FRedemptionSuccess : public PlayFab::FPlayFabCppBaseModel
     {
+        // [optional] The Marketplace Alternate ID being redeemed.
+        FString MarketplaceAlternateId;
+
         // [optional] The transaction id in the external marketplace.
         FString MarketplaceTransactionId;
-
-        // [optional] The ID of the offer being redeemed.
-        FString OfferId;
 
         // The timestamp for when the redeem was completed.
         FDateTime SuccessTimestamp;
 
         FRedemptionSuccess() :
             FPlayFabCppBaseModel(),
+            MarketplaceAlternateId(),
             MarketplaceTransactionId(),
-            OfferId(),
             SuccessTimestamp(0)
             {}
 

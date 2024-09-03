@@ -621,7 +621,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1588: returnText = "MultipleLinkedStatisticsNotAllowed"; break;
     case 1589: returnText = "DuplicateLinkedStatisticColumnNameFound"; break;
     case 1590: returnText = "AggregationTypeNotAllowedForMultiColumnStatistic"; break;
-    case 1591: returnText = "MaxQueryableVerionsValueNotAllowedForTier"; break;
+    case 1591: returnText = "MaxQueryableVersionsValueNotAllowedForTier"; break;
     case 1592: returnText = "StatisticDefinitionHasNullOrEmptyVersionConfiguration"; break;
     case 1593: returnText = "StatisticColumnLengthMismatch"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
@@ -893,6 +893,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20300: returnText = "GameSaveManifestNotFound"; break;
     case 20301: returnText = "GameSaveManifestVersionAlreadyExists"; break;
     case 20302: returnText = "GameSaveConflictUpdatingManifest"; break;
+    case 20303: returnText = "GameSaveManifestUpdatesNotAllowed"; break;
+    case 20304: returnText = "GameSaveFileAlreadyExists"; break;
+    case 20305: returnText = "GameSaveManifestVersionNotFinalized"; break;
+    case 20306: returnText = "GameSaveUnknownFileInManifest"; break;
+    case 20307: returnText = "GameSaveFileExceededReportedSize"; break;
+    case 20308: returnText = "GameSaveFileNotUploaded"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

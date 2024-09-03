@@ -3430,25 +3430,28 @@ namespace ServerModels
 
     struct PLAYFABCPP_API FFriendInfo : public PlayFab::FPlayFabCppBaseModel
     {
-        // [optional] Available Facebook information (if the user and PlayFab friend are also connected in Facebook).
+        // [optional] Available Facebook information (if the user and connected Facebook friend both have PlayFab Accounts in the same title).
         TSharedPtr<FUserFacebookInfo> FacebookInfo;
 
         // [optional] PlayFab unique identifier for this friend.
         FString FriendPlayFabId;
 
-        // [optional] Available Game Center information (if the user and PlayFab friend are also connected in Game Center).
+        /**
+         * [optional] Available Game Center information (if the user and connected Game Center friend both have PlayFab Accounts in the same
+         * title).
+         */
         TSharedPtr<FUserGameCenterInfo> GameCenterInfo;
 
         // [optional] The profile of the user, if requested.
         TSharedPtr<FPlayerProfileModel> Profile;
 
         /**
-         * [optional] Available PlayStation :tm: Network information, if the user and PlayFab friend are both connected to PlayStation :tm:
-         * Network.
+         * [optional] Available PlayStation :tm: Network information, if the user connected PlayStation :tm Network friend both have PlayFab
+         * Accounts in the same title.
          */
         TSharedPtr<FUserPsnInfo> PSNInfo;
 
-        // [optional] Available Steam information (if the user and PlayFab friend are also connected in Steam).
+        // [optional] Available Steam information (if the user and connected Steam friend both have PlayFab Accounts in the same title).
         TSharedPtr<FUserSteamInfo> SteamInfo;
 
         // [optional] Tags which have been associated with this friend.
@@ -3459,7 +3462,7 @@ namespace ServerModels
         // [optional] PlayFab unique username for this friend.
         FString Username;
 
-        // [optional] Available Xbox information, if the user and PlayFab friend are both connected to Xbox Live.
+        // [optional] Available Xbox information, (if the user and connected Xbox Live friend both have PlayFab Accounts in the same title).
         TSharedPtr<FUserXboxInfo> XboxInfo;
 
         FFriendInfo() :

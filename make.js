@@ -51,6 +51,9 @@ exports.makeCombinedAPI = function (apis, sourceDir, baseApiOutputDir) {
 
     var ue5WhitelistPlatforms = '[ "Win64", "Mac", "IOS", "Android"]';
 
+    // Filter out empty APIs
+    apis = apis.filter(api => api.calls.length > 0);
+
     for (var v = 0; v < ueTargetVersions.length; v++) {
         var ueTargetVersion = ueTargetVersions[v];
         var apiOutputDir = path.resolve(baseApiOutputDir, ueTargetVersion.targetVersionShort); // Break multiple versions into separate top level folders

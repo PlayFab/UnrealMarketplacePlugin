@@ -32,10 +32,11 @@ namespace PlayFab
     class UPlayFabExperimentationAPI;
     class UPlayFabInsightsAPI;
     class UPlayFabGroupsAPI;
-    class UPlayFabLeaderboardsAPI;
+    class UPlayFabProgressionAPI;
     class UPlayFabLocalizationAPI;
     class UPlayFabMultiplayerAPI;
     class UPlayFabProfilesAPI;
+    class UPlayFabAddonAPI;
 }
 
 typedef TSharedPtr<class PlayFab::UPlayFabAdminAPI> PlayFabAdminPtr;
@@ -49,10 +50,11 @@ typedef TSharedPtr<class PlayFab::UPlayFabEventsAPI> PlayFabEventsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabExperimentationAPI> PlayFabExperimentationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabInsightsAPI> PlayFabInsightsPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabGroupsAPI> PlayFabGroupsPtr;
-typedef TSharedPtr<class PlayFab::UPlayFabLeaderboardsAPI> PlayFabLeaderboardsPtr;
+typedef TSharedPtr<class PlayFab::UPlayFabProgressionAPI> PlayFabProgressionPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabLocalizationAPI> PlayFabLocalizationPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabMultiplayerAPI> PlayFabMultiplayerPtr;
 typedef TSharedPtr<class PlayFab::UPlayFabProfilesAPI> PlayFabProfilesPtr;
+typedef TSharedPtr<class PlayFab::UPlayFabAddonAPI> PlayFabAddonPtr;
 
 /**
 * The public interface to this module.  In most cases, this interface is only public to sibling modules
@@ -98,8 +100,9 @@ public:
     virtual PlayFabExperimentationPtr GetExperimentationAPI() const = 0;
     virtual PlayFabInsightsPtr GetInsightsAPI() const = 0;
     virtual PlayFabGroupsPtr GetGroupsAPI() const = 0;
-    virtual PlayFabLeaderboardsPtr GetLeaderboardsAPI() const = 0;
+    virtual PlayFabProgressionPtr GetProgressionAPI() const = 0;
     virtual PlayFabLocalizationPtr GetLocalizationAPI() const = 0;
     virtual PlayFabMultiplayerPtr GetMultiplayerAPI() const = 0;
     virtual PlayFabProfilesPtr GetProfilesAPI() const = 0;
+    virtual PlayFabAddonPtr GetAddonAPI() const = 0;
 };

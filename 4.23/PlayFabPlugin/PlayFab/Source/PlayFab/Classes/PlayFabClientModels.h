@@ -1945,7 +1945,8 @@ public:
  * same Facebook applications between PlayFab Title IDs, as Facebook provides unique user IDs per application and doing so
  * can result in issues with the Facebook ID for the user in their PlayFab account information. If you must re-use an
  * application in a new PlayFab Title ID, please be sure to first unlink all accounts from Facebook, or delete all users in
- * the first Title ID.
+ * the first Title ID. Note: If the user is authenticated with AuthenticationToken, instead of AccessToken, the
+ * GetFriendsList API will return an empty list.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientLoginWithFacebookRequest : public FPlayFabRequestCommon
@@ -1955,6 +1956,9 @@ public:
     /** Unique identifier from Facebook for the user. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString AccessToken;
+    /** Token used for limited login authentication. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString AuthenticationToken;
     /** Automatically create a PlayFab account if one is not currently linked to this ID. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         bool CreateAccount = false;
@@ -2960,8 +2964,9 @@ public:
 /**
  * If any additional services are queried for the user's friends, those friends who also have a PlayFab account registered
  * for the title will be returned in the results. For Facebook, user has to have logged into the title's Facebook app
- * recently, and only friends who also plays this game will be included. For Xbox Live, user has to have logged into the
- * Xbox Live recently, and only friends who also play this game will be included.
+ * recently, and only friends who also plays this game will be included. Note: If the user authenticated with
+ * AuthenticationToken when calling LoginWithFacebook, instead of AcessToken, an empty list will be returned. For Xbox
+ * Live, user has to have logged into the Xbox Live recently, and only friends who also play this game will be included.
  */
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetFriendsListResult : public FPlayFabResultCommon

@@ -7933,16 +7933,16 @@ void PlayFab::EconomyModels::FRedemptionFailure::writeJSON(JsonWriter& writer) c
         writer->WriteValue(FailureDetails);
     }
 
+    if (MarketplaceAlternateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MarketplaceAlternateId"));
+        writer->WriteValue(MarketplaceAlternateId);
+    }
+
     if (MarketplaceTransactionId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("MarketplaceTransactionId"));
         writer->WriteValue(MarketplaceTransactionId);
-    }
-
-    if (OfferId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("OfferId"));
-        writer->WriteValue(OfferId);
     }
 
     writer->WriteObjectEnd();
@@ -7966,18 +7966,18 @@ bool PlayFab::EconomyModels::FRedemptionFailure::readFromValue(const TSharedPtr<
         if (FailureDetailsValue->TryGetString(TmpValue)) { FailureDetails = TmpValue; }
     }
 
+    const TSharedPtr<FJsonValue> MarketplaceAlternateIdValue = obj->TryGetField(TEXT("MarketplaceAlternateId"));
+    if (MarketplaceAlternateIdValue.IsValid() && !MarketplaceAlternateIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (MarketplaceAlternateIdValue->TryGetString(TmpValue)) { MarketplaceAlternateId = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> MarketplaceTransactionIdValue = obj->TryGetField(TEXT("MarketplaceTransactionId"));
     if (MarketplaceTransactionIdValue.IsValid() && !MarketplaceTransactionIdValue->IsNull())
     {
         FString TmpValue;
         if (MarketplaceTransactionIdValue->TryGetString(TmpValue)) { MarketplaceTransactionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> OfferIdValue = obj->TryGetField(TEXT("OfferId"));
-    if (OfferIdValue.IsValid() && !OfferIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (OfferIdValue->TryGetString(TmpValue)) { OfferId = TmpValue; }
     }
 
     return HasSucceeded;
@@ -7992,16 +7992,16 @@ void PlayFab::EconomyModels::FRedemptionSuccess::writeJSON(JsonWriter& writer) c
 {
     writer->WriteObjectStart();
 
+    if (MarketplaceAlternateId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("MarketplaceAlternateId"));
+        writer->WriteValue(MarketplaceAlternateId);
+    }
+
     if (MarketplaceTransactionId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("MarketplaceTransactionId"));
         writer->WriteValue(MarketplaceTransactionId);
-    }
-
-    if (OfferId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("OfferId"));
-        writer->WriteValue(OfferId);
     }
 
     writer->WriteIdentifierPrefix(TEXT("SuccessTimestamp"));
@@ -8014,18 +8014,18 @@ bool PlayFab::EconomyModels::FRedemptionSuccess::readFromValue(const TSharedPtr<
 {
     bool HasSucceeded = true;
 
+    const TSharedPtr<FJsonValue> MarketplaceAlternateIdValue = obj->TryGetField(TEXT("MarketplaceAlternateId"));
+    if (MarketplaceAlternateIdValue.IsValid() && !MarketplaceAlternateIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (MarketplaceAlternateIdValue->TryGetString(TmpValue)) { MarketplaceAlternateId = TmpValue; }
+    }
+
     const TSharedPtr<FJsonValue> MarketplaceTransactionIdValue = obj->TryGetField(TEXT("MarketplaceTransactionId"));
     if (MarketplaceTransactionIdValue.IsValid() && !MarketplaceTransactionIdValue->IsNull())
     {
         FString TmpValue;
         if (MarketplaceTransactionIdValue->TryGetString(TmpValue)) { MarketplaceTransactionId = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> OfferIdValue = obj->TryGetField(TEXT("OfferId"));
-    if (OfferIdValue.IsValid() && !OfferIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (OfferIdValue->TryGetString(TmpValue)) { OfferId = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> SuccessTimestampValue = obj->TryGetField(TEXT("SuccessTimestamp"));

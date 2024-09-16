@@ -998,54 +998,6 @@ void UPlayFabProgressionAPI::HelperGetStatisticDefinition(FPlayFabBaseModel resp
     this->RemoveFromRoot();
 }
 
-/** Get all current statistic definitions information */
-UPlayFabProgressionAPI* UPlayFabProgressionAPI::GetStatisticDefinitions(FProgressionGetStatisticDefinitionsRequest request,
-    FDelegateOnSuccessGetStatisticDefinitions onSuccess,
-    FDelegateOnFailurePlayFabError onFailure,
-    UObject* customData)
-{
-    // Objects containing request data
-    UPlayFabProgressionAPI* manager = NewObject<UPlayFabProgressionAPI>();
-    if (manager->IsSafeForRootSet()) manager->AddToRoot();
-    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
-    manager->mCustomData = customData;
-
-    // Assign delegates
-    manager->OnSuccessGetStatisticDefinitions = onSuccess;
-    manager->OnFailure = onFailure;
-    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProgressionAPI::HelperGetStatisticDefinitions);
-
-    // Setup the request
-    manager->SetCallAuthenticationContext(request.AuthenticationContext);
-    manager->PlayFabRequestURL = "/Statistic/GetStatisticDefinitions";
-    manager->useEntityToken = true;
-
-
-    // Serialize all the request properties to json
-    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
-
-    // Add Request to manager
-    manager->SetRequestObject(OutRestJsonObj);
-
-    return manager;
-}
-
-// Implements FOnPlayFabProgressionRequestCompleted
-void UPlayFabProgressionAPI::HelperGetStatisticDefinitions(FPlayFabBaseModel response, UObject* customData, bool successful)
-{
-    FPlayFabError error = response.responseError;
-    if (error.hasError && OnFailure.IsBound())
-    {
-        OnFailure.Execute(error, customData);
-    }
-    else if (!error.hasError && OnSuccessGetStatisticDefinitions.IsBound())
-    {
-        FProgressionGetStatisticDefinitionsResponse ResultStruct = UPlayFabProgressionModelDecoder::decodeGetStatisticDefinitionsResponseResponse(response.responseData);
-        OnSuccessGetStatisticDefinitions.Execute(ResultStruct, mCustomData);
-    }
-    this->RemoveFromRoot();
-}
-
 /** Gets statistics for the specified entity. */
 UPlayFabProgressionAPI* UPlayFabProgressionAPI::GetStatistics(FProgressionGetStatisticsRequest request,
     FDelegateOnSuccessGetStatistics onSuccess,

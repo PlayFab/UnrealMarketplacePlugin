@@ -900,7 +900,8 @@ namespace CloudScriptModels
         LoginIdentityProviderApple,
         LoginIdentityProviderNintendoSwitchAccount,
         LoginIdentityProviderGooglePlayGames,
-        LoginIdentityProviderXboxMobileStore
+        LoginIdentityProviderXboxMobileStore,
+        LoginIdentityProviderKing
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);

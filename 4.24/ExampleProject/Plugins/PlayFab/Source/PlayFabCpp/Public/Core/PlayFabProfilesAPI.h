@@ -23,6 +23,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetProfilesDelegate, const ProfilesModels::FGetEntityProfilesResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitlePlayersFromMasterPlayerAccountIdsDelegate, const ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsResponse&);
         DECLARE_DELEGATE_OneParam(FGetTitlePlayersFromXboxLiveIDsDelegate, const ProfilesModels::FGetTitlePlayersFromProviderIDsResponse&);
+        DECLARE_DELEGATE_OneParam(FSetDisplayNameDelegate, const ProfilesModels::FSetDisplayNameResponse&);
         DECLARE_DELEGATE_OneParam(FSetGlobalPolicyDelegate, const ProfilesModels::FSetGlobalPolicyResponse&);
         DECLARE_DELEGATE_OneParam(FSetProfileLanguageDelegate, const ProfilesModels::FSetProfileLanguageResponse&);
         DECLARE_DELEGATE_OneParam(FSetProfilePolicyDelegate, const ProfilesModels::FSetEntityProfilePolicyResponse&);
@@ -60,6 +61,11 @@ namespace PlayFab
          */
         bool GetTitlePlayersFromXboxLiveIDs(ProfilesModels::FGetTitlePlayersFromXboxLiveIDsRequest& request, const FGetTitlePlayersFromXboxLiveIDsDelegate& SuccessDelegate = FGetTitlePlayersFromXboxLiveIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Update the display name of the entity
+         * Given an entity profile, will update its display name to the one passed in if the profile's version is equal to the specified value
+         */
+        bool SetDisplayName(ProfilesModels::FSetDisplayNameRequest& request, const FSetDisplayNameDelegate& SuccessDelegate = FSetDisplayNameDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Sets the global title access policy
          * Updates the title access policy that is used before the profile's policy is inspected during a request. Policies are compiled and cached for several minutes so an update here may not be reflected in behavior for a short time.
          */
@@ -83,6 +89,7 @@ namespace PlayFab
         void OnGetProfilesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetProfilesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitlePlayersFromMasterPlayerAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitlePlayersFromMasterPlayerAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetTitlePlayersFromXboxLiveIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetTitlePlayersFromXboxLiveIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnSetDisplayNameResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetDisplayNameDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetGlobalPolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetGlobalPolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetProfileLanguageResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetProfileLanguageDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnSetProfilePolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetProfilePolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

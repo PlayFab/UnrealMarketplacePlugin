@@ -566,6 +566,7 @@ void PlayFab::AuthenticationModels::writeLoginIdentityProviderEnumJSON(LoginIden
     case LoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
     case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case LoginIdentityProviderXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
+    case LoginIdentityProviderKing: writer->WriteValue(TEXT("King")); break;
     }
 }
 
@@ -603,6 +604,7 @@ AuthenticationModels::LoginIdentityProvider PlayFab::AuthenticationModels::readL
         _LoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), LoginIdentityProviderNintendoSwitchAccount);
         _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
         _LoginIdentityProviderMap.Add(TEXT("XboxMobileStore"), LoginIdentityProviderXboxMobileStore);
+        _LoginIdentityProviderMap.Add(TEXT("King"), LoginIdentityProviderKing);
 
     }
 

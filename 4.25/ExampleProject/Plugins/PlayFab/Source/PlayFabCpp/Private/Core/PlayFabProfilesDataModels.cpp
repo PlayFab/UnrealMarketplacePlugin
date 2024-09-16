@@ -1229,6 +1229,124 @@ ProfilesModels::OperationTypes PlayFab::ProfilesModels::readOperationTypesFromVa
     return OperationTypesCreated; // Basically critical fail
 }
 
+PlayFab::ProfilesModels::FSetDisplayNameRequest::~FSetDisplayNameRequest()
+{
+    //if (Entity != nullptr) delete Entity;
+
+}
+
+void PlayFab::ProfilesModels::FSetDisplayNameRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (DisplayName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DisplayName"));
+        writer->WriteValue(DisplayName);
+    }
+
+    if (Entity.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Entity"));
+        Entity->writeJSON(writer);
+    }
+
+    if (ExpectedVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedVersion"));
+        writer->WriteValue(ExpectedVersion);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FSetDisplayNameRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> DisplayNameValue = obj->TryGetField(TEXT("DisplayName"));
+    if (DisplayNameValue.IsValid() && !DisplayNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (DisplayNameValue->TryGetString(TmpValue)) { DisplayName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> EntityValue = obj->TryGetField(TEXT("Entity"));
+    if (EntityValue.IsValid() && !EntityValue->IsNull())
+    {
+        Entity = MakeShareable(new FEntityKey(EntityValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> ExpectedVersionValue = obj->TryGetField(TEXT("ExpectedVersion"));
+    if (ExpectedVersionValue.IsValid() && !ExpectedVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ExpectedVersionValue->TryGetNumber(TmpValue)) { ExpectedVersion = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProfilesModels::FSetDisplayNameResponse::~FSetDisplayNameResponse()
+{
+
+}
+
+void PlayFab::ProfilesModels::FSetDisplayNameResponse::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (OperationResult.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("OperationResult"));
+        writeOperationTypesEnumJSON(OperationResult, writer);
+    }
+
+    if (VersionNumber.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VersionNumber"));
+        writer->WriteValue(VersionNumber);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProfilesModels::FSetDisplayNameResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    OperationResult = readOperationTypesFromValue(obj->TryGetField(TEXT("OperationResult")));
+
+    const TSharedPtr<FJsonValue> VersionNumberValue = obj->TryGetField(TEXT("VersionNumber"));
+    if (VersionNumberValue.IsValid() && !VersionNumberValue->IsNull())
+    {
+        int32 TmpValue;
+        if (VersionNumberValue->TryGetNumber(TmpValue)) { VersionNumber = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ProfilesModels::FSetEntityProfilePolicyRequest::~FSetEntityProfilePolicyRequest()
 {
 

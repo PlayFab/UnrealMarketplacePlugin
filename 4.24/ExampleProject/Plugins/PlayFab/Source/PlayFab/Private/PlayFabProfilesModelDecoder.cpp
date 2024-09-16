@@ -77,6 +77,18 @@ FProfilesGetTitlePlayersFromProviderIDsResponse UPlayFabProfilesModelDecoder::de
     return tempStruct;
 }
 
+FProfilesSetDisplayNameResponse UPlayFabProfilesModelDecoder::decodeSetDisplayNameResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FProfilesSetDisplayNameResponse tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    GetEnumValueFromString<EOperationTypes>(TEXT("EOperationTypes"), dataObj->GetStringField("OperationResult"), tempStruct.OperationResult);
+    tempStruct.VersionNumber = !(dataObj->HasField("VersionNumber")) ? 0 : int(dataObj->GetNumberField("VersionNumber"));
+
+    return tempStruct;
+}
+
 FProfilesSetGlobalPolicyResponse UPlayFabProfilesModelDecoder::decodeSetGlobalPolicyResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

@@ -595,6 +595,67 @@ namespace ProfilesModels
     PLAYFABCPP_API OperationTypes readOperationTypesFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API OperationTypes readOperationTypesFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FSetDisplayNameRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] The new value to be set on Entity Profile's display name
+        FString DisplayName;
+
+        // [optional] The optional entity to perform this action on. Defaults to the currently logged in entity.
+        TSharedPtr<FEntityKey> Entity;
+
+        // [optional] The expected version of a profile to perform this update on
+        Boxed<int32> ExpectedVersion;
+
+        FSetDisplayNameRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            DisplayName(),
+            Entity(nullptr),
+            ExpectedVersion()
+            {}
+
+        FSetDisplayNameRequest(const FSetDisplayNameRequest& src) = default;
+
+        FSetDisplayNameRequest(const TSharedPtr<FJsonObject>& obj) : FSetDisplayNameRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetDisplayNameRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSetDisplayNameResponse : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The type of operation that occured on the profile's display name
+        Boxed<OperationTypes> OperationResult;
+
+        // [optional] The updated version of the profile after the display name update
+        Boxed<int32> VersionNumber;
+
+        FSetDisplayNameResponse() :
+            FPlayFabCppResultCommon(),
+            OperationResult(),
+            VersionNumber()
+            {}
+
+        FSetDisplayNameResponse(const FSetDisplayNameResponse& src) = default;
+
+        FSetDisplayNameResponse(const TSharedPtr<FJsonObject>& obj) : FSetDisplayNameResponse()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSetDisplayNameResponse();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FSetEntityProfilePolicyRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).

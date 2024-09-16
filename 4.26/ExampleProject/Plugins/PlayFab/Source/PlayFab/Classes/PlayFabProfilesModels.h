@@ -184,6 +184,42 @@ public:
 };
 
 /**
+ * Given an entity profile, will update its display name to the one passed in if the profile's version is equal to the
+ * specified value
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProfilesSetDisplayNameRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The new value to be set on Entity Profile's display name */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        FString DisplayName;
+    /** The optional entity to perform this action on. Defaults to the currently logged in entity. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        UPlayFabJsonObject* Entity = nullptr;
+    /** The expected version of a profile to perform this update on */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        int32 ExpectedVersion = 0;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProfilesSetDisplayNameResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The type of operation that occured on the profile's display name */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        EOperationTypes OperationResult = StaticCast<EOperationTypes>(0);
+    /** The updated version of the profile after the display name update */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Profiles | Account Management Models")
+        int32 VersionNumber = 0;
+};
+
+/**
  * Updates the title access policy that is used before the profile's policy is inspected during a request. Policies are
  * compiled and cached for several minutes so an update here may not be reflected in behavior for a short time.
  */

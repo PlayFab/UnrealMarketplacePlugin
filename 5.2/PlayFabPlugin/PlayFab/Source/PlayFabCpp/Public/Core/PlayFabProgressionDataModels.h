@@ -912,99 +912,6 @@ namespace ProgressionModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FGetStatisticDefinitionsRequest : public PlayFab::FPlayFabCppRequestCommon
-    {
-        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
-        TMap<FString, FString> CustomTags;
-        FGetStatisticDefinitionsRequest() :
-            FPlayFabCppRequestCommon(),
-            CustomTags()
-            {}
-
-        FGetStatisticDefinitionsRequest(const FGetStatisticDefinitionsRequest& src) = default;
-
-        FGetStatisticDefinitionsRequest(const TSharedPtr<FJsonObject>& obj) : FGetStatisticDefinitionsRequest()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetStatisticDefinitionsRequest();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FStatisticDefinition : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The columns for the statistic defining the aggregation method for each column.
-        TArray<FStatisticColumn> Columns;
-        // Created time, in UTC
-        FDateTime Created;
-
-        // [optional] The entity type that can have this statistic.
-        FString EntityType;
-
-        // [optional] Last time, in UTC, statistic version was incremented.
-        Boxed<FDateTime> LastResetTime;
-
-        // [optional] The list of leaderboards that are linked to this statistic definition.
-        TArray<FString> LinkedLeaderboardNames;
-        // [optional] Name of the statistic.
-        FString Name;
-
-        // Statistic version.
-        uint32 Version;
-
-        // [optional] The version reset configuration for the leaderboard definition.
-        TSharedPtr<FVersionConfiguration> pfVersionConfiguration;
-
-        FStatisticDefinition() :
-            FPlayFabCppBaseModel(),
-            Columns(),
-            Created(0),
-            EntityType(),
-            LastResetTime(),
-            LinkedLeaderboardNames(),
-            Name(),
-            Version(0),
-            pfVersionConfiguration(nullptr)
-            {}
-
-        FStatisticDefinition(const FStatisticDefinition& src) = default;
-
-        FStatisticDefinition(const TSharedPtr<FJsonObject>& obj) : FStatisticDefinition()
-        {
-            readFromValue(obj);
-        }
-
-        ~FStatisticDefinition();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FGetStatisticDefinitionsResponse : public PlayFab::FPlayFabCppResultCommon
-    {
-        // [optional] List of statistic definitions for the title.
-        TArray<FStatisticDefinition> StatisticDefinitions;
-        FGetStatisticDefinitionsResponse() :
-            FPlayFabCppResultCommon(),
-            StatisticDefinitions()
-            {}
-
-        FGetStatisticDefinitionsResponse(const FGetStatisticDefinitionsResponse& src) = default;
-
-        FGetStatisticDefinitionsResponse(const TSharedPtr<FJsonObject>& obj) : FGetStatisticDefinitionsResponse()
-        {
-            readFromValue(obj);
-        }
-
-        ~FGetStatisticDefinitionsResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FGetStatisticsForEntitiesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -1380,6 +1287,55 @@ namespace ProgressionModels
         }
 
         ~FListStatisticDefinitionsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FStatisticDefinition : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The columns for the statistic defining the aggregation method for each column.
+        TArray<FStatisticColumn> Columns;
+        // Created time, in UTC
+        FDateTime Created;
+
+        // [optional] The entity type that can have this statistic.
+        FString EntityType;
+
+        // [optional] Last time, in UTC, statistic version was incremented.
+        Boxed<FDateTime> LastResetTime;
+
+        // [optional] The list of leaderboards that are linked to this statistic definition.
+        TArray<FString> LinkedLeaderboardNames;
+        // [optional] Name of the statistic.
+        FString Name;
+
+        // Statistic version.
+        uint32 Version;
+
+        // [optional] The version reset configuration for the leaderboard definition.
+        TSharedPtr<FVersionConfiguration> pfVersionConfiguration;
+
+        FStatisticDefinition() :
+            FPlayFabCppBaseModel(),
+            Columns(),
+            Created(0),
+            EntityType(),
+            LastResetTime(),
+            LinkedLeaderboardNames(),
+            Name(),
+            Version(0),
+            pfVersionConfiguration(nullptr)
+            {}
+
+        FStatisticDefinition(const FStatisticDefinition& src) = default;
+
+        FStatisticDefinition(const TSharedPtr<FJsonObject>& obj) : FStatisticDefinition()
+        {
+            readFromValue(obj);
+        }
+
+        ~FStatisticDefinition();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

@@ -1912,196 +1912,6 @@ bool PlayFab::ProgressionModels::FGetStatisticDefinitionResponse::readFromValue(
     return HasSucceeded;
 }
 
-PlayFab::ProgressionModels::FGetStatisticDefinitionsRequest::~FGetStatisticDefinitionsRequest()
-{
-
-}
-
-void PlayFab::ProgressionModels::FGetStatisticDefinitionsRequest::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (CustomTags.Num() != 0)
-    {
-        writer->WriteObjectStart(TEXT("CustomTags"));
-        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
-        {
-            writer->WriteIdentifierPrefix((*It).Key);
-            writer->WriteValue((*It).Value);
-        }
-        writer->WriteObjectEnd();
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::ProgressionModels::FGetStatisticDefinitionsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonObject>* CustomTagsObject;
-    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
-    {
-        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
-        {
-            CustomTags.Add(It.Key(), It.Value()->AsString());
-        }
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::ProgressionModels::FStatisticDefinition::~FStatisticDefinition()
-{
-    //if (VersionConfiguration != nullptr) delete VersionConfiguration;
-
-}
-
-void PlayFab::ProgressionModels::FStatisticDefinition::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Columns.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("Columns"));
-        for (const FStatisticColumn& item : Columns)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteIdentifierPrefix(TEXT("Created"));
-    writeDatetime(Created, writer);
-
-    if (EntityType.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("EntityType"));
-        writer->WriteValue(EntityType);
-    }
-
-    if (LastResetTime.notNull())
-    {
-        writer->WriteIdentifierPrefix(TEXT("LastResetTime"));
-        writeDatetime(LastResetTime, writer);
-    }
-
-    if (LinkedLeaderboardNames.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("LinkedLeaderboardNames"));
-        for (const FString& item : LinkedLeaderboardNames)
-            writer->WriteValue(item);
-        writer->WriteArrayEnd();
-    }
-
-
-    if (Name.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Name"));
-        writer->WriteValue(Name);
-    }
-
-    writer->WriteIdentifierPrefix(TEXT("Version"));
-    writer->WriteValue(static_cast<int64>(Version));
-
-    if (pfVersionConfiguration.IsValid())
-    {
-        writer->WriteIdentifierPrefix(TEXT("VersionConfiguration"));
-        pfVersionConfiguration->writeJSON(writer);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::ProgressionModels::FStatisticDefinition::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&ColumnsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Columns"));
-    for (int32 Idx = 0; Idx < ColumnsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = ColumnsArray[Idx];
-        Columns.Add(FStatisticColumn(CurrentItem->AsObject()));
-    }
-
-
-    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
-    if (CreatedValue.IsValid())
-        Created = readDatetime(CreatedValue);
-
-
-    const TSharedPtr<FJsonValue> EntityTypeValue = obj->TryGetField(TEXT("EntityType"));
-    if (EntityTypeValue.IsValid() && !EntityTypeValue->IsNull())
-    {
-        FString TmpValue;
-        if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> LastResetTimeValue = obj->TryGetField(TEXT("LastResetTime"));
-    if (LastResetTimeValue.IsValid())
-        LastResetTime = readDatetime(LastResetTimeValue);
-
-
-    obj->TryGetStringArrayField(TEXT("LinkedLeaderboardNames"), LinkedLeaderboardNames);
-
-    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
-    if (NameValue.IsValid() && !NameValue->IsNull())
-    {
-        FString TmpValue;
-        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
-    if (VersionValue.IsValid() && !VersionValue->IsNull())
-    {
-        uint32 TmpValue;
-        if (VersionValue->TryGetNumber(TmpValue)) { Version = TmpValue; }
-    }
-
-    const TSharedPtr<FJsonValue> VersionConfigurationValue = obj->TryGetField(TEXT("VersionConfiguration"));
-    if (VersionConfigurationValue.IsValid() && !VersionConfigurationValue->IsNull())
-    {
-        pfVersionConfiguration = MakeShareable(new FVersionConfiguration(VersionConfigurationValue->AsObject()));
-    }
-
-    return HasSucceeded;
-}
-
-PlayFab::ProgressionModels::FGetStatisticDefinitionsResponse::~FGetStatisticDefinitionsResponse()
-{
-
-}
-
-void PlayFab::ProgressionModels::FGetStatisticDefinitionsResponse::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (StatisticDefinitions.Num() != 0)
-    {
-        writer->WriteArrayStart(TEXT("StatisticDefinitions"));
-        for (const FStatisticDefinition& item : StatisticDefinitions)
-            item.writeJSON(writer);
-        writer->WriteArrayEnd();
-    }
-
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::ProgressionModels::FGetStatisticDefinitionsResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TArray<TSharedPtr<FJsonValue>>&StatisticDefinitionsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("StatisticDefinitions"));
-    for (int32 Idx = 0; Idx < StatisticDefinitionsArray.Num(); Idx++)
-    {
-        TSharedPtr<FJsonValue> CurrentItem = StatisticDefinitionsArray[Idx];
-        StatisticDefinitions.Add(FStatisticDefinition(CurrentItem->AsObject()));
-    }
-
-
-    return HasSucceeded;
-}
-
 PlayFab::ProgressionModels::FGetStatisticsForEntitiesRequest::~FGetStatisticsForEntitiesRequest()
 {
 
@@ -2825,6 +2635,121 @@ bool PlayFab::ProgressionModels::FListStatisticDefinitionsRequest::readFromValue
         {
             CustomTags.Add(It.Key(), It.Value()->AsString());
         }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProgressionModels::FStatisticDefinition::~FStatisticDefinition()
+{
+    //if (VersionConfiguration != nullptr) delete VersionConfiguration;
+
+}
+
+void PlayFab::ProgressionModels::FStatisticDefinition::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Columns.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Columns"));
+        for (const FStatisticColumn& item : Columns)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("Created"));
+    writeDatetime(Created, writer);
+
+    if (EntityType.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EntityType"));
+        writer->WriteValue(EntityType);
+    }
+
+    if (LastResetTime.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("LastResetTime"));
+        writeDatetime(LastResetTime, writer);
+    }
+
+    if (LinkedLeaderboardNames.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("LinkedLeaderboardNames"));
+        for (const FString& item : LinkedLeaderboardNames)
+            writer->WriteValue(item);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Version"));
+    writer->WriteValue(static_cast<int64>(Version));
+
+    if (pfVersionConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VersionConfiguration"));
+        pfVersionConfiguration->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FStatisticDefinition::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&ColumnsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Columns"));
+    for (int32 Idx = 0; Idx < ColumnsArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = ColumnsArray[Idx];
+        Columns.Add(FStatisticColumn(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> CreatedValue = obj->TryGetField(TEXT("Created"));
+    if (CreatedValue.IsValid())
+        Created = readDatetime(CreatedValue);
+
+
+    const TSharedPtr<FJsonValue> EntityTypeValue = obj->TryGetField(TEXT("EntityType"));
+    if (EntityTypeValue.IsValid() && !EntityTypeValue->IsNull())
+    {
+        FString TmpValue;
+        if (EntityTypeValue->TryGetString(TmpValue)) { EntityType = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> LastResetTimeValue = obj->TryGetField(TEXT("LastResetTime"));
+    if (LastResetTimeValue.IsValid())
+        LastResetTime = readDatetime(LastResetTimeValue);
+
+
+    obj->TryGetStringArrayField(TEXT("LinkedLeaderboardNames"), LinkedLeaderboardNames);
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> VersionValue = obj->TryGetField(TEXT("Version"));
+    if (VersionValue.IsValid() && !VersionValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (VersionValue->TryGetNumber(TmpValue)) { Version = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> VersionConfigurationValue = obj->TryGetField(TEXT("VersionConfiguration"));
+    if (VersionConfigurationValue.IsValid() && !VersionConfigurationValue->IsNull())
+    {
+        pfVersionConfiguration = MakeShareable(new FVersionConfiguration(VersionConfigurationValue->AsObject()));
     }
 
     return HasSucceeded;

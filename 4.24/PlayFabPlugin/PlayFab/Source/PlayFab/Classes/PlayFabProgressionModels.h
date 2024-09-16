@@ -444,26 +444,6 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FProgressionGetStatisticDefinitionsRequest : public FPlayFabRequestCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        UPlayFabJsonObject* CustomTags = nullptr;
-};
-
-USTRUCT(BlueprintType)
-struct PLAYFAB_API FProgressionGetStatisticDefinitionsResponse : public FPlayFabResultCommon
-{
-    GENERATED_USTRUCT_BODY()
-public:
-    /** List of statistic definitions for the title. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
-        TArray<UPlayFabJsonObject*> StatisticDefinitions;
-};
-
-USTRUCT(BlueprintType)
 struct PLAYFAB_API FProgressionGetStatisticsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()

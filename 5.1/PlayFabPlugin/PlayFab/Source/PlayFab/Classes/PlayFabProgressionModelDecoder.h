@@ -70,10 +70,6 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics Models")
         static FProgressionGetStatisticDefinitionResponse decodeGetStatisticDefinitionResponseResponse(UPlayFabJsonObject* response);
 
-    /** Decode the GetStatisticDefinitionsResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics Models")
-        static FProgressionGetStatisticDefinitionsResponse decodeGetStatisticDefinitionsResponseResponse(UPlayFabJsonObject* response);
-
     /** Decode the GetStatisticsResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics Models")
         static FProgressionGetStatisticsResponse decodeGetStatisticsResponseResponse(UPlayFabJsonObject* response);

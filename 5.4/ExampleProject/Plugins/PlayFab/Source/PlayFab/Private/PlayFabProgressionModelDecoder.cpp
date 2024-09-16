@@ -118,17 +118,6 @@ FProgressionGetStatisticDefinitionResponse UPlayFabProgressionModelDecoder::deco
     return tempStruct;
 }
 
-FProgressionGetStatisticDefinitionsResponse UPlayFabProgressionModelDecoder::decodeGetStatisticDefinitionsResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FProgressionGetStatisticDefinitionsResponse tempStruct;
-    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
-
-    tempStruct.StatisticDefinitions = !(dataObj->HasField("StatisticDefinitions")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("StatisticDefinitions");
-
-    return tempStruct;
-}
-
 FProgressionGetStatisticsResponse UPlayFabProgressionModelDecoder::decodeGetStatisticsResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

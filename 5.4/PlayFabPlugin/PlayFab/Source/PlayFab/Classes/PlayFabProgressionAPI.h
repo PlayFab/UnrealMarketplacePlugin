@@ -271,19 +271,6 @@ public:
         void HelperGetStatisticDefinition(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
-    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetStatisticDefinitions, FProgressionGetStatisticDefinitionsResponse, result, UObject*, customData);
-
-    /** Get all current statistic definitions information */
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics ", meta = (BlueprintInternalUseOnly = "true"))
-        static UPlayFabProgressionAPI* GetStatisticDefinitions(FProgressionGetStatisticDefinitionsRequest request,
-            FDelegateOnSuccessGetStatisticDefinitions onSuccess,
-            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
-
-    // Implements FOnPlayFabProgressionRequestCompleted
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics ", meta = (BlueprintInternalUseOnly = "true"))
-        void HelperGetStatisticDefinitions(FPlayFabBaseModel response, UObject* customData, bool successful);
-
-    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetStatistics, FProgressionGetStatisticsResponse, result, UObject*, customData);
 
     /** Gets statistics for the specified entity. */
@@ -385,7 +372,6 @@ public:
     FDelegateOnSuccessDeleteStatisticDefinition OnSuccessDeleteStatisticDefinition;
     FDelegateOnSuccessDeleteStatistics OnSuccessDeleteStatistics;
     FDelegateOnSuccessGetStatisticDefinition OnSuccessGetStatisticDefinition;
-    FDelegateOnSuccessGetStatisticDefinitions OnSuccessGetStatisticDefinitions;
     FDelegateOnSuccessGetStatistics OnSuccessGetStatistics;
     FDelegateOnSuccessGetStatisticsForEntities OnSuccessGetStatisticsForEntities;
     FDelegateOnSuccessIncrementStatisticVersion OnSuccessIncrementStatisticVersion;

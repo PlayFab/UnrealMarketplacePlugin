@@ -124,6 +124,19 @@ public:
         void HelperGetTitlePlayersFromXboxLiveIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetDisplayName, FProfilesSetDisplayNameResponse, result, UObject*, customData);
+
+    /** Update the display name of the entity */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabProfilesAPI* SetDisplayName(FProfilesSetDisplayNameRequest request,
+            FDelegateOnSuccessSetDisplayName onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabProfilesRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Profiles | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperSetDisplayName(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessSetGlobalPolicy, FProfilesSetGlobalPolicyResponse, result, UObject*, customData);
 
     /** Sets the global title access policy */
@@ -188,6 +201,7 @@ public:
     FDelegateOnSuccessGetProfiles OnSuccessGetProfiles;
     FDelegateOnSuccessGetTitlePlayersFromMasterPlayerAccountIds OnSuccessGetTitlePlayersFromMasterPlayerAccountIds;
     FDelegateOnSuccessGetTitlePlayersFromXboxLiveIDs OnSuccessGetTitlePlayersFromXboxLiveIDs;
+    FDelegateOnSuccessSetDisplayName OnSuccessSetDisplayName;
     FDelegateOnSuccessSetGlobalPolicy OnSuccessSetGlobalPolicy;
     FDelegateOnSuccessSetProfileLanguage OnSuccessSetProfileLanguage;
     FDelegateOnSuccessSetProfilePolicy OnSuccessSetProfilePolicy;

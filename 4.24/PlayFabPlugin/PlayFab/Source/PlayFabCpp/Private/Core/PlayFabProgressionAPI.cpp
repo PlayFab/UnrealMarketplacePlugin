@@ -387,36 +387,6 @@ void UPlayFabProgressionAPI::OnGetStatisticDefinitionResult(FHttpRequestPtr Http
     }
 }
 
-bool UPlayFabProgressionAPI::GetStatisticDefinitions(
-    ProgressionModels::FGetStatisticDefinitionsRequest& request,
-    const FGetStatisticDefinitionsDelegate& SuccessDelegate,
-    const FPlayFabErrorDelegate& ErrorDelegate)
-{
-    FString entityToken = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetEntityToken() : PlayFabSettings::GetEntityToken();
-    if (entityToken.Len() == 0) {
-        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
-    }
-
-
-    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Statistic/GetStatisticDefinitions"), request.toJSONString(), TEXT("X-EntityToken"), entityToken);
-    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProgressionAPI::OnGetStatisticDefinitionsResult, SuccessDelegate, ErrorDelegate);
-    return HttpRequest->ProcessRequest();
-}
-
-void UPlayFabProgressionAPI::OnGetStatisticDefinitionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStatisticDefinitionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
-{
-    ProgressionModels::FGetStatisticDefinitionsResponse outResult;
-    FPlayFabCppError errorResult;
-    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
-    {
-        SuccessDelegate.ExecuteIfBound(outResult);
-    }
-    else
-    {
-        ErrorDelegate.ExecuteIfBound(errorResult);
-    }
-}
-
 bool UPlayFabProgressionAPI::GetStatistics(
     ProgressionModels::FGetStatisticsRequest& request,
     const FGetStatisticsDelegate& SuccessDelegate,

@@ -5102,6 +5102,7 @@ void PlayFab::ClientModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProv
     case LoginIdentityProviderNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
     case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case LoginIdentityProviderXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
+    case LoginIdentityProviderKing: writer->WriteValue(TEXT("King")); break;
     }
 }
 
@@ -5139,6 +5140,7 @@ ClientModels::LoginIdentityProvider PlayFab::ClientModels::readLoginIdentityProv
         _LoginIdentityProviderMap.Add(TEXT("NintendoSwitchAccount"), LoginIdentityProviderNintendoSwitchAccount);
         _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
         _LoginIdentityProviderMap.Add(TEXT("XboxMobileStore"), LoginIdentityProviderXboxMobileStore);
+        _LoginIdentityProviderMap.Add(TEXT("King"), LoginIdentityProviderKing);
 
     }
 
@@ -7117,6 +7119,7 @@ void PlayFab::ClientModels::writeUserOriginationEnumJSON(UserOrigination enumVal
     case UserOriginationNintendoSwitchAccount: writer->WriteValue(TEXT("NintendoSwitchAccount")); break;
     case UserOriginationGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case UserOriginationXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
+    case UserOriginationKing: writer->WriteValue(TEXT("King")); break;
     }
 }
 
@@ -7156,6 +7159,7 @@ ClientModels::UserOrigination PlayFab::ClientModels::readUserOriginationFromValu
         _UserOriginationMap.Add(TEXT("NintendoSwitchAccount"), UserOriginationNintendoSwitchAccount);
         _UserOriginationMap.Add(TEXT("GooglePlayGames"), UserOriginationGooglePlayGames);
         _UserOriginationMap.Add(TEXT("XboxMobileStore"), UserOriginationXboxMobileStore);
+        _UserOriginationMap.Add(TEXT("King"), UserOriginationKing);
 
     }
 

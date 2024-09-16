@@ -583,6 +583,7 @@ enum class ELoginIdentityProvider : uint8
     pfenum_NintendoSwitchAccount = 20 UMETA(DisplayName = "NintendoSwitchAccount"),
     pfenum_GooglePlayGames = 21 UMETA(DisplayName = "GooglePlayGames"),
     pfenum_XboxMobileStore = 22 UMETA(DisplayName = "XboxMobileStore"),
+    pfenum_King = 23 UMETA(DisplayName = "King"),
 };
 
 /** PushNotificationPlatform */
@@ -1263,6 +1264,7 @@ enum class EUserOrigination : uint8
     pfenum_NintendoSwitchAccount = 22 UMETA(DisplayName = "NintendoSwitchAccount"),
     pfenum_GooglePlayGames = 23 UMETA(DisplayName = "GooglePlayGames"),
     pfenum_XboxMobileStore = 24 UMETA(DisplayName = "XboxMobileStore"),
+    pfenum_King = 25 UMETA(DisplayName = "King"),
 };
 
 /** AdActivity */

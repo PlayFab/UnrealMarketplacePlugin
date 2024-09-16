@@ -34,7 +34,6 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetLeaderboardDefinitionDelegate, const ProgressionModels::FGetLeaderboardDefinitionResponse&);
         DECLARE_DELEGATE_OneParam(FGetLeaderboardForEntitiesDelegate, const ProgressionModels::FGetEntityLeaderboardResponse&);
         DECLARE_DELEGATE_OneParam(FGetStatisticDefinitionDelegate, const ProgressionModels::FGetStatisticDefinitionResponse&);
-        DECLARE_DELEGATE_OneParam(FGetStatisticDefinitionsDelegate, const ProgressionModels::FGetStatisticDefinitionsResponse&);
         DECLARE_DELEGATE_OneParam(FGetStatisticsDelegate, const ProgressionModels::FGetStatisticsResponse&);
         DECLARE_DELEGATE_OneParam(FGetStatisticsForEntitiesDelegate, const ProgressionModels::FGetStatisticsForEntitiesResponse&);
         DECLARE_DELEGATE_OneParam(FIncrementLeaderboardVersionDelegate, const ProgressionModels::FIncrementLeaderboardVersionResponse&);
@@ -99,8 +98,6 @@ namespace PlayFab
         bool GetLeaderboardForEntities(ProgressionModels::FGetLeaderboardForEntitiesRequest& request, const FGetLeaderboardForEntitiesDelegate& SuccessDelegate = FGetLeaderboardForEntitiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Get current statistic definition information
         bool GetStatisticDefinition(ProgressionModels::FGetStatisticDefinitionRequest& request, const FGetStatisticDefinitionDelegate& SuccessDelegate = FGetStatisticDefinitionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Get all current statistic definitions information
-        bool GetStatisticDefinitions(ProgressionModels::FGetStatisticDefinitionsRequest& request, const FGetStatisticDefinitionsDelegate& SuccessDelegate = FGetStatisticDefinitionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets statistics for the specified entity.
         bool GetStatistics(ProgressionModels::FGetStatisticsRequest& request, const FGetStatisticsDelegate& SuccessDelegate = FGetStatisticsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets statistics for the specified collection of entities.
@@ -137,7 +134,6 @@ namespace PlayFab
         void OnGetLeaderboardDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLeaderboardDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetLeaderboardForEntitiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLeaderboardForEntitiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
-        void OnGetStatisticDefinitionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStatisticDefinitionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetStatisticsForEntitiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStatisticsForEntitiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnIncrementLeaderboardVersionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementLeaderboardVersionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

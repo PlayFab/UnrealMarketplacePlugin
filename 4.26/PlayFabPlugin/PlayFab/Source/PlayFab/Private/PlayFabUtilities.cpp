@@ -624,6 +624,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1591: returnText = "MaxQueryableVersionsValueNotAllowedForTier"; break;
     case 1592: returnText = "StatisticDefinitionHasNullOrEmptyVersionConfiguration"; break;
     case 1593: returnText = "StatisticColumnLengthMismatch"; break;
+    case 1594: returnText = "InvalidExternalEntityId"; break;
+    case 1595: returnText = "UpdatingStatisticsUsingTransactionIdNotAvailableForFreeTier"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -890,6 +892,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20063: returnText = "TrueSkillInvalidPlayerId"; break;
     case 20064: returnText = "TrueSkillInvalidSquadSize"; break;
     case 20065: returnText = "TrueSkillConditionSetNotInModel"; break;
+    case 20066: returnText = "TrueSkillModelStateInvalidForOperation"; break;
+    case 20067: returnText = "TrueSkillScenarioContainsActiveModel"; break;
     case 20300: returnText = "GameSaveManifestNotFound"; break;
     case 20301: returnText = "GameSaveManifestVersionAlreadyExists"; break;
     case 20302: returnText = "GameSaveConflictUpdatingManifest"; break;
@@ -899,6 +903,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20306: returnText = "GameSaveUnknownFileInManifest"; break;
     case 20307: returnText = "GameSaveFileExceededReportedSize"; break;
     case 20308: returnText = "GameSaveFileNotUploaded"; break;
+    case 20309: returnText = "GameSaveBadRequest"; break;
+    case 20310: returnText = "GameSaveOperationNotAllowed"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

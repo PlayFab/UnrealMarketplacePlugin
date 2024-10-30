@@ -37,6 +37,7 @@ FProgressionGetEntityLeaderboardResponse UPlayFabProgressionModelDecoder::decode
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.Columns = !(dataObj->HasField("Columns")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Columns");
+    tempStruct.EntryCount = !(dataObj->HasField("EntryCount")) ? 0 : int(dataObj->GetNumberField("EntryCount"));
     tempStruct.Rankings = !(dataObj->HasField("Rankings")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Rankings");
     tempStruct.Version = !(dataObj->HasField("Version")) ? 0 : int(dataObj->GetNumberField("Version"));
 

@@ -223,7 +223,7 @@ namespace ProgressionModels
         // [optional] The entity type allowed to have score(s) for this statistic.
         FString EntityType;
 
-        // Name of the statistic. Must be less than 50 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
+        // Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
         FString Name;
 
         // [optional] The version reset configuration for the statistic definition.
@@ -609,8 +609,11 @@ namespace ProgressionModels
 
     struct PLAYFABCPP_API FGetEntityLeaderboardResponse : public PlayFab::FPlayFabCppResultCommon
     {
-        // [optional] Leaderboard columns describing the sort directions,
+        // [optional] Leaderboard columns describing the sort directions.
         TArray<FLeaderboardColumn> Columns;
+        // The number of entries on the leaderboard.
+        uint32 EntryCount;
+
         // [optional] Individual entity rankings in the leaderboard, in sorted order by rank.
         TArray<FEntityLeaderboardEntry> Rankings;
         // Version of the leaderboard being returned.
@@ -619,6 +622,7 @@ namespace ProgressionModels
         FGetEntityLeaderboardResponse() :
             FPlayFabCppResultCommon(),
             Columns(),
+            EntryCount(0),
             Rankings(),
             Version(0)
             {}
@@ -841,7 +845,7 @@ namespace ProgressionModels
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
         TMap<FString, FString> CustomTags;
-        // Name of the statistic. Must be less than 50 characters.
+        // Name of the statistic. Must be less than 150 characters.
         FString Name;
 
         FGetStatisticDefinitionRequest() :

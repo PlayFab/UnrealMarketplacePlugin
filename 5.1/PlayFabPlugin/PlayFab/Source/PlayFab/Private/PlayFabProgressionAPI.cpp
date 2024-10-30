@@ -256,7 +256,7 @@ void UPlayFabProgressionAPI::HelperDeleteLeaderboardEntries(FPlayFabBaseModel re
     this->RemoveFromRoot();
 }
 
-/** Get the friend leaderboard for the specified entity. A maximum of 100 friend entries are listed in the leaderboard. */
+/** Get the friend leaderboard for the specified entity. A maximum of 25 friend entries are listed in the leaderboard. */
 UPlayFabProgressionAPI* UPlayFabProgressionAPI::GetFriendLeaderboardForEntity(FProgressionGetFriendLeaderboardForEntityRequest request,
     FDelegateOnSuccessGetFriendLeaderboardForEntity onSuccess,
     FDelegateOnFailurePlayFabError onFailure,

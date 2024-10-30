@@ -59,7 +59,7 @@ namespace PlayFab
         bool DeleteStatisticDefinition(ProgressionModels::FDeleteStatisticDefinitionRequest& request, const FDeleteStatisticDefinitionDelegate& SuccessDelegate = FDeleteStatisticDefinitionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Delete statistics on an entity profile. This will remove all rankings from associated leaderboards.
         bool DeleteStatistics(ProgressionModels::FDeleteStatisticsRequest& request, const FDeleteStatisticsDelegate& SuccessDelegate = FDeleteStatisticsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
-        // Get the friend leaderboard for the specified entity. A maximum of 100 friend entries are listed in the leaderboard.
+        // Get the friend leaderboard for the specified entity. A maximum of 25 friend entries are listed in the leaderboard.
         bool GetFriendLeaderboardForEntity(ProgressionModels::FGetFriendLeaderboardForEntityRequest& request, const FGetFriendLeaderboardForEntityDelegate& SuccessDelegate = FGetFriendLeaderboardForEntityDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Get the leaderboard for a specific entity type and statistic.
         bool GetLeaderboard(ProgressionModels::FGetEntityLeaderboardRequest& request, const FGetLeaderboardDelegate& SuccessDelegate = FGetLeaderboardDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());

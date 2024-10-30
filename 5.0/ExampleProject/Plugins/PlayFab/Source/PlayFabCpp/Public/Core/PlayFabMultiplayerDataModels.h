@@ -6111,7 +6111,7 @@ namespace MultiplayerModels
         // [optional] Controls whether and how to support direct peer-to-peer connection attempts among devices in the network.
         FString DirectPeerConnectivityOptions;
 
-        // The maximum number of devices allowed to connect to the network. Must be between 1 and 32, inclusive.
+        // The maximum number of devices allowed to connect to the network. Must be between 1 and 128, inclusive.
         uint32 MaxDevices;
 
         // The maximum number of devices allowed per user. Must be greater than 0.

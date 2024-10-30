@@ -100,7 +100,7 @@ public:
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetFriendLeaderboardForEntity, FProgressionGetEntityLeaderboardResponse, result, UObject*, customData);
 
-    /** Get the friend leaderboard for the specified entity. A maximum of 100 friend entries are listed in the leaderboard. */
+    /** Get the friend leaderboard for the specified entity. A maximum of 25 friend entries are listed in the leaderboard. */
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Leaderboards ", meta = (BlueprintInternalUseOnly = "true"))
         static UPlayFabProgressionAPI* GetFriendLeaderboardForEntity(FProgressionGetFriendLeaderboardForEntityRequest request,
             FDelegateOnSuccessGetFriendLeaderboardForEntity onSuccess,

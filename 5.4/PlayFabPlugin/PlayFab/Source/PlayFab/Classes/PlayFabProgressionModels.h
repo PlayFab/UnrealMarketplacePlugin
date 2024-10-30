@@ -100,9 +100,12 @@ struct PLAYFAB_API FProgressionGetEntityLeaderboardResponse : public FPlayFabRes
 {
     GENERATED_USTRUCT_BODY()
 public:
-    /** Leaderboard columns describing the sort directions, */
+    /** Leaderboard columns describing the sort directions. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         TArray<UPlayFabJsonObject*> Columns;
+    /** The number of entries on the leaderboard. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        int32 EntryCount = 0;
     /** Individual entity rankings in the leaderboard, in sorted order by rank. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         TArray<UPlayFabJsonObject*> Rankings;
@@ -352,7 +355,7 @@ public:
     /** The entity type allowed to have score(s) for this statistic. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString EntityType;
-    /** Name of the statistic. Must be less than 50 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'. */
+    /** Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
     /** The version reset configuration for the statistic definition. */
@@ -407,7 +410,7 @@ public:
     /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         UPlayFabJsonObject* CustomTags = nullptr;
-    /** Name of the statistic. Must be less than 50 characters. */
+    /** Name of the statistic. Must be less than 150 characters. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         FString Name;
 };

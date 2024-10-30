@@ -1253,6 +1253,9 @@ void PlayFab::ProgressionModels::FGetEntityLeaderboardResponse::writeJSON(JsonWr
     }
 
 
+    writer->WriteIdentifierPrefix(TEXT("EntryCount"));
+    writer->WriteValue(static_cast<int64>(EntryCount));
+
     if (Rankings.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Rankings"));
@@ -1279,6 +1282,13 @@ bool PlayFab::ProgressionModels::FGetEntityLeaderboardResponse::readFromValue(co
         Columns.Add(FLeaderboardColumn(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> EntryCountValue = obj->TryGetField(TEXT("EntryCount"));
+    if (EntryCountValue.IsValid() && !EntryCountValue->IsNull())
+    {
+        uint32 TmpValue;
+        if (EntryCountValue->TryGetNumber(TmpValue)) { EntryCount = TmpValue; }
+    }
 
     const TArray<TSharedPtr<FJsonValue>>&RankingsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Rankings"));
     for (int32 Idx = 0; Idx < RankingsArray.Num(); Idx++)

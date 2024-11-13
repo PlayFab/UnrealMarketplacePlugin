@@ -493,13 +493,20 @@ public:
     /** Opaque string, given to a client upon creating a connection with PubSub. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         FString PubSubConnectionHandle;
-    /** The name of the resource to subscribe to. */
+    /**
+     * The name of the resource to subscribe to. For LobbyChange subscriptions this is the lobbyId. For LobbyInvite
+     * subscriptions this should always be "@me".
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         FString ResourceId;
     /** Version number for the subscription of this resource. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         int32 SubscriptionVersion = 0;
-    /** Subscription type. */
+    /**
+     * Subscription type. "LobbyChange" subscriptions allow a member or owner to receive notifications of lobby data, member or
+     * owner changes. "LobbyInvite" subscriptions allow a player to receive invites to lobbies. A player does not need to be a
+     * member of a lobby to receive lobby invites.
+     */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Multiplayer | Lobby Models")
         ESubscriptionType Type = StaticCast<ESubscriptionType>(0);
 };

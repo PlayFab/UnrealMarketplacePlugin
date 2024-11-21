@@ -8875,9 +8875,6 @@ namespace ClientModels
 
     struct PLAYFABCPP_API FLoginWithGoogleAccountRequest : public PlayFab::FPlayFabCppRequestCommon
     {
-        // access_token from a successful Google OAuth
-        FString AccessToken;
-
         // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
         Boxed<bool> CreateAccount;
 
@@ -8906,6 +8903,9 @@ namespace ClientModels
          * title has been selected.
          */
         FString TitleId;
+
+        // access_token issued by Google OAuth
+        FString AccessToken;
 
         FLoginWithGoogleAccountRequest() :
             FPlayFabCppRequestCommon(),

@@ -626,6 +626,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1593: returnText = "StatisticColumnLengthMismatch"; break;
     case 1594: returnText = "InvalidExternalEntityId"; break;
     case 1595: returnText = "UpdatingStatisticsUsingTransactionIdNotAvailableForFreeTier"; break;
+    case 1596: returnText = "TransactionAlreadyApplied"; break;
+    case 1597: returnText = "ReportDataNotRetrievedSuccessfully"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -905,6 +907,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20308: returnText = "GameSaveFileNotUploaded"; break;
     case 20309: returnText = "GameSaveBadRequest"; break;
     case 20310: returnText = "GameSaveOperationNotAllowed"; break;
+    case 20311: returnText = "GameSaveDataStorageQuotaExceeded"; break;
+    case 20312: returnText = "GameSaveNewerManifestExists"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

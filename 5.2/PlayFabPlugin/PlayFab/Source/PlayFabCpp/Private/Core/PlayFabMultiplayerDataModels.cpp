@@ -224,6 +224,8 @@ void PlayFab::MultiplayerModels::writeAzureRegionEnumJSON(AzureRegion enumVal, J
     case AzureRegionUaeNorth: writer->WriteValue(TEXT("UaeNorth")); break;
     case AzureRegionUkSouth: writer->WriteValue(TEXT("UkSouth")); break;
     case AzureRegionSwedenCentral: writer->WriteValue(TEXT("SwedenCentral")); break;
+    case AzureRegionCanadaCentral: writer->WriteValue(TEXT("CanadaCentral")); break;
+    case AzureRegionMexicoCentral: writer->WriteValue(TEXT("MexicoCentral")); break;
     }
 }
 
@@ -262,6 +264,8 @@ MultiplayerModels::AzureRegion PlayFab::MultiplayerModels::readAzureRegionFromVa
         _AzureRegionMap.Add(TEXT("UaeNorth"), AzureRegionUaeNorth);
         _AzureRegionMap.Add(TEXT("UkSouth"), AzureRegionUkSouth);
         _AzureRegionMap.Add(TEXT("SwedenCentral"), AzureRegionSwedenCentral);
+        _AzureRegionMap.Add(TEXT("CanadaCentral"), AzureRegionCanadaCentral);
+        _AzureRegionMap.Add(TEXT("MexicoCentral"), AzureRegionMexicoCentral);
 
     }
 

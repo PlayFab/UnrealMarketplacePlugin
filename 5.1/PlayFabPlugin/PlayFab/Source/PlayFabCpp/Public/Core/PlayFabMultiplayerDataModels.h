@@ -130,7 +130,9 @@ namespace MultiplayerModels
         AzureRegionCentralIndia,
         AzureRegionUaeNorth,
         AzureRegionUkSouth,
-        AzureRegionSwedenCentral
+        AzureRegionSwedenCentral,
+        AzureRegionCanadaCentral,
+        AzureRegionMexicoCentral
     };
 
     PLAYFABCPP_API void writeAzureRegionEnumJSON(AzureRegion enumVal, JsonWriter& writer);

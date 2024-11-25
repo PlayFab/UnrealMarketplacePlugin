@@ -5968,6 +5968,80 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FGetPlayFabIDsFromSteamNamesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * Array of unique Steam identifiers for which the title needs to get PlayFab identifiers. The array cannot exceed 2,000 in
+         * length.
+         */
+        TArray<FString> SteamNames;
+        FGetPlayFabIDsFromSteamNamesRequest() :
+            FPlayFabCppRequestCommon(),
+            SteamNames()
+            {}
+
+        FGetPlayFabIDsFromSteamNamesRequest(const FGetPlayFabIDsFromSteamNamesRequest& src) = default;
+
+        FGetPlayFabIDsFromSteamNamesRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromSteamNamesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromSteamNamesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FSteamNamePlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Steam identifier.
+        FString PlayFabId;
+
+        // [optional] Unique Steam identifier for a user, also known as Steam persona name.
+        FString SteamName;
+
+        FSteamNamePlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            PlayFabId(),
+            SteamName()
+            {}
+
+        FSteamNamePlayFabIdPair(const FSteamNamePlayFabIdPair& src) = default;
+
+        FSteamNamePlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FSteamNamePlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FSteamNamePlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromSteamNamesResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of Steam identifiers to PlayFab identifiers.
+        TArray<FSteamNamePlayFabIdPair> Data;
+        FGetPlayFabIDsFromSteamNamesResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromSteamNamesResult(const FGetPlayFabIDsFromSteamNamesResult& src) = default;
+
+        FGetPlayFabIDsFromSteamNamesResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromSteamNamesResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromSteamNamesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FGetPlayFabIDsFromTwitchIDsRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         /**

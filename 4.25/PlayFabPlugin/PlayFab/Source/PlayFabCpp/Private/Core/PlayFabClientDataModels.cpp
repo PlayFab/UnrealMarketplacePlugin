@@ -12400,6 +12400,114 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromSteamIDsResult::readFromValue(cons
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FGetPlayFabIDsFromSteamNamesRequest::~FGetPlayFabIDsFromSteamNamesRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromSteamNamesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("SteamNames"));
+    for (const FString& item : SteamNames)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromSteamNamesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    HasSucceeded &= obj->TryGetStringArrayField(TEXT("SteamNames"), SteamNames);
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FSteamNamePlayFabIdPair::~FSteamNamePlayFabIdPair()
+{
+
+}
+
+void PlayFab::ClientModels::FSteamNamePlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (SteamName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("SteamName"));
+        writer->WriteValue(SteamName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FSteamNamePlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SteamNameValue = obj->TryGetField(TEXT("SteamName"));
+    if (SteamNameValue.IsValid() && !SteamNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (SteamNameValue->TryGetString(TmpValue)) { SteamName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FGetPlayFabIDsFromSteamNamesResult::~FGetPlayFabIDsFromSteamNamesResult()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromSteamNamesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FSteamNamePlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromSteamNamesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FSteamNamePlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FGetPlayFabIDsFromTwitchIDsRequest::~FGetPlayFabIDsFromTwitchIDsRequest()
 {
 

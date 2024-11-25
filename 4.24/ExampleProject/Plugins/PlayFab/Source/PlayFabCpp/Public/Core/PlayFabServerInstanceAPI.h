@@ -70,6 +70,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNAccountIDsDelegate, const ServerModels::FGetPlayFabIDsFromPSNAccountIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromPSNOnlineIDsDelegate, const ServerModels::FGetPlayFabIDsFromPSNOnlineIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamIDsDelegate, const ServerModels::FGetPlayFabIDsFromSteamIDsResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromSteamNamesDelegate, const ServerModels::FGetPlayFabIDsFromSteamNamesResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromTwitchIDsDelegate, const ServerModels::FGetPlayFabIDsFromTwitchIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromXboxLiveIDsDelegate, const ServerModels::FGetPlayFabIDsFromXboxLiveIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPublisherDataDelegate, const ServerModels::FGetPublisherDataResult&);
@@ -411,6 +412,11 @@ namespace PlayFab
          * IDs for the user accounts, available as SteamId in the Steamworks Community API calls.
          */
         bool GetPlayFabIDsFromSteamIDs(ServerModels::FGetPlayFabIDsFromSteamIDsRequest& request, const FGetPlayFabIDsFromSteamIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromSteamIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers are persona
+         * names.
+         */
+        bool GetPlayFabIDsFromSteamNames(ServerModels::FGetPlayFabIDsFromSteamNamesRequest& request, const FGetPlayFabIDsFromSteamNamesDelegate& SuccessDelegate = FGetPlayFabIDsFromSteamNamesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the unique PlayFab identifiers for the given set of Twitch identifiers. The Twitch identifiers are the IDs for
          * the user accounts, available as "_id" from the Twitch API methods (ex:
@@ -890,6 +896,7 @@ namespace PlayFab
         void OnGetPlayFabIDsFromPSNAccountIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNAccountIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromPSNOnlineIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromPSNOnlineIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromSteamNamesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamNamesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromTwitchIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromTwitchIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromXboxLiveIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromXboxLiveIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPublisherDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPublisherDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

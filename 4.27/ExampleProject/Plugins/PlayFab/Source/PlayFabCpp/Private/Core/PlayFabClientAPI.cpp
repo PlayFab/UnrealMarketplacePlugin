@@ -1777,6 +1777,37 @@ void UPlayFabClientAPI::OnGetPlayFabIDsFromSteamIDsResult(FHttpRequestPtr HttpRe
     }
 }
 
+bool UPlayFabClientAPI::GetPlayFabIDsFromSteamNames(
+    ClientModels::FGetPlayFabIDsFromSteamNamesRequest& request,
+    const FGetPlayFabIDsFromSteamNamesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();
+    if(clientTicket.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromSteamNames"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromSteamNamesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnGetPlayFabIDsFromSteamNamesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromSteamNamesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FGetPlayFabIDsFromSteamNamesResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::GetPlayFabIDsFromTwitchIDs(
     ClientModels::FGetPlayFabIDsFromTwitchIDsRequest& request,
     const FGetPlayFabIDsFromTwitchIDsDelegate& SuccessDelegate,

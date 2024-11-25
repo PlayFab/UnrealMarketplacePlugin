@@ -778,6 +778,61 @@ void UPlayFabServerAPI::HelperGetPlayFabIDsFromSteamIDs(FPlayFabBaseModel respon
     this->RemoveFromRoot();
 }
 
+/** Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers are persona names. */
+UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromSteamNames(FServerGetPlayFabIDsFromSteamNamesRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromSteamNames onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromSteamNames = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromSteamNames);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromSteamNames";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.SteamNames.IsEmpty() || request.SteamNames == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("SteamNames"));
+    } else {
+        TArray<FString> SteamNamesArray;
+        FString(request.SteamNames).ParseIntoArray(SteamNamesArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("SteamNames"), SteamNamesArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetPlayFabIDsFromSteamNames(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromSteamNames.IsBound())
+    {
+        FServerGetPlayFabIDsFromSteamNamesResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromSteamNamesResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromSteamNames.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the unique PlayFab identifiers for the given set of Twitch identifiers. The Twitch identifiers are the IDs for the user accounts, available as "_id" from the Twitch API methods (ex: https://github.com/justintv/Twitch-API/blob/master/v3_resources/users.md#get-usersuser). */
 UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromTwitchIDs(FServerGetPlayFabIDsFromTwitchIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs onSuccess,

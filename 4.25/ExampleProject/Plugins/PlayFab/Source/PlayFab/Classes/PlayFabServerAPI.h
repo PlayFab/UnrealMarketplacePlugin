@@ -239,6 +239,22 @@ public:
         void HelperGetPlayFabIDsFromSteamIDs(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromSteamNames, FServerGetPlayFabIDsFromSteamNamesResult, result, UObject*, customData);
+
+    /**
+     * Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers are persona
+     * names.
+     */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabServerAPI* GetPlayFabIDsFromSteamNames(FServerGetPlayFabIDsFromSteamNamesRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromSteamNames onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabServerRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromSteamNames(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs, FServerGetPlayFabIDsFromTwitchIDsResult, result, UObject*, customData);
 
     /**
@@ -2122,6 +2138,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromPSNAccountIDs OnSuccessGetPlayFabIDsFromPSNAccountIDs;
     FDelegateOnSuccessGetPlayFabIDsFromPSNOnlineIDs OnSuccessGetPlayFabIDsFromPSNOnlineIDs;
     FDelegateOnSuccessGetPlayFabIDsFromSteamIDs OnSuccessGetPlayFabIDsFromSteamIDs;
+    FDelegateOnSuccessGetPlayFabIDsFromSteamNames OnSuccessGetPlayFabIDsFromSteamNames;
     FDelegateOnSuccessGetPlayFabIDsFromTwitchIDs OnSuccessGetPlayFabIDsFromTwitchIDs;
     FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs OnSuccessGetPlayFabIDsFromXboxLiveIDs;
     FDelegateOnSuccessGetServerCustomIDsFromPlayFabIDs OnSuccessGetServerCustomIDsFromPlayFabIDs;

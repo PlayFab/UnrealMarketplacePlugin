@@ -216,6 +216,17 @@ FClientGetPlayFabIDsFromSteamIDsResult UPlayFabClientModelDecoder::decodeGetPlay
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromSteamNamesResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromSteamNamesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromSteamNamesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientGetPlayFabIDsFromTwitchIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromTwitchIDsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

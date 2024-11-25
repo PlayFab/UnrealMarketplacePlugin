@@ -108,6 +108,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayFabIDsFromSteamIDsResult decodeGetPlayFabIDsFromSteamIDsResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayFabIDsFromSteamNamesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientGetPlayFabIDsFromSteamNamesResult decodeGetPlayFabIDsFromSteamNamesResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetPlayFabIDsFromTwitchIDsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayFabIDsFromTwitchIDsResult decodeGetPlayFabIDsFromTwitchIDsResultResponse(UPlayFabJsonObject* response);

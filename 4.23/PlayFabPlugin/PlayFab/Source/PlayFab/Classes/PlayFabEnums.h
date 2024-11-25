@@ -1536,6 +1536,8 @@ enum class EAzureRegion : uint8
     pfenum_UaeNorth = 21 UMETA(DisplayName = "UaeNorth"),
     pfenum_UkSouth = 22 UMETA(DisplayName = "UkSouth"),
     pfenum_SwedenCentral = 23 UMETA(DisplayName = "SwedenCentral"),
+    pfenum_CanadaCentral = 24 UMETA(DisplayName = "CanadaCentral"),
+    pfenum_MexicoCentral = 25 UMETA(DisplayName = "MexicoCentral"),
 };
 
 /** AzureVmFamily */

@@ -1232,6 +1232,11 @@ UPlayFabProgressionAPI* UPlayFabProgressionAPI::UpdateStatistics(FProgressionUpd
     } else {
         OutRestJsonObj->SetObjectArrayField(TEXT("Statistics"), request.Statistics);
     }
+    if (request.TransactionId.IsEmpty() || request.TransactionId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("TransactionId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("TransactionId"), request.TransactionId);
+    }
 
     // Add Request to manager
     manager->SetRequestObject(OutRestJsonObj);

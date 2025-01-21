@@ -3073,6 +3073,12 @@ void PlayFab::ProgressionModels::FUpdateStatisticsRequest::writeJSON(JsonWriter&
     writer->WriteArrayEnd();
 
 
+    if (TransactionId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("TransactionId"));
+        writer->WriteValue(TransactionId);
+    }
+
     writer->WriteObjectEnd();
 }
 
@@ -3102,6 +3108,13 @@ bool PlayFab::ProgressionModels::FUpdateStatisticsRequest::readFromValue(const T
         Statistics.Add(FStatisticUpdate(CurrentItem->AsObject()));
     }
 
+
+    const TSharedPtr<FJsonValue> TransactionIdValue = obj->TryGetField(TEXT("TransactionId"));
+    if (TransactionIdValue.IsValid() && !TransactionIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TransactionIdValue->TryGetString(TmpValue)) { TransactionId = TmpValue; }
+    }
 
     return HasSucceeded;
 }

@@ -561,6 +561,12 @@ public:
     /** Collection of statistics to update, maximum 50. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         TArray<UPlayFabJsonObject*> Statistics;
+    /**
+     * Optional transactionId of this update which can be used to ensure idempotence. Using this field is still in testing
+     * stage.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString TransactionId;
 };
 
 USTRUCT(BlueprintType)

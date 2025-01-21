@@ -896,6 +896,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20065: returnText = "TrueSkillConditionSetNotInModel"; break;
     case 20066: returnText = "TrueSkillModelStateInvalidForOperation"; break;
     case 20067: returnText = "TrueSkillScenarioContainsActiveModel"; break;
+    case 20068: returnText = "TrueSkillInvalidConditionRank"; break;
     case 20300: returnText = "GameSaveManifestNotFound"; break;
     case 20301: returnText = "GameSaveManifestVersionAlreadyExists"; break;
     case 20302: returnText = "GameSaveConflictUpdatingManifest"; break;
@@ -909,6 +910,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20310: returnText = "GameSaveOperationNotAllowed"; break;
     case 20311: returnText = "GameSaveDataStorageQuotaExceeded"; break;
     case 20312: returnText = "GameSaveNewerManifestExists"; break;
+    case 20313: returnText = "GameSaveBaseVersionNotAvailable"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

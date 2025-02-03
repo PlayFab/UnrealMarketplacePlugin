@@ -15,7 +15,7 @@ This sdk contains a settings option to set developerSecretKey.  For the security
 
 ## 2. Prerequisites:
 
-* Users should be very familiar with the topics covered in our [getting started guide](https://api.playfab.com/docs/general-getting-started).
+* Users should be very familiar with the topics covered in our [getting started guide](https://learn.microsoft.com/en-us/gaming/playfab/sdks/unreal/quickstart).
 
 To connect to the PlayFab service, your machine must be running TLS v1.2 or better.
 * For Windows, this means Windows 7 and above
@@ -85,7 +85,7 @@ To use the  plugin as an engine plugin in Existing Projects:
 Once the plugin is properly installed, run the Unreal Engine environment editor.
 Navigate to the dropdown menus:  Edit -> Project Settings
 On the left menu, scroll to the bottom, find Plugins -> PlayFab
-Fill in the TitleId with the appropriate value from your project, found in the PlayFab [Game Manager](https://developer.playfab.com/en-us/studios)
+Fill in the TitleId with the appropriate value from your project, found in the PlayFab [Game Manager](https://developer.playfab.com/)
 If this is a server process, you can also fill in the developerSecretKey.  For the security of your title, this must be blank for client builds.
 
 ## 4. Troubleshooting:
@@ -98,7 +98,7 @@ http://idkudk.blogspot.com/2015/02/how-to-get-plugins-to-package-correctly.html
 
 General troubleshooting:
 
-For a complete list of available APIs, check out the [online documentation](http://api.playfab.com/Documentation/).
+For a complete list of available APIs, check out the [online documentation](https://learn.microsoft.com/en-us/rest/api/playfab/).
 
 ## 4.b Known Issue:
 

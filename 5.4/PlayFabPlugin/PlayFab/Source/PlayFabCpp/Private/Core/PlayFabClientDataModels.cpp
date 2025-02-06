@@ -17176,6 +17176,12 @@ void PlayFab::ClientModels::FLoginWithGoogleAccountRequest::writeJSON(JsonWriter
 {
     writer->WriteObjectStart();
 
+    if(!AccessToken.IsEmpty())
+    {
+        writer->WriteIdentifierPrefix(TEXT("AccessToken"));
+        writer->WriteValue(AccessToken);    
+    }
+
     if (CreateAccount.notNull())
     {
         writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
@@ -17239,6 +17245,13 @@ void PlayFab::ClientModels::FLoginWithGoogleAccountRequest::writeJSON(JsonWriter
 bool PlayFab::ClientModels::FLoginWithGoogleAccountRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AccessTokenValue = obj->TryGetField(TEXT("AccessToken"));
+    if (AccessTokenValue.IsValid() && !AccessTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (AccessTokenValue->TryGetString(TmpValue)) { AccessToken = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
     if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())

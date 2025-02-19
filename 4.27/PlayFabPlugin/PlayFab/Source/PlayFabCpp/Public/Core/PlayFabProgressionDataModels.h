@@ -614,6 +614,9 @@ namespace ProgressionModels
         // The number of entries on the leaderboard.
         uint32 EntryCount;
 
+        // [optional] The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule.
+        Boxed<FDateTime> NextReset;
+
         // [optional] Individual entity rankings in the leaderboard, in sorted order by rank.
         TArray<FEntityLeaderboardEntry> Rankings;
         // Version of the leaderboard being returned.
@@ -623,6 +626,7 @@ namespace ProgressionModels
             FPlayFabCppResultCommon(),
             Columns(),
             EntryCount(0),
+            NextReset(),
             Rankings(),
             Version(0)
             {}
@@ -1442,6 +1446,40 @@ namespace ProgressionModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FUpdateLeaderboardDefinitionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // The name of the leaderboard to update the definition for.
+        FString Name;
+
+        // [optional] Maximum number of entries on this leaderboard
+        Boxed<int32> SizeLimit;
+
+        // [optional] The version reset configuration for the leaderboard definition.
+        TSharedPtr<FVersionConfiguration> pfVersionConfiguration;
+
+        FUpdateLeaderboardDefinitionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Name(),
+            SizeLimit(),
+            pfVersionConfiguration(nullptr)
+            {}
+
+        FUpdateLeaderboardDefinitionRequest(const FUpdateLeaderboardDefinitionRequest& src) = default;
+
+        FUpdateLeaderboardDefinitionRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateLeaderboardDefinitionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateLeaderboardDefinitionRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FUpdateLeaderboardEntriesRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
@@ -1466,6 +1504,36 @@ namespace ProgressionModels
         }
 
         ~FUpdateLeaderboardEntriesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateStatisticDefinitionRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
+        FString Name;
+
+        // [optional] The version reset configuration for the statistic definition.
+        TSharedPtr<FVersionConfiguration> pfVersionConfiguration;
+
+        FUpdateStatisticDefinitionRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            Name(),
+            pfVersionConfiguration(nullptr)
+            {}
+
+        FUpdateStatisticDefinitionRequest(const FUpdateStatisticDefinitionRequest& src) = default;
+
+        FUpdateStatisticDefinitionRequest(const TSharedPtr<FJsonObject>& obj) : FUpdateStatisticDefinitionRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateStatisticDefinitionRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

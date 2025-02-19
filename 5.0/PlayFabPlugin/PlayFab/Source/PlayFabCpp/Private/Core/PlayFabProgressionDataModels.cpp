@@ -1256,6 +1256,12 @@ void PlayFab::ProgressionModels::FGetEntityLeaderboardResponse::writeJSON(JsonWr
     writer->WriteIdentifierPrefix(TEXT("EntryCount"));
     writer->WriteValue(static_cast<int64>(EntryCount));
 
+    if (NextReset.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("NextReset"));
+        writeDatetime(NextReset, writer);
+    }
+
     if (Rankings.Num() != 0)
     {
         writer->WriteArrayStart(TEXT("Rankings"));
@@ -1289,6 +1295,11 @@ bool PlayFab::ProgressionModels::FGetEntityLeaderboardResponse::readFromValue(co
         uint32 TmpValue;
         if (EntryCountValue->TryGetNumber(TmpValue)) { EntryCount = TmpValue; }
     }
+
+    const TSharedPtr<FJsonValue> NextResetValue = obj->TryGetField(TEXT("NextReset"));
+    if (NextResetValue.IsValid())
+        NextReset = readDatetime(NextResetValue);
+
 
     const TArray<TSharedPtr<FJsonValue>>&RankingsArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Rankings"));
     for (int32 Idx = 0; Idx < RankingsArray.Num(); Idx++)
@@ -2967,6 +2978,88 @@ bool PlayFab::ProgressionModels::FUnlinkLeaderboardFromStatisticRequest::readFro
     return HasSucceeded;
 }
 
+PlayFab::ProgressionModels::FUpdateLeaderboardDefinitionRequest::~FUpdateLeaderboardDefinitionRequest()
+{
+    //if (VersionConfiguration != nullptr) delete VersionConfiguration;
+
+}
+
+void PlayFab::ProgressionModels::FUpdateLeaderboardDefinitionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateLeaderboardDefinitionRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (SizeLimit.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("SizeLimit"));
+        writer->WriteValue(SizeLimit);
+    }
+
+    if (pfVersionConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VersionConfiguration"));
+        pfVersionConfiguration->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FUpdateLeaderboardDefinitionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> SizeLimitValue = obj->TryGetField(TEXT("SizeLimit"));
+    if (SizeLimitValue.IsValid() && !SizeLimitValue->IsNull())
+    {
+        int32 TmpValue;
+        if (SizeLimitValue->TryGetNumber(TmpValue)) { SizeLimit = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> VersionConfigurationValue = obj->TryGetField(TEXT("VersionConfiguration"));
+    if (VersionConfigurationValue.IsValid() && !VersionConfigurationValue->IsNull())
+    {
+        pfVersionConfiguration = MakeShareable(new FVersionConfiguration(VersionConfigurationValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ProgressionModels::FUpdateLeaderboardEntriesRequest::~FUpdateLeaderboardEntriesRequest()
 {
 
@@ -3035,6 +3128,75 @@ bool PlayFab::ProgressionModels::FUpdateLeaderboardEntriesRequest::readFromValue
     {
         FString TmpValue;
         if (LeaderboardNameValue->TryGetString(TmpValue)) { LeaderboardName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ProgressionModels::FUpdateStatisticDefinitionRequest::~FUpdateStatisticDefinitionRequest()
+{
+    //if (VersionConfiguration != nullptr) delete VersionConfiguration;
+
+}
+
+void PlayFab::ProgressionModels::FUpdateStatisticDefinitionRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateStatisticDefinitionRequest::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (pfVersionConfiguration.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("VersionConfiguration"));
+        pfVersionConfiguration->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ProgressionModels::FUpdateStatisticDefinitionRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> VersionConfigurationValue = obj->TryGetField(TEXT("VersionConfiguration"));
+    if (VersionConfigurationValue.IsValid() && !VersionConfigurationValue->IsNull())
+    {
+        pfVersionConfiguration = MakeShareable(new FVersionConfiguration(VersionConfigurationValue->AsObject()));
     }
 
     return HasSucceeded;

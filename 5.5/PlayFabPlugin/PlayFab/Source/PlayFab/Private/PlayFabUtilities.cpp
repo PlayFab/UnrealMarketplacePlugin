@@ -628,6 +628,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1595: returnText = "UpdatingStatisticsUsingTransactionIdNotAvailableForFreeTier"; break;
     case 1596: returnText = "TransactionAlreadyApplied"; break;
     case 1597: returnText = "ReportDataNotRetrievedSuccessfully"; break;
+    case 1598: returnText = "ResetIntervalCannotBeModified"; break;
+    case 1599: returnText = "VersionIncrementRateExceeded"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -911,6 +913,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20311: returnText = "GameSaveDataStorageQuotaExceeded"; break;
     case 20312: returnText = "GameSaveNewerManifestExists"; break;
     case 20313: returnText = "GameSaveBaseVersionNotAvailable"; break;
+    case 20314: returnText = "GameSaveManifestVersionQuarantined"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

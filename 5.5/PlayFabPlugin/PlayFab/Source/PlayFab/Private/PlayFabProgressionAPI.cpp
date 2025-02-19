@@ -709,6 +709,62 @@ void UPlayFabProgressionAPI::HelperUnlinkLeaderboardFromStatistic(FPlayFabBaseMo
     this->RemoveFromRoot();
 }
 
+/** Updates a leaderboard definition. */
+UPlayFabProgressionAPI* UPlayFabProgressionAPI::UpdateLeaderboardDefinition(FProgressionUpdateLeaderboardDefinitionRequest request,
+    FDelegateOnSuccessUpdateLeaderboardDefinition onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabProgressionAPI* manager = NewObject<UPlayFabProgressionAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateLeaderboardDefinition = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProgressionAPI::HelperUpdateLeaderboardDefinition);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Leaderboard/UpdateLeaderboardDefinition";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+    OutRestJsonObj->SetNumberField(TEXT("SizeLimit"), request.SizeLimit);
+    if (request.VersionConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("VersionConfiguration"), request.VersionConfiguration);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabProgressionRequestCompleted
+void UPlayFabProgressionAPI::HelperUpdateLeaderboardDefinition(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateLeaderboardDefinition.IsBound())
+    {
+        FProgressionEmptyResponse ResultStruct = UPlayFabProgressionModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateLeaderboardDefinition.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Adds or updates entries on the specified leaderboard. */
 UPlayFabProgressionAPI* UPlayFabProgressionAPI::UpdateLeaderboardEntries(FProgressionUpdateLeaderboardEntriesRequest request,
     FDelegateOnSuccessUpdateLeaderboardEntries onSuccess,
@@ -1197,6 +1253,61 @@ void UPlayFabProgressionAPI::HelperListStatisticDefinitions(FPlayFabBaseModel re
     {
         FProgressionListStatisticDefinitionsResponse ResultStruct = UPlayFabProgressionModelDecoder::decodeListStatisticDefinitionsResponseResponse(response.responseData);
         OnSuccessListStatisticDefinitions.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Update an existing entity statistic definition. */
+UPlayFabProgressionAPI* UPlayFabProgressionAPI::UpdateStatisticDefinition(FProgressionUpdateStatisticDefinitionRequest request,
+    FDelegateOnSuccessUpdateStatisticDefinition onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabProgressionAPI* manager = NewObject<UPlayFabProgressionAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdateStatisticDefinition = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabProgressionAPI::HelperUpdateStatisticDefinition);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Statistic/UpdateStatisticDefinition";
+    manager->useEntityToken = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.Name.IsEmpty() || request.Name == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("Name"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("Name"), request.Name);
+    }
+    if (request.VersionConfiguration != nullptr) OutRestJsonObj->SetObjectField(TEXT("VersionConfiguration"), request.VersionConfiguration);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabProgressionRequestCompleted
+void UPlayFabProgressionAPI::HelperUpdateStatisticDefinition(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdateStatisticDefinition.IsBound())
+    {
+        FProgressionEmptyResponse ResultStruct = UPlayFabProgressionModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUpdateStatisticDefinition.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

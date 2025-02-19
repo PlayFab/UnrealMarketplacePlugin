@@ -1274,7 +1274,7 @@ public:
     /** The time of this user's previous login. If there was no previous login, then it's DateTime.MinValue */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         FString LastLoginTime;
-    /** True if the account was newly created on this login. */
+    /** True if the master_player_account was newly created on this login. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Server | Authentication Models")
         bool NewlyCreated = false;
     /** Player's unique PlayFabId. */

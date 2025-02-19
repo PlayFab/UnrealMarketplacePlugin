@@ -1670,6 +1670,151 @@ bool PlayFab::EconomyModels::FRating::readFromValue(const TSharedPtr<FJsonObject
     return HasSucceeded;
 }
 
+PlayFab::EconomyModels::FRealMoneyPriceDetails::~FRealMoneyPriceDetails()
+{
+
+}
+
+void PlayFab::EconomyModels::FRealMoneyPriceDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AppleAppStorePrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("AppleAppStorePrices"));
+        for (TMap<FString, int32>::TConstIterator It(AppleAppStorePrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (GooglePlayPrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("GooglePlayPrices"));
+        for (TMap<FString, int32>::TConstIterator It(GooglePlayPrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (MicrosoftStorePrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("MicrosoftStorePrices"));
+        for (TMap<FString, int32>::TConstIterator It(MicrosoftStorePrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (NintendoEShopPrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("NintendoEShopPrices"));
+        for (TMap<FString, int32>::TConstIterator It(NintendoEShopPrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (PlayStationStorePrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("PlayStationStorePrices"));
+        for (TMap<FString, int32>::TConstIterator It(PlayStationStorePrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (SteamPrices.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("SteamPrices"));
+        for (TMap<FString, int32>::TConstIterator It(SteamPrices); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::EconomyModels::FRealMoneyPriceDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* AppleAppStorePricesObject;
+    if (obj->TryGetObjectField(TEXT("AppleAppStorePrices"), AppleAppStorePricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*AppleAppStorePricesObject)->Values); It; ++It)
+        {
+            int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            AppleAppStorePrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* GooglePlayPricesObject;
+    if (obj->TryGetObjectField(TEXT("GooglePlayPrices"), GooglePlayPricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*GooglePlayPricesObject)->Values); It; ++It)
+        {
+            int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            GooglePlayPrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* MicrosoftStorePricesObject;
+    if (obj->TryGetObjectField(TEXT("MicrosoftStorePrices"), MicrosoftStorePricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*MicrosoftStorePricesObject)->Values); It; ++It)
+        {
+            int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            MicrosoftStorePrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* NintendoEShopPricesObject;
+    if (obj->TryGetObjectField(TEXT("NintendoEShopPrices"), NintendoEShopPricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*NintendoEShopPricesObject)->Values); It; ++It)
+        {
+            int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            NintendoEShopPrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* PlayStationStorePricesObject;
+    if (obj->TryGetObjectField(TEXT("PlayStationStorePrices"), PlayStationStorePricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*PlayStationStorePricesObject)->Values); It; ++It)
+        {
+            int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            PlayStationStorePrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    const TSharedPtr<FJsonObject>* SteamPricesObject;
+    if (obj->TryGetObjectField(TEXT("SteamPrices"), SteamPricesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*SteamPricesObject)->Values); It; ++It)
+        {
+            int32 TmpValue; It.Value()->TryGetNumber(TmpValue);
+            SteamPrices.Add(It.Key(), TmpValue);
+        }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::EconomyModels::FFilterOptions::~FFilterOptions()
 {
 
@@ -1939,6 +2084,7 @@ PlayFab::EconomyModels::FCatalogItem::~FCatalogItem()
     //if (Moderation != nullptr) delete Moderation;
     //if (PriceOptions != nullptr) delete PriceOptions;
     //if (Rating != nullptr) delete Rating;
+    //if (RealMoneyPriceDetails != nullptr) delete RealMoneyPriceDetails;
     //if (StoreDetails != nullptr) delete StoreDetails;
 
 }
@@ -2105,6 +2251,12 @@ void PlayFab::EconomyModels::FCatalogItem::writeJSON(JsonWriter& writer) const
     {
         writer->WriteIdentifierPrefix(TEXT("Rating"));
         pfRating->writeJSON(writer);
+    }
+
+    if (pfRealMoneyPriceDetails.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("RealMoneyPriceDetails"));
+        pfRealMoneyPriceDetails->writeJSON(writer);
     }
 
     if (StartDate.notNull())
@@ -2299,6 +2451,12 @@ bool PlayFab::EconomyModels::FCatalogItem::readFromValue(const TSharedPtr<FJsonO
         pfRating = MakeShareable(new FRating(RatingValue->AsObject()));
     }
 
+    const TSharedPtr<FJsonValue> RealMoneyPriceDetailsValue = obj->TryGetField(TEXT("RealMoneyPriceDetails"));
+    if (RealMoneyPriceDetailsValue.IsValid() && !RealMoneyPriceDetailsValue->IsNull())
+    {
+        pfRealMoneyPriceDetails = MakeShareable(new FRealMoneyPriceDetails(RealMoneyPriceDetailsValue->AsObject()));
+    }
+
     const TSharedPtr<FJsonValue> StartDateValue = obj->TryGetField(TEXT("StartDate"));
     if (StartDateValue.IsValid())
         StartDate = readDatetime(StartDateValue);
@@ -2381,25 +2539,6 @@ EconomyModels::ConcernCategory PlayFab::EconomyModels::readConcernCategoryFromVa
     }
 
     return ConcernCategoryNone; // Basically critical fail
-}
-
-PlayFab::EconomyModels::FContentFeed::~FContentFeed()
-{
-
-}
-
-void PlayFab::EconomyModels::FContentFeed::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FContentFeed::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    return HasSucceeded;
 }
 
 void PlayFab::EconomyModels::writeCountryCodeEnumJSON(CountryCode enumVal, JsonWriter& writer)
@@ -5191,12 +5330,6 @@ void PlayFab::EconomyModels::FReview::writeJSON(JsonWriter& writer) const
         ReviewerEntity->writeJSON(writer);
     }
 
-    if (ReviewerId.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("ReviewerId"));
-        writer->WriteValue(ReviewerId);
-    }
-
     if (ReviewId.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("ReviewId"));
@@ -5288,13 +5421,6 @@ bool PlayFab::EconomyModels::FReview::readFromValue(const TSharedPtr<FJsonObject
     if (ReviewerEntityValue.IsValid() && !ReviewerEntityValue->IsNull())
     {
         ReviewerEntity = MakeShareable(new FEntityKey(ReviewerEntityValue->AsObject()));
-    }
-
-    const TSharedPtr<FJsonValue> ReviewerIdValue = obj->TryGetField(TEXT("ReviewerId"));
-    if (ReviewerIdValue.IsValid() && !ReviewerIdValue->IsNull())
-    {
-        FString TmpValue;
-        if (ReviewerIdValue->TryGetString(TmpValue)) { ReviewerId = TmpValue; }
     }
 
     const TSharedPtr<FJsonValue> ReviewIdValue = obj->TryGetField(TEXT("ReviewId"));
@@ -7409,25 +7535,6 @@ EconomyModels::HelpfulnessVote PlayFab::EconomyModels::readHelpfulnessVoteFromVa
     return HelpfulnessVoteNone; // Basically critical fail
 }
 
-PlayFab::EconomyModels::FPayoutDetails::~FPayoutDetails()
-{
-
-}
-
-void PlayFab::EconomyModels::FPayoutDetails::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FPayoutDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FPublishDraftItemRequest::~FPublishDraftItemRequest()
 {
     //if (AlternateId != nullptr) delete AlternateId;
@@ -7777,25 +7884,6 @@ bool PlayFab::EconomyModels::FPurchaseInventoryItemsResponse::readFromValue(cons
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FPurchaseOverride::~FPurchaseOverride()
-{
-
-}
-
-void PlayFab::EconomyModels::FPurchaseOverride::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FPurchaseOverride::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FPurchaseOverridesInfo::~FPurchaseOverridesInfo()
 {
 
@@ -7809,25 +7897,6 @@ void PlayFab::EconomyModels::FPurchaseOverridesInfo::writeJSON(JsonWriter& write
 }
 
 bool PlayFab::EconomyModels::FPurchaseOverridesInfo::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FRealMoneyPriceDetails::~FRealMoneyPriceDetails()
-{
-
-}
-
-void PlayFab::EconomyModels::FRealMoneyPriceDetails::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FRealMoneyPriceDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -9257,38 +9326,6 @@ bool PlayFab::EconomyModels::FReviewTakedown::readFromValue(const TSharedPtr<FJs
     return HasSucceeded;
 }
 
-PlayFab::EconomyModels::FScanResult::~FScanResult()
-{
-
-}
-
-void PlayFab::EconomyModels::FScanResult::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    if (Url.IsEmpty() == false)
-    {
-        writer->WriteIdentifierPrefix(TEXT("Url"));
-        writer->WriteValue(Url);
-    }
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FScanResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> UrlValue = obj->TryGetField(TEXT("Url"));
-    if (UrlValue.IsValid() && !UrlValue->IsNull())
-    {
-        FString TmpValue;
-        if (UrlValue->TryGetString(TmpValue)) { Url = TmpValue; }
-    }
-
-    return HasSucceeded;
-}
-
 PlayFab::EconomyModels::FStoreReference::~FStoreReference()
 {
     //if (AlternateId != nullptr) delete AlternateId;
@@ -9755,35 +9792,6 @@ void PlayFab::EconomyModels::FSubmitItemReviewVoteResponse::writeJSON(JsonWriter
 bool PlayFab::EconomyModels::FSubmitItemReviewVoteResponse::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
-
-    return HasSucceeded;
-}
-
-PlayFab::EconomyModels::FSubscriptionDetails::~FSubscriptionDetails()
-{
-
-}
-
-void PlayFab::EconomyModels::FSubscriptionDetails::writeJSON(JsonWriter& writer) const
-{
-    writer->WriteObjectStart();
-
-    writer->WriteIdentifierPrefix(TEXT("DurationInSeconds"));
-    writer->WriteValue(DurationInSeconds);
-
-    writer->WriteObjectEnd();
-}
-
-bool PlayFab::EconomyModels::FSubscriptionDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
-{
-    bool HasSucceeded = true;
-
-    const TSharedPtr<FJsonValue> DurationInSecondsValue = obj->TryGetField(TEXT("DurationInSeconds"));
-    if (DurationInSecondsValue.IsValid() && !DurationInSecondsValue->IsNull())
-    {
-        double TmpValue;
-        if (DurationInSecondsValue->TryGetNumber(TmpValue)) { DurationInSeconds = TmpValue; }
-    }
 
     return HasSucceeded;
 }

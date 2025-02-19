@@ -99,7 +99,7 @@ function getBaseType(datatype) {
 
 function getPropertyCppType(property, datatype) {
     var propSafeName = getPropertySafeName(property);
-    var isCollection = property.hasOwnProperty("collection");
+    var isCollection = property.hasOwnProperty("collection") && property.collection !== null;
     var isArray = isCollection && property.collection === "array";
 
     switch (property.jsontype) {
@@ -144,7 +144,7 @@ function getPropertyCppType(property, datatype) {
 
 function getPropertySerialization(tabbing, property, datatype) {
     var propSafeName = getPropertySafeName(property);
-    var isCollection = property.hasOwnProperty("collection");
+    var isCollection = property.hasOwnProperty("collection") && property.collection !== null;
     var isArray = isCollection && property.collection === "array";
 
     switch (property.jsontype) {
@@ -224,7 +224,7 @@ function getPropertySerialization(tabbing, property, datatype) {
 
 function getPropertyDeserialization(tabbing, property, datatype) {
     var propSafeName = getPropertySafeName(property);
-    var isCollection = property.hasOwnProperty("collection");
+    var isCollection = property.hasOwnProperty("collection") && property.collection !== null;
     var isArray = isCollection && property.collection === "array";
     var isMap = isCollection && property.collection === "map";
 

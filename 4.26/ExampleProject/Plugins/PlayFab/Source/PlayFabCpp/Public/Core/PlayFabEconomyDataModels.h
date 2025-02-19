@@ -907,6 +907,43 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FRealMoneyPriceDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The 'AppleAppStore' price amount per CurrencyCode. 'USD' supported only.
+        TMap<FString, int32> AppleAppStorePrices;
+        // [optional] The 'GooglePlay' price amount per CurrencyCode. 'USD' supported only.
+        TMap<FString, int32> GooglePlayPrices;
+        // [optional] The 'MicrosoftStore' price amount per CurrencyCode. 'USD' supported only.
+        TMap<FString, int32> MicrosoftStorePrices;
+        // [optional] The 'NintendoEShop' price amount per CurrencyCode. 'USD' supported only.
+        TMap<FString, int32> NintendoEShopPrices;
+        // [optional] The 'PlayStationStore' price amount per CurrencyCode. 'USD' supported only.
+        TMap<FString, int32> PlayStationStorePrices;
+        // [optional] The 'Steam' price amount per CurrencyCode. 'USD' supported only.
+        TMap<FString, int32> SteamPrices;
+        FRealMoneyPriceDetails() :
+            FPlayFabCppBaseModel(),
+            AppleAppStorePrices(),
+            GooglePlayPrices(),
+            MicrosoftStorePrices(),
+            NintendoEShopPrices(),
+            PlayStationStorePrices(),
+            SteamPrices()
+            {}
+
+        FRealMoneyPriceDetails(const FRealMoneyPriceDetails& src) = default;
+
+        FRealMoneyPriceDetails(const TSharedPtr<FJsonObject>& obj) : FRealMoneyPriceDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FRealMoneyPriceDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FFilterOptions : public PlayFab::FPlayFabCppBaseModel
     {
         /**
@@ -1153,6 +1190,9 @@ namespace EconomyModels
         // [optional] Rating summary for this item.
         TSharedPtr<FRating> pfRating;
 
+        // [optional] The real price the item was purchased for per marketplace.
+        TSharedPtr<FRealMoneyPriceDetails> pfRealMoneyPriceDetails;
+
         // [optional] The date of when the item will be available. If not provided then the product will appear immediately.
         Boxed<FDateTime> StartDate;
 
@@ -1196,6 +1236,7 @@ namespace EconomyModels
             Platforms(),
             PriceOptions(nullptr),
             pfRating(nullptr),
+            pfRealMoneyPriceDetails(nullptr),
             StartDate(),
             pfStoreDetails(nullptr),
             Tags(),
@@ -1233,25 +1274,6 @@ namespace EconomyModels
     PLAYFABCPP_API void writeConcernCategoryEnumJSON(ConcernCategory enumVal, JsonWriter& writer);
     PLAYFABCPP_API ConcernCategory readConcernCategoryFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API ConcernCategory readConcernCategoryFromValue(const FString& value);
-
-    struct PLAYFABCPP_API FContentFeed : public PlayFab::FPlayFabCppBaseModel
-    {
-        FContentFeed() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FContentFeed(const FContentFeed& src) = default;
-
-        FContentFeed(const TSharedPtr<FJsonObject>& obj) : FContentFeed()
-        {
-            readFromValue(obj);
-        }
-
-        ~FContentFeed();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
 
     enum CountryCode
     {
@@ -2689,9 +2711,6 @@ namespace EconomyModels
         // [optional] The ID of the author of the review.
         TSharedPtr<FEntityKey> ReviewerEntity;
 
-        // [optional] Deprecated. Use ReviewerEntity instead. This property will be removed in a future release.
-        FString ReviewerId;
-
         // [optional] The ID of the review.
         FString ReviewId;
 
@@ -2715,7 +2734,6 @@ namespace EconomyModels
             Locale(),
             Rating(0),
             ReviewerEntity(nullptr),
-            ReviewerId(),
             ReviewId(),
             ReviewText(),
             Submitted(0),
@@ -3766,25 +3784,6 @@ namespace EconomyModels
     PLAYFABCPP_API HelpfulnessVote readHelpfulnessVoteFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API HelpfulnessVote readHelpfulnessVoteFromValue(const FString& value);
 
-    struct PLAYFABCPP_API FPayoutDetails : public PlayFab::FPlayFabCppBaseModel
-    {
-        FPayoutDetails() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FPayoutDetails(const FPayoutDetails& src) = default;
-
-        FPayoutDetails(const TSharedPtr<FJsonObject>& obj) : FPayoutDetails()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPayoutDetails();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FPublishDraftItemRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] An alternate ID associated with this item.
@@ -3959,25 +3958,6 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FPurchaseOverride : public PlayFab::FPlayFabCppBaseModel
-    {
-        FPurchaseOverride() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FPurchaseOverride(const FPurchaseOverride& src) = default;
-
-        FPurchaseOverride(const TSharedPtr<FJsonObject>& obj) : FPurchaseOverride()
-        {
-            readFromValue(obj);
-        }
-
-        ~FPurchaseOverride();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FPurchaseOverridesInfo : public PlayFab::FPlayFabCppBaseModel
     {
         FPurchaseOverridesInfo() :
@@ -3992,25 +3972,6 @@ namespace EconomyModels
         }
 
         ~FPurchaseOverridesInfo();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FRealMoneyPriceDetails : public PlayFab::FPlayFabCppBaseModel
-    {
-        FRealMoneyPriceDetails() :
-            FPlayFabCppBaseModel()
-            {}
-
-        FRealMoneyPriceDetails(const FRealMoneyPriceDetails& src) = default;
-
-        FRealMoneyPriceDetails(const TSharedPtr<FJsonObject>& obj) : FRealMoneyPriceDetails()
-        {
-            readFromValue(obj);
-        }
-
-        ~FRealMoneyPriceDetails();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -4678,29 +4639,6 @@ namespace EconomyModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
-    struct PLAYFABCPP_API FScanResult : public PlayFab::FPlayFabCppBaseModel
-    {
-        // [optional] The URL of the item which failed the scan.
-        FString Url;
-
-        FScanResult() :
-            FPlayFabCppBaseModel(),
-            Url()
-            {}
-
-        FScanResult(const FScanResult& src) = default;
-
-        FScanResult(const TSharedPtr<FJsonObject>& obj) : FScanResult()
-        {
-            readFromValue(obj);
-        }
-
-        ~FScanResult();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
     struct PLAYFABCPP_API FStoreReference : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] An alternate ID of the store.
@@ -4931,29 +4869,6 @@ namespace EconomyModels
         }
 
         ~FSubmitItemReviewVoteResponse();
-
-        void writeJSON(JsonWriter& writer) const override;
-        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
-    };
-
-    struct PLAYFABCPP_API FSubscriptionDetails : public PlayFab::FPlayFabCppBaseModel
-    {
-        // The length of time that the subscription will last in seconds.
-        double DurationInSeconds;
-
-        FSubscriptionDetails() :
-            FPlayFabCppBaseModel(),
-            DurationInSeconds(0)
-            {}
-
-        FSubscriptionDetails(const FSubscriptionDetails& src) = default;
-
-        FSubscriptionDetails(const TSharedPtr<FJsonObject>& obj) : FSubscriptionDetails()
-        {
-            readFromValue(obj);
-        }
-
-        ~FSubscriptionDetails();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

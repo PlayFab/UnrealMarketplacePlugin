@@ -106,6 +106,9 @@ public:
     /** The number of entries on the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         int32 EntryCount = 0;
+    /** The time the next scheduled reset will occur. Null if the leaderboard does not reset on a schedule. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        FString NextReset;
     /** Individual entity rankings in the leaderboard, in sorted order by rank. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         TArray<UPlayFabJsonObject*> Rankings;
@@ -318,6 +321,25 @@ public:
     /** The name of the statistic definition to unlink. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString StatisticName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProgressionUpdateLeaderboardDefinitionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** The name of the leaderboard to update the definition for. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        FString Name;
+    /** Maximum number of entries on this leaderboard */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        int32 SizeLimit = 0;
+    /** The version reset configuration for the leaderboard definition. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
+        UPlayFabJsonObject* VersionConfiguration = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -545,6 +567,22 @@ public:
     /** List of statistic definitions for the title. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
         TArray<UPlayFabJsonObject*> StatisticDefinitions;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FProgressionUpdateStatisticDefinitionRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Name of the statistic. Must be less than 150 characters. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        FString Name;
+    /** The version reset configuration for the statistic definition. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Statistics Models")
+        UPlayFabJsonObject* VersionConfiguration = nullptr;
 };
 
 USTRUCT(BlueprintType)

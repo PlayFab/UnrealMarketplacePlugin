@@ -41,7 +41,9 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListLeaderboardDefinitionsDelegate, const ProgressionModels::FListLeaderboardDefinitionsResponse&);
         DECLARE_DELEGATE_OneParam(FListStatisticDefinitionsDelegate, const ProgressionModels::FListStatisticDefinitionsResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkLeaderboardFromStatisticDelegate, const ProgressionModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUpdateLeaderboardDefinitionDelegate, const ProgressionModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateLeaderboardEntriesDelegate, const ProgressionModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUpdateStatisticDefinitionDelegate, const ProgressionModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUpdateStatisticsDelegate, const ProgressionModels::FUpdateStatisticsResponse&);
 
 
@@ -112,8 +114,12 @@ namespace PlayFab
         bool ListStatisticDefinitions(ProgressionModels::FListStatisticDefinitionsRequest& request, const FListStatisticDefinitionsDelegate& SuccessDelegate = FListStatisticDefinitionsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks a leaderboard definition from it's linked statistic definition.
         bool UnlinkLeaderboardFromStatistic(ProgressionModels::FUnlinkLeaderboardFromStatisticRequest& request, const FUnlinkLeaderboardFromStatisticDelegate& SuccessDelegate = FUnlinkLeaderboardFromStatisticDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Updates a leaderboard definition.
+        bool UpdateLeaderboardDefinition(ProgressionModels::FUpdateLeaderboardDefinitionRequest& request, const FUpdateLeaderboardDefinitionDelegate& SuccessDelegate = FUpdateLeaderboardDefinitionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Adds or updates entries on the specified leaderboard.
         bool UpdateLeaderboardEntries(ProgressionModels::FUpdateLeaderboardEntriesRequest& request, const FUpdateLeaderboardEntriesDelegate& SuccessDelegate = FUpdateLeaderboardEntriesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Update an existing entity statistic definition.
+        bool UpdateStatisticDefinition(ProgressionModels::FUpdateStatisticDefinitionRequest& request, const FUpdateStatisticDefinitionDelegate& SuccessDelegate = FUpdateStatisticDefinitionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Update statistics on an entity profile. Depending on the statistic definition, this may result in entity being ranked on
          * various leaderboards.
@@ -141,7 +147,9 @@ namespace PlayFab
         void OnListLeaderboardDefinitionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListLeaderboardDefinitionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListStatisticDefinitionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListStatisticDefinitionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkLeaderboardFromStatisticResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkLeaderboardFromStatisticDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateLeaderboardDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLeaderboardDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateLeaderboardEntriesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLeaderboardEntriesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdateStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
 
     };

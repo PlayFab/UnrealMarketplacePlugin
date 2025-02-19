@@ -1095,7 +1095,7 @@ namespace AdminModels
         // [optional] The reason why this ban was applied.
         FString Reason;
 
-        // [optional] The family type of the suer that is included in the ban.
+        // [optional] The family type of the user that is included in the ban.
         FString UserFamilyType;
 
         FBanInfo() :

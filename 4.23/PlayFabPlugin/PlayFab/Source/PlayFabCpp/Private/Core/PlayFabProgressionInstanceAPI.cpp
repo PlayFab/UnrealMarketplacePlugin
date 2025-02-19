@@ -647,6 +647,36 @@ void UPlayFabProgressionInstanceAPI::OnUnlinkLeaderboardFromStatisticResult(FHtt
     }
 }
 
+bool UPlayFabProgressionInstanceAPI::UpdateLeaderboardDefinition(
+    ProgressionModels::FUpdateLeaderboardDefinitionRequest& request,
+    const FUpdateLeaderboardDefinitionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Leaderboard/UpdateLeaderboardDefinition"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProgressionInstanceAPI::OnUpdateLeaderboardDefinitionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabProgressionInstanceAPI::OnUpdateLeaderboardDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLeaderboardDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ProgressionModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabProgressionInstanceAPI::UpdateLeaderboardEntries(
     ProgressionModels::FUpdateLeaderboardEntriesRequest& request,
     const FUpdateLeaderboardEntriesDelegate& SuccessDelegate,
@@ -664,6 +694,36 @@ bool UPlayFabProgressionInstanceAPI::UpdateLeaderboardEntries(
 }
 
 void UPlayFabProgressionInstanceAPI::OnUpdateLeaderboardEntriesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateLeaderboardEntriesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ProgressionModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabProgressionInstanceAPI::UpdateStatisticDefinition(
+    ProgressionModels::FUpdateStatisticDefinitionRequest& request,
+    const FUpdateStatisticDefinitionDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetEntityToken().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must call GetEntityToken API Method before calling this function."));
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Statistic/UpdateStatisticDefinition"), request.toJSONString(), TEXT("X-EntityToken"), context->GetEntityToken());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabProgressionInstanceAPI::OnUpdateStatisticDefinitionResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabProgressionInstanceAPI::OnUpdateStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ProgressionModels::FEmptyResponse outResult;
     FPlayFabCppError errorResult;

@@ -202,6 +202,19 @@ public:
         void HelperUnlinkLeaderboardFromStatistic(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateLeaderboardDefinition, FProgressionEmptyResponse, result, UObject*, customData);
+
+    /** Updates a leaderboard definition. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Leaderboards ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabProgressionAPI* UpdateLeaderboardDefinition(FProgressionUpdateLeaderboardDefinitionRequest request,
+            FDelegateOnSuccessUpdateLeaderboardDefinition onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabProgressionRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Leaderboards ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateLeaderboardDefinition(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateLeaderboardEntries, FProgressionEmptyResponse, result, UObject*, customData);
 
     /** Adds or updates entries on the specified leaderboard. */
@@ -323,6 +336,19 @@ public:
         void HelperListStatisticDefinitions(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateStatisticDefinition, FProgressionEmptyResponse, result, UObject*, customData);
+
+    /** Update an existing entity statistic definition. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabProgressionAPI* UpdateStatisticDefinition(FProgressionUpdateStatisticDefinitionRequest request,
+            FDelegateOnSuccessUpdateStatisticDefinition onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabProgressionRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Progression | Statistics ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdateStatisticDefinition(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdateStatistics, FProgressionUpdateStatisticsResponse, result, UObject*, customData);
 
     /**
@@ -367,6 +393,7 @@ public:
     FDelegateOnSuccessIncrementLeaderboardVersion OnSuccessIncrementLeaderboardVersion;
     FDelegateOnSuccessListLeaderboardDefinitions OnSuccessListLeaderboardDefinitions;
     FDelegateOnSuccessUnlinkLeaderboardFromStatistic OnSuccessUnlinkLeaderboardFromStatistic;
+    FDelegateOnSuccessUpdateLeaderboardDefinition OnSuccessUpdateLeaderboardDefinition;
     FDelegateOnSuccessUpdateLeaderboardEntries OnSuccessUpdateLeaderboardEntries;
     FDelegateOnSuccessCreateStatisticDefinition OnSuccessCreateStatisticDefinition;
     FDelegateOnSuccessDeleteStatisticDefinition OnSuccessDeleteStatisticDefinition;
@@ -376,6 +403,7 @@ public:
     FDelegateOnSuccessGetStatisticsForEntities OnSuccessGetStatisticsForEntities;
     FDelegateOnSuccessIncrementStatisticVersion OnSuccessIncrementStatisticVersion;
     FDelegateOnSuccessListStatisticDefinitions OnSuccessListStatisticDefinitions;
+    FDelegateOnSuccessUpdateStatisticDefinition OnSuccessUpdateStatisticDefinition;
     FDelegateOnSuccessUpdateStatistics OnSuccessUpdateStatistics;
 
 private:

@@ -1449,7 +1449,7 @@ namespace ServerModels
         // [optional] The reason why this ban was applied.
         FString Reason;
 
-        // [optional] The family type of the suer that is included in the ban.
+        // [optional] The family type of the user that is included in the ban.
         FString UserFamilyType;
 
         FBanInfo() :
@@ -9295,7 +9295,7 @@ namespace ServerModels
         // [optional] The time of this user's previous login. If there was no previous login, then it's DateTime.MinValue
         Boxed<FDateTime> LastLoginTime;
 
-        // True if the account was newly created on this login.
+        // True if the master_player_account was newly created on this login.
         bool NewlyCreated;
 
         // [optional] Player's unique PlayFabId.

@@ -99,7 +99,7 @@ function generateModels(apis, copyright, sourceDir, apiOutputDir, libraryName, s
 function generateApiSummary(tabbing, apiElement, summaryParam, extraLines) {
     if (!extraLines)
         extraLines = [];
-    if (apiElement.hasOwnProperty("requestDetails"))
+    if (apiElement.hasOwnProperty("requestDetails") && apiElement.requestDetails !== null)
         extraLines.push(apiElement.requestDetails);
 
     var lines = generateApiSummaryLines(apiElement, summaryParam, extraLines);

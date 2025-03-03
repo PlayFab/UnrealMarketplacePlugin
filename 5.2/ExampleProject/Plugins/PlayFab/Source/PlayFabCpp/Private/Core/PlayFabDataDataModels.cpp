@@ -117,7 +117,7 @@ bool PlayFab::DataModels::FAbortFileUploadsRequest::readFromValue(const TSharedP
         Entity = FEntityKey(EntityValue->AsObject());
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
+    obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
 
     const TSharedPtr<FJsonValue> ProfileVersionValue = obj->TryGetField(TEXT("ProfileVersion"));
     if (ProfileVersionValue.IsValid() && !ProfileVersionValue->IsNull())
@@ -228,7 +228,7 @@ bool PlayFab::DataModels::FDeleteFilesRequest::readFromValue(const TSharedPtr<FJ
         Entity = FEntityKey(EntityValue->AsObject());
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
+    obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
 
     const TSharedPtr<FJsonValue> ProfileVersionValue = obj->TryGetField(TEXT("ProfileVersion"));
     if (ProfileVersionValue.IsValid() && !ProfileVersionValue->IsNull())
@@ -336,7 +336,7 @@ bool PlayFab::DataModels::FFinalizeFileUploadsRequest::readFromValue(const TShar
         Entity = FEntityKey(EntityValue->AsObject());
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
+    obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
 
     const TSharedPtr<FJsonValue> ProfileVersionValue = obj->TryGetField(TEXT("ProfileVersion"));
     if (ProfileVersionValue.IsValid() && !ProfileVersionValue->IsNull())
@@ -878,7 +878,7 @@ bool PlayFab::DataModels::FInitiateFileUploadsRequest::readFromValue(const TShar
         Entity = FEntityKey(EntityValue->AsObject());
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
+    obj->TryGetStringArrayField(TEXT("FileNames"), FileNames);
 
     const TSharedPtr<FJsonValue> ProfileVersionValue = obj->TryGetField(TEXT("ProfileVersion"));
     if (ProfileVersionValue.IsValid() && !ProfileVersionValue->IsNull())

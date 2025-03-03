@@ -11612,7 +11612,7 @@ bool PlayFab::MultiplayerModels::FListMatchmakingTicketsForPlayerResult::readFro
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("TicketIds"), TicketIds);
+    obj->TryGetStringArrayField(TEXT("TicketIds"), TicketIds);
 
     return HasSucceeded;
 }
@@ -12421,7 +12421,7 @@ bool PlayFab::MultiplayerModels::FListServerBackfillTicketsForPlayerResult::read
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("TicketIds"), TicketIds);
+    obj->TryGetStringArrayField(TEXT("TicketIds"), TicketIds);
 
     return HasSucceeded;
 }
@@ -13135,7 +13135,7 @@ bool PlayFab::MultiplayerModels::FRequestMultiplayerServerRequest::readFromValue
 
     obj->TryGetStringArrayField(TEXT("InitialPlayers"), InitialPlayers);
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PreferredRegions"), PreferredRegions);
+    obj->TryGetStringArrayField(TEXT("PreferredRegions"), PreferredRegions);
 
     const TSharedPtr<FJsonValue> SessionCookieValue = obj->TryGetField(TEXT("SessionCookie"));
     if (SessionCookieValue.IsValid() && !SessionCookieValue->IsNull())
@@ -13403,7 +13403,7 @@ bool PlayFab::MultiplayerModels::FRequestPartyServiceRequest::readFromValue(cons
         if (PartyIdValue->TryGetString(TmpValue)) { PartyId = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PreferredRegions"), PreferredRegions);
+    obj->TryGetStringArrayField(TEXT("PreferredRegions"), PreferredRegions);
 
     return HasSucceeded;
 }

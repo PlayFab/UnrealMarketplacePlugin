@@ -1743,7 +1743,7 @@ bool PlayFab::ProgressionModels::FGetLeaderboardForEntitiesRequest::readFromValu
         }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("EntityIds"), EntityIds);
+    obj->TryGetStringArrayField(TEXT("EntityIds"), EntityIds);
 
     const TSharedPtr<FJsonValue> LeaderboardNameValue = obj->TryGetField(TEXT("LeaderboardName"));
     if (LeaderboardNameValue.IsValid() && !LeaderboardNameValue->IsNull())

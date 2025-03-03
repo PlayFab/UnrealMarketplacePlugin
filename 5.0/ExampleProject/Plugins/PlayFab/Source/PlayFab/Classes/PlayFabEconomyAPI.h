@@ -759,6 +759,10 @@ public:
         void HelperUpdateInventoryItems(FPlayFabBaseModel response, UObject* customData, bool successful);
 
 
+    ///////////////////////////////////////////////////////
+    // VersionedCatalog
+    //////////////////////////////////////////////////////
+
 
     /** PlayFab Request Info */
     FString PlayFabRequestURL;

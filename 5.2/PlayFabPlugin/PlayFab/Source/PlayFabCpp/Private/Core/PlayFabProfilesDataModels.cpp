@@ -1009,7 +1009,7 @@ bool PlayFab::ProfilesModels::FGetTitlePlayersFromMasterPlayerAccountIdsRequest:
         }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("MasterPlayerAccountIds"), MasterPlayerAccountIds);
+    obj->TryGetStringArrayField(TEXT("MasterPlayerAccountIds"), MasterPlayerAccountIds);
 
     const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
     if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
@@ -1184,7 +1184,7 @@ bool PlayFab::ProfilesModels::FGetTitlePlayersFromXboxLiveIDsRequest::readFromVa
         if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("XboxLiveIds"), XboxLiveIds);
+    obj->TryGetStringArrayField(TEXT("XboxLiveIds"), XboxLiveIds);
 
     return HasSucceeded;
 }

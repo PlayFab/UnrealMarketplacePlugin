@@ -718,7 +718,7 @@ bool PlayFab::ClientModels::FAddSharedGroupMembersRequest::readFromValue(const T
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PlayFabIds"), PlayFabIds);
+    obj->TryGetStringArrayField(TEXT("PlayFabIds"), PlayFabIds);
 
     const TSharedPtr<FJsonValue> SharedGroupIdValue = obj->TryGetField(TEXT("SharedGroupId"));
     if (SharedGroupIdValue.IsValid() && !SharedGroupIdValue->IsNull())
@@ -11164,7 +11164,7 @@ bool PlayFab::ClientModels::FGetPlayerTagsResult::readFromValue(const TSharedPtr
         if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("Tags"), Tags);
+    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
 
     return HasSucceeded;
 }
@@ -11271,7 +11271,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromFacebookIDsRequest::readFromValue(
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("FacebookIDs"), FacebookIDs);
+    obj->TryGetStringArrayField(TEXT("FacebookIDs"), FacebookIDs);
 
     return HasSucceeded;
 }
@@ -11334,7 +11334,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromFacebookInstantGamesIdsRequest::re
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("FacebookInstantGamesIds"), FacebookInstantGamesIds);
+    obj->TryGetStringArrayField(TEXT("FacebookInstantGamesIds"), FacebookInstantGamesIds);
 
     return HasSucceeded;
 }
@@ -11397,7 +11397,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromGameCenterIDsRequest::readFromValu
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("GameCenterIDs"), GameCenterIDs);
+    obj->TryGetStringArrayField(TEXT("GameCenterIDs"), GameCenterIDs);
 
     return HasSucceeded;
 }
@@ -11529,7 +11529,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromGoogleIDsRequest::readFromValue(co
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("GoogleIDs"), GoogleIDs);
+    obj->TryGetStringArrayField(TEXT("GoogleIDs"), GoogleIDs);
 
     return HasSucceeded;
 }
@@ -11637,7 +11637,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromGooglePlayGamesPlayerIDsRequest::r
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("GooglePlayGamesPlayerIDs"), GooglePlayGamesPlayerIDs);
+    obj->TryGetStringArrayField(TEXT("GooglePlayGamesPlayerIDs"), GooglePlayGamesPlayerIDs);
 
     return HasSucceeded;
 }
@@ -11745,7 +11745,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromKongregateIDsRequest::readFromValu
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("KongregateIDs"), KongregateIDs);
+    obj->TryGetStringArrayField(TEXT("KongregateIDs"), KongregateIDs);
 
     return HasSucceeded;
 }
@@ -11853,7 +11853,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromNintendoServiceAccountIdsRequest::
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("NintendoAccountIds"), NintendoAccountIds);
+    obj->TryGetStringArrayField(TEXT("NintendoAccountIds"), NintendoAccountIds);
 
     return HasSucceeded;
 }
@@ -11961,7 +11961,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest::re
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("NintendoSwitchDeviceIds"), NintendoSwitchDeviceIds);
+    obj->TryGetStringArrayField(TEXT("NintendoSwitchDeviceIds"), NintendoSwitchDeviceIds);
 
     return HasSucceeded;
 }
@@ -12082,7 +12082,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromPSNAccountIDsRequest::readFromValu
         if (IssuerIdValue->TryGetNumber(TmpValue)) { IssuerId = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PSNAccountIDs"), PSNAccountIDs);
+    obj->TryGetStringArrayField(TEXT("PSNAccountIDs"), PSNAccountIDs);
 
     return HasSucceeded;
 }
@@ -12203,7 +12203,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromPSNOnlineIDsRequest::readFromValue
         if (IssuerIdValue->TryGetNumber(TmpValue)) { IssuerId = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PSNOnlineIDs"), PSNOnlineIDs);
+    obj->TryGetStringArrayField(TEXT("PSNOnlineIDs"), PSNOnlineIDs);
 
     return HasSucceeded;
 }
@@ -12422,7 +12422,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromSteamNamesRequest::readFromValue(c
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("SteamNames"), SteamNames);
+    obj->TryGetStringArrayField(TEXT("SteamNames"), SteamNames);
 
     return HasSucceeded;
 }
@@ -12530,7 +12530,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromTwitchIDsRequest::readFromValue(co
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("TwitchIds"), TwitchIds);
+    obj->TryGetStringArrayField(TEXT("TwitchIds"), TwitchIds);
 
     return HasSucceeded;
 }
@@ -12651,7 +12651,7 @@ bool PlayFab::ClientModels::FGetPlayFabIDsFromXboxLiveIDsRequest::readFromValue(
         if (SandboxValue->TryGetString(TmpValue)) { Sandbox = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("XboxLiveAccountIDs"), XboxLiveAccountIDs);
+    obj->TryGetStringArrayField(TEXT("XboxLiveAccountIDs"), XboxLiveAccountIDs);
 
     return HasSucceeded;
 }
@@ -12759,7 +12759,7 @@ bool PlayFab::ClientModels::FGetPublisherDataRequest::readFromValue(const TShare
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("Keys"), Keys);
+    obj->TryGetStringArrayField(TEXT("Keys"), Keys);
 
     return HasSucceeded;
 }
@@ -20193,7 +20193,7 @@ bool PlayFab::ClientModels::FRemoveSharedGroupMembersRequest::readFromValue(cons
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("PlayFabIds"), PlayFabIds);
+    obj->TryGetStringArrayField(TEXT("PlayFabIds"), PlayFabIds);
 
     const TSharedPtr<FJsonValue> SharedGroupIdValue = obj->TryGetField(TEXT("SharedGroupId"));
     if (SharedGroupIdValue.IsValid() && !SharedGroupIdValue->IsNull())
@@ -20849,7 +20849,7 @@ bool PlayFab::ClientModels::FSetFriendTagsRequest::readFromValue(const TSharedPt
         if (FriendPlayFabIdValue->TryGetString(TmpValue)) { FriendPlayFabId = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("Tags"), Tags);
+    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
 
     return HasSucceeded;
 }

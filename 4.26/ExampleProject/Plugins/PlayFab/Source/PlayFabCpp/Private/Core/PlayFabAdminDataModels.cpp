@@ -13070,7 +13070,7 @@ bool PlayFab::AdminModels::FGetPlayerTagsResult::readFromValue(const TSharedPtr<
         if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
     }
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("Tags"), Tags);
+    obj->TryGetStringArrayField(TEXT("Tags"), Tags);
 
     return HasSucceeded;
 }
@@ -13289,7 +13289,7 @@ bool PlayFab::AdminModels::FGetPublisherDataRequest::readFromValue(const TShared
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("Keys"), Keys);
+    obj->TryGetStringArrayField(TEXT("Keys"), Keys);
 
     return HasSucceeded;
 }
@@ -13576,7 +13576,7 @@ bool PlayFab::AdminModels::FGetSegmentsRequest::readFromValue(const TSharedPtr<F
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("SegmentIds"), SegmentIds);
+    obj->TryGetStringArrayField(TEXT("SegmentIds"), SegmentIds);
 
     return HasSucceeded;
 }
@@ -18437,7 +18437,7 @@ bool PlayFab::AdminModels::FRevokeBansRequest::readFromValue(const TSharedPtr<FJ
 {
     bool HasSucceeded = true;
 
-    HasSucceeded &= obj->TryGetStringArrayField(TEXT("BanIds"), BanIds);
+    obj->TryGetStringArrayField(TEXT("BanIds"), BanIds);
 
     return HasSucceeded;
 }

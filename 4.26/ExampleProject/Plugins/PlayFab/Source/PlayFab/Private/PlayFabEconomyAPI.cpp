@@ -2857,6 +2857,10 @@ void UPlayFabEconomyAPI::HelperUpdateInventoryItems(FPlayFabBaseModel response, 
 }
 
 
+///////////////////////////////////////////////////////
+// VersionedCatalog
+//////////////////////////////////////////////////////
+
 
 void UPlayFabEconomyAPI::OnProcessRequestComplete(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 {

@@ -7090,6 +7090,63 @@ void UPlayFabClientAPI::HelperValidateWindowsStoreReceipt(FPlayFabBaseModel resp
 ///////////////////////////////////////////////////////
 // Player Data Management
 //////////////////////////////////////////////////////
+/** Deletes title-specific custom properties for a player */
+UPlayFabClientAPI* UPlayFabClientAPI::DeletePlayerCustomProperties(FClientDeletePlayerCustomPropertiesRequest request,
+    FDelegateOnSuccessDeletePlayerCustomProperties onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeletePlayerCustomProperties = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperDeletePlayerCustomProperties);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/DeletePlayerCustomProperties";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("ExpectedPropertiesVersion"), request.ExpectedPropertiesVersion);
+    // Check to see if string is empty
+    if (request.PropertyNames.IsEmpty() || request.PropertyNames == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PropertyNames"));
+    } else {
+        TArray<FString> PropertyNamesArray;
+        FString(request.PropertyNames).ParseIntoArray(PropertyNamesArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("PropertyNames"), PropertyNamesArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperDeletePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeletePlayerCustomProperties.IsBound())
+    {
+        FClientDeletePlayerCustomPropertiesResult ResultStruct = UPlayFabClientModelDecoder::decodeDeletePlayerCustomPropertiesResultResponse(response.responseData);
+        OnSuccessDeletePlayerCustomProperties.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves a list of ranked friends of the current player for the given statistic, starting from the indicated point in the leaderboard */
 UPlayFabClientAPI* UPlayFabClientAPI::GetFriendLeaderboard(FClientGetFriendLeaderboardRequest request,
     FDelegateOnSuccessGetFriendLeaderboard onSuccess,
@@ -7343,6 +7400,58 @@ void UPlayFabClientAPI::HelperGetLeaderboardAroundPlayer(FPlayFabBaseModel respo
     {
         FClientGetLeaderboardAroundPlayerResult ResultStruct = UPlayFabClientModelDecoder::decodeGetLeaderboardAroundPlayerResultResponse(response.responseData);
         OnSuccessGetLeaderboardAroundPlayer.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves a title-specific custom property value for a player. */
+UPlayFabClientAPI* UPlayFabClientAPI::GetPlayerCustomProperty(FClientGetPlayerCustomPropertyRequest request,
+    FDelegateOnSuccessGetPlayerCustomProperty onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayerCustomProperty = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayerCustomProperty);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/GetPlayerCustomProperty";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.PropertyName.IsEmpty() || request.PropertyName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PropertyName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PropertyName"), request.PropertyName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperGetPlayerCustomProperty(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayerCustomProperty.IsBound())
+    {
+        FClientGetPlayerCustomPropertyResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayerCustomPropertyResultResponse(response.responseData);
+        OnSuccessGetPlayerCustomProperty.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -7704,6 +7813,107 @@ void UPlayFabClientAPI::HelperGetUserReadOnlyData(FPlayFabBaseModel response, UO
         FClientGetUserDataResult ResultStruct = UPlayFabClientModelDecoder::decodeGetUserDataResultResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessGetUserReadOnlyData.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves title-specific custom property values for a player. */
+UPlayFabClientAPI* UPlayFabClientAPI::ListPlayerCustomProperties(FClientListPlayerCustomPropertiesRequest request,
+    FDelegateOnSuccessListPlayerCustomProperties onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListPlayerCustomProperties = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperListPlayerCustomProperties);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/ListPlayerCustomProperties";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperListPlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListPlayerCustomProperties.IsBound())
+    {
+        FClientListPlayerCustomPropertiesResult ResultStruct = UPlayFabClientModelDecoder::decodeListPlayerCustomPropertiesResultResponse(response.responseData);
+        OnSuccessListPlayerCustomProperties.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Updates the title-specific custom property values for a player */
+UPlayFabClientAPI* UPlayFabClientAPI::UpdatePlayerCustomProperties(FClientUpdatePlayerCustomPropertiesRequest request,
+    FDelegateOnSuccessUpdatePlayerCustomProperties onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdatePlayerCustomProperties = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUpdatePlayerCustomProperties);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/UpdatePlayerCustomProperties";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("ExpectedPropertiesVersion"), request.ExpectedPropertiesVersion);
+    if (request.Properties.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Properties"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Properties"), request.Properties);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperUpdatePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdatePlayerCustomProperties.IsBound())
+    {
+        FClientUpdatePlayerCustomPropertiesResult ResultStruct = UPlayFabClientModelDecoder::decodeUpdatePlayerCustomPropertiesResultResponse(response.responseData);
+        OnSuccessUpdatePlayerCustomProperties.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

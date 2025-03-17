@@ -460,6 +460,10 @@ public:
     // Player Data Management
     //////////////////////////////////////////////////////
 
+    /** Decode the DeletePlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
+        static FClientDeletePlayerCustomPropertiesResult decodeDeletePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetLeaderboardResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
         static FClientGetLeaderboardResult decodeGetLeaderboardResultResponse(UPlayFabJsonObject* response);
@@ -472,6 +476,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
         static FClientGetLeaderboardAroundPlayerResult decodeGetLeaderboardAroundPlayerResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayerCustomPropertyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
+        static FClientGetPlayerCustomPropertyResult decodeGetPlayerCustomPropertyResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetPlayerStatisticsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
         static FClientGetPlayerStatisticsResult decodeGetPlayerStatisticsResultResponse(UPlayFabJsonObject* response);
@@ -483,6 +491,14 @@ public:
     /** Decode the GetUserDataResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
         static FClientGetUserDataResult decodeGetUserDataResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListPlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
+        static FClientListPlayerCustomPropertiesResult decodeListPlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UpdatePlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")
+        static FClientUpdatePlayerCustomPropertiesResult decodeUpdatePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UpdatePlayerStatisticsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management Models")

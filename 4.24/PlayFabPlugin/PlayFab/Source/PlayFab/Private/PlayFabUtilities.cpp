@@ -630,6 +630,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1597: returnText = "ReportDataNotRetrievedSuccessfully"; break;
     case 1598: returnText = "ResetIntervalCannotBeModified"; break;
     case 1599: returnText = "VersionIncrementRateExceeded"; break;
+    case 1600: returnText = "InvalidSteamUsername"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -763,6 +764,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 10014: returnText = "AnalyticsSegmentCountOverLimit"; break;
     case 11000: returnText = "SnapshotNotFound"; break;
     case 12000: returnText = "InventoryApiNotImplemented"; break;
+    case 12001: returnText = "InventoryCollectionDeletionDisallowed"; break;
     case 13000: returnText = "LobbyDoesNotExist"; break;
     case 13001: returnText = "LobbyRateLimitExceeded"; break;
     case 13002: returnText = "LobbyPlayerAlreadyJoined"; break;
@@ -899,6 +901,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20066: returnText = "TrueSkillModelStateInvalidForOperation"; break;
     case 20067: returnText = "TrueSkillScenarioContainsActiveModel"; break;
     case 20068: returnText = "TrueSkillInvalidConditionRank"; break;
+    case 20069: returnText = "TrueSkillTotalScenarioLimitExceeded"; break;
     case 20300: returnText = "GameSaveManifestNotFound"; break;
     case 20301: returnText = "GameSaveManifestVersionAlreadyExists"; break;
     case 20302: returnText = "GameSaveConflictUpdatingManifest"; break;

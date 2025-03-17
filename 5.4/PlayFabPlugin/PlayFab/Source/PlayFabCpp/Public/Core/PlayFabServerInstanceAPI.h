@@ -35,6 +35,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FCreateSharedGroupDelegate, const ServerModels::FCreateSharedGroupResult&);
         DECLARE_DELEGATE_OneParam(FDeleteCharacterFromUserDelegate, const ServerModels::FDeleteCharacterFromUserResult&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const ServerModels::FDeletePlayerResult&);
+        DECLARE_DELEGATE_OneParam(FDeletePlayerCustomPropertiesDelegate, const ServerModels::FDeletePlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FDeletePushNotificationTemplateDelegate, const ServerModels::FDeletePushNotificationTemplateResult&);
         DECLARE_DELEGATE_OneParam(FDeleteSharedGroupDelegate, const ServerModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FEvaluateRandomResultTableDelegate, const ServerModels::FEvaluateRandomResultTableResult&);
@@ -56,6 +57,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetLeaderboardAroundUserDelegate, const ServerModels::FGetLeaderboardAroundUserResult&);
         DECLARE_DELEGATE_OneParam(FGetLeaderboardForUserCharactersDelegate, const ServerModels::FGetLeaderboardForUsersCharactersResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerCombinedInfoDelegate, const ServerModels::FGetPlayerCombinedInfoResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayerCustomPropertyDelegate, const ServerModels::FGetPlayerCustomPropertyResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerProfileDelegate, const ServerModels::FGetPlayerProfileResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerSegmentsDelegate, const ServerModels::FGetPlayerSegmentsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayersInSegmentDelegate, const ServerModels::FGetPlayersInSegmentResult&);
@@ -103,6 +105,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FLinkServerCustomIdDelegate, const ServerModels::FLinkServerCustomIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkSteamIdDelegate, const ServerModels::FLinkSteamIdResult&);
         DECLARE_DELEGATE_OneParam(FLinkXboxAccountDelegate, const ServerModels::FLinkXboxAccountResult&);
+        DECLARE_DELEGATE_OneParam(FListPlayerCustomPropertiesDelegate, const ServerModels::FListPlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithPSNDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithServerCustomIdDelegate, const ServerModels::FServerLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithSteamIdDelegate, const ServerModels::FServerLoginResult&);
@@ -148,6 +151,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUpdateCharacterInternalDataDelegate, const ServerModels::FUpdateCharacterDataResult&);
         DECLARE_DELEGATE_OneParam(FUpdateCharacterReadOnlyDataDelegate, const ServerModels::FUpdateCharacterDataResult&);
         DECLARE_DELEGATE_OneParam(FUpdateCharacterStatisticsDelegate, const ServerModels::FUpdateCharacterStatisticsResult&);
+        DECLARE_DELEGATE_OneParam(FUpdatePlayerCustomPropertiesDelegate, const ServerModels::FUpdatePlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FUpdatePlayerStatisticsDelegate, const ServerModels::FUpdatePlayerStatisticsResult&);
         DECLARE_DELEGATE_OneParam(FUpdateSharedGroupDataDelegate, const ServerModels::FUpdateSharedGroupDataResult&);
         DECLARE_DELEGATE_OneParam(FUpdateUserDataDelegate, const ServerModels::FUpdateUserDataResult&);
@@ -260,6 +264,11 @@ namespace PlayFab
          * Deletes all data associated with the player, including statistics, custom data, inventory, purchases, virtual currency balances, characters and shared group memberships. Removes the player from all leaderboards and player search indexes. Does not delete PlayStream event history associated with the player. Does not delete the publisher user account that created the player in the title nor associated data such as username, password, email address, account linkages, or friends list. Note, this API queues the player for deletion and returns immediately. It may take several minutes or more before all player data is fully deleted. Until the player data is fully deleted, attempts to recreate the player with the same user account in the same title will fail with the 'AccountDeleted' error. This API must be enabled for use as an option in the game manager website. It is disabled by default.
          */
         bool DeletePlayer(ServerModels::FDeletePlayerRequest& request, const FDeletePlayerDelegate& SuccessDelegate = FDeletePlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
+         * Deletes title-specific custom properties for a player
+         * Deletes custom properties for the specified player. The list of provided property names must be non-empty.
+         */
+        bool DeletePlayerCustomProperties(ServerModels::FDeletePlayerCustomPropertiesRequest& request, const FDeletePlayerCustomPropertiesDelegate& SuccessDelegate = FDeletePlayerCustomPropertiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Deletes push notification template for title
         bool DeletePushNotificationTemplate(ServerModels::FDeletePushNotificationTemplateRequest& request, const FDeletePushNotificationTemplateDelegate& SuccessDelegate = FDeletePushNotificationTemplateDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -364,6 +373,8 @@ namespace PlayFab
          * returned. All parameters default to false.
          */
         bool GetPlayerCombinedInfo(ServerModels::FGetPlayerCombinedInfoRequest& request, const FGetPlayerCombinedInfoDelegate& SuccessDelegate = FGetPlayerCombinedInfoDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves a title-specific custom property value for a player.
+        bool GetPlayerCustomProperty(ServerModels::FGetPlayerCustomPropertyRequest& request, const FGetPlayerCustomPropertyDelegate& SuccessDelegate = FGetPlayerCustomPropertyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Retrieves the player's profile
          * This API allows for access to details regarding a user in the PlayFab service, usually for purposes of customer support. Note that data returned may be Personally Identifying Information (PII), such as email address, and so care should be taken in how this data is stored and managed. Since this call will always return the relevant information for users who have accessed the title, the recommendation is to not store this data locally.
@@ -560,6 +571,8 @@ namespace PlayFab
         bool LinkSteamId(ServerModels::FLinkSteamIdRequest& request, const FLinkSteamIdDelegate& SuccessDelegate = FLinkSteamIdDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Xbox Live account associated with the provided access code to the user's PlayFab account
         bool LinkXboxAccount(ServerModels::FLinkXboxAccountRequest& request, const FLinkXboxAccountDelegate& SuccessDelegate = FLinkXboxAccountDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves title-specific custom property values for a player.
+        bool ListPlayerCustomProperties(ServerModels::FListPlayerCustomPropertiesRequest& request, const FListPlayerCustomPropertiesDelegate& SuccessDelegate = FListPlayerCustomPropertiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can
          * subsequently be used for API calls which require an authenticated user
@@ -781,6 +794,11 @@ namespace PlayFab
          */
         bool UpdateCharacterStatistics(ServerModels::FUpdateCharacterStatisticsRequest& request, const FUpdateCharacterStatisticsDelegate& SuccessDelegate = FUpdateCharacterStatisticsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Updates the title-specific custom property values for a player
+         * Performs an additive update of the custom properties for the specified player. In updating the player's custom properties, properties which already exist will have their values overwritten. No other properties will be changed apart from those specified in the call.
+         */
+        bool UpdatePlayerCustomProperties(ServerModels::FUpdatePlayerCustomPropertiesRequest& request, const FUpdatePlayerCustomPropertiesDelegate& SuccessDelegate = FUpdatePlayerCustomPropertiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Updates the values of the specified title-specific statistics for the user
          * This operation is additive. Statistics not currently defined will be added, while those already defined will be updated with the given values. All other user statistics will remain unchanged.
          */
@@ -861,6 +879,7 @@ namespace PlayFab
         void OnCreateSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteCharacterFromUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteCharacterFromUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeletePlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePushNotificationTemplateResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePushNotificationTemplateDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteSharedGroupResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSharedGroupDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnEvaluateRandomResultTableResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FEvaluateRandomResultTableDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -882,6 +901,7 @@ namespace PlayFab
         void OnGetLeaderboardAroundUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLeaderboardAroundUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetLeaderboardForUserCharactersResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetLeaderboardForUserCharactersDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerCombinedInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerCombinedInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayerCustomPropertyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerCustomPropertyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerProfileResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerProfileDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayersInSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayersInSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -929,6 +949,7 @@ namespace PlayFab
         void OnLinkServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListPlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithPSNResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithPSNDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithServerCustomIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithServerCustomIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithSteamIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithSteamIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -974,6 +995,7 @@ namespace PlayFab
         void OnUpdateCharacterInternalDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCharacterInternalDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateCharacterReadOnlyDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCharacterReadOnlyDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateCharacterStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCharacterStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdatePlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdatePlayerStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateSharedGroupDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateSharedGroupDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateUserDataResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDataDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

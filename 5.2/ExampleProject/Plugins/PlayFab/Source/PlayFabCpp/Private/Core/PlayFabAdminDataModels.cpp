@@ -6025,6 +6025,207 @@ bool PlayFab::AdminModels::FSegmentTrigger::readFromValue(const TSharedPtr<FJson
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FCustomPropertyBooleanSegmentFilter::~FCustomPropertyBooleanSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FCustomPropertyBooleanSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (PropertyName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PropertyName"));
+        writer->WriteValue(PropertyName);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertyValue"));
+    writer->WriteValue(PropertyValue);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCustomPropertyBooleanSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> PropertyNameValue = obj->TryGetField(TEXT("PropertyName"));
+    if (PropertyNameValue.IsValid() && !PropertyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (PropertyNameValue->TryGetString(TmpValue)) { PropertyName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyValueValue = obj->TryGetField(TEXT("PropertyValue"));
+    if (PropertyValueValue.IsValid() && !PropertyValueValue->IsNull())
+    {
+        bool TmpValue;
+        if (PropertyValueValue->TryGetBool(TmpValue)) { PropertyValue = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FCustomPropertyDateTimeSegmentFilter::~FCustomPropertyDateTimeSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FCustomPropertyDateTimeSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (PropertyName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PropertyName"));
+        writer->WriteValue(PropertyName);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertyValue"));
+    writeDatetime(PropertyValue, writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCustomPropertyDateTimeSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> PropertyNameValue = obj->TryGetField(TEXT("PropertyName"));
+    if (PropertyNameValue.IsValid() && !PropertyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (PropertyNameValue->TryGetString(TmpValue)) { PropertyName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyValueValue = obj->TryGetField(TEXT("PropertyValue"));
+    if (PropertyValueValue.IsValid())
+        PropertyValue = readDatetime(PropertyValueValue);
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FCustomPropertyNumericSegmentFilter::~FCustomPropertyNumericSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FCustomPropertyNumericSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (PropertyName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PropertyName"));
+        writer->WriteValue(PropertyName);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertyValue"));
+    writer->WriteValue(PropertyValue);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCustomPropertyNumericSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> PropertyNameValue = obj->TryGetField(TEXT("PropertyName"));
+    if (PropertyNameValue.IsValid() && !PropertyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (PropertyNameValue->TryGetString(TmpValue)) { PropertyName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyValueValue = obj->TryGetField(TEXT("PropertyValue"));
+    if (PropertyValueValue.IsValid() && !PropertyValueValue->IsNull())
+    {
+        double TmpValue;
+        if (PropertyValueValue->TryGetNumber(TmpValue)) { PropertyValue = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FCustomPropertyStringSegmentFilter::~FCustomPropertyStringSegmentFilter()
+{
+
+}
+
+void PlayFab::AdminModels::FCustomPropertyStringSegmentFilter::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Comparison.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Comparison"));
+        writeSegmentFilterComparisonEnumJSON(Comparison, writer);
+    }
+
+    if (PropertyName.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PropertyName"));
+        writer->WriteValue(PropertyName);
+    }
+
+    if (PropertyValue.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PropertyValue"));
+        writer->WriteValue(PropertyValue);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCustomPropertyStringSegmentFilter::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    Comparison = readSegmentFilterComparisonFromValue(obj->TryGetField(TEXT("Comparison")));
+
+    const TSharedPtr<FJsonValue> PropertyNameValue = obj->TryGetField(TEXT("PropertyName"));
+    if (PropertyNameValue.IsValid() && !PropertyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (PropertyNameValue->TryGetString(TmpValue)) { PropertyName = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyValueValue = obj->TryGetField(TEXT("PropertyValue"));
+    if (PropertyValueValue.IsValid() && !PropertyValueValue->IsNull())
+    {
+        FString TmpValue;
+        if (PropertyValueValue->TryGetString(TmpValue)) { PropertyValue = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FFirstLoginDateSegmentFilter::~FFirstLoginDateSegmentFilter()
 {
 
@@ -7679,6 +7880,10 @@ PlayFab::AdminModels::FSegmentAndDefinition::~FSegmentAndDefinition()
     //if (AdCampaignFilter != nullptr) delete AdCampaignFilter;
     //if (AllPlayersFilter != nullptr) delete AllPlayersFilter;
     //if (ChurnPredictionFilter != nullptr) delete ChurnPredictionFilter;
+    //if (CustomPropertyBooleanFilter != nullptr) delete CustomPropertyBooleanFilter;
+    //if (CustomPropertyDateTimeFilter != nullptr) delete CustomPropertyDateTimeFilter;
+    //if (CustomPropertyNumericFilter != nullptr) delete CustomPropertyNumericFilter;
+    //if (CustomPropertyStringFilter != nullptr) delete CustomPropertyStringFilter;
     //if (FirstLoginDateFilter != nullptr) delete FirstLoginDateFilter;
     //if (FirstLoginFilter != nullptr) delete FirstLoginFilter;
     //if (LastLoginDateFilter != nullptr) delete LastLoginDateFilter;
@@ -7719,6 +7924,30 @@ void PlayFab::AdminModels::FSegmentAndDefinition::writeJSON(JsonWriter& writer) 
     {
         writer->WriteIdentifierPrefix(TEXT("ChurnPredictionFilter"));
         ChurnPredictionFilter->writeJSON(writer);
+    }
+
+    if (CustomPropertyBooleanFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomPropertyBooleanFilter"));
+        CustomPropertyBooleanFilter->writeJSON(writer);
+    }
+
+    if (CustomPropertyDateTimeFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomPropertyDateTimeFilter"));
+        CustomPropertyDateTimeFilter->writeJSON(writer);
+    }
+
+    if (CustomPropertyNumericFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomPropertyNumericFilter"));
+        CustomPropertyNumericFilter->writeJSON(writer);
+    }
+
+    if (CustomPropertyStringFilter.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomPropertyStringFilter"));
+        CustomPropertyStringFilter->writeJSON(writer);
     }
 
     if (FirstLoginDateFilter.IsValid())
@@ -7846,6 +8075,30 @@ bool PlayFab::AdminModels::FSegmentAndDefinition::readFromValue(const TSharedPtr
     if (ChurnPredictionFilterValue.IsValid() && !ChurnPredictionFilterValue->IsNull())
     {
         ChurnPredictionFilter = MakeShareable(new FChurnPredictionSegmentFilter(ChurnPredictionFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> CustomPropertyBooleanFilterValue = obj->TryGetField(TEXT("CustomPropertyBooleanFilter"));
+    if (CustomPropertyBooleanFilterValue.IsValid() && !CustomPropertyBooleanFilterValue->IsNull())
+    {
+        CustomPropertyBooleanFilter = MakeShareable(new FCustomPropertyBooleanSegmentFilter(CustomPropertyBooleanFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> CustomPropertyDateTimeFilterValue = obj->TryGetField(TEXT("CustomPropertyDateTimeFilter"));
+    if (CustomPropertyDateTimeFilterValue.IsValid() && !CustomPropertyDateTimeFilterValue->IsNull())
+    {
+        CustomPropertyDateTimeFilter = MakeShareable(new FCustomPropertyDateTimeSegmentFilter(CustomPropertyDateTimeFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> CustomPropertyNumericFilterValue = obj->TryGetField(TEXT("CustomPropertyNumericFilter"));
+    if (CustomPropertyNumericFilterValue.IsValid() && !CustomPropertyNumericFilterValue->IsNull())
+    {
+        CustomPropertyNumericFilter = MakeShareable(new FCustomPropertyNumericSegmentFilter(CustomPropertyNumericFilterValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> CustomPropertyStringFilterValue = obj->TryGetField(TEXT("CustomPropertyStringFilter"));
+    if (CustomPropertyStringFilterValue.IsValid() && !CustomPropertyStringFilterValue->IsNull())
+    {
+        CustomPropertyStringFilter = MakeShareable(new FCustomPropertyStringSegmentFilter(CustomPropertyStringFilterValue->AsObject()));
     }
 
     const TSharedPtr<FJsonValue> FirstLoginDateFilterValue = obj->TryGetField(TEXT("FirstLoginDateFilter"));
@@ -8567,6 +8820,50 @@ AdminModels::Currency PlayFab::AdminModels::readCurrencyFromValue(const FString&
     return CurrencyAED; // Basically critical fail
 }
 
+PlayFab::AdminModels::FCustomPropertyDetails::~FCustomPropertyDetails()
+{
+
+}
+
+void PlayFab::AdminModels::FCustomPropertyDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (Value.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        Value.writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FCustomPropertyDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        Value = FJsonKeeper(ValueValue);
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FDeleteContentRequest::~FDeleteContentRequest()
 {
 
@@ -8598,6 +8895,48 @@ bool PlayFab::AdminModels::FDeleteContentRequest::readFromValue(const TSharedPtr
     {
         FString TmpValue;
         if (KeyValue->TryGetString(TmpValue)) { Key = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeletedPropertyDetails::~FDeletedPropertyDetails()
+{
+
+}
+
+void PlayFab::AdminModels::FDeletedPropertyDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("WasDeleted"));
+    writer->WriteValue(WasDeleted);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeletedPropertyDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> WasDeletedValue = obj->TryGetField(TEXT("WasDeleted"));
+    if (WasDeletedValue.IsValid() && !WasDeletedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasDeletedValue->TryGetBool(TmpValue)) { WasDeleted = TmpValue; }
     }
 
     return HasSucceeded;
@@ -8890,6 +9229,142 @@ bool PlayFab::AdminModels::FDeleteOpenIdConnectionRequest::readFromValue(const T
     {
         FString TmpValue;
         if (ConnectionIdValue->TryGetString(TmpValue)) { ConnectionId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeletePlayerCustomPropertiesRequest::~FDeletePlayerCustomPropertiesRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FDeletePlayerCustomPropertiesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ExpectedPropertiesVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedPropertiesVersion"));
+        writer->WriteValue(ExpectedPropertiesVersion);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeletePlayerCustomPropertiesRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteArrayStart(TEXT("PropertyNames"));
+    for (const FString& item : PropertyNames)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeletePlayerCustomPropertiesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExpectedPropertiesVersionValue = obj->TryGetField(TEXT("ExpectedPropertiesVersion"));
+    if (ExpectedPropertiesVersionValue.IsValid() && !ExpectedPropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ExpectedPropertiesVersionValue->TryGetNumber(TmpValue)) { ExpectedPropertiesVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    obj->TryGetStringArrayField(TEXT("PropertyNames"), PropertyNames);
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FDeletePlayerCustomPropertiesResult::~FDeletePlayerCustomPropertiesResult()
+{
+
+}
+
+void PlayFab::AdminModels::FDeletePlayerCustomPropertiesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DeletedProperties.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("DeletedProperties"));
+        for (const FDeletedPropertyDetails& item : DeletedProperties)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FDeletePlayerCustomPropertiesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DeletedPropertiesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("DeletedProperties"));
+    for (int32 Idx = 0; Idx < DeletedPropertiesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DeletedPropertiesArray[Idx];
+        DeletedProperties.Add(FDeletedPropertyDetails(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
     }
 
     return HasSucceeded;
@@ -10313,6 +10788,114 @@ bool PlayFab::AdminModels::FGetPlayedTitleListResult::readFromValue(const TShare
     bool HasSucceeded = true;
 
     obj->TryGetStringArrayField(TEXT("TitleIds"), TitleIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetPlayerCustomPropertyRequest::~FGetPlayerCustomPropertyRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FGetPlayerCustomPropertyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPlayerCustomPropertyRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (!PropertyName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPlayerCustomPropertyRequest::PropertyName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PropertyName"));
+        writer->WriteValue(PropertyName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetPlayerCustomPropertyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyNameValue = obj->TryGetField(TEXT("PropertyName"));
+    if (PropertyNameValue.IsValid() && !PropertyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (PropertyNameValue->TryGetString(TmpValue)) { PropertyName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FGetPlayerCustomPropertyResult::~FGetPlayerCustomPropertyResult()
+{
+    //if (Property != nullptr) delete Property;
+
+}
+
+void PlayFab::AdminModels::FGetPlayerCustomPropertyResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    if (Property.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Property"));
+        Property->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FGetPlayerCustomPropertyResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyValue = obj->TryGetField(TEXT("Property"));
+    if (PropertyValue.IsValid() && !PropertyValue->IsNull())
+    {
+        Property = MakeShareable(new FCustomPropertyDetails(PropertyValue->AsObject()));
+    }
 
     return HasSucceeded;
 }
@@ -12273,6 +12856,17 @@ void PlayFab::AdminModels::FPlayerProfile::writeJSON(JsonWriter& writer) const
         writeDatetime(Created, writer);
     }
 
+    if (CustomProperties.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomProperties"));
+        for (TMap<FString, FJsonKeeper>::TConstIterator It(CustomProperties); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DisplayName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("DisplayName"));
@@ -12445,6 +13039,15 @@ bool PlayFab::AdminModels::FPlayerProfile::readFromValue(const TSharedPtr<FJsonO
     if (CreatedValue.IsValid())
         Created = readDatetime(CreatedValue);
 
+
+    const TSharedPtr<FJsonObject>* CustomPropertiesObject;
+    if (obj->TryGetObjectField(TEXT("CustomProperties"), CustomPropertiesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomPropertiesObject)->Values); It; ++It)
+        {
+            CustomProperties.Add(It.Key(), FJsonKeeper(It.Value()));
+        }
+    }
 
     const TSharedPtr<FJsonValue> DisplayNameValue = obj->TryGetField(TEXT("DisplayName"));
     if (DisplayNameValue.IsValid() && !DisplayNameValue->IsNull())
@@ -16038,6 +16641,101 @@ bool PlayFab::AdminModels::FListOpenIdConnectionResponse::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::AdminModels::FListPlayerCustomPropertiesRequest::~FListPlayerCustomPropertiesRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FListPlayerCustomPropertiesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ListPlayerCustomPropertiesRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FListPlayerCustomPropertiesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FListPlayerCustomPropertiesResult::~FListPlayerCustomPropertiesResult()
+{
+
+}
+
+void PlayFab::AdminModels::FListPlayerCustomPropertiesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (Properties.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Properties"));
+        for (const FCustomPropertyDetails& item : Properties)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FListPlayerCustomPropertiesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PropertiesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Properties"));
+    for (int32 Idx = 0; Idx < PropertiesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PropertiesArray[Idx];
+        Properties.Add(FCustomPropertyDetails(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::AdminModels::FListVirtualCurrencyTypesRequest::~FListVirtualCurrencyTypesRequest()
 {
 
@@ -16966,6 +17664,7 @@ void PlayFab::AdminModels::writeUserOriginationEnumJSON(UserOrigination enumVal,
     case UserOriginationGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case UserOriginationXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
     case UserOriginationKing: writer->WriteValue(TEXT("King")); break;
+    case UserOriginationBattleNet: writer->WriteValue(TEXT("BattleNet")); break;
     }
 }
 
@@ -17006,6 +17705,7 @@ AdminModels::UserOrigination PlayFab::AdminModels::readUserOriginationFromValue(
         _UserOriginationMap.Add(TEXT("GooglePlayGames"), UserOriginationGooglePlayGames);
         _UserOriginationMap.Add(TEXT("XboxMobileStore"), UserOriginationXboxMobileStore);
         _UserOriginationMap.Add(TEXT("King"), UserOriginationKing);
+        _UserOriginationMap.Add(TEXT("BattleNet"), UserOriginationBattleNet);
 
     }
 
@@ -20142,6 +20842,176 @@ bool PlayFab::AdminModels::FUpdateOpenIdConnectionRequest::readFromValue(const T
     {
         FString TmpValue;
         if (IssuerOverrideValue->TryGetString(TmpValue)) { IssuerOverride = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdateProperty::~FUpdateProperty()
+{
+
+}
+
+void PlayFab::AdminModels::FUpdateProperty::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateProperty::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Value"));
+    Value.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdateProperty::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        Value = FJsonKeeper(ValueValue);
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdatePlayerCustomPropertiesRequest::~FUpdatePlayerCustomPropertiesRequest()
+{
+
+}
+
+void PlayFab::AdminModels::FUpdatePlayerCustomPropertiesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ExpectedPropertiesVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedPropertiesVersion"));
+        writer->WriteValue(ExpectedPropertiesVersion);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdatePlayerCustomPropertiesRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteArrayStart(TEXT("Properties"));
+    for (const FUpdateProperty& item : Properties)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdatePlayerCustomPropertiesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExpectedPropertiesVersionValue = obj->TryGetField(TEXT("ExpectedPropertiesVersion"));
+    if (ExpectedPropertiesVersionValue.IsValid() && !ExpectedPropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ExpectedPropertiesVersionValue->TryGetNumber(TmpValue)) { ExpectedPropertiesVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PropertiesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Properties"));
+    for (int32 Idx = 0; Idx < PropertiesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PropertiesArray[Idx];
+        Properties.Add(FUpdateProperty(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::AdminModels::FUpdatePlayerCustomPropertiesResult::~FUpdatePlayerCustomPropertiesResult()
+{
+
+}
+
+void PlayFab::AdminModels::FUpdatePlayerCustomPropertiesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::AdminModels::FUpdatePlayerCustomPropertiesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
     }
 
     return HasSucceeded;

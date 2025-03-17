@@ -1925,6 +1925,7 @@ void PlayFab::ServerModels::writeUserOriginationEnumJSON(UserOrigination enumVal
     case UserOriginationGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case UserOriginationXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
     case UserOriginationKing: writer->WriteValue(TEXT("King")); break;
+    case UserOriginationBattleNet: writer->WriteValue(TEXT("BattleNet")); break;
     }
 }
 
@@ -1965,6 +1966,7 @@ ServerModels::UserOrigination PlayFab::ServerModels::readUserOriginationFromValu
         _UserOriginationMap.Add(TEXT("GooglePlayGames"), UserOriginationGooglePlayGames);
         _UserOriginationMap.Add(TEXT("XboxMobileStore"), UserOriginationXboxMobileStore);
         _UserOriginationMap.Add(TEXT("King"), UserOriginationKing);
+        _UserOriginationMap.Add(TEXT("BattleNet"), UserOriginationBattleNet);
 
     }
 
@@ -4924,6 +4926,50 @@ bool PlayFab::ServerModels::FCreateSharedGroupResult::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FCustomPropertyDetails::~FCustomPropertyDetails()
+{
+
+}
+
+void PlayFab::ServerModels::FCustomPropertyDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    if (Value.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Value"));
+        Value.writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FCustomPropertyDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        Value = FJsonKeeper(ValueValue);
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FDeleteCharacterFromUserRequest::~FDeleteCharacterFromUserRequest()
 {
 
@@ -5022,6 +5068,184 @@ void PlayFab::ServerModels::FDeleteCharacterFromUserResult::writeJSON(JsonWriter
 bool PlayFab::ServerModels::FDeleteCharacterFromUserResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FDeletedPropertyDetails::~FDeletedPropertyDetails()
+{
+
+}
+
+void PlayFab::ServerModels::FDeletedPropertyDetails::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Name.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("WasDeleted"));
+    writer->WriteValue(WasDeleted);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FDeletedPropertyDetails::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> WasDeletedValue = obj->TryGetField(TEXT("WasDeleted"));
+    if (WasDeletedValue.IsValid() && !WasDeletedValue->IsNull())
+    {
+        bool TmpValue;
+        if (WasDeletedValue->TryGetBool(TmpValue)) { WasDeleted = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FDeletePlayerCustomPropertiesRequest::~FDeletePlayerCustomPropertiesRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FDeletePlayerCustomPropertiesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ExpectedPropertiesVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedPropertiesVersion"));
+        writer->WriteValue(ExpectedPropertiesVersion);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: DeletePlayerCustomPropertiesRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteArrayStart(TEXT("PropertyNames"));
+    for (const FString& item : PropertyNames)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FDeletePlayerCustomPropertiesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExpectedPropertiesVersionValue = obj->TryGetField(TEXT("ExpectedPropertiesVersion"));
+    if (ExpectedPropertiesVersionValue.IsValid() && !ExpectedPropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ExpectedPropertiesVersionValue->TryGetNumber(TmpValue)) { ExpectedPropertiesVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    obj->TryGetStringArrayField(TEXT("PropertyNames"), PropertyNames);
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FDeletePlayerCustomPropertiesResult::~FDeletePlayerCustomPropertiesResult()
+{
+
+}
+
+void PlayFab::ServerModels::FDeletePlayerCustomPropertiesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (DeletedProperties.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("DeletedProperties"));
+        for (const FDeletedPropertyDetails& item : DeletedProperties)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FDeletePlayerCustomPropertiesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DeletedPropertiesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("DeletedProperties"));
+    for (int32 Idx = 0; Idx < DeletedPropertiesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DeletedPropertiesArray[Idx];
+        DeletedProperties.Add(FDeletedPropertyDetails(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
+    }
 
     return HasSucceeded;
 }
@@ -9635,6 +9859,114 @@ bool PlayFab::ServerModels::FGetPlayerCombinedInfoResult::readFromValue(const TS
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FGetPlayerCustomPropertyRequest::~FGetPlayerCustomPropertyRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayerCustomPropertyRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPlayerCustomPropertyRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (!PropertyName.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: GetPlayerCustomPropertyRequest::PropertyName, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PropertyName"));
+        writer->WriteValue(PropertyName);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayerCustomPropertyRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyNameValue = obj->TryGetField(TEXT("PropertyName"));
+    if (PropertyNameValue.IsValid() && !PropertyNameValue->IsNull())
+    {
+        FString TmpValue;
+        if (PropertyNameValue->TryGetString(TmpValue)) { PropertyName = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayerCustomPropertyResult::~FGetPlayerCustomPropertyResult()
+{
+    //if (Property != nullptr) delete Property;
+
+}
+
+void PlayFab::ServerModels::FGetPlayerCustomPropertyResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    if (Property.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("Property"));
+        Property->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayerCustomPropertyResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertyValue = obj->TryGetField(TEXT("Property"));
+    if (PropertyValue.IsValid() && !PropertyValue->IsNull())
+    {
+        Property = MakeShareable(new FCustomPropertyDetails(PropertyValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FGetPlayerProfileRequest::~FGetPlayerProfileRequest()
 {
     //if (ProfileConstraints != nullptr) delete ProfileConstraints;
@@ -10170,6 +10502,17 @@ void PlayFab::ServerModels::FPlayerProfile::writeJSON(JsonWriter& writer) const
         writeDatetime(Created, writer);
     }
 
+    if (CustomProperties.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomProperties"));
+        for (TMap<FString, FJsonKeeper>::TConstIterator It(CustomProperties); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            (*It).Value.writeJSON(writer);
+        }
+        writer->WriteObjectEnd();
+    }
+
     if (DisplayName.IsEmpty() == false)
     {
         writer->WriteIdentifierPrefix(TEXT("DisplayName"));
@@ -10342,6 +10685,15 @@ bool PlayFab::ServerModels::FPlayerProfile::readFromValue(const TSharedPtr<FJson
     if (CreatedValue.IsValid())
         Created = readDatetime(CreatedValue);
 
+
+    const TSharedPtr<FJsonObject>* CustomPropertiesObject;
+    if (obj->TryGetObjectField(TEXT("CustomProperties"), CustomPropertiesObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomPropertiesObject)->Values); It; ++It)
+        {
+            CustomProperties.Add(It.Key(), FJsonKeeper(It.Value()));
+        }
+    }
 
     const TSharedPtr<FJsonValue> DisplayNameValue = obj->TryGetField(TEXT("DisplayName"));
     if (DisplayNameValue.IsValid() && !DisplayNameValue->IsNull())
@@ -15448,6 +15800,101 @@ bool PlayFab::ServerModels::FLinkXboxAccountResult::readFromValue(const TSharedP
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FListPlayerCustomPropertiesRequest::~FListPlayerCustomPropertiesRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FListPlayerCustomPropertiesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: ListPlayerCustomPropertiesRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FListPlayerCustomPropertiesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FListPlayerCustomPropertiesResult::~FListPlayerCustomPropertiesResult()
+{
+
+}
+
+void PlayFab::ServerModels::FListPlayerCustomPropertiesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    if (Properties.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Properties"));
+        for (const FCustomPropertyDetails& item : Properties)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FListPlayerCustomPropertiesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PropertiesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Properties"));
+    for (int32 Idx = 0; Idx < PropertiesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PropertiesArray[Idx];
+        Properties.Add(FCustomPropertyDetails(CurrentItem->AsObject()));
+    }
+
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FListUsersCharactersRequest::~FListUsersCharactersRequest()
 {
 
@@ -20101,6 +20548,176 @@ void PlayFab::ServerModels::FUpdateCharacterStatisticsResult::writeJSON(JsonWrit
 bool PlayFab::ServerModels::FUpdateCharacterStatisticsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUpdateProperty::~FUpdateProperty()
+{
+
+}
+
+void PlayFab::ServerModels::FUpdateProperty::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (!Name.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdateProperty::Name, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("Name"));
+        writer->WriteValue(Name);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("Value"));
+    Value.writeJSON(writer);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUpdateProperty::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> NameValue = obj->TryGetField(TEXT("Name"));
+    if (NameValue.IsValid() && !NameValue->IsNull())
+    {
+        FString TmpValue;
+        if (NameValue->TryGetString(TmpValue)) { Name = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> ValueValue = obj->TryGetField(TEXT("Value"));
+    if (ValueValue.IsValid() && !ValueValue->IsNull())
+    {
+        Value = FJsonKeeper(ValueValue);
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUpdatePlayerCustomPropertiesRequest::~FUpdatePlayerCustomPropertiesRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FUpdatePlayerCustomPropertiesRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ExpectedPropertiesVersion.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ExpectedPropertiesVersion"));
+        writer->WriteValue(ExpectedPropertiesVersion);
+    }
+
+    if (!PlayFabId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: UpdatePlayerCustomPropertiesRequest::PlayFabId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteArrayStart(TEXT("Properties"));
+    for (const FUpdateProperty& item : Properties)
+        item.writeJSON(writer);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUpdatePlayerCustomPropertiesRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ExpectedPropertiesVersionValue = obj->TryGetField(TEXT("ExpectedPropertiesVersion"));
+    if (ExpectedPropertiesVersionValue.IsValid() && !ExpectedPropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (ExpectedPropertiesVersionValue->TryGetNumber(TmpValue)) { ExpectedPropertiesVersion = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TArray<TSharedPtr<FJsonValue>>&PropertiesArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Properties"));
+    for (int32 Idx = 0; Idx < PropertiesArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = PropertiesArray[Idx];
+        Properties.Add(FUpdateProperty(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FUpdatePlayerCustomPropertiesResult::~FUpdatePlayerCustomPropertiesResult()
+{
+
+}
+
+void PlayFab::ServerModels::FUpdatePlayerCustomPropertiesResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteIdentifierPrefix(TEXT("PropertiesVersion"));
+    writer->WriteValue(PropertiesVersion);
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FUpdatePlayerCustomPropertiesResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PropertiesVersionValue = obj->TryGetField(TEXT("PropertiesVersion"));
+    if (PropertiesVersionValue.IsValid() && !PropertiesVersionValue->IsNull())
+    {
+        int32 TmpValue;
+        if (PropertiesVersionValue->TryGetNumber(TmpValue)) { PropertiesVersion = TmpValue; }
+    }
 
     return HasSucceeded;
 }

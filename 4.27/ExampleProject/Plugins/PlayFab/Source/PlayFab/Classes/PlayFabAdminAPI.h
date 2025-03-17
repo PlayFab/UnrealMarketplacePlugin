@@ -558,6 +558,19 @@ public:
         void HelperCreatePlayerStatisticDefinition(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeletePlayerCustomProperties, FAdminDeletePlayerCustomPropertiesResult, result, UObject*, customData);
+
+    /** Deletes title-specific custom properties for a player */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* DeletePlayerCustomProperties(FAdminDeletePlayerCustomPropertiesRequest request,
+            FDelegateOnSuccessDeletePlayerCustomProperties onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeletePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetDataReport, FAdminGetDataReportResult, result, UObject*, customData);
 
     /** Retrieves a download URL for the requested report */
@@ -569,6 +582,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetDataReport(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayerCustomProperty, FAdminGetPlayerCustomPropertyResult, result, UObject*, customData);
+
+    /** Retrieves a title-specific custom property value for a player. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* GetPlayerCustomProperty(FAdminGetPlayerCustomPropertyRequest request,
+            FDelegateOnSuccessGetPlayerCustomProperty onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayerCustomProperty(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayerStatisticDefinitions, FAdminGetPlayerStatisticDefinitionsResult, result, UObject*, customData);
@@ -691,6 +717,19 @@ public:
         void HelperIncrementPlayerStatisticVersion(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListPlayerCustomProperties, FAdminListPlayerCustomPropertiesResult, result, UObject*, customData);
+
+    /** Retrieves title-specific custom property values for a player. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* ListPlayerCustomProperties(FAdminListPlayerCustomPropertiesRequest request,
+            FDelegateOnSuccessListPlayerCustomProperties onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListPlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessRefundPurchase, FAdminRefundPurchaseResponse, result, UObject*, customData);
 
     /**
@@ -734,6 +773,19 @@ public:
     // Implements FOnPlayFabAdminRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperResolvePurchaseDispute(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdatePlayerCustomProperties, FAdminUpdatePlayerCustomPropertiesResult, result, UObject*, customData);
+
+    /** Updates the title-specific custom property values for a player */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabAdminAPI* UpdatePlayerCustomProperties(FAdminUpdatePlayerCustomPropertiesRequest request,
+            FDelegateOnSuccessUpdatePlayerCustomProperties onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabAdminRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdatePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdatePlayerStatisticDefinition, FAdminUpdatePlayerStatisticDefinitionResult, result, UObject*, customData);
@@ -1761,7 +1813,9 @@ public:
     FDelegateOnSuccessGetContentList OnSuccessGetContentList;
     FDelegateOnSuccessGetContentUploadUrl OnSuccessGetContentUploadUrl;
     FDelegateOnSuccessCreatePlayerStatisticDefinition OnSuccessCreatePlayerStatisticDefinition;
+    FDelegateOnSuccessDeletePlayerCustomProperties OnSuccessDeletePlayerCustomProperties;
     FDelegateOnSuccessGetDataReport OnSuccessGetDataReport;
+    FDelegateOnSuccessGetPlayerCustomProperty OnSuccessGetPlayerCustomProperty;
     FDelegateOnSuccessGetPlayerStatisticDefinitions OnSuccessGetPlayerStatisticDefinitions;
     FDelegateOnSuccessGetPlayerStatisticVersions OnSuccessGetPlayerStatisticVersions;
     FDelegateOnSuccessGetUserData OnSuccessGetUserData;
@@ -1771,9 +1825,11 @@ public:
     FDelegateOnSuccessGetUserPublisherReadOnlyData OnSuccessGetUserPublisherReadOnlyData;
     FDelegateOnSuccessGetUserReadOnlyData OnSuccessGetUserReadOnlyData;
     FDelegateOnSuccessIncrementPlayerStatisticVersion OnSuccessIncrementPlayerStatisticVersion;
+    FDelegateOnSuccessListPlayerCustomProperties OnSuccessListPlayerCustomProperties;
     FDelegateOnSuccessRefundPurchase OnSuccessRefundPurchase;
     FDelegateOnSuccessResetUserStatistics OnSuccessResetUserStatistics;
     FDelegateOnSuccessResolvePurchaseDispute OnSuccessResolvePurchaseDispute;
+    FDelegateOnSuccessUpdatePlayerCustomProperties OnSuccessUpdatePlayerCustomProperties;
     FDelegateOnSuccessUpdatePlayerStatisticDefinition OnSuccessUpdatePlayerStatisticDefinition;
     FDelegateOnSuccessUpdateUserData OnSuccessUpdateUserData;
     FDelegateOnSuccessUpdateUserInternalData OnSuccessUpdateUserInternalData;

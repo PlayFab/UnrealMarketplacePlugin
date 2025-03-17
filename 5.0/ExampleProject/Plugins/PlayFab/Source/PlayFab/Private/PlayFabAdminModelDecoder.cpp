@@ -400,6 +400,19 @@ FAdminCreatePlayerStatisticDefinitionResult UPlayFabAdminModelDecoder::decodeCre
     return tempStruct;
 }
 
+FAdminDeletePlayerCustomPropertiesResult UPlayFabAdminModelDecoder::decodeDeletePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminDeletePlayerCustomPropertiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.DeletedProperties = !(dataObj->HasField("DeletedProperties")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("DeletedProperties");
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
+
+    return tempStruct;
+}
+
 FAdminGetDataReportResult UPlayFabAdminModelDecoder::decodeGetDataReportResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -407,6 +420,19 @@ FAdminGetDataReportResult UPlayFabAdminModelDecoder::decodeGetDataReportResultRe
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.DownloadUrl = !(dataObj->HasField("DownloadUrl")) ? TEXT("") : dataObj->GetStringField("DownloadUrl");
+
+    return tempStruct;
+}
+
+FAdminGetPlayerCustomPropertyResult UPlayFabAdminModelDecoder::decodeGetPlayerCustomPropertyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminGetPlayerCustomPropertyResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
+    tempStruct.Property = !(dataObj->HasField("Property")) ? nullptr : dataObj->GetObjectField("Property");
 
     return tempStruct;
 }
@@ -457,6 +483,19 @@ FAdminIncrementPlayerStatisticVersionResult UPlayFabAdminModelDecoder::decodeInc
     return tempStruct;
 }
 
+FAdminListPlayerCustomPropertiesResult UPlayFabAdminModelDecoder::decodeListPlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminListPlayerCustomPropertiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.Properties = !(dataObj->HasField("Properties")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Properties");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
+
+    return tempStruct;
+}
+
 FAdminRefundPurchaseResponse UPlayFabAdminModelDecoder::decodeRefundPurchaseResponseResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -484,6 +523,18 @@ FAdminResolvePurchaseDisputeResponse UPlayFabAdminModelDecoder::decodeResolvePur
     UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
 
     tempStruct.PurchaseStatus = !(dataObj->HasField("PurchaseStatus")) ? TEXT("") : dataObj->GetStringField("PurchaseStatus");
+
+    return tempStruct;
+}
+
+FAdminUpdatePlayerCustomPropertiesResult UPlayFabAdminModelDecoder::decodeUpdatePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FAdminUpdatePlayerCustomPropertiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
 
     return tempStruct;
 }

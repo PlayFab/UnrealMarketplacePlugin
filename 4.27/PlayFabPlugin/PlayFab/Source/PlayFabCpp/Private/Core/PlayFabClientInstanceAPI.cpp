@@ -609,6 +609,37 @@ void UPlayFabClientInstanceAPI::OnCreateSharedGroupResult(FHttpRequestPtr HttpRe
     }
 }
 
+bool UPlayFabClientInstanceAPI::DeletePlayerCustomProperties(
+    ClientModels::FDeletePlayerCustomPropertiesRequest& request,
+    const FDeletePlayerCustomPropertiesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/DeletePlayerCustomProperties"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnDeletePlayerCustomPropertiesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnDeletePlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FDeletePlayerCustomPropertiesResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientInstanceAPI::ExecuteCloudScript(
     ClientModels::FExecuteCloudScriptRequest& request,
     const FExecuteCloudScriptDelegate& SuccessDelegate,
@@ -1249,6 +1280,37 @@ bool UPlayFabClientInstanceAPI::GetPlayerCombinedInfo(
 void UPlayFabClientInstanceAPI::OnGetPlayerCombinedInfoResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerCombinedInfoDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FGetPlayerCombinedInfoResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientInstanceAPI::GetPlayerCustomProperty(
+    ClientModels::FGetPlayerCustomPropertyRequest& request,
+    const FGetPlayerCustomPropertyDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/GetPlayerCustomProperty"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnGetPlayerCustomPropertyResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnGetPlayerCustomPropertyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerCustomPropertyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FGetPlayerCustomPropertyResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -2904,6 +2966,45 @@ bool UPlayFabClientInstanceAPI::LinkXboxAccount(
 void UPlayFabClientInstanceAPI::OnLinkXboxAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkXboxAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FLinkXboxAccountResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientInstanceAPI::ListPlayerCustomProperties(
+    const FListPlayerCustomPropertiesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{ 
+    ClientModels::FListPlayerCustomPropertiesRequest emptyRequest = ClientModels::FListPlayerCustomPropertiesRequest();
+    return UPlayFabClientInstanceAPI::ListPlayerCustomProperties(emptyRequest, SuccessDelegate, ErrorDelegate);
+}
+
+bool UPlayFabClientInstanceAPI::ListPlayerCustomProperties(
+    ClientModels::FListPlayerCustomPropertiesRequest& request,
+    const FListPlayerCustomPropertiesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/ListPlayerCustomProperties"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnListPlayerCustomPropertiesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnListPlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FListPlayerCustomPropertiesResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {
@@ -5082,6 +5183,37 @@ bool UPlayFabClientInstanceAPI::UpdateCharacterStatistics(
 void UPlayFabClientInstanceAPI::OnUpdateCharacterStatisticsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCharacterStatisticsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FUpdateCharacterStatisticsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientInstanceAPI::UpdatePlayerCustomProperties(
+    ClientModels::FUpdatePlayerCustomPropertiesRequest& request,
+    const FUpdatePlayerCustomPropertiesDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    TSharedPtr<UPlayFabAuthenticationContext> context = request.AuthenticationContext.IsValid() ? request.AuthenticationContext : GetOrCreateAuthenticationContext();
+    if (context->GetClientSessionTicket().Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(this->settings, TEXT("/Client/UpdatePlayerCustomProperties"), request.toJSONString(), TEXT("X-Authorization"), context->GetClientSessionTicket());
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientInstanceAPI::OnUpdatePlayerCustomPropertiesResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientInstanceAPI::OnUpdatePlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FUpdatePlayerCustomPropertiesResult outResult;
     FPlayFabCppError errorResult;
     if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
     {

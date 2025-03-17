@@ -2133,6 +2133,121 @@ namespace ClientModels
     PLAYFABCPP_API Currency readCurrencyFromValue(const TSharedPtr<FJsonValue>& value);
     PLAYFABCPP_API Currency readCurrencyFromValue(const FString& value);
 
+    struct PLAYFABCPP_API FCustomPropertyDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The custom property's name.
+        FString Name;
+
+        // [optional] The custom property's value.
+        FJsonKeeper Value;
+
+        FCustomPropertyDetails() :
+            FPlayFabCppBaseModel(),
+            Name(),
+            Value()
+            {}
+
+        FCustomPropertyDetails(const FCustomPropertyDetails& src) = default;
+
+        FCustomPropertyDetails(const TSharedPtr<FJsonObject>& obj) : FCustomPropertyDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FCustomPropertyDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletedPropertyDetails : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] The name of the property which was requested to be deleted.
+        FString Name;
+
+        // Indicates whether or not the property was deleted. If false, no property with that name existed.
+        bool WasDeleted;
+
+        FDeletedPropertyDetails() :
+            FPlayFabCppBaseModel(),
+            Name(),
+            WasDeleted(false)
+            {}
+
+        FDeletedPropertyDetails(const FDeletedPropertyDetails& src) = default;
+
+        FDeletedPropertyDetails(const TSharedPtr<FJsonObject>& obj) : FDeletedPropertyDetails()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletedPropertyDetails();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePlayerCustomPropertiesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] Optional field used for concurrency control. One can ensure that the delete operation will only be performed if the
+         * player's properties have not been updated by any other clients since the last version.
+         */
+        Boxed<int32> ExpectedPropertiesVersion;
+
+        // A list of property names denoting which properties should be deleted.
+        TArray<FString> PropertyNames;
+        FDeletePlayerCustomPropertiesRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ExpectedPropertiesVersion(),
+            PropertyNames()
+            {}
+
+        FDeletePlayerCustomPropertiesRequest(const FDeletePlayerCustomPropertiesRequest& src) = default;
+
+        FDeletePlayerCustomPropertiesRequest(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerCustomPropertiesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerCustomPropertiesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FDeletePlayerCustomPropertiesResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] The list of properties requested to be deleted.
+        TArray<FDeletedPropertyDetails> DeletedProperties;
+        /**
+         * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+         * deletes. This version can be provided in update and delete calls for concurrency control.
+         */
+        int32 PropertiesVersion;
+
+        FDeletePlayerCustomPropertiesResult() :
+            FPlayFabCppResultCommon(),
+            DeletedProperties(),
+            PropertiesVersion(0)
+            {}
+
+        FDeletePlayerCustomPropertiesResult(const FDeletePlayerCustomPropertiesResult& src) = default;
+
+        FDeletePlayerCustomPropertiesResult(const TSharedPtr<FJsonObject>& obj) : FDeletePlayerCustomPropertiesResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FDeletePlayerCustomPropertiesResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FDeviceInfoRequest : public PlayFab::FPlayFabCppRequestCommon
     {
         // [optional] Information posted to the PlayStream Event. Currently arbitrary, and specific to the environment sending it.
@@ -3624,7 +3739,8 @@ namespace ClientModels
         UserOriginationNintendoSwitchAccount,
         UserOriginationGooglePlayGames,
         UserOriginationXboxMobileStore,
-        UserOriginationKing
+        UserOriginationKing,
+        UserOriginationBattleNet
     };
 
     PLAYFABCPP_API void writeUserOriginationEnumJSON(UserOrigination enumVal, JsonWriter& writer);
@@ -5256,6 +5372,59 @@ namespace ClientModels
         }
 
         ~FGetPlayerCombinedInfoResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayerCustomPropertyRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // Specific property name to search for in the player's properties.
+        FString PropertyName;
+
+        FGetPlayerCustomPropertyRequest() :
+            FPlayFabCppRequestCommon(),
+            PropertyName()
+            {}
+
+        FGetPlayerCustomPropertyRequest(const FGetPlayerCustomPropertyRequest& src) = default;
+
+        FGetPlayerCustomPropertyRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayerCustomPropertyRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayerCustomPropertyRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayerCustomPropertyResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+         * deletes. This version can be provided in update and delete calls for concurrency control.
+         */
+        int32 PropertiesVersion;
+
+        // [optional] Player specific property and its corresponding value.
+        TSharedPtr<FCustomPropertyDetails> Property;
+
+        FGetPlayerCustomPropertyResult() :
+            FPlayFabCppResultCommon(),
+            PropertiesVersion(0),
+            Property(nullptr)
+            {}
+
+        FGetPlayerCustomPropertyResult(const FGetPlayerCustomPropertyResult& src) = default;
+
+        FGetPlayerCustomPropertyResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayerCustomPropertyResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayerCustomPropertyResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -8390,6 +8559,54 @@ namespace ClientModels
         }
 
         ~FLinkXboxAccountResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListPlayerCustomPropertiesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        FListPlayerCustomPropertiesRequest() :
+            FPlayFabCppRequestCommon()
+            {}
+
+        FListPlayerCustomPropertiesRequest(const FListPlayerCustomPropertiesRequest& src) = default;
+
+        FListPlayerCustomPropertiesRequest(const TSharedPtr<FJsonObject>& obj) : FListPlayerCustomPropertiesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListPlayerCustomPropertiesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FListPlayerCustomPropertiesResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Player specific properties and their corresponding values for this title.
+        TArray<FCustomPropertyDetails> Properties;
+        /**
+         * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+         * deletes. This version can be provided in update and delete calls for concurrency control.
+         */
+        int32 PropertiesVersion;
+
+        FListPlayerCustomPropertiesResult() :
+            FPlayFabCppResultCommon(),
+            Properties(),
+            PropertiesVersion(0)
+            {}
+
+        FListPlayerCustomPropertiesResult(const FListPlayerCustomPropertiesResult& src) = default;
+
+        FListPlayerCustomPropertiesResult(const TSharedPtr<FJsonObject>& obj) : FListPlayerCustomPropertiesResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FListPlayerCustomPropertiesResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -11783,6 +12000,91 @@ namespace ClientModels
         }
 
         ~FUpdateCharacterStatisticsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdateProperty : public PlayFab::FPlayFabCppBaseModel
+    {
+        // Name of the custom property. Can contain Unicode letters and digits. They are limited in size.
+        FString Name;
+
+        // Value of the custom property. Limited to booleans, numbers, and strings.
+        FJsonKeeper Value;
+
+        FUpdateProperty() :
+            FPlayFabCppBaseModel(),
+            Name(),
+            Value()
+            {}
+
+        FUpdateProperty(const FUpdateProperty& src) = default;
+
+        FUpdateProperty(const TSharedPtr<FJsonObject>& obj) : FUpdateProperty()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdateProperty();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdatePlayerCustomPropertiesRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        /**
+         * [optional] Optional field used for concurrency control. One can ensure that the update operation will only be performed if the
+         * player's properties have not been updated by any other clients since last the version.
+         */
+        Boxed<int32> ExpectedPropertiesVersion;
+
+        // Collection of properties to be set for a player.
+        TArray<FUpdateProperty> Properties;
+        FUpdatePlayerCustomPropertiesRequest() :
+            FPlayFabCppRequestCommon(),
+            CustomTags(),
+            ExpectedPropertiesVersion(),
+            Properties()
+            {}
+
+        FUpdatePlayerCustomPropertiesRequest(const FUpdatePlayerCustomPropertiesRequest& src) = default;
+
+        FUpdatePlayerCustomPropertiesRequest(const TSharedPtr<FJsonObject>& obj) : FUpdatePlayerCustomPropertiesRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdatePlayerCustomPropertiesRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FUpdatePlayerCustomPropertiesResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        /**
+         * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+         * deletes. This version can be provided in update and delete calls for concurrency control.
+         */
+        int32 PropertiesVersion;
+
+        FUpdatePlayerCustomPropertiesResult() :
+            FPlayFabCppResultCommon(),
+            PropertiesVersion(0)
+            {}
+
+        FUpdatePlayerCustomPropertiesResult(const FUpdatePlayerCustomPropertiesResult& src) = default;
+
+        FUpdatePlayerCustomPropertiesResult(const TSharedPtr<FJsonObject>& obj) : FUpdatePlayerCustomPropertiesResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FUpdatePlayerCustomPropertiesResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

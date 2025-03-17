@@ -39,6 +39,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FDeleteMembershipSubscriptionDelegate, const AdminModels::FDeleteMembershipSubscriptionResult&);
         DECLARE_DELEGATE_OneParam(FDeleteOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerDelegate, const AdminModels::FDeletePlayerResult&);
+        DECLARE_DELEGATE_OneParam(FDeletePlayerCustomPropertiesDelegate, const AdminModels::FDeletePlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FDeletePlayerSharedSecretDelegate, const AdminModels::FDeletePlayerSharedSecretResult&);
         DECLARE_DELEGATE_OneParam(FDeleteSegmentDelegate, const AdminModels::FDeleteSegmentsResponse&);
         DECLARE_DELEGATE_OneParam(FDeleteStoreDelegate, const AdminModels::FDeleteStoreResult&);
@@ -57,6 +58,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetContentUploadUrlDelegate, const AdminModels::FGetContentUploadUrlResult&);
         DECLARE_DELEGATE_OneParam(FGetDataReportDelegate, const AdminModels::FGetDataReportResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayedTitleListDelegate, const AdminModels::FGetPlayedTitleListResult&);
+        DECLARE_DELEGATE_OneParam(FGetPlayerCustomPropertyDelegate, const AdminModels::FGetPlayerCustomPropertyResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerIdFromAuthTokenDelegate, const AdminModels::FGetPlayerIdFromAuthTokenResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerProfileDelegate, const AdminModels::FGetPlayerProfileResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerSegmentsDelegate, const AdminModels::FGetPlayerSegmentsResult&);
@@ -88,6 +90,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FIncrementLimitedEditionItemAvailabilityDelegate, const AdminModels::FIncrementLimitedEditionItemAvailabilityResult&);
         DECLARE_DELEGATE_OneParam(FIncrementPlayerStatisticVersionDelegate, const AdminModels::FIncrementPlayerStatisticVersionResult&);
         DECLARE_DELEGATE_OneParam(FListOpenIdConnectionDelegate, const AdminModels::FListOpenIdConnectionResponse&);
+        DECLARE_DELEGATE_OneParam(FListPlayerCustomPropertiesDelegate, const AdminModels::FListPlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FListVirtualCurrencyTypesDelegate, const AdminModels::FListVirtualCurrencyTypesResult&);
         DECLARE_DELEGATE_OneParam(FRefundPurchaseDelegate, const AdminModels::FRefundPurchaseResponse&);
         DECLARE_DELEGATE_OneParam(FRemovePlayerTagDelegate, const AdminModels::FRemovePlayerTagResult&);
@@ -117,6 +120,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FUpdateCatalogItemsDelegate, const AdminModels::FUpdateCatalogItemsResult&);
         DECLARE_DELEGATE_OneParam(FUpdateCloudScriptDelegate, const AdminModels::FUpdateCloudScriptResult&);
         DECLARE_DELEGATE_OneParam(FUpdateOpenIdConnectionDelegate, const AdminModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUpdatePlayerCustomPropertiesDelegate, const AdminModels::FUpdatePlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FUpdatePlayerSharedSecretDelegate, const AdminModels::FUpdatePlayerSharedSecretResult&);
         DECLARE_DELEGATE_OneParam(FUpdatePlayerStatisticDefinitionDelegate, const AdminModels::FUpdatePlayerStatisticDefinitionResult&);
         DECLARE_DELEGATE_OneParam(FUpdatePolicyDelegate, const AdminModels::FUpdatePolicyResponse&);
@@ -236,6 +240,11 @@ namespace PlayFab
          */
         bool DeletePlayer(AdminModels::FDeletePlayerRequest& request, const FDeletePlayerDelegate& SuccessDelegate = FDeletePlayerDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Deletes title-specific custom properties for a player
+         * Deletes custom properties for the specified player. The list of provided property names must be non-empty.
+         */
+        bool DeletePlayerCustomProperties(AdminModels::FDeletePlayerCustomPropertiesRequest& request, const FDeletePlayerCustomPropertiesDelegate& SuccessDelegate = FDeletePlayerCustomPropertiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Deletes an existing Player Shared Secret Key. It may take up to 5 minutes for this delete to be reflected after this API
          * returns.
          * Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when that API requires a signature header.
@@ -344,6 +353,8 @@ namespace PlayFab
          * Useful for identifying titles of which the player's data will be deleted by DeleteMasterPlayer.
          */
         bool GetPlayedTitleList(AdminModels::FGetPlayedTitleListRequest& request, const FGetPlayedTitleListDelegate& SuccessDelegate = FGetPlayedTitleListDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves a title-specific custom property value for a player.
+        bool GetPlayerCustomProperty(AdminModels::FGetPlayerCustomPropertyRequest& request, const FGetPlayerCustomPropertyDelegate& SuccessDelegate = FGetPlayerCustomPropertyDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Gets a player's ID from an auth token.
          * Gets a player ID from an auth token. The token expires after 30 minutes and cannot be used to look up a player when expired.
@@ -513,6 +524,8 @@ namespace PlayFab
         bool ListOpenIdConnection(const FListOpenIdConnectionDelegate& SuccessDelegate = FListOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves a list of all Open ID Connect providers registered to a title.
         bool ListOpenIdConnection(AdminModels::FListOpenIdConnectionRequest& request, const FListOpenIdConnectionDelegate& SuccessDelegate = FListOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves title-specific custom property values for a player.
+        bool ListPlayerCustomProperties(AdminModels::FListPlayerCustomPropertiesRequest& request, const FListPlayerCustomPropertiesDelegate& SuccessDelegate = FListPlayerCustomPropertiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * _NOTE: This is a Legacy Economy API, and is in bugfix-only mode. All new Economy features are being developed only for
          * version 2._ Retuns the list of all defined virtual currencies for the title
@@ -673,6 +686,11 @@ namespace PlayFab
         // Modifies data and credentials for an existing relationship between a title and an Open ID Connect provider
         bool UpdateOpenIdConnection(AdminModels::FUpdateOpenIdConnectionRequest& request, const FUpdateOpenIdConnectionDelegate& SuccessDelegate = FUpdateOpenIdConnectionDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
+         * Updates the title-specific custom property values for a player
+         * Performs an additive update of the custom properties for the specified player. In updating the player's custom properties, properties which already exist will have their values overwritten. No other properties will be changed apart from those specified in the call.
+         */
+        bool UpdatePlayerCustomProperties(AdminModels::FUpdatePlayerCustomPropertiesRequest& request, const FUpdatePlayerCustomPropertiesDelegate& SuccessDelegate = FUpdatePlayerCustomPropertiesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        /**
          * Updates a existing Player Shared Secret Key. It may take up to 5 minutes for this update to become generally available
          * after this API returns.
          * Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when that API requires a signature header.
@@ -769,6 +787,7 @@ namespace PlayFab
         void OnDeleteMembershipSubscriptionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteMembershipSubscriptionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnDeletePlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeletePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteSegmentResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteSegmentDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnDeleteStoreResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteStoreDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -787,6 +806,7 @@ namespace PlayFab
         void OnGetContentUploadUrlResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetContentUploadUrlDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetDataReportResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetDataReportDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayedTitleListResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayedTitleListDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayerCustomPropertyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerCustomPropertyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerIdFromAuthTokenResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerIdFromAuthTokenDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerProfileResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerProfileDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerSegmentsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerSegmentsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -818,6 +838,7 @@ namespace PlayFab
         void OnIncrementLimitedEditionItemAvailabilityResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementLimitedEditionItemAvailabilityDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnIncrementPlayerStatisticVersionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FIncrementPlayerStatisticVersionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnListPlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnListVirtualCurrencyTypesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListVirtualCurrencyTypesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRefundPurchaseResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRefundPurchaseDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnRemovePlayerTagResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemovePlayerTagDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -847,6 +868,7 @@ namespace PlayFab
         void OnUpdateCatalogItemsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCatalogItemsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateCloudScriptResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateCloudScriptDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdateOpenIdConnectionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateOpenIdConnectionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUpdatePlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdatePlayerSharedSecretResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerSharedSecretDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdatePlayerStatisticDefinitionResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePlayerStatisticDefinitionDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUpdatePolicyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePolicyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

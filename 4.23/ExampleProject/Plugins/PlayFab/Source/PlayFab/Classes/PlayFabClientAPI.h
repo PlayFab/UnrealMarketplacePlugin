@@ -1809,6 +1809,19 @@ public:
     // Player Data Management
     //////////////////////////////////////////////////////
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessDeletePlayerCustomProperties, FClientDeletePlayerCustomPropertiesResult, result, UObject*, customData);
+
+    /** Deletes title-specific custom properties for a player */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* DeletePlayerCustomProperties(FClientDeletePlayerCustomPropertiesRequest request,
+            FDelegateOnSuccessDeletePlayerCustomProperties onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperDeletePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetFriendLeaderboard, FClientGetLeaderboardResult, result, UObject*, customData);
 
     /**
@@ -1868,6 +1881,19 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetLeaderboardAroundPlayer(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayerCustomProperty, FClientGetPlayerCustomPropertyResult, result, UObject*, customData);
+
+    /** Retrieves a title-specific custom property value for a player. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* GetPlayerCustomProperty(FClientGetPlayerCustomPropertyRequest request,
+            FDelegateOnSuccessGetPlayerCustomProperty onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayerCustomProperty(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayerStatistics, FClientGetPlayerStatisticsResult, result, UObject*, customData);
@@ -1949,6 +1975,32 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperGetUserReadOnlyData(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessListPlayerCustomProperties, FClientListPlayerCustomPropertiesResult, result, UObject*, customData);
+
+    /** Retrieves title-specific custom property values for a player. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* ListPlayerCustomProperties(FClientListPlayerCustomPropertiesRequest request,
+            FDelegateOnSuccessListPlayerCustomProperties onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperListPlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdatePlayerCustomProperties, FClientUpdatePlayerCustomPropertiesResult, result, UObject*, customData);
+
+    /** Updates the title-specific custom property values for a player */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* UpdatePlayerCustomProperties(FClientUpdatePlayerCustomPropertiesRequest request,
+            FDelegateOnSuccessUpdatePlayerCustomProperties onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Player Data Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUpdatePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUpdatePlayerStatistics, FClientUpdatePlayerStatisticsResult, result, UObject*, customData);
@@ -2678,16 +2730,20 @@ public:
     FDelegateOnSuccessValidateGooglePlayPurchase OnSuccessValidateGooglePlayPurchase;
     FDelegateOnSuccessValidateIOSReceipt OnSuccessValidateIOSReceipt;
     FDelegateOnSuccessValidateWindowsStoreReceipt OnSuccessValidateWindowsStoreReceipt;
+    FDelegateOnSuccessDeletePlayerCustomProperties OnSuccessDeletePlayerCustomProperties;
     FDelegateOnSuccessGetFriendLeaderboard OnSuccessGetFriendLeaderboard;
     FDelegateOnSuccessGetFriendLeaderboardAroundPlayer OnSuccessGetFriendLeaderboardAroundPlayer;
     FDelegateOnSuccessGetLeaderboard OnSuccessGetLeaderboard;
     FDelegateOnSuccessGetLeaderboardAroundPlayer OnSuccessGetLeaderboardAroundPlayer;
+    FDelegateOnSuccessGetPlayerCustomProperty OnSuccessGetPlayerCustomProperty;
     FDelegateOnSuccessGetPlayerStatistics OnSuccessGetPlayerStatistics;
     FDelegateOnSuccessGetPlayerStatisticVersions OnSuccessGetPlayerStatisticVersions;
     FDelegateOnSuccessGetUserData OnSuccessGetUserData;
     FDelegateOnSuccessGetUserPublisherData OnSuccessGetUserPublisherData;
     FDelegateOnSuccessGetUserPublisherReadOnlyData OnSuccessGetUserPublisherReadOnlyData;
     FDelegateOnSuccessGetUserReadOnlyData OnSuccessGetUserReadOnlyData;
+    FDelegateOnSuccessListPlayerCustomProperties OnSuccessListPlayerCustomProperties;
+    FDelegateOnSuccessUpdatePlayerCustomProperties OnSuccessUpdatePlayerCustomProperties;
     FDelegateOnSuccessUpdatePlayerStatistics OnSuccessUpdatePlayerStatistics;
     FDelegateOnSuccessUpdateUserData OnSuccessUpdateUserData;
     FDelegateOnSuccessUpdateUserPublisherData OnSuccessUpdateUserPublisherData;

@@ -3445,6 +3445,42 @@ public:
 // Player Data Management
 //////////////////////////////////////////////////////
 
+/** Deletes custom properties for the specified player. The list of provided property names must be non-empty. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientDeletePlayerCustomPropertiesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * Optional field used for concurrency control. One can ensure that the delete operation will only be performed if the
+     * player's properties have not been updated by any other clients since the last version.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        int32 ExpectedPropertiesVersion = 0;
+    /** A list of property names denoting which properties should be deleted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        FString PropertyNames;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientDeletePlayerCustomPropertiesResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The list of properties requested to be deleted. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        TArray<UPlayFabJsonObject*> DeletedProperties;
+    /**
+     * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+     * deletes. This version can be provided in update and delete calls for concurrency control.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        int32 PropertiesVersion = 0;
+};
+
 USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetFriendLeaderboardRequest : public FPlayFabRequestCommon
 {
@@ -3651,6 +3687,32 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayerCustomPropertyRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Specific property name to search for in the player's properties. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        FString PropertyName;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayerCustomPropertyResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+     * deletes. This version can be provided in update and delete calls for concurrency control.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        int32 PropertiesVersion = 0;
+    /** Player specific property and its corresponding value. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        UPlayFabJsonObject* Property = nullptr;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayerStatisticsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -3745,6 +3807,66 @@ public:
      */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
         int32 DataVersion = 0;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientListPlayerCustomPropertiesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientListPlayerCustomPropertiesResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Player specific properties and their corresponding values for this title. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        TArray<UPlayFabJsonObject*> Properties;
+    /**
+     * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+     * deletes. This version can be provided in update and delete calls for concurrency control.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        int32 PropertiesVersion = 0;
+};
+
+/**
+ * Performs an additive update of the custom properties for the specified player. In updating the player's custom
+ * properties, properties which already exist will have their values overwritten. No other properties will be changed apart
+ * from those specified in the call.
+ */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientUpdatePlayerCustomPropertiesRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /**
+     * Optional field used for concurrency control. One can ensure that the update operation will only be performed if the
+     * player's properties have not been updated by any other clients since last the version.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        int32 ExpectedPropertiesVersion = 0;
+    /** Collection of properties to be set for a player. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        TArray<UPlayFabJsonObject*> Properties;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientUpdatePlayerCustomPropertiesResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Indicates the current version of a player's properties that have been set. This is incremented after updates and
+     * deletes. This version can be provided in update and delete calls for concurrency control.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Player Data Management Models")
+        int32 PropertiesVersion = 0;
 };
 
 /**

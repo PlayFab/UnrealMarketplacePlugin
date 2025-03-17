@@ -204,9 +204,17 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
         static FAdminCreatePlayerStatisticDefinitionResult decodeCreatePlayerStatisticDefinitionResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the DeletePlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
+        static FAdminDeletePlayerCustomPropertiesResult decodeDeletePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetDataReportResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
         static FAdminGetDataReportResult decodeGetDataReportResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the GetPlayerCustomPropertyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
+        static FAdminGetPlayerCustomPropertyResult decodeGetPlayerCustomPropertyResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the GetPlayerStatisticDefinitionsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
@@ -224,6 +232,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
         static FAdminIncrementPlayerStatisticVersionResult decodeIncrementPlayerStatisticVersionResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the ListPlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
+        static FAdminListPlayerCustomPropertiesResult decodeListPlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the RefundPurchaseResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
         static FAdminRefundPurchaseResponse decodeRefundPurchaseResponseResponse(UPlayFabJsonObject* response);
@@ -235,6 +247,10 @@ public:
     /** Decode the ResolvePurchaseDisputeResponse response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
         static FAdminResolvePurchaseDisputeResponse decodeResolvePurchaseDisputeResponseResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UpdatePlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")
+        static FAdminUpdatePlayerCustomPropertiesResult decodeUpdatePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UpdatePlayerStatisticDefinitionResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Admin | Player Data Management Models")

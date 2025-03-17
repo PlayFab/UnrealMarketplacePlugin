@@ -310,6 +310,10 @@ public:
     // Player Data Management
     //////////////////////////////////////////////////////
 
+    /** Decode the DeletePlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
+        static FServerDeletePlayerCustomPropertiesResult decodeDeletePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetLeaderboardResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
         static FServerGetLeaderboardResult decodeGetLeaderboardResultResponse(UPlayFabJsonObject* response);
@@ -322,6 +326,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
         static FServerGetPlayerCombinedInfoResult decodeGetPlayerCombinedInfoResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayerCustomPropertyResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
+        static FServerGetPlayerCustomPropertyResult decodeGetPlayerCustomPropertyResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetPlayerStatisticsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
         static FServerGetPlayerStatisticsResult decodeGetPlayerStatisticsResultResponse(UPlayFabJsonObject* response);
@@ -333,6 +341,14 @@ public:
     /** Decode the GetUserDataResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
         static FServerGetUserDataResult decodeGetUserDataResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the ListPlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
+        static FServerListPlayerCustomPropertiesResult decodeListPlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the UpdatePlayerCustomPropertiesResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")
+        static FServerUpdatePlayerCustomPropertiesResult decodeUpdatePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response);
 
     /** Decode the UpdatePlayerStatisticsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Server | Player Data Management Models")

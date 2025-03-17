@@ -1265,6 +1265,7 @@ enum class EUserOrigination : uint8
     pfenum_GooglePlayGames = 23 UMETA(DisplayName = "GooglePlayGames"),
     pfenum_XboxMobileStore = 24 UMETA(DisplayName = "XboxMobileStore"),
     pfenum_King = 25 UMETA(DisplayName = "King"),
+    pfenum_BattleNet = 26 UMETA(DisplayName = "BattleNet"),
 };
 
 /** AdActivity */

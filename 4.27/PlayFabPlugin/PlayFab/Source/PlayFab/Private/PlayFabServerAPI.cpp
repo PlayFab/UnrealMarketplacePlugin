@@ -4391,6 +4391,68 @@ void UPlayFabServerAPI::HelperAwardSteamAchievement(FPlayFabBaseModel response, 
 ///////////////////////////////////////////////////////
 // Player Data Management
 //////////////////////////////////////////////////////
+/** Deletes title-specific custom properties for a player */
+UPlayFabServerAPI* UPlayFabServerAPI::DeletePlayerCustomProperties(FServerDeletePlayerCustomPropertiesRequest request,
+    FDelegateOnSuccessDeletePlayerCustomProperties onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessDeletePlayerCustomProperties = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperDeletePlayerCustomProperties);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/DeletePlayerCustomProperties";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("ExpectedPropertiesVersion"), request.ExpectedPropertiesVersion);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    // Check to see if string is empty
+    if (request.PropertyNames.IsEmpty() || request.PropertyNames == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PropertyNames"));
+    } else {
+        TArray<FString> PropertyNamesArray;
+        FString(request.PropertyNames).ParseIntoArray(PropertyNamesArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("PropertyNames"), PropertyNamesArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperDeletePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessDeletePlayerCustomProperties.IsBound())
+    {
+        FServerDeletePlayerCustomPropertiesResult ResultStruct = UPlayFabServerModelDecoder::decodeDeletePlayerCustomPropertiesResultResponse(response.responseData);
+        OnSuccessDeletePlayerCustomProperties.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves a list of ranked friends of the given player for the given statistic, starting from the indicated point in the leaderboard */
 UPlayFabServerAPI* UPlayFabServerAPI::GetFriendLeaderboard(FServerGetFriendLeaderboardRequest request,
     FDelegateOnSuccessGetFriendLeaderboard onSuccess,
@@ -4633,6 +4695,63 @@ void UPlayFabServerAPI::HelperGetPlayerCombinedInfo(FPlayFabBaseModel response, 
     {
         FServerGetPlayerCombinedInfoResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerCombinedInfoResultResponse(response.responseData);
         OnSuccessGetPlayerCombinedInfo.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves a title-specific custom property value for a player. */
+UPlayFabServerAPI* UPlayFabServerAPI::GetPlayerCustomProperty(FServerGetPlayerCustomPropertyRequest request,
+    FDelegateOnSuccessGetPlayerCustomProperty onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayerCustomProperty = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayerCustomProperty);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetPlayerCustomProperty";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.PropertyName.IsEmpty() || request.PropertyName == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PropertyName"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PropertyName"), request.PropertyName);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetPlayerCustomProperty(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayerCustomProperty.IsBound())
+    {
+        FServerGetPlayerCustomPropertyResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayerCustomPropertyResultResponse(response.responseData);
+        OnSuccessGetPlayerCustomProperty.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -5123,6 +5242,117 @@ void UPlayFabServerAPI::HelperGetUserReadOnlyData(FPlayFabBaseModel response, UO
         FServerGetUserDataResult ResultStruct = UPlayFabServerModelDecoder::decodeGetUserDataResultResponse(response.responseData);
         ResultStruct.Request = RequestJsonObj;
         OnSuccessGetUserReadOnlyData.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Retrieves title-specific custom property values for a player. */
+UPlayFabServerAPI* UPlayFabServerAPI::ListPlayerCustomProperties(FServerListPlayerCustomPropertiesRequest request,
+    FDelegateOnSuccessListPlayerCustomProperties onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessListPlayerCustomProperties = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperListPlayerCustomProperties);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/ListPlayerCustomProperties";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperListPlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessListPlayerCustomProperties.IsBound())
+    {
+        FServerListPlayerCustomPropertiesResult ResultStruct = UPlayFabServerModelDecoder::decodeListPlayerCustomPropertiesResultResponse(response.responseData);
+        OnSuccessListPlayerCustomProperties.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Updates the title-specific custom property values for a player */
+UPlayFabServerAPI* UPlayFabServerAPI::UpdatePlayerCustomProperties(FServerUpdatePlayerCustomPropertiesRequest request,
+    FDelegateOnSuccessUpdatePlayerCustomProperties onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUpdatePlayerCustomProperties = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperUpdatePlayerCustomProperties);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/UpdatePlayerCustomProperties";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetNumberField(TEXT("ExpectedPropertiesVersion"), request.ExpectedPropertiesVersion);
+    if (request.PlayFabId.IsEmpty() || request.PlayFabId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayFabId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayFabId"), request.PlayFabId);
+    }
+    if (request.Properties.Num() == 0) {
+        OutRestJsonObj->SetFieldNull(TEXT("Properties"));
+    } else {
+        OutRestJsonObj->SetObjectArrayField(TEXT("Properties"), request.Properties);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperUpdatePlayerCustomProperties(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUpdatePlayerCustomProperties.IsBound())
+    {
+        FServerUpdatePlayerCustomPropertiesResult ResultStruct = UPlayFabServerModelDecoder::decodeUpdatePlayerCustomPropertiesResultResponse(response.responseData);
+        OnSuccessUpdatePlayerCustomProperties.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

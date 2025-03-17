@@ -651,6 +651,19 @@ FServerAwardSteamAchievementResult UPlayFabServerModelDecoder::decodeAwardSteamA
 // Player Data Management
 //////////////////////////////////////////////////////
 
+FServerDeletePlayerCustomPropertiesResult UPlayFabServerModelDecoder::decodeDeletePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerDeletePlayerCustomPropertiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.DeletedProperties = !(dataObj->HasField("DeletedProperties")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("DeletedProperties");
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
+
+    return tempStruct;
+}
+
 FServerGetLeaderboardResult UPlayFabServerModelDecoder::decodeGetLeaderboardResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -689,6 +702,19 @@ FServerGetPlayerCombinedInfoResult UPlayFabServerModelDecoder::decodeGetPlayerCo
     return tempStruct;
 }
 
+FServerGetPlayerCustomPropertyResult UPlayFabServerModelDecoder::decodeGetPlayerCustomPropertyResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetPlayerCustomPropertyResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
+    tempStruct.Property = !(dataObj->HasField("Property")) ? nullptr : dataObj->GetObjectField("Property");
+
+    return tempStruct;
+}
+
 FServerGetPlayerStatisticsResult UPlayFabServerModelDecoder::decodeGetPlayerStatisticsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -721,6 +747,31 @@ FServerGetUserDataResult UPlayFabServerModelDecoder::decodeGetUserDataResultResp
     tempStruct.Data = !(dataObj->HasField("Data")) ? nullptr : dataObj->GetObjectField("Data");
     tempStruct.DataVersion = !(dataObj->HasField("DataVersion")) ? 0 : int(dataObj->GetNumberField("DataVersion"));
     tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+
+    return tempStruct;
+}
+
+FServerListPlayerCustomPropertiesResult UPlayFabServerModelDecoder::decodeListPlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerListPlayerCustomPropertiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.Properties = !(dataObj->HasField("Properties")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Properties");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
+
+    return tempStruct;
+}
+
+FServerUpdatePlayerCustomPropertiesResult UPlayFabServerModelDecoder::decodeUpdatePlayerCustomPropertiesResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerUpdatePlayerCustomPropertiesResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.PlayFabId = !(dataObj->HasField("PlayFabId")) ? TEXT("") : dataObj->GetStringField("PlayFabId");
+    tempStruct.PropertiesVersion = !(dataObj->HasField("PropertiesVersion")) ? 0 : int(dataObj->GetNumberField("PropertiesVersion"));
 
     return tempStruct;
 }

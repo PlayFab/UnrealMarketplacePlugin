@@ -631,6 +631,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1598: returnText = "ResetIntervalCannotBeModified"; break;
     case 1599: returnText = "VersionIncrementRateExceeded"; break;
     case 1600: returnText = "InvalidSteamUsername"; break;
+    case 1601: returnText = "InvalidVersionResetForLinkedLeaderboard"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -745,6 +746,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 7020: returnText = "ExperimentationExclusionGroupCannotDelete"; break;
     case 7021: returnText = "ExperimentationExclusionGroupInvalidTrafficAllocation"; break;
     case 7022: returnText = "ExperimentationExclusionGroupInvalidName"; break;
+    case 7023: returnText = "ExperimentationLegacyExperimentInvalidOperation"; break;
     case 8000: returnText = "MaxActionDepthExceeded"; break;
     case 9000: returnText = "TitleNotOnUpdatedPricingPlan"; break;
     case 10000: returnText = "SegmentManagementTitleNotInFlight"; break;
@@ -810,6 +812,13 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 15013: returnText = "EventSinkInsufficientRoleAssignment"; break;
     case 15014: returnText = "EventSinkContainerNotFound"; break;
     case 15015: returnText = "EventSinkTenantIdInvalid"; break;
+    case 15016: returnText = "EventSinkResourceMisconfigured"; break;
+    case 15017: returnText = "EventSinkAccessDenied"; break;
+    case 15018: returnText = "EventSinkWriteConflict"; break;
+    case 15019: returnText = "EventSinkResourceNotFound"; break;
+    case 15020: returnText = "EventSinkResourceFeatureNotSupported"; break;
+    case 15021: returnText = "EventSinkBucketNameInvalid"; break;
+    case 15022: returnText = "EventSinkResourceUnavailable"; break;
     case 16000: returnText = "OperationCanceled"; break;
     case 17000: returnText = "InvalidDisplayNameRandomSuffixLength"; break;
     case 17001: returnText = "AllowNonUniquePlayerDisplayNamesDisableNotAllowed"; break;
@@ -917,6 +926,12 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20312: returnText = "GameSaveNewerManifestExists"; break;
     case 20313: returnText = "GameSaveBaseVersionNotAvailable"; break;
     case 20314: returnText = "GameSaveManifestVersionQuarantined"; break;
+    case 20315: returnText = "GameSaveManifestUploadProgressUpdateNotAllowed"; break;
+    case 20316: returnText = "GameSaveNotFinalizedManifestNotEligibleAsKnownGood"; break;
+    case 20317: returnText = "GameSaveNoUpdatesRequested"; break;
+    case 20318: returnText = "GameSaveTitleDoesNotExist"; break;
+    case 20319: returnText = "GameSaveOperationNotAllowedForTitle"; break;
+    case 20320: returnText = "GameSaveManifestFilesLimitExceeded"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;

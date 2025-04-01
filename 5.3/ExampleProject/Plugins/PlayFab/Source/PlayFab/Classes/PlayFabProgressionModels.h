@@ -157,7 +157,7 @@ public:
     /** Name of the leaderboard. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         FString LeaderboardName;
-    /** Maximum number of results to return from the leaderboard. Minimum 1, maximum 1,000. */
+    /** Maximum number of results to return from the leaderboard. Minimum 1, maximum 100. */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Progression | Leaderboards Models")
         int32 PageSize = 0;
     /** Index position to start from. 1 is beginning of leaderboard. */

@@ -4861,6 +4861,9 @@ void PlayFab::MultiplayerModels::FCreateLobbyRequest::writeJSON(JsonWriter& writ
         writeOwnerMigrationPolicyEnumJSON(pfOwnerMigrationPolicy, writer);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("RestrictInvitesToLobbyOwner"));
+    writer->WriteValue(RestrictInvitesToLobbyOwner);
+
     if (SearchData.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("SearchData"));
@@ -4924,6 +4927,13 @@ bool PlayFab::MultiplayerModels::FCreateLobbyRequest::readFromValue(const TShare
     }
 
     pfOwnerMigrationPolicy = readOwnerMigrationPolicyFromValue(obj->TryGetField(TEXT("OwnerMigrationPolicy")));
+
+    const TSharedPtr<FJsonValue> RestrictInvitesToLobbyOwnerValue = obj->TryGetField(TEXT("RestrictInvitesToLobbyOwner"));
+    if (RestrictInvitesToLobbyOwnerValue.IsValid() && !RestrictInvitesToLobbyOwnerValue->IsNull())
+    {
+        bool TmpValue;
+        if (RestrictInvitesToLobbyOwnerValue->TryGetBool(TmpValue)) { RestrictInvitesToLobbyOwner = TmpValue; }
+    }
 
     const TSharedPtr<FJsonObject>* SearchDataObject;
     if (obj->TryGetObjectField(TEXT("SearchData"), SearchDataObject))
@@ -8194,6 +8204,9 @@ void PlayFab::MultiplayerModels::FLobby::writeJSON(JsonWriter& writer) const
         writer->WriteValue(PubSubConnectionHandle);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("RestrictInvitesToLobbyOwner"));
+    writer->WriteValue(RestrictInvitesToLobbyOwner);
+
     if (SearchData.Num() != 0)
     {
         writer->WriteObjectStart(TEXT("SearchData"));
@@ -8283,6 +8296,13 @@ bool PlayFab::MultiplayerModels::FLobby::readFromValue(const TSharedPtr<FJsonObj
     {
         FString TmpValue;
         if (PubSubConnectionHandleValue->TryGetString(TmpValue)) { PubSubConnectionHandle = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> RestrictInvitesToLobbyOwnerValue = obj->TryGetField(TEXT("RestrictInvitesToLobbyOwner"));
+    if (RestrictInvitesToLobbyOwnerValue.IsValid() && !RestrictInvitesToLobbyOwnerValue->IsNull())
+    {
+        bool TmpValue;
+        if (RestrictInvitesToLobbyOwnerValue->TryGetBool(TmpValue)) { RestrictInvitesToLobbyOwner = TmpValue; }
     }
 
     const TSharedPtr<FJsonObject>* SearchDataObject;
@@ -10241,6 +10261,9 @@ void PlayFab::MultiplayerModels::FJoinArrangedLobbyRequest::writeJSON(JsonWriter
         writeOwnerMigrationPolicyEnumJSON(pfOwnerMigrationPolicy, writer);
     }
 
+    writer->WriteIdentifierPrefix(TEXT("RestrictInvitesToLobbyOwner"));
+    writer->WriteValue(RestrictInvitesToLobbyOwner);
+
     writer->WriteIdentifierPrefix(TEXT("UseConnections"));
     writer->WriteValue(UseConnections);
 
@@ -10292,6 +10315,13 @@ bool PlayFab::MultiplayerModels::FJoinArrangedLobbyRequest::readFromValue(const 
     }
 
     pfOwnerMigrationPolicy = readOwnerMigrationPolicyFromValue(obj->TryGetField(TEXT("OwnerMigrationPolicy")));
+
+    const TSharedPtr<FJsonValue> RestrictInvitesToLobbyOwnerValue = obj->TryGetField(TEXT("RestrictInvitesToLobbyOwner"));
+    if (RestrictInvitesToLobbyOwnerValue.IsValid() && !RestrictInvitesToLobbyOwnerValue->IsNull())
+    {
+        bool TmpValue;
+        if (RestrictInvitesToLobbyOwnerValue->TryGetBool(TmpValue)) { RestrictInvitesToLobbyOwner = TmpValue; }
+    }
 
     const TSharedPtr<FJsonValue> UseConnectionsValue = obj->TryGetField(TEXT("UseConnections"));
     if (UseConnectionsValue.IsValid() && !UseConnectionsValue->IsNull())

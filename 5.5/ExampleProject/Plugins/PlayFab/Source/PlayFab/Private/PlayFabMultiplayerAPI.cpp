@@ -114,6 +114,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::CreateLobby(FMultiplayerCreateLo
     FString temp_OwnerMigrationPolicy;
     if (GetEnumValueToString<EOwnerMigrationPolicy>(TEXT("EOwnerMigrationPolicy"), request.OwnerMigrationPolicy, temp_OwnerMigrationPolicy))
         OutRestJsonObj->SetStringField(TEXT("OwnerMigrationPolicy"), temp_OwnerMigrationPolicy);
+    OutRestJsonObj->SetBoolField(TEXT("RestrictInvitesToLobbyOwner"), request.RestrictInvitesToLobbyOwner);
     if (request.SearchData != nullptr) OutRestJsonObj->SetObjectField(TEXT("SearchData"), request.SearchData);
     OutRestJsonObj->SetBoolField(TEXT("UseConnections"), request.UseConnections);
 
@@ -466,6 +467,7 @@ UPlayFabMultiplayerAPI* UPlayFabMultiplayerAPI::JoinArrangedLobby(FMultiplayerJo
     FString temp_OwnerMigrationPolicy;
     if (GetEnumValueToString<EOwnerMigrationPolicy>(TEXT("EOwnerMigrationPolicy"), request.OwnerMigrationPolicy, temp_OwnerMigrationPolicy))
         OutRestJsonObj->SetStringField(TEXT("OwnerMigrationPolicy"), temp_OwnerMigrationPolicy);
+    OutRestJsonObj->SetBoolField(TEXT("RestrictInvitesToLobbyOwner"), request.RestrictInvitesToLobbyOwner);
     OutRestJsonObj->SetBoolField(TEXT("UseConnections"), request.UseConnections);
 
     // Add Request to manager

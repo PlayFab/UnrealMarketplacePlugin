@@ -576,7 +576,7 @@ namespace ProgressionModels
         // Name of the leaderboard.
         FString LeaderboardName;
 
-        // Maximum number of results to return from the leaderboard. Minimum 1, maximum 1,000.
+        // Maximum number of results to return from the leaderboard. Minimum 1, maximum 100.
         uint32 PageSize;
 
         // [optional] Index position to start from. 1 is beginning of leaderboard.

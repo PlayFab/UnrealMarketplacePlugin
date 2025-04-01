@@ -2250,6 +2250,13 @@ namespace MultiplayerModels
         Boxed<OwnerMigrationPolicy> pfOwnerMigrationPolicy;
 
         /**
+         * A setting that controls whether only the lobby owner can send invites to join the lobby. When true, only the lobby owner
+         * can send invites. When false or not specified, any member can send invites. Defaults to false if not specified.
+         * Restricted to client owned lobbies.
+         */
+        bool RestrictInvitesToLobbyOwner;
+
+        /**
          * [optional] The public key-value pairs which allow queries to differentiate between lobbies. Queries will refer to these key-value
          * pairs in their filter and order by clauses to retrieve lobbies fitting the specified criteria. At most 30 key-value
          * pairs may be stored here. Keys are of the format string_key1, string_key2 ... string_key30 for string values, or
@@ -2275,6 +2282,7 @@ namespace MultiplayerModels
             Members(),
             Owner(),
             pfOwnerMigrationPolicy(),
+            RestrictInvitesToLobbyOwner(false),
             SearchData(),
             UseConnections(false)
             {}
@@ -3832,6 +3840,12 @@ namespace MultiplayerModels
          */
         FString PubSubConnectionHandle;
 
+        /**
+         * A setting that controls lobby invites. When true only owners can invite new players, when false all members area allowed
+         * to invite.
+         */
+        bool RestrictInvitesToLobbyOwner;
+
         // [optional] Search data.
         TMap<FString, FString> SearchData;
         // [optional] Preview: Lobby joined server. This is not the server owner, rather the server that has joined a client owned lobby.
@@ -3853,6 +3867,7 @@ namespace MultiplayerModels
             Owner(nullptr),
             pfOwnerMigrationPolicy(),
             PubSubConnectionHandle(),
+            RestrictInvitesToLobbyOwner(false),
             SearchData(),
             Server(nullptr),
             UseConnections(false)
@@ -4802,6 +4817,13 @@ namespace MultiplayerModels
         Boxed<OwnerMigrationPolicy> pfOwnerMigrationPolicy;
 
         /**
+         * A setting that controls whether only the lobby owner can send invites to join the lobby. When true, only the lobby owner
+         * can send invites. When false or not specified, any member can send invites. Defaults to false if not specified.
+         * Restricted to client owned lobbies.
+         */
+        bool RestrictInvitesToLobbyOwner;
+
+        /**
          * A setting to control whether connections are used. Defaults to true. When true, notifications are sent to subscribed
          * players, disconnect detection removes connectionHandles, only owner migration policies using connections are allowed,
          * and lobbies must have at least one connected member to be searchable or be a server hosted lobby with a connected
@@ -4819,6 +4841,7 @@ namespace MultiplayerModels
             MemberData(),
             MemberEntity(),
             pfOwnerMigrationPolicy(),
+            RestrictInvitesToLobbyOwner(false),
             UseConnections(false)
             {}
 

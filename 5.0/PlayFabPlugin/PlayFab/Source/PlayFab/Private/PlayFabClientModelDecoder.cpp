@@ -84,6 +84,17 @@ FClientGetPlayerProfileResult UPlayFabClientModelDecoder::decodeGetPlayerProfile
     return tempStruct;
 }
 
+FClientGetPlayFabIDsFromBattleNetAccountIdsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromBattleNetAccountIdsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientGetPlayFabIDsFromBattleNetAccountIdsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FClientGetPlayFabIDsFromFacebookIDsResult UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromFacebookIDsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -267,6 +278,15 @@ FClientEmptyResult UPlayFabClientModelDecoder::decodeEmptyResultResponse(UPlayFa
     return tempStruct;
 }
 
+FClientEmptyResponse UPlayFabClientModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FClientEmptyResponse tempStruct;
+
+
+    return tempStruct;
+}
+
 FClientLinkCustomIDResult UPlayFabClientModelDecoder::decodeLinkCustomIDResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct
@@ -426,15 +446,6 @@ FClientUnlinkAndroidDeviceIDResult UPlayFabClientModelDecoder::decodeUnlinkAndro
 {
     // Temp ustruct
     FClientUnlinkAndroidDeviceIDResult tempStruct;
-
-
-    return tempStruct;
-}
-
-FClientEmptyResponse UPlayFabClientModelDecoder::decodeEmptyResponseResponse(UPlayFabJsonObject* response)
-{
-    // Temp ustruct
-    FClientEmptyResponse tempStruct;
 
 
     return tempStruct;

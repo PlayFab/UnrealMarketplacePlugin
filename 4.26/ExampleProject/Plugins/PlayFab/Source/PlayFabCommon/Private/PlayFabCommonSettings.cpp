@@ -8,9 +8,9 @@
 
 namespace PlayFabCommon
 {
-    const FString PlayFabCommonSettings::sdkVersion = "1.161.250328";
+    const FString PlayFabCommonSettings::sdkVersion = "1.162.250428";
     const FString PlayFabCommonSettings::buildIdentifier = "adobuild_unrealmarketplaceplugin_215";
-    const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.161.250328";
+    const FString PlayFabCommonSettings::versionString = "UE4MKPL-1.162.250428";
     const FString PlayFabCommonSettings::engineVersion = "4.26";
 #if defined(_XBOX_ONE) || defined(_XBOX) || defined(MICROSOFT_GAME_CORE)
     const FString PlayFabCommonSettings::platformString = "GDK";

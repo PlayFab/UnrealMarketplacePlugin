@@ -11260,6 +11260,7 @@ void PlayFab::AdminModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProvi
     case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case LoginIdentityProviderXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
     case LoginIdentityProviderKing: writer->WriteValue(TEXT("King")); break;
+    case LoginIdentityProviderBattleNet: writer->WriteValue(TEXT("BattleNet")); break;
     }
 }
 
@@ -11298,6 +11299,7 @@ AdminModels::LoginIdentityProvider PlayFab::AdminModels::readLoginIdentityProvid
         _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
         _LoginIdentityProviderMap.Add(TEXT("XboxMobileStore"), LoginIdentityProviderXboxMobileStore);
         _LoginIdentityProviderMap.Add(TEXT("King"), LoginIdentityProviderKing);
+        _LoginIdentityProviderMap.Add(TEXT("BattleNet"), LoginIdentityProviderBattleNet);
 
     }
 

@@ -147,7 +147,6 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1101: returnText = "UnableToConnectToDatabase"; break;
     case 1110: returnText = "InternalServerError"; break;
     case 1111: returnText = "InvalidReportDate"; break;
-    case 1112: returnText = "ReportNotAvailable"; break;
     case 1113: returnText = "DatabaseThroughputExceeded"; break;
     case 1115: returnText = "InvalidGameTicket"; break;
     case 1116: returnText = "ExpiredGameTicket"; break;
@@ -632,6 +631,11 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 1599: returnText = "VersionIncrementRateExceeded"; break;
     case 1600: returnText = "InvalidSteamUsername"; break;
     case 1601: returnText = "InvalidVersionResetForLinkedLeaderboard"; break;
+    case 1602: returnText = "BattleNetNotEnabledForTitle"; break;
+    case 1603: returnText = "ReportNotProcessed"; break;
+    case 1604: returnText = "DataNotAvailable"; break;
+    case 1605: returnText = "InvalidReportName"; break;
+    case 1606: returnText = "ResourceNotModified"; break;
     case 2001: returnText = "MatchmakingEntityInvalid"; break;
     case 2002: returnText = "MatchmakingPlayerAttributesInvalid"; break;
     case 2016: returnText = "MatchmakingQueueNotFound"; break;
@@ -911,6 +915,7 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20067: returnText = "TrueSkillScenarioContainsActiveModel"; break;
     case 20068: returnText = "TrueSkillInvalidConditionRank"; break;
     case 20069: returnText = "TrueSkillTotalScenarioLimitExceeded"; break;
+    case 20070: returnText = "TrueSkillInvalidConditionsList"; break;
     case 20300: returnText = "GameSaveManifestNotFound"; break;
     case 20301: returnText = "GameSaveManifestVersionAlreadyExists"; break;
     case 20302: returnText = "GameSaveConflictUpdatingManifest"; break;
@@ -932,6 +937,9 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 20318: returnText = "GameSaveTitleDoesNotExist"; break;
     case 20319: returnText = "GameSaveOperationNotAllowedForTitle"; break;
     case 20320: returnText = "GameSaveManifestFilesLimitExceeded"; break;
+    case 20321: returnText = "GameSaveManifestDescriptionUpdateNotAllowed"; break;
+    case 20322: returnText = "GameSaveTitleConfigNotFound"; break;
+    case 20323: returnText = "GameSaveTitleAlreadyOnboarded"; break;
     case 21000: returnText = "StateShareForbidden"; break;
     case 21001: returnText = "StateShareTitleNotInFlight"; break;
     case 21002: returnText = "StateShareStateNotFound"; break;
@@ -940,6 +948,8 @@ FString UPlayFabUtilities::getErrorText(int32 code)
     case 21005: returnText = "StateShareStateRedemptionLimitNotUpdated"; break;
     case 21006: returnText = "StateShareCreatedStatesLimitExceeded"; break;
     case 21007: returnText = "StateShareIdMissingOrMalformed"; break;
+    case 22000: returnText = "PlayerCreationDisabled"; break;
+    case 22001: returnText = "AccountAlreadyExists"; break;
     }
 
     // Return the text

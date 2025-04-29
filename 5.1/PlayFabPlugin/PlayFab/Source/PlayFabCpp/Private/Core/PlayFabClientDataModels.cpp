@@ -1354,6 +1354,51 @@ bool PlayFab::ClientModels::FAttributeInstallResult::readFromValue(const TShared
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FBattleNetAccountPlayFabIdPair::~FBattleNetAccountPlayFabIdPair()
+{
+
+}
+
+void PlayFab::ClientModels::FBattleNetAccountPlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BattleNetAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BattleNetAccountId"));
+        writer->WriteValue(BattleNetAccountId);
+    }
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FBattleNetAccountPlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BattleNetAccountIdValue = obj->TryGetField(TEXT("BattleNetAccountId"));
+    if (BattleNetAccountIdValue.IsValid() && !BattleNetAccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BattleNetAccountIdValue->TryGetString(TmpValue)) { BattleNetAccountId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FCancelTradeRequest::~FCancelTradeRequest()
 {
 
@@ -5295,6 +5340,7 @@ void PlayFab::ClientModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProv
     case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case LoginIdentityProviderXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
     case LoginIdentityProviderKing: writer->WriteValue(TEXT("King")); break;
+    case LoginIdentityProviderBattleNet: writer->WriteValue(TEXT("BattleNet")); break;
     }
 }
 
@@ -5333,6 +5379,7 @@ ClientModels::LoginIdentityProvider PlayFab::ClientModels::readLoginIdentityProv
         _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
         _LoginIdentityProviderMap.Add(TEXT("XboxMobileStore"), LoginIdentityProviderXboxMobileStore);
         _LoginIdentityProviderMap.Add(TEXT("King"), LoginIdentityProviderKing);
+        _LoginIdentityProviderMap.Add(TEXT("BattleNet"), LoginIdentityProviderBattleNet);
 
     }
 
@@ -11521,6 +11568,69 @@ bool PlayFab::ClientModels::FGetPlayerTradesResponse::readFromValue(const TShare
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest::~FGetPlayFabIDsFromBattleNetAccountIdsRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("BattleNetAccountIds"));
+    for (const FString& item : BattleNetAccountIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("BattleNetAccountIds"), BattleNetAccountIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsResult::~FGetPlayFabIDsFromBattleNetAccountIdsResult()
+{
+
+}
+
+void PlayFab::ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FBattleNetAccountPlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FBattleNetAccountPlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FGetPlayFabIDsFromFacebookIDsRequest::~FGetPlayFabIDsFromFacebookIDsRequest()
 {
 
@@ -14746,6 +14856,75 @@ bool PlayFab::ClientModels::FLinkAppleRequest::readFromValue(const TSharedPtr<FJ
     return HasSucceeded;
 }
 
+PlayFab::ClientModels::FLinkBattleNetRequest::~FLinkBattleNetRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FLinkBattleNetRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (ForceLink.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("ForceLink"));
+        writer->WriteValue(ForceLink);
+    }
+
+    if (!IdentityToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LinkBattleNetRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentityToken"));
+        writer->WriteValue(IdentityToken);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FLinkBattleNetRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> ForceLinkValue = obj->TryGetField(TEXT("ForceLink"));
+    if (ForceLinkValue.IsValid() && !ForceLinkValue->IsNull())
+    {
+        bool TmpValue;
+        if (ForceLinkValue->TryGetBool(TmpValue)) { ForceLink = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdentityTokenValue = obj->TryGetField(TEXT("IdentityToken"));
+    if (IdentityTokenValue.IsValid() && !IdentityTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdentityTokenValue->TryGetString(TmpValue)) { IdentityToken = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ClientModels::FLinkCustomIDRequest::~FLinkCustomIDRequest()
 {
 
@@ -16791,6 +16970,131 @@ void PlayFab::ClientModels::FLoginWithAppleRequest::writeJSON(JsonWriter& writer
 }
 
 bool PlayFab::ClientModels::FLoginWithAppleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> EncryptedRequestValue = obj->TryGetField(TEXT("EncryptedRequest"));
+    if (EncryptedRequestValue.IsValid() && !EncryptedRequestValue->IsNull())
+    {
+        FString TmpValue;
+        if (EncryptedRequestValue->TryGetString(TmpValue)) { EncryptedRequest = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> IdentityTokenValue = obj->TryGetField(TEXT("IdentityToken"));
+    if (IdentityTokenValue.IsValid() && !IdentityTokenValue->IsNull())
+    {
+        FString TmpValue;
+        if (IdentityTokenValue->TryGetString(TmpValue)) { IdentityToken = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> PlayerSecretValue = obj->TryGetField(TEXT("PlayerSecret"));
+    if (PlayerSecretValue.IsValid() && !PlayerSecretValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayerSecretValue->TryGetString(TmpValue)) { PlayerSecret = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> TitleIdValue = obj->TryGetField(TEXT("TitleId"));
+    if (TitleIdValue.IsValid() && !TitleIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (TitleIdValue->TryGetString(TmpValue)) { TitleId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FLoginWithBattleNetRequest::~FLoginWithBattleNetRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ClientModels::FLoginWithBattleNetRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (EncryptedRequest.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("EncryptedRequest"));
+        writer->WriteValue(EncryptedRequest);
+    }
+
+    if (!IdentityToken.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithBattleNetRequest::IdentityToken, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("IdentityToken"));
+        writer->WriteValue(IdentityToken);
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    if (PlayerSecret.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayerSecret"));
+        writer->WriteValue(PlayerSecret);
+    }
+
+    if (!TitleId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithBattleNetRequest::TitleId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("TitleId"));
+        writer->WriteValue(TitleId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FLoginWithBattleNetRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 
@@ -21660,6 +21964,45 @@ void PlayFab::ClientModels::FUnlinkAppleRequest::writeJSON(JsonWriter& writer) c
 }
 
 bool PlayFab::ClientModels::FUnlinkAppleRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ClientModels::FUnlinkBattleNetRequest::~FUnlinkBattleNetRequest()
+{
+
+}
+
+void PlayFab::ClientModels::FUnlinkBattleNetRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ClientModels::FUnlinkBattleNetRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
 {
     bool HasSucceeded = true;
 

@@ -1575,6 +1575,33 @@ namespace ServerModels
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
     };
 
+    struct PLAYFABCPP_API FBattleNetAccountPlayFabIdPair : public PlayFab::FPlayFabCppBaseModel
+    {
+        // [optional] Unique Battle.net account identifier for a user.
+        FString BattleNetAccountId;
+
+        // [optional] Unique PlayFab identifier for a user, or null if no PlayFab account is linked to the Battle.net account identifier.
+        FString PlayFabId;
+
+        FBattleNetAccountPlayFabIdPair() :
+            FPlayFabCppBaseModel(),
+            BattleNetAccountId(),
+            PlayFabId()
+            {}
+
+        FBattleNetAccountPlayFabIdPair(const FBattleNetAccountPlayFabIdPair& src) = default;
+
+        FBattleNetAccountPlayFabIdPair(const TSharedPtr<FJsonObject>& obj) : FBattleNetAccountPlayFabIdPair()
+        {
+            readFromValue(obj);
+        }
+
+        ~FBattleNetAccountPlayFabIdPair();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
     struct PLAYFABCPP_API FCatalogItemBundleInfo : public PlayFab::FPlayFabCppBaseModel
     {
         // [optional] unique ItemId values for all items which will be added to the player inventory when the bundle is added
@@ -3151,7 +3178,8 @@ namespace ServerModels
         LoginIdentityProviderNintendoSwitchAccount,
         LoginIdentityProviderGooglePlayGames,
         LoginIdentityProviderXboxMobileStore,
-        LoginIdentityProviderKing
+        LoginIdentityProviderKing,
+        LoginIdentityProviderBattleNet
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);
@@ -5623,6 +5651,53 @@ namespace ServerModels
         }
 
         ~FGetPlayerTagsResult();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromBattleNetAccountIdsRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        /**
+         * Array of unique Battle.net account identifiers for which the title needs to get PlayFab identifiers. The array cannot
+         * exceed 10 in length.
+         */
+        TArray<FString> BattleNetAccountIds;
+        FGetPlayFabIDsFromBattleNetAccountIdsRequest() :
+            FPlayFabCppRequestCommon(),
+            BattleNetAccountIds()
+            {}
+
+        FGetPlayFabIDsFromBattleNetAccountIdsRequest(const FGetPlayFabIDsFromBattleNetAccountIdsRequest& src) = default;
+
+        FGetPlayFabIDsFromBattleNetAccountIdsRequest(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromBattleNetAccountIdsRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromBattleNetAccountIdsRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FGetPlayFabIDsFromBattleNetAccountIdsResult : public PlayFab::FPlayFabCppResultCommon
+    {
+        // [optional] Mapping of Battle.net account identifiers to PlayFab identifiers.
+        TArray<FBattleNetAccountPlayFabIdPair> Data;
+        FGetPlayFabIDsFromBattleNetAccountIdsResult() :
+            FPlayFabCppResultCommon(),
+            Data()
+            {}
+
+        FGetPlayFabIDsFromBattleNetAccountIdsResult(const FGetPlayFabIDsFromBattleNetAccountIdsResult& src) = default;
+
+        FGetPlayFabIDsFromBattleNetAccountIdsResult(const TSharedPtr<FJsonObject>& obj) : FGetPlayFabIDsFromBattleNetAccountIdsResult()
+        {
+            readFromValue(obj);
+        }
+
+        ~FGetPlayFabIDsFromBattleNetAccountIdsResult();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
@@ -8160,6 +8235,124 @@ namespace ServerModels
         }
 
         ~FLocalizedPushNotificationProperties();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithAndroidDeviceIDRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Specific model of the user's device.
+        FString AndroidDevice;
+
+        // Android device identifier for the user's device.
+        FString AndroidDeviceId;
+
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Specific Operating System version for the user's device.
+        FString OS;
+
+        FLoginWithAndroidDeviceIDRequest() :
+            FPlayFabCppRequestCommon(),
+            AndroidDevice(),
+            AndroidDeviceId(),
+            CreateAccount(),
+            CustomTags(),
+            InfoRequestParameters(nullptr),
+            OS()
+            {}
+
+        FLoginWithAndroidDeviceIDRequest(const FLoginWithAndroidDeviceIDRequest& src) = default;
+
+        FLoginWithAndroidDeviceIDRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithAndroidDeviceIDRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithAndroidDeviceIDRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithCustomIDRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // Custom unique identifier for the user, generated by the title.
+        FString CustomId;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        FLoginWithCustomIDRequest() :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(),
+            CustomId(),
+            CustomTags(),
+            InfoRequestParameters(nullptr)
+            {}
+
+        FLoginWithCustomIDRequest(const FLoginWithCustomIDRequest& src) = default;
+
+        FLoginWithCustomIDRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithCustomIDRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithCustomIDRequest();
+
+        void writeJSON(JsonWriter& writer) const override;
+        bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;
+    };
+
+    struct PLAYFABCPP_API FLoginWithIOSDeviceIDRequest : public PlayFab::FPlayFabCppRequestCommon
+    {
+        // [optional] Automatically create a PlayFab account if one is not currently linked to this ID.
+        Boxed<bool> CreateAccount;
+
+        // [optional] The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        TMap<FString, FString> CustomTags;
+        // Vendor-specific iOS identifier for the user's device.
+        FString DeviceId;
+
+        // [optional] Specific model of the user's device.
+        FString DeviceModel;
+
+        // [optional] Flags for which pieces of info to return for the user.
+        TSharedPtr<FGetPlayerCombinedInfoRequestParams> InfoRequestParameters;
+
+        // [optional] Specific Operating System version for the user's device.
+        FString OS;
+
+        FLoginWithIOSDeviceIDRequest() :
+            FPlayFabCppRequestCommon(),
+            CreateAccount(),
+            CustomTags(),
+            DeviceId(),
+            DeviceModel(),
+            InfoRequestParameters(nullptr),
+            OS()
+            {}
+
+        FLoginWithIOSDeviceIDRequest(const FLoginWithIOSDeviceIDRequest& src) = default;
+
+        FLoginWithIOSDeviceIDRequest(const TSharedPtr<FJsonObject>& obj) : FLoginWithIOSDeviceIDRequest()
+        {
+            readFromValue(obj);
+        }
+
+        ~FLoginWithIOSDeviceIDRequest();
 
         void writeJSON(JsonWriter& writer) const override;
         bool readFromValue(const TSharedPtr<FJsonObject>& obj) override;

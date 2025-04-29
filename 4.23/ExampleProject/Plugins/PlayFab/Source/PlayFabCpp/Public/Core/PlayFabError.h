@@ -121,7 +121,6 @@ namespace PlayFab
         PlayFabErrorUnableToConnectToDatabase = 1101,
         PlayFabErrorInternalServerError = 1110,
         PlayFabErrorInvalidReportDate = 1111,
-        PlayFabErrorReportNotAvailable = 1112,
         PlayFabErrorDatabaseThroughputExceeded = 1113,
         PlayFabErrorInvalidGameTicket = 1115,
         PlayFabErrorExpiredGameTicket = 1116,
@@ -606,6 +605,11 @@ namespace PlayFab
         PlayFabErrorVersionIncrementRateExceeded = 1599,
         PlayFabErrorInvalidSteamUsername = 1600,
         PlayFabErrorInvalidVersionResetForLinkedLeaderboard = 1601,
+        PlayFabErrorBattleNetNotEnabledForTitle = 1602,
+        PlayFabErrorReportNotProcessed = 1603,
+        PlayFabErrorDataNotAvailable = 1604,
+        PlayFabErrorInvalidReportName = 1605,
+        PlayFabErrorResourceNotModified = 1606,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -885,6 +889,7 @@ namespace PlayFab
         PlayFabErrorTrueSkillScenarioContainsActiveModel = 20067,
         PlayFabErrorTrueSkillInvalidConditionRank = 20068,
         PlayFabErrorTrueSkillTotalScenarioLimitExceeded = 20069,
+        PlayFabErrorTrueSkillInvalidConditionsList = 20070,
         PlayFabErrorGameSaveManifestNotFound = 20300,
         PlayFabErrorGameSaveManifestVersionAlreadyExists = 20301,
         PlayFabErrorGameSaveConflictUpdatingManifest = 20302,
@@ -906,6 +911,9 @@ namespace PlayFab
         PlayFabErrorGameSaveTitleDoesNotExist = 20318,
         PlayFabErrorGameSaveOperationNotAllowedForTitle = 20319,
         PlayFabErrorGameSaveManifestFilesLimitExceeded = 20320,
+        PlayFabErrorGameSaveManifestDescriptionUpdateNotAllowed = 20321,
+        PlayFabErrorGameSaveTitleConfigNotFound = 20322,
+        PlayFabErrorGameSaveTitleAlreadyOnboarded = 20323,
         PlayFabErrorStateShareForbidden = 21000,
         PlayFabErrorStateShareTitleNotInFlight = 21001,
         PlayFabErrorStateShareStateNotFound = 21002,
@@ -913,7 +921,9 @@ namespace PlayFab
         PlayFabErrorStateShareStateRedemptionLimitExceeded = 21004,
         PlayFabErrorStateShareStateRedemptionLimitNotUpdated = 21005,
         PlayFabErrorStateShareCreatedStatesLimitExceeded = 21006,
-        PlayFabErrorStateShareIdMissingOrMalformed = 21007
+        PlayFabErrorStateShareIdMissingOrMalformed = 21007,
+        PlayFabErrorPlayerCreationDisabled = 22000,
+        PlayFabErrorAccountAlreadyExists = 22001
     };
 
     struct PLAYFABCPP_API FPlayFabCppError

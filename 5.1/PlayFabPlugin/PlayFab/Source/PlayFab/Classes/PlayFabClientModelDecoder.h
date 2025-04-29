@@ -60,6 +60,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayerProfileResult decodeGetPlayerProfileResultResponse(UPlayFabJsonObject* response);
 
+    /** Decode the GetPlayFabIDsFromBattleNetAccountIdsResult response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientGetPlayFabIDsFromBattleNetAccountIdsResult decodeGetPlayFabIDsFromBattleNetAccountIdsResultResponse(UPlayFabJsonObject* response);
+
     /** Decode the GetPlayFabIDsFromFacebookIDsResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientGetPlayFabIDsFromFacebookIDsResult decodeGetPlayFabIDsFromFacebookIDsResultResponse(UPlayFabJsonObject* response);
@@ -127,6 +131,10 @@ public:
     /** Decode the EmptyResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientEmptyResult decodeEmptyResultResponse(UPlayFabJsonObject* response);
+
+    /** Decode the EmptyResponse response object*/
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
+        static FClientEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the LinkCustomIDResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
@@ -199,10 +207,6 @@ public:
     /** Decode the UnlinkAndroidDeviceIDResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
         static FClientUnlinkAndroidDeviceIDResult decodeUnlinkAndroidDeviceIDResultResponse(UPlayFabJsonObject* response);
-
-    /** Decode the EmptyResponse response object*/
-    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")
-        static FClientEmptyResponse decodeEmptyResponseResponse(UPlayFabJsonObject* response);
 
     /** Decode the UnlinkCustomIDResult response object*/
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management Models")

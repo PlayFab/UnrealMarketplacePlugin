@@ -339,6 +339,61 @@ void UPlayFabServerAPI::HelperGetPlayerProfile(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
+/** Retrieves the unique PlayFab identifiers for the given set of Battle.net account identifiers. */
+UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromBattleNetAccountIds(FServerGetPlayFabIDsFromBattleNetAccountIdsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromBattleNetAccountIds onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromBattleNetAccountIds = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperGetPlayFabIDsFromBattleNetAccountIds);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/GetPlayFabIDsFromBattleNetAccountIds";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.BattleNetAccountIds.IsEmpty() || request.BattleNetAccountIds == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BattleNetAccountIds"));
+    } else {
+        TArray<FString> BattleNetAccountIdsArray;
+        FString(request.BattleNetAccountIds).ParseIntoArray(BattleNetAccountIdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("BattleNetAccountIds"), BattleNetAccountIdsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperGetPlayFabIDsFromBattleNetAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromBattleNetAccountIds.IsBound())
+    {
+        FServerGetPlayFabIDsFromBattleNetAccountIdsResult ResultStruct = UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromBattleNetAccountIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromBattleNetAccountIds.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the unique PlayFab identifiers for the given set of Facebook identifiers. */
 UPlayFabServerAPI* UPlayFabServerAPI::GetPlayFabIDsFromFacebookIDs(FServerGetPlayFabIDsFromFacebookIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromFacebookIDs onSuccess,
@@ -2766,6 +2821,193 @@ void UPlayFabServerAPI::HelperAuthenticateSessionTicket(FPlayFabBaseModel respon
     this->RemoveFromRoot();
 }
 
+/** Signs the user in using the Android device identifier, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
+UPlayFabServerAPI* UPlayFabServerAPI::LoginWithAndroidDeviceID(FServerLoginWithAndroidDeviceIDRequest request,
+    FDelegateOnSuccessLoginWithAndroidDeviceID onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithAndroidDeviceID = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithAndroidDeviceID);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LoginWithAndroidDeviceID";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    if (request.AndroidDevice.IsEmpty() || request.AndroidDevice == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AndroidDevice"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AndroidDevice"), request.AndroidDevice);
+    }
+    if (request.AndroidDeviceId.IsEmpty() || request.AndroidDeviceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("AndroidDeviceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("AndroidDeviceId"), request.AndroidDeviceId);
+    }
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.OS.IsEmpty() || request.OS == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OS"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OS"), request.OS);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLoginWithAndroidDeviceID(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithAndroidDeviceID.IsBound())
+    {
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        OnSuccessLoginWithAndroidDeviceID.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Signs the user in using a custom unique identifier generated by the title, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
+UPlayFabServerAPI* UPlayFabServerAPI::LoginWithCustomID(FServerLoginWithCustomIDRequest request,
+    FDelegateOnSuccessLoginWithCustomID onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithCustomID = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithCustomID);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LoginWithCustomID";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomId.IsEmpty() || request.CustomId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("CustomId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("CustomId"), request.CustomId);
+    }
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLoginWithCustomID(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithCustomID.IsBound())
+    {
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLoginWithCustomID.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Signs the user in using the iOS device identifier, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
+UPlayFabServerAPI* UPlayFabServerAPI::LoginWithIOSDeviceID(FServerLoginWithIOSDeviceIDRequest request,
+    FDelegateOnSuccessLoginWithIOSDeviceID onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabServerAPI* manager = NewObject<UPlayFabServerAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithIOSDeviceID = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabServerAPI::HelperLoginWithIOSDeviceID);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Server/LoginWithIOSDeviceID";
+    manager->useSecretKey = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.DeviceId.IsEmpty() || request.DeviceId == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("DeviceId"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("DeviceId"), request.DeviceId);
+    }
+    if (request.DeviceModel.IsEmpty() || request.DeviceModel == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("DeviceModel"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("DeviceModel"), request.DeviceModel);
+    }
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.OS.IsEmpty() || request.OS == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("OS"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("OS"), request.OS);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabServerRequestCompleted
+void UPlayFabServerAPI::HelperLoginWithIOSDeviceID(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithIOSDeviceID.IsBound())
+    {
+        FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessLoginWithIOSDeviceID.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Signs the user in using a PlayStation :tm: Network authentication code, returning a session identifier that can subsequently be used for API calls which require an authenticated user */
 UPlayFabServerAPI* UPlayFabServerAPI::LoginWithPSN(FServerLoginWithPSNRequest request,
     FDelegateOnSuccessLoginWithPSN onSuccess,
@@ -2822,6 +3064,7 @@ void UPlayFabServerAPI::HelperLoginWithPSN(FPlayFabBaseModel response, UObject* 
     else if (!error.hasError && OnSuccessLoginWithPSN.IsBound())
     {
         FServerServerLoginResult ResultStruct = UPlayFabServerModelDecoder::decodeServerLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
         OnSuccessLoginWithPSN.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();

@@ -6000,7 +6000,8 @@ namespace AdminModels
         LoginIdentityProviderNintendoSwitchAccount,
         LoginIdentityProviderGooglePlayGames,
         LoginIdentityProviderXboxMobileStore,
-        LoginIdentityProviderKing
+        LoginIdentityProviderKing,
+        LoginIdentityProviderBattleNet
     };
 
     PLAYFABCPP_API void writeLoginIdentityProviderEnumJSON(LoginIdentityProvider enumVal, JsonWriter& writer);

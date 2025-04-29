@@ -68,6 +68,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGetPlayerStatisticVersionsDelegate, const ClientModels::FGetPlayerStatisticVersionsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerTagsDelegate, const ClientModels::FGetPlayerTagsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayerTradesDelegate, const ClientModels::FGetPlayerTradesResponse&);
+        DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromBattleNetAccountIdsDelegate, const ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromFacebookIDsDelegate, const ClientModels::FGetPlayFabIDsFromFacebookIDsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate, const ClientModels::FGetPlayFabIDsFromFacebookInstantGamesIdsResult&);
         DECLARE_DELEGATE_OneParam(FGetPlayFabIDsFromGameCenterIDsDelegate, const ClientModels::FGetPlayFabIDsFromGameCenterIDsResult&);
@@ -100,6 +101,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FGrantCharacterToUserDelegate, const ClientModels::FGrantCharacterToUserResult&);
         DECLARE_DELEGATE_OneParam(FLinkAndroidDeviceIDDelegate, const ClientModels::FLinkAndroidDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FLinkAppleDelegate, const ClientModels::FEmptyResult&);
+        DECLARE_DELEGATE_OneParam(FLinkBattleNetDelegate, const ClientModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FLinkCustomIDDelegate, const ClientModels::FLinkCustomIDResult&);
         DECLARE_DELEGATE_OneParam(FLinkFacebookAccountDelegate, const ClientModels::FLinkFacebookAccountResult&);
         DECLARE_DELEGATE_OneParam(FLinkFacebookInstantGamesIdDelegate, const ClientModels::FLinkFacebookInstantGamesIdResult&);
@@ -118,6 +120,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FListPlayerCustomPropertiesDelegate, const ClientModels::FListPlayerCustomPropertiesResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithAndroidDeviceIDDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithAppleDelegate, const ClientModels::FLoginResult&);
+        DECLARE_DELEGATE_OneParam(FLoginWithBattleNetDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithCustomIDDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithEmailAddressDelegate, const ClientModels::FLoginResult&);
         DECLARE_DELEGATE_OneParam(FLoginWithFacebookDelegate, const ClientModels::FLoginResult&);
@@ -158,6 +161,7 @@ namespace PlayFab
         DECLARE_DELEGATE_OneParam(FSubtractUserVirtualCurrencyDelegate, const ClientModels::FModifyUserVirtualCurrencyResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkAndroidDeviceIDDelegate, const ClientModels::FUnlinkAndroidDeviceIDResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkAppleDelegate, const ClientModels::FEmptyResponse&);
+        DECLARE_DELEGATE_OneParam(FUnlinkBattleNetDelegate, const ClientModels::FEmptyResponse&);
         DECLARE_DELEGATE_OneParam(FUnlinkCustomIDDelegate, const ClientModels::FUnlinkCustomIDResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkFacebookAccountDelegate, const ClientModels::FUnlinkFacebookAccountResult&);
         DECLARE_DELEGATE_OneParam(FUnlinkFacebookInstantGamesIdDelegate, const ClientModels::FUnlinkFacebookInstantGamesIdResult&);
@@ -438,6 +442,8 @@ namespace PlayFab
         bool GetPlayerTags(ClientModels::FGetPlayerTagsRequest& request, const FGetPlayerTagsDelegate& SuccessDelegate = FGetPlayerTagsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Gets all trades the player has either opened or accepted, optionally filtered by trade status.
         bool GetPlayerTrades(ClientModels::FGetPlayerTradesRequest& request, const FGetPlayerTradesDelegate& SuccessDelegate = FGetPlayerTradesDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Retrieves the unique PlayFab identifiers for the given set of Battle.net account identifiers.
+        bool GetPlayFabIDsFromBattleNetAccountIds(ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest& request, const FGetPlayFabIDsFromBattleNetAccountIdsDelegate& SuccessDelegate = FGetPlayFabIDsFromBattleNetAccountIdsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of Facebook identifiers.
         bool GetPlayFabIDsFromFacebookIDs(ClientModels::FGetPlayFabIDsFromFacebookIDsRequest& request, const FGetPlayFabIDsFromFacebookIDsDelegate& SuccessDelegate = FGetPlayFabIDsFromFacebookIDsDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Retrieves the unique PlayFab identifiers for the given set of Facebook Instant Game identifiers.
@@ -580,6 +586,8 @@ namespace PlayFab
         bool LinkAndroidDeviceID(ClientModels::FLinkAndroidDeviceIDRequest& request, const FLinkAndroidDeviceIDDelegate& SuccessDelegate = FLinkAndroidDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the Apple account associated with the token to the user's PlayFab account.
         bool LinkApple(ClientModels::FLinkAppleRequest& request, const FLinkAppleDelegate& SuccessDelegate = FLinkAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Links the Battle.net account associated with the token to the user's PlayFab account.
+        bool LinkBattleNet(ClientModels::FLinkBattleNetRequest& request, const FLinkBattleNetDelegate& SuccessDelegate = FLinkBattleNetDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Links the custom identifier, generated by the title, to the user's PlayFab account
         bool LinkCustomID(ClientModels::FLinkCustomIDRequest& request, const FLinkCustomIDDelegate& SuccessDelegate = FLinkCustomIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
@@ -644,6 +652,8 @@ namespace PlayFab
         bool LoginWithAndroidDeviceID(ClientModels::FLoginWithAndroidDeviceIDRequest& request, const FLoginWithAndroidDeviceIDDelegate& SuccessDelegate = FLoginWithAndroidDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Signs in the user with a Sign in with Apple identity token.
         bool LoginWithApple(ClientModels::FLoginWithAppleRequest& request, const FLoginWithAppleDelegate& SuccessDelegate = FLoginWithAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Sign in the user with a Battle.net identity token
+        bool LoginWithBattleNet(ClientModels::FLoginWithBattleNetRequest& request, const FLoginWithBattleNetDelegate& SuccessDelegate = FLoginWithBattleNetDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         /**
          * Signs the user in using a custom unique identifier generated by the title, returning a session identifier that can
          * subsequently be used for API calls which require an authenticated user
@@ -854,6 +864,8 @@ namespace PlayFab
         bool UnlinkAndroidDeviceID(ClientModels::FUnlinkAndroidDeviceIDRequest& request, const FUnlinkAndroidDeviceIDDelegate& SuccessDelegate = FUnlinkAndroidDeviceIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Apple account from the user's PlayFab account.
         bool UnlinkApple(ClientModels::FUnlinkAppleRequest& request, const FUnlinkAppleDelegate& SuccessDelegate = FUnlinkAppleDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
+        // Unlinks the related Battle.net account from the user's PlayFab account.
+        bool UnlinkBattleNet(ClientModels::FUnlinkBattleNetRequest& request, const FUnlinkBattleNetDelegate& SuccessDelegate = FUnlinkBattleNetDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related custom identifier from the user's PlayFab account
         bool UnlinkCustomID(ClientModels::FUnlinkCustomIDRequest& request, const FUnlinkCustomIDDelegate& SuccessDelegate = FUnlinkCustomIDDelegate(), const FPlayFabErrorDelegate& ErrorDelegate = FPlayFabErrorDelegate());
         // Unlinks the related Facebook account from the user's PlayFab account
@@ -1043,6 +1055,7 @@ namespace PlayFab
         void OnGetPlayerStatisticVersionsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerStatisticVersionsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerTagsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerTagsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayerTradesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayerTradesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnGetPlayFabIDsFromBattleNetAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromBattleNetAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromFacebookIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromFacebookIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromFacebookInstantGamesIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromFacebookInstantGamesIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnGetPlayFabIDsFromGameCenterIDsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromGameCenterIDsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1075,6 +1088,7 @@ namespace PlayFab
         void OnGrantCharacterToUserResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGrantCharacterToUserDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLinkBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkCustomIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkCustomIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkFacebookAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkFacebookAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLinkFacebookInstantGamesIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkFacebookInstantGamesIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1093,6 +1107,7 @@ namespace PlayFab
         void OnListPlayerCustomPropertiesResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FListPlayerCustomPropertiesDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnLoginWithBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithCustomIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithCustomIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithEmailAddressResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithEmailAddressDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnLoginWithFacebookResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithFacebookDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
@@ -1133,6 +1148,7 @@ namespace PlayFab
         void OnSubtractUserVirtualCurrencyResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSubtractUserVirtualCurrencyDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkAndroidDeviceIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAndroidDeviceIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
+        void OnUnlinkBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkCustomIDResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkCustomIDDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkFacebookAccountResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkFacebookAccountDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);
         void OnUnlinkFacebookInstantGamesIdResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkFacebookInstantGamesIdDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate);

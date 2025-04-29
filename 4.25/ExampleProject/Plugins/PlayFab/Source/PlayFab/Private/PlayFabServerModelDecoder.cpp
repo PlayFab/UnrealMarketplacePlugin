@@ -70,6 +70,17 @@ FServerGetPlayerProfileResult UPlayFabServerModelDecoder::decodeGetPlayerProfile
     return tempStruct;
 }
 
+FServerGetPlayFabIDsFromBattleNetAccountIdsResult UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromBattleNetAccountIdsResultResponse(UPlayFabJsonObject* response)
+{
+    // Temp ustruct
+    FServerGetPlayFabIDsFromBattleNetAccountIdsResult tempStruct;
+    UPlayFabJsonObject* dataObj = !(response->HasField("data")) ? nullptr : response->GetObjectField("data");
+
+    tempStruct.Data = !(dataObj->HasField("Data")) ? TArray<UPlayFabJsonObject*>() : dataObj->GetObjectArrayField("Data");
+
+    return tempStruct;
+}
+
 FServerGetPlayFabIDsFromFacebookIDsResult UPlayFabServerModelDecoder::decodeGetPlayFabIDsFromFacebookIDsResultResponse(UPlayFabJsonObject* response)
 {
     // Temp ustruct

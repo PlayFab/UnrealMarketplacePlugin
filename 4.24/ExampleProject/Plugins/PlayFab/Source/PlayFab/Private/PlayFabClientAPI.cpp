@@ -414,6 +414,61 @@ void UPlayFabClientAPI::HelperGetPlayerProfile(FPlayFabBaseModel response, UObje
     this->RemoveFromRoot();
 }
 
+/** Retrieves the unique PlayFab identifiers for the given set of Battle.net account identifiers. */
+UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromBattleNetAccountIds(FClientGetPlayFabIDsFromBattleNetAccountIdsRequest request,
+    FDelegateOnSuccessGetPlayFabIDsFromBattleNetAccountIds onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessGetPlayFabIDsFromBattleNetAccountIds = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperGetPlayFabIDsFromBattleNetAccountIds);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/GetPlayFabIDsFromBattleNetAccountIds";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    // Check to see if string is empty
+    if (request.BattleNetAccountIds.IsEmpty() || request.BattleNetAccountIds == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("BattleNetAccountIds"));
+    } else {
+        TArray<FString> BattleNetAccountIdsArray;
+        FString(request.BattleNetAccountIds).ParseIntoArray(BattleNetAccountIdsArray, TEXT(","), false);
+        OutRestJsonObj->SetStringArrayField(TEXT("BattleNetAccountIds"), BattleNetAccountIdsArray);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperGetPlayFabIDsFromBattleNetAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessGetPlayFabIDsFromBattleNetAccountIds.IsBound())
+    {
+        FClientGetPlayFabIDsFromBattleNetAccountIdsResult ResultStruct = UPlayFabClientModelDecoder::decodeGetPlayFabIDsFromBattleNetAccountIdsResultResponse(response.responseData);
+        OnSuccessGetPlayFabIDsFromBattleNetAccountIds.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
 /** Retrieves the unique PlayFab identifiers for the given set of Facebook identifiers. */
 UPlayFabClientAPI* UPlayFabClientAPI::GetPlayFabIDsFromFacebookIDs(FClientGetPlayFabIDsFromFacebookIDsRequest request,
     FDelegateOnSuccessGetPlayFabIDsFromFacebookIDs onSuccess,
@@ -1357,6 +1412,60 @@ void UPlayFabClientAPI::HelperLinkApple(FPlayFabBaseModel response, UObject* cus
     {
         FClientEmptyResult ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResultResponse(response.responseData);
         OnSuccessLinkApple.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Links the Battle.net account associated with the token to the user's PlayFab account. */
+UPlayFabClientAPI* UPlayFabClientAPI::LinkBattleNet(FClientLinkBattleNetRequest request,
+    FDelegateOnSuccessLinkBattleNet onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLinkBattleNet = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLinkBattleNet);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/LinkBattleNet";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    OutRestJsonObj->SetBoolField(TEXT("ForceLink"), request.ForceLink);
+    if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdentityToken"), request.IdentityToken);
+    }
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLinkBattleNet.IsBound())
+    {
+        FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        OnSuccessLinkBattleNet.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -2528,7 +2637,57 @@ void UPlayFabClientAPI::HelperUnlinkApple(FPlayFabBaseModel response, UObject* c
     else if (!error.hasError && OnSuccessUnlinkApple.IsBound())
     {
         FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
         OnSuccessUnlinkApple.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Unlinks the related Battle.net account from the user's PlayFab account. */
+UPlayFabClientAPI* UPlayFabClientAPI::UnlinkBattleNet(FClientUnlinkBattleNetRequest request,
+    FDelegateOnSuccessUnlinkBattleNet onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessUnlinkBattleNet = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperUnlinkBattleNet);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/UnlinkBattleNet";
+    manager->useSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperUnlinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessUnlinkBattleNet.IsBound())
+    {
+        FClientEmptyResponse ResultStruct = UPlayFabClientModelDecoder::decodeEmptyResponseResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        OnSuccessUnlinkBattleNet.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }
@@ -4110,6 +4269,75 @@ void UPlayFabClientAPI::HelperLoginWithApple(FPlayFabBaseModel response, UObject
         // CallAuthenticationContext was set in OnProcessRequestComplete
         ResultStruct.AuthenticationContext = CallAuthenticationContext;
         OnSuccessLoginWithApple.Execute(ResultStruct, mCustomData);
+    }
+    this->RemoveFromRoot();
+}
+
+/** Sign in the user with a Battle.net identity token */
+UPlayFabClientAPI* UPlayFabClientAPI::LoginWithBattleNet(FClientLoginWithBattleNetRequest request,
+    FDelegateOnSuccessLoginWithBattleNet onSuccess,
+    FDelegateOnFailurePlayFabError onFailure,
+    UObject* customData)
+{
+    // Objects containing request data
+    UPlayFabClientAPI* manager = NewObject<UPlayFabClientAPI>();
+    if (manager->IsSafeForRootSet()) manager->AddToRoot();
+    UPlayFabJsonObject* OutRestJsonObj = NewObject<UPlayFabJsonObject>();
+    manager->mCustomData = customData;
+
+    // Assign delegates
+    manager->OnSuccessLoginWithBattleNet = onSuccess;
+    manager->OnFailure = onFailure;
+    manager->OnPlayFabResponse.AddDynamic(manager, &UPlayFabClientAPI::HelperLoginWithBattleNet);
+
+    // Setup the request
+    manager->SetCallAuthenticationContext(request.AuthenticationContext);
+    manager->PlayFabRequestURL = "/Client/LoginWithBattleNet";
+    manager->returnsSessionTicket = true;
+
+
+    // Serialize all the request properties to json
+    OutRestJsonObj->SetBoolField(TEXT("CreateAccount"), request.CreateAccount);
+    if (request.CustomTags != nullptr) OutRestJsonObj->SetObjectField(TEXT("CustomTags"), request.CustomTags);
+    if (request.EncryptedRequest.IsEmpty() || request.EncryptedRequest == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("EncryptedRequest"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("EncryptedRequest"), request.EncryptedRequest);
+    }
+    if (request.IdentityToken.IsEmpty() || request.IdentityToken == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("IdentityToken"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("IdentityToken"), request.IdentityToken);
+    }
+    if (request.InfoRequestParameters != nullptr) OutRestJsonObj->SetObjectField(TEXT("InfoRequestParameters"), request.InfoRequestParameters);
+    if (request.PlayerSecret.IsEmpty() || request.PlayerSecret == "") {
+        OutRestJsonObj->SetFieldNull(TEXT("PlayerSecret"));
+    } else {
+        OutRestJsonObj->SetStringField(TEXT("PlayerSecret"), request.PlayerSecret);
+    }
+    OutRestJsonObj->SetStringField(TEXT("TitleId"), GetDefault<UPlayFabRuntimeSettings>()->TitleId);
+
+    // Add Request to manager
+    manager->SetRequestObject(OutRestJsonObj);
+
+    return manager;
+}
+
+// Implements FOnPlayFabClientRequestCompleted
+void UPlayFabClientAPI::HelperLoginWithBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful)
+{
+    FPlayFabError error = response.responseError;
+    if (error.hasError && OnFailure.IsBound())
+    {
+        OnFailure.Execute(error, customData);
+    }
+    else if (!error.hasError && OnSuccessLoginWithBattleNet.IsBound())
+    {
+        FClientLoginResult ResultStruct = UPlayFabClientModelDecoder::decodeLoginResultResponse(response.responseData);
+        ResultStruct.Request = RequestJsonObj;
+        // CallAuthenticationContext was set in OnProcessRequestComplete
+        ResultStruct.AuthenticationContext = CallAuthenticationContext;
+        OnSuccessLoginWithBattleNet.Execute(ResultStruct, mCustomData);
     }
     this->RemoveFromRoot();
 }

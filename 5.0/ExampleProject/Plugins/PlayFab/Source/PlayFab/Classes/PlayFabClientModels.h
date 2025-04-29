@@ -222,6 +222,30 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromBattleNetAccountIdsRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /**
+     * Array of unique Battle.net account identifiers for which the title needs to get PlayFab identifiers. The array cannot
+     * exceed 10 in length.
+     */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString BattleNetAccountIds;
+};
+
+/** For Battle.net account identifiers which have not been linked to PlayFab accounts, null will be returned. */
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientGetPlayFabIDsFromBattleNetAccountIdsResult : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Mapping of Battle.net account identifiers to PlayFab identifiers. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        TArray<UPlayFabJsonObject*> Data;
+};
+
+USTRUCT(BlueprintType)
 struct PLAYFAB_API FClientGetPlayFabIDsFromFacebookIDsRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
@@ -644,6 +668,29 @@ public:
      * The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
      * credential payload. Used to validate the request and find the user ID (Apple subject) to link with.
      */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        FString IdentityToken;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientEmptyResponse : public FPlayFabResultCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLinkBattleNetRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** If another user is already linked to a specific Battle.net account, unlink the other user and re-link. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        bool ForceLink = false;
+    /** The JSON Web Token (JWT) returned by Battle.net after login */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
         FString IdentityToken;
 };
@@ -1183,14 +1230,17 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientEmptyResponse : public FPlayFabResultCommon
+struct PLAYFAB_API FClientUnlinkAppleRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Account Management Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
 };
 
 USTRUCT(BlueprintType)
-struct PLAYFAB_API FClientUnlinkAppleRequest : public FPlayFabRequestCommon
+struct PLAYFAB_API FClientUnlinkBattleNetRequest : public FPlayFabRequestCommon
 {
     GENERATED_USTRUCT_BODY()
 public:
@@ -1895,6 +1945,31 @@ public:
      * credential payload. If you choose to ignore the expiration date for identity tokens, you will receive an NotAuthorized
      * error if Apple rotates the signing key. In this case, users have to login to provide a fresh identity token.
      */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString IdentityToken;
+    /** Flags for which pieces of info to return for the user. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        UPlayFabJsonObject* InfoRequestParameters = nullptr;
+    /** Player secret that is used to verify API request signatures (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString PlayerSecret;
+};
+
+USTRUCT(BlueprintType)
+struct PLAYFAB_API FClientLoginWithBattleNetRequest : public FPlayFabRequestCommon
+{
+    GENERATED_USTRUCT_BODY()
+public:
+    /** Automatically create a PlayFab account if one is not currently linked to this ID. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        bool CreateAccount = false;
+    /** The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        UPlayFabJsonObject* CustomTags = nullptr;
+    /** Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only). */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
+        FString EncryptedRequest;
+    /** The JSON Web Token (JWT) returned by Battle.net after login */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayFab | Client | Authentication Models")
         FString IdentityToken;
     /** Flags for which pieces of info to return for the user. */

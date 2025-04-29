@@ -1467,6 +1467,37 @@ void UPlayFabClientAPI::OnGetPlayerTradesResult(FHttpRequestPtr HttpRequest, FHt
     }
 }
 
+bool UPlayFabClientAPI::GetPlayFabIDsFromBattleNetAccountIds(
+    ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest& request,
+    const FGetPlayFabIDsFromBattleNetAccountIdsDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();
+    if(clientTicket.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/GetPlayFabIDsFromBattleNetAccountIds"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnGetPlayFabIDsFromBattleNetAccountIdsResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnGetPlayFabIDsFromBattleNetAccountIdsResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPlayFabIDsFromBattleNetAccountIdsDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FGetPlayFabIDsFromBattleNetAccountIdsResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::GetPlayFabIDsFromFacebookIDs(
     ClientModels::FGetPlayFabIDsFromFacebookIDsRequest& request,
     const FGetPlayFabIDsFromFacebookIDsDelegate& SuccessDelegate,
@@ -2462,6 +2493,37 @@ void UPlayFabClientAPI::OnLinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResp
     }
 }
 
+bool UPlayFabClientAPI::LinkBattleNet(
+    ClientModels::FLinkBattleNetRequest& request,
+    const FLinkBattleNetDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();
+    if(clientTicket.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LinkBattleNet"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLinkBattleNetResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnLinkBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLinkBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
 bool UPlayFabClientAPI::LinkCustomID(
     ClientModels::FLinkCustomIDRequest& request,
     const FLinkCustomIDDelegate& SuccessDelegate,
@@ -3023,6 +3085,48 @@ bool UPlayFabClientAPI::LoginWithApple(
 }
 
 void UPlayFabClientAPI::OnLoginWithAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FLoginResult outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        outResult.AuthenticationContext = MakeSharedUObject<UPlayFabAuthenticationContext>();
+        if (outResult.SessionTicket.Len() > 0) {
+            PlayFabSettings::SetClientSessionTicket(outResult.SessionTicket);
+            outResult.AuthenticationContext->SetClientSessionTicket(outResult.SessionTicket);
+        }
+        if (outResult.EntityToken.IsValid()) {
+            PlayFabSettings::SetEntityToken(outResult.EntityToken->EntityToken);
+            outResult.AuthenticationContext->SetEntityToken(outResult.EntityToken->EntityToken);
+        }
+        if (outResult.PlayFabId.Len() > 0) {
+            outResult.AuthenticationContext->SetPlayFabId(outResult.PlayFabId);
+        }
+        
+
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientAPI::LoginWithBattleNet(
+    ClientModels::FLoginWithBattleNetRequest& request,
+    const FLoginWithBattleNetDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    if (GetDefault<UPlayFabRuntimeSettings>()->TitleId.Len() > 0)
+        request.TitleId = GetDefault<UPlayFabRuntimeSettings>()->TitleId;
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/LoginWithBattleNet"), request.toJSONString(), TEXT(""), TEXT(""));
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnLoginWithBattleNetResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnLoginWithBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginWithBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FLoginResult outResult;
     FPlayFabCppError errorResult;
@@ -4470,6 +4574,37 @@ bool UPlayFabClientAPI::UnlinkApple(
 }
 
 void UPlayFabClientAPI::OnUnlinkAppleResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkAppleDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
+{
+    ClientModels::FEmptyResponse outResult;
+    FPlayFabCppError errorResult;
+    if (PlayFabRequestHandler::DecodeRequest(HttpRequest, HttpResponse, bSucceeded, outResult, errorResult))
+    {
+        SuccessDelegate.ExecuteIfBound(outResult);
+    }
+    else
+    {
+        ErrorDelegate.ExecuteIfBound(errorResult);
+    }
+}
+
+bool UPlayFabClientAPI::UnlinkBattleNet(
+    ClientModels::FUnlinkBattleNetRequest& request,
+    const FUnlinkBattleNetDelegate& SuccessDelegate,
+    const FPlayFabErrorDelegate& ErrorDelegate)
+{
+    FString clientTicket = request.AuthenticationContext.IsValid() ? request.AuthenticationContext->GetClientSessionTicket() : PlayFabSettings::GetClientSessionTicket();
+    if(clientTicket.Len() == 0) {
+        UE_LOG(LogPlayFabCpp, Error, TEXT("You must log in before calling this function"));
+        return false;
+    }
+
+
+    auto HttpRequest = PlayFabRequestHandler::SendRequest(nullptr, TEXT("/Client/UnlinkBattleNet"), request.toJSONString(), TEXT("X-Authorization"), clientTicket);
+    HttpRequest->OnProcessRequestComplete().BindRaw(this, &UPlayFabClientAPI::OnUnlinkBattleNetResult, SuccessDelegate, ErrorDelegate);
+    return HttpRequest->ProcessRequest();
+}
+
+void UPlayFabClientAPI::OnUnlinkBattleNetResult(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnlinkBattleNetDelegate SuccessDelegate, FPlayFabErrorDelegate ErrorDelegate)
 {
     ClientModels::FEmptyResponse outResult;
     FPlayFabCppError errorResult;

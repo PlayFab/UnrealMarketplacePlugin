@@ -3048,6 +3048,51 @@ bool PlayFab::ServerModels::FBanUsersResult::readFromValue(const TSharedPtr<FJso
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FBattleNetAccountPlayFabIdPair::~FBattleNetAccountPlayFabIdPair()
+{
+
+}
+
+void PlayFab::ServerModels::FBattleNetAccountPlayFabIdPair::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (BattleNetAccountId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("BattleNetAccountId"));
+        writer->WriteValue(BattleNetAccountId);
+    }
+
+    if (PlayFabId.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("PlayFabId"));
+        writer->WriteValue(PlayFabId);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FBattleNetAccountPlayFabIdPair::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> BattleNetAccountIdValue = obj->TryGetField(TEXT("BattleNetAccountId"));
+    if (BattleNetAccountIdValue.IsValid() && !BattleNetAccountIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (BattleNetAccountIdValue->TryGetString(TmpValue)) { BattleNetAccountId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> PlayFabIdValue = obj->TryGetField(TEXT("PlayFabId"));
+    if (PlayFabIdValue.IsValid() && !PlayFabIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (PlayFabIdValue->TryGetString(TmpValue)) { PlayFabId = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FCatalogItemBundleInfo::~FCatalogItemBundleInfo()
 {
 
@@ -6128,6 +6173,7 @@ void PlayFab::ServerModels::writeLoginIdentityProviderEnumJSON(LoginIdentityProv
     case LoginIdentityProviderGooglePlayGames: writer->WriteValue(TEXT("GooglePlayGames")); break;
     case LoginIdentityProviderXboxMobileStore: writer->WriteValue(TEXT("XboxMobileStore")); break;
     case LoginIdentityProviderKing: writer->WriteValue(TEXT("King")); break;
+    case LoginIdentityProviderBattleNet: writer->WriteValue(TEXT("BattleNet")); break;
     }
 }
 
@@ -6166,6 +6212,7 @@ ServerModels::LoginIdentityProvider PlayFab::ServerModels::readLoginIdentityProv
         _LoginIdentityProviderMap.Add(TEXT("GooglePlayGames"), LoginIdentityProviderGooglePlayGames);
         _LoginIdentityProviderMap.Add(TEXT("XboxMobileStore"), LoginIdentityProviderXboxMobileStore);
         _LoginIdentityProviderMap.Add(TEXT("King"), LoginIdentityProviderKing);
+        _LoginIdentityProviderMap.Add(TEXT("BattleNet"), LoginIdentityProviderBattleNet);
 
     }
 
@@ -11385,6 +11432,69 @@ bool PlayFab::ServerModels::FGetPlayerTagsResult::readFromValue(const TSharedPtr
     return HasSucceeded;
 }
 
+PlayFab::ServerModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest::~FGetPlayFabIDsFromBattleNetAccountIdsRequest()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    writer->WriteArrayStart(TEXT("BattleNetAccountIds"));
+    for (const FString& item : BattleNetAccountIds)
+        writer->WriteValue(item);
+    writer->WriteArrayEnd();
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromBattleNetAccountIdsRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    obj->TryGetStringArrayField(TEXT("BattleNetAccountIds"), BattleNetAccountIds);
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FGetPlayFabIDsFromBattleNetAccountIdsResult::~FGetPlayFabIDsFromBattleNetAccountIdsResult()
+{
+
+}
+
+void PlayFab::ServerModels::FGetPlayFabIDsFromBattleNetAccountIdsResult::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (Data.Num() != 0)
+    {
+        writer->WriteArrayStart(TEXT("Data"));
+        for (const FBattleNetAccountPlayFabIdPair& item : Data)
+            item.writeJSON(writer);
+        writer->WriteArrayEnd();
+    }
+
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FGetPlayFabIDsFromBattleNetAccountIdsResult::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TArray<TSharedPtr<FJsonValue>>&DataArray = FPlayFabJsonHelpers::ReadArray(obj, TEXT("Data"));
+    for (int32 Idx = 0; Idx < DataArray.Num(); Idx++)
+    {
+        TSharedPtr<FJsonValue> CurrentItem = DataArray[Idx];
+        Data.Add(FBattleNetAccountPlayFabIdPair(CurrentItem->AsObject()));
+    }
+
+
+    return HasSucceeded;
+}
+
 PlayFab::ServerModels::FGetPlayFabIDsFromFacebookIDsRequest::~FGetPlayFabIDsFromFacebookIDsRequest()
 {
 
@@ -16007,6 +16117,304 @@ bool PlayFab::ServerModels::FLocalizedPushNotificationProperties::readFromValue(
     {
         FString TmpValue;
         if (SubjectValue->TryGetString(TmpValue)) { Subject = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLoginWithAndroidDeviceIDRequest::~FLoginWithAndroidDeviceIDRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ServerModels::FLoginWithAndroidDeviceIDRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (AndroidDevice.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDevice"));
+        writer->WriteValue(AndroidDevice);
+    }
+
+    if (!AndroidDeviceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithAndroidDeviceIDRequest::AndroidDeviceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("AndroidDeviceId"));
+        writer->WriteValue(AndroidDeviceId);
+    }
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    if (OS.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OS"));
+        writer->WriteValue(OS);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLoginWithAndroidDeviceIDRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> AndroidDeviceValue = obj->TryGetField(TEXT("AndroidDevice"));
+    if (AndroidDeviceValue.IsValid() && !AndroidDeviceValue->IsNull())
+    {
+        FString TmpValue;
+        if (AndroidDeviceValue->TryGetString(TmpValue)) { AndroidDevice = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> AndroidDeviceIdValue = obj->TryGetField(TEXT("AndroidDeviceId"));
+    if (AndroidDeviceIdValue.IsValid() && !AndroidDeviceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (AndroidDeviceIdValue->TryGetString(TmpValue)) { AndroidDeviceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> OSValue = obj->TryGetField(TEXT("OS"));
+    if (OSValue.IsValid() && !OSValue->IsNull())
+    {
+        FString TmpValue;
+        if (OSValue->TryGetString(TmpValue)) { OS = TmpValue; }
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLoginWithCustomIDRequest::~FLoginWithCustomIDRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ServerModels::FLoginWithCustomIDRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (!CustomId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithCustomIDRequest::CustomId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("CustomId"));
+        writer->WriteValue(CustomId);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLoginWithCustomIDRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> CustomIdValue = obj->TryGetField(TEXT("CustomId"));
+    if (CustomIdValue.IsValid() && !CustomIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (CustomIdValue->TryGetString(TmpValue)) { CustomId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    return HasSucceeded;
+}
+
+PlayFab::ServerModels::FLoginWithIOSDeviceIDRequest::~FLoginWithIOSDeviceIDRequest()
+{
+    //if (InfoRequestParameters != nullptr) delete InfoRequestParameters;
+
+}
+
+void PlayFab::ServerModels::FLoginWithIOSDeviceIDRequest::writeJSON(JsonWriter& writer) const
+{
+    writer->WriteObjectStart();
+
+    if (CreateAccount.notNull())
+    {
+        writer->WriteIdentifierPrefix(TEXT("CreateAccount"));
+        writer->WriteValue(CreateAccount);
+    }
+
+    if (CustomTags.Num() != 0)
+    {
+        writer->WriteObjectStart(TEXT("CustomTags"));
+        for (TMap<FString, FString>::TConstIterator It(CustomTags); It; ++It)
+        {
+            writer->WriteIdentifierPrefix((*It).Key);
+            writer->WriteValue((*It).Value);
+        }
+        writer->WriteObjectEnd();
+    }
+
+    if (!DeviceId.IsEmpty() == false)
+    {
+        UE_LOG(LogTemp, Error, TEXT("This field is required: LoginWithIOSDeviceIDRequest::DeviceId, PlayFab calls may not work if it remains empty."));
+    }
+    else
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceId"));
+        writer->WriteValue(DeviceId);
+    }
+
+    if (DeviceModel.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("DeviceModel"));
+        writer->WriteValue(DeviceModel);
+    }
+
+    if (InfoRequestParameters.IsValid())
+    {
+        writer->WriteIdentifierPrefix(TEXT("InfoRequestParameters"));
+        InfoRequestParameters->writeJSON(writer);
+    }
+
+    if (OS.IsEmpty() == false)
+    {
+        writer->WriteIdentifierPrefix(TEXT("OS"));
+        writer->WriteValue(OS);
+    }
+
+    writer->WriteObjectEnd();
+}
+
+bool PlayFab::ServerModels::FLoginWithIOSDeviceIDRequest::readFromValue(const TSharedPtr<FJsonObject>& obj)
+{
+    bool HasSucceeded = true;
+
+    const TSharedPtr<FJsonValue> CreateAccountValue = obj->TryGetField(TEXT("CreateAccount"));
+    if (CreateAccountValue.IsValid() && !CreateAccountValue->IsNull())
+    {
+        bool TmpValue;
+        if (CreateAccountValue->TryGetBool(TmpValue)) { CreateAccount = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonObject>* CustomTagsObject;
+    if (obj->TryGetObjectField(TEXT("CustomTags"), CustomTagsObject))
+    {
+        for (TMap<FString, TSharedPtr<FJsonValue>>::TConstIterator It((*CustomTagsObject)->Values); It; ++It)
+        {
+            CustomTags.Add(It.Key(), It.Value()->AsString());
+        }
+    }
+
+    const TSharedPtr<FJsonValue> DeviceIdValue = obj->TryGetField(TEXT("DeviceId"));
+    if (DeviceIdValue.IsValid() && !DeviceIdValue->IsNull())
+    {
+        FString TmpValue;
+        if (DeviceIdValue->TryGetString(TmpValue)) { DeviceId = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> DeviceModelValue = obj->TryGetField(TEXT("DeviceModel"));
+    if (DeviceModelValue.IsValid() && !DeviceModelValue->IsNull())
+    {
+        FString TmpValue;
+        if (DeviceModelValue->TryGetString(TmpValue)) { DeviceModel = TmpValue; }
+    }
+
+    const TSharedPtr<FJsonValue> InfoRequestParametersValue = obj->TryGetField(TEXT("InfoRequestParameters"));
+    if (InfoRequestParametersValue.IsValid() && !InfoRequestParametersValue->IsNull())
+    {
+        InfoRequestParameters = MakeShareable(new FGetPlayerCombinedInfoRequestParams(InfoRequestParametersValue->AsObject()));
+    }
+
+    const TSharedPtr<FJsonValue> OSValue = obj->TryGetField(TEXT("OS"));
+    if (OSValue.IsValid() && !OSValue->IsNull())
+    {
+        FString TmpValue;
+        if (OSValue->TryGetString(TmpValue)) { OS = TmpValue; }
     }
 
     return HasSucceeded;

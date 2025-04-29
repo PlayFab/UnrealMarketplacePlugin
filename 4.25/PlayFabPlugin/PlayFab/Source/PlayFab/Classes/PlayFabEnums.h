@@ -584,6 +584,7 @@ enum class ELoginIdentityProvider : uint8
     pfenum_GooglePlayGames = 21 UMETA(DisplayName = "GooglePlayGames"),
     pfenum_XboxMobileStore = 22 UMETA(DisplayName = "XboxMobileStore"),
     pfenum_King = 23 UMETA(DisplayName = "King"),
+    pfenum_BattleNet = 24 UMETA(DisplayName = "BattleNet"),
 };
 
 /** PushNotificationPlatform */

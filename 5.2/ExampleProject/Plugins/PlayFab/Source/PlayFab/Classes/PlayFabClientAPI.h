@@ -144,6 +144,19 @@ public:
         void HelperGetPlayerProfile(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromBattleNetAccountIds, FClientGetPlayFabIDsFromBattleNetAccountIdsResult, result, UObject*, customData);
+
+    /** Retrieves the unique PlayFab identifiers for the given set of Battle.net account identifiers. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* GetPlayFabIDsFromBattleNetAccountIds(FClientGetPlayFabIDsFromBattleNetAccountIdsRequest request,
+            FDelegateOnSuccessGetPlayFabIDsFromBattleNetAccountIds onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperGetPlayFabIDsFromBattleNetAccountIds(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessGetPlayFabIDsFromFacebookIDs, FClientGetPlayFabIDsFromFacebookIDsResult, result, UObject*, customData);
 
     /** Retrieves the unique PlayFab identifiers for the given set of Facebook identifiers. */
@@ -391,6 +404,19 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLinkApple(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkBattleNet, FClientEmptyResponse, result, UObject*, customData);
+
+    /** Links the Battle.net account associated with the token to the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LinkBattleNet(FClientLinkBattleNetRequest request,
+            FDelegateOnSuccessLinkBattleNet onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLinkCustomID, FClientLinkCustomIDResult, result, UObject*, customData);
@@ -682,6 +708,19 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperUnlinkApple(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkBattleNet, FClientEmptyResponse, result, UObject*, customData);
+
+    /** Unlinks the related Battle.net account from the user's PlayFab account. */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* UnlinkBattleNet(FClientUnlinkBattleNetRequest request,
+            FDelegateOnSuccessUnlinkBattleNet onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Account Management ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperUnlinkBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessUnlinkCustomID, FClientUnlinkCustomIDResult, result, UObject*, customData);
@@ -1086,6 +1125,19 @@ public:
     // Implements FOnPlayFabClientRequestCompleted
     UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
         void HelperLoginWithApple(FPlayFabBaseModel response, UObject* customData, bool successful);
+
+    // callbacks
+    DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithBattleNet, FClientLoginResult, result, UObject*, customData);
+
+    /** Sign in the user with a Battle.net identity token */
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        static UPlayFabClientAPI* LoginWithBattleNet(FClientLoginWithBattleNetRequest request,
+            FDelegateOnSuccessLoginWithBattleNet onSuccess,
+            FDelegateOnFailurePlayFabError onFailure, UObject* customData);
+
+    // Implements FOnPlayFabClientRequestCompleted
+    UFUNCTION(BlueprintCallable, Category = "PlayFab | Client | Authentication ", meta = (BlueprintInternalUseOnly = "true"))
+        void HelperLoginWithBattleNet(FPlayFabBaseModel response, UObject* customData, bool successful);
 
     // callbacks
     DECLARE_DYNAMIC_DELEGATE_TwoParams(FDelegateOnSuccessLoginWithCustomID, FClientLoginResult, result, UObject*, customData);
@@ -2617,6 +2669,7 @@ public:
     FDelegateOnSuccessGetAccountInfo OnSuccessGetAccountInfo;
     FDelegateOnSuccessGetPlayerCombinedInfo OnSuccessGetPlayerCombinedInfo;
     FDelegateOnSuccessGetPlayerProfile OnSuccessGetPlayerProfile;
+    FDelegateOnSuccessGetPlayFabIDsFromBattleNetAccountIds OnSuccessGetPlayFabIDsFromBattleNetAccountIds;
     FDelegateOnSuccessGetPlayFabIDsFromFacebookIDs OnSuccessGetPlayFabIDsFromFacebookIDs;
     FDelegateOnSuccessGetPlayFabIDsFromFacebookInstantGamesIds OnSuccessGetPlayFabIDsFromFacebookInstantGamesIds;
     FDelegateOnSuccessGetPlayFabIDsFromGameCenterIDs OnSuccessGetPlayFabIDsFromGameCenterIDs;
@@ -2634,6 +2687,7 @@ public:
     FDelegateOnSuccessGetPlayFabIDsFromXboxLiveIDs OnSuccessGetPlayFabIDsFromXboxLiveIDs;
     FDelegateOnSuccessLinkAndroidDeviceID OnSuccessLinkAndroidDeviceID;
     FDelegateOnSuccessLinkApple OnSuccessLinkApple;
+    FDelegateOnSuccessLinkBattleNet OnSuccessLinkBattleNet;
     FDelegateOnSuccessLinkCustomID OnSuccessLinkCustomID;
     FDelegateOnSuccessLinkFacebookAccount OnSuccessLinkFacebookAccount;
     FDelegateOnSuccessLinkFacebookInstantGamesId OnSuccessLinkFacebookInstantGamesId;
@@ -2655,6 +2709,7 @@ public:
     FDelegateOnSuccessSendAccountRecoveryEmail OnSuccessSendAccountRecoveryEmail;
     FDelegateOnSuccessUnlinkAndroidDeviceID OnSuccessUnlinkAndroidDeviceID;
     FDelegateOnSuccessUnlinkApple OnSuccessUnlinkApple;
+    FDelegateOnSuccessUnlinkBattleNet OnSuccessUnlinkBattleNet;
     FDelegateOnSuccessUnlinkCustomID OnSuccessUnlinkCustomID;
     FDelegateOnSuccessUnlinkFacebookAccount OnSuccessUnlinkFacebookAccount;
     FDelegateOnSuccessUnlinkFacebookInstantGamesId OnSuccessUnlinkFacebookInstantGamesId;
@@ -2684,6 +2739,7 @@ public:
     FDelegateOnSuccessGetTitlePublicKey OnSuccessGetTitlePublicKey;
     FDelegateOnSuccessLoginWithAndroidDeviceID OnSuccessLoginWithAndroidDeviceID;
     FDelegateOnSuccessLoginWithApple OnSuccessLoginWithApple;
+    FDelegateOnSuccessLoginWithBattleNet OnSuccessLoginWithBattleNet;
     FDelegateOnSuccessLoginWithCustomID OnSuccessLoginWithCustomID;
     FDelegateOnSuccessLoginWithEmailAddress OnSuccessLoginWithEmailAddress;
     FDelegateOnSuccessLoginWithFacebook OnSuccessLoginWithFacebook;
